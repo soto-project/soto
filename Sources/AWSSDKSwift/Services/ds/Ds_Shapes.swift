@@ -33,8 +33,6 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -43,9 +41,7 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The directory identifier.
-        public var directoryId: String? = nil
-
-        public init() {}
+        public let directoryId: String?
 
         public init(directoryId: String? = nil) {
             self.directoryId = directoryId
@@ -60,11 +56,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Delete a conditional forwarder as part of a DeleteTrustRequest.
-        public var deleteAssociatedConditionalForwarder: Bool? = nil
+        public let deleteAssociatedConditionalForwarder: Bool?
         /// The Trust ID of the trust relationship to be deleted.
-        public var trustId: String = ""
-
-        public init() {}
+        public let trustId: String
 
         public init(deleteAssociatedConditionalForwarder: Bool? = nil, trustId: String) {
             self.deleteAssociatedConditionalForwarder = deleteAssociatedConditionalForwarder
@@ -82,15 +76,13 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of identifiers of the trust relationships for which to obtain the information. If this member is null, all trust relationships that belong to the current account are returned. An empty list results in an InvalidParameterException being thrown.
-        public var trustIds: [String]? = nil
+        public let trustIds: [String]?
         /// The maximum number of objects to return.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The DescribeTrustsResult.NextToken value from a previous call to DescribeTrusts. Pass null if this is the first call.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The Directory ID of the AWS directory that is a part of the requested trust relationship.
-        public var directoryId: String? = nil
-
-        public init() {}
+        public let directoryId: String?
 
         public init(trustIds: [String]? = nil, limit: Int32? = nil, nextToken: String? = nil, directoryId: String? = nil) {
             self.trustIds = trustIds
@@ -100,9 +92,7 @@ extension Ds {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let trustIds = dictionary["TrustIds"] as? [String] {
-                self.trustIds = trustIds
-            }
+            self.trustIds = dictionary["TrustIds"] as? [String]
             self.limit = dictionary["Limit"] as? Int32
             self.nextToken = dictionary["NextToken"] as? String
             self.directoryId = dictionary["DirectoryId"] as? String
@@ -113,9 +103,7 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A unique identifier for the trust relationship that was created.
-        public var trustId: String? = nil
-
-        public init() {}
+        public let trustId: String?
 
         public init(trustId: String? = nil) {
             self.trustId = trustId
@@ -130,11 +118,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Identifier (ID) of the directory from which you want to remove the IP addresses.
-        public var directoryId: String = ""
+        public let directoryId: String
         /// IP address blocks that you want to remove.
-        public var cidrIps: [String] = []
-
-        public init() {}
+        public let cidrIps: [String]
 
         public init(directoryId: String, cidrIps: [String]) {
             self.directoryId = directoryId
@@ -153,11 +139,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-        public var value: String = ""
+        public let value: String
         /// Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-        public var key: String = ""
-
-        public init() {}
+        public let key: String
 
         public init(value: String, key: String) {
             self.value = value
@@ -176,8 +160,6 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -186,13 +168,11 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the computer.
-        public var computerId: String? = nil
+        public let computerId: String?
         /// The computer name.
-        public var computerName: String? = nil
+        public let computerName: String?
         /// An array of Attribute objects containing the LDAP attributes that belong to the computer account.
-        public var computerAttributes: [Attribute]? = nil
-
-        public init() {}
+        public let computerAttributes: [Attribute]?
 
         public init(computerId: String? = nil, computerName: String? = nil, computerAttributes: [Attribute]? = nil) {
             self.computerId = computerId
@@ -205,6 +185,8 @@ extension Ds {
             self.computerName = dictionary["ComputerName"] as? String
             if let computerAttributes = dictionary["ComputerAttributes"] as? [[String: Any]] {
                 self.computerAttributes = try computerAttributes.map({ try Attribute(dictionary: $0) })
+            } else { 
+                self.computerAttributes = nil
             }
         }
     }
@@ -213,11 +195,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the attribute.
-        public var value: String? = nil
+        public let value: String?
         /// The name of the attribute.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(value: String? = nil, name: String? = nil) {
             self.value = value
@@ -234,11 +214,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The requested alias. The alias must be unique amongst all aliases in AWS. This operation throws an EntityAlreadyExistsException error if the alias already exists.
-        public var alias: String = ""
+        public let alias: String
         /// The identifier of the directory for which to create the alias.
-        public var directoryId: String = ""
-
-        public init() {}
+        public let directoryId: String
 
         public init(alias: String, directoryId: String) {
             self.alias = alias
@@ -257,19 +235,17 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of subnet identifiers in the VPC that the AD connector is in.
-        public var subnetIds: [String]? = nil
+        public let subnetIds: [String]?
         /// The security group identifier for the AD Connector directory.
-        public var securityGroupId: String? = nil
+        public let securityGroupId: String?
         /// A list of the Availability Zones that the directory is in.
-        public var availabilityZones: [String]? = nil
+        public let availabilityZones: [String]?
         /// The identifier of the VPC that the AD Connector is in.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The username of the service account in the on-premises directory.
-        public var customerUserName: String? = nil
+        public let customerUserName: String?
         /// The IP addresses of the AD Connector servers.
-        public var connectIps: [String]? = nil
-
-        public init() {}
+        public let connectIps: [String]?
 
         public init(subnetIds: [String]? = nil, securityGroupId: String? = nil, availabilityZones: [String]? = nil, vpcId: String? = nil, customerUserName: String? = nil, connectIps: [String]? = nil) {
             self.subnetIds = subnetIds
@@ -281,18 +257,12 @@ extension Ds {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let subnetIds = dictionary["SubnetIds"] as? [String] {
-                self.subnetIds = subnetIds
-            }
+            self.subnetIds = dictionary["SubnetIds"] as? [String]
             self.securityGroupId = dictionary["SecurityGroupId"] as? String
-            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
-                self.availabilityZones = availabilityZones
-            }
+            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
             self.vpcId = dictionary["VpcId"] as? String
             self.customerUserName = dictionary["CustomerUserName"] as? String
-            if let connectIps = dictionary["ConnectIps"] as? [String] {
-                self.connectIps = connectIps
-            }
+            self.connectIps = dictionary["ConnectIps"] as? [String]
         }
     }
 
@@ -300,11 +270,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// If not null, more results are available. Pass this value in the NextToken member of a subsequent call to DescribeSnapshots.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The list of Snapshot objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
-        public var snapshots: [Snapshot]? = nil
-
-        public init() {}
+        public let snapshots: [Snapshot]?
 
         public init(nextToken: String? = nil, snapshots: [Snapshot]? = nil) {
             self.nextToken = nextToken
@@ -315,6 +283,8 @@ extension Ds {
             self.nextToken = dictionary["NextToken"] as? String
             if let snapshots = dictionary["Snapshots"] as? [[String: Any]] {
                 self.snapshots = try snapshots.map({ try Snapshot(dictionary: $0) })
+            } else { 
+                self.snapshots = nil
             }
         }
     }
@@ -323,11 +293,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Identifier (ID) for the directory to which to add the tag.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// The tags to be assigned to the directory.
-        public var tags: [Tag] = []
-
-        public init() {}
+        public let tags: [Tag]
 
         public init(resourceId: String, tags: [Tag]) {
             self.resourceId = resourceId
@@ -346,9 +314,7 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the directory to delete.
-        public var directoryId: String = ""
-
-        public init() {}
+        public let directoryId: String
 
         public init(directoryId: String) {
             self.directoryId = directoryId
@@ -364,11 +330,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// IP address block using CIDR format, for example 10.0.0.0/24. This is often the address block of the DNS server used for your on-premises domain. For a single IP address use a CIDR address block with /32. For example 10.0.0.0/32.
-        public var cidrIp: String? = nil
+        public let cidrIp: String?
         /// Description of the address block.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(cidrIp: String? = nil, description: String? = nil) {
             self.cidrIp = cidrIp
@@ -385,43 +349,41 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The short name of the directory.
-        public var shortName: String? = nil
+        public let shortName: String?
         /// Specifies when the directory was created.
-        public var launchTime: Date? = nil
+        public let launchTime: Date?
         /// The directory identifier.
-        public var directoryId: String? = nil
+        public let directoryId: String?
         /// The current stage of the directory.
-        public var stage: String? = nil
+        public let stage: String?
         /// The textual description for the directory.
-        public var description: String? = nil
+        public let description: String?
         /// The date and time that the stage was last updated.
-        public var stageLastUpdatedDateTime: Date? = nil
+        public let stageLastUpdatedDateTime: Date?
         /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed AD directory.
-        public var vpcSettings: DirectoryVpcSettingsDescription? = nil
+        public let vpcSettings: DirectoryVpcSettingsDescription?
         /// Indicates if single-sign on is enabled for the directory. For more information, see EnableSso and DisableSso.
-        public var ssoEnabled: Bool? = nil
+        public let ssoEnabled: Bool?
         /// A RadiusSettings object that contains information about the RADIUS server configured for this directory.
-        public var radiusSettings: RadiusSettings? = nil
+        public let radiusSettings: RadiusSettings?
         /// Additional information about the directory stage.
-        public var stageReason: String? = nil
+        public let stageReason: String?
         /// The fully-qualified name of the directory.
-        public var name: String? = nil
+        public let name: String?
         /// The access URL for the directory, such as http://&lt;alias&gt;.awsapps.com. If no alias has been created for the directory, &lt;alias&gt; is the directory identifier, such as d-XXXXXXXXXX.
-        public var accessUrl: String? = nil
+        public let accessUrl: String?
         /// The directory size.
-        public var size: String? = nil
+        public let size: String?
         /// The alias for the directory. If no alias has been created for the directory, the alias is the directory identifier, such as d-XXXXXXXXXX.
-        public var alias: String? = nil
+        public let alias: String?
         /// The status of the RADIUS MFA server connection.
-        public var radiusStatus: String? = nil
+        public let radiusStatus: String?
         /// The directory size.
-        public var type: String? = nil
+        public let type: String?
         /// A DirectoryConnectSettingsDescription object that contains additional information about an AD Connector directory. This member is only present if the directory is an AD Connector directory.
-        public var connectSettings: DirectoryConnectSettingsDescription? = nil
+        public let connectSettings: DirectoryConnectSettingsDescription?
         /// The IP addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IP addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IP addresses of the DNS servers or domain controllers in the on-premises directory to which the AD Connector is connected.
-        public var dnsIpAddrs: [String]? = nil
-
-        public init() {}
+        public let dnsIpAddrs: [String]?
 
         public init(shortName: String? = nil, launchTime: Date? = nil, directoryId: String? = nil, stage: String? = nil, description: String? = nil, stageLastUpdatedDateTime: Date? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil, ssoEnabled: Bool? = nil, radiusSettings: RadiusSettings? = nil, stageReason: String? = nil, name: String? = nil, accessUrl: String? = nil, size: String? = nil, alias: String? = nil, radiusStatus: String? = nil, type: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, dnsIpAddrs: [String]? = nil) {
             self.shortName = shortName
@@ -451,9 +413,9 @@ extension Ds {
             self.stage = dictionary["Stage"] as? String
             self.description = dictionary["Description"] as? String
             self.stageLastUpdatedDateTime = dictionary["StageLastUpdatedDateTime"] as? Date
-            if let vpcSettings = dictionary["VpcSettings"] as? [String: Any] { self.vpcSettings = try Ds.DirectoryVpcSettingsDescription(dictionary: vpcSettings) }
+            if let vpcSettings = dictionary["VpcSettings"] as? [String: Any] { self.vpcSettings = try Ds.DirectoryVpcSettingsDescription(dictionary: vpcSettings) } else { self.vpcSettings = nil }
             self.ssoEnabled = dictionary["SsoEnabled"] as? Bool
-            if let radiusSettings = dictionary["RadiusSettings"] as? [String: Any] { self.radiusSettings = try Ds.RadiusSettings(dictionary: radiusSettings) }
+            if let radiusSettings = dictionary["RadiusSettings"] as? [String: Any] { self.radiusSettings = try Ds.RadiusSettings(dictionary: radiusSettings) } else { self.radiusSettings = nil }
             self.stageReason = dictionary["StageReason"] as? String
             self.name = dictionary["Name"] as? String
             self.accessUrl = dictionary["AccessUrl"] as? String
@@ -461,10 +423,8 @@ extension Ds {
             self.alias = dictionary["Alias"] as? String
             self.radiusStatus = dictionary["RadiusStatus"] as? String
             self.type = dictionary["Type"] as? String
-            if let connectSettings = dictionary["ConnectSettings"] as? [String: Any] { self.connectSettings = try Ds.DirectoryConnectSettingsDescription(dictionary: connectSettings) }
-            if let dnsIpAddrs = dictionary["DnsIpAddrs"] as? [String] {
-                self.dnsIpAddrs = dnsIpAddrs
-            }
+            if let connectSettings = dictionary["ConnectSettings"] as? [String: Any] { self.connectSettings = try Ds.DirectoryConnectSettingsDescription(dictionary: connectSettings) } else { self.connectSettings = nil }
+            self.dnsIpAddrs = dictionary["DnsIpAddrs"] as? [String]
         }
     }
 
@@ -472,13 +432,11 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The directory ID of the AWS directory for which to update the conditional forwarder.
-        public var directoryId: String = ""
+        public let directoryId: String
         /// The updated IP addresses of the remote DNS server associated with the conditional forwarder.
-        public var dnsIpAddrs: [String] = []
+        public let dnsIpAddrs: [String]
         /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
-        public var remoteDomainName: String = ""
-
-        public init() {}
+        public let remoteDomainName: String
 
         public init(directoryId: String, dnsIpAddrs: [String], remoteDomainName: String) {
             self.directoryId = directoryId
@@ -500,27 +458,25 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Fully Qualified Domain Name (FQDN) of the external domain involved in the trust relationship.
-        public var remoteDomainName: String? = nil
+        public let remoteDomainName: String?
         /// The date and time that the trust relationship was last updated.
-        public var lastUpdatedDateTime: Date? = nil
+        public let lastUpdatedDateTime: Date?
         /// The trust relationship type.
-        public var trustType: String? = nil
+        public let trustType: String?
         /// The reason for the TrustState.
-        public var trustStateReason: String? = nil
+        public let trustStateReason: String?
         /// The Directory ID of the AWS directory involved in the trust relationship.
-        public var directoryId: String? = nil
+        public let directoryId: String?
         /// The trust relationship state.
-        public var trustState: String? = nil
+        public let trustState: String?
         /// The date and time that the trust relationship was created.
-        public var createdDateTime: Date? = nil
+        public let createdDateTime: Date?
         /// The unique ID of the trust relationship.
-        public var trustId: String? = nil
+        public let trustId: String?
         /// The date and time that the TrustState was last updated.
-        public var stateLastUpdatedDateTime: Date? = nil
+        public let stateLastUpdatedDateTime: Date?
         /// The trust relationship direction.
-        public var trustDirection: String? = nil
-
-        public init() {}
+        public let trustDirection: String?
 
         public init(remoteDomainName: String? = nil, lastUpdatedDateTime: Date? = nil, trustType: String? = nil, trustStateReason: String? = nil, directoryId: String? = nil, trustState: String? = nil, createdDateTime: Date? = nil, trustId: String? = nil, stateLastUpdatedDateTime: Date? = nil, trustDirection: String? = nil) {
             self.remoteDomainName = remoteDomainName
@@ -553,13 +509,11 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Identifier (ID) of the directory for which you want to retrieve the IP addresses.
-        public var directoryId: String = ""
+        public let directoryId: String
         /// The ListIpRoutes.NextToken value from a previous call to ListIpRoutes. Pass null if this is the first call.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Maximum number of items to return. If this value is zero, the maximum number of items is specified by the limitations of the operation.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(directoryId: String, nextToken: String? = nil, limit: Int32? = nil) {
             self.directoryId = directoryId
@@ -579,8 +533,6 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -589,17 +541,15 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The SNS topic ARN (Amazon Resource Name).
-        public var topicArn: String? = nil
+        public let topicArn: String?
         /// The name of an AWS SNS topic the receives status messages from the directory.
-        public var topicName: String? = nil
+        public let topicName: String?
         /// The date and time of when you associated your directory with the SNS topic.
-        public var createdDateTime: Date? = nil
+        public let createdDateTime: Date?
         /// The topic registration status.
-        public var status: String? = nil
+        public let status: String?
         /// The Directory ID of an AWS Directory Service directory that will publish status messages to an SNS topic.
-        public var directoryId: String? = nil
-
-        public init() {}
+        public let directoryId: String?
 
         public init(topicArn: String? = nil, topicName: String? = nil, createdDateTime: Date? = nil, status: String? = nil, directoryId: String? = nil) {
             self.topicArn = topicArn
@@ -622,11 +572,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the VPC in which to create the directory.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. AWS Directory Service creates a directory server and a DNS server in each of these subnets.
-        public var subnetIds: [String] = []
-
-        public init() {}
+        public let subnetIds: [String]
 
         public init(vpcId: String, subnetIds: [String]) {
             self.vpcId = vpcId
@@ -645,13 +593,11 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Identifier (ID) of the directory for which you want to retrieve tags.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// Reserved for future use.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Reserved for future use.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(resourceId: String, nextToken: String? = nil, limit: Int32? = nil) {
             self.resourceId = resourceId
@@ -671,11 +617,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of Trust objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
-        public var trusts: [Trust]? = nil
+        public let trusts: [Trust]?
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeTrusts to retrieve the next set of items.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(trusts: [Trust]? = nil, nextToken: String? = nil) {
             self.trusts = trusts
@@ -685,6 +629,8 @@ extension Ds {
         public init(dictionary: [String: Any]) throws {
             if let trusts = dictionary["Trusts"] as? [[String: Any]] {
                 self.trusts = try trusts.map({ try Trust(dictionary: $0) })
+            } else { 
+                self.trusts = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -693,17 +639,15 @@ extension Ds {
     public struct CreateMicrosoftADRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var vpcSettings: DirectoryVpcSettings = DirectoryVpcSettings()
+        public let vpcSettings: DirectoryVpcSettings
         /// The NetBIOS name for your domain. A short identifier for your domain, such as CORP. If you don't specify a NetBIOS name, it will default to the first part of your directory DNS. For example, CORP for the directory DNS corp.example.com. 
-        public var shortName: String? = nil
+        public let shortName: String?
         /// The fully qualified domain name for the directory, such as corp.example.com. This name will resolve inside your VPC only. It does not need to be publicly resolvable.
-        public var name: String = ""
+        public let name: String
         /// The password for the default administrative user named Admin.
-        public var password: String = ""
+        public let password: String
         /// A textual description for the directory. This label will appear on the AWS console Directory Details page after the directory is created.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(vpcSettings: DirectoryVpcSettings, shortName: String? = nil, name: String, password: String, description: String? = nil) {
             self.vpcSettings = vpcSettings
@@ -729,8 +673,6 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -739,25 +681,23 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of cloud directories allowed in the region.
-        public var cloudOnlyDirectoriesLimit: Int32? = nil
+        public let cloudOnlyDirectoriesLimit: Int32?
         /// Indicates if the cloud directory limit has been reached.
-        public var cloudOnlyDirectoriesLimitReached: Bool? = nil
+        public let cloudOnlyDirectoriesLimitReached: Bool?
         /// The current number of connected directories in the region.
-        public var connectedDirectoriesCurrentCount: Int32? = nil
+        public let connectedDirectoriesCurrentCount: Int32?
         /// The current number of Microsoft AD directories in the region.
-        public var cloudOnlyMicrosoftADCurrentCount: Int32? = nil
+        public let cloudOnlyMicrosoftADCurrentCount: Int32?
         /// The current number of cloud directories in the region.
-        public var cloudOnlyDirectoriesCurrentCount: Int32? = nil
+        public let cloudOnlyDirectoriesCurrentCount: Int32?
         /// The maximum number of Microsoft AD directories allowed in the region.
-        public var cloudOnlyMicrosoftADLimit: Int32? = nil
+        public let cloudOnlyMicrosoftADLimit: Int32?
         /// Indicates if the Microsoft AD directory limit has been reached.
-        public var cloudOnlyMicrosoftADLimitReached: Bool? = nil
+        public let cloudOnlyMicrosoftADLimitReached: Bool?
         /// Indicates if the connected directory limit has been reached.
-        public var connectedDirectoriesLimitReached: Bool? = nil
+        public let connectedDirectoriesLimitReached: Bool?
         /// The maximum number of connected directories allowed in the region.
-        public var connectedDirectoriesLimit: Int32? = nil
-
-        public init() {}
+        public let connectedDirectoriesLimit: Int32?
 
         public init(cloudOnlyDirectoriesLimit: Int32? = nil, cloudOnlyDirectoriesLimitReached: Bool? = nil, connectedDirectoriesCurrentCount: Int32? = nil, cloudOnlyMicrosoftADCurrentCount: Int32? = nil, cloudOnlyDirectoriesCurrentCount: Int32? = nil, cloudOnlyMicrosoftADLimit: Int32? = nil, cloudOnlyMicrosoftADLimitReached: Bool? = nil, connectedDirectoriesLimitReached: Bool? = nil, connectedDirectoriesLimit: Int32? = nil) {
             self.cloudOnlyDirectoriesLimit = cloudOnlyDirectoriesLimit
@@ -788,13 +728,11 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the directory from which to retrieve the schema extension information.
-        public var directoryId: String = ""
+        public let directoryId: String
         /// The ListSchemaExtensions.NextToken value from a previous call to ListSchemaExtensions. Pass null if this is the first call.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of items to return.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(directoryId: String, nextToken: String? = nil, limit: Int32? = nil) {
             self.directoryId = directoryId
@@ -814,11 +752,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the SNS topic from which to remove the directory as a publisher.
-        public var topicName: String = ""
+        public let topicName: String
         /// The Directory ID to remove as a publisher. This directory will no longer send messages to the specified SNS topic.
-        public var directoryId: String = ""
-
-        public init() {}
+        public let directoryId: String
 
         public init(topicName: String, directoryId: String) {
             self.topicName = topicName
@@ -837,8 +773,6 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -847,16 +781,14 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A DirectoryLimits object that contains the directory limits for the current region.
-        public var directoryLimits: DirectoryLimits? = nil
-
-        public init() {}
+        public let directoryLimits: DirectoryLimits?
 
         public init(directoryLimits: DirectoryLimits? = nil) {
             self.directoryLimits = directoryLimits
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let directoryLimits = dictionary["DirectoryLimits"] as? [String: Any] { self.directoryLimits = try Ds.DirectoryLimits(dictionary: directoryLimits) }
+            if let directoryLimits = dictionary["DirectoryLimits"] as? [String: Any] { self.directoryLimits = try Ds.DirectoryLimits(dictionary: directoryLimits) } else { self.directoryLimits = nil }
         }
     }
 
@@ -864,9 +796,7 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the new directory.
-        public var directoryId: String? = nil
-
-        public init() {}
+        public let directoryId: String?
 
         public init(directoryId: String? = nil) {
             self.directoryId = directoryId
@@ -881,11 +811,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The fully qualified domain names (FQDN) of the remote domains for which to get the list of associated conditional forwarders. If this member is null, all conditional forwarders are returned.
-        public var remoteDomainNames: [String]? = nil
+        public let remoteDomainNames: [String]?
         /// The directory ID for which to get the list of associated conditional forwarders.
-        public var directoryId: String = ""
-
-        public init() {}
+        public let directoryId: String
 
         public init(remoteDomainNames: [String]? = nil, directoryId: String) {
             self.remoteDomainNames = remoteDomainNames
@@ -893,9 +821,7 @@ extension Ds {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let remoteDomainNames = dictionary["RemoteDomainNames"] as? [String] {
-                self.remoteDomainNames = remoteDomainNames
-            }
+            self.remoteDomainNames = dictionary["RemoteDomainNames"] as? [String]
             guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
             self.directoryId = directoryId
         }
@@ -905,8 +831,6 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -915,13 +839,11 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The password of an alternate account to use to enable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter.
-        public var password: String? = nil
+        public let password: String?
         /// The username of an alternate account to use to enable single-sign on. This is only used for AD Connector directories. This account must have privileges to add a service principal name. If the AD Connector service account does not have privileges to add a service principal name, you can specify an alternate account with the UserName and Password parameters. These credentials are only used to enable single sign-on and are not stored by the service. The AD Connector service account is not changed.
-        public var userName: String? = nil
+        public let userName: String?
         /// The identifier of the directory for which to enable single-sign on.
-        public var directoryId: String = ""
-
-        public init() {}
+        public let directoryId: String
 
         public init(password: String? = nil, userName: String? = nil, directoryId: String) {
             self.password = password
@@ -941,15 +863,13 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the directory for which the schema extension will be applied to.
-        public var directoryId: String = ""
+        public let directoryId: String
         /// If true, creates a snapshot of the directory before applying the schema extension.
-        public var createSnapshotBeforeSchemaExtension: Bool = false
+        public let createSnapshotBeforeSchemaExtension: Bool
         /// The LDIF file represented as a string. To construct the LdifContent string, precede each line as it would be formatted in an ldif file with \n. See the example request below for more details. The file size can be no larger than 1MB.
-        public var ldifContent: String = ""
+        public let ldifContent: String
         /// A description of the schema extension.
-        public var description: String = ""
-
-        public init() {}
+        public let description: String
 
         public init(directoryId: String, createSnapshotBeforeSchemaExtension: Bool, ldifContent: String, description: String) {
             self.directoryId = directoryId
@@ -974,8 +894,6 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -983,8 +901,6 @@ extension Ds {
     public struct DeleteConditionalForwarderResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -994,8 +910,6 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1004,13 +918,11 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IP addresses of the remote DNS server associated with RemoteDomainName. This is the IP address of the DNS server that your conditional forwarder points to.
-        public var dnsIpAddrs: [String]? = nil
+        public let dnsIpAddrs: [String]?
         /// The replication scope of the conditional forwarder. The only allowed value is Domain, which will replicate the conditional forwarder to all of the domain controllers for your AWS directory.
-        public var replicationScope: String? = nil
+        public let replicationScope: String?
         /// The fully qualified domain name (FQDN) of the remote domains pointed to by the conditional forwarder.
-        public var remoteDomainName: String? = nil
-
-        public init() {}
+        public let remoteDomainName: String?
 
         public init(dnsIpAddrs: [String]? = nil, replicationScope: String? = nil, remoteDomainName: String? = nil) {
             self.dnsIpAddrs = dnsIpAddrs
@@ -1019,9 +931,7 @@ extension Ds {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dnsIpAddrs = dictionary["DnsIpAddrs"] as? [String] {
-                self.dnsIpAddrs = dnsIpAddrs
-            }
+            self.dnsIpAddrs = dictionary["DnsIpAddrs"] as? [String]
             self.replicationScope = dictionary["ReplicationScope"] as? String
             self.remoteDomainName = dictionary["RemoteDomainName"] as? String
         }
@@ -1031,11 +941,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A RadiusSettings object that contains information about the RADIUS server.
-        public var radiusSettings: RadiusSettings = RadiusSettings()
+        public let radiusSettings: RadiusSettings
         /// The identifier of the directory for which to enable MFA.
-        public var directoryId: String = ""
-
-        public init() {}
+        public let directoryId: String
 
         public init(radiusSettings: RadiusSettings, directoryId: String) {
             self.radiusSettings = radiusSettings
@@ -1054,11 +962,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The descriptive name to apply to the snapshot.
-        public var name: String? = nil
+        public let name: String?
         /// The identifier of the directory of which to take a snapshot.
-        public var directoryId: String = ""
-
-        public init() {}
+        public let directoryId: String
 
         public init(name: String? = nil, directoryId: String) {
             self.name = name
@@ -1076,11 +982,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Reserved for future use.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// List of tags returned by the ListTagsForResource operation.
-        public var tags: [Tag]? = nil
-
-        public init() {}
+        public let tags: [Tag]?
 
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
@@ -1091,6 +995,8 @@ extension Ds {
             self.nextToken = dictionary["NextToken"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
         }
     }
@@ -1099,16 +1005,14 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A SnapshotLimits object that contains the manual snapshot limits for the specified directory.
-        public var snapshotLimits: SnapshotLimits? = nil
-
-        public init() {}
+        public let snapshotLimits: SnapshotLimits?
 
         public init(snapshotLimits: SnapshotLimits? = nil) {
             self.snapshotLimits = snapshotLimits
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let snapshotLimits = dictionary["SnapshotLimits"] as? [String: Any] { self.snapshotLimits = try Ds.SnapshotLimits(dictionary: snapshotLimits) }
+            if let snapshotLimits = dictionary["SnapshotLimits"] as? [String: Any] { self.snapshotLimits = try Ds.SnapshotLimits(dictionary: snapshotLimits) } else { self.snapshotLimits = nil }
         }
     }
 
@@ -1116,21 +1020,19 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the schema extension.
-        public var schemaExtensionId: String? = nil
+        public let schemaExtensionId: String?
         /// The reason for the SchemaExtensionStatus.
-        public var schemaExtensionStatusReason: String? = nil
+        public let schemaExtensionStatusReason: String?
         /// The date and time that the schema extension was completed.
-        public var endDateTime: Date? = nil
+        public let endDateTime: Date?
         /// The identifier of the directory to which the schema extension is applied.
-        public var directoryId: String? = nil
+        public let directoryId: String?
         /// The date and time that the schema extension started being applied to the directory.
-        public var startDateTime: Date? = nil
+        public let startDateTime: Date?
         /// The current status of the schema extension.
-        public var schemaExtensionStatus: String? = nil
+        public let schemaExtensionStatus: String?
         /// A description of the schema extension.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(schemaExtensionId: String? = nil, schemaExtensionStatusReason: String? = nil, endDateTime: Date? = nil, directoryId: String? = nil, startDateTime: Date? = nil, schemaExtensionStatus: String? = nil, description: String? = nil) {
             self.schemaExtensionId = schemaExtensionId
@@ -1157,13 +1059,11 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of items to return. If this value is zero, the maximum number of items is specified by the limitations of the operation.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The DescribeDirectoriesResult.NextToken value from a previous call to DescribeDirectories. Pass null if this is the first call.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of identifiers of the directories for which to obtain the information. If this member is null, all directories that belong to the current account are returned. An empty list results in an InvalidParameterException being thrown.
-        public var directoryIds: [String]? = nil
-
-        public init() {}
+        public let directoryIds: [String]?
 
         public init(limit: Int32? = nil, nextToken: String? = nil, directoryIds: [String]? = nil) {
             self.limit = limit
@@ -1174,9 +1074,7 @@ extension Ds {
         public init(dictionary: [String: Any]) throws {
             self.limit = dictionary["Limit"] as? Int32
             self.nextToken = dictionary["NextToken"] as? String
-            if let directoryIds = dictionary["DirectoryIds"] as? [String] {
-                self.directoryIds = directoryIds
-            }
+            self.directoryIds = dictionary["DirectoryIds"] as? [String]
         }
     }
 
@@ -1184,24 +1082,20 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A Computer object that represents the computer account.
-        public var computer: Computer? = nil
-
-        public init() {}
+        public let computer: Computer?
 
         public init(computer: Computer? = nil) {
             self.computer = computer
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let computer = dictionary["Computer"] as? [String: Any] { self.computer = try Ds.Computer(dictionary: computer) }
+            if let computer = dictionary["Computer"] as? [String: Any] { self.computer = try Ds.Computer(dictionary: computer) } else { self.computer = nil }
         }
     }
 
     public struct UpdateRadiusResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -1211,11 +1105,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The directory ID for which you are deleting the conditional forwarder.
-        public var directoryId: String = ""
+        public let directoryId: String
         /// The fully qualified domain name (FQDN) of the remote domain with which you are deleting the conditional forwarder.
-        public var remoteDomainName: String = ""
-
-        public init() {}
+        public let remoteDomainName: String
 
         public init(directoryId: String, remoteDomainName: String) {
             self.directoryId = directoryId
@@ -1234,9 +1126,7 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the schema extension that will be applied.
-        public var schemaExtensionId: String? = nil
-
-        public init() {}
+        public let schemaExtensionId: String?
 
         public init(schemaExtensionId: String? = nil) {
             self.schemaExtensionId = schemaExtensionId
@@ -1251,9 +1141,7 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of conditional forwarders that have been created.
-        public var conditionalForwarders: [ConditionalForwarder]? = nil
-
-        public init() {}
+        public let conditionalForwarders: [ConditionalForwarder]?
 
         public init(conditionalForwarders: [ConditionalForwarder]? = nil) {
             self.conditionalForwarders = conditionalForwarders
@@ -1262,6 +1150,8 @@ extension Ds {
         public init(dictionary: [String: Any]) throws {
             if let conditionalForwarders = dictionary["ConditionalForwarders"] as? [[String: Any]] {
                 self.conditionalForwarders = try conditionalForwarders.map({ try ConditionalForwarder(dictionary: $0) })
+            } else { 
+                self.conditionalForwarders = nil
             }
         }
     }
@@ -1270,13 +1160,11 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of manual snapshots allowed.
-        public var manualSnapshotsLimit: Int32? = nil
+        public let manualSnapshotsLimit: Int32?
         /// Indicates if the manual snapshot limit has been reached.
-        public var manualSnapshotsLimitReached: Bool? = nil
+        public let manualSnapshotsLimitReached: Bool?
         /// The current number of manual snapshots of the directory.
-        public var manualSnapshotsCurrentCount: Int32? = nil
-
-        public init() {}
+        public let manualSnapshotsCurrentCount: Int32?
 
         public init(manualSnapshotsLimit: Int32? = nil, manualSnapshotsLimitReached: Bool? = nil, manualSnapshotsCurrentCount: Int32? = nil) {
             self.manualSnapshotsLimit = manualSnapshotsLimit
@@ -1295,17 +1183,15 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The fully-qualified distinguished name of the organizational unit to place the computer account in.
-        public var organizationalUnitDistinguishedName: String? = nil
+        public let organizationalUnitDistinguishedName: String?
         /// The name of the computer account.
-        public var computerName: String = ""
+        public let computerName: String
         /// An array of Attribute objects that contain any LDAP attributes to apply to the computer account.
-        public var computerAttributes: [Attribute]? = nil
+        public let computerAttributes: [Attribute]?
         /// A one-time password that is used to join the computer to the directory. You should generate a random, strong password to use for this parameter.
-        public var password: String = ""
+        public let password: String
         /// The identifier of the directory in which to create the computer account.
-        public var directoryId: String = ""
-
-        public init() {}
+        public let directoryId: String
 
         public init(organizationalUnitDistinguishedName: String? = nil, computerName: String, computerAttributes: [Attribute]? = nil, password: String, directoryId: String) {
             self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
@@ -1321,6 +1207,8 @@ extension Ds {
             self.computerName = computerName
             if let computerAttributes = dictionary["ComputerAttributes"] as? [[String: Any]] {
                 self.computerAttributes = try computerAttributes.map({ try Attribute(dictionary: $0) })
+            } else { 
+                self.computerAttributes = nil
             }
             guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
             self.password = password
@@ -1333,15 +1221,13 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of identifiers of the snapshots to obtain the information for. If this member is null or empty, all snapshots are returned using the Limit and NextToken members.
-        public var snapshotIds: [String]? = nil
+        public let snapshotIds: [String]?
         /// The maximum number of objects to return.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The DescribeSnapshotsResult.NextToken value from a previous call to DescribeSnapshots. Pass null if this is the first call.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The identifier of the directory for which to retrieve snapshot information.
-        public var directoryId: String? = nil
-
-        public init() {}
+        public let directoryId: String?
 
         public init(snapshotIds: [String]? = nil, limit: Int32? = nil, nextToken: String? = nil, directoryId: String? = nil) {
             self.snapshotIds = snapshotIds
@@ -1351,9 +1237,7 @@ extension Ds {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let snapshotIds = dictionary["SnapshotIds"] as? [String] {
-                self.snapshotIds = snapshotIds
-            }
+            self.snapshotIds = dictionary["SnapshotIds"] as? [String]
             self.limit = dictionary["Limit"] as? Int32
             self.nextToken = dictionary["NextToken"] as? String
             self.directoryId = dictionary["DirectoryId"] as? String
@@ -1364,11 +1248,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of SNS topic names for which to obtain the information. If this member is null, all associations for the specified Directory ID are returned. An empty list results in an InvalidParameterException being thrown.
-        public var topicNames: [String]? = nil
+        public let topicNames: [String]?
         /// The Directory ID for which to get the list of associated SNS topics. If this member is null, associations for all Directory IDs are returned.
-        public var directoryId: String? = nil
-
-        public init() {}
+        public let directoryId: String?
 
         public init(topicNames: [String]? = nil, directoryId: String? = nil) {
             self.topicNames = topicNames
@@ -1376,9 +1258,7 @@ extension Ds {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let topicNames = dictionary["TopicNames"] as? [String] {
-                self.topicNames = topicNames
-            }
+            self.topicNames = dictionary["TopicNames"] as? [String]
             self.directoryId = dictionary["DirectoryId"] as? String
         }
     }
@@ -1387,15 +1267,13 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifiers of the subnets for the directory servers.
-        public var subnetIds: [String]? = nil
+        public let subnetIds: [String]?
         /// The list of Availability Zones that the directory is in.
-        public var availabilityZones: [String]? = nil
+        public let availabilityZones: [String]?
         /// The security group identifier for the directory. If the directory was created before 8/1/2014, this is the identifier of the directory members security group that was created when the directory was created. If the directory was created after this date, this value is null.
-        public var securityGroupId: String? = nil
+        public let securityGroupId: String?
         /// The identifier of the VPC that the directory is in.
-        public var vpcId: String? = nil
-
-        public init() {}
+        public let vpcId: String?
 
         public init(subnetIds: [String]? = nil, availabilityZones: [String]? = nil, securityGroupId: String? = nil, vpcId: String? = nil) {
             self.subnetIds = subnetIds
@@ -1405,12 +1283,8 @@ extension Ds {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let subnetIds = dictionary["SubnetIds"] as? [String] {
-                self.subnetIds = subnetIds
-            }
-            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
-                self.availabilityZones = availabilityZones
-            }
+            self.subnetIds = dictionary["SubnetIds"] as? [String]
+            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
             self.securityGroupId = dictionary["SecurityGroupId"] as? String
             self.vpcId = dictionary["VpcId"] as? String
         }
@@ -1420,9 +1294,7 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Trust ID of the trust relationship that was deleted.
-        public var trustId: String? = nil
-
-        public init() {}
+        public let trustId: String?
 
         public init(trustId: String? = nil) {
             self.trustId = trustId
@@ -1437,11 +1309,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The alias for the directory.
-        public var alias: String? = nil
+        public let alias: String?
         /// The identifier of the directory.
-        public var directoryId: String? = nil
-
-        public init() {}
+        public let directoryId: String?
 
         public init(alias: String? = nil, directoryId: String? = nil) {
             self.alias = alias
@@ -1458,23 +1328,21 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The port that your RADIUS server is using for communications. Your on-premises network must allow inbound traffic over this port from the AWS Directory Service servers.
-        public var radiusPort: Int32? = nil
+        public let radiusPort: Int32?
         /// The protocol specified for your RADIUS endpoints.
-        public var authenticationProtocol: String? = nil
+        public let authenticationProtocol: String?
         /// The maximum number of times that communication with the RADIUS server is attempted.
-        public var radiusRetries: Int32? = nil
+        public let radiusRetries: Int32?
         /// The amount of time, in seconds, to wait for the RADIUS server to respond.
-        public var radiusTimeout: Int32? = nil
+        public let radiusTimeout: Int32?
         /// Not currently used.
-        public var useSameUsername: Bool? = nil
+        public let useSameUsername: Bool?
         /// Not currently used.
-        public var sharedSecret: String? = nil
+        public let sharedSecret: String?
         /// Not currently used.
-        public var displayLabel: String? = nil
+        public let displayLabel: String?
         /// An array of strings that contains the IP addresses of the RADIUS server endpoints, or the IP addresses of your RADIUS server load balancer.
-        public var radiusServers: [String]? = nil
-
-        public init() {}
+        public let radiusServers: [String]?
 
         public init(radiusPort: Int32? = nil, authenticationProtocol: String? = nil, radiusRetries: Int32? = nil, radiusTimeout: Int32? = nil, useSameUsername: Bool? = nil, sharedSecret: String? = nil, displayLabel: String? = nil, radiusServers: [String]? = nil) {
             self.radiusPort = radiusPort
@@ -1495,17 +1363,13 @@ extension Ds {
             self.useSameUsername = dictionary["UseSameUsername"] as? Bool
             self.sharedSecret = dictionary["SharedSecret"] as? String
             self.displayLabel = dictionary["DisplayLabel"] as? String
-            if let radiusServers = dictionary["RadiusServers"] as? [String] {
-                self.radiusServers = radiusServers
-            }
+            self.radiusServers = dictionary["RadiusServers"] as? [String]
         }
     }
 
     public struct RegisterEventTopicResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -1515,19 +1379,17 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The snapshot identifier.
-        public var snapshotId: String? = nil
+        public let snapshotId: String?
         /// The snapshot status.
-        public var status: String? = nil
+        public let status: String?
         /// The date and time that the snapshot was taken.
-        public var startTime: Date? = nil
+        public let startTime: Date?
         /// The snapshot type.
-        public var type: String? = nil
+        public let type: String?
         /// The descriptive name of the snapshot.
-        public var name: String? = nil
+        public let name: String?
         /// The directory identifier.
-        public var directoryId: String? = nil
-
-        public init() {}
+        public let directoryId: String?
 
         public init(snapshotId: String? = nil, status: String? = nil, startTime: Date? = nil, type: String? = nil, name: String? = nil, directoryId: String? = nil) {
             self.snapshotId = snapshotId
@@ -1552,9 +1414,7 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the snapshot to restore from.
-        public var snapshotId: String = ""
-
-        public init() {}
+        public let snapshotId: String
 
         public init(snapshotId: String) {
             self.snapshotId = snapshotId
@@ -1570,9 +1430,7 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the directory snapshot that was deleted.
-        public var snapshotId: String? = nil
-
-        public init() {}
+        public let snapshotId: String?
 
         public init(snapshotId: String? = nil) {
             self.snapshotId = snapshotId
@@ -1587,19 +1445,17 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A textual description for the directory.
-        public var description: String? = nil
+        public let description: String?
         /// A DirectoryVpcSettings object that contains additional information for the operation.
-        public var vpcSettings: DirectoryVpcSettings? = nil
+        public let vpcSettings: DirectoryVpcSettings?
         /// The short name of the directory, such as CORP.
-        public var shortName: String? = nil
+        public let shortName: String?
         /// The fully qualified name for the directory, such as corp.example.com.
-        public var name: String = ""
+        public let name: String
         /// The size of the directory.
-        public var size: String = ""
+        public let size: String
         /// The password for the directory administrator. The directory creation process creates a directory administrator account with the username Administrator and this password.
-        public var password: String = ""
-
-        public init() {}
+        public let password: String
 
         public init(description: String? = nil, vpcSettings: DirectoryVpcSettings? = nil, shortName: String? = nil, name: String, size: String, password: String) {
             self.description = description
@@ -1612,7 +1468,7 @@ extension Ds {
 
         public init(dictionary: [String: Any]) throws {
             self.description = dictionary["Description"] as? String
-            if let vpcSettings = dictionary["VpcSettings"] as? [String: Any] { self.vpcSettings = try Ds.DirectoryVpcSettings(dictionary: vpcSettings) }
+            if let vpcSettings = dictionary["VpcSettings"] as? [String: Any] { self.vpcSettings = try Ds.DirectoryVpcSettings(dictionary: vpcSettings) } else { self.vpcSettings = nil }
             self.shortName = dictionary["ShortName"] as? String
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
@@ -1627,11 +1483,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A RadiusSettings object that contains information about the RADIUS server.
-        public var radiusSettings: RadiusSettings = RadiusSettings()
+        public let radiusSettings: RadiusSettings
         /// The identifier of the directory for which to update the RADIUS server information.
-        public var directoryId: String = ""
-
-        public init() {}
+        public let directoryId: String
 
         public init(radiusSettings: RadiusSettings, directoryId: String) {
             self.radiusSettings = radiusSettings
@@ -1650,13 +1504,11 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The password of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter.
-        public var password: String? = nil
+        public let password: String?
         /// The username of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. This account must have privileges to remove a service principal name. If the AD Connector service account does not have privileges to remove a service principal name, you can specify an alternate account with the UserName and Password parameters. These credentials are only used to disable single sign-on and are not stored by the service. The AD Connector service account is not changed.
-        public var userName: String? = nil
+        public let userName: String?
         /// The identifier of the directory for which to disable single-sign on.
-        public var directoryId: String = ""
-
-        public init() {}
+        public let directoryId: String
 
         public init(password: String? = nil, userName: String? = nil, directoryId: String) {
             self.password = password
@@ -1676,9 +1528,7 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the directory snapshot to be deleted.
-        public var snapshotId: String = ""
-
-        public init() {}
+        public let snapshotId: String
 
         public init(snapshotId: String) {
             self.snapshotId = snapshotId
@@ -1694,19 +1544,17 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Fully Qualified Domain Name (FQDN) of the external domain for which to create the trust relationship.
-        public var remoteDomainName: String = ""
+        public let remoteDomainName: String
         /// The direction of the trust relationship.
-        public var trustDirection: String = ""
+        public let trustDirection: String
         /// The IP addresses of the remote DNS server associated with RemoteDomainName.
-        public var conditionalForwarderIpAddrs: [String]? = nil
+        public let conditionalForwarderIpAddrs: [String]?
         /// The trust relationship type.
-        public var trustType: String? = nil
+        public let trustType: String?
         /// The trust password. The must be the same password that was used when creating the trust relationship on the external domain.
-        public var trustPassword: String = ""
+        public let trustPassword: String
         /// The Directory ID of the Microsoft AD in the AWS cloud for which to establish the trust relationship.
-        public var directoryId: String = ""
-
-        public init() {}
+        public let directoryId: String
 
         public init(remoteDomainName: String, trustDirection: String, conditionalForwarderIpAddrs: [String]? = nil, trustType: String? = nil, trustPassword: String, directoryId: String) {
             self.remoteDomainName = remoteDomainName
@@ -1722,9 +1570,7 @@ extension Ds {
             self.remoteDomainName = remoteDomainName
             guard let trustDirection = dictionary["TrustDirection"] as? String else { throw InitializableError.missingRequiredParam("TrustDirection") }
             self.trustDirection = trustDirection
-            if let conditionalForwarderIpAddrs = dictionary["ConditionalForwarderIpAddrs"] as? [String] {
-                self.conditionalForwarderIpAddrs = conditionalForwarderIpAddrs
-            }
+            self.conditionalForwarderIpAddrs = dictionary["ConditionalForwarderIpAddrs"] as? [String]
             self.trustType = dictionary["TrustType"] as? String
             guard let trustPassword = dictionary["TrustPassword"] as? String else { throw InitializableError.missingRequiredParam("TrustPassword") }
             self.trustPassword = trustPassword
@@ -1737,9 +1583,7 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique Trust ID of the trust relationship to verify.
-        public var trustId: String = ""
-
-        public init() {}
+        public let trustId: String
 
         public init(trustId: String) {
             self.trustId = trustId
@@ -1755,11 +1599,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The SNS topic name to which the directory will publish status messages. This SNS topic must be in the same region as the specified Directory ID.
-        public var topicName: String = ""
+        public let topicName: String
         /// The Directory ID that will publish status messages to the SNS topic.
-        public var directoryId: String = ""
-
-        public init() {}
+        public let directoryId: String
 
         public init(topicName: String, directoryId: String) {
             self.topicName = topicName
@@ -1778,9 +1620,7 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the snapshot that was created.
-        public var snapshotId: String? = nil
-
-        public init() {}
+        public let snapshotId: String?
 
         public init(snapshotId: String? = nil) {
             self.snapshotId = snapshotId
@@ -1795,13 +1635,11 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// If set to true, updates the inbound and outbound rules of the security group that has the description: "AWS created security group for directory ID directory controllers." Following are the new rules:  Inbound:   Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0   Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0   Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0   Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0   Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0    Outbound:   Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0   These security rules impact an internal network interface that is not exposed publicly.
-        public var updateSecurityGroupForDirectoryControllers: Bool? = nil
+        public let updateSecurityGroupForDirectoryControllers: Bool?
         /// Identifier (ID) of the directory to which to add the address block.
-        public var directoryId: String = ""
+        public let directoryId: String
         /// IP address blocks, using CIDR format, of the traffic to route. This is often the IP address block of the DNS server used for your on-premises domain.
-        public var ipRoutes: [IpRoute] = []
-
-        public init() {}
+        public let ipRoutes: [IpRoute]
 
         public init(updateSecurityGroupForDirectoryControllers: Bool? = nil, directoryId: String, ipRoutes: [IpRoute]) {
             self.updateSecurityGroupForDirectoryControllers = updateSecurityGroupForDirectoryControllers
@@ -1822,11 +1660,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Identifier (ID) of the directory from which to remove the tag.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// The tag key (name) of the tag to be removed.
-        public var tagKeys: [String] = []
-
-        public init() {}
+        public let tagKeys: [String]
 
         public init(resourceId: String, tagKeys: [String]) {
             self.resourceId = resourceId
@@ -1845,8 +1681,6 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1855,11 +1689,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the schema extension that will be canceled.
-        public var schemaExtensionId: String = ""
+        public let schemaExtensionId: String
         /// The identifier of the directory whose schema extension will be canceled.
-        public var directoryId: String = ""
-
-        public init() {}
+        public let directoryId: String
 
         public init(schemaExtensionId: String, directoryId: String) {
             self.schemaExtensionId = schemaExtensionId
@@ -1878,11 +1710,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of DirectoryDescription objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
-        public var directoryDescriptions: [DirectoryDescription]? = nil
+        public let directoryDescriptions: [DirectoryDescription]?
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeDirectories to retrieve the next set of items.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(directoryDescriptions: [DirectoryDescription]? = nil, nextToken: String? = nil) {
             self.directoryDescriptions = directoryDescriptions
@@ -1892,6 +1722,8 @@ extension Ds {
         public init(dictionary: [String: Any]) throws {
             if let directoryDescriptions = dictionary["DirectoryDescriptions"] as? [[String: Any]] {
                 self.directoryDescriptions = try directoryDescriptions.map({ try DirectoryDescription(dictionary: $0) })
+            } else { 
+                self.directoryDescriptions = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -1901,9 +1733,7 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the directory that was created.
-        public var directoryId: String? = nil
-
-        public init() {}
+        public let directoryId: String?
 
         public init(directoryId: String? = nil) {
             self.directoryId = directoryId
@@ -1918,9 +1748,7 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Contains the identifier of the directory to obtain the limits for.
-        public var directoryId: String = ""
-
-        public init() {}
+        public let directoryId: String
 
         public init(directoryId: String) {
             self.directoryId = directoryId
@@ -1936,8 +1764,6 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1946,11 +1772,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListSchemaExtensions to retrieve the next set of items.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Information about the schema extensions applied to the directory.
-        public var schemaExtensionsInfo: [SchemaExtensionInfo]? = nil
-
-        public init() {}
+        public let schemaExtensionsInfo: [SchemaExtensionInfo]?
 
         public init(nextToken: String? = nil, schemaExtensionsInfo: [SchemaExtensionInfo]? = nil) {
             self.nextToken = nextToken
@@ -1961,6 +1785,8 @@ extension Ds {
             self.nextToken = dictionary["NextToken"] as? String
             if let schemaExtensionsInfo = dictionary["SchemaExtensionsInfo"] as? [[String: Any]] {
                 self.schemaExtensionsInfo = try schemaExtensionsInfo.map({ try SchemaExtensionInfo(dictionary: $0) })
+            } else { 
+                self.schemaExtensionsInfo = nil
             }
         }
     }
@@ -1968,8 +1794,6 @@ extension Ds {
     public struct DeregisterEventTopicResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -1979,9 +1803,7 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of SNS topic names that receive status messages from the specified Directory ID.
-        public var eventTopics: [EventTopic]? = nil
-
-        public init() {}
+        public let eventTopics: [EventTopic]?
 
         public init(eventTopics: [EventTopic]? = nil) {
             self.eventTopics = eventTopics
@@ -1990,6 +1812,8 @@ extension Ds {
         public init(dictionary: [String: Any]) throws {
             if let eventTopics = dictionary["EventTopics"] as? [[String: Any]] {
                 self.eventTopics = try eventTopics.map({ try EventTopic(dictionary: $0) })
+            } else { 
+                self.eventTopics = nil
             }
         }
     }
@@ -1998,19 +1822,17 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Description of the IpRouteInfo.
-        public var description: String? = nil
+        public let description: String?
         /// The status of the IP address block.
-        public var ipRouteStatusMsg: String? = nil
+        public let ipRouteStatusMsg: String?
         /// The date and time the address block was added to the directory.
-        public var addedDateTime: Date? = nil
+        public let addedDateTime: Date?
         /// IP address block in the IpRoute.
-        public var cidrIp: String? = nil
+        public let cidrIp: String?
         /// The reason for the IpRouteStatusMsg.
-        public var ipRouteStatusReason: String? = nil
+        public let ipRouteStatusReason: String?
         /// Identifier (ID) of the directory associated with the IP addresses.
-        public var directoryId: String? = nil
-
-        public init() {}
+        public let directoryId: String?
 
         public init(description: String? = nil, ipRouteStatusMsg: String? = nil, addedDateTime: Date? = nil, cidrIp: String? = nil, ipRouteStatusReason: String? = nil, directoryId: String? = nil) {
             self.description = description
@@ -2035,19 +1857,17 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The password for the on-premises user account.
-        public var password: String = ""
+        public let password: String
         /// A textual description for the directory.
-        public var description: String? = nil
+        public let description: String?
         /// The NetBIOS name of the on-premises directory, such as CORP.
-        public var shortName: String? = nil
+        public let shortName: String?
         /// A DirectoryConnectSettings object that contains additional information for the operation.
-        public var connectSettings: DirectoryConnectSettings = DirectoryConnectSettings()
+        public let connectSettings: DirectoryConnectSettings
         /// The size of the directory.
-        public var size: String = ""
+        public let size: String
         /// The fully-qualified name of the on-premises directory, such as corp.example.com.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(password: String, description: String? = nil, shortName: String? = nil, connectSettings: DirectoryConnectSettings, size: String, name: String) {
             self.password = password
@@ -2076,9 +1896,7 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique Trust ID of the trust relationship that was verified.
-        public var trustId: String? = nil
-
-        public init() {}
+        public let trustId: String?
 
         public init(trustId: String? = nil) {
             self.trustId = trustId
@@ -2093,8 +1911,6 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -2103,13 +1919,11 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The directory ID of the AWS directory for which you are creating the conditional forwarder.
-        public var directoryId: String = ""
+        public let directoryId: String
         /// The IP addresses of the remote DNS server associated with RemoteDomainName.
-        public var dnsIpAddrs: [String] = []
+        public let dnsIpAddrs: [String]
         /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
-        public var remoteDomainName: String = ""
-
-        public init() {}
+        public let remoteDomainName: String
 
         public init(directoryId: String, dnsIpAddrs: [String], remoteDomainName: String) {
             self.directoryId = directoryId
@@ -2131,8 +1945,6 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -2140,8 +1952,6 @@ extension Ds {
     public struct UpdateConditionalForwarderResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -2151,9 +1961,7 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the directory for which to disable MFA.
-        public var directoryId: String = ""
-
-        public init() {}
+        public let directoryId: String
 
         public init(directoryId: String) {
             self.directoryId = directoryId
@@ -2169,9 +1977,7 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the directory that was created.
-        public var directoryId: String? = nil
-
-        public init() {}
+        public let directoryId: String?
 
         public init(directoryId: String? = nil) {
             self.directoryId = directoryId
@@ -2186,11 +1992,9 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListIpRoutes to retrieve the next set of items.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of IpRoutes.
-        public var ipRoutesInfo: [IpRouteInfo]? = nil
-
-        public init() {}
+        public let ipRoutesInfo: [IpRouteInfo]?
 
         public init(nextToken: String? = nil, ipRoutesInfo: [IpRouteInfo]? = nil) {
             self.nextToken = nextToken
@@ -2201,6 +2005,8 @@ extension Ds {
             self.nextToken = dictionary["NextToken"] as? String
             if let ipRoutesInfo = dictionary["IpRoutesInfo"] as? [[String: Any]] {
                 self.ipRoutesInfo = try ipRoutesInfo.map({ try IpRouteInfo(dictionary: $0) })
+            } else { 
+                self.ipRoutesInfo = nil
             }
         }
     }
@@ -2209,15 +2015,13 @@ extension Ds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of subnet identifiers in the VPC in which the AD Connector is created.
-        public var subnetIds: [String] = []
+        public let subnetIds: [String]
         /// The identifier of the VPC in which the AD Connector is created.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// The username of an account in the on-premises directory that is used to connect to the directory. This account must have the following privileges:   Read users and groups   Create computer objects   Join computers to the domain  
-        public var customerUserName: String = ""
+        public let customerUserName: String
         /// A list of one or more IP addresses of DNS servers or domain controllers in the on-premises directory.
-        public var customerDnsIps: [String] = []
-
-        public init() {}
+        public let customerDnsIps: [String]
 
         public init(subnetIds: [String], vpcId: String, customerUserName: String, customerDnsIps: [String]) {
             self.subnetIds = subnetIds

@@ -33,16 +33,14 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The modified replication subnet group.
-        public var replicationSubnetGroup: ReplicationSubnetGroup? = nil
-
-        public init() {}
+        public let replicationSubnetGroup: ReplicationSubnetGroup?
 
         public init(replicationSubnetGroup: ReplicationSubnetGroup? = nil) {
             self.replicationSubnetGroup = replicationSubnetGroup
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let replicationSubnetGroup = dictionary["ReplicationSubnetGroup"] as? [String: Any] { self.replicationSubnetGroup = try Dms.ReplicationSubnetGroup(dictionary: replicationSubnetGroup) }
+            if let replicationSubnetGroup = dictionary["ReplicationSubnetGroup"] as? [String: Any] { self.replicationSubnetGroup = try Dms.ReplicationSubnetGroup(dictionary: replicationSubnetGroup) } else { self.replicationSubnetGroup = nil }
         }
     }
 
@@ -50,16 +48,14 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The replication task that was created.
-        public var replicationTask: ReplicationTask? = nil
-
-        public init() {}
+        public let replicationTask: ReplicationTask?
 
         public init(replicationTask: ReplicationTask? = nil) {
             self.replicationTask = replicationTask
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) }
+            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) } else { self.replicationTask = nil }
         }
     }
 
@@ -67,15 +63,13 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The EC2 subnet IDs for the subnet group.
-        public var subnetIds: [String] = []
+        public let subnetIds: [String]
         /// The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, spaces, underscores, or hyphens. Must not be "default". Example: mySubnetgroup 
-        public var replicationSubnetGroupIdentifier: String = ""
+        public let replicationSubnetGroupIdentifier: String
         /// The description for the subnet group.
-        public var replicationSubnetGroupDescription: String = ""
+        public let replicationSubnetGroupDescription: String
         /// The tag to be assigned to the subnet group.
-        public var tags: [Tag]? = nil
-
-        public init() {}
+        public let tags: [Tag]?
 
         public init(subnetIds: [String], replicationSubnetGroupIdentifier: String, replicationSubnetGroupDescription: String, tags: [Tag]? = nil) {
             self.subnetIds = subnetIds
@@ -93,6 +87,8 @@ extension Dms {
             self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
         }
     }
@@ -101,16 +97,14 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The modified endpoint.
-        public var endpoint: Endpoint? = nil
-
-        public init() {}
+        public let endpoint: Endpoint?
 
         public init(endpoint: Endpoint? = nil) {
             self.endpoint = endpoint
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Dms.Endpoint(dictionary: endpoint) }
+            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Dms.Endpoint(dictionary: endpoint) } else { self.endpoint = nil }
         }
     }
 
@@ -118,13 +112,11 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// Filters applied to the describe action.
-        public var filters: [Filter]? = nil
-
-        public init() {}
+        public let filters: [Filter]?
 
         public init(maxRecords: Int32? = nil, marker: String? = nil, filters: [Filter]? = nil) {
             self.maxRecords = maxRecords
@@ -137,6 +129,8 @@ extension Dms {
             self.marker = dictionary["Marker"] as? String
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
         }
     }
@@ -145,13 +139,11 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// Filters applied to the describe action. Valid filter names: endpoint-arn | endpoint-type | endpoint-id | engine-name
-        public var filters: [Filter]? = nil
-
-        public init() {}
+        public let filters: [Filter]?
 
         public init(maxRecords: Int32? = nil, marker: String? = nil, filters: [Filter]? = nil) {
             self.maxRecords = maxRecords
@@ -164,6 +156,8 @@ extension Dms {
             self.marker = dictionary["Marker"] as? String
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
         }
     }
@@ -172,9 +166,7 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public var endpointArn: String = ""
-
-        public init() {}
+        public let endpointArn: String
 
         public init(endpointArn: String) {
             self.endpointArn = endpointArn
@@ -190,33 +182,31 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The KMS key identifier that will be used to encrypt the connection parameters. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
-        public var kmsKeyId: String? = nil
+        public let kmsKeyId: String?
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
-        public var endpointIdentifier: String? = nil
+        public let endpointIdentifier: String?
         /// The user name used to connect to the endpoint.
-        public var username: String? = nil
+        public let username: String?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public var endpointArn: String? = nil
+        public let endpointArn: String?
         /// The status of the endpoint.
-        public var status: String? = nil
+        public let status: String?
         /// The type of endpoint.
-        public var endpointType: String? = nil
+        public let endpointType: String?
         /// The name of the server at the endpoint.
-        public var serverName: String? = nil
+        public let serverName: String?
         /// The name of the database at the endpoint.
-        public var databaseName: String? = nil
+        public let databaseName: String?
         /// The SSL mode used to connect to the endpoint. SSL mode can be one of four values: none, require, verify-ca, verify-full.  The default value is none.
-        public var sslMode: String? = nil
+        public let sslMode: String?
         /// The Amazon Resource Name (ARN) used for SSL connection to the endpoint.
-        public var certificateArn: String? = nil
+        public let certificateArn: String?
         /// The database engine name. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, SYBASE, and SQLSERVER.
-        public var engineName: String? = nil
+        public let engineName: String?
         /// The port value used to access the endpoint.
-        public var port: Int32? = nil
+        public let port: Int32?
         /// Additional connection attributes used to connect to the endpoint.
-        public var extraConnectionAttributes: String? = nil
-
-        public init() {}
+        public let extraConnectionAttributes: String?
 
         public init(kmsKeyId: String? = nil, endpointIdentifier: String? = nil, username: String? = nil, endpointArn: String? = nil, status: String? = nil, endpointType: String? = nil, serverName: String? = nil, databaseName: String? = nil, sslMode: String? = nil, certificateArn: String? = nil, engineName: String? = nil, port: Int32? = nil, extraConnectionAttributes: String? = nil) {
             self.kmsKeyId = kmsKeyId
@@ -255,11 +245,9 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The order-able replication instances available.
-        public var orderableReplicationInstances: [OrderableReplicationInstance]? = nil
+        public let orderableReplicationInstances: [OrderableReplicationInstance]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
-
-        public init() {}
+        public let marker: String?
 
         public init(orderableReplicationInstances: [OrderableReplicationInstance]? = nil, marker: String? = nil) {
             self.orderableReplicationInstances = orderableReplicationInstances
@@ -269,6 +257,8 @@ extension Dms {
         public init(dictionary: [String: Any]) throws {
             if let orderableReplicationInstances = dictionary["OrderableReplicationInstances"] as? [[String: Any]] {
                 self.orderableReplicationInstances = try orderableReplicationInstances.map({ try OrderableReplicationInstance(dictionary: $0) })
+            } else { 
+                self.orderableReplicationInstances = nil
             }
             self.marker = dictionary["Marker"] as? String
         }
@@ -278,13 +268,11 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// The table statistics.
-        public var tableStatistics: [TableStatistics]? = nil
+        public let tableStatistics: [TableStatistics]?
         /// The Amazon Resource Name (ARN) of the replication task.
-        public var replicationTaskArn: String? = nil
-
-        public init() {}
+        public let replicationTaskArn: String?
 
         public init(marker: String? = nil, tableStatistics: [TableStatistics]? = nil, replicationTaskArn: String? = nil) {
             self.marker = marker
@@ -296,6 +284,8 @@ extension Dms {
             self.marker = dictionary["Marker"] as? String
             if let tableStatistics = dictionary["TableStatistics"] as? [[String: Any]] {
                 self.tableStatistics = try tableStatistics.map({ try TableStatistics(dictionary: $0) })
+            } else { 
+                self.tableStatistics = nil
             }
             self.replicationTaskArn = dictionary["ReplicationTaskArn"] as? String
         }
@@ -305,13 +295,11 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// Filters applied to the describe action. Valid filter names: engine-name | endpoint-type
-        public var filters: [Filter]? = nil
-
-        public init() {}
+        public let filters: [Filter]?
 
         public init(maxRecords: Int32? = nil, marker: String? = nil, filters: [Filter]? = nil) {
             self.maxRecords = maxRecords
@@ -324,6 +312,8 @@ extension Dms {
             self.marker = dictionary["Marker"] as? String
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
         }
     }
@@ -332,9 +322,7 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the replication instance to be deleted.
-        public var replicationInstanceArn: String = ""
-
-        public init() {}
+        public let replicationInstanceArn: String
 
         public init(replicationInstanceArn: String) {
             self.replicationInstanceArn = replicationInstanceArn
@@ -350,13 +338,11 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The database engine name. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, SYBASE, and SQLSERVER.
-        public var engineName: String? = nil
+        public let engineName: String?
         /// The type of endpoint.
-        public var endpointType: String? = nil
+        public let endpointType: String?
         /// Indicates if Change Data Capture (CDC) is supported.
-        public var supportsCDC: Bool? = nil
-
-        public init() {}
+        public let supportsCDC: Bool?
 
         public init(engineName: String? = nil, endpointType: String? = nil, supportsCDC: Bool? = nil) {
             self.engineName = engineName
@@ -375,11 +361,9 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token.
-        public var marker: String? = nil
+        public let marker: String?
         /// The Secure Sockets Layer (SSL) certificates associated with the replication instance.
-        public var certificates: [Certificate]? = nil
-
-        public init() {}
+        public let certificates: [Certificate]?
 
         public init(marker: String? = nil, certificates: [Certificate]? = nil) {
             self.marker = marker
@@ -390,6 +374,8 @@ extension Dms {
             self.marker = dictionary["Marker"] as? String
             if let certificates = dictionary["Certificates"] as? [[String: Any]] {
                 self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
+            } else { 
+                self.certificates = nil
             }
         }
     }
@@ -397,8 +383,6 @@ extension Dms {
     public struct RemoveTagsFromResourceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -408,13 +392,11 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// Filters applied to the describe action. Valid filter names: replication-task-arn | replication-task-id | migration-type | endpoint-arn | replication-instance-arn
-        public var filters: [Filter]? = nil
-
-        public init() {}
+        public let filters: [Filter]?
 
         public init(maxRecords: Int32? = nil, marker: String? = nil, filters: [Filter]? = nil) {
             self.maxRecords = maxRecords
@@ -427,6 +409,8 @@ extension Dms {
             self.marker = dictionary["Marker"] as? String
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
         }
     }
@@ -435,16 +419,14 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The replication instance that was deleted.
-        public var replicationInstance: ReplicationInstance? = nil
-
-        public init() {}
+        public let replicationInstance: ReplicationInstance?
 
         public init(replicationInstance: ReplicationInstance? = nil) {
             self.replicationInstance = replicationInstance
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let replicationInstance = dictionary["ReplicationInstance"] as? [String: Any] { self.replicationInstance = try Dms.ReplicationInstance(dictionary: replicationInstance) }
+            if let replicationInstance = dictionary["ReplicationInstance"] as? [String: Any] { self.replicationInstance = try Dms.ReplicationInstance(dictionary: replicationInstance) } else { self.replicationInstance = nil }
         }
     }
 
@@ -452,11 +434,9 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-        public var value: String? = nil
+        public let value: String?
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and cannot be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-        public var key: String? = nil
-
-        public init() {}
+        public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
             self.value = value
@@ -473,8 +453,6 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -483,9 +461,7 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) string that uniquely identifies the AWS DMS resource.
-        public var resourceArn: String = ""
-
-        public init() {}
+        public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
@@ -501,11 +477,9 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// The type of endpoints that are supported.
-        public var supportedEndpointTypes: [SupportedEndpointType]? = nil
-
-        public init() {}
+        public let supportedEndpointTypes: [SupportedEndpointType]?
 
         public init(marker: String? = nil, supportedEndpointTypes: [SupportedEndpointType]? = nil) {
             self.marker = marker
@@ -516,6 +490,8 @@ extension Dms {
             self.marker = dictionary["Marker"] as? String
             if let supportedEndpointTypes = dictionary["SupportedEndpointTypes"] as? [[String: Any]] {
                 self.supportedEndpointTypes = try supportedEndpointTypes.map({ try SupportedEndpointType(dictionary: $0) })
+            } else { 
+                self.supportedEndpointTypes = nil
             }
         }
     }
@@ -524,13 +500,11 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Number (ARN) of the replication task to be started.
-        public var replicationTaskArn: String = ""
+        public let replicationTaskArn: String
         /// The start time for the Change Data Capture (CDC) operation.
-        public var cdcStartTime: Date? = nil
+        public let cdcStartTime: Date?
         /// The type of replication task.
-        public var startReplicationTaskType: String = ""
-
-        public init() {}
+        public let startReplicationTaskType: String
 
         public init(replicationTaskArn: String, cdcStartTime: Date? = nil, startReplicationTaskType: String) {
             self.replicationTaskArn = replicationTaskArn
@@ -551,33 +525,31 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
-        public var multiAZ: Bool? = nil
+        public let multiAZ: Bool?
         /// Tags to be associated with the replication instance.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The amount of storage (in gigabytes) to be initially allocated for the replication instance.
-        public var allocatedStorage: Int32? = nil
+        public let allocatedStorage: Int32?
         ///  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. 
-        public var vpcSecurityGroupIds: [String]? = nil
+        public let vpcSecurityGroupIds: [String]?
         /// The EC2 Availability Zone that the replication instance will be created in. Default: A random, system-chosen Availability Zone in the endpoint's region.  Example: us-east-1d 
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true. 
-        public var publiclyAccessible: Bool? = nil
+        public let publiclyAccessible: Bool?
         /// Indicates that minor engine upgrades will be applied automatically to the replication instance during the maintenance window. Default: true 
-        public var autoMinorVersionUpgrade: Bool? = nil
+        public let autoMinorVersionUpgrade: Bool?
         /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
-        public var replicationInstanceIdentifier: String = ""
+        public let replicationInstanceIdentifier: String
         /// The engine version number of the replication instance.
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         /// The compute and memory capacity of the replication instance as specified by the replication instance class.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
-        public var replicationInstanceClass: String = ""
+        public let replicationInstanceClass: String
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
-        public var preferredMaintenanceWindow: String? = nil
+        public let preferredMaintenanceWindow: String?
         /// A subnet group to associate with the replication instance.
-        public var replicationSubnetGroupIdentifier: String? = nil
+        public let replicationSubnetGroupIdentifier: String?
         /// The KMS key identifier that will be used to encrypt the content on the replication instance. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
-        public var kmsKeyId: String? = nil
-
-        public init() {}
+        public let kmsKeyId: String?
 
         public init(multiAZ: Bool? = nil, tags: [Tag]? = nil, allocatedStorage: Int32? = nil, vpcSecurityGroupIds: [String]? = nil, availabilityZone: String? = nil, publiclyAccessible: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, replicationInstanceIdentifier: String, engineVersion: String? = nil, replicationInstanceClass: String, preferredMaintenanceWindow: String? = nil, replicationSubnetGroupIdentifier: String? = nil, kmsKeyId: String? = nil) {
             self.multiAZ = multiAZ
@@ -599,11 +571,11 @@ extension Dms {
             self.multiAZ = dictionary["MultiAZ"] as? Bool
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
-            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
-                self.vpcSecurityGroupIds = vpcSecurityGroupIds
-            }
+            self.vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String]
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
             self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
             self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
@@ -622,16 +594,14 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Secure Sockets Layer (SSL) certificate.
-        public var certificate: Certificate? = nil
-
-        public init() {}
+        public let certificate: Certificate?
 
         public init(certificate: Certificate? = nil) {
             self.certificate = certificate
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let certificate = dictionary["Certificate"] as? [String: Any] { self.certificate = try Dms.Certificate(dictionary: certificate) }
+            if let certificate = dictionary["Certificate"] as? [String: Any] { self.certificate = try Dms.Certificate(dictionary: certificate) } else { self.certificate = nil }
         }
     }
 
@@ -639,11 +609,9 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// A description of the connections.
-        public var connections: [Connection]? = nil
-
-        public init() {}
+        public let connections: [Connection]?
 
         public init(marker: String? = nil, connections: [Connection]? = nil) {
             self.marker = marker
@@ -654,6 +622,8 @@ extension Dms {
             self.marker = dictionary["Marker"] as? String
             if let connections = dictionary["Connections"] as? [[String: Any]] {
                 self.connections = try connections.map({ try Connection(dictionary: $0) })
+            } else { 
+                self.connections = nil
             }
         }
     }
@@ -662,13 +632,11 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// The Amazon Resource Name (ARN) of the replication task.
-        public var replicationTaskArn: String = ""
-
-        public init() {}
+        public let replicationTaskArn: String
 
         public init(marker: String? = nil, maxRecords: Int32? = nil, replicationTaskArn: String) {
             self.marker = marker
@@ -688,9 +656,7 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public var endpointArn: String = ""
-
-        public init() {}
+        public let endpointArn: String
 
         public init(endpointArn: String) {
             self.endpointArn = endpointArn
@@ -706,11 +672,9 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// &gt;The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be removed from.
-        public var resourceArn: String = ""
+        public let resourceArn: String
         /// The tag key (name) of the tag to be removed.
-        public var tagKeys: [String] = []
-
-        public init() {}
+        public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
@@ -729,16 +693,14 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The modified replication instance.
-        public var replicationInstance: ReplicationInstance? = nil
-
-        public init() {}
+        public let replicationInstance: ReplicationInstance?
 
         public init(replicationInstance: ReplicationInstance? = nil) {
             self.replicationInstance = replicationInstance
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let replicationInstance = dictionary["ReplicationInstance"] as? [String: Any] { self.replicationInstance = try Dms.ReplicationInstance(dictionary: replicationInstance) }
+            if let replicationInstance = dictionary["ReplicationInstance"] as? [String: Any] { self.replicationInstance = try Dms.ReplicationInstance(dictionary: replicationInstance) } else { self.replicationInstance = nil }
         }
     }
 
@@ -746,11 +708,9 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// A description of the replication subnet groups.
-        public var replicationSubnetGroups: [ReplicationSubnetGroup]? = nil
-
-        public init() {}
+        public let replicationSubnetGroups: [ReplicationSubnetGroup]?
 
         public init(marker: String? = nil, replicationSubnetGroups: [ReplicationSubnetGroup]? = nil) {
             self.marker = marker
@@ -761,6 +721,8 @@ extension Dms {
             self.marker = dictionary["Marker"] as? String
             if let replicationSubnetGroups = dictionary["ReplicationSubnetGroups"] as? [[String: Any]] {
                 self.replicationSubnetGroups = try replicationSubnetGroups.map({ try ReplicationSubnetGroup(dictionary: $0) })
+            } else { 
+                self.replicationSubnetGroups = nil
             }
         }
     }
@@ -769,9 +731,7 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// Account quota information.
-        public var accountQuotas: [AccountQuota]? = nil
-
-        public init() {}
+        public let accountQuotas: [AccountQuota]?
 
         public init(accountQuotas: [AccountQuota]? = nil) {
             self.accountQuotas = accountQuotas
@@ -780,6 +740,8 @@ extension Dms {
         public init(dictionary: [String: Any]) throws {
             if let accountQuotas = dictionary["AccountQuotas"] as? [[String: Any]] {
                 self.accountQuotas = try accountQuotas.map({ try AccountQuota(dictionary: $0) })
+            } else { 
+                self.accountQuotas = nil
             }
         }
     }
@@ -788,11 +750,9 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// The described schema.
-        public var schemas: [String]? = nil
-
-        public init() {}
+        public let schemas: [String]?
 
         public init(marker: String? = nil, schemas: [String]? = nil) {
             self.marker = marker
@@ -801,17 +761,13 @@ extension Dms {
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let schemas = dictionary["Schemas"] as? [String] {
-                self.schemas = schemas
-            }
+            self.schemas = dictionary["Schemas"] as? [String]
         }
     }
 
     public struct DescribeAccountAttributesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -821,27 +777,25 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The beginning date that the certificate is valid.
-        public var validFromDate: Date? = nil
+        public let validFromDate: Date?
         /// The key length of the cryptographic algorithm being used.
-        public var keyLength: Int32? = nil
+        public let keyLength: Int32?
         /// The signing algorithm for the certificate.
-        public var signingAlgorithm: String? = nil
+        public let signingAlgorithm: String?
         /// The location of the imported Oracle Wallet certificate for use with SSL.
-        public var certificateWallet: Data? = nil
+        public let certificateWallet: Data?
         /// The Amazon Resource Name (ARN) for the certificate.
-        public var certificateArn: String? = nil
+        public let certificateArn: String?
         /// The contents of the .pem X.509 certificate file for the certificate.
-        public var certificatePem: String? = nil
+        public let certificatePem: String?
         /// The final date that the certificate is valid.
-        public var validToDate: Date? = nil
+        public let validToDate: Date?
         /// The owner of the certificate.
-        public var certificateOwner: String? = nil
+        public let certificateOwner: String?
         /// The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
-        public var certificateIdentifier: String? = nil
+        public let certificateIdentifier: String?
         /// The date that the certificate was created.
-        public var certificateCreationDate: Date? = nil
-
-        public init() {}
+        public let certificateCreationDate: Date?
 
         public init(validFromDate: Date? = nil, keyLength: Int32? = nil, signingAlgorithm: String? = nil, certificateWallet: Data? = nil, certificateArn: String? = nil, certificatePem: String? = nil, validToDate: Date? = nil, certificateOwner: String? = nil, certificateIdentifier: String? = nil, certificateCreationDate: Date? = nil) {
             self.validFromDate = validFromDate
@@ -874,9 +828,7 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of tags for the resource.
-        public var tagList: [Tag]? = nil
-
-        public init() {}
+        public let tagList: [Tag]?
 
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
@@ -885,6 +837,8 @@ extension Dms {
         public init(dictionary: [String: Any]) throws {
             if let tagList = dictionary["TagList"] as? [[String: Any]] {
                 self.tagList = try tagList.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tagList = nil
             }
         }
     }
@@ -893,13 +847,11 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The subnet identifier.
-        public var subnetIdentifier: String? = nil
+        public let subnetIdentifier: String?
         /// The Availability Zone of the subnet.
-        public var subnetAvailabilityZone: AvailabilityZone? = nil
+        public let subnetAvailabilityZone: AvailabilityZone?
         /// The status of the subnet.
-        public var subnetStatus: String? = nil
-
-        public init() {}
+        public let subnetStatus: String?
 
         public init(subnetIdentifier: String? = nil, subnetAvailabilityZone: AvailabilityZone? = nil, subnetStatus: String? = nil) {
             self.subnetIdentifier = subnetIdentifier
@@ -909,7 +861,7 @@ extension Dms {
 
         public init(dictionary: [String: Any]) throws {
             self.subnetIdentifier = dictionary["SubnetIdentifier"] as? String
-            if let subnetAvailabilityZone = dictionary["SubnetAvailabilityZone"] as? [String: Any] { self.subnetAvailabilityZone = try Dms.AvailabilityZone(dictionary: subnetAvailabilityZone) }
+            if let subnetAvailabilityZone = dictionary["SubnetAvailabilityZone"] as? [String: Any] { self.subnetAvailabilityZone = try Dms.AvailabilityZone(dictionary: subnetAvailabilityZone) } else { self.subnetAvailabilityZone = nil }
             self.subnetStatus = dictionary["SubnetStatus"] as? String
         }
     }
@@ -918,16 +870,14 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The replication task started.
-        public var replicationTask: ReplicationTask? = nil
-
-        public init() {}
+        public let replicationTask: ReplicationTask?
 
         public init(replicationTask: ReplicationTask? = nil) {
             self.replicationTask = replicationTask
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) }
+            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) } else { self.replicationTask = nil }
         }
     }
 
@@ -935,9 +885,7 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the availability zone.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(name: String? = nil) {
             self.name = name
@@ -952,19 +900,17 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The error message when the connection last failed.
-        public var lastFailureMessage: String? = nil
+        public let lastFailureMessage: String?
         /// The replication instance identifier. This parameter is stored as a lowercase string.
-        public var replicationInstanceIdentifier: String? = nil
+        public let replicationInstanceIdentifier: String?
         /// The Amazon Resource Name (ARN) of the replication instance.
-        public var replicationInstanceArn: String? = nil
+        public let replicationInstanceArn: String?
         /// The connection status.
-        public var status: String? = nil
+        public let status: String?
         /// The identifier of the endpoint. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
-        public var endpointIdentifier: String? = nil
+        public let endpointIdentifier: String?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public var endpointArn: String? = nil
-
-        public init() {}
+        public let endpointArn: String?
 
         public init(lastFailureMessage: String? = nil, replicationInstanceIdentifier: String? = nil, replicationInstanceArn: String? = nil, status: String? = nil, endpointIdentifier: String? = nil, endpointArn: String? = nil) {
             self.lastFailureMessage = lastFailureMessage
@@ -989,17 +935,15 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The last failure message for the schema.
-        public var lastFailureMessage: String? = nil
+        public let lastFailureMessage: String?
         /// The Amazon Resource Name (ARN) of the replication instance.
-        public var replicationInstanceArn: String? = nil
+        public let replicationInstanceArn: String?
         /// The status of the schema.
-        public var status: String? = nil
+        public let status: String?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public var endpointArn: String? = nil
+        public let endpointArn: String?
         /// The date the schema was last refreshed.
-        public var lastRefreshDate: Date? = nil
-
-        public init() {}
+        public let lastRefreshDate: Date?
 
         public init(lastFailureMessage: String? = nil, replicationInstanceArn: String? = nil, status: String? = nil, endpointArn: String? = nil, lastRefreshDate: Date? = nil) {
             self.lastFailureMessage = lastFailureMessage
@@ -1022,9 +966,7 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the replication task to be deleted.
-        public var replicationTaskArn: String = ""
-
-        public init() {}
+        public let replicationTaskArn: String
 
         public init(replicationTaskArn: String) {
             self.replicationTaskArn = replicationTaskArn
@@ -1040,13 +982,11 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// Filters applied to the describe action. Valid filter names: replication-instance-arn | replication-instance-id | replication-instance-class | engine-version
-        public var filters: [Filter]? = nil
-
-        public init() {}
+        public let filters: [Filter]?
 
         public init(maxRecords: Int32? = nil, marker: String? = nil, filters: [Filter]? = nil) {
             self.maxRecords = maxRecords
@@ -1059,6 +999,8 @@ extension Dms {
             self.marker = dictionary["Marker"] as? String
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
         }
     }
@@ -1067,11 +1009,9 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the replication instance.
-        public var replicationInstanceArn: String = ""
+        public let replicationInstanceArn: String
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public var endpointArn: String = ""
-
-        public init() {}
+        public let endpointArn: String
 
         public init(replicationInstanceArn: String, endpointArn: String) {
             self.replicationInstanceArn = replicationInstanceArn
@@ -1090,29 +1030,27 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Constraints: This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the replication instance's current version.
-        public var allowMajorVersionUpgrade: Bool? = nil
+        public let allowMajorVersionUpgrade: Bool?
         /// The replication instance identifier. This parameter is stored as a lowercase string.
-        public var replicationInstanceIdentifier: String? = nil
+        public let replicationInstanceIdentifier: String?
         ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
-        public var multiAZ: Bool? = nil
+        public let multiAZ: Bool?
         /// The engine version number of the replication instance.
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
-        public var replicationInstanceClass: String? = nil
+        public let replicationInstanceClass: String?
         /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter does not result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
-        public var preferredMaintenanceWindow: String? = nil
+        public let preferredMaintenanceWindow: String?
         /// The amount of storage (in gigabytes) to be allocated for the replication instance.
-        public var allocatedStorage: Int32? = nil
+        public let allocatedStorage: Int32?
         ///  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. 
-        public var vpcSecurityGroupIds: [String]? = nil
+        public let vpcSecurityGroupIds: [String]?
         /// The Amazon Resource Name (ARN) of the replication instance.
-        public var replicationInstanceArn: String = ""
+        public let replicationInstanceArn: String
         /// Indicates whether the changes should be applied immediately or during the next maintenance window.
-        public var applyImmediately: Bool? = nil
+        public let applyImmediately: Bool?
         ///  Indicates that minor version upgrades will be applied automatically to the replication instance during the maintenance window. Changing this parameter does not result in an outage except in the following case and the change is asynchronously applied as soon as possible. An outage will result if this parameter is set to true during the maintenance window, and a newer minor version is available, and AWS DMS has enabled auto patching for that engine version. 
-        public var autoMinorVersionUpgrade: Bool? = nil
-
-        public init() {}
+        public let autoMinorVersionUpgrade: Bool?
 
         public init(allowMajorVersionUpgrade: Bool? = nil, replicationInstanceIdentifier: String? = nil, multiAZ: Bool? = nil, engineVersion: String? = nil, replicationInstanceClass: String? = nil, preferredMaintenanceWindow: String? = nil, allocatedStorage: Int32? = nil, vpcSecurityGroupIds: [String]? = nil, replicationInstanceArn: String, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil) {
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
@@ -1136,9 +1074,7 @@ extension Dms {
             self.replicationInstanceClass = dictionary["ReplicationInstanceClass"] as? String
             self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
             self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
-            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
-                self.vpcSecurityGroupIds = vpcSecurityGroupIds
-            }
+            self.vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String]
             guard let replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationInstanceArn") }
             self.replicationInstanceArn = replicationInstanceArn
             self.applyImmediately = dictionary["ApplyImmediately"] as? Bool
@@ -1150,13 +1086,11 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum allowed value for the quota.
-        public var max: Int64? = nil
+        public let max: Int64?
         /// The amount currently used toward the quota maximum.
-        public var used: Int64? = nil
+        public let used: Int64?
         /// The name of the AWS DMS quota for this AWS account.
-        public var accountQuotaName: String? = nil
-
-        public init() {}
+        public let accountQuotaName: String?
 
         public init(max: Int64? = nil, used: Int64? = nil, accountQuotaName: String? = nil) {
             self.max = max
@@ -1175,13 +1109,11 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 10
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// Filters applied to the certificate described in the form of key-value pairs.
-        public var filters: [Filter]? = nil
-
-        public init() {}
+        public let filters: [Filter]?
 
         public init(maxRecords: Int32? = nil, marker: String? = nil, filters: [Filter]? = nil) {
             self.maxRecords = maxRecords
@@ -1194,6 +1126,8 @@ extension Dms {
             self.marker = dictionary["Marker"] as? String
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
         }
     }
@@ -1202,33 +1136,31 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The KMS key identifier that will be used to encrypt the connection parameters. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
-        public var kmsKeyId: String? = nil
+        public let kmsKeyId: String?
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
-        public var endpointIdentifier: String = ""
+        public let endpointIdentifier: String
         /// Tags to be added to the endpoint.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The user name to be used to login to the endpoint database.
-        public var username: String? = nil
+        public let username: String?
         /// The type of endpoint.
-        public var endpointType: String = ""
+        public let endpointType: String
         /// The name of the server where the endpoint database resides.
-        public var serverName: String? = nil
+        public let serverName: String?
         /// The name of the endpoint database.
-        public var databaseName: String? = nil
+        public let databaseName: String?
         /// The SSL mode to use for the SSL connection. SSL mode can be one of four values: none, require, verify-ca, verify-full.  The default value is none.
-        public var sslMode: String? = nil
+        public let sslMode: String?
         /// The Amazon Resource Number (ARN) for the certificate.
-        public var certificateArn: String? = nil
+        public let certificateArn: String?
         /// The type of engine for the endpoint. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, SYBASE, and SQLSERVER.
-        public var engineName: String = ""
+        public let engineName: String
         /// The password to be used to login to the endpoint database.
-        public var password: String? = nil
+        public let password: String?
         /// The port used by the endpoint database.
-        public var port: Int32? = nil
+        public let port: Int32?
         /// Additional attributes associated with the connection.
-        public var extraConnectionAttributes: String? = nil
-
-        public init() {}
+        public let extraConnectionAttributes: String?
 
         public init(kmsKeyId: String? = nil, endpointIdentifier: String, tags: [Tag]? = nil, username: String? = nil, endpointType: String, serverName: String? = nil, databaseName: String? = nil, sslMode: String? = nil, certificateArn: String? = nil, engineName: String, password: String? = nil, port: Int32? = nil, extraConnectionAttributes: String? = nil) {
             self.kmsKeyId = kmsKeyId
@@ -1252,6 +1184,8 @@ extension Dms {
             self.endpointIdentifier = endpointIdentifier
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.username = dictionary["Username"] as? String
             guard let endpointType = dictionary["EndpointType"] as? String else { throw InitializableError.missingRequiredParam("EndpointType") }
@@ -1272,17 +1206,15 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the subnet group.
-        public var subnetGroupStatus: String? = nil
+        public let subnetGroupStatus: String?
         /// The subnets that are in the subnet group.
-        public var subnets: [Subnet]? = nil
+        public let subnets: [Subnet]?
         /// The identifier of the replication instance subnet group.
-        public var replicationSubnetGroupIdentifier: String? = nil
+        public let replicationSubnetGroupIdentifier: String?
         /// The description of the replication subnet group.
-        public var replicationSubnetGroupDescription: String? = nil
+        public let replicationSubnetGroupDescription: String?
         /// The ID of the VPC.
-        public var vpcId: String? = nil
-
-        public init() {}
+        public let vpcId: String?
 
         public init(subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, replicationSubnetGroupIdentifier: String? = nil, replicationSubnetGroupDescription: String? = nil, vpcId: String? = nil) {
             self.subnetGroupStatus = subnetGroupStatus
@@ -1296,6 +1228,8 @@ extension Dms {
             self.subnetGroupStatus = dictionary["SubnetGroupStatus"] as? String
             if let subnets = dictionary["Subnets"] as? [[String: Any]] {
                 self.subnets = try subnets.map({ try Subnet(dictionary: $0) })
+            } else { 
+                self.subnets = nil
             }
             self.replicationSubnetGroupIdentifier = dictionary["ReplicationSubnetGroupIdentifier"] as? String
             self.replicationSubnetGroupDescription = dictionary["ReplicationSubnetGroupDescription"] as? String
@@ -1307,16 +1241,14 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The connection tested.
-        public var connection: Connection? = nil
-
-        public init() {}
+        public let connection: Connection?
 
         public init(connection: Connection? = nil) {
             self.connection = connection
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let connection = dictionary["Connection"] as? [String: Any] { self.connection = try Dms.Connection(dictionary: connection) }
+            if let connection = dictionary["Connection"] as? [String: Any] { self.connection = try Dms.Connection(dictionary: connection) } else { self.connection = nil }
         }
     }
 
@@ -1324,16 +1256,14 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The deleted replication task.
-        public var replicationTask: ReplicationTask? = nil
-
-        public init() {}
+        public let replicationTask: ReplicationTask?
 
         public init(replicationTask: ReplicationTask? = nil) {
             self.replicationTask = replicationTask
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) }
+            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) } else { self.replicationTask = nil }
         }
     }
 
@@ -1341,16 +1271,14 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The replication subnet group that was created.
-        public var replicationSubnetGroup: ReplicationSubnetGroup? = nil
-
-        public init() {}
+        public let replicationSubnetGroup: ReplicationSubnetGroup?
 
         public init(replicationSubnetGroup: ReplicationSubnetGroup? = nil) {
             self.replicationSubnetGroup = replicationSubnetGroup
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let replicationSubnetGroup = dictionary["ReplicationSubnetGroup"] as? [String: Any] { self.replicationSubnetGroup = try Dms.ReplicationSubnetGroup(dictionary: replicationSubnetGroup) }
+            if let replicationSubnetGroup = dictionary["ReplicationSubnetGroup"] as? [String: Any] { self.replicationSubnetGroup = try Dms.ReplicationSubnetGroup(dictionary: replicationSubnetGroup) } else { self.replicationSubnetGroup = nil }
         }
     }
 
@@ -1358,25 +1286,23 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of delete actions performed on a table.
-        public var deletes: Int64? = nil
+        public let deletes: Int64?
         /// The number of update actions performed on a table.
-        public var updates: Int64? = nil
+        public let updates: Int64?
         /// The state of the table.
-        public var tableState: String? = nil
+        public let tableState: String?
         /// The schema name.
-        public var schemaName: String? = nil
+        public let schemaName: String?
         /// The number of rows added during the Full Load operation.
-        public var fullLoadRows: Int64? = nil
+        public let fullLoadRows: Int64?
         /// The number of insert actions performed on a table.
-        public var inserts: Int64? = nil
+        public let inserts: Int64?
         /// The name of the table.
-        public var tableName: String? = nil
+        public let tableName: String?
         /// The last time the table was updated.
-        public var lastUpdateTime: Date? = nil
+        public let lastUpdateTime: Date?
         /// The Data Definition Language (DDL) used to build and modify the structure of your tables.
-        public var ddls: Int64? = nil
-
-        public init() {}
+        public let ddls: Int64?
 
         public init(deletes: Int64? = nil, updates: Int64? = nil, tableState: String? = nil, schemaName: String? = nil, fullLoadRows: Int64? = nil, inserts: Int64? = nil, tableName: String? = nil, lastUpdateTime: Date? = nil, ddls: Int64? = nil) {
             self.deletes = deletes
@@ -1407,13 +1333,11 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The location of the imported Oracle Wallet certificate for use with SSL.
-        public var certificateWallet: Data? = nil
+        public let certificateWallet: Data?
         /// The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
-        public var certificateIdentifier: String = ""
+        public let certificateIdentifier: String
         /// The contents of the .pem X.509 certificate file for the certificate.
-        public var certificatePem: String? = nil
-
-        public init() {}
+        public let certificatePem: String?
 
         public init(certificateWallet: Data? = nil, certificateIdentifier: String, certificatePem: String? = nil) {
             self.certificateWallet = certificateWallet
@@ -1433,11 +1357,9 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the replication instance.
-        public var replicationInstanceArn: String = ""
+        public let replicationInstanceArn: String
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public var endpointArn: String = ""
-
-        public init() {}
+        public let endpointArn: String
 
         public init(replicationInstanceArn: String, endpointArn: String) {
             self.replicationInstanceArn = replicationInstanceArn
@@ -1456,16 +1378,14 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The endpoint that was created.
-        public var endpoint: Endpoint? = nil
-
-        public init() {}
+        public let endpoint: Endpoint?
 
         public init(endpoint: Endpoint? = nil) {
             self.endpoint = endpoint
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Dms.Endpoint(dictionary: endpoint) }
+            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Dms.Endpoint(dictionary: endpoint) } else { self.endpoint = nil }
         }
     }
 
@@ -1473,16 +1393,14 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The replication instance that was created.
-        public var replicationInstance: ReplicationInstance? = nil
-
-        public init() {}
+        public let replicationInstance: ReplicationInstance?
 
         public init(replicationInstance: ReplicationInstance? = nil) {
             self.replicationInstance = replicationInstance
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let replicationInstance = dictionary["ReplicationInstance"] as? [String: Any] { self.replicationInstance = try Dms.ReplicationInstance(dictionary: replicationInstance) }
+            if let replicationInstance = dictionary["ReplicationInstance"] as? [String: Any] { self.replicationInstance = try Dms.ReplicationInstance(dictionary: replicationInstance) } else { self.replicationInstance = nil }
         }
     }
 
@@ -1490,19 +1408,17 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The path of the JSON file that contains the table mappings. Preceed the path with "file://". For example, --table-mappings file://mappingfile.json
-        public var tableMappings: String? = nil
+        public let tableMappings: String?
         /// The Amazon Resource Name (ARN) of the replication task.
-        public var replicationTaskArn: String = ""
+        public let replicationTaskArn: String
         /// The replication task identifier. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
-        public var replicationTaskIdentifier: String? = nil
+        public let replicationTaskIdentifier: String?
         /// The migration type. Valid values: full-load | cdc | full-load-and-cdc
-        public var migrationType: String? = nil
+        public let migrationType: String?
         /// The start time for the Change Data Capture (CDC) operation.
-        public var cdcStartTime: Date? = nil
+        public let cdcStartTime: Date?
         /// JSON file that contains settings for the task, such as target metadata settings.
-        public var replicationTaskSettings: String? = nil
-
-        public init() {}
+        public let replicationTaskSettings: String?
 
         public init(tableMappings: String? = nil, replicationTaskArn: String, replicationTaskIdentifier: String? = nil, migrationType: String? = nil, cdcStartTime: Date? = nil, replicationTaskSettings: String? = nil) {
             self.tableMappings = tableMappings
@@ -1528,13 +1444,11 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of subnet IDs.
-        public var subnetIds: [String] = []
+        public let subnetIds: [String]
         /// The name of the replication instance subnet group.
-        public var replicationSubnetGroupIdentifier: String = ""
+        public let replicationSubnetGroupIdentifier: String
         /// The description of the replication instance subnet group.
-        public var replicationSubnetGroupDescription: String? = nil
-
-        public init() {}
+        public let replicationSubnetGroupDescription: String?
 
         public init(subnetIds: [String], replicationSubnetGroupIdentifier: String, replicationSubnetGroupDescription: String? = nil) {
             self.subnetIds = subnetIds
@@ -1555,21 +1469,19 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The version of the replication engine.
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
-        public var replicationInstanceClass: String? = nil
+        public let replicationInstanceClass: String?
         /// The default amount of storage (in gigabytes) that is allocated for the replication instance.
-        public var defaultAllocatedStorage: Int32? = nil
+        public let defaultAllocatedStorage: Int32?
         /// The type of storage used by the replication instance.
-        public var storageType: String? = nil
+        public let storageType: String?
         /// The minimum amount of storage (in gigabytes) that can be allocated for the replication instance.
-        public var minAllocatedStorage: Int32? = nil
+        public let minAllocatedStorage: Int32?
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
-        public var includedAllocatedStorage: Int32? = nil
+        public let includedAllocatedStorage: Int32?
         /// The minimum amount of storage (in gigabytes) that can be allocated for the replication instance.
-        public var maxAllocatedStorage: Int32? = nil
-
-        public init() {}
+        public let maxAllocatedStorage: Int32?
 
         public init(engineVersion: String? = nil, replicationInstanceClass: String? = nil, defaultAllocatedStorage: Int32? = nil, storageType: String? = nil, minAllocatedStorage: Int32? = nil, includedAllocatedStorage: Int32? = nil, maxAllocatedStorage: Int32? = nil) {
             self.engineVersion = engineVersion
@@ -1596,19 +1508,17 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of tables loaded for this task.
-        public var tablesLoaded: Int32? = nil
+        public let tablesLoaded: Int32?
         /// The elapsed time of the task, in milliseconds.
-        public var elapsedTimeMillis: Int64? = nil
+        public let elapsedTimeMillis: Int64?
         /// The percent complete for the full load migration task.
-        public var fullLoadProgressPercent: Int32? = nil
+        public let fullLoadProgressPercent: Int32?
         /// The number of tables queued for this task.
-        public var tablesQueued: Int32? = nil
+        public let tablesQueued: Int32?
         /// The number of errors that have occurred during this task.
-        public var tablesErrored: Int32? = nil
+        public let tablesErrored: Int32?
         /// The number of tables currently loading for this task.
-        public var tablesLoading: Int32? = nil
-
-        public init() {}
+        public let tablesLoading: Int32?
 
         public init(tablesLoaded: Int32? = nil, elapsedTimeMillis: Int64? = nil, fullLoadProgressPercent: Int32? = nil, tablesQueued: Int32? = nil, tablesErrored: Int32? = nil, tablesLoading: Int32? = nil) {
             self.tablesLoaded = tablesLoaded
@@ -1633,16 +1543,14 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The replication task that was modified.
-        public var replicationTask: ReplicationTask? = nil
-
-        public init() {}
+        public let replicationTask: ReplicationTask?
 
         public init(replicationTask: ReplicationTask? = nil) {
             self.replicationTask = replicationTask
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) }
+            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) } else { self.replicationTask = nil }
         }
     }
 
@@ -1650,16 +1558,14 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The endpoint that was deleted.
-        public var endpoint: Endpoint? = nil
-
-        public init() {}
+        public let endpoint: Endpoint?
 
         public init(endpoint: Endpoint? = nil) {
             self.endpoint = endpoint
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Dms.Endpoint(dictionary: endpoint) }
+            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Dms.Endpoint(dictionary: endpoint) } else { self.endpoint = nil }
         }
     }
 
@@ -1667,16 +1573,14 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The replication task stopped.
-        public var replicationTask: ReplicationTask? = nil
-
-        public init() {}
+        public let replicationTask: ReplicationTask?
 
         public init(replicationTask: ReplicationTask? = nil) {
             self.replicationTask = replicationTask
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) }
+            if let replicationTask = dictionary["ReplicationTask"] as? [String: Any] { self.replicationTask = try Dms.ReplicationTask(dictionary: replicationTask) } else { self.replicationTask = nil }
         }
     }
 
@@ -1684,35 +1588,33 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The statistics for the task, including elapsed time, tables loaded, and table errors.
-        public var replicationTaskStats: ReplicationTaskStats? = nil
+        public let replicationTaskStats: ReplicationTaskStats?
         /// The last error (failure) message generated for the replication instance.
-        public var lastFailureMessage: String? = nil
+        public let lastFailureMessage: String?
         /// The date the replication task is scheduled to start.
-        public var replicationTaskStartDate: Date? = nil
+        public let replicationTaskStartDate: Date?
         /// The date the replication task was created.
-        public var replicationTaskCreationDate: Date? = nil
+        public let replicationTaskCreationDate: Date?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public var sourceEndpointArn: String? = nil
+        public let sourceEndpointArn: String?
         /// Table mappings specified in the task.
-        public var tableMappings: String? = nil
+        public let tableMappings: String?
         /// The Amazon Resource Name (ARN) of the replication task.
-        public var replicationTaskArn: String? = nil
+        public let replicationTaskArn: String?
         /// The status of the replication task.
-        public var status: String? = nil
+        public let status: String?
         /// The reason the replication task was stopped.
-        public var stopReason: String? = nil
+        public let stopReason: String?
         /// The Amazon Resource Name (ARN) of the replication instance.
-        public var replicationInstanceArn: String? = nil
+        public let replicationInstanceArn: String?
         /// The replication task identifier. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
-        public var replicationTaskIdentifier: String? = nil
+        public let replicationTaskIdentifier: String?
         /// The type of migration.
-        public var migrationType: String? = nil
+        public let migrationType: String?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public var targetEndpointArn: String? = nil
+        public let targetEndpointArn: String?
         /// The settings for the replication task.
-        public var replicationTaskSettings: String? = nil
-
-        public init() {}
+        public let replicationTaskSettings: String?
 
         public init(replicationTaskStats: ReplicationTaskStats? = nil, lastFailureMessage: String? = nil, replicationTaskStartDate: Date? = nil, replicationTaskCreationDate: Date? = nil, sourceEndpointArn: String? = nil, tableMappings: String? = nil, replicationTaskArn: String? = nil, status: String? = nil, stopReason: String? = nil, replicationInstanceArn: String? = nil, replicationTaskIdentifier: String? = nil, migrationType: String? = nil, targetEndpointArn: String? = nil, replicationTaskSettings: String? = nil) {
             self.replicationTaskStats = replicationTaskStats
@@ -1732,7 +1634,7 @@ extension Dms {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let replicationTaskStats = dictionary["ReplicationTaskStats"] as? [String: Any] { self.replicationTaskStats = try Dms.ReplicationTaskStats(dictionary: replicationTaskStats) }
+            if let replicationTaskStats = dictionary["ReplicationTaskStats"] as? [String: Any] { self.replicationTaskStats = try Dms.ReplicationTaskStats(dictionary: replicationTaskStats) } else { self.replicationTaskStats = nil }
             self.lastFailureMessage = dictionary["LastFailureMessage"] as? String
             self.replicationTaskStartDate = dictionary["ReplicationTaskStartDate"] as? Date
             self.replicationTaskCreationDate = dictionary["ReplicationTaskCreationDate"] as? Date
@@ -1753,16 +1655,14 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the refreshed schema.
-        public var refreshSchemasStatus: RefreshSchemasStatus? = nil
-
-        public init() {}
+        public let refreshSchemasStatus: RefreshSchemasStatus?
 
         public init(refreshSchemasStatus: RefreshSchemasStatus? = nil) {
             self.refreshSchemasStatus = refreshSchemasStatus
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let refreshSchemasStatus = dictionary["RefreshSchemasStatus"] as? [String: Any] { self.refreshSchemasStatus = try Dms.RefreshSchemasStatus(dictionary: refreshSchemasStatus) }
+            if let refreshSchemasStatus = dictionary["RefreshSchemasStatus"] as? [String: Any] { self.refreshSchemasStatus = try Dms.RefreshSchemasStatus(dictionary: refreshSchemasStatus) } else { self.refreshSchemasStatus = nil }
         }
     }
 
@@ -1770,9 +1670,7 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the deleted certificate.
-        public var certificateArn: String = ""
-
-        public init() {}
+        public let certificateArn: String
 
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
@@ -1788,16 +1686,14 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the schema.
-        public var refreshSchemasStatus: RefreshSchemasStatus? = nil
-
-        public init() {}
+        public let refreshSchemasStatus: RefreshSchemasStatus?
 
         public init(refreshSchemasStatus: RefreshSchemasStatus? = nil) {
             self.refreshSchemasStatus = refreshSchemasStatus
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let refreshSchemasStatus = dictionary["RefreshSchemasStatus"] as? [String: Any] { self.refreshSchemasStatus = try Dms.RefreshSchemasStatus(dictionary: refreshSchemasStatus) }
+            if let refreshSchemasStatus = dictionary["RefreshSchemasStatus"] as? [String: Any] { self.refreshSchemasStatus = try Dms.RefreshSchemasStatus(dictionary: refreshSchemasStatus) } else { self.refreshSchemasStatus = nil }
         }
     }
 
@@ -1805,13 +1701,11 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public var endpointArn: String = ""
+        public let endpointArn: String
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
-
-        public init() {}
+        public let maxRecords: Int32?
 
         public init(marker: String? = nil, endpointArn: String, maxRecords: Int32? = nil) {
             self.marker = marker
@@ -1831,9 +1725,7 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Number(ARN) of the replication task to be stopped.
-        public var replicationTaskArn: String = ""
-
-        public init() {}
+        public let replicationTaskArn: String
 
         public init(replicationTaskArn: String) {
             self.replicationTaskArn = replicationTaskArn
@@ -1849,11 +1741,9 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// A description of the replication tasks.
-        public var replicationTasks: [ReplicationTask]? = nil
-
-        public init() {}
+        public let replicationTasks: [ReplicationTask]?
 
         public init(marker: String? = nil, replicationTasks: [ReplicationTask]? = nil) {
             self.marker = marker
@@ -1864,6 +1754,8 @@ extension Dms {
             self.marker = dictionary["Marker"] as? String
             if let replicationTasks = dictionary["ReplicationTasks"] as? [[String: Any]] {
                 self.replicationTasks = try replicationTasks.map({ try ReplicationTask(dictionary: $0) })
+            } else { 
+                self.replicationTasks = nil
             }
         }
     }
@@ -1872,11 +1764,9 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be added to. AWS DMS resources include a replication instance, endpoint, and a replication task.
-        public var resourceArn: String = ""
+        public let resourceArn: String
         /// The tag to be assigned to the DMS resource.
-        public var tags: [Tag] = []
-
-        public init() {}
+        public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
@@ -1895,13 +1785,11 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// The filters applied to the connection. Valid filter names: endpoint-arn | replication-instance-arn
-        public var filters: [Filter]? = nil
-
-        public init() {}
+        public let filters: [Filter]?
 
         public init(maxRecords: Int32? = nil, marker: String? = nil, filters: [Filter]? = nil) {
             self.maxRecords = maxRecords
@@ -1914,6 +1802,8 @@ extension Dms {
             self.marker = dictionary["Marker"] as? String
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
         }
     }
@@ -1921,8 +1811,6 @@ extension Dms {
     public struct DeleteReplicationSubnetGroupResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -1932,9 +1820,7 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The subnet group name of the replication instance.
-        public var replicationSubnetGroupIdentifier: String = ""
-
-        public init() {}
+        public let replicationSubnetGroupIdentifier: String
 
         public init(replicationSubnetGroupIdentifier: String) {
             self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
@@ -1950,15 +1836,13 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
-        public var multiAZ: Bool? = nil
+        public let multiAZ: Bool?
         /// The engine version number of the replication instance.
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
-        public var replicationInstanceClass: String? = nil
+        public let replicationInstanceClass: String?
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
-        public var allocatedStorage: Int32? = nil
-
-        public init() {}
+        public let allocatedStorage: Int32?
 
         public init(multiAZ: Bool? = nil, engineVersion: String? = nil, replicationInstanceClass: String? = nil, allocatedStorage: Int32? = nil) {
             self.multiAZ = multiAZ
@@ -1979,49 +1863,47 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time the replication instance was created.
-        public var instanceCreateTime: Date? = nil
+        public let instanceCreateTime: Date?
         /// The pending modification values.
-        public var pendingModifiedValues: ReplicationPendingModifiedValues? = nil
+        public let pendingModifiedValues: ReplicationPendingModifiedValues?
         /// The status of the replication instance.
-        public var replicationInstanceStatus: String? = nil
+        public let replicationInstanceStatus: String?
         /// The VPC security group for the instance.
-        public var vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil
+        public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
         ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
-        public var multiAZ: Bool? = nil
+        public let multiAZ: Bool?
         /// The public IP address of the replication instance.
-        public var replicationInstancePublicIpAddresses: [String]? = nil
+        public let replicationInstancePublicIpAddresses: [String]?
         /// The amount of storage (in gigabytes) that is allocated for the replication instance.
-        public var allocatedStorage: Int32? = nil
+        public let allocatedStorage: Int32?
         /// The subnet group for the replication instance.
-        public var replicationSubnetGroup: ReplicationSubnetGroup? = nil
+        public let replicationSubnetGroup: ReplicationSubnetGroup?
         /// The private IP address of the replication instance.
-        public var replicationInstancePrivateIpAddress: String? = nil
+        public let replicationInstancePrivateIpAddress: String?
         /// The Availability Zone for the instance.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// Boolean value indicating if minor version upgrades will be automatically applied to the instance.
-        public var autoMinorVersionUpgrade: Bool? = nil
+        public let autoMinorVersionUpgrade: Bool?
         ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true. 
-        public var publiclyAccessible: Bool? = nil
+        public let publiclyAccessible: Bool?
         /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance 
-        public var replicationInstanceIdentifier: String? = nil
+        public let replicationInstanceIdentifier: String?
         /// The private IP address of the replication instance.
-        public var replicationInstancePrivateIpAddresses: [String]? = nil
+        public let replicationInstancePrivateIpAddresses: [String]?
         /// The engine version number of the replication instance.
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
-        public var replicationInstanceClass: String? = nil
+        public let replicationInstanceClass: String?
         /// The maintenance window times for the replication instance.
-        public var preferredMaintenanceWindow: String? = nil
+        public let preferredMaintenanceWindow: String?
         /// The Amazon Resource Name (ARN) of the replication instance.
-        public var replicationInstanceArn: String? = nil
+        public let replicationInstanceArn: String?
         /// The public IP address of the replication instance.
-        public var replicationInstancePublicIpAddress: String? = nil
+        public let replicationInstancePublicIpAddress: String?
         /// The availability zone of the standby replication instance in a Multi-AZ deployment.
-        public var secondaryAvailabilityZone: String? = nil
+        public let secondaryAvailabilityZone: String?
         /// The KMS key identifier that is used to encrypt the content on the replication instance. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
-        public var kmsKeyId: String? = nil
-
-        public init() {}
+        public let kmsKeyId: String?
 
         public init(instanceCreateTime: Date? = nil, pendingModifiedValues: ReplicationPendingModifiedValues? = nil, replicationInstanceStatus: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil, multiAZ: Bool? = nil, replicationInstancePublicIpAddresses: [String]? = nil, allocatedStorage: Int32? = nil, replicationSubnetGroup: ReplicationSubnetGroup? = nil, replicationInstancePrivateIpAddress: String? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, publiclyAccessible: Bool? = nil, replicationInstanceIdentifier: String? = nil, replicationInstancePrivateIpAddresses: [String]? = nil, engineVersion: String? = nil, replicationInstanceClass: String? = nil, preferredMaintenanceWindow: String? = nil, replicationInstanceArn: String? = nil, replicationInstancePublicIpAddress: String? = nil, secondaryAvailabilityZone: String? = nil, kmsKeyId: String? = nil) {
             self.instanceCreateTime = instanceCreateTime
@@ -2049,25 +1931,23 @@ extension Dms {
 
         public init(dictionary: [String: Any]) throws {
             self.instanceCreateTime = dictionary["InstanceCreateTime"] as? Date
-            if let pendingModifiedValues = dictionary["PendingModifiedValues"] as? [String: Any] { self.pendingModifiedValues = try Dms.ReplicationPendingModifiedValues(dictionary: pendingModifiedValues) }
+            if let pendingModifiedValues = dictionary["PendingModifiedValues"] as? [String: Any] { self.pendingModifiedValues = try Dms.ReplicationPendingModifiedValues(dictionary: pendingModifiedValues) } else { self.pendingModifiedValues = nil }
             self.replicationInstanceStatus = dictionary["ReplicationInstanceStatus"] as? String
             if let vpcSecurityGroups = dictionary["VpcSecurityGroups"] as? [[String: Any]] {
                 self.vpcSecurityGroups = try vpcSecurityGroups.map({ try VpcSecurityGroupMembership(dictionary: $0) })
+            } else { 
+                self.vpcSecurityGroups = nil
             }
             self.multiAZ = dictionary["MultiAZ"] as? Bool
-            if let replicationInstancePublicIpAddresses = dictionary["ReplicationInstancePublicIpAddresses"] as? [String] {
-                self.replicationInstancePublicIpAddresses = replicationInstancePublicIpAddresses
-            }
+            self.replicationInstancePublicIpAddresses = dictionary["ReplicationInstancePublicIpAddresses"] as? [String]
             self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
-            if let replicationSubnetGroup = dictionary["ReplicationSubnetGroup"] as? [String: Any] { self.replicationSubnetGroup = try Dms.ReplicationSubnetGroup(dictionary: replicationSubnetGroup) }
+            if let replicationSubnetGroup = dictionary["ReplicationSubnetGroup"] as? [String: Any] { self.replicationSubnetGroup = try Dms.ReplicationSubnetGroup(dictionary: replicationSubnetGroup) } else { self.replicationSubnetGroup = nil }
             self.replicationInstancePrivateIpAddress = dictionary["ReplicationInstancePrivateIpAddress"] as? String
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
             self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
             self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
             self.replicationInstanceIdentifier = dictionary["ReplicationInstanceIdentifier"] as? String
-            if let replicationInstancePrivateIpAddresses = dictionary["ReplicationInstancePrivateIpAddresses"] as? [String] {
-                self.replicationInstancePrivateIpAddresses = replicationInstancePrivateIpAddresses
-            }
+            self.replicationInstancePrivateIpAddresses = dictionary["ReplicationInstancePrivateIpAddresses"] as? [String]
             self.engineVersion = dictionary["EngineVersion"] as? String
             self.replicationInstanceClass = dictionary["ReplicationInstanceClass"] as? String
             self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
@@ -2082,16 +1962,14 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The certificate to be uploaded.
-        public var certificate: Certificate? = nil
-
-        public init() {}
+        public let certificate: Certificate?
 
         public init(certificate: Certificate? = nil) {
             self.certificate = certificate
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let certificate = dictionary["Certificate"] as? [String: Any] { self.certificate = try Dms.Certificate(dictionary: certificate) }
+            if let certificate = dictionary["Certificate"] as? [String: Any] { self.certificate = try Dms.Certificate(dictionary: certificate) } else { self.certificate = nil }
         }
     }
 
@@ -2099,11 +1977,9 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// Endpoint description.
-        public var endpoints: [Endpoint]? = nil
-
-        public init() {}
+        public let endpoints: [Endpoint]?
 
         public init(marker: String? = nil, endpoints: [Endpoint]? = nil) {
             self.marker = marker
@@ -2114,6 +1990,8 @@ extension Dms {
             self.marker = dictionary["Marker"] as? String
             if let endpoints = dictionary["Endpoints"] as? [[String: Any]] {
                 self.endpoints = try endpoints.map({ try Endpoint(dictionary: $0) })
+            } else { 
+                self.endpoints = nil
             }
         }
     }
@@ -2122,31 +2000,29 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of endpoint.
-        public var endpointType: String? = nil
+        public let endpointType: String?
         /// The name of the server where the endpoint database resides.
-        public var serverName: String? = nil
+        public let serverName: String?
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
-        public var endpointIdentifier: String? = nil
+        public let endpointIdentifier: String?
         /// The name of the endpoint database.
-        public var databaseName: String? = nil
+        public let databaseName: String?
         /// The user name to be used to login to the endpoint database.
-        public var username: String? = nil
+        public let username: String?
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public var endpointArn: String = ""
+        public let endpointArn: String
         /// The SSL mode to be used. SSL mode can be one of four values: none, require, verify-ca, verify-full.  The default value is none.
-        public var sslMode: String? = nil
+        public let sslMode: String?
         /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
-        public var certificateArn: String? = nil
+        public let certificateArn: String?
         /// The type of engine for the endpoint. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, SYBASE, and SQLSERVER.
-        public var engineName: String? = nil
+        public let engineName: String?
         /// The password to be used to login to the endpoint database.
-        public var password: String? = nil
+        public let password: String?
         /// The port used by the endpoint database.
-        public var port: Int32? = nil
+        public let port: Int32?
         /// Additional attributes associated with the connection.
-        public var extraConnectionAttributes: String? = nil
-
-        public init() {}
+        public let extraConnectionAttributes: String?
 
         public init(endpointType: String? = nil, serverName: String? = nil, endpointIdentifier: String? = nil, databaseName: String? = nil, username: String? = nil, endpointArn: String, sslMode: String? = nil, certificateArn: String? = nil, engineName: String? = nil, password: String? = nil, port: Int32? = nil, extraConnectionAttributes: String? = nil) {
             self.endpointType = endpointType
@@ -2184,11 +2060,9 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
-
-        public init() {}
+        public let marker: String?
 
         public init(maxRecords: Int32? = nil, marker: String? = nil) {
             self.maxRecords = maxRecords
@@ -2205,11 +2079,9 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the VPC security group.
-        public var status: String? = nil
+        public let status: String?
         /// The VPC security group Id.
-        public var vpcSecurityGroupId: String? = nil
-
-        public init() {}
+        public let vpcSecurityGroupId: String?
 
         public init(status: String? = nil, vpcSecurityGroupId: String? = nil) {
             self.status = status
@@ -2226,25 +2098,23 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The path of the JSON file that contains the table mappings. Preceed the path with "file://". For example, --table-mappings file://mappingfile.json
-        public var tableMappings: String = ""
+        public let tableMappings: String
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public var sourceEndpointArn: String = ""
+        public let sourceEndpointArn: String
         /// Tags to be added to the replication instance.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The Amazon Resource Name (ARN) of the replication instance.
-        public var replicationInstanceArn: String = ""
+        public let replicationInstanceArn: String
         /// The replication task identifier. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
-        public var replicationTaskIdentifier: String = ""
+        public let replicationTaskIdentifier: String
         /// The migration type.
-        public var migrationType: String = ""
+        public let migrationType: String
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-        public var targetEndpointArn: String = ""
+        public let targetEndpointArn: String
         /// The start time for the Change Data Capture (CDC) operation.
-        public var cdcStartTime: Date? = nil
+        public let cdcStartTime: Date?
         /// Settings for the task, such as target metadata settings. For a complete list of task settings, see Task Settings for AWS Database Migration Service Tasks.
-        public var replicationTaskSettings: String? = nil
-
-        public init() {}
+        public let replicationTaskSettings: String?
 
         public init(tableMappings: String, sourceEndpointArn: String, tags: [Tag]? = nil, replicationInstanceArn: String, replicationTaskIdentifier: String, migrationType: String, targetEndpointArn: String, cdcStartTime: Date? = nil, replicationTaskSettings: String? = nil) {
             self.tableMappings = tableMappings
@@ -2265,6 +2135,8 @@ extension Dms {
             self.sourceEndpointArn = sourceEndpointArn
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let replicationInstanceArn = dictionary["ReplicationInstanceArn"] as? String else { throw InitializableError.missingRequiredParam("ReplicationInstanceArn") }
             self.replicationInstanceArn = replicationInstanceArn
@@ -2283,11 +2155,9 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the filter.
-        public var name: String = ""
+        public let name: String
         /// The filter value.
-        public var values: [String] = []
-
-        public init() {}
+        public let values: [String]
 
         public init(name: String, values: [String]) {
             self.name = name
@@ -2306,11 +2176,9 @@ extension Dms {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// The replication instances described.
-        public var replicationInstances: [ReplicationInstance]? = nil
-
-        public init() {}
+        public let replicationInstances: [ReplicationInstance]?
 
         public init(marker: String? = nil, replicationInstances: [ReplicationInstance]? = nil) {
             self.marker = marker
@@ -2321,6 +2189,8 @@ extension Dms {
             self.marker = dictionary["Marker"] as? String
             if let replicationInstances = dictionary["ReplicationInstances"] as? [[String: Any]] {
                 self.replicationInstances = try replicationInstances.map({ try ReplicationInstance(dictionary: $0) })
+            } else { 
+                self.replicationInstances = nil
             }
         }
     }

@@ -33,15 +33,13 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// The claim name that must be present in the token, for example, "isAdmin" or "paid".
-        public var claim: String = ""
+        public let claim: String
         /// The match condition that specifies how closely the claim value in the IdP token must match Value.
-        public var matchType: String = ""
+        public let matchType: String
         /// A brief string that the claim must match, for example, "paid" or "yes".
-        public var value: String = ""
+        public let value: String
         /// The role ARN.
-        public var roleARN: String = ""
-
-        public init() {}
+        public let roleARN: String
 
         public init(claim: String, matchType: String, value: String, roleARN: String) {
             self.claim = claim
@@ -66,21 +64,19 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of OpendID Connect provider ARNs.
-        public var openIdConnectProviderARNs: [String]? = nil
+        public let openIdConnectProviderARNs: [String]?
         /// An array of Amazon Cognito Identity user pools and their client IDs.
-        public var cognitoIdentityProviders: [CognitoIdentityProvider]? = nil
+        public let cognitoIdentityProviders: [CognitoIdentityProvider]?
         /// The "domain" by which Cognito will refer to your users. This name acts as a placeholder that allows your backend and the Cognito service to communicate about the developer provider. For the DeveloperProviderName, you can use letters as well as period (.), underscore (_), and dash (-). Once you have set a developer provider name, you cannot change it. Please take care in setting this parameter.
-        public var developerProviderName: String? = nil
+        public let developerProviderName: String?
         /// A string that you provide.
-        public var identityPoolName: String = ""
+        public let identityPoolName: String
         /// TRUE if the identity pool supports unauthenticated logins.
-        public var allowUnauthenticatedIdentities: Bool = false
+        public let allowUnauthenticatedIdentities: Bool
         /// Optional key:value pairs mapping provider names to provider app IDs.
-        public var supportedLoginProviders: [String: String]? = nil
+        public let supportedLoginProviders: [String: String]?
         /// An array of Amazon Resource Names (ARNs) of the SAML provider for your identity pool.
-        public var samlProviderARNs: [String]? = nil
-
-        public init() {}
+        public let samlProviderARNs: [String]?
 
         public init(openIdConnectProviderARNs: [String]? = nil, cognitoIdentityProviders: [CognitoIdentityProvider]? = nil, developerProviderName: String? = nil, identityPoolName: String, allowUnauthenticatedIdentities: Bool, supportedLoginProviders: [String: String]? = nil, samlProviderARNs: [String]? = nil) {
             self.openIdConnectProviderARNs = openIdConnectProviderARNs
@@ -93,11 +89,11 @@ extension CognitoIdentity {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let openIdConnectProviderARNs = dictionary["OpenIdConnectProviderARNs"] as? [String] {
-                self.openIdConnectProviderARNs = openIdConnectProviderARNs
-            }
+            self.openIdConnectProviderARNs = dictionary["OpenIdConnectProviderARNs"] as? [String]
             if let cognitoIdentityProviders = dictionary["CognitoIdentityProviders"] as? [[String: Any]] {
                 self.cognitoIdentityProviders = try cognitoIdentityProviders.map({ try CognitoIdentityProvider(dictionary: $0) })
+            } else { 
+                self.cognitoIdentityProviders = nil
             }
             self.developerProviderName = dictionary["DeveloperProviderName"] as? String
             guard let identityPoolName = dictionary["IdentityPoolName"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolName") }
@@ -106,10 +102,10 @@ extension CognitoIdentity {
             self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
             if let supportedLoginProviders = dictionary["SupportedLoginProviders"] as? [String: String] {
                 self.supportedLoginProviders = supportedLoginProviders
+            } else { 
+                self.supportedLoginProviders = nil
             }
-            if let samlProviderARNs = dictionary["SamlProviderARNs"] as? [String] {
-                self.samlProviderARNs = samlProviderARNs
-            }
+            self.samlProviderARNs = dictionary["SamlProviderARNs"] as? [String]
         }
     }
 
@@ -117,11 +113,9 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// A pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of identities to return.
-        public var maxResults: Int32 = 0
-
-        public init() {}
+        public let maxResults: Int32
 
         public init(nextToken: String? = nil, maxResults: Int32) {
             self.nextToken = nextToken
@@ -139,15 +133,13 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Secret Access Key portion of the credentials
-        public var secretKey: String? = nil
+        public let secretKey: String?
         /// The Access Key portion of the credentials.
-        public var accessKeyId: String? = nil
+        public let accessKeyId: String?
         /// The Session Token portion of the credentials
-        public var sessionToken: String? = nil
+        public let sessionToken: String?
         /// The date at which these credentials will expire.
-        public var expiration: Date? = nil
-
-        public init() {}
+        public let expiration: Date?
 
         public init(secretKey: String? = nil, accessKeyId: String? = nil, sessionToken: String? = nil, expiration: Date? = nil) {
             self.secretKey = secretKey
@@ -168,13 +160,11 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the role to be assumed when multiple roles were received in the token from the identity provider. For example, a SAML-based identity provider. This parameter is optional for identity providers that do not support role customization.
-        public var customRoleArn: String? = nil
+        public let customRoleArn: String?
         /// A set of optional name-value pairs that map provider names to provider tokens.
-        public var logins: [String: String]? = nil
+        public let logins: [String: String]?
         /// A unique identifier in the format REGION:GUID.
-        public var identityId: String = ""
-
-        public init() {}
+        public let identityId: String
 
         public init(customRoleArn: String? = nil, logins: [String: String]? = nil, identityId: String) {
             self.customRoleArn = customRoleArn
@@ -186,6 +176,8 @@ extension CognitoIdentity {
             self.customRoleArn = dictionary["CustomRoleArn"] as? String
             if let logins = dictionary["Logins"] as? [String: String] {
                 self.logins = logins
+            } else { 
+                self.logins = nil
             }
             guard let identityId = dictionary["IdentityId"] as? String else { throw InitializableError.missingRequiredParam("IdentityId") }
             self.identityId = identityId
@@ -196,17 +188,15 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// A unique ID used by your backend authentication process to identify a user. Typically, a developer identity provider would issue many developer user identifiers, in keeping with the number of users.
-        public var developerUserIdentifier: String? = nil
+        public let developerUserIdentifier: String?
         /// A unique identifier in the format REGION:GUID.
-        public var identityId: String? = nil
+        public let identityId: String?
         /// An identity pool ID in the format REGION:GUID.
-        public var identityPoolId: String = ""
+        public let identityPoolId: String
         /// A pagination token. The first call you make will have NextToken set to null. After that the service will return NextToken values as needed. For example, let's say you make a request with MaxResults set to 10, and there are 20 matches in the database. The service will return a pagination token as a part of the response. This token can be used to call the API again and get results starting from the 11th match.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of identities to return.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(developerUserIdentifier: String? = nil, identityId: String? = nil, identityPoolId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.developerUserIdentifier = developerUserIdentifier
@@ -230,9 +220,7 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of rules. You can specify up to 25 rules per identity provider. Rules are evaluated in order. The first one to match specifies the role.
-        public var rules: [MappingRule] = []
-
-        public init() {}
+        public let rules: [MappingRule]
 
         public init(rules: [MappingRule]) {
             self.rules = rules
@@ -248,23 +236,21 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of OpendID Connect provider ARNs.
-        public var openIdConnectProviderARNs: [String]? = nil
+        public let openIdConnectProviderARNs: [String]?
         /// A list representing an Amazon Cognito Identity User Pool and its client ID.
-        public var cognitoIdentityProviders: [CognitoIdentityProvider]? = nil
+        public let cognitoIdentityProviders: [CognitoIdentityProvider]?
         /// The "domain" by which Cognito will refer to your users.
-        public var developerProviderName: String? = nil
+        public let developerProviderName: String?
         /// A string that you provide.
-        public var identityPoolName: String = ""
+        public let identityPoolName: String
         /// TRUE if the identity pool supports unauthenticated logins.
-        public var allowUnauthenticatedIdentities: Bool = false
+        public let allowUnauthenticatedIdentities: Bool
         /// Optional key:value pairs mapping provider names to provider app IDs.
-        public var supportedLoginProviders: [String: String]? = nil
+        public let supportedLoginProviders: [String: String]?
         /// An identity pool ID in the format REGION:GUID.
-        public var identityPoolId: String = ""
+        public let identityPoolId: String
         /// An array of Amazon Resource Names (ARNs) of the SAML provider for your identity pool.
-        public var samlProviderARNs: [String]? = nil
-
-        public init() {}
+        public let samlProviderARNs: [String]?
 
         public init(openIdConnectProviderARNs: [String]? = nil, cognitoIdentityProviders: [CognitoIdentityProvider]? = nil, developerProviderName: String? = nil, identityPoolName: String, allowUnauthenticatedIdentities: Bool, supportedLoginProviders: [String: String]? = nil, identityPoolId: String, samlProviderARNs: [String]? = nil) {
             self.openIdConnectProviderARNs = openIdConnectProviderARNs
@@ -278,11 +264,11 @@ extension CognitoIdentity {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let openIdConnectProviderARNs = dictionary["OpenIdConnectProviderARNs"] as? [String] {
-                self.openIdConnectProviderARNs = openIdConnectProviderARNs
-            }
+            self.openIdConnectProviderARNs = dictionary["OpenIdConnectProviderARNs"] as? [String]
             if let cognitoIdentityProviders = dictionary["CognitoIdentityProviders"] as? [[String: Any]] {
                 self.cognitoIdentityProviders = try cognitoIdentityProviders.map({ try CognitoIdentityProvider(dictionary: $0) })
+            } else { 
+                self.cognitoIdentityProviders = nil
             }
             self.developerProviderName = dictionary["DeveloperProviderName"] as? String
             guard let identityPoolName = dictionary["IdentityPoolName"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolName") }
@@ -291,12 +277,12 @@ extension CognitoIdentity {
             self.allowUnauthenticatedIdentities = allowUnauthenticatedIdentities
             if let supportedLoginProviders = dictionary["SupportedLoginProviders"] as? [String: String] {
                 self.supportedLoginProviders = supportedLoginProviders
+            } else { 
+                self.supportedLoginProviders = nil
             }
             guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }
             self.identityPoolId = identityPoolId
-            if let samlProviderARNs = dictionary["SamlProviderARNs"] as? [String] {
-                self.samlProviderARNs = samlProviderARNs
-            }
+            self.samlProviderARNs = dictionary["SamlProviderARNs"] as? [String]
         }
     }
 
@@ -304,11 +290,9 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identity pool ID in the format REGION:GUID.
-        public var identityPoolId: String? = nil
+        public let identityPoolId: String?
         /// A string that you provide.
-        public var identityPoolName: String? = nil
-
-        public init() {}
+        public let identityPoolName: String?
 
         public init(identityPoolId: String? = nil, identityPoolName: String? = nil) {
             self.identityPoolId = identityPoolId
@@ -325,15 +309,13 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// An optional boolean parameter that allows you to hide disabled identities. If omitted, the ListIdentities API will include disabled identities in the response.
-        public var hideDisabled: Bool? = nil
+        public let hideDisabled: Bool?
         /// An identity pool ID in the format REGION:GUID.
-        public var identityPoolId: String = ""
+        public let identityPoolId: String
         /// A pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of identities to return.
-        public var maxResults: Int32 = 0
-
-        public init() {}
+        public let maxResults: Int32
 
         public init(hideDisabled: Bool? = nil, identityPoolId: String, nextToken: String? = nil, maxResults: Int32) {
             self.hideDisabled = hideDisabled
@@ -356,9 +338,7 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identity pool ID in the format REGION:GUID.
-        public var identityPoolId: String = ""
-
-        public init() {}
+        public let identityPoolId: String
 
         public init(identityPoolId: String) {
             self.identityPoolId = identityPoolId
@@ -374,11 +354,9 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// Credentials for the provided identity ID.
-        public var credentials: Credentials? = nil
+        public let credentials: Credentials?
         /// A unique identifier in the format REGION:GUID.
-        public var identityId: String? = nil
-
-        public init() {}
+        public let identityId: String?
 
         public init(credentials: Credentials? = nil, identityId: String? = nil) {
             self.credentials = credentials
@@ -386,7 +364,7 @@ extension CognitoIdentity {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let credentials = dictionary["Credentials"] as? [String: Any] { self.credentials = try CognitoIdentity.Credentials(dictionary: credentials) }
+            if let credentials = dictionary["Credentials"] as? [String: Any] { self.credentials = try CognitoIdentity.Credentials(dictionary: credentials) } else { self.credentials = nil }
             self.identityId = dictionary["IdentityId"] as? String
         }
     }
@@ -395,15 +373,13 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// User identifier for the destination user. The value should be a DeveloperUserIdentifier.
-        public var destinationUserIdentifier: String = ""
+        public let destinationUserIdentifier: String
         /// An identity pool ID in the format REGION:GUID.
-        public var identityPoolId: String = ""
+        public let identityPoolId: String
         /// User identifier for the source user. The value should be a DeveloperUserIdentifier.
-        public var sourceUserIdentifier: String = ""
+        public let sourceUserIdentifier: String
         /// The "domain" by which Cognito will refer to your users. This is a (pseudo) domain name that you provide while creating an identity pool. This name acts as a placeholder that allows your backend and the Cognito service to communicate about the developer provider. For the DeveloperProviderName, you can use letters as well as period (.), underscore (_), and dash (-).
-        public var developerProviderName: String = ""
-
-        public init() {}
+        public let developerProviderName: String
 
         public init(destinationUserIdentifier: String, identityPoolId: String, sourceUserIdentifier: String, developerProviderName: String) {
             self.destinationUserIdentifier = destinationUserIdentifier
@@ -428,9 +404,7 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of UnprocessedIdentityId objects, each of which contains an ErrorCode and IdentityId.
-        public var unprocessedIdentityIds: [UnprocessedIdentityId]? = nil
-
-        public init() {}
+        public let unprocessedIdentityIds: [UnprocessedIdentityId]?
 
         public init(unprocessedIdentityIds: [UnprocessedIdentityId]? = nil) {
             self.unprocessedIdentityIds = unprocessedIdentityIds
@@ -439,6 +413,8 @@ extension CognitoIdentity {
         public init(dictionary: [String: Any]) throws {
             if let unprocessedIdentityIds = dictionary["UnprocessedIdentityIds"] as? [[String: Any]] {
                 self.unprocessedIdentityIds = try unprocessedIdentityIds.map({ try UnprocessedIdentityId(dictionary: $0) })
+            } else { 
+                self.unprocessedIdentityIds = nil
             }
         }
     }
@@ -447,15 +423,13 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// The expiration time of the token, in seconds. You can specify a custom expiration time for the token so that you can cache it. If you don't provide an expiration time, the token is valid for 15 minutes. You can exchange the token with Amazon STS for temporary AWS credentials, which are valid for a maximum of one hour. The maximum token duration you can set is 24 hours. You should take care in setting the expiration time for a token, as there are significant security implications: an attacker could use a leaked token to access your AWS resources for the token's duration.
-        public var tokenDuration: Int64? = nil
+        public let tokenDuration: Int64?
         /// A unique identifier in the format REGION:GUID.
-        public var identityId: String? = nil
+        public let identityId: String?
         /// An identity pool ID in the format REGION:GUID.
-        public var identityPoolId: String = ""
+        public let identityPoolId: String
         /// A set of optional name-value pairs that map provider names to provider tokens. Each name-value pair represents a user from a public provider or developer provider. If the user is from a developer provider, the name-value pair will follow the syntax "developer_provider_name": "developer_user_identifier". The developer provider is the "domain" by which Cognito will refer to your users; you provided this domain while creating/updating the identity pool. The developer user identifier is an identifier from your backend that uniquely identifies a user. When you create an identity pool, you can specify the supported logins.
-        public var logins: [String: String] = [:]
-
-        public init() {}
+        public let logins: [String: String]
 
         public init(tokenDuration: Int64? = nil, identityId: String? = nil, identityPoolId: String, logins: [String: String]) {
             self.tokenDuration = tokenDuration
@@ -478,11 +452,9 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com, an Amazon Cognito Identity Provider, or any other OpenId Connect provider, always include the id_token.
-        public var logins: [String: String]? = nil
+        public let logins: [String: String]?
         /// A unique identifier in the format REGION:GUID.
-        public var identityId: String = ""
-
-        public init() {}
+        public let identityId: String
 
         public init(logins: [String: String]? = nil, identityId: String) {
             self.logins = logins
@@ -492,6 +464,8 @@ extension CognitoIdentity {
         public init(dictionary: [String: Any]) throws {
             if let logins = dictionary["Logins"] as? [String: String] {
                 self.logins = logins
+            } else { 
+                self.logins = nil
             }
             guard let identityId = dictionary["IdentityId"] as? String else { throw InitializableError.missingRequiredParam("IdentityId") }
             self.identityId = identityId
@@ -502,9 +476,7 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of 1-60 identities that you want to delete.
-        public var identityIdsToDelete: [String] = []
-
-        public init() {}
+        public let identityIdsToDelete: [String]
 
         public init(identityIdsToDelete: [String]) {
             self.identityIdsToDelete = identityIdsToDelete
@@ -520,13 +492,11 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// A standard AWS account ID (9+ digits).
-        public var accountId: String? = nil
+        public let accountId: String?
         /// An identity pool ID in the format REGION:GUID.
-        public var identityPoolId: String = ""
+        public let identityPoolId: String
         /// A set of optional name-value pairs that map provider names to provider tokens. The available provider names for Logins are as follows:   Facebook: graph.facebook.com    Amazon Cognito Identity Provider: cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789    Google: accounts.google.com    Amazon: www.amazon.com    Twitter: api.twitter.com    Digits: www.digits.com   
-        public var logins: [String: String]? = nil
-
-        public init() {}
+        public let logins: [String: String]?
 
         public init(accountId: String? = nil, identityPoolId: String, logins: [String: String]? = nil) {
             self.accountId = accountId
@@ -540,6 +510,8 @@ extension CognitoIdentity {
             self.identityPoolId = identityPoolId
             if let logins = dictionary["Logins"] as? [String: String] {
                 self.logins = logins
+            } else { 
+                self.logins = nil
             }
         }
     }
@@ -548,11 +520,9 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identity pools returned by the ListIdentityPools action.
-        public var identityPools: [IdentityPoolShortDescription]? = nil
+        public let identityPools: [IdentityPoolShortDescription]?
         /// A pagination token.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(identityPools: [IdentityPoolShortDescription]? = nil, nextToken: String? = nil) {
             self.identityPools = identityPools
@@ -562,6 +532,8 @@ extension CognitoIdentity {
         public init(dictionary: [String: Any]) throws {
             if let identityPools = dictionary["IdentityPools"] as? [[String: Any]] {
                 self.identityPools = try identityPools.map({ try IdentityPoolShortDescription(dictionary: $0) })
+            } else { 
+                self.identityPools = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -571,13 +543,11 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identity pool ID in the format REGION:GUID.
-        public var identityPoolId: String? = nil
+        public let identityPoolId: String?
         /// How users for a specific identity provider are to mapped to roles. This is a String-to-RoleMapping object map. The string identifies the identity provider, for example, "graph.facebook.com" or "cognito-idp-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id".
-        public var roleMappings: [String: RoleMapping]? = nil
+        public let roleMappings: [String: RoleMapping]?
         /// The map of roles associated with this pool. Currently only authenticated and unauthenticated roles are supported.
-        public var roles: [String: String]? = nil
-
-        public init() {}
+        public let roles: [String: String]?
 
         public init(identityPoolId: String? = nil, roleMappings: [String: RoleMapping]? = nil, roles: [String: String]? = nil) {
             self.identityPoolId = identityPoolId
@@ -594,9 +564,13 @@ extension CognitoIdentity {
                     roleMappingsDict[key] = try RoleMapping(dictionary: roleMappingDict)
                 }
                 self.roleMappings = roleMappingsDict
+            } else { 
+                self.roleMappings = nil
             }
             if let roles = dictionary["Roles"] as? [String: String] {
                 self.roles = roles
+            } else { 
+                self.roles = nil
             }
         }
     }
@@ -605,11 +579,9 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// An OpenID token.
-        public var token: String? = nil
+        public let token: String?
         /// A unique identifier in the format REGION:GUID.
-        public var identityId: String? = nil
-
-        public init() {}
+        public let identityId: String?
 
         public init(token: String? = nil, identityId: String? = nil) {
             self.token = token
@@ -626,9 +598,7 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identity pool ID in the format REGION:GUID.
-        public var identityPoolId: String = ""
-
-        public init() {}
+        public let identityPoolId: String
 
         public init(identityPoolId: String) {
             self.identityPoolId = identityPoolId
@@ -644,9 +614,7 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identity pool ID in the format REGION:GUID.
-        public var identityPoolId: String = ""
-
-        public init() {}
+        public let identityPoolId: String
 
         public init(identityPoolId: String) {
             self.identityPoolId = identityPoolId
@@ -662,15 +630,13 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// A unique ID used by your backend authentication process to identify a user.
-        public var developerUserIdentifier: String = ""
+        public let developerUserIdentifier: String
         /// A unique identifier in the format REGION:GUID.
-        public var identityId: String = ""
+        public let identityId: String
         /// An identity pool ID in the format REGION:GUID.
-        public var identityPoolId: String = ""
+        public let identityPoolId: String
         /// The "domain" by which Cognito will refer to your users.
-        public var developerProviderName: String = ""
-
-        public init() {}
+        public let developerProviderName: String
 
         public init(developerUserIdentifier: String, identityId: String, identityPoolId: String, developerProviderName: String) {
             self.developerUserIdentifier = developerUserIdentifier
@@ -695,9 +661,7 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// A unique identifier in the format REGION:GUID.
-        public var identityId: String? = nil
-
-        public init() {}
+        public let identityId: String?
 
         public init(identityId: String? = nil) {
             self.identityId = identityId
@@ -712,15 +676,13 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// Date on which the identity was last modified.
-        public var lastModifiedDate: Date? = nil
+        public let lastModifiedDate: Date?
         /// Date on which the identity was created.
-        public var creationDate: Date? = nil
+        public let creationDate: Date?
         /// A unique identifier in the format REGION:GUID.
-        public var identityId: String? = nil
+        public let identityId: String?
         /// A set of optional name-value pairs that map provider names to provider tokens.
-        public var logins: [String]? = nil
-
-        public init() {}
+        public let logins: [String]?
 
         public init(lastModifiedDate: Date? = nil, creationDate: Date? = nil, identityId: String? = nil, logins: [String]? = nil) {
             self.lastModifiedDate = lastModifiedDate
@@ -733,9 +695,7 @@ extension CognitoIdentity {
             self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
             self.creationDate = dictionary["CreationDate"] as? Date
             self.identityId = dictionary["IdentityId"] as? String
-            if let logins = dictionary["Logins"] as? [String] {
-                self.logins = logins
-            }
+            self.logins = dictionary["Logins"] as? [String]
         }
     }
 
@@ -743,13 +703,11 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identity pool ID in the format REGION:GUID.
-        public var identityPoolId: String = ""
+        public let identityPoolId: String
         /// How users for a specific identity provider are to mapped to roles. This is a string to RoleMapping object map. The string identifies the identity provider, for example, "graph.facebook.com" or "cognito-idp-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id". Up to 25 rules can be specified per identity provider.
-        public var roleMappings: [String: RoleMapping]? = nil
+        public let roleMappings: [String: RoleMapping]?
         /// The map of roles associated with this pool. For a given role, the key will be either "authenticated" or "unauthenticated" and the value will be the Role ARN.
-        public var roles: [String: String] = [:]
-
-        public init() {}
+        public let roles: [String: String]
 
         public init(identityPoolId: String, roleMappings: [String: RoleMapping]? = nil, roles: [String: String]) {
             self.identityPoolId = identityPoolId
@@ -767,6 +725,8 @@ extension CognitoIdentity {
                     roleMappingsDict[key] = try RoleMapping(dictionary: roleMappingDict)
                 }
                 self.roleMappings = roleMappingsDict
+            } else { 
+                self.roleMappings = nil
             }
             guard let roles = dictionary["Roles"] as? [String: String] else { throw InitializableError.missingRequiredParam("Roles") }
             self.roles = roles
@@ -777,13 +737,11 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// A set of optional name-value pairs that map provider names to provider tokens.
-        public var logins: [String: String] = [:]
+        public let logins: [String: String]
         /// Provider names to unlink from this identity.
-        public var loginsToRemove: [String] = []
+        public let loginsToRemove: [String]
         /// A unique identifier in the format REGION:GUID.
-        public var identityId: String = ""
-
-        public init() {}
+        public let identityId: String
 
         public init(logins: [String: String], loginsToRemove: [String], identityId: String) {
             self.logins = logins
@@ -805,11 +763,9 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// An OpenID token, valid for 15 minutes.
-        public var token: String? = nil
+        public let token: String?
         /// A unique identifier in the format REGION:GUID. Note that the IdentityId returned may not match the one passed on input.
-        public var identityId: String? = nil
-
-        public init() {}
+        public let identityId: String?
 
         public init(token: String? = nil, identityId: String? = nil) {
             self.token = token
@@ -826,13 +782,11 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// TRUE if server-side token validation is enabled for the identity provider’s token.
-        public var serverSideTokenCheck: Bool? = nil
+        public let serverSideTokenCheck: Bool?
         /// The provider name for an Amazon Cognito Identity User Pool. For example, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789.
-        public var providerName: String? = nil
+        public let providerName: String?
         /// The client ID for the Amazon Cognito Identity User Pool.
-        public var clientId: String? = nil
-
-        public init() {}
+        public let clientId: String?
 
         public init(serverSideTokenCheck: Bool? = nil, providerName: String? = nil, clientId: String? = nil) {
             self.serverSideTokenCheck = serverSideTokenCheck
@@ -851,13 +805,11 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identity pool ID in the format REGION:GUID.
-        public var identityPoolId: String? = nil
+        public let identityPoolId: String?
         /// An object containing a set of identities and associated mappings.
-        public var identities: [IdentityDescription]? = nil
+        public let identities: [IdentityDescription]?
         /// A pagination token.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(identityPoolId: String? = nil, identities: [IdentityDescription]? = nil, nextToken: String? = nil) {
             self.identityPoolId = identityPoolId
@@ -869,6 +821,8 @@ extension CognitoIdentity {
             self.identityPoolId = dictionary["IdentityPoolId"] as? String
             if let identities = dictionary["Identities"] as? [[String: Any]] {
                 self.identities = try identities.map({ try IdentityDescription(dictionary: $0) })
+            } else { 
+                self.identities = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -878,13 +832,11 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// This is the list of developer user identifiers associated with an identity ID. Cognito supports the association of multiple developer user identifiers with an identity ID.
-        public var developerUserIdentifierList: [String]? = nil
+        public let developerUserIdentifierList: [String]?
         /// A pagination token. The first call you make will have NextToken set to null. After that the service will return NextToken values as needed. For example, let's say you make a request with MaxResults set to 10, and there are 20 matches in the database. The service will return a pagination token as a part of the response. This token can be used to call the API again and get results starting from the 11th match.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A unique identifier in the format REGION:GUID.
-        public var identityId: String? = nil
-
-        public init() {}
+        public let identityId: String?
 
         public init(developerUserIdentifierList: [String]? = nil, nextToken: String? = nil, identityId: String? = nil) {
             self.developerUserIdentifierList = developerUserIdentifierList
@@ -893,9 +845,7 @@ extension CognitoIdentity {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let developerUserIdentifierList = dictionary["DeveloperUserIdentifierList"] as? [String] {
-                self.developerUserIdentifierList = developerUserIdentifierList
-            }
+            self.developerUserIdentifierList = dictionary["DeveloperUserIdentifierList"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
             self.identityId = dictionary["IdentityId"] as? String
         }
@@ -905,11 +855,9 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// The error code indicating the type of error that occurred.
-        public var errorCode: String? = nil
+        public let errorCode: String?
         /// A unique identifier in the format REGION:GUID.
-        public var identityId: String? = nil
-
-        public init() {}
+        public let identityId: String?
 
         public init(errorCode: String? = nil, identityId: String? = nil) {
             self.errorCode = errorCode
@@ -926,9 +874,7 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// A unique identifier in the format REGION:GUID.
-        public var identityId: String? = nil
-
-        public init() {}
+        public let identityId: String?
 
         public init(identityId: String? = nil) {
             self.identityId = identityId
@@ -943,13 +889,11 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// The role mapping type. Token will use cognito:roles and cognito:preferred_role claims from the Cognito identity provider token to map groups to roles. Rules will attempt to match claims from the token to map to a role.
-        public var type: String = ""
+        public let type: String
         /// The rules to be used for mapping users to roles. If you specify Rules as the role mapping type, RulesConfiguration is required.
-        public var rulesConfiguration: RulesConfigurationType? = nil
+        public let rulesConfiguration: RulesConfigurationType?
         /// If you specify Token or Rules as the Type, AmbiguousRoleResolution is required. Specifies the action to be taken if either no rules match the claim value for the Rules type, or there is no cognito:preferred_role claim and there are multiple cognito:roles matches for the Token type.
-        public var ambiguousRoleResolution: String? = nil
-
-        public init() {}
+        public let ambiguousRoleResolution: String?
 
         public init(type: String, rulesConfiguration: RulesConfigurationType? = nil, ambiguousRoleResolution: String? = nil) {
             self.type = type
@@ -960,7 +904,7 @@ extension CognitoIdentity {
         public init(dictionary: [String: Any]) throws {
             guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
             self.type = type
-            if let rulesConfiguration = dictionary["RulesConfiguration"] as? [String: Any] { self.rulesConfiguration = try CognitoIdentity.RulesConfigurationType(dictionary: rulesConfiguration) }
+            if let rulesConfiguration = dictionary["RulesConfiguration"] as? [String: Any] { self.rulesConfiguration = try CognitoIdentity.RulesConfigurationType(dictionary: rulesConfiguration) } else { self.rulesConfiguration = nil }
             self.ambiguousRoleResolution = dictionary["AmbiguousRoleResolution"] as? String
         }
     }
@@ -969,9 +913,7 @@ extension CognitoIdentity {
         /// The key for the payload
         public static let payload: String? = nil
         /// A unique identifier in the format REGION:GUID.
-        public var identityId: String = ""
-
-        public init() {}
+        public let identityId: String
 
         public init(identityId: String) {
             self.identityId = identityId

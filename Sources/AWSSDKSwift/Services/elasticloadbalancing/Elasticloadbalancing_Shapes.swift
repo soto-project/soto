@@ -33,9 +33,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the attributes.
-        public var attributes: [TargetGroupAttribute]? = nil
-
-        public init() {}
+        public let attributes: [TargetGroupAttribute]?
 
         public init(attributes: [TargetGroupAttribute]? = nil) {
             self.attributes = attributes
@@ -44,6 +42,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let attributes = dictionary["Attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try TargetGroupAttribute(dictionary: $0) })
+            } else { 
+                self.attributes = nil
             }
         }
     }
@@ -52,17 +52,15 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The priority.
-        public var priority: String? = nil
+        public let priority: String?
         /// Indicates whether this is the default rule.
-        public var isDefault: Bool? = nil
+        public let isDefault: Bool?
         /// The Amazon Resource Name (ARN) of the rule.
-        public var ruleArn: String? = nil
+        public let ruleArn: String?
         /// The actions.
-        public var actions: [Action]? = nil
+        public let actions: [Action]?
         /// The conditions.
-        public var conditions: [RuleCondition]? = nil
-
-        public init() {}
+        public let conditions: [RuleCondition]?
 
         public init(priority: String? = nil, isDefault: Bool? = nil, ruleArn: String? = nil, actions: [Action]? = nil, conditions: [RuleCondition]? = nil) {
             self.priority = priority
@@ -78,9 +76,13 @@ extension Elasticloadbalancing {
             self.ruleArn = dictionary["RuleArn"] as? String
             if let actions = dictionary["Actions"] as? [[String: Any]] {
                 self.actions = try actions.map({ try Action(dictionary: $0) })
+            } else { 
+                self.actions = nil
             }
             if let conditions = dictionary["Conditions"] as? [[String: Any]] {
                 self.conditions = try conditions.map({ try RuleCondition(dictionary: $0) })
+            } else { 
+                self.conditions = nil
             }
         }
     }
@@ -89,13 +91,11 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The health information for the target.
-        public var targetHealth: TargetHealth? = nil
+        public let targetHealth: TargetHealth?
         /// The description of the target.
-        public var target: TargetDescription? = nil
+        public let target: TargetDescription?
         /// The port to use to connect with the target.
-        public var healthCheckPort: String? = nil
-
-        public init() {}
+        public let healthCheckPort: String?
 
         public init(targetHealth: TargetHealth? = nil, target: TargetDescription? = nil, healthCheckPort: String? = nil) {
             self.targetHealth = targetHealth
@@ -104,8 +104,8 @@ extension Elasticloadbalancing {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let targetHealth = dictionary["TargetHealth"] as? [String: Any] { self.targetHealth = try Elasticloadbalancing.TargetHealth(dictionary: targetHealth) }
-            if let target = dictionary["Target"] as? [String: Any] { self.target = try Elasticloadbalancing.TargetDescription(dictionary: target) }
+            if let targetHealth = dictionary["TargetHealth"] as? [String: Any] { self.targetHealth = try Elasticloadbalancing.TargetHealth(dictionary: targetHealth) } else { self.targetHealth = nil }
+            if let target = dictionary["Target"] as? [String: Any] { self.target = try Elasticloadbalancing.TargetDescription(dictionary: target) } else { self.target = nil }
             self.healthCheckPort = dictionary["HealthCheckPort"] as? String
         }
     }
@@ -114,11 +114,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of action.
-        public var type: String = ""
+        public let type: String
         /// The Amazon Resource Name (ARN) of the target group.
-        public var targetGroupArn: String = ""
-
-        public init() {}
+        public let targetGroupArn: String
 
         public init(type: String, targetGroupArn: String) {
             self.type = type
@@ -137,9 +135,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the listener.
-        public var listenerArn: String = ""
-
-        public init() {}
+        public let listenerArn: String
 
         public init(listenerArn: String) {
             self.listenerArn = listenerArn
@@ -155,8 +151,6 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -165,9 +159,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the target group.
-        public var targetGroupArn: String = ""
-
-        public init() {}
+        public let targetGroupArn: String
 
         public init(targetGroupArn: String) {
             self.targetGroupArn = targetGroupArn
@@ -183,11 +175,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The attributes.
-        public var attributes: [TargetGroupAttribute] = []
+        public let attributes: [TargetGroupAttribute]
         /// The Amazon Resource Name (ARN) of the target group.
-        public var targetGroupArn: String = ""
-
-        public init() {}
+        public let targetGroupArn: String
 
         public init(attributes: [TargetGroupAttribute], targetGroupArn: String) {
             self.attributes = attributes
@@ -206,11 +196,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the load balancer.
-        public var loadBalancerArn: String = ""
+        public let loadBalancerArn: String
         /// The load balancer attributes.
-        public var attributes: [LoadBalancerAttribute] = []
-
-        public init() {}
+        public let attributes: [LoadBalancerAttribute]
 
         public init(loadBalancerArn: String, attributes: [LoadBalancerAttribute]) {
             self.loadBalancerArn = loadBalancerArn
@@ -229,8 +217,6 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -239,19 +225,17 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The protocol for connections from clients to the load balancer.
-        public var `protocol`: String = ""
+        public let `protocol`: String
         /// The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
-        public var sslPolicy: String? = nil
+        public let sslPolicy: String?
         /// The SSL server certificate. You must provide exactly one certificate if the protocol is HTTPS.
-        public var certificates: [Certificate]? = nil
+        public let certificates: [Certificate]?
         /// The default action for the listener.
-        public var defaultActions: [Action] = []
+        public let defaultActions: [Action]
         /// The Amazon Resource Name (ARN) of the load balancer.
-        public var loadBalancerArn: String = ""
+        public let loadBalancerArn: String
         /// The port on which the load balancer is listening.
-        public var port: Int32 = 0
-
-        public init() {}
+        public let port: Int32
 
         public init(protocol: String, sslPolicy: String? = nil, certificates: [Certificate]? = nil, defaultActions: [Action], loadBalancerArn: String, port: Int32) {
             self.`protocol` = `protocol`
@@ -268,6 +252,8 @@ extension Elasticloadbalancing {
             self.sslPolicy = dictionary["SslPolicy"] as? String
             if let certificates = dictionary["Certificates"] as? [[String: Any]] {
                 self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
+            } else { 
+                self.certificates = nil
             }
             guard let defaultActions = dictionary["DefaultActions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("DefaultActions") }
             self.defaultActions = try defaultActions.map({ try Action(dictionary: $0) })
@@ -282,11 +268,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public var nextMarker: String? = nil
+        public let nextMarker: String?
         /// Information about the load balancers.
-        public var loadBalancers: [LoadBalancer]? = nil
-
-        public init() {}
+        public let loadBalancers: [LoadBalancer]?
 
         public init(nextMarker: String? = nil, loadBalancers: [LoadBalancer]? = nil) {
             self.nextMarker = nextMarker
@@ -297,6 +281,8 @@ extension Elasticloadbalancing {
             self.nextMarker = dictionary["NextMarker"] as? String
             if let loadBalancers = dictionary["LoadBalancers"] as? [[String: Any]] {
                 self.loadBalancers = try loadBalancers.map({ try LoadBalancer(dictionary: $0) })
+            } else { 
+                self.loadBalancers = nil
             }
         }
     }
@@ -305,11 +291,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// A description of the state.
-        public var reason: String? = nil
+        public let reason: String?
         /// The state code. The initial state of the load balancer is provisioning. After the load balancer is fully set up and ready to route traffic, its state is active. If the load balancer could not be set up, its state is failed.
-        public var code: String? = nil
-
-        public init() {}
+        public let code: String?
 
         public init(reason: String? = nil, code: String? = nil) {
             self.reason = reason
@@ -326,35 +310,33 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the target group.
-        public var targetGroupArn: String? = nil
+        public let targetGroupArn: String?
         /// The Amazon Resource Names (ARN) of the load balancers that route traffic to this target group.
-        public var loadBalancerArns: [String]? = nil
+        public let loadBalancerArns: [String]?
         /// The HTTP codes to use when checking for a successful response from a target.
-        public var matcher: Matcher? = nil
+        public let matcher: Matcher?
         /// The approximate amount of time, in seconds, between health checks of an individual target.
-        public var healthCheckIntervalSeconds: Int32? = nil
+        public let healthCheckIntervalSeconds: Int32?
         /// The amount of time, in seconds, during which no response means a failed health check.
-        public var healthCheckTimeoutSeconds: Int32? = nil
+        public let healthCheckTimeoutSeconds: Int32?
         /// The number of consecutive health check failures required before considering the target unhealthy.
-        public var unhealthyThresholdCount: Int32? = nil
+        public let unhealthyThresholdCount: Int32?
         /// The name of the target group.
-        public var targetGroupName: String? = nil
+        public let targetGroupName: String?
         /// The protocol to use to connect with the target.
-        public var healthCheckProtocol: String? = nil
+        public let healthCheckProtocol: String?
         /// The ID of the VPC for the targets.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
-        public var healthyThresholdCount: Int32? = nil
+        public let healthyThresholdCount: Int32?
         /// The protocol to use for routing traffic to the targets.
-        public var `protocol`: String? = nil
+        public let `protocol`: String?
         /// The destination for the health check request.
-        public var healthCheckPath: String? = nil
+        public let healthCheckPath: String?
         /// The port to use to connect with the target.
-        public var healthCheckPort: String? = nil
+        public let healthCheckPort: String?
         /// The port on which the targets are listening.
-        public var port: Int32? = nil
-
-        public init() {}
+        public let port: Int32?
 
         public init(targetGroupArn: String? = nil, loadBalancerArns: [String]? = nil, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckTimeoutSeconds: Int32? = nil, unhealthyThresholdCount: Int32? = nil, targetGroupName: String? = nil, healthCheckProtocol: String? = nil, vpcId: String? = nil, healthyThresholdCount: Int32? = nil, protocol: String? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, port: Int32? = nil) {
             self.targetGroupArn = targetGroupArn
@@ -375,10 +357,8 @@ extension Elasticloadbalancing {
 
         public init(dictionary: [String: Any]) throws {
             self.targetGroupArn = dictionary["TargetGroupArn"] as? String
-            if let loadBalancerArns = dictionary["LoadBalancerArns"] as? [String] {
-                self.loadBalancerArns = loadBalancerArns
-            }
-            if let matcher = dictionary["Matcher"] as? [String: Any] { self.matcher = try Elasticloadbalancing.Matcher(dictionary: matcher) }
+            self.loadBalancerArns = dictionary["LoadBalancerArns"] as? [String]
+            if let matcher = dictionary["Matcher"] as? [String: Any] { self.matcher = try Elasticloadbalancing.Matcher(dictionary: matcher) } else { self.matcher = nil }
             self.healthCheckIntervalSeconds = dictionary["HealthCheckIntervalSeconds"] as? Int32
             self.healthCheckTimeoutSeconds = dictionary["HealthCheckTimeoutSeconds"] as? Int32
             self.unhealthyThresholdCount = dictionary["UnhealthyThresholdCount"] as? Int32
@@ -397,11 +377,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the tag.
-        public var value: String? = nil
+        public let value: String?
         /// The key of the tag.
-        public var key: String = ""
-
-        public init() {}
+        public let key: String
 
         public init(value: String? = nil, key: String) {
             self.value = value
@@ -419,11 +397,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the resource.
-        public var resourceArn: String? = nil
+        public let resourceArn: String?
         /// Information about the tags.
-        public var tags: [Tag]? = nil
-
-        public init() {}
+        public let tags: [Tag]?
 
         public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
             self.resourceArn = resourceArn
@@ -434,6 +410,8 @@ extension Elasticloadbalancing {
             self.resourceArn = dictionary["ResourceArn"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
         }
     }
@@ -442,11 +420,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The only possible value is path-pattern.
-        public var field: String? = nil
+        public let field: String?
         /// The path pattern. You can specify a single path pattern. A path pattern is case sensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters in a path pattern.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
-        public var values: [String]? = nil
-
-        public init() {}
+        public let values: [String]?
 
         public init(field: String? = nil, values: [String]? = nil) {
             self.field = field
@@ -455,9 +431,7 @@ extension Elasticloadbalancing {
 
         public init(dictionary: [String: Any]) throws {
             self.field = dictionary["Field"] as? String
-            if let values = dictionary["Values"] as? [String] {
-                self.values = values
-            }
+            self.values = dictionary["Values"] as? [String]
         }
     }
 
@@ -465,21 +439,19 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The SSL server certificate. You must provide a certificate if the protocol is HTTPS.
-        public var certificates: [Certificate]? = nil
+        public let certificates: [Certificate]?
         /// The Amazon Resource Name (ARN) of the listener.
-        public var listenerArn: String? = nil
+        public let listenerArn: String?
         /// The protocol for connections from clients to the load balancer.
-        public var `protocol`: String? = nil
+        public let `protocol`: String?
         /// The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
-        public var sslPolicy: String? = nil
+        public let sslPolicy: String?
         /// The default actions for the listener.
-        public var defaultActions: [Action]? = nil
+        public let defaultActions: [Action]?
         /// The Amazon Resource Name (ARN) of the load balancer.
-        public var loadBalancerArn: String? = nil
+        public let loadBalancerArn: String?
         /// The port on which the load balancer is listening.
-        public var port: Int32? = nil
-
-        public init() {}
+        public let port: Int32?
 
         public init(certificates: [Certificate]? = nil, listenerArn: String? = nil, protocol: String? = nil, sslPolicy: String? = nil, defaultActions: [Action]? = nil, loadBalancerArn: String? = nil, port: Int32? = nil) {
             self.certificates = certificates
@@ -494,12 +466,16 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let certificates = dictionary["Certificates"] as? [[String: Any]] {
                 self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
+            } else { 
+                self.certificates = nil
             }
             self.listenerArn = dictionary["ListenerArn"] as? String
             self.`protocol` = dictionary["Protocol"] as? String
             self.sslPolicy = dictionary["SslPolicy"] as? String
             if let defaultActions = dictionary["DefaultActions"] as? [[String: Any]] {
                 self.defaultActions = try defaultActions.map({ try Action(dictionary: $0) })
+            } else { 
+                self.defaultActions = nil
             }
             self.loadBalancerArn = dictionary["LoadBalancerArn"] as? String
             self.port = dictionary["Port"] as? Int32
@@ -510,9 +486,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the listener.
-        public var listeners: [Listener]? = nil
-
-        public init() {}
+        public let listeners: [Listener]?
 
         public init(listeners: [Listener]? = nil) {
             self.listeners = listeners
@@ -521,6 +495,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let listeners = dictionary["Listeners"] as? [[String: Any]] {
                 self.listeners = try listeners.map({ try Listener(dictionary: $0) })
+            } else { 
+                self.listeners = nil
             }
         }
     }
@@ -529,9 +505,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IP address type.
-        public var ipAddressType: String? = nil
-
-        public init() {}
+        public let ipAddressType: String?
 
         public init(ipAddressType: String? = nil) {
             self.ipAddressType = ipAddressType
@@ -546,25 +520,23 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The protocol to use to connect with the target.
-        public var healthCheckProtocol: String? = nil
+        public let healthCheckProtocol: String?
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
-        public var healthyThresholdCount: Int32? = nil
+        public let healthyThresholdCount: Int32?
         /// The Amazon Resource Name (ARN) of the target group.
-        public var targetGroupArn: String = ""
+        public let targetGroupArn: String
         /// The HTTP codes to use when checking for a successful response from a target.
-        public var matcher: Matcher? = nil
+        public let matcher: Matcher?
         /// The approximate amount of time, in seconds, between health checks of an individual target.
-        public var healthCheckIntervalSeconds: Int32? = nil
+        public let healthCheckIntervalSeconds: Int32?
         /// The amount of time, in seconds, during which no response means a failed health check.
-        public var healthCheckTimeoutSeconds: Int32? = nil
+        public let healthCheckTimeoutSeconds: Int32?
         /// The port to use to connect with the target.
-        public var healthCheckPort: String? = nil
+        public let healthCheckPort: String?
         /// The ping path that is the destination for the health check request.
-        public var healthCheckPath: String? = nil
+        public let healthCheckPath: String?
         /// The number of consecutive health check failures required before considering the target unhealthy.
-        public var unhealthyThresholdCount: Int32? = nil
-
-        public init() {}
+        public let unhealthyThresholdCount: Int32?
 
         public init(healthCheckProtocol: String? = nil, healthyThresholdCount: Int32? = nil, targetGroupArn: String, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckTimeoutSeconds: Int32? = nil, healthCheckPort: String? = nil, healthCheckPath: String? = nil, unhealthyThresholdCount: Int32? = nil) {
             self.healthCheckProtocol = healthCheckProtocol
@@ -583,7 +555,7 @@ extension Elasticloadbalancing {
             self.healthyThresholdCount = dictionary["HealthyThresholdCount"] as? Int32
             guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
             self.targetGroupArn = targetGroupArn
-            if let matcher = dictionary["Matcher"] as? [String: Any] { self.matcher = try Elasticloadbalancing.Matcher(dictionary: matcher) }
+            if let matcher = dictionary["Matcher"] as? [String: Any] { self.matcher = try Elasticloadbalancing.Matcher(dictionary: matcher) } else { self.matcher = nil }
             self.healthCheckIntervalSeconds = dictionary["HealthCheckIntervalSeconds"] as? Int32
             self.healthCheckTimeoutSeconds = dictionary["HealthCheckTimeoutSeconds"] as? Int32
             self.healthCheckPort = dictionary["HealthCheckPort"] as? String
@@ -596,19 +568,17 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the subnets to attach to the load balancer. You can specify only one subnet per Availability Zone. You must specify subnets from at least two Availability Zones.
-        public var subnets: [String] = []
+        public let subnets: [String]
         /// The IDs of the security groups to assign to the load balancer.
-        public var securityGroups: [String]? = nil
+        public let securityGroups: [String]?
         /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the Internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can only route requests from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer.
-        public var scheme: String? = nil
+        public let scheme: String?
         /// One or more tags to assign to the load balancer.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The name of the load balancer. This name must be unique within your AWS account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
-        public var name: String = ""
+        public let name: String
         /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
-        public var ipAddressType: String? = nil
-
-        public init() {}
+        public let ipAddressType: String?
 
         public init(subnets: [String], securityGroups: [String]? = nil, scheme: String? = nil, tags: [Tag]? = nil, name: String, ipAddressType: String? = nil) {
             self.subnets = subnets
@@ -622,12 +592,12 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             guard let subnets = dictionary["Subnets"] as? [String] else { throw InitializableError.missingRequiredParam("Subnets") }
             self.subnets = subnets
-            if let securityGroups = dictionary["SecurityGroups"] as? [String] {
-                self.securityGroups = securityGroups
-            }
+            self.securityGroups = dictionary["SecurityGroups"] as? [String]
             self.scheme = dictionary["Scheme"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
@@ -639,11 +609,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The targets. If you specified a port override when you registered a target, you must specify both the target ID and the port when you deregister it.
-        public var targets: [TargetDescription] = []
+        public let targets: [TargetDescription]
         /// The Amazon Resource Name (ARN) of the target group.
-        public var targetGroupArn: String = ""
-
-        public init() {}
+        public let targetGroupArn: String
 
         public init(targets: [TargetDescription], targetGroupArn: String) {
             self.targets = targets
@@ -662,11 +630,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the security groups.
-        public var securityGroups: [String] = []
+        public let securityGroups: [String]
         /// The Amazon Resource Name (ARN) of the load balancer.
-        public var loadBalancerArn: String = ""
-
-        public init() {}
+        public let loadBalancerArn: String
 
         public init(securityGroups: [String], loadBalancerArn: String) {
             self.securityGroups = securityGroups
@@ -685,9 +651,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the rules.
-        public var rules: [Rule]? = nil
-
-        public init() {}
+        public let rules: [Rule]?
 
         public init(rules: [Rule]? = nil) {
             self.rules = rules
@@ -696,6 +660,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let rules = dictionary["Rules"] as? [[String: Any]] {
                 self.rules = try rules.map({ try Rule(dictionary: $0) })
+            } else { 
+                self.rules = nil
             }
         }
     }
@@ -704,9 +670,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the rule.
-        public var rules: [Rule]? = nil
-
-        public init() {}
+        public let rules: [Rule]?
 
         public init(rules: [Rule]? = nil) {
             self.rules = rules
@@ -715,6 +679,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let rules = dictionary["Rules"] as? [[String: Any]] {
                 self.rules = try rules.map({ try Rule(dictionary: $0) })
+            } else { 
+                self.rules = nil
             }
         }
     }
@@ -723,11 +689,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the attribute.
-        public var value: String? = nil
+        public let value: String?
         /// The name of the attribute.    access_logs.s3.enabled - Indicates whether access logs stored in Amazon S3 are enabled. The value is true or false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs in Amazon S3 are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permission to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket. If you don't specify a prefix, the access logs are stored in the root of the bucket.    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false.    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-3600. The default is 60 seconds.  
-        public var key: String? = nil
-
-        public init() {}
+        public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
             self.value = value
@@ -744,9 +708,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the load balancer.
-        public var loadBalancerArn: String = ""
-
-        public init() {}
+        public let loadBalancerArn: String
 
         public init(loadBalancerArn: String) {
             self.loadBalancerArn = loadBalancerArn
@@ -762,9 +724,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the tags.
-        public var tagDescriptions: [TagDescription]? = nil
-
-        public init() {}
+        public let tagDescriptions: [TagDescription]?
 
         public init(tagDescriptions: [TagDescription]? = nil) {
             self.tagDescriptions = tagDescriptions
@@ -773,6 +733,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let tagDescriptions = dictionary["TagDescriptions"] as? [[String: Any]] {
                 self.tagDescriptions = try tagDescriptions.map({ try TagDescription(dictionary: $0) })
+            } else { 
+                self.tagDescriptions = nil
             }
         }
     }
@@ -781,15 +743,13 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of results to return with this call.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// The Amazon Resource Names (ARN) of the listeners.
-        public var listenerArns: [String]? = nil
+        public let listenerArns: [String]?
         /// The marker for the next set of results. (You received this marker from a previous call.)
-        public var marker: String? = nil
+        public let marker: String?
         /// The Amazon Resource Name (ARN) of the load balancer.
-        public var loadBalancerArn: String? = nil
-
-        public init() {}
+        public let loadBalancerArn: String?
 
         public init(pageSize: Int32? = nil, listenerArns: [String]? = nil, marker: String? = nil, loadBalancerArn: String? = nil) {
             self.pageSize = pageSize
@@ -800,9 +760,7 @@ extension Elasticloadbalancing {
 
         public init(dictionary: [String: Any]) throws {
             self.pageSize = dictionary["PageSize"] as? Int32
-            if let listenerArns = dictionary["ListenerArns"] as? [String] {
-                self.listenerArns = listenerArns
-            }
+            self.listenerArns = dictionary["ListenerArns"] as? [String]
             self.marker = dictionary["Marker"] as? String
             self.loadBalancerArn = dictionary["LoadBalancerArn"] as? String
         }
@@ -812,8 +770,6 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -821,8 +777,6 @@ extension Elasticloadbalancing {
     public struct AddTagsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -832,11 +786,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The rule priority.
-        public var priority: Int32? = nil
+        public let priority: Int32?
         /// The Amazon Resource Name (ARN) of the rule.
-        public var ruleArn: String? = nil
-
-        public init() {}
+        public let ruleArn: String?
 
         public init(priority: Int32? = nil, ruleArn: String? = nil) {
             self.priority = priority
@@ -853,9 +805,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the rule.
-        public var rules: [Rule]? = nil
-
-        public init() {}
+        public let rules: [Rule]?
 
         public init(rules: [Rule]? = nil) {
             self.rules = rules
@@ -864,6 +814,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let rules = dictionary["Rules"] as? [[String: Any]] {
                 self.rules = try rules.map({ try Rule(dictionary: $0) })
+            } else { 
+                self.rules = nil
             }
         }
     }
@@ -872,11 +824,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the policies.
-        public var sslPolicies: [SslPolicy]? = nil
+        public let sslPolicies: [SslPolicy]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public var nextMarker: String? = nil
-
-        public init() {}
+        public let nextMarker: String?
 
         public init(sslPolicies: [SslPolicy]? = nil, nextMarker: String? = nil) {
             self.sslPolicies = sslPolicies
@@ -886,6 +836,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let sslPolicies = dictionary["SslPolicies"] as? [[String: Any]] {
                 self.sslPolicies = try sslPolicies.map({ try SslPolicy(dictionary: $0) })
+            } else { 
+                self.sslPolicies = nil
             }
             self.nextMarker = dictionary["NextMarker"] as? String
         }
@@ -895,13 +847,11 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The protocols.
-        public var sslProtocols: [String]? = nil
+        public let sslProtocols: [String]?
         /// The ciphers.
-        public var ciphers: [Cipher]? = nil
+        public let ciphers: [Cipher]?
         /// The name of the policy.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(sslProtocols: [String]? = nil, ciphers: [Cipher]? = nil, name: String? = nil) {
             self.sslProtocols = sslProtocols
@@ -910,11 +860,11 @@ extension Elasticloadbalancing {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let sslProtocols = dictionary["SslProtocols"] as? [String] {
-                self.sslProtocols = sslProtocols
-            }
+            self.sslProtocols = dictionary["SslProtocols"] as? [String]
             if let ciphers = dictionary["Ciphers"] as? [[String: Any]] {
                 self.ciphers = try ciphers.map({ try Cipher(dictionary: $0) })
+            } else { 
+                self.ciphers = nil
             }
             self.name = dictionary["Name"] as? String
         }
@@ -924,9 +874,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the target group.
-        public var targetGroups: [TargetGroup]? = nil
-
-        public init() {}
+        public let targetGroups: [TargetGroup]?
 
         public init(targetGroups: [TargetGroup]? = nil) {
             self.targetGroups = targetGroups
@@ -935,6 +883,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let targetGroups = dictionary["TargetGroups"] as? [[String: Any]] {
                 self.targetGroups = try targetGroups.map({ try TargetGroup(dictionary: $0) })
+            } else { 
+                self.targetGroups = nil
             }
         }
     }
@@ -943,9 +893,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the load balancer attributes.
-        public var attributes: [LoadBalancerAttribute]? = nil
-
-        public init() {}
+        public let attributes: [LoadBalancerAttribute]?
 
         public init(attributes: [LoadBalancerAttribute]? = nil) {
             self.attributes = attributes
@@ -954,6 +902,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let attributes = dictionary["Attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try LoadBalancerAttribute(dictionary: $0) })
+            } else { 
+                self.attributes = nil
             }
         }
     }
@@ -962,31 +912,29 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Availability Zones for the load balancer.
-        public var availabilityZones: [AvailabilityZone]? = nil
+        public let availabilityZones: [AvailabilityZone]?
         /// The IDs of the security groups for the load balancer.
-        public var securityGroups: [String]? = nil
+        public let securityGroups: [String]?
         /// The Amazon Resource Name (ARN) of the load balancer.
-        public var loadBalancerArn: String? = nil
+        public let loadBalancerArn: String?
         /// The ID of the VPC for the load balancer.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The state of the load balancer.
-        public var state: LoadBalancerState? = nil
+        public let state: LoadBalancerState?
         /// The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
-        public var ipAddressType: String? = nil
+        public let ipAddressType: String?
         /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
-        public var canonicalHostedZoneId: String? = nil
+        public let canonicalHostedZoneId: String?
         /// The public DNS name of the load balancer.
-        public var dNSName: String? = nil
+        public let dNSName: String?
         /// The name of the load balancer.
-        public var loadBalancerName: String? = nil
+        public let loadBalancerName: String?
         /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the Internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can only route requests from clients with access to the VPC for the load balancer.
-        public var scheme: String? = nil
+        public let scheme: String?
         /// The type of load balancer.
-        public var type: String? = nil
+        public let type: String?
         /// The date and time the load balancer was created.
-        public var createdTime: Date? = nil
-
-        public init() {}
+        public let createdTime: Date?
 
         public init(availabilityZones: [AvailabilityZone]? = nil, securityGroups: [String]? = nil, loadBalancerArn: String? = nil, vpcId: String? = nil, state: LoadBalancerState? = nil, ipAddressType: String? = nil, canonicalHostedZoneId: String? = nil, dNSName: String? = nil, loadBalancerName: String? = nil, scheme: String? = nil, type: String? = nil, createdTime: Date? = nil) {
             self.availabilityZones = availabilityZones
@@ -1006,13 +954,13 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let availabilityZones = dictionary["AvailabilityZones"] as? [[String: Any]] {
                 self.availabilityZones = try availabilityZones.map({ try AvailabilityZone(dictionary: $0) })
+            } else { 
+                self.availabilityZones = nil
             }
-            if let securityGroups = dictionary["SecurityGroups"] as? [String] {
-                self.securityGroups = securityGroups
-            }
+            self.securityGroups = dictionary["SecurityGroups"] as? [String]
             self.loadBalancerArn = dictionary["LoadBalancerArn"] as? String
             self.vpcId = dictionary["VpcId"] as? String
-            if let state = dictionary["State"] as? [String: Any] { self.state = try Elasticloadbalancing.LoadBalancerState(dictionary: state) }
+            if let state = dictionary["State"] as? [String: Any] { self.state = try Elasticloadbalancing.LoadBalancerState(dictionary: state) } else { self.state = nil }
             self.ipAddressType = dictionary["IpAddressType"] as? String
             self.canonicalHostedZoneId = dictionary["CanonicalHostedZoneId"] as? String
             self.dNSName = dictionary["DNSName"] as? String
@@ -1027,18 +975,14 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the security groups associated with the load balancer.
-        public var securityGroupIds: [String]? = nil
-
-        public init() {}
+        public let securityGroupIds: [String]?
 
         public init(securityGroupIds: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
-                self.securityGroupIds = securityGroupIds
-            }
+            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
         }
     }
 
@@ -1046,17 +990,15 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of results to return with this call.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// The Amazon Resource Names (ARN) of the target groups.
-        public var targetGroupArns: [String]? = nil
+        public let targetGroupArns: [String]?
         /// The marker for the next set of results. (You received this marker from a previous call.)
-        public var marker: String? = nil
+        public let marker: String?
         /// The names of the target groups.
-        public var names: [String]? = nil
+        public let names: [String]?
         /// The Amazon Resource Name (ARN) of the load balancer.
-        public var loadBalancerArn: String? = nil
-
-        public init() {}
+        public let loadBalancerArn: String?
 
         public init(pageSize: Int32? = nil, targetGroupArns: [String]? = nil, marker: String? = nil, names: [String]? = nil, loadBalancerArn: String? = nil) {
             self.pageSize = pageSize
@@ -1068,13 +1010,9 @@ extension Elasticloadbalancing {
 
         public init(dictionary: [String: Any]) throws {
             self.pageSize = dictionary["PageSize"] as? Int32
-            if let targetGroupArns = dictionary["TargetGroupArns"] as? [String] {
-                self.targetGroupArns = targetGroupArns
-            }
+            self.targetGroupArns = dictionary["TargetGroupArns"] as? [String]
             self.marker = dictionary["Marker"] as? String
-            if let names = dictionary["Names"] as? [String] {
-                self.names = names
-            }
+            self.names = dictionary["Names"] as? [String]
             self.loadBalancerArn = dictionary["LoadBalancerArn"] as? String
         }
     }
@@ -1083,11 +1021,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the target groups.
-        public var targetGroups: [TargetGroup]? = nil
+        public let targetGroups: [TargetGroup]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public var nextMarker: String? = nil
-
-        public init() {}
+        public let nextMarker: String?
 
         public init(targetGroups: [TargetGroup]? = nil, nextMarker: String? = nil) {
             self.targetGroups = targetGroups
@@ -1097,6 +1033,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let targetGroups = dictionary["TargetGroups"] as? [[String: Any]] {
                 self.targetGroups = try targetGroups.map({ try TargetGroup(dictionary: $0) })
+            } else { 
+                self.targetGroups = nil
             }
             self.nextMarker = dictionary["NextMarker"] as? String
         }
@@ -1106,9 +1044,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the certificate.
-        public var certificateArn: String? = nil
-
-        public init() {}
+        public let certificateArn: String?
 
         public init(certificateArn: String? = nil) {
             self.certificateArn = certificateArn
@@ -1123,11 +1059,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the Availability Zone.
-        public var zoneName: String? = nil
+        public let zoneName: String?
         /// The ID of the subnet.
-        public var subnetId: String? = nil
-
-        public init() {}
+        public let subnetId: String?
 
         public init(zoneName: String? = nil, subnetId: String? = nil) {
             self.zoneName = zoneName
@@ -1144,11 +1078,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The targets. The default port for a target is the port for the target group. You can specify a port override. If a target is already registered, you can register it again using a different port.
-        public var targets: [TargetDescription] = []
+        public let targets: [TargetDescription]
         /// The Amazon Resource Name (ARN) of the target group.
-        public var targetGroupArn: String = ""
-
-        public init() {}
+        public let targetGroupArn: String
 
         public init(targets: [TargetDescription], targetGroupArn: String) {
             self.targets = targets
@@ -1167,9 +1099,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the target group.
-        public var targetGroupArn: String = ""
-
-        public init() {}
+        public let targetGroupArn: String
 
         public init(targetGroupArn: String) {
             self.targetGroupArn = targetGroupArn
@@ -1185,15 +1115,13 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The priority for the rule. A listener can't have multiple rules with the same priority.
-        public var priority: Int32 = 0
+        public let priority: Int32
         /// An action. Each action has the type forward and specifies a target group.
-        public var actions: [Action] = []
+        public let actions: [Action]
         /// A condition. Each condition has the field path-pattern and specifies one path pattern. A path pattern is case sensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters in a path pattern.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
-        public var conditions: [RuleCondition] = []
+        public let conditions: [RuleCondition]
         /// The Amazon Resource Name (ARN) of the listener.
-        public var listenerArn: String = ""
-
-        public init() {}
+        public let listenerArn: String
 
         public init(priority: Int32, actions: [Action], conditions: [RuleCondition], listenerArn: String) {
             self.priority = priority
@@ -1218,13 +1146,11 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The reason code. If the target state is healthy, a reason code is not provided. If the target state is initial, the reason code can be one of the following values:    Elb.RegistrationInProgress - The target is in the process of being registered with the load balancer.    Elb.InitialHealthChecking - The load balancer is still sending the target the minimum number of health checks required to determine its health status.   If the target state is unhealthy, the reason code can be one of the following values:    Target.ResponseCodeMismatch - The health checks did not return an expected HTTP code.    Target.Timeout - The health check requests timed out.    Target.FailedHealthChecks - The health checks failed because the connection to the target timed out, the target response was malformed, or the target failed the health check for an unknown reason.    Elb.InternalError - The health checks failed due to an internal error.   If the target state is unused, the reason code can be one of the following values:    Target.NotRegistered - The target is not registered with the target group.    Target.NotInUse - The target group is not used by any load balancer or the target is in an Availability Zone that is not enabled for its load balancer.    Target.InvalidState - The target is in the stopped or terminated state.   If the target state is draining, the reason code can be the following value:    Target.DeregistrationInProgress - The target is in the process of being deregistered and the deregistration delay period has not expired.  
-        public var reason: String? = nil
+        public let reason: String?
         /// The state of the target.
-        public var state: String? = nil
+        public let state: String?
         /// A description of the target health that provides additional details. If the state is healthy, a description is not provided.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(reason: String? = nil, state: String? = nil, description: String? = nil) {
             self.reason = reason
@@ -1243,19 +1169,17 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The protocol for connections from clients to the load balancer.
-        public var `protocol`: String? = nil
+        public let `protocol`: String?
         /// The security policy that defines which ciphers and protocols are supported.
-        public var sslPolicy: String? = nil
+        public let sslPolicy: String?
         /// The SSL server certificate.
-        public var certificates: [Certificate]? = nil
+        public let certificates: [Certificate]?
         /// The default actions.
-        public var defaultActions: [Action]? = nil
+        public let defaultActions: [Action]?
         /// The Amazon Resource Name (ARN) of the listener.
-        public var listenerArn: String = ""
+        public let listenerArn: String
         /// The port for connections from clients to the load balancer.
-        public var port: Int32? = nil
-
-        public init() {}
+        public let port: Int32?
 
         public init(protocol: String? = nil, sslPolicy: String? = nil, certificates: [Certificate]? = nil, defaultActions: [Action]? = nil, listenerArn: String, port: Int32? = nil) {
             self.`protocol` = `protocol`
@@ -1271,9 +1195,13 @@ extension Elasticloadbalancing {
             self.sslPolicy = dictionary["SslPolicy"] as? String
             if let certificates = dictionary["Certificates"] as? [[String: Any]] {
                 self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
+            } else { 
+                self.certificates = nil
             }
             if let defaultActions = dictionary["DefaultActions"] as? [[String: Any]] {
                 self.defaultActions = try defaultActions.map({ try Action(dictionary: $0) })
+            } else { 
+                self.defaultActions = nil
             }
             guard let listenerArn = dictionary["ListenerArn"] as? String else { throw InitializableError.missingRequiredParam("ListenerArn") }
             self.listenerArn = listenerArn
@@ -1285,11 +1213,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the subnets. You must specify at least two subnets. You can add only one subnet per Availability Zone.
-        public var subnets: [String] = []
+        public let subnets: [String]
         /// The Amazon Resource Name (ARN) of the load balancer.
-        public var loadBalancerArn: String = ""
-
-        public init() {}
+        public let loadBalancerArn: String
 
         public init(subnets: [String], loadBalancerArn: String) {
             self.subnets = subnets
@@ -1308,8 +1234,6 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1318,11 +1242,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The targets.
-        public var targets: [TargetDescription]? = nil
+        public let targets: [TargetDescription]?
         /// The Amazon Resource Name (ARN) of the target group.
-        public var targetGroupArn: String = ""
-
-        public init() {}
+        public let targetGroupArn: String
 
         public init(targets: [TargetDescription]? = nil, targetGroupArn: String) {
             self.targets = targets
@@ -1332,6 +1254,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let targets = dictionary["Targets"] as? [[String: Any]] {
                 self.targets = try targets.map({ try TargetDescription(dictionary: $0) })
+            } else { 
+                self.targets = nil
             }
             guard let targetGroupArn = dictionary["TargetGroupArn"] as? String else { throw InitializableError.missingRequiredParam("TargetGroupArn") }
             self.targetGroupArn = targetGroupArn
@@ -1342,11 +1266,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The priority of the cipher.
-        public var priority: Int32? = nil
+        public let priority: Int32?
         /// The name of the cipher.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(priority: Int32? = nil, name: String? = nil) {
             self.priority = priority
@@ -1363,11 +1285,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the attribute.
-        public var value: String? = nil
+        public let value: String?
         /// The name of the attribute.    deregistration_delay.timeout_seconds - The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false.    stickiness.type - The type of sticky sessions. The possible value is lb_cookie.    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).  
-        public var key: String? = nil
-
-        public init() {}
+        public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
             self.value = value
@@ -1384,9 +1304,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The rule priorities.
-        public var rulePriorities: [RulePriorityPair] = []
-
-        public init() {}
+        public let rulePriorities: [RulePriorityPair]
 
         public init(rulePriorities: [RulePriorityPair]) {
             self.rulePriorities = rulePriorities
@@ -1402,9 +1320,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The HTTP codes. The default value is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299").
-        public var httpCode: String = ""
-
-        public init() {}
+        public let httpCode: String
 
         public init(httpCode: String) {
             self.httpCode = httpCode
@@ -1420,9 +1336,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the rule.
-        public var ruleArn: String = ""
-
-        public init() {}
+        public let ruleArn: String
 
         public init(ruleArn: String) {
             self.ruleArn = ruleArn
@@ -1438,13 +1352,11 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The marker for the next set of results. (You received this marker from a previous call.)
-        public var marker: String? = nil
+        public let marker: String?
         /// The maximum number of results to return with this call.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// The names of the policies.
-        public var names: [String]? = nil
-
-        public init() {}
+        public let names: [String]?
 
         public init(marker: String? = nil, pageSize: Int32? = nil, names: [String]? = nil) {
             self.marker = marker
@@ -1455,9 +1367,7 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
             self.pageSize = dictionary["PageSize"] as? Int32
-            if let names = dictionary["Names"] as? [String] {
-                self.names = names
-            }
+            self.names = dictionary["Names"] as? [String]
         }
     }
 
@@ -1465,9 +1375,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Names (ARN) of the resources.
-        public var resourceArns: [String] = []
-
-        public init() {}
+        public let resourceArns: [String]
 
         public init(resourceArns: [String]) {
             self.resourceArns = resourceArns
@@ -1483,9 +1391,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the load balancer attributes.
-        public var attributes: [LoadBalancerAttribute]? = nil
-
-        public init() {}
+        public let attributes: [LoadBalancerAttribute]?
 
         public init(attributes: [LoadBalancerAttribute]? = nil) {
             self.attributes = attributes
@@ -1494,6 +1400,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let attributes = dictionary["Attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try LoadBalancerAttribute(dictionary: $0) })
+            } else { 
+                self.attributes = nil
             }
         }
     }
@@ -1502,9 +1410,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the target group attributes
-        public var attributes: [TargetGroupAttribute]? = nil
-
-        public init() {}
+        public let attributes: [TargetGroupAttribute]?
 
         public init(attributes: [TargetGroupAttribute]? = nil) {
             self.attributes = attributes
@@ -1513,6 +1419,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let attributes = dictionary["Attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try TargetGroupAttribute(dictionary: $0) })
+            } else { 
+                self.attributes = nil
             }
         }
     }
@@ -1521,15 +1429,13 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of results to return with this call.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// The Amazon Resource Names (ARN) of the load balancers.
-        public var loadBalancerArns: [String]? = nil
+        public let loadBalancerArns: [String]?
         /// The names of the load balancers.
-        public var names: [String]? = nil
+        public let names: [String]?
         /// The marker for the next set of results. (You received this marker from a previous call.)
-        public var marker: String? = nil
-
-        public init() {}
+        public let marker: String?
 
         public init(pageSize: Int32? = nil, loadBalancerArns: [String]? = nil, names: [String]? = nil, marker: String? = nil) {
             self.pageSize = pageSize
@@ -1540,12 +1446,8 @@ extension Elasticloadbalancing {
 
         public init(dictionary: [String: Any]) throws {
             self.pageSize = dictionary["PageSize"] as? Int32
-            if let loadBalancerArns = dictionary["LoadBalancerArns"] as? [String] {
-                self.loadBalancerArns = loadBalancerArns
-            }
-            if let names = dictionary["Names"] as? [String] {
-                self.names = names
-            }
+            self.loadBalancerArns = dictionary["LoadBalancerArns"] as? [String]
+            self.names = dictionary["Names"] as? [String]
             self.marker = dictionary["Marker"] as? String
         }
     }
@@ -1553,8 +1455,6 @@ extension Elasticloadbalancing {
     public struct RemoveTagsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -1564,9 +1464,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the rules.
-        public var rules: [Rule]? = nil
-
-        public init() {}
+        public let rules: [Rule]?
 
         public init(rules: [Rule]? = nil) {
             self.rules = rules
@@ -1575,6 +1473,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let rules = dictionary["Rules"] as? [[String: Any]] {
                 self.rules = try rules.map({ try Rule(dictionary: $0) })
+            } else { 
+                self.rules = nil
             }
         }
     }
@@ -1583,13 +1483,11 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The actions.
-        public var actions: [Action]? = nil
+        public let actions: [Action]?
         /// The conditions.
-        public var conditions: [RuleCondition]? = nil
+        public let conditions: [RuleCondition]?
         /// The Amazon Resource Name (ARN) of the rule.
-        public var ruleArn: String = ""
-
-        public init() {}
+        public let ruleArn: String
 
         public init(actions: [Action]? = nil, conditions: [RuleCondition]? = nil, ruleArn: String) {
             self.actions = actions
@@ -1600,9 +1498,13 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let actions = dictionary["Actions"] as? [[String: Any]] {
                 self.actions = try actions.map({ try Action(dictionary: $0) })
+            } else { 
+                self.actions = nil
             }
             if let conditions = dictionary["Conditions"] as? [[String: Any]] {
                 self.conditions = try conditions.map({ try RuleCondition(dictionary: $0) })
+            } else { 
+                self.conditions = nil
             }
             guard let ruleArn = dictionary["RuleArn"] as? String else { throw InitializableError.missingRequiredParam("RuleArn") }
             self.ruleArn = ruleArn
@@ -1613,8 +1515,6 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1623,11 +1523,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The port on which the target is listening.
-        public var port: Int32? = nil
+        public let port: Int32?
         /// The ID of the target.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(port: Int32? = nil, id: String) {
             self.port = port
@@ -1645,11 +1543,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the listeners.
-        public var listeners: [Listener]? = nil
+        public let listeners: [Listener]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public var nextMarker: String? = nil
-
-        public init() {}
+        public let nextMarker: String?
 
         public init(listeners: [Listener]? = nil, nextMarker: String? = nil) {
             self.listeners = listeners
@@ -1659,6 +1555,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let listeners = dictionary["Listeners"] as? [[String: Any]] {
                 self.listeners = try listeners.map({ try Listener(dictionary: $0) })
+            } else { 
+                self.listeners = nil
             }
             self.nextMarker = dictionary["NextMarker"] as? String
         }
@@ -1668,11 +1566,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the resource.
-        public var resourceArns: [String] = []
+        public let resourceArns: [String]
         /// The tags. Each resource can have a maximum of 10 tags.
-        public var tags: [Tag] = []
-
-        public init() {}
+        public let tags: [Tag]
 
         public init(resourceArns: [String], tags: [Tag]) {
             self.resourceArns = resourceArns
@@ -1691,11 +1587,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Names (ARN) of the rules.
-        public var ruleArns: [String]? = nil
+        public let ruleArns: [String]?
         /// The Amazon Resource Name (ARN) of the listener.
-        public var listenerArn: String? = nil
-
-        public init() {}
+        public let listenerArn: String?
 
         public init(ruleArns: [String]? = nil, listenerArn: String? = nil) {
             self.ruleArns = ruleArns
@@ -1703,9 +1597,7 @@ extension Elasticloadbalancing {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let ruleArns = dictionary["RuleArns"] as? [String] {
-                self.ruleArns = ruleArns
-            }
+            self.ruleArns = dictionary["RuleArns"] as? [String]
             self.listenerArn = dictionary["ListenerArn"] as? String
         }
     }
@@ -1714,9 +1606,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the health of the targets.
-        public var targetHealthDescriptions: [TargetHealthDescription]? = nil
-
-        public init() {}
+        public let targetHealthDescriptions: [TargetHealthDescription]?
 
         public init(targetHealthDescriptions: [TargetHealthDescription]? = nil) {
             self.targetHealthDescriptions = targetHealthDescriptions
@@ -1725,6 +1615,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let targetHealthDescriptions = dictionary["TargetHealthDescriptions"] as? [[String: Any]] {
                 self.targetHealthDescriptions = try targetHealthDescriptions.map({ try TargetHealthDescription(dictionary: $0) })
+            } else { 
+                self.targetHealthDescriptions = nil
             }
         }
     }
@@ -1733,9 +1625,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the modified listeners.
-        public var listeners: [Listener]? = nil
-
-        public init() {}
+        public let listeners: [Listener]?
 
         public init(listeners: [Listener]? = nil) {
             self.listeners = listeners
@@ -1744,6 +1634,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let listeners = dictionary["Listeners"] as? [[String: Any]] {
                 self.listeners = try listeners.map({ try Listener(dictionary: $0) })
+            } else { 
+                self.listeners = nil
             }
         }
     }
@@ -1752,9 +1644,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the subnet and Availability Zone.
-        public var availabilityZones: [AvailabilityZone]? = nil
-
-        public init() {}
+        public let availabilityZones: [AvailabilityZone]?
 
         public init(availabilityZones: [AvailabilityZone]? = nil) {
             self.availabilityZones = availabilityZones
@@ -1763,6 +1653,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let availabilityZones = dictionary["AvailabilityZones"] as? [[String: Any]] {
                 self.availabilityZones = try availabilityZones.map({ try AvailabilityZone(dictionary: $0) })
+            } else { 
+                self.availabilityZones = nil
             }
         }
     }
@@ -1771,11 +1663,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the load balancer.
-        public var loadBalancerArn: String = ""
+        public let loadBalancerArn: String
         /// The IP address type. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
-        public var ipAddressType: String = ""
-
-        public init() {}
+        public let ipAddressType: String
 
         public init(loadBalancerArn: String, ipAddressType: String) {
             self.loadBalancerArn = loadBalancerArn
@@ -1794,31 +1684,29 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of consecutive health check failures required before considering a target unhealthy. The default is 2.
-        public var unhealthyThresholdCount: Int32? = nil
+        public let unhealthyThresholdCount: Int32?
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy. The default is 5.
-        public var healthyThresholdCount: Int32? = nil
+        public let healthyThresholdCount: Int32?
         /// The identifier of the virtual private cloud (VPC).
-        public var vpcId: String = ""
+        public let vpcId: String
         /// The protocol the load balancer uses when performing health checks on targets. The default is the HTTP protocol.
-        public var healthCheckProtocol: String? = nil
+        public let healthCheckProtocol: String?
         /// The name of the target group.
-        public var name: String = ""
+        public let name: String
         /// The protocol to use for routing traffic to the targets.
-        public var `protocol`: String = ""
+        public let `protocol`: String
         /// The HTTP codes to use when checking for a successful response from a target. The default is 200.
-        public var matcher: Matcher? = nil
+        public let matcher: Matcher?
         /// The approximate amount of time, in seconds, between health checks of an individual target. The default is 30 seconds.
-        public var healthCheckIntervalSeconds: Int32? = nil
+        public let healthCheckIntervalSeconds: Int32?
         /// The ping path that is the destination on the targets for health checks. The default is /.
-        public var healthCheckPath: String? = nil
+        public let healthCheckPath: String?
         /// The port the load balancer uses when performing health checks on targets. The default is traffic-port, which indicates the port on which each target receives traffic from the load balancer.
-        public var healthCheckPort: String? = nil
+        public let healthCheckPort: String?
         /// The amount of time, in seconds, during which no response from a target means a failed health check. The default is 5 seconds.
-        public var healthCheckTimeoutSeconds: Int32? = nil
+        public let healthCheckTimeoutSeconds: Int32?
         /// The port on which the targets receive traffic. This port is used unless you specify a port override when registering the target.
-        public var port: Int32 = 0
-
-        public init() {}
+        public let port: Int32
 
         public init(unhealthyThresholdCount: Int32? = nil, healthyThresholdCount: Int32? = nil, vpcId: String, healthCheckProtocol: String? = nil, name: String, protocol: String, matcher: Matcher? = nil, healthCheckIntervalSeconds: Int32? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckTimeoutSeconds: Int32? = nil, port: Int32) {
             self.unhealthyThresholdCount = unhealthyThresholdCount
@@ -1845,7 +1733,7 @@ extension Elasticloadbalancing {
             self.name = name
             guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
             self.`protocol` = `protocol`
-            if let matcher = dictionary["Matcher"] as? [String: Any] { self.matcher = try Elasticloadbalancing.Matcher(dictionary: matcher) }
+            if let matcher = dictionary["Matcher"] as? [String: Any] { self.matcher = try Elasticloadbalancing.Matcher(dictionary: matcher) } else { self.matcher = nil }
             self.healthCheckIntervalSeconds = dictionary["HealthCheckIntervalSeconds"] as? Int32
             self.healthCheckPath = dictionary["HealthCheckPath"] as? String
             self.healthCheckPort = dictionary["HealthCheckPort"] as? String
@@ -1859,8 +1747,6 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1869,9 +1755,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the load balancer.
-        public var loadBalancerArn: String = ""
-
-        public init() {}
+        public let loadBalancerArn: String
 
         public init(loadBalancerArn: String) {
             self.loadBalancerArn = loadBalancerArn
@@ -1887,9 +1771,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the target group.
-        public var targetGroups: [TargetGroup]? = nil
-
-        public init() {}
+        public let targetGroups: [TargetGroup]?
 
         public init(targetGroups: [TargetGroup]? = nil) {
             self.targetGroups = targetGroups
@@ -1898,6 +1780,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let targetGroups = dictionary["TargetGroups"] as? [[String: Any]] {
                 self.targetGroups = try targetGroups.map({ try TargetGroup(dictionary: $0) })
+            } else { 
+                self.targetGroups = nil
             }
         }
     }
@@ -1906,9 +1790,7 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the load balancer.
-        public var loadBalancers: [LoadBalancer]? = nil
-
-        public init() {}
+        public let loadBalancers: [LoadBalancer]?
 
         public init(loadBalancers: [LoadBalancer]? = nil) {
             self.loadBalancers = loadBalancers
@@ -1917,6 +1799,8 @@ extension Elasticloadbalancing {
         public init(dictionary: [String: Any]) throws {
             if let loadBalancers = dictionary["LoadBalancers"] as? [[String: Any]] {
                 self.loadBalancers = try loadBalancers.map({ try LoadBalancer(dictionary: $0) })
+            } else { 
+                self.loadBalancers = nil
             }
         }
     }
@@ -1925,11 +1809,9 @@ extension Elasticloadbalancing {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the resource.
-        public var resourceArns: [String] = []
+        public let resourceArns: [String]
         /// The tag keys for the tags to remove.
-        public var tagKeys: [String] = []
-
-        public init() {}
+        public let tagKeys: [String]
 
         public init(resourceArns: [String], tagKeys: [String]) {
             self.resourceArns = resourceArns

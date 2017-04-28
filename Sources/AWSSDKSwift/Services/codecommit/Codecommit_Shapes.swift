@@ -33,11 +33,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// Lists the repositories called by the list repositories operation.
-        public var repositories: [RepositoryNameIdPair]? = nil
+        public let repositories: [RepositoryNameIdPair]?
         /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(repositories: [RepositoryNameIdPair]? = nil, nextToken: String? = nil) {
             self.repositories = repositories
@@ -47,6 +45,8 @@ extension Codecommit {
         public init(dictionary: [String: Any]) throws {
             if let repositories = dictionary["repositories"] as? [[String: Any]] {
                 self.repositories = try repositories.map({ try RepositoryNameIdPair(dictionary: $0) })
+            } else { 
+                self.repositories = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -56,13 +56,11 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the user who made the specified commit.
-        public var name: String? = nil
+        public let name: String?
         /// The date when the specified commit was pushed to the repository.
-        public var date: String? = nil
+        public let date: String?
         /// The email address associated with the user who made the commit, if any.
-        public var email: String? = nil
-
-        public init() {}
+        public let email: String?
 
         public init(name: String? = nil, date: String? = nil, email: String? = nil) {
             self.name = name
@@ -81,11 +79,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the branch.
-        public var branchName: String? = nil
+        public let branchName: String?
         /// The ID of the last commit made to the branch.
-        public var commitId: String? = nil
-
-        public init() {}
+        public let commitId: String?
 
         public init(branchName: String? = nil, commitId: String? = nil) {
             self.branchName = branchName
@@ -102,9 +98,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// A commit data type object that contains information about the specified commit.
-        public var commit: Commit = Commit()
-
-        public init() {}
+        public let commit: Commit
 
         public init(commit: Commit) {
             self.commit = commit
@@ -120,9 +114,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the repository that was deleted.
-        public var repositoryId: String? = nil
-
-        public init() {}
+        public let repositoryId: String?
 
         public init(repositoryId: String? = nil) {
             self.repositoryId = repositoryId
@@ -137,27 +129,25 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// A comment or description about the repository.
-        public var repositoryDescription: String? = nil
+        public let repositoryDescription: String?
         /// The Amazon Resource Name (ARN) of the repository.
-        public var arn: String? = nil
+        public let arn: String?
         /// The repository's name.
-        public var repositoryName: String? = nil
+        public let repositoryName: String?
         /// The date and time the repository was created, in timestamp format.
-        public var creationDate: Date? = nil
+        public let creationDate: Date?
         /// The URL to use for cloning the repository over SSH.
-        public var cloneUrlSsh: String? = nil
+        public let cloneUrlSsh: String?
         /// The ID of the AWS account associated with the repository.
-        public var accountId: String? = nil
+        public let accountId: String?
         /// The URL to use for cloning the repository over HTTPS.
-        public var cloneUrlHttp: String? = nil
+        public let cloneUrlHttp: String?
         /// The ID of the repository.
-        public var repositoryId: String? = nil
+        public let repositoryId: String?
         /// The date and time the repository was last modified, in timestamp format.
-        public var lastModifiedDate: Date? = nil
+        public let lastModifiedDate: Date?
         /// The repository's default branch name.
-        public var defaultBranch: String? = nil
-
-        public init() {}
+        public let defaultBranch: String?
 
         public init(repositoryDescription: String? = nil, arn: String? = nil, repositoryName: String? = nil, creationDate: Date? = nil, cloneUrlSsh: String? = nil, accountId: String? = nil, cloneUrlHttp: String? = nil, repositoryId: String? = nil, lastModifiedDate: Date? = nil, defaultBranch: String? = nil) {
             self.repositoryDescription = repositoryDescription
@@ -190,11 +180,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// An enumeration token that returns the batch of the results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The list of branch names.
-        public var branches: [String]? = nil
-
-        public init() {}
+        public let branches: [String]?
 
         public init(nextToken: String? = nil, branches: [String]? = nil) {
             self.nextToken = nextToken
@@ -203,9 +191,7 @@ extension Codecommit {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["nextToken"] as? String
-            if let branches = dictionary["branches"] as? [String] {
-                self.branches = branches
-            }
+            self.branches = dictionary["branches"] as? [String]
         }
     }
 
@@ -213,17 +199,15 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the resource that is the target for a trigger. For example, the ARN of a topic in Amazon Simple Notification Service (SNS).
-        public var destinationArn: String = ""
+        public let destinationArn: String
         /// The name of the trigger.
-        public var name: String = ""
+        public let name: String
         /// The branches that will be included in the trigger configuration. If no branches are specified, the trigger will apply to all branches.
-        public var branches: [String]? = nil
+        public let branches: [String]?
         /// Any custom data associated with the trigger that will be included in the information sent to the target of the trigger.
-        public var customData: String? = nil
+        public let customData: String?
         /// The repository events that will cause the trigger to run actions in another service, such as sending a notification through Amazon Simple Notification Service (SNS).   The valid value "all" cannot be used with any other values. 
-        public var events: [String] = []
-
-        public init() {}
+        public let events: [String]
 
         public init(destinationArn: String, name: String, branches: [String]? = nil, customData: String? = nil, events: [String]) {
             self.destinationArn = destinationArn
@@ -238,9 +222,7 @@ extension Codecommit {
             self.destinationArn = destinationArn
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
-            if let branches = dictionary["branches"] as? [String] {
-                self.branches = branches
-            }
+            self.branches = dictionary["branches"] as? [String]
             self.customData = dictionary["customData"] as? String
             guard let events = dictionary["events"] as? [String] else { throw InitializableError.missingRequiredParam("events") }
             self.events = events
@@ -251,13 +233,11 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The full ID of the blob.
-        public var blobId: String? = nil
+        public let blobId: String?
         /// The file mode permissions of the blob. File mode permission codes include:    100644 indicates read/write    100755 indicates read/write/execute    160000 indicates a submodule    120000 indicates a symlink  
-        public var mode: String? = nil
+        public let mode: String?
         /// The path to the blob and any associated file name, if any.
-        public var path: String? = nil
-
-        public init() {}
+        public let path: String?
 
         public init(blobId: String? = nil, mode: String? = nil, path: String? = nil) {
             self.blobId = blobId
@@ -276,19 +256,17 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The parent list for the specified commit.
-        public var parents: [String]? = nil
+        public let parents: [String]?
         /// The commit message associated with the specified commit.
-        public var message: String? = nil
+        public let message: String?
         /// Information about the author of the specified commit. Information includes the date in timestamp format with GMT offset, the name of the author, and the email address for the author, as configured in Git.
-        public var author: UserInfo? = nil
+        public let author: UserInfo?
         /// Tree information for the specified commit.
-        public var treeId: String? = nil
+        public let treeId: String?
         /// Any additional data associated with the specified commit.
-        public var additionalData: String? = nil
+        public let additionalData: String?
         /// Information about the person who committed the specified commit, also known as the committer. Information includes the date in timestamp format with GMT offset, the name of the committer, and the email address for the committer, as configured in Git. For more information about the difference between an author and a committer in Git, see Viewing the Commit History in Pro Git by Scott Chacon and Ben Straub.
-        public var committer: UserInfo? = nil
-
-        public init() {}
+        public let committer: UserInfo?
 
         public init(parents: [String]? = nil, message: String? = nil, author: UserInfo? = nil, treeId: String? = nil, additionalData: String? = nil, committer: UserInfo? = nil) {
             self.parents = parents
@@ -300,14 +278,12 @@ extension Codecommit {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let parents = dictionary["parents"] as? [String] {
-                self.parents = parents
-            }
+            self.parents = dictionary["parents"] as? [String]
             self.message = dictionary["message"] as? String
-            if let author = dictionary["author"] as? [String: Any] { self.author = try Codecommit.UserInfo(dictionary: author) }
+            if let author = dictionary["author"] as? [String: Any] { self.author = try Codecommit.UserInfo(dictionary: author) } else { self.author = nil }
             self.treeId = dictionary["treeId"] as? String
             self.additionalData = dictionary["additionalData"] as? String
-            if let committer = dictionary["committer"] as? [String: Any] { self.committer = try Codecommit.UserInfo(dictionary: committer) }
+            if let committer = dictionary["committer"] as? [String: Any] { self.committer = try Codecommit.UserInfo(dictionary: committer) } else { self.committer = nil }
         }
     }
 
@@ -315,11 +291,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the branch to set as the default.
-        public var defaultBranchName: String = ""
+        public let defaultBranchName: String
         /// The name of the repository to set or change the default branch for.
-        public var repositoryName: String = ""
-
-        public init() {}
+        public let repositoryName: String
 
         public init(defaultBranchName: String, repositoryName: String) {
             self.defaultBranchName = defaultBranchName
@@ -338,16 +312,14 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the repository.
-        public var repositoryMetadata: RepositoryMetadata? = nil
-
-        public init() {}
+        public let repositoryMetadata: RepositoryMetadata?
 
         public init(repositoryMetadata: RepositoryMetadata? = nil) {
             self.repositoryMetadata = repositoryMetadata
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let repositoryMetadata = dictionary["repositoryMetadata"] as? [String: Any] { self.repositoryMetadata = try Codecommit.RepositoryMetadata(dictionary: repositoryMetadata) }
+            if let repositoryMetadata = dictionary["repositoryMetadata"] as? [String: Any] { self.repositoryMetadata = try Codecommit.RepositoryMetadata(dictionary: repositoryMetadata) } else { self.repositoryMetadata = nil }
         }
     }
 
@@ -355,11 +327,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of triggers that were successfully tested. This list provides the names of the triggers that were successfully tested, separated by commas.
-        public var successfulExecutions: [String]? = nil
+        public let successfulExecutions: [String]?
         /// The list of triggers that were not able to be tested. This list provides the names of the triggers that could not be tested, separated by commas.
-        public var failedExecutions: [RepositoryTriggerExecutionFailure]? = nil
-
-        public init() {}
+        public let failedExecutions: [RepositoryTriggerExecutionFailure]?
 
         public init(successfulExecutions: [String]? = nil, failedExecutions: [RepositoryTriggerExecutionFailure]? = nil) {
             self.successfulExecutions = successfulExecutions
@@ -367,11 +337,11 @@ extension Codecommit {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let successfulExecutions = dictionary["successfulExecutions"] as? [String] {
-                self.successfulExecutions = successfulExecutions
-            }
+            self.successfulExecutions = dictionary["successfulExecutions"] as? [String]
             if let failedExecutions = dictionary["failedExecutions"] as? [[String: Any]] {
                 self.failedExecutions = try failedExecutions.map({ try RepositoryTriggerExecutionFailure(dictionary: $0) })
+            } else { 
+                self.failedExecutions = nil
             }
         }
     }
@@ -380,11 +350,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of triggers to test.
-        public var triggers: [RepositoryTrigger] = []
+        public let triggers: [RepositoryTrigger]
         /// The name of the repository in which to test the triggers.
-        public var repositoryName: String = ""
-
-        public init() {}
+        public let repositoryName: String
 
         public init(triggers: [RepositoryTrigger], repositoryName: String) {
             self.triggers = triggers
@@ -403,11 +371,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the repository to set or change the comment or description for.
-        public var repositoryName: String = ""
+        public let repositoryName: String
         /// The new comment or description for the specified repository. Repository descriptions are limited to 1,000 characters.
-        public var repositoryDescription: String? = nil
-
-        public init() {}
+        public let repositoryDescription: String?
 
         public init(repositoryName: String, repositoryDescription: String? = nil) {
             self.repositoryName = repositoryName
@@ -425,9 +391,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The system-generated unique ID for the create or update operation.
-        public var configurationId: String? = nil
-
-        public init() {}
+        public let configurationId: String?
 
         public init(configurationId: String? = nil) {
             self.configurationId = configurationId
@@ -442,11 +406,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the branch for which you want to retrieve information.
-        public var branchName: String? = nil
+        public let branchName: String?
         /// The name of the repository that contains the branch for which you want to retrieve information.
-        public var repositoryName: String? = nil
-
-        public init() {}
+        public let repositoryName: String?
 
         public init(branchName: String? = nil, repositoryName: String? = nil) {
             self.branchName = branchName
@@ -463,16 +425,14 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the newly created repository.
-        public var repositoryMetadata: RepositoryMetadata? = nil
-
-        public init() {}
+        public let repositoryMetadata: RepositoryMetadata?
 
         public init(repositoryMetadata: RepositoryMetadata? = nil) {
             self.repositoryMetadata = repositoryMetadata
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let repositoryMetadata = dictionary["repositoryMetadata"] as? [String: Any] { self.repositoryMetadata = try Codecommit.RepositoryMetadata(dictionary: repositoryMetadata) }
+            if let repositoryMetadata = dictionary["repositoryMetadata"] as? [String: Any] { self.repositoryMetadata = try Codecommit.RepositoryMetadata(dictionary: repositoryMetadata) } else { self.repositoryMetadata = nil }
         }
     }
 
@@ -480,13 +440,11 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether the change type of the difference is an addition (A), deletion (D), or modification (M).
-        public var changeType: String? = nil
+        public let changeType: String?
         /// Information about an afterBlob data type object, including the ID, the file mode permission code, and the path.
-        public var afterBlob: BlobMetadata? = nil
+        public let afterBlob: BlobMetadata?
         /// Information about a beforeBlob data type object, including the ID, the file mode permission code, and the path.
-        public var beforeBlob: BlobMetadata? = nil
-
-        public init() {}
+        public let beforeBlob: BlobMetadata?
 
         public init(changeType: String? = nil, afterBlob: BlobMetadata? = nil, beforeBlob: BlobMetadata? = nil) {
             self.changeType = changeType
@@ -496,8 +454,8 @@ extension Codecommit {
 
         public init(dictionary: [String: Any]) throws {
             self.changeType = dictionary["changeType"] as? String
-            if let afterBlob = dictionary["afterBlob"] as? [String: Any] { self.afterBlob = try Codecommit.BlobMetadata(dictionary: afterBlob) }
-            if let beforeBlob = dictionary["beforeBlob"] as? [String: Any] { self.beforeBlob = try Codecommit.BlobMetadata(dictionary: beforeBlob) }
+            if let afterBlob = dictionary["afterBlob"] as? [String: Any] { self.afterBlob = try Codecommit.BlobMetadata(dictionary: afterBlob) } else { self.afterBlob = nil }
+            if let beforeBlob = dictionary["beforeBlob"] as? [String: Any] { self.beforeBlob = try Codecommit.BlobMetadata(dictionary: beforeBlob) } else { self.beforeBlob = nil }
         }
     }
 
@@ -505,11 +463,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID associated with the repository.
-        public var repositoryId: String? = nil
+        public let repositoryId: String?
         /// The name associated with the repository.
-        public var repositoryName: String? = nil
-
-        public init() {}
+        public let repositoryName: String?
 
         public init(repositoryId: String? = nil, repositoryName: String? = nil) {
             self.repositoryId = repositoryId
@@ -526,21 +482,19 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit.
-        public var afterCommitSpecifier: String = ""
+        public let afterCommitSpecifier: String
         /// The name of the repository where you want to get differences.
-        public var repositoryName: String = ""
+        public let repositoryName: String
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, the full commit ID. Optional. If not specified, all changes prior to the afterCommitSpecifier value will be shown. If you do not use beforeCommitSpecifier in your request, consider limiting the results with maxResults.
-        public var beforeCommitSpecifier: String? = nil
+        public let beforeCommitSpecifier: String?
         /// The file path in which to check for differences. Limits the results to this path. Can also be used to specify the previous name of a directory or folder. If beforePath and afterPath are not specified, differences will be shown for all paths.
-        public var beforePath: String? = nil
+        public let beforePath: String?
         /// The file path in which to check differences. Limits the results to this path. Can also be used to specify the changed name of a directory or folder, if it has changed. If not specified, differences will be shown for all paths.
-        public var afterPath: String? = nil
+        public let afterPath: String?
         /// An enumeration token that when provided in a request, returns the next batch of the results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A non-negative integer used to limit the number of returned results.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(afterCommitSpecifier: String, repositoryName: String, beforeCommitSpecifier: String? = nil, beforePath: String? = nil, afterPath: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.afterCommitSpecifier = afterCommitSpecifier
@@ -569,13 +523,11 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the new branch to create.
-        public var branchName: String = ""
+        public let branchName: String
         /// The ID of the commit to point the new branch to.
-        public var commitId: String = ""
+        public let commitId: String
         /// The name of the repository in which you want to create the new branch.
-        public var repositoryName: String = ""
-
-        public init() {}
+        public let repositoryName: String
 
         public init(branchName: String, commitId: String, repositoryName: String) {
             self.branchName = branchName
@@ -597,9 +549,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the repository to delete.
-        public var repositoryName: String = ""
-
-        public init() {}
+        public let repositoryName: String
 
         public init(repositoryName: String) {
             self.repositoryName = repositoryName
@@ -615,11 +565,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// An enumeration token that allows the operation to batch the results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The name of the repository that contains the branches.
-        public var repositoryName: String = ""
-
-        public init() {}
+        public let repositoryName: String
 
         public init(nextToken: String? = nil, repositoryName: String) {
             self.nextToken = nextToken
@@ -637,16 +585,14 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the branch.
-        public var branch: BranchInfo? = nil
-
-        public init() {}
+        public let branch: BranchInfo?
 
         public init(branch: BranchInfo? = nil) {
             self.branch = branch
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let branch = dictionary["branch"] as? [String: Any] { self.branch = try Codecommit.BranchInfo(dictionary: branch) }
+            if let branch = dictionary["branch"] as? [String: Any] { self.branch = try Codecommit.BranchInfo(dictionary: branch) } else { self.branch = nil }
         }
     }
 
@@ -654,11 +600,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The commit ID.
-        public var commitId: String = ""
+        public let commitId: String
         /// The name of the repository to which the commit was made.
-        public var repositoryName: String = ""
-
-        public init() {}
+        public let repositoryName: String
 
         public init(commitId: String, repositoryName: String) {
             self.commitId = commitId
@@ -677,9 +621,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the repository to get information about.
-        public var repositoryName: String = ""
-
-        public init() {}
+        public let repositoryName: String
 
         public init(repositoryName: String) {
             self.repositoryName = repositoryName
@@ -695,11 +637,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The system-generated unique ID for the trigger.
-        public var configurationId: String? = nil
+        public let configurationId: String?
         /// The JSON block of configuration information for each trigger.
-        public var triggers: [RepositoryTrigger]? = nil
-
-        public init() {}
+        public let triggers: [RepositoryTrigger]?
 
         public init(configurationId: String? = nil, triggers: [RepositoryTrigger]? = nil) {
             self.configurationId = configurationId
@@ -710,6 +650,8 @@ extension Codecommit {
             self.configurationId = dictionary["configurationId"] as? String
             if let triggers = dictionary["triggers"] as? [[String: Any]] {
                 self.triggers = try triggers.map({ try RepositoryTrigger(dictionary: $0) })
+            } else { 
+                self.triggers = nil
             }
         }
     }
@@ -718,9 +660,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the repository for which the trigger is configured.
-        public var repositoryName: String = ""
-
-        public init() {}
+        public let repositoryName: String
 
         public init(repositoryName: String) {
             self.repositoryName = repositoryName
@@ -736,11 +676,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The existing name of the repository.
-        public var oldName: String = ""
+        public let oldName: String
         /// The new name for the repository.
-        public var newName: String = ""
-
-        public init() {}
+        public let newName: String
 
         public init(oldName: String, newName: String) {
             self.oldName = oldName
@@ -759,11 +697,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of repositories returned by the batch get repositories operation.
-        public var repositories: [RepositoryMetadata]? = nil
+        public let repositories: [RepositoryMetadata]?
         /// Returns a list of repository names for which information could not be found.
-        public var repositoriesNotFound: [String]? = nil
-
-        public init() {}
+        public let repositoriesNotFound: [String]?
 
         public init(repositories: [RepositoryMetadata]? = nil, repositoriesNotFound: [String]? = nil) {
             self.repositories = repositories
@@ -773,10 +709,10 @@ extension Codecommit {
         public init(dictionary: [String: Any]) throws {
             if let repositories = dictionary["repositories"] as? [[String: Any]] {
                 self.repositories = try repositories.map({ try RepositoryMetadata(dictionary: $0) })
+            } else { 
+                self.repositories = nil
             }
-            if let repositoriesNotFound = dictionary["repositoriesNotFound"] as? [String] {
-                self.repositoriesNotFound = repositoriesNotFound
-            }
+            self.repositoriesNotFound = dictionary["repositoriesNotFound"] as? [String]
         }
     }
 
@@ -784,11 +720,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// An enumeration token that can be used in a request to return the next batch of the results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A differences data type object that contains information about the differences, including whether the difference is added, modified, or deleted (A, D, M).
-        public var differences: [Difference]? = nil
-
-        public init() {}
+        public let differences: [Difference]?
 
         public init(nextToken: String? = nil, differences: [Difference]? = nil) {
             self.nextToken = nextToken
@@ -799,6 +733,8 @@ extension Codecommit {
             self.nextToken = dictionary["NextToken"] as? String
             if let differences = dictionary["differences"] as? [[String: Any]] {
                 self.differences = try differences.map({ try Difference(dictionary: $0) })
+            } else { 
+                self.differences = nil
             }
         }
     }
@@ -807,13 +743,11 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The criteria used to sort the results of a list repositories operation.
-        public var sortBy: String? = nil
+        public let sortBy: String?
         /// The order in which to sort the results of a list repositories operation.
-        public var order: String? = nil
+        public let order: String?
         /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(sortBy: String? = nil, order: String? = nil, nextToken: String? = nil) {
             self.sortBy = sortBy
@@ -832,9 +766,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The content of the blob, usually a file.
-        public var content: Data = Data()
-
-        public init() {}
+        public let content: Data
 
         public init(content: Data) {
             self.content = content
@@ -850,11 +782,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// Additional message information about the trigger that did not run.
-        public var failureMessage: String? = nil
+        public let failureMessage: String?
         /// The name of the trigger that did not run.
-        public var trigger: String? = nil
-
-        public init() {}
+        public let trigger: String?
 
         public init(failureMessage: String? = nil, trigger: String? = nil) {
             self.failureMessage = failureMessage
@@ -871,11 +801,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the blob, which is its SHA-1 pointer.
-        public var blobId: String = ""
+        public let blobId: String
         /// The name of the repository that contains the blob.
-        public var repositoryName: String = ""
-
-        public init() {}
+        public let repositoryName: String
 
         public init(blobId: String, repositoryName: String) {
             self.blobId = blobId
@@ -894,11 +822,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the new repository to be created.  The repository name must be unique across the calling AWS account. In addition, repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. For a full description of the limits on repository names, see Limits in the AWS CodeCommit User Guide. The suffix ".git" is prohibited. 
-        public var repositoryName: String = ""
+        public let repositoryName: String
         /// A comment or description about the new repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a web page could expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a web page. 
-        public var repositoryDescription: String? = nil
-
-        public init() {}
+        public let repositoryDescription: String?
 
         public init(repositoryName: String, repositoryDescription: String? = nil) {
             self.repositoryName = repositoryName
@@ -916,11 +842,9 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The JSON block of configuration information for each trigger.
-        public var triggers: [RepositoryTrigger] = []
+        public let triggers: [RepositoryTrigger]
         /// The name of the repository where you want to create or update the trigger.
-        public var repositoryName: String = ""
-
-        public init() {}
+        public let repositoryName: String
 
         public init(triggers: [RepositoryTrigger], repositoryName: String) {
             self.triggers = triggers
@@ -939,9 +863,7 @@ extension Codecommit {
         /// The key for the payload
         public static let payload: String? = nil
         /// The names of the repositories to get information about.
-        public var repositoryNames: [String] = []
-
-        public init() {}
+        public let repositoryNames: [String]
 
         public init(repositoryNames: [String]) {
             self.repositoryNames = repositoryNames

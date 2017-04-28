@@ -36,9 +36,7 @@ extension Dataiot {
             return ["thingName": "thingName"]
         }
         /// The name of the thing.
-        public var thingName: String = ""
-
-        public init() {}
+        public let thingName: String
 
         public init(thingName: String) {
             self.thingName = thingName
@@ -57,9 +55,7 @@ extension Dataiot {
             return ["thingName": "thingName"]
         }
         /// The name of the thing.
-        public var thingName: String = ""
-
-        public init() {}
+        public let thingName: String
 
         public init(thingName: String) {
             self.thingName = thingName
@@ -75,9 +71,7 @@ extension Dataiot {
         /// The key for the payload
         public static let payload: String? = "payload"
         /// The state information, in JSON format.
-        public var payload: Data = Data()
-
-        public init() {}
+        public let payload: Data
 
         public init(payload: Data) {
             self.payload = payload
@@ -99,13 +93,11 @@ extension Dataiot {
             return ["topic": "topic"]
         }
         /// The Quality of Service (QoS) level.
-        public var qos: Int32? = nil
+        public let qos: Int32?
         /// The state information, in JSON format.
-        public var payload: Data? = nil
+        public let payload: Data?
         /// The name of the MQTT topic.
-        public var topic: String = ""
-
-        public init() {}
+        public let topic: String
 
         public init(qos: Int32? = nil, payload: Data? = nil, topic: String) {
             self.qos = qos
@@ -125,9 +117,7 @@ extension Dataiot {
         /// The key for the payload
         public static let payload: String? = "payload"
         /// The state information, in JSON format.
-        public var payload: Data? = nil
-
-        public init() {}
+        public let payload: Data?
 
         public init(payload: Data? = nil) {
             self.payload = payload
@@ -142,9 +132,7 @@ extension Dataiot {
         /// The key for the payload
         public static let payload: String? = "payload"
         /// The state information, in JSON format.
-        public var payload: Data? = nil
-
-        public init() {}
+        public let payload: Data?
 
         public init(payload: Data? = nil) {
             self.payload = payload
@@ -162,11 +150,9 @@ extension Dataiot {
             return ["thingName": "thingName"]
         }
         /// The state information, in JSON format.
-        public var payload: Data = Data()
+        public let payload: Data
         /// The name of the thing.
-        public var thingName: String = ""
-
-        public init() {}
+        public let thingName: String
 
         public init(payload: Data, thingName: String) {
             self.payload = payload

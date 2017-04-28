@@ -33,9 +33,7 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The attributes that are currently set for the account. 
-        public var attributes: [AccountAttribute]? = nil
-
-        public init() {}
+        public let attributes: [AccountAttribute]?
 
         public init(attributes: [AccountAttribute]? = nil) {
             self.attributes = attributes
@@ -44,6 +42,8 @@ extension OpsworksCm {
         public init(dictionary: [String: Any]) throws {
             if let attributes = dictionary["Attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try AccountAttribute(dictionary: $0) })
+            } else { 
+                self.attributes = nil
             }
         }
     }
@@ -52,11 +52,9 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Contains the response to a DescribeEvents request. 
-        public var serverEvents: [ServerEvent]? = nil
+        public let serverEvents: [ServerEvent]?
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(serverEvents: [ServerEvent]? = nil, nextToken: String? = nil) {
             self.serverEvents = serverEvents
@@ -66,6 +64,8 @@ extension OpsworksCm {
         public init(dictionary: [String: Any]) throws {
             if let serverEvents = dictionary["ServerEvents"] as? [[String: Any]] {
                 self.serverEvents = try serverEvents.map({ try ServerEvent(dictionary: $0) })
+            } else { 
+                self.serverEvents = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -75,9 +75,7 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the association request. 
-        public var nodeAssociationStatusToken: String? = nil
-
-        public init() {}
+        public let nodeAssociationStatusToken: String?
 
         public init(nodeAssociationStatusToken: String? = nil) {
             self.nodeAssociationStatusToken = nodeAssociationStatusToken
@@ -92,41 +90,39 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The engine model, or option. Valid values include Single. 
-        public var engineModel: String? = nil
+        public let engineModel: String?
         /// Optional engine attributes on a specified server.   Attributes accepted in a createServer request:     CHEF_PIVOTAL_KEY: A base64-encoded RSA private key that is not stored by AWS OpsWorks for Chef. This private key is required to access the Chef API. When no CHEF_PIVOTAL_KEY is set, one is generated and returned in the response.     CHEF_DELIVERY_ADMIN_PASSWORD: The password for the administrative user in the Chef Automate GUI. The password length is a minimum of eight characters, and a maximum of 32. The password can contain letters, numbers, and special characters (!/@#$%^&amp;+=_). The password must contain at least one lower case letter, one upper case letter, one number, and one special character. When no CHEF_DELIVERY_ADMIN_PASSWORD is set, one is generated and returned in the response.  
-        public var engineAttributes: [EngineAttribute]? = nil
+        public let engineAttributes: [EngineAttribute]?
         ///  If you specify this field, AWS OpsWorks for Chef Automate creates the server by using the backup represented by BackupId. 
-        public var backupId: String? = nil
+        public let backupId: String?
         ///  The service role that the AWS OpsWorks for Chef Automate service backend uses to work with your account. Although the AWS OpsWorks management console typically creates the service role for you, if you are using the AWS CLI or API commands, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-stuff/latest/service-role-creation.yaml. This template creates a CloudFormation stack that includes the service role that you need. 
-        public var serviceRoleArn: String = ""
+        public let serviceRoleArn: String
         ///  A list of security group IDs to attach to the Amazon EC2 instance. If you add this parameter, the specified security groups must be within the VPC that is specified by SubnetIds.   If you do not specify this parameter, AWS OpsWorks for Chef Automate creates one new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone). 
-        public var securityGroupIds: [String]? = nil
+        public let securityGroupIds: [String]?
         ///  The Amazon EC2 instance type to use. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, m4.large. Valid values are t2.medium, m4.large, or m4.2xlarge. 
-        public var instanceType: String = ""
+        public let instanceType: String
         ///  The number of automated backups that you want to keep. Whenever a new backup is created, AWS OpsWorks for Chef Automate deletes the oldest backups if this number is exceeded. The default value is 1. 
-        public var backupRetentionCount: Int32? = nil
+        public let backupRetentionCount: Int32?
         ///  The IDs of subnets in which to launch the server EC2 instance.   Amazon EC2-Classic customers: This field is required. All servers must run within a VPC. The VPC must have "Auto Assign Public IP" enabled.   EC2-VPC customers: This field is optional. If you do not specify subnet IDs, your EC2 instances are created in a default subnet that is selected by Amazon EC2. If you specify subnet IDs, the VPC must have "Auto Assign Public IP" enabled.  For more information about supported Amazon EC2 platforms, see Supported Platforms.
-        public var subnetIds: [String]? = nil
+        public let subnetIds: [String]?
         ///  The start time for a one-hour period during which AWS OpsWorks for Chef Automate backs up application-level data on your server if automated backups are enabled. Valid values must be specified in one of the following formats:     HH:MM for daily backups    DDD:HH:MM for weekly backups   The specified time is in coordinated universal time (UTC). The default value is a random, daily start time.  Example: 08:00, which represents a daily start time of 08:00 UTC.  Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
-        public var preferredBackupWindow: String? = nil
+        public let preferredBackupWindow: String?
         ///  The major release version of the engine that you want to use. Values depend on the engine that you choose. 
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         ///  The ARN of the instance profile that your Amazon EC2 instances use. Although the AWS OpsWorks console typically creates the instance profile for you, if you are using API commands instead, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the instance profile you need. 
-        public var instanceProfileArn: String = ""
+        public let instanceProfileArn: String
         ///  The start time for a one-hour period each week during which AWS OpsWorks for Chef Automate performs maintenance on the instance. Valid values must be specified in the following format: DDD:HH:MM. The specified time is in coordinated universal time (UTC). The default value is a random one-hour period on Tuesday, Wednesday, or Friday. See TimeWindowDefinition for more information.   Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.) 
-        public var preferredMaintenanceWindow: String? = nil
+        public let preferredMaintenanceWindow: String?
         ///  The name of the server. The server name must be unique within your AWS account, within each region. Server names must start with a letter; then letters, numbers, or hyphens (-) are allowed, up to a maximum of 40 characters. 
-        public var serverName: String = ""
+        public let serverName: String
         ///  The configuration management engine to use. Valid values include Chef. 
-        public var engine: String? = nil
+        public let engine: String?
         ///  Enable or disable scheduled backups. Valid values are true or false. The default value is true. 
-        public var disableAutomatedBackup: Bool? = nil
+        public let disableAutomatedBackup: Bool?
         ///  The Amazon EC2 key pair to set for the instance. This parameter is optional; if desired, you may specify this parameter to connect to your instances by using SSH. 
-        public var keyPair: String? = nil
+        public let keyPair: String?
         ///  Associate a public IP address with a server that you are launching. Valid values are true or false. The default value is true. 
-        public var associatePublicIpAddress: Bool? = nil
-
-        public init() {}
+        public let associatePublicIpAddress: Bool?
 
         public init(engineModel: String? = nil, engineAttributes: [EngineAttribute]? = nil, backupId: String? = nil, serviceRoleArn: String, securityGroupIds: [String]? = nil, instanceType: String, backupRetentionCount: Int32? = nil, subnetIds: [String]? = nil, preferredBackupWindow: String? = nil, engineVersion: String? = nil, instanceProfileArn: String, preferredMaintenanceWindow: String? = nil, serverName: String, engine: String? = nil, disableAutomatedBackup: Bool? = nil, keyPair: String? = nil, associatePublicIpAddress: Bool? = nil) {
             self.engineModel = engineModel
@@ -152,19 +148,17 @@ extension OpsworksCm {
             self.engineModel = dictionary["EngineModel"] as? String
             if let engineAttributes = dictionary["EngineAttributes"] as? [[String: Any]] {
                 self.engineAttributes = try engineAttributes.map({ try EngineAttribute(dictionary: $0) })
+            } else { 
+                self.engineAttributes = nil
             }
             self.backupId = dictionary["BackupId"] as? String
             guard let serviceRoleArn = dictionary["ServiceRoleArn"] as? String else { throw InitializableError.missingRequiredParam("ServiceRoleArn") }
             self.serviceRoleArn = serviceRoleArn
-            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
-                self.securityGroupIds = securityGroupIds
-            }
+            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
             guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
             self.instanceType = instanceType
             self.backupRetentionCount = dictionary["BackupRetentionCount"] as? Int32
-            if let subnetIds = dictionary["SubnetIds"] as? [String] {
-                self.subnetIds = subnetIds
-            }
+            self.subnetIds = dictionary["SubnetIds"] as? [String]
             self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
             self.engineVersion = dictionary["EngineVersion"] as? String
             guard let instanceProfileArn = dictionary["InstanceProfileArn"] as? String else { throw InitializableError.missingRequiredParam("InstanceProfileArn") }
@@ -183,11 +177,9 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the server that you want to back up. 
-        public var serverName: String = ""
+        public let serverName: String
         ///  A user-defined description of the backup. 
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(serverName: String, description: String? = nil) {
             self.serverName = serverName
@@ -205,13 +197,11 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the engine attribute to update. 
-        public var attributeName: String = ""
+        public let attributeName: String
         /// The value to set for the attribute. 
-        public var attributeValue: String? = nil
+        public let attributeValue: String?
         /// The name of the server to update. 
-        public var serverName: String = ""
-
-        public init() {}
+        public let serverName: String
 
         public init(attributeName: String, attributeValue: String? = nil, serverName: String) {
             self.attributeName = attributeName
@@ -232,13 +222,11 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the Chef client node. 
-        public var nodeName: String = ""
+        public let nodeName: String
         /// Engine attributes used for associating the node.   Attributes accepted in a AssociateNode request:     CHEF_ORGANIZATION: The Chef organization with which the node is associated. By default only one organization named default can exist.     CHEF_NODE_PUBLIC_KEY: A PEM-formatted public key. This key is required for the chef-client agent to access the Chef API.   
-        public var engineAttributes: [EngineAttribute] = []
+        public let engineAttributes: [EngineAttribute]
         /// The name of the server with which to associate the node. 
-        public var serverName: String = ""
-
-        public init() {}
+        public let serverName: String
 
         public init(nodeName: String, engineAttributes: [EngineAttribute], serverName: String) {
             self.nodeName = nodeName
@@ -260,13 +248,11 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum allowed value. 
-        public var maximum: Int32? = nil
+        public let maximum: Int32?
         ///  The attribute name. The following are supported attribute names.     ServerLimit: The number of current servers/maximum number of servers allowed. By default, you can have a maximum of 10 servers.     ManualBackupLimit: The number of current manual backups/maximum number of backups allowed. By default, you can have a maximum of 50 manual backups saved.   
-        public var name: String? = nil
+        public let name: String?
         ///  The current usage, such as the current number of servers that are associated with the account. 
-        public var used: Int32? = nil
-
-        public init() {}
+        public let used: Int32?
 
         public init(maximum: Int32? = nil, name: String? = nil, used: Int32? = nil) {
             self.maximum = maximum
@@ -285,16 +271,14 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Contains the response to a StartMaintenance request. 
-        public var server: Server? = nil
-
-        public init() {}
+        public let server: Server?
 
         public init(server: Server? = nil) {
             self.server = server
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let server = dictionary["Server"] as? [String: Any] { self.server = try OpsworksCm.Server(dictionary: server) }
+            if let server = dictionary["Server"] as? [String: Any] { self.server = try OpsworksCm.Server(dictionary: server) } else { self.server = nil }
         }
     }
 
@@ -302,27 +286,23 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Backup created by request.
-        public var backup: Backup? = nil
-
-        public init() {}
+        public let backup: Backup?
 
         public init(backup: Backup? = nil) {
             self.backup = backup
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let backup = dictionary["Backup"] as? [String: Any] { self.backup = try OpsworksCm.Backup(dictionary: backup) }
+            if let backup = dictionary["Backup"] as? [String: Any] { self.backup = try OpsworksCm.Backup(dictionary: backup) } else { self.backup = nil }
         }
     }
 
     public struct DescribeNodeAssociationStatusRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var nodeAssociationStatusToken: String = ""
+        public let nodeAssociationStatusToken: String
         /// The name of the server from which to disassociate the node. 
-        public var serverName: String = ""
-
-        public init() {}
+        public let serverName: String
 
         public init(nodeAssociationStatusToken: String, serverName: String) {
             self.nodeAssociationStatusToken = nodeAssociationStatusToken
@@ -341,9 +321,7 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the server on which to run maintenance. 
-        public var serverName: String = ""
-
-        public init() {}
+        public let serverName: String
 
         public init(serverName: String) {
             self.serverName = serverName
@@ -359,16 +337,14 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Contains the response to a UpdateServer request. 
-        public var server: Server? = nil
-
-        public init() {}
+        public let server: Server?
 
         public init(server: Server? = nil) {
             self.server = server
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let server = dictionary["Server"] as? [String: Any] { self.server = try OpsworksCm.Server(dictionary: server) }
+            if let server = dictionary["Server"] as? [String: Any] { self.server = try OpsworksCm.Server(dictionary: server) } else { self.server = nil }
         }
     }
 
@@ -376,9 +352,7 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the disassociation request. 
-        public var nodeAssociationStatusToken: String? = nil
-
-        public init() {}
+        public let nodeAssociationStatusToken: String?
 
         public init(nodeAssociationStatusToken: String? = nil) {
             self.nodeAssociationStatusToken = nodeAssociationStatusToken
@@ -393,13 +367,11 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeServers again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Describes the server with the specified ServerName.
-        public var serverName: String? = nil
-
-        public init() {}
+        public let serverName: String?
 
         public init(maxResults: Int32? = nil, nextToken: String? = nil, serverName: String? = nil) {
             self.maxResults = maxResults
@@ -418,15 +390,13 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon S3 URL of the event's log file.
-        public var logUrl: String? = nil
+        public let logUrl: String?
         /// The time when the event occurred. 
-        public var createdAt: Date? = nil
+        public let createdAt: Date?
         /// A human-readable informational or status message.
-        public var message: String? = nil
+        public let message: String?
         /// The name of the server on or for which the event occurred. 
-        public var serverName: String? = nil
-
-        public init() {}
+        public let serverName: String?
 
         public init(logUrl: String? = nil, createdAt: Date? = nil, message: String? = nil, serverName: String? = nil) {
             self.logUrl = logUrl
@@ -447,15 +417,13 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns backups for the server with the specified ServerName. 
-        public var serverName: String? = nil
+        public let serverName: String?
         /// Describes a single backup. 
-        public var backupId: String? = nil
+        public let backupId: String?
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeBackups again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(serverName: String? = nil, backupId: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.serverName = serverName
@@ -476,8 +444,6 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -486,55 +452,53 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The engine model that is obtained from the server when the backup is created. 
-        public var engineModel: String? = nil
+        public let engineModel: String?
         ///  The service role ARN that is obtained from the server when the backup is created. 
-        public var serviceRoleArn: String? = nil
+        public let serviceRoleArn: String?
         ///  This field is deprecated and is no longer used. 
-        public var s3DataSize: Int32? = nil
+        public let s3DataSize: Int32?
         ///  The generated ID of the backup. Example: myServerName-yyyyMMddHHmmssSSS 
-        public var backupId: String? = nil
+        public let backupId: String?
         ///  The security group IDs that are obtained from the server when the backup is created. 
-        public var securityGroupIds: [String]? = nil
+        public let securityGroupIds: [String]?
         ///  The version of AWS OpsWorks for Chef Automate-specific tools that is obtained from the server when the backup is created. 
-        public var toolsVersion: String? = nil
+        public let toolsVersion: String?
         ///  The instance type that is obtained from the server when the backup is created. 
-        public var instanceType: String? = nil
+        public let instanceType: String?
         ///  A user-provided description for a manual backup. This field is empty for automated backups. 
-        public var description: String? = nil
+        public let description: String?
         ///  The preferred backup period that is obtained from the server when the backup is created. 
-        public var preferredBackupWindow: String? = nil
+        public let preferredBackupWindow: String?
         /// The status of a backup while in progress. 
-        public var status: String? = nil
+        public let status: String?
         ///  The time stamp when the backup was created in the database. Example: 2016-07-29T13:38:47.520Z 
-        public var createdAt: Date? = nil
+        public let createdAt: Date?
         ///  The engine version that is obtained from the server when the backup is created. 
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         ///  The EC2 instance profile ARN that is obtained from the server when the backup is created. Because this value is stored, you are not required to provide the InstanceProfileArn again if you restore a backup. 
-        public var instanceProfileArn: String? = nil
+        public let instanceProfileArn: String?
         ///  The preferred maintenance period that is obtained from the server when the backup is created. 
-        public var preferredMaintenanceWindow: String? = nil
+        public let preferredMaintenanceWindow: String?
         ///  The name of the server from which the backup was made. 
-        public var serverName: String? = nil
+        public let serverName: String?
         ///  The subnet IDs that are obtained from the server when the backup is created. 
-        public var subnetIds: [String]? = nil
+        public let subnetIds: [String]?
         ///  The backup type. Valid values are automated or manual. 
-        public var backupType: String? = nil
+        public let backupType: String?
         ///  The engine type that is obtained from the server when the backup is created. 
-        public var engine: String? = nil
+        public let engine: String?
         ///  This field is deprecated and is no longer used. 
-        public var s3DataUrl: String? = nil
+        public let s3DataUrl: String?
         ///  The Amazon S3 URL of the backup's log file. 
-        public var s3LogUrl: String? = nil
+        public let s3LogUrl: String?
         ///  The IAM user ARN of the requester for manual backups. This field is empty for automated backups. 
-        public var userArn: String? = nil
+        public let userArn: String?
         ///  An informational message about backup status. 
-        public var statusDescription: String? = nil
+        public let statusDescription: String?
         /// The ARN of the backup. 
-        public var backupArn: String? = nil
+        public let backupArn: String?
         ///  The key pair that is obtained from the server when the backup is created. 
-        public var keyPair: String? = nil
-
-        public init() {}
+        public let keyPair: String?
 
         public init(engineModel: String? = nil, serviceRoleArn: String? = nil, s3DataSize: Int32? = nil, backupId: String? = nil, securityGroupIds: [String]? = nil, toolsVersion: String? = nil, instanceType: String? = nil, description: String? = nil, preferredBackupWindow: String? = nil, status: String? = nil, createdAt: Date? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, preferredMaintenanceWindow: String? = nil, serverName: String? = nil, subnetIds: [String]? = nil, backupType: String? = nil, engine: String? = nil, s3DataUrl: String? = nil, s3LogUrl: String? = nil, userArn: String? = nil, statusDescription: String? = nil, backupArn: String? = nil, keyPair: String? = nil) {
             self.engineModel = engineModel
@@ -568,9 +532,7 @@ extension OpsworksCm {
             self.serviceRoleArn = dictionary["ServiceRoleArn"] as? String
             self.s3DataSize = dictionary["S3DataSize"] as? Int32
             self.backupId = dictionary["BackupId"] as? String
-            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
-                self.securityGroupIds = securityGroupIds
-            }
+            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
             self.toolsVersion = dictionary["ToolsVersion"] as? String
             self.instanceType = dictionary["InstanceType"] as? String
             self.description = dictionary["Description"] as? String
@@ -581,9 +543,7 @@ extension OpsworksCm {
             self.instanceProfileArn = dictionary["InstanceProfileArn"] as? String
             self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
             self.serverName = dictionary["ServerName"] as? String
-            if let subnetIds = dictionary["SubnetIds"] as? [String] {
-                self.subnetIds = subnetIds
-            }
+            self.subnetIds = dictionary["SubnetIds"] as? [String]
             self.backupType = dictionary["BackupType"] as? String
             self.engine = dictionary["Engine"] as? String
             self.s3DataUrl = dictionary["S3DataUrl"] as? String
@@ -599,9 +559,7 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the server to delete.
-        public var serverName: String = ""
-
-        public init() {}
+        public let serverName: String
 
         public init(serverName: String) {
             self.serverName = serverName
@@ -617,13 +575,11 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the Chef client node. 
-        public var nodeName: String = ""
+        public let nodeName: String
         /// Engine attributes used for disassociating the node.   Attributes accepted in a DisassociateNode request:     CHEF_ORGANIZATION: The Chef organization with which the node was associated. By default only one organization named default can exist.   
-        public var engineAttributes: [EngineAttribute]? = nil
+        public let engineAttributes: [EngineAttribute]?
         /// The name of the server from which to disassociate the node. 
-        public var serverName: String = ""
-
-        public init() {}
+        public let serverName: String
 
         public init(nodeName: String, engineAttributes: [EngineAttribute]? = nil, serverName: String) {
             self.nodeName = nodeName
@@ -636,6 +592,8 @@ extension OpsworksCm {
             self.nodeName = nodeName
             if let engineAttributes = dictionary["EngineAttributes"] as? [[String: Any]] {
                 self.engineAttributes = try engineAttributes.map({ try EngineAttribute(dictionary: $0) })
+            } else { 
+                self.engineAttributes = nil
             }
             guard let serverName = dictionary["ServerName"] as? String else { throw InitializableError.missingRequiredParam("ServerName") }
             self.serverName = serverName
@@ -646,53 +604,51 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the server. 
-        public var serverArn: String? = nil
+        public let serverArn: String?
         /// The engine model of the server. The valid value in this release is Single. 
-        public var engineModel: String? = nil
+        public let engineModel: String?
         /// The response of a createServer() request returns the master credential to access the server in EngineAttributes. These credentials are not stored by AWS OpsWorks for Chef Automate; they are returned only as part of the result of createServer().   Attributes returned in a createServer response:     CHEF_PIVOTAL_KEY: A base64-encoded RSA private key that is generated by AWS OpsWorks for Chef Automate. This private key is required to access the Chef API.    CHEF_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains a Chef starter kit, which includes a README, a configuration file, and the required RSA private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents. From this directory, you can run Knife commands.  
-        public var engineAttributes: [EngineAttribute]? = nil
+        public let engineAttributes: [EngineAttribute]?
         /// The service role ARN used to create the server. 
-        public var serviceRoleArn: String? = nil
+        public let serviceRoleArn: String?
         ///  The security group IDs for the server, as specified in the CloudFormation stack. These might not be the same security groups that are shown in the EC2 console. 
-        public var securityGroupIds: [String]? = nil
+        public let securityGroupIds: [String]?
         ///  The instance type for the server, as specified in the CloudFormation stack. This might not be the same instance type that is shown in the EC2 console. 
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The number of automated backups to keep. 
-        public var backupRetentionCount: Int32? = nil
+        public let backupRetentionCount: Int32?
         ///  The subnet IDs specified in a CreateServer request. 
-        public var subnetIds: [String]? = nil
+        public let subnetIds: [String]?
         /// The preferred backup period specified for the server. 
-        public var preferredBackupWindow: String? = nil
+        public let preferredBackupWindow: String?
         /// Time stamp of server creation. Example 2016-07-29T13:38:47.520Z 
-        public var createdAt: Date? = nil
+        public let createdAt: Date?
         /// The engine version of the server. Because Chef is the engine available in this release, the valid value for EngineVersion is 12. 
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         /// The instance profile ARN of the server. 
-        public var instanceProfileArn: String? = nil
+        public let instanceProfileArn: String?
         ///  Depending on the server status, this field has either a human-readable message (such as a create or backup error), or an escaped block of JSON (used for health check results). 
-        public var statusReason: String? = nil
+        public let statusReason: String?
         /// The preferred maintenance period specified for the server. 
-        public var preferredMaintenanceWindow: String? = nil
+        public let preferredMaintenanceWindow: String?
         /// The name of the server. 
-        public var serverName: String? = nil
+        public let serverName: String?
         /// The engine type of the server. The valid value in this release is Chef. 
-        public var engine: String? = nil
+        public let engine: String?
         /// The status of the most recent server maintenance run. Shows SUCCESS or FAILED. 
-        public var maintenanceStatus: String? = nil
+        public let maintenanceStatus: String?
         /// The ARN of the CloudFormation stack that was used to create the server. 
-        public var cloudFormationStackArn: String? = nil
+        public let cloudFormationStackArn: String?
         ///  The server's status. This field displays the states of actions in progress, such as creating, running, or backing up the server, as well as the server's health state. 
-        public var status: String? = nil
+        public let status: String?
         /// Disables automated backups. The number of stored backups is dependent on the value of PreferredBackupCount. 
-        public var disableAutomatedBackup: Bool? = nil
+        public let disableAutomatedBackup: Bool?
         ///  A DNS name that can be used to access the engine. Example: myserver-asdfghjkl.us-east-1.opsworks.io 
-        public var endpoint: String? = nil
+        public let endpoint: String?
         /// Associate a public IP address with a server that you are launching. 
-        public var associatePublicIpAddress: Bool? = nil
+        public let associatePublicIpAddress: Bool?
         /// The key pair associated with the server. 
-        public var keyPair: String? = nil
-
-        public init() {}
+        public let keyPair: String?
 
         public init(serverArn: String? = nil, engineModel: String? = nil, engineAttributes: [EngineAttribute]? = nil, serviceRoleArn: String? = nil, securityGroupIds: [String]? = nil, instanceType: String? = nil, backupRetentionCount: Int32? = nil, subnetIds: [String]? = nil, preferredBackupWindow: String? = nil, createdAt: Date? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, statusReason: String? = nil, preferredMaintenanceWindow: String? = nil, serverName: String? = nil, engine: String? = nil, maintenanceStatus: String? = nil, cloudFormationStackArn: String? = nil, status: String? = nil, disableAutomatedBackup: Bool? = nil, endpoint: String? = nil, associatePublicIpAddress: Bool? = nil, keyPair: String? = nil) {
             self.serverArn = serverArn
@@ -725,16 +681,14 @@ extension OpsworksCm {
             self.engineModel = dictionary["EngineModel"] as? String
             if let engineAttributes = dictionary["EngineAttributes"] as? [[String: Any]] {
                 self.engineAttributes = try engineAttributes.map({ try EngineAttribute(dictionary: $0) })
+            } else { 
+                self.engineAttributes = nil
             }
             self.serviceRoleArn = dictionary["ServiceRoleArn"] as? String
-            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
-                self.securityGroupIds = securityGroupIds
-            }
+            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
             self.instanceType = dictionary["InstanceType"] as? String
             self.backupRetentionCount = dictionary["BackupRetentionCount"] as? Int32
-            if let subnetIds = dictionary["SubnetIds"] as? [String] {
-                self.subnetIds = subnetIds
-            }
+            self.subnetIds = dictionary["SubnetIds"] as? [String]
             self.preferredBackupWindow = dictionary["PreferredBackupWindow"] as? String
             self.createdAt = dictionary["CreatedAt"] as? Date
             self.engineVersion = dictionary["EngineVersion"] as? String
@@ -757,13 +711,11 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The name of the server for which you want to view events.
-        public var serverName: String = ""
-
-        public init() {}
+        public let serverName: String
 
         public init(maxResults: Int32? = nil, nextToken: String? = nil, serverName: String) {
             self.maxResults = maxResults
@@ -783,11 +735,9 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Contains the response to a DescribeServers request. 
-        public var servers: [Server]? = nil
+        public let servers: [Server]?
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeServers again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(servers: [Server]? = nil, nextToken: String? = nil) {
             self.servers = servers
@@ -797,6 +747,8 @@ extension OpsworksCm {
         public init(dictionary: [String: Any]) throws {
             if let servers = dictionary["Servers"] as? [[String: Any]] {
                 self.servers = try servers.map({ try Server(dictionary: $0) })
+            } else { 
+                self.servers = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -806,15 +758,13 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The name of the server that you want to restore. 
-        public var serverName: String = ""
+        public let serverName: String
         ///  The type of the instance to create. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, m4.large. Valid values are t2.medium, m4.large, and m4.2xlarge. If you do not specify this parameter, RestoreServer uses the instance type from the specified backup. 
-        public var instanceType: String? = nil
+        public let instanceType: String?
         ///  The ID of the backup that you want to use to restore a server. 
-        public var backupId: String = ""
+        public let backupId: String
         ///  The name of the key pair to set on the new EC2 instance. This can be helpful if the administrator no longer has the SSH key. 
-        public var keyPair: String? = nil
-
-        public init() {}
+        public let keyPair: String?
 
         public init(serverName: String, instanceType: String? = nil, backupId: String, keyPair: String? = nil) {
             self.serverName = serverName
@@ -837,11 +787,9 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeBackups again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Contains the response to a DescribeBackups request. 
-        public var backups: [Backup]? = nil
-
-        public init() {}
+        public let backups: [Backup]?
 
         public init(nextToken: String? = nil, backups: [Backup]? = nil) {
             self.nextToken = nextToken
@@ -852,6 +800,8 @@ extension OpsworksCm {
             self.nextToken = dictionary["NextToken"] as? String
             if let backups = dictionary["Backups"] as? [[String: Any]] {
                 self.backups = try backups.map({ try Backup(dictionary: $0) })
+            } else { 
+                self.backups = nil
             }
         }
     }
@@ -859,8 +809,6 @@ extension OpsworksCm {
     public struct DescribeAccountAttributesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -870,9 +818,7 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the association or disassociation request.   Possible values:     SUCCESS: The association or disassociation succeeded.     FAILED: The association or disassociation failed.     IN_PROGRESS: The association or disassociation is still in progress.   
-        public var nodeAssociationStatus: String? = nil
-
-        public init() {}
+        public let nodeAssociationStatus: String?
 
         public init(nodeAssociationStatus: String? = nil) {
             self.nodeAssociationStatus = nodeAssociationStatus
@@ -887,9 +833,7 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the backup to delete. Run the DescribeBackups command to get a list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS. 
-        public var backupId: String = ""
-
-        public init() {}
+        public let backupId: String
 
         public init(backupId: String) {
             self.backupId = backupId
@@ -905,11 +849,9 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the engine attribute. 
-        public var value: String? = nil
+        public let value: String?
         /// The name of the engine attribute. 
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(value: String? = nil, name: String? = nil) {
             self.value = value
@@ -925,16 +867,14 @@ extension OpsworksCm {
     public struct UpdateServerRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var preferredBackupWindow: String? = nil
+        public let preferredBackupWindow: String?
         /// The name of the server to update. 
-        public var serverName: String = ""
+        public let serverName: String
         /// Setting DisableAutomatedBackup to true disables automated or scheduled backups. Automated backups are enabled by default. 
-        public var disableAutomatedBackup: Bool? = nil
+        public let disableAutomatedBackup: Bool?
         /// Sets the number of automated backups that you want to keep. 
-        public var backupRetentionCount: Int32? = nil
-        public var preferredMaintenanceWindow: String? = nil
-
-        public init() {}
+        public let backupRetentionCount: Int32?
+        public let preferredMaintenanceWindow: String?
 
         public init(preferredBackupWindow: String? = nil, serverName: String, disableAutomatedBackup: Bool? = nil, backupRetentionCount: Int32? = nil, preferredMaintenanceWindow: String? = nil) {
             self.preferredBackupWindow = preferredBackupWindow
@@ -958,8 +898,6 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -967,8 +905,6 @@ extension OpsworksCm {
     public struct DeleteBackupResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -978,16 +914,14 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The server that is created by the request. 
-        public var server: Server? = nil
-
-        public init() {}
+        public let server: Server?
 
         public init(server: Server? = nil) {
             self.server = server
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let server = dictionary["Server"] as? [String: Any] { self.server = try OpsworksCm.Server(dictionary: server) }
+            if let server = dictionary["Server"] as? [String: Any] { self.server = try OpsworksCm.Server(dictionary: server) } else { self.server = nil }
         }
     }
 
@@ -995,16 +929,14 @@ extension OpsworksCm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Contains the response to an UpdateServerEngineAttributes request. 
-        public var server: Server? = nil
-
-        public init() {}
+        public let server: Server?
 
         public init(server: Server? = nil) {
             self.server = server
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let server = dictionary["Server"] as? [String: Any] { self.server = try OpsworksCm.Server(dictionary: server) }
+            if let server = dictionary["Server"] as? [String: Any] { self.server = try OpsworksCm.Server(dictionary: server) } else { self.server = nil }
         }
     }
 

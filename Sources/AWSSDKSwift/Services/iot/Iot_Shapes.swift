@@ -33,11 +33,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the IAM role that grants access to the DynamoDB table.
-        public var roleArn: String? = nil
+        public let roleArn: String?
         /// Specifies the DynamoDB table to which the message data will be written. For example: { "dynamoDBv2": { "roleArn": "aws:iam:12341251:my-role" "putItem": { "tableName": "my-table" } } } Each attribute in the message payload will be written to a separate column in the DynamoDB database.
-        public var putItem: PutItemInput? = nil
-
-        public init() {}
+        public let putItem: PutItemInput?
 
         public init(roleArn: String? = nil, putItem: PutItemInput? = nil) {
             self.roleArn = roleArn
@@ -46,7 +44,7 @@ extension Iot {
 
         public init(dictionary: [String: Any]) throws {
             self.roleArn = dictionary["roleArn"] as? String
-            if let putItem = dictionary["putItem"] as? [String: Any] { self.putItem = try Iot.PutItemInput(dictionary: putItem) }
+            if let putItem = dictionary["putItem"] as? [String: Any] { self.putItem = try Iot.PutItemInput(dictionary: putItem) } else { self.putItem = nil }
         }
     }
 
@@ -54,15 +52,13 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The policy version ID.
-        public var policyVersionId: String? = nil
+        public let policyVersionId: String?
         /// The policy name.
-        public var policyName: String? = nil
+        public let policyName: String?
         /// The policy ARN.
-        public var policyArn: String? = nil
+        public let policyArn: String?
         /// The JSON document that describes the policy.
-        public var policyDocument: String? = nil
-
-        public init() {}
+        public let policyDocument: String?
 
         public init(policyVersionId: String? = nil, policyName: String? = nil, policyArn: String? = nil, policyDocument: String? = nil) {
             self.policyVersionId = policyVersionId
@@ -89,13 +85,11 @@ extension Iot {
             return ["certificateId": "certificateId"]
         }
         /// The ID of the certificate.
-        public var certificateId: String = ""
+        public let certificateId: String
         /// The transfer message.
-        public var transferMessage: String? = nil
+        public let transferMessage: String?
         /// The AWS account.
-        public var targetAwsAccount: String = ""
-
-        public init() {}
+        public let targetAwsAccount: String
 
         public init(certificateId: String, transferMessage: String? = nil, targetAwsAccount: String) {
             self.certificateId = certificateId
@@ -116,8 +110,6 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -132,15 +124,13 @@ extension Iot {
             return ["caCertificateId": "caCertificateId"]
         }
         /// The ID of the CA certificate. This operation will list all registered device certificate that were signed by this CA certificate. 
-        public var caCertificateId: String = ""
+        public let caCertificateId: String
         /// The result page size.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// The marker for the next set of results.
-        public var marker: String? = nil
+        public let marker: String?
         /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
-        public var ascendingOrder: Bool? = nil
-
-        public init() {}
+        public let ascendingOrder: Bool?
 
         public init(caCertificateId: String, pageSize: Int32? = nil, marker: String? = nil, ascendingOrder: Bool? = nil) {
             self.caCertificateId = caCertificateId
@@ -162,11 +152,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The policy ARN.
-        public var policyArn: String? = nil
+        public let policyArn: String?
         /// The policy name.
-        public var policyName: String? = nil
-
-        public init() {}
+        public let policyName: String?
 
         public init(policyArn: String? = nil, policyName: String? = nil) {
             self.policyArn = policyArn
@@ -183,9 +171,7 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = "loggingOptionsPayload"
         /// The logging options payload.
-        public var loggingOptionsPayload: LoggingOptionsPayload = LoggingOptionsPayload()
-
-        public init() {}
+        public let loggingOptionsPayload: LoggingOptionsPayload
 
         public init(loggingOptionsPayload: LoggingOptionsPayload) {
             self.loggingOptionsPayload = loggingOptionsPayload
@@ -201,11 +187,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The thing types.
-        public var thingTypes: [ThingTypeDefinition]? = nil
+        public let thingTypes: [ThingTypeDefinition]?
         /// The token for the next set of results, or null if there are no additional results.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(thingTypes: [ThingTypeDefinition]? = nil, nextToken: String? = nil) {
             self.thingTypes = thingTypes
@@ -215,6 +199,8 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             if let thingTypes = dictionary["thingTypes"] as? [[String: Any]] {
                 self.thingTypes = try thingTypes.map({ try ThingTypeDefinition(dictionary: $0) })
+            } else { 
+                self.thingTypes = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -224,31 +210,29 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// Write data to an Amazon Kinesis stream.
-        public var kinesis: KinesisAction? = nil
+        public let kinesis: KinesisAction?
         /// Write data to an Amazon Elasticsearch Service domain.
-        public var elasticsearch: ElasticsearchAction? = nil
+        public let elasticsearch: ElasticsearchAction?
         /// Publish to an Amazon SQS queue.
-        public var sqs: SqsAction? = nil
+        public let sqs: SqsAction?
         /// Capture a CloudWatch metric.
-        public var cloudwatchMetric: CloudwatchMetricAction? = nil
+        public let cloudwatchMetric: CloudwatchMetricAction?
         /// Publish to another MQTT topic.
-        public var republish: RepublishAction? = nil
+        public let republish: RepublishAction?
         /// Write to an Amazon S3 bucket.
-        public var s3: S3Action? = nil
+        public let s3: S3Action?
         /// Change the state of a CloudWatch alarm.
-        public var cloudwatchAlarm: CloudwatchAlarmAction? = nil
+        public let cloudwatchAlarm: CloudwatchAlarmAction?
         /// Write to an Amazon Kinesis Firehose stream.
-        public var firehose: FirehoseAction? = nil
+        public let firehose: FirehoseAction?
         /// Write to a DynamoDB table. This is a new version of the DynamoDB action. It allows you to write each attribute in an MQTT message payload into a separate DynamoDB column.
-        public var dynamoDBv2: DynamoDBv2Action? = nil
+        public let dynamoDBv2: DynamoDBv2Action?
         /// Write to a DynamoDB table.
-        public var dynamoDB: DynamoDBAction? = nil
+        public let dynamoDB: DynamoDBAction?
         /// Invoke a Lambda function.
-        public var lambda: LambdaAction? = nil
+        public let lambda: LambdaAction?
         /// Publish to an Amazon SNS topic.
-        public var sns: SnsAction? = nil
-
-        public init() {}
+        public let sns: SnsAction?
 
         public init(kinesis: KinesisAction? = nil, elasticsearch: ElasticsearchAction? = nil, sqs: SqsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, cloudwatchAlarm: CloudwatchAlarmAction? = nil, firehose: FirehoseAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, dynamoDB: DynamoDBAction? = nil, lambda: LambdaAction? = nil, sns: SnsAction? = nil) {
             self.kinesis = kinesis
@@ -266,18 +250,18 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let kinesis = dictionary["kinesis"] as? [String: Any] { self.kinesis = try Iot.KinesisAction(dictionary: kinesis) }
-            if let elasticsearch = dictionary["elasticsearch"] as? [String: Any] { self.elasticsearch = try Iot.ElasticsearchAction(dictionary: elasticsearch) }
-            if let sqs = dictionary["sqs"] as? [String: Any] { self.sqs = try Iot.SqsAction(dictionary: sqs) }
-            if let cloudwatchMetric = dictionary["cloudwatchMetric"] as? [String: Any] { self.cloudwatchMetric = try Iot.CloudwatchMetricAction(dictionary: cloudwatchMetric) }
-            if let republish = dictionary["republish"] as? [String: Any] { self.republish = try Iot.RepublishAction(dictionary: republish) }
-            if let s3 = dictionary["s3"] as? [String: Any] { self.s3 = try Iot.S3Action(dictionary: s3) }
-            if let cloudwatchAlarm = dictionary["cloudwatchAlarm"] as? [String: Any] { self.cloudwatchAlarm = try Iot.CloudwatchAlarmAction(dictionary: cloudwatchAlarm) }
-            if let firehose = dictionary["firehose"] as? [String: Any] { self.firehose = try Iot.FirehoseAction(dictionary: firehose) }
-            if let dynamoDBv2 = dictionary["dynamoDBv2"] as? [String: Any] { self.dynamoDBv2 = try Iot.DynamoDBv2Action(dictionary: dynamoDBv2) }
-            if let dynamoDB = dictionary["dynamoDB"] as? [String: Any] { self.dynamoDB = try Iot.DynamoDBAction(dictionary: dynamoDB) }
-            if let lambda = dictionary["lambda"] as? [String: Any] { self.lambda = try Iot.LambdaAction(dictionary: lambda) }
-            if let sns = dictionary["sns"] as? [String: Any] { self.sns = try Iot.SnsAction(dictionary: sns) }
+            if let kinesis = dictionary["kinesis"] as? [String: Any] { self.kinesis = try Iot.KinesisAction(dictionary: kinesis) } else { self.kinesis = nil }
+            if let elasticsearch = dictionary["elasticsearch"] as? [String: Any] { self.elasticsearch = try Iot.ElasticsearchAction(dictionary: elasticsearch) } else { self.elasticsearch = nil }
+            if let sqs = dictionary["sqs"] as? [String: Any] { self.sqs = try Iot.SqsAction(dictionary: sqs) } else { self.sqs = nil }
+            if let cloudwatchMetric = dictionary["cloudwatchMetric"] as? [String: Any] { self.cloudwatchMetric = try Iot.CloudwatchMetricAction(dictionary: cloudwatchMetric) } else { self.cloudwatchMetric = nil }
+            if let republish = dictionary["republish"] as? [String: Any] { self.republish = try Iot.RepublishAction(dictionary: republish) } else { self.republish = nil }
+            if let s3 = dictionary["s3"] as? [String: Any] { self.s3 = try Iot.S3Action(dictionary: s3) } else { self.s3 = nil }
+            if let cloudwatchAlarm = dictionary["cloudwatchAlarm"] as? [String: Any] { self.cloudwatchAlarm = try Iot.CloudwatchAlarmAction(dictionary: cloudwatchAlarm) } else { self.cloudwatchAlarm = nil }
+            if let firehose = dictionary["firehose"] as? [String: Any] { self.firehose = try Iot.FirehoseAction(dictionary: firehose) } else { self.firehose = nil }
+            if let dynamoDBv2 = dictionary["dynamoDBv2"] as? [String: Any] { self.dynamoDBv2 = try Iot.DynamoDBv2Action(dictionary: dynamoDBv2) } else { self.dynamoDBv2 = nil }
+            if let dynamoDB = dictionary["dynamoDB"] as? [String: Any] { self.dynamoDB = try Iot.DynamoDBAction(dictionary: dynamoDB) } else { self.dynamoDB = nil }
+            if let lambda = dictionary["lambda"] as? [String: Any] { self.lambda = try Iot.LambdaAction(dictionary: lambda) } else { self.lambda = nil }
+            if let sns = dictionary["sns"] as? [String: Any] { self.sns = try Iot.SnsAction(dictionary: sns) } else { self.sns = nil }
         }
     }
 
@@ -285,16 +269,14 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The CA certificate description.
-        public var certificateDescription: CACertificateDescription? = nil
-
-        public init() {}
+        public let certificateDescription: CACertificateDescription?
 
         public init(certificateDescription: CACertificateDescription? = nil) {
             self.certificateDescription = certificateDescription
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let certificateDescription = dictionary["certificateDescription"] as? [String: Any] { self.certificateDescription = try Iot.CACertificateDescription(dictionary: certificateDescription) }
+            if let certificateDescription = dictionary["certificateDescription"] as? [String: Any] { self.certificateDescription = try Iot.CACertificateDescription(dictionary: certificateDescription) } else { self.certificateDescription = nil }
         }
     }
 
@@ -302,11 +284,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the IAM role that grants access.
-        public var roleArn: String = ""
+        public let roleArn: String
         /// The name of the MQTT topic.
-        public var topic: String = ""
-
-        public init() {}
+        public let topic: String
 
         public init(roleArn: String, topic: String) {
             self.roleArn = roleArn
@@ -328,9 +308,7 @@ extension Iot {
             return ["ruleName": "ruleName"]
         }
         /// The name of the rule.
-        public var ruleName: String = ""
-
-        public init() {}
+        public let ruleName: String
 
         public init(ruleName: String) {
             self.ruleName = ruleName
@@ -346,11 +324,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The descriptions of the principals.
-        public var principals: [String]? = nil
+        public let principals: [String]?
         /// The marker for the next set of results, or null if there are no additional results.
-        public var nextMarker: String? = nil
-
-        public init() {}
+        public let nextMarker: String?
 
         public init(principals: [String]? = nil, nextMarker: String? = nil) {
             self.principals = principals
@@ -358,9 +334,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let principals = dictionary["principals"] as? [String] {
-                self.principals = principals
-            }
+            self.principals = dictionary["principals"] as? [String]
             self.nextMarker = dictionary["nextMarker"] as? String
         }
     }
@@ -369,11 +343,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The descriptions of the certificates.
-        public var certificates: [Certificate]? = nil
+        public let certificates: [Certificate]?
         /// The marker for the next set of results, or null if there are no additional results.
-        public var nextMarker: String? = nil
-
-        public init() {}
+        public let nextMarker: String?
 
         public init(certificates: [Certificate]? = nil, nextMarker: String? = nil) {
             self.certificates = certificates
@@ -383,6 +355,8 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             if let certificates = dictionary["certificates"] as? [[String: Any]] {
                 self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
+            } else { 
+                self.certificates = nil
             }
             self.nextMarker = dictionary["nextMarker"] as? String
         }
@@ -395,15 +369,13 @@ extension Iot {
             return ["allowAutoRegistration": "allowAutoRegistration", "setAsActive": "setAsActive"]
         }
         /// Allows this CA certificate to be used for auto registration of device certificates.
-        public var allowAutoRegistration: Bool? = nil
+        public let allowAutoRegistration: Bool?
         /// The private key verification certificate.
-        public var verificationCertificate: String = ""
+        public let verificationCertificate: String
         /// The CA certificate.
-        public var caCertificate: String = ""
+        public let caCertificate: String
         /// A boolean value that specifies if the CA certificate is set to active.
-        public var setAsActive: Bool? = nil
-
-        public init() {}
+        public let setAsActive: Bool?
 
         public init(allowAutoRegistration: Bool? = nil, verificationCertificate: String, caCertificate: String, setAsActive: Bool? = nil) {
             self.allowAutoRegistration = allowAutoRegistration
@@ -432,11 +404,9 @@ extension Iot {
             return ["thingName": "thingName"]
         }
         /// The name of the thing.
-        public var thingName: String = ""
+        public let thingName: String
         /// If the principal is a certificate, this value must be ARN of the certificate. If the principal is an Amazon Cognito identity, this value must be the ID of the Amazon Cognito identity.
-        public var principal: String = ""
-
-        public init() {}
+        public let principal: String
 
         public init(thingName: String, principal: String) {
             self.thingName = thingName
@@ -455,11 +425,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the new thing.
-        public var thingName: String? = nil
+        public let thingName: String?
         /// The ARN of the new thing.
-        public var thingArn: String? = nil
-
-        public init() {}
+        public let thingArn: String?
 
         public init(thingName: String? = nil, thingArn: String? = nil) {
             self.thingName = thingName
@@ -476,11 +444,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token for the next set of results, or null if there are no additional results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The things.
-        public var things: [String]? = nil
-
-        public init() {}
+        public let things: [String]?
 
         public init(nextToken: String? = nil, things: [String]? = nil) {
             self.nextToken = nextToken
@@ -489,9 +455,7 @@ extension Iot {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["nextToken"] as? String
-            if let things = dictionary["things"] as? [String] {
-                self.things = things
-            }
+            self.things = dictionary["things"] as? [String]
         }
     }
 
@@ -499,11 +463,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the IAM role that grants access.
-        public var roleArn: String = ""
+        public let roleArn: String
         /// The logging level.
-        public var logLevel: String? = nil
-
-        public init() {}
+        public let logLevel: String?
 
         public init(roleArn: String, logLevel: String? = nil) {
             self.roleArn = roleArn
@@ -524,17 +486,15 @@ extension Iot {
             return ["attributeValue": "attributeValue", "thingTypeName": "thingTypeName", "nextToken": "nextToken", "maxResults": "maxResults", "attributeName": "attributeName"]
         }
         /// The attribute value used to search for things.
-        public var attributeValue: String? = nil
+        public let attributeValue: String?
         /// The name of the thing type used to search for things.
-        public var thingTypeName: String? = nil
+        public let thingTypeName: String?
         /// The token for the next set of results, or null if there are no additional results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to return in this operation.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// The attribute name used to search for things.
-        public var attributeName: String? = nil
-
-        public init() {}
+        public let attributeName: String?
 
         public init(attributeValue: String? = nil, thingTypeName: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil, attributeName: String? = nil) {
             self.attributeValue = attributeValue
@@ -556,13 +516,11 @@ extension Iot {
     public struct ThingTypeDefinition: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var thingTypeMetadata: ThingTypeMetadata? = nil
+        public let thingTypeMetadata: ThingTypeMetadata?
         /// The name of the thing type.
-        public var thingTypeName: String? = nil
+        public let thingTypeName: String?
         /// The ThingTypeProperties for the thing type.
-        public var thingTypeProperties: ThingTypeProperties? = nil
-
-        public init() {}
+        public let thingTypeProperties: ThingTypeProperties?
 
         public init(thingTypeMetadata: ThingTypeMetadata? = nil, thingTypeName: String? = nil, thingTypeProperties: ThingTypeProperties? = nil) {
             self.thingTypeMetadata = thingTypeMetadata
@@ -571,9 +529,9 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let thingTypeMetadata = dictionary["thingTypeMetadata"] as? [String: Any] { self.thingTypeMetadata = try Iot.ThingTypeMetadata(dictionary: thingTypeMetadata) }
+            if let thingTypeMetadata = dictionary["thingTypeMetadata"] as? [String: Any] { self.thingTypeMetadata = try Iot.ThingTypeMetadata(dictionary: thingTypeMetadata) } else { self.thingTypeMetadata = nil }
             self.thingTypeName = dictionary["thingTypeName"] as? String
-            if let thingTypeProperties = dictionary["thingTypeProperties"] as? [String: Any] { self.thingTypeProperties = try Iot.ThingTypeProperties(dictionary: thingTypeProperties) }
+            if let thingTypeProperties = dictionary["thingTypeProperties"] as? [String: Any] { self.thingTypeProperties = try Iot.ThingTypeProperties(dictionary: thingTypeProperties) } else { self.thingTypeProperties = nil }
         }
     }
 
@@ -581,15 +539,13 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The generated key pair.
-        public var keyPair: KeyPair? = nil
+        public let keyPair: KeyPair?
         /// The certificate data, in PEM format.
-        public var certificatePem: String? = nil
+        public let certificatePem: String?
         /// The ID of the certificate. AWS IoT issues a default subject name for the certificate (for example, AWS IoT Certificate).
-        public var certificateId: String? = nil
+        public let certificateId: String?
         /// The ARN of the certificate.
-        public var certificateArn: String? = nil
-
-        public init() {}
+        public let certificateArn: String?
 
         public init(keyPair: KeyPair? = nil, certificatePem: String? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
             self.keyPair = keyPair
@@ -599,7 +555,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let keyPair = dictionary["keyPair"] as? [String: Any] { self.keyPair = try Iot.KeyPair(dictionary: keyPair) }
+            if let keyPair = dictionary["keyPair"] as? [String: Any] { self.keyPair = try Iot.KeyPair(dictionary: keyPair) } else { self.keyPair = nil }
             self.certificatePem = dictionary["certificatePem"] as? String
             self.certificateId = dictionary["certificateId"] as? String
             self.certificateArn = dictionary["certificateArn"] as? String
@@ -610,11 +566,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The rule ARN.
-        public var ruleArn: String? = nil
+        public let ruleArn: String?
         /// The rule.
-        public var rule: TopicRule? = nil
-
-        public init() {}
+        public let rule: TopicRule?
 
         public init(ruleArn: String? = nil, rule: TopicRule? = nil) {
             self.ruleArn = ruleArn
@@ -623,7 +577,7 @@ extension Iot {
 
         public init(dictionary: [String: Any]) throws {
             self.ruleArn = dictionary["ruleArn"] as? String
-            if let rule = dictionary["rule"] as? [String: Any] { self.rule = try Iot.TopicRule(dictionary: rule) }
+            if let rule = dictionary["rule"] as? [String: Any] { self.rule = try Iot.TopicRule(dictionary: rule) } else { self.rule = nil }
         }
     }
 
@@ -634,11 +588,9 @@ extension Iot {
             return ["thingTypeName": "thingTypeName"]
         }
         /// The name of the thing type.
-        public var thingTypeName: String = ""
+        public let thingTypeName: String
         /// The ThingTypeProperties for the thing type to create. It contains information about the new thing type including a description, and a list of searchable thing attribute names.
-        public var thingTypeProperties: ThingTypeProperties? = nil
-
-        public init() {}
+        public let thingTypeProperties: ThingTypeProperties?
 
         public init(thingTypeName: String, thingTypeProperties: ThingTypeProperties? = nil) {
             self.thingTypeName = thingTypeName
@@ -648,7 +600,7 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             guard let thingTypeName = dictionary["thingTypeName"] as? String else { throw InitializableError.missingRequiredParam("thingTypeName") }
             self.thingTypeName = thingTypeName
-            if let thingTypeProperties = dictionary["thingTypeProperties"] as? [String: Any] { self.thingTypeProperties = try Iot.ThingTypeProperties(dictionary: thingTypeProperties) }
+            if let thingTypeProperties = dictionary["thingTypeProperties"] as? [String: Any] { self.thingTypeProperties = try Iot.ThingTypeProperties(dictionary: thingTypeProperties) } else { self.thingTypeProperties = nil }
         }
     }
 
@@ -659,9 +611,7 @@ extension Iot {
             return ["caCertificateId": "certificateId"]
         }
         /// The CA certificate identifier.
-        public var certificateId: String = ""
-
-        public init() {}
+        public let certificateId: String
 
         public init(certificateId: String) {
             self.certificateId = certificateId
@@ -680,9 +630,7 @@ extension Iot {
             return ["certificateId": "certificateId"]
         }
         /// The ID of the certificate.
-        public var certificateId: String = ""
-
-        public init() {}
+        public let certificateId: String
 
         public init(certificateId: String) {
             self.certificateId = certificateId
@@ -701,11 +649,9 @@ extension Iot {
             return ["setAsActive": "setAsActive"]
         }
         /// The certificate signing request (CSR).
-        public var certificateSigningRequest: String = ""
+        public let certificateSigningRequest: String
         /// Specifies whether the certificate is active.
-        public var setAsActive: Bool? = nil
-
-        public init() {}
+        public let setAsActive: Bool?
 
         public init(certificateSigningRequest: String, setAsActive: Bool? = nil) {
             self.certificateSigningRequest = certificateSigningRequest
@@ -723,16 +669,14 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description of the certificate.
-        public var certificateDescription: CertificateDescription? = nil
-
-        public init() {}
+        public let certificateDescription: CertificateDescription?
 
         public init(certificateDescription: CertificateDescription? = nil) {
             self.certificateDescription = certificateDescription
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let certificateDescription = dictionary["certificateDescription"] as? [String: Any] { self.certificateDescription = try Iot.CertificateDescription(dictionary: certificateDescription) }
+            if let certificateDescription = dictionary["certificateDescription"] as? [String: Any] { self.certificateDescription = try Iot.CertificateDescription(dictionary: certificateDescription) } else { self.certificateDescription = nil }
         }
     }
 
@@ -743,9 +687,7 @@ extension Iot {
             return ["setAsActive": "setAsActive"]
         }
         /// Specifies whether the certificate is active.
-        public var setAsActive: Bool? = nil
-
-        public init() {}
+        public let setAsActive: Bool?
 
         public init(setAsActive: Bool? = nil) {
             self.setAsActive = setAsActive
@@ -760,11 +702,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The policies.
-        public var policies: [Policy]? = nil
+        public let policies: [Policy]?
         /// The marker for the next set of results, or null if there are no additional results.
-        public var nextMarker: String? = nil
-
-        public init() {}
+        public let nextMarker: String?
 
         public init(policies: [Policy]? = nil, nextMarker: String? = nil) {
             self.policies = policies
@@ -774,6 +714,8 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             if let policies = dictionary["policies"] as? [[String: Any]] {
                 self.policies = try policies.map({ try Policy(dictionary: $0) })
+            } else { 
+                self.policies = nil
             }
             self.nextMarker = dictionary["nextMarker"] as? String
         }
@@ -789,11 +731,9 @@ extension Iot {
             return ["policyName": "policyName"]
         }
         /// The name of the policy to detach.
-        public var policyName: String = ""
+        public let policyName: String
         /// The principal. If the principal is a certificate, specify the certificate ARN. If the principal is an Amazon Cognito identity, specify the identity ID.
-        public var principal: String = ""
-
-        public init() {}
+        public let principal: String
 
         public init(policyName: String, principal: String) {
             self.policyName = policyName
@@ -812,13 +752,11 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether the thing type is deprecated. If true, no new things could be associated with this type.
-        public var deprecated: Bool? = nil
+        public let deprecated: Bool?
         /// The date and time when the thing type was deprecated.
-        public var deprecationDate: Date? = nil
+        public let deprecationDate: Date?
         /// The date and time when the thing type was created.
-        public var creationDate: Date? = nil
-
-        public init() {}
+        public let creationDate: Date?
 
         public init(deprecated: Bool? = nil, deprecationDate: Date? = nil, creationDate: Date? = nil) {
             self.deprecated = deprecated
@@ -840,9 +778,7 @@ extension Iot {
             return ["ruleName": "ruleName"]
         }
         /// The name of the topic rule to enable.
-        public var ruleName: String = ""
-
-        public init() {}
+        public let ruleName: String
 
         public init(ruleName: String) {
             self.ruleName = ruleName
@@ -864,13 +800,11 @@ extension Iot {
             return ["policyName": "policyName"]
         }
         /// The policy name.
-        public var policyName: String = ""
+        public let policyName: String
         /// Specifies whether the policy version is set as the default. When this parameter is true, the new policy version becomes the operative version (that is, the version that is in effect for the certificates to which the policy is attached).
-        public var setAsDefault: Bool? = nil
+        public let setAsDefault: Bool?
         /// The JSON document that describes the policy. Minimum length of 1. Maximum length of 2048, excluding whitespaces
-        public var policyDocument: String = ""
-
-        public init() {}
+        public let policyDocument: String
 
         public init(policyName: String, setAsDefault: Bool? = nil, policyDocument: String) {
             self.policyName = policyName
@@ -891,13 +825,11 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the IAM role that grants access to the Amazon Kinesis stream.
-        public var roleArn: String = ""
+        public let roleArn: String
         /// The name of the Amazon Kinesis stream.
-        public var streamName: String = ""
+        public let streamName: String
         /// The partition key.
-        public var partitionKey: String? = nil
-
-        public init() {}
+        public let partitionKey: String?
 
         public init(roleArn: String, streamName: String, partitionKey: String? = nil) {
             self.roleArn = roleArn
@@ -918,13 +850,11 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether to use Base64 encoding.
-        public var useBase64: Bool? = nil
+        public let useBase64: Bool?
         /// The ARN of the IAM role that grants access.
-        public var roleArn: String = ""
+        public let roleArn: String
         /// The URL of the Amazon SQS queue.
-        public var queueUrl: String = ""
-
-        public init() {}
+        public let queueUrl: String
 
         public init(useBase64: Bool? = nil, roleArn: String, queueUrl: String) {
             self.useBase64 = useBase64
@@ -945,8 +875,6 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -958,9 +886,7 @@ extension Iot {
             return ["thingName": "thingName"]
         }
         /// The name of the thing.
-        public var thingName: String = ""
-
-        public init() {}
+        public let thingName: String
 
         public init(thingName: String) {
             self.thingName = thingName
@@ -979,11 +905,9 @@ extension Iot {
             return ["policyVersionId": "policyVersionId", "policyName": "policyName"]
         }
         /// The policy version ID.
-        public var policyVersionId: String = ""
+        public let policyVersionId: String
         /// The policy name.
-        public var policyName: String = ""
-
-        public init() {}
+        public let policyName: String
 
         public init(policyVersionId: String, policyName: String) {
             self.policyVersionId = policyVersionId
@@ -1008,13 +932,11 @@ extension Iot {
             return ["caCertificateId": "certificateId"]
         }
         /// The CA certificate identifier.
-        public var certificateId: String = ""
+        public let certificateId: String
         /// The updated status of the CA certificate. Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
-        public var newStatus: String? = nil
+        public let newStatus: String?
         /// The new value for the auto registration status. Valid values are: "ENABLE" or "DISABLE".
-        public var newAutoRegistrationStatus: String? = nil
-
-        public init() {}
+        public let newAutoRegistrationStatus: String?
 
         public init(certificateId: String, newStatus: String? = nil, newAutoRegistrationStatus: String? = nil) {
             self.certificateId = certificateId
@@ -1034,11 +956,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The descriptions of the policies.
-        public var policies: [Policy]? = nil
+        public let policies: [Policy]?
         /// The marker for the next set of results, or null if there are no additional results.
-        public var nextMarker: String? = nil
-
-        public init() {}
+        public let nextMarker: String?
 
         public init(policies: [Policy]? = nil, nextMarker: String? = nil) {
             self.policies = policies
@@ -1048,6 +968,8 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             if let policies = dictionary["policies"] as? [[String: Any]] {
                 self.policies = try policies.map({ try Policy(dictionary: $0) })
+            } else { 
+                self.policies = nil
             }
             self.nextMarker = dictionary["nextMarker"] as? String
         }
@@ -1057,17 +979,15 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IAM role ARN that has access to Elasticsearch.
-        public var roleArn: String = ""
+        public let roleArn: String
         /// The endpoint of your Elasticsearch domain.
-        public var endpoint: String = ""
+        public let endpoint: String
         /// The unique identifier for the document you are storing.
-        public var id: String = ""
+        public let id: String
         /// The type of document you are storing.
-        public var type: String = ""
+        public let type: String
         /// The Elasticsearch index where you want to store your data.
-        public var index: String = ""
-
-        public init() {}
+        public let index: String
 
         public init(roleArn: String, endpoint: String, id: String, type: String, index: String) {
             self.roleArn = roleArn
@@ -1095,11 +1015,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The marker for the next set of results.
-        public var nextMarker: String? = nil
+        public let nextMarker: String?
         /// The certificates that are being transfered but not yet accepted.
-        public var outgoingCertificates: [OutgoingCertificate]? = nil
-
-        public init() {}
+        public let outgoingCertificates: [OutgoingCertificate]?
 
         public init(nextMarker: String? = nil, outgoingCertificates: [OutgoingCertificate]? = nil) {
             self.nextMarker = nextMarker
@@ -1110,6 +1028,8 @@ extension Iot {
             self.nextMarker = dictionary["nextMarker"] as? String
             if let outgoingCertificates = dictionary["outgoingCertificates"] as? [[String: Any]] {
                 self.outgoingCertificates = try outgoingCertificates.map({ try OutgoingCertificate(dictionary: $0) })
+            } else { 
+                self.outgoingCertificates = nil
             }
         }
     }
@@ -1124,11 +1044,9 @@ extension Iot {
             return ["certificateId": "certificateId"]
         }
         /// The ID of the certificate.
-        public var certificateId: String = ""
+        public let certificateId: String
         /// The new status. Note: Setting the status to PENDING_TRANSFER will result in an exception being thrown. PENDING_TRANSFER is a status used internally by AWS IoT. It is not intended for developer use. Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
-        public var newStatus: String = ""
-
-        public init() {}
+        public let newStatus: String
 
         public init(certificateId: String, newStatus: String) {
             self.certificateId = certificateId
@@ -1147,17 +1065,15 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether the rule is disabled.
-        public var ruleDisabled: Bool? = nil
+        public let ruleDisabled: Bool?
         /// The pattern for the topic names that apply.
-        public var topicPattern: String? = nil
+        public let topicPattern: String?
         /// The name of the rule.
-        public var ruleName: String? = nil
+        public let ruleName: String?
         /// The rule ARN.
-        public var ruleArn: String? = nil
+        public let ruleArn: String?
         /// The date and time the rule was created.
-        public var createdAt: Date? = nil
-
-        public init() {}
+        public let createdAt: Date?
 
         public init(ruleDisabled: Bool? = nil, topicPattern: String? = nil, ruleName: String? = nil, ruleArn: String? = nil, createdAt: Date? = nil) {
             self.ruleDisabled = ruleDisabled
@@ -1183,9 +1099,7 @@ extension Iot {
             return ["thingTypeName": "thingTypeName"]
         }
         /// The name of the thing type.
-        public var thingTypeName: String = ""
-
-        public init() {}
+        public let thingTypeName: String
 
         public init(thingTypeName: String) {
             self.thingTypeName = thingTypeName
@@ -1201,11 +1115,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The certificate identifier.
-        public var certificateId: String? = nil
+        public let certificateId: String?
         /// The certificate ARN.
-        public var certificateArn: String? = nil
-
-        public init() {}
+        public let certificateArn: String?
 
         public init(certificateId: String? = nil, certificateArn: String? = nil) {
             self.certificateId = certificateId
@@ -1222,9 +1134,7 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The table where the message data will be written
-        public var tableName: String = ""
-
-        public init() {}
+        public let tableName: String
 
         public init(tableName: String) {
             self.tableName = tableName
@@ -1240,11 +1150,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether the list of attributes provided in the AttributePayload is merged with the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty attribute value.  The merge attribute is only valid when calling UpdateThing. 
-        public var merge: Bool? = nil
+        public let merge: Bool?
         /// A JSON string containing up to three key-value pair in JSON format. For example: {\"attributes\":{\"string1\":\"string2\"}})
-        public var attributes: [String: String]? = nil
-
-        public init() {}
+        public let attributes: [String: String]?
 
         public init(merge: Bool? = nil, attributes: [String: String]? = nil) {
             self.merge = merge
@@ -1255,6 +1163,8 @@ extension Iot {
             self.merge = dictionary["merge"] as? Bool
             if let attributes = dictionary["attributes"] as? [String: String] {
                 self.attributes = attributes
+            } else { 
+                self.attributes = nil
             }
         }
     }
@@ -1266,11 +1176,9 @@ extension Iot {
             return ["policyName": "policyName"]
         }
         /// The JSON document that describes the policy. policyDocument must have a minimum length of 1, with a maximum length of 2048, excluding whitespace.
-        public var policyDocument: String = ""
+        public let policyDocument: String
         /// The policy name.
-        public var policyName: String = ""
-
-        public init() {}
+        public let policyName: String
 
         public init(policyDocument: String, policyName: String) {
             self.policyDocument = policyDocument
@@ -1292,11 +1200,9 @@ extension Iot {
             return ["policyVersionId": "policyVersionId", "policyName": "policyName"]
         }
         /// The policy version ID.
-        public var policyVersionId: String = ""
+        public let policyVersionId: String
         /// The name of the policy.
-        public var policyName: String = ""
-
-        public init() {}
+        public let policyName: String
 
         public init(policyVersionId: String, policyName: String) {
             self.policyVersionId = policyVersionId
@@ -1315,8 +1221,6 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1324,8 +1228,6 @@ extension Iot {
     public struct DeleteRegistrationCodeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -1335,8 +1237,6 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1345,9 +1245,7 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the Lambda function.
-        public var functionArn: String = ""
-
-        public init() {}
+        public let functionArn: String
 
         public init(functionArn: String) {
             self.functionArn = functionArn
@@ -1363,21 +1261,19 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether the rule is disabled.
-        public var ruleDisabled: Bool? = nil
+        public let ruleDisabled: Bool?
         /// The name of the rule.
-        public var ruleName: String? = nil
+        public let ruleName: String?
         /// The date and time the rule was created.
-        public var createdAt: Date? = nil
+        public let createdAt: Date?
         /// The version of the SQL rules engine to use when evaluating the rule.
-        public var awsIotSqlVersion: String? = nil
+        public let awsIotSqlVersion: String?
         /// The description of the rule.
-        public var description: String? = nil
+        public let description: String?
         /// The actions associated with the rule.
-        public var actions: [Action]? = nil
+        public let actions: [Action]?
         /// The SQL statement used to query the topic. When using a SQL query with multiple lines, be sure to escape the newline characters.
-        public var sql: String? = nil
-
-        public init() {}
+        public let sql: String?
 
         public init(ruleDisabled: Bool? = nil, ruleName: String? = nil, createdAt: Date? = nil, awsIotSqlVersion: String? = nil, description: String? = nil, actions: [Action]? = nil, sql: String? = nil) {
             self.ruleDisabled = ruleDisabled
@@ -1397,6 +1293,8 @@ extension Iot {
             self.description = dictionary["description"] as? String
             if let actions = dictionary["actions"] as? [[String: Any]] {
                 self.actions = try actions.map({ try Action(dictionary: $0) })
+            } else { 
+                self.actions = nil
             }
             self.sql = dictionary["sql"] as? String
         }
@@ -1409,13 +1307,11 @@ extension Iot {
             return ["thingName": "thingName"]
         }
         /// The name of the thing type associated with the new thing.
-        public var thingTypeName: String? = nil
+        public let thingTypeName: String?
         /// The attribute payload, which consists of up to three name/value pairs in a JSON document. For example: {\"attributes\":{\"string1\":\"string2\"}})
-        public var attributePayload: AttributePayload? = nil
+        public let attributePayload: AttributePayload?
         /// The name of the thing to create.
-        public var thingName: String = ""
-
-        public init() {}
+        public let thingName: String
 
         public init(thingTypeName: String? = nil, attributePayload: AttributePayload? = nil, thingName: String) {
             self.thingTypeName = thingTypeName
@@ -1425,7 +1321,7 @@ extension Iot {
 
         public init(dictionary: [String: Any]) throws {
             self.thingTypeName = dictionary["thingTypeName"] as? String
-            if let attributePayload = dictionary["attributePayload"] as? [String: Any] { self.attributePayload = try Iot.AttributePayload(dictionary: attributePayload) }
+            if let attributePayload = dictionary["attributePayload"] as? [String: Any] { self.attributePayload = try Iot.AttributePayload(dictionary: attributePayload) } else { self.attributePayload = nil }
             guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
             self.thingName = thingName
         }
@@ -1435,27 +1331,25 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The certificate ID of the CA certificate used to sign this certificate.
-        public var caCertificateId: String? = nil
+        public let caCertificateId: String?
         /// The status of the certificate.
-        public var status: String? = nil
+        public let status: String?
         /// The date and time the certificate was created.
-        public var creationDate: Date? = nil
+        public let creationDate: Date?
         /// The ID of the certificate.
-        public var certificateId: String? = nil
+        public let certificateId: String?
         /// The certificate data, in PEM format.
-        public var certificatePem: String? = nil
+        public let certificatePem: String?
         /// The ID of the AWS account of the previous owner of the certificate.
-        public var previousOwnedBy: String? = nil
+        public let previousOwnedBy: String?
         /// The transfer data.
-        public var transferData: TransferData? = nil
+        public let transferData: TransferData?
         /// The ID of the AWS account that owns the certificate.
-        public var ownedBy: String? = nil
+        public let ownedBy: String?
         /// The ARN of the certificate.
-        public var certificateArn: String? = nil
+        public let certificateArn: String?
         /// The date and time the certificate was last modified.
-        public var lastModifiedDate: Date? = nil
-
-        public init() {}
+        public let lastModifiedDate: Date?
 
         public init(caCertificateId: String? = nil, status: String? = nil, creationDate: Date? = nil, certificateId: String? = nil, certificatePem: String? = nil, previousOwnedBy: String? = nil, transferData: TransferData? = nil, ownedBy: String? = nil, certificateArn: String? = nil, lastModifiedDate: Date? = nil) {
             self.caCertificateId = caCertificateId
@@ -1477,7 +1371,7 @@ extension Iot {
             self.certificateId = dictionary["certificateId"] as? String
             self.certificatePem = dictionary["certificatePem"] as? String
             self.previousOwnedBy = dictionary["previousOwnedBy"] as? String
-            if let transferData = dictionary["transferData"] as? [String: Any] { self.transferData = try Iot.TransferData(dictionary: transferData) }
+            if let transferData = dictionary["transferData"] as? [String: Any] { self.transferData = try Iot.TransferData(dictionary: transferData) } else { self.transferData = nil }
             self.ownedBy = dictionary["ownedBy"] as? String
             self.certificateArn = dictionary["certificateArn"] as? String
             self.lastModifiedDate = dictionary["lastModifiedDate"] as? Date
@@ -1488,15 +1382,13 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IAM role that allows access to the CloudWatch alarm.
-        public var roleArn: String = ""
+        public let roleArn: String
         /// The reason for the alarm change.
-        public var stateReason: String = ""
+        public let stateReason: String
         /// The CloudWatch alarm name.
-        public var alarmName: String = ""
+        public let alarmName: String
         /// The value of the alarm state. Acceptable values are: OK, ALARM, INSUFFICIENT_DATA.
-        public var stateValue: String = ""
-
-        public init() {}
+        public let stateValue: String
 
         public init(roleArn: String, stateReason: String, alarmName: String, stateValue: String) {
             self.roleArn = roleArn
@@ -1524,9 +1416,7 @@ extension Iot {
             return ["ruleName": "ruleName"]
         }
         /// The name of the rule to disable.
-        public var ruleName: String = ""
-
-        public init() {}
+        public let ruleName: String
 
         public init(ruleName: String) {
             self.ruleName = ruleName
@@ -1548,13 +1438,11 @@ extension Iot {
             return ["maxResults": "maxResults", "nextToken": "nextToken"]
         }
         /// The maximum number of results to return in this operation.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// The token for the next set of results, or null if there are no additional results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The principal.
-        public var principal: String = ""
-
-        public init() {}
+        public let principal: String
 
         public init(maxResults: Int32? = nil, nextToken: String? = nil, principal: String) {
             self.maxResults = maxResults
@@ -1577,11 +1465,9 @@ extension Iot {
             return ["ruleName": "ruleName"]
         }
         /// The name of the rule.
-        public var ruleName: String = ""
+        public let ruleName: String
         /// The rule payload.
-        public var topicRulePayload: TopicRulePayload = TopicRulePayload()
-
-        public init() {}
+        public let topicRulePayload: TopicRulePayload
 
         public init(ruleName: String, topicRulePayload: TopicRulePayload) {
             self.ruleName = ruleName
@@ -1603,9 +1489,7 @@ extension Iot {
             return ["caCertificateId": "certificateId"]
         }
         /// The ID of the certificate to delete.
-        public var certificateId: String = ""
-
-        public init() {}
+        public let certificateId: String
 
         public init(certificateId: String) {
             self.certificateId = certificateId
@@ -1621,15 +1505,13 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the CA certificate.  The status value REGISTER_INACTIVE is deprecated and should not be used.
-        public var status: String? = nil
+        public let status: String?
         /// The date the CA certificate was created.
-        public var creationDate: Date? = nil
+        public let creationDate: Date?
         /// The ID of the CA certificate.
-        public var certificateId: String? = nil
+        public let certificateId: String?
         /// The ARN of the CA certificate.
-        public var certificateArn: String? = nil
-
-        public init() {}
+        public let certificateArn: String?
 
         public init(status: String? = nil, creationDate: Date? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
             self.status = status
@@ -1653,9 +1535,7 @@ extension Iot {
             return ["policyName": "policyName"]
         }
         /// The policy name.
-        public var policyName: String = ""
-
-        public init() {}
+        public let policyName: String
 
         public init(policyName: String) {
             self.policyName = policyName
@@ -1677,15 +1557,13 @@ extension Iot {
             return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
         }
         /// The marker for the next set of results.
-        public var marker: String? = nil
+        public let marker: String?
         /// The result page size.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// The policy name.
-        public var policyName: String = ""
+        public let policyName: String
         /// Specifies the order for results. If true, the results are returned in ascending creation order.
-        public var ascendingOrder: Bool? = nil
-
-        public init() {}
+        public let ascendingOrder: Bool?
 
         public init(marker: String? = nil, pageSize: Int32? = nil, policyName: String, ascendingOrder: Bool? = nil) {
             self.marker = marker
@@ -1707,13 +1585,11 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date and time the policy was created.
-        public var createDate: Date? = nil
+        public let createDate: Date?
         /// The policy version ID.
-        public var versionId: String? = nil
+        public let versionId: String?
         /// Specifies whether the policy version is the default.
-        public var isDefaultVersion: Bool? = nil
-
-        public init() {}
+        public let isDefaultVersion: Bool?
 
         public init(createDate: Date? = nil, versionId: String? = nil, isDefaultVersion: Bool? = nil) {
             self.createDate = createDate
@@ -1738,11 +1614,9 @@ extension Iot {
             return ["thingName": "thingName"]
         }
         /// The name of the thing.
-        public var thingName: String = ""
+        public let thingName: String
         /// The principal, such as a certificate or other credential.
-        public var principal: String = ""
-
-        public init() {}
+        public let principal: String
 
         public init(thingName: String, principal: String) {
             self.thingName = thingName
@@ -1761,8 +1635,6 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1771,9 +1643,7 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The CA certificate registration code.
-        public var registrationCode: String? = nil
-
-        public init() {}
+        public let registrationCode: String?
 
         public init(registrationCode: String? = nil) {
             self.registrationCode = registrationCode
@@ -1788,11 +1658,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device certificates signed by the specified CA certificate.
-        public var certificates: [Certificate]? = nil
+        public let certificates: [Certificate]?
         /// The marker for the next set of results, or null if there are no additional results.
-        public var nextMarker: String? = nil
-
-        public init() {}
+        public let nextMarker: String?
 
         public init(certificates: [Certificate]? = nil, nextMarker: String? = nil) {
             self.certificates = certificates
@@ -1802,6 +1670,8 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             if let certificates = dictionary["certificates"] as? [[String: Any]] {
                 self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
+            } else { 
+                self.certificates = nil
             }
             self.nextMarker = dictionary["nextMarker"] as? String
         }
@@ -1814,13 +1684,11 @@ extension Iot {
             return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
         }
         /// The marker for the next set of results.
-        public var marker: String? = nil
+        public let marker: String?
         /// The result page size.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// Specifies the order for results. If true, the results are returned in ascending creation order.
-        public var ascendingOrder: Bool? = nil
-
-        public init() {}
+        public let ascendingOrder: Bool?
 
         public init(marker: String? = nil, pageSize: Int32? = nil, ascendingOrder: Bool? = nil) {
             self.marker = marker
@@ -1842,13 +1710,11 @@ extension Iot {
             return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
         }
         /// The marker for the next set of results.
-        public var marker: String? = nil
+        public let marker: String?
         /// The result page size.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// Determines the order of the results.
-        public var ascendingOrder: Bool? = nil
-
-        public init() {}
+        public let ascendingOrder: Bool?
 
         public init(marker: String? = nil, pageSize: Int32? = nil, ascendingOrder: Bool? = nil) {
             self.marker = marker
@@ -1870,11 +1736,9 @@ extension Iot {
             return ["thingTypeName": "thingTypeName"]
         }
         /// The name of the thing type to deprecate.
-        public var thingTypeName: String = ""
+        public let thingTypeName: String
         /// Whether to undeprecate a deprecated thing type. If true, the thing type will not be deprecated anymore and you can associate it with things.
-        public var undoDeprecate: Bool? = nil
-
-        public init() {}
+        public let undoDeprecate: Bool?
 
         public init(thingTypeName: String, undoDeprecate: Bool? = nil) {
             self.thingTypeName = thingTypeName
@@ -1892,17 +1756,15 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The version of the SQL rules engine to use when evaluating the rule.
-        public var awsIotSqlVersion: String? = nil
+        public let awsIotSqlVersion: String?
         /// Specifies whether the rule is disabled.
-        public var ruleDisabled: Bool? = nil
+        public let ruleDisabled: Bool?
         /// The description of the rule.
-        public var description: String? = nil
+        public let description: String?
         /// The actions associated with the rule.
-        public var actions: [Action] = []
+        public let actions: [Action]
         /// The SQL statement used to query the topic. For more information, see AWS IoT SQL Reference in the AWS IoT Developer Guide.
-        public var sql: String = ""
-
-        public init() {}
+        public let sql: String
 
         public init(awsIotSqlVersion: String? = nil, ruleDisabled: Bool? = nil, description: String? = nil, actions: [Action], sql: String) {
             self.awsIotSqlVersion = awsIotSqlVersion
@@ -1927,13 +1789,11 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The message format of the message to publish. Optional. Accepted values are "JSON" and "RAW". The default value of the attribute is "RAW". SNS uses this setting to determine if the payload should be parsed and relevant platform-specific bits of the payload should be extracted. To read more about SNS message formats, see  refer to their official documentation.
-        public var messageFormat: String? = nil
+        public let messageFormat: String?
         /// The ARN of the IAM role that grants access.
-        public var roleArn: String = ""
+        public let roleArn: String
         /// The ARN of the SNS topic.
-        public var targetArn: String = ""
-
-        public init() {}
+        public let targetArn: String
 
         public init(messageFormat: String? = nil, roleArn: String, targetArn: String) {
             self.messageFormat = messageFormat
@@ -1954,11 +1814,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The public key.
-        public var publicKey: String? = nil
+        public let publicKey: String?
         /// The private key.
-        public var privateKey: String? = nil
-
-        public init() {}
+        public let privateKey: String?
 
         public init(publicKey: String? = nil, privateKey: String? = nil) {
             self.publicKey = publicKey
@@ -1975,8 +1833,6 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1985,9 +1841,7 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The policy versions.
-        public var policyVersions: [PolicyVersion]? = nil
-
-        public init() {}
+        public let policyVersions: [PolicyVersion]?
 
         public init(policyVersions: [PolicyVersion]? = nil) {
             self.policyVersions = policyVersions
@@ -1996,6 +1850,8 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             if let policyVersions = dictionary["policyVersions"] as? [[String: Any]] {
                 self.policyVersions = try policyVersions.map({ try PolicyVersion(dictionary: $0) })
+            } else { 
+                self.policyVersions = nil
             }
         }
     }
@@ -2004,17 +1860,15 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The JSON document that describes the policy.
-        public var policyDocument: String? = nil
+        public let policyDocument: String?
         /// The policy version ID.
-        public var policyVersionId: String? = nil
+        public let policyVersionId: String?
         /// The policy name.
-        public var policyName: String? = nil
+        public let policyName: String?
         /// Specifies whether the policy version is the default.
-        public var isDefaultVersion: Bool? = nil
+        public let isDefaultVersion: Bool?
         /// The policy ARN.
-        public var policyArn: String? = nil
-
-        public init() {}
+        public let policyArn: String?
 
         public init(policyDocument: String? = nil, policyVersionId: String? = nil, policyName: String? = nil, isDefaultVersion: Bool? = nil, policyArn: String? = nil) {
             self.policyDocument = policyDocument
@@ -2040,13 +1894,11 @@ extension Iot {
             return ["thingTypeName": "thingTypeName", "nextToken": "nextToken", "maxResults": "maxResults"]
         }
         /// The name of the thing type.
-        public var thingTypeName: String? = nil
+        public let thingTypeName: String?
         /// The token for the next set of results, or null if there are no additional results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to return in this operation.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(thingTypeName: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.thingTypeName = thingTypeName
@@ -2065,11 +1917,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the thing type.
-        public var thingTypeName: String? = nil
+        public let thingTypeName: String?
         /// The Amazon Resource Name (ARN) of the thing type.
-        public var thingTypeArn: String? = nil
-
-        public init() {}
+        public let thingTypeArn: String?
 
         public init(thingTypeName: String? = nil, thingTypeArn: String? = nil) {
             self.thingTypeName = thingTypeName
@@ -2089,9 +1939,7 @@ extension Iot {
             return ["ruleName": "ruleName"]
         }
         /// The name of the rule.
-        public var ruleName: String = ""
-
-        public init() {}
+        public let ruleName: String
 
         public init(ruleName: String) {
             self.ruleName = ruleName
@@ -2110,11 +1958,9 @@ extension Iot {
             return ["policyVersionId": "policyVersionId", "policyName": "policyName"]
         }
         /// The policy version ID.
-        public var policyVersionId: String = ""
+        public let policyVersionId: String
         /// The name of the policy.
-        public var policyName: String = ""
-
-        public init() {}
+        public let policyName: String
 
         public init(policyVersionId: String, policyName: String) {
             self.policyVersionId = policyVersionId
@@ -2133,11 +1979,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The rules.
-        public var rules: [TopicRuleListItem]? = nil
+        public let rules: [TopicRuleListItem]?
         /// A token used to retrieve the next value.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(rules: [TopicRuleListItem]? = nil, nextToken: String? = nil) {
             self.rules = rules
@@ -2147,6 +1991,8 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             if let rules = dictionary["rules"] as? [[String: Any]] {
                 self.rules = try rules.map({ try TopicRuleListItem(dictionary: $0) })
+            } else { 
+                self.rules = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -2156,15 +2002,13 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon S3 bucket.
-        public var bucketName: String = ""
+        public let bucketName: String
         /// The ARN of the IAM role that grants access.
-        public var roleArn: String = ""
+        public let roleArn: String
         /// The Amazon S3 canned ACL that controls access to the object identified by the object key. For more information, see S3 canned ACLs.
-        public var cannedAcl: String? = nil
+        public let cannedAcl: String?
         /// The object key.
-        public var key: String = ""
-
-        public init() {}
+        public let key: String
 
         public init(bucketName: String, roleArn: String, cannedAcl: String? = nil, key: String) {
             self.bucketName = bucketName
@@ -2188,19 +2032,17 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The transfer message.
-        public var transferMessage: String? = nil
+        public let transferMessage: String?
         /// The certificate creation date.
-        public var creationDate: Date? = nil
+        public let creationDate: Date?
         /// The certificate ID.
-        public var certificateId: String? = nil
+        public let certificateId: String?
         /// The certificate ARN.
-        public var certificateArn: String? = nil
+        public let certificateArn: String?
         /// The AWS account to which the transfer was made.
-        public var transferredTo: String? = nil
+        public let transferredTo: String?
         /// The date the transfer was initiated.
-        public var transferDate: Date? = nil
-
-        public init() {}
+        public let transferDate: Date?
 
         public init(transferMessage: String? = nil, creationDate: Date? = nil, certificateId: String? = nil, certificateArn: String? = nil, transferredTo: String? = nil, transferDate: Date? = nil) {
             self.transferMessage = transferMessage
@@ -2225,13 +2067,11 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the certificate. Certificate management operations only take a certificateId.
-        public var certificateId: String? = nil
+        public let certificateId: String?
         /// The Amazon Resource Name (ARN) of the certificate. You can use the ARN as a principal for policy operations.
-        public var certificateArn: String? = nil
+        public let certificateArn: String?
         /// The certificate data, in PEM format.
-        public var certificatePem: String? = nil
-
-        public init() {}
+        public let certificatePem: String?
 
         public init(certificateId: String? = nil, certificateArn: String? = nil, certificatePem: String? = nil) {
             self.certificateId = certificateId
@@ -2250,9 +2090,7 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the certificate.
-        public var transferredCertificateArn: String? = nil
-
-        public init() {}
+        public let transferredCertificateArn: String?
 
         public init(transferredCertificateArn: String? = nil) {
             self.transferredCertificateArn = transferredCertificateArn
@@ -2267,13 +2105,11 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IAM role that grants access to the Amazon Kinesis Firehost stream.
-        public var roleArn: String = ""
+        public let roleArn: String
         /// The delivery stream name.
-        public var deliveryStreamName: String = ""
+        public let deliveryStreamName: String
         /// A character separator that will be used to separate records written to the Firehose stream. Valid values are: '\n' (newline), '\t' (tab), '\r\n' (Windows newline), ',' (comma).
-        public var separator: String? = nil
-
-        public init() {}
+        public let separator: String?
 
         public init(roleArn: String, deliveryStreamName: String, separator: String? = nil) {
             self.roleArn = roleArn
@@ -2294,15 +2130,13 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The policy ARN.
-        public var policyArn: String? = nil
+        public let policyArn: String?
         /// The policy version ID.
-        public var policyVersionId: String? = nil
+        public let policyVersionId: String?
         /// Specifies whether the policy version is the default.
-        public var isDefaultVersion: Bool? = nil
+        public let isDefaultVersion: Bool?
         /// The JSON document that describes the policy.
-        public var policyDocument: String? = nil
-
-        public init() {}
+        public let policyDocument: String?
 
         public init(policyArn: String? = nil, policyVersionId: String? = nil, isDefaultVersion: Bool? = nil, policyDocument: String? = nil) {
             self.policyArn = policyArn
@@ -2329,11 +2163,9 @@ extension Iot {
             return ["certificateId": "certificateId"]
         }
         /// The ID of the certificate.
-        public var certificateId: String = ""
+        public let certificateId: String
         /// Specifies whether the certificate is active.
-        public var setAsActive: Bool? = nil
-
-        public init() {}
+        public let setAsActive: Bool?
 
         public init(certificateId: String, setAsActive: Bool? = nil) {
             self.certificateId = certificateId
@@ -2354,9 +2186,7 @@ extension Iot {
             return ["certificateId": "certificateId"]
         }
         /// The ID of the certificate.
-        public var certificateId: String = ""
-
-        public init() {}
+        public let certificateId: String
 
         public init(certificateId: String) {
             self.certificateId = certificateId
@@ -2375,9 +2205,7 @@ extension Iot {
             return ["certificateId": "certificateId"]
         }
         /// The ID of the certificate.
-        public var certificateId: String = ""
-
-        public init() {}
+        public let certificateId: String
 
         public init(certificateId: String) {
             self.certificateId = certificateId
@@ -2393,8 +2221,6 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -2403,9 +2229,7 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The endpoint. The format of the endpoint is as follows: identifier.iot.region.amazonaws.com.
-        public var endpointAddress: String? = nil
-
-        public init() {}
+        public let endpointAddress: String?
 
         public init(endpointAddress: String? = nil) {
             self.endpointAddress = endpointAddress
@@ -2423,11 +2247,9 @@ extension Iot {
             return ["certificateId": "certificateId"]
         }
         /// The ID of the certificate.
-        public var certificateId: String = ""
+        public let certificateId: String
         /// The reason the certificate transfer was rejected.
-        public var rejectReason: String? = nil
-
-        public init() {}
+        public let rejectReason: String?
 
         public init(certificateId: String, rejectReason: String? = nil) {
             self.certificateId = certificateId
@@ -2445,17 +2267,15 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date the transfer was rejected.
-        public var rejectDate: Date? = nil
+        public let rejectDate: Date?
         /// The date the transfer was accepted.
-        public var acceptDate: Date? = nil
+        public let acceptDate: Date?
         /// The transfer message.
-        public var transferMessage: String? = nil
+        public let transferMessage: String?
         /// The date the transfer took place.
-        public var transferDate: Date? = nil
+        public let transferDate: Date?
         /// The reason why the transfer was rejected.
-        public var rejectReason: String? = nil
-
-        public init() {}
+        public let rejectReason: String?
 
         public init(rejectDate: Date? = nil, acceptDate: Date? = nil, transferMessage: String? = nil, transferDate: Date? = nil, rejectReason: String? = nil) {
             self.rejectDate = rejectDate
@@ -2481,9 +2301,7 @@ extension Iot {
             return ["policyName": "policyName"]
         }
         /// The name of the policy.
-        public var policyName: String = ""
-
-        public init() {}
+        public let policyName: String
 
         public init(policyName: String) {
             self.policyName = policyName
@@ -2499,15 +2317,13 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
-        public var status: String? = nil
+        public let status: String?
         /// The date and time the certificate was created.
-        public var creationDate: Date? = nil
+        public let creationDate: Date?
         /// The ID of the certificate.
-        public var certificateId: String? = nil
+        public let certificateId: String?
         /// The ARN of the certificate.
-        public var certificateArn: String? = nil
-
-        public init() {}
+        public let certificateArn: String?
 
         public init(status: String? = nil, creationDate: Date? = nil, certificateId: String? = nil, certificateArn: String? = nil) {
             self.status = status
@@ -2531,14 +2347,12 @@ extension Iot {
             return ["setAsActive": "setAsActive"]
         }
         /// The CA certificate used to sign the device certificate being registered.
-        public var caCertificatePem: String? = nil
-        public var status: String? = nil
+        public let caCertificatePem: String?
+        public let status: String?
         /// The certificate data, in PEM format.
-        public var certificatePem: String = ""
+        public let certificatePem: String
         /// A boolean value that specifies if the CA certificate is set to active.
-        public var setAsActive: Bool? = nil
-
-        public init() {}
+        public let setAsActive: Bool?
 
         public init(caCertificatePem: String? = nil, status: String? = nil, certificatePem: String, setAsActive: Bool? = nil) {
             self.caCertificatePem = caCertificatePem
@@ -2560,18 +2374,14 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The principals associated with the thing.
-        public var principals: [String]? = nil
-
-        public init() {}
+        public let principals: [String]?
 
         public init(principals: [String]? = nil) {
             self.principals = principals
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let principals = dictionary["principals"] as? [String] {
-                self.principals = principals
-            }
+            self.principals = dictionary["principals"] as? [String]
         }
     }
 
@@ -2579,11 +2389,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the IAM role that grants access.
-        public var roleArn: String? = nil
+        public let roleArn: String?
         /// The logging level.
-        public var logLevel: String? = nil
-
-        public init() {}
+        public let logLevel: String?
 
         public init(roleArn: String? = nil, logLevel: String? = nil) {
             self.roleArn = roleArn
@@ -2603,13 +2411,11 @@ extension Iot {
             return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
         }
         /// The marker for the next set of results.
-        public var marker: String? = nil
+        public let marker: String?
         /// The result page size.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
-        public var ascendingOrder: Bool? = nil
-
-        public init() {}
+        public let ascendingOrder: Bool?
 
         public init(marker: String? = nil, pageSize: Int32? = nil, ascendingOrder: Bool? = nil) {
             self.marker = marker
@@ -2628,11 +2434,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The CA certificates registered in your AWS account.
-        public var certificates: [CACertificate]? = nil
+        public let certificates: [CACertificate]?
         /// The current position within the list of CA certificates.
-        public var nextMarker: String? = nil
-
-        public init() {}
+        public let nextMarker: String?
 
         public init(certificates: [CACertificate]? = nil, nextMarker: String? = nil) {
             self.certificates = certificates
@@ -2642,6 +2446,8 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             if let certificates = dictionary["certificates"] as? [[String: Any]] {
                 self.certificates = try certificates.map({ try CACertificate(dictionary: $0) })
+            } else { 
+                self.certificates = nil
             }
             self.nextMarker = dictionary["nextMarker"] as? String
         }
@@ -2651,11 +2457,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description of the thing type.
-        public var thingTypeDescription: String? = nil
+        public let thingTypeDescription: String?
         /// A list of searchable thing attribute names.
-        public var searchableAttributes: [String]? = nil
-
-        public init() {}
+        public let searchableAttributes: [String]?
 
         public init(thingTypeDescription: String? = nil, searchableAttributes: [String]? = nil) {
             self.thingTypeDescription = thingTypeDescription
@@ -2664,9 +2468,7 @@ extension Iot {
 
         public init(dictionary: [String: Any]) throws {
             self.thingTypeDescription = dictionary["thingTypeDescription"] as? String
-            if let searchableAttributes = dictionary["searchableAttributes"] as? [String] {
-                self.searchableAttributes = searchableAttributes
-            }
+            self.searchableAttributes = dictionary["searchableAttributes"] as? [String]
         }
     }
 
@@ -2674,15 +2476,13 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The policy name.
-        public var policyName: String? = nil
+        public let policyName: String?
         /// The default policy version ID.
-        public var defaultVersionId: String? = nil
+        public let defaultVersionId: String?
         /// The policy ARN.
-        public var policyArn: String? = nil
+        public let policyArn: String?
         /// The JSON document that describes the policy.
-        public var policyDocument: String? = nil
-
-        public init() {}
+        public let policyDocument: String?
 
         public init(policyName: String? = nil, defaultVersionId: String? = nil, policyArn: String? = nil, policyDocument: String? = nil) {
             self.policyName = policyName
@@ -2703,11 +2503,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token for the next set of results, or null if there are no additional results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The things.
-        public var things: [ThingAttribute]? = nil
-
-        public init() {}
+        public let things: [ThingAttribute]?
 
         public init(nextToken: String? = nil, things: [ThingAttribute]? = nil) {
             self.nextToken = nextToken
@@ -2718,6 +2516,8 @@ extension Iot {
             self.nextToken = dictionary["nextToken"] as? String
             if let things = dictionary["things"] as? [[String: Any]] {
                 self.things = try things.map({ try ThingAttribute(dictionary: $0) })
+            } else { 
+                self.things = nil
             }
         }
     }
@@ -2732,15 +2532,13 @@ extension Iot {
             return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
         }
         /// The marker for the next set of results.
-        public var marker: String? = nil
+        public let marker: String?
         /// The result page size.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// Specifies the order for results. If true, results are returned in ascending creation order.
-        public var ascendingOrder: Bool? = nil
+        public let ascendingOrder: Bool?
         /// The principal.
-        public var principal: String = ""
-
-        public init() {}
+        public let principal: String
 
         public init(marker: String? = nil, pageSize: Int32? = nil, ascendingOrder: Bool? = nil, principal: String) {
             self.marker = marker
@@ -2762,15 +2560,13 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the thing.
-        public var thingName: String? = nil
+        public let thingName: String?
         /// The name of the thing type, if the thing has been associated with a type.
-        public var thingTypeName: String? = nil
+        public let thingTypeName: String?
         /// A list of thing attributes which are name-value pairs.
-        public var attributes: [String: String]? = nil
+        public let attributes: [String: String]?
         /// The version of the thing record in the registry.
-        public var version: Int64? = nil
-
-        public init() {}
+        public let version: Int64?
 
         public init(thingName: String? = nil, thingTypeName: String? = nil, attributes: [String: String]? = nil, version: Int64? = nil) {
             self.thingName = thingName
@@ -2784,6 +2580,8 @@ extension Iot {
             self.thingTypeName = dictionary["thingTypeName"] as? String
             if let attributes = dictionary["attributes"] as? [String: String] {
                 self.attributes = attributes
+            } else { 
+                self.attributes = nil
             }
             self.version = dictionary["version"] as? Int64
         }
@@ -2796,9 +2594,7 @@ extension Iot {
             return ["policyName": "policyName"]
         }
         /// The name of the policy to delete.
-        public var policyName: String = ""
-
-        public init() {}
+        public let policyName: String
 
         public init(policyName: String) {
             self.policyName = policyName
@@ -2817,9 +2613,7 @@ extension Iot {
             return ["thingName": "thingName"]
         }
         /// The name of the thing.
-        public var thingName: String = ""
-
-        public init() {}
+        public let thingName: String
 
         public init(thingName: String) {
             self.thingName = thingName
@@ -2835,21 +2629,19 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of a CA certificate.
-        public var status: String? = nil
+        public let status: String?
         /// Whether the CA certificate configured for auto registration of device certificates. Valid values are "ENABLE" and "DISABLE"
-        public var autoRegistrationStatus: String? = nil
+        public let autoRegistrationStatus: String?
         /// The date the CA certificate was created.
-        public var creationDate: Date? = nil
+        public let creationDate: Date?
         /// The CA certificate ID.
-        public var certificateId: String? = nil
+        public let certificateId: String?
         /// The CA certificate data, in PEM format.
-        public var certificatePem: String? = nil
+        public let certificatePem: String?
         /// The owner of the CA certificate.
-        public var ownedBy: String? = nil
+        public let ownedBy: String?
         /// The CA certificate ARN.
-        public var certificateArn: String? = nil
-
-        public init() {}
+        public let certificateArn: String?
 
         public init(status: String? = nil, autoRegistrationStatus: String? = nil, creationDate: Date? = nil, certificateId: String? = nil, certificatePem: String? = nil, ownedBy: String? = nil, certificateArn: String? = nil) {
             self.status = status
@@ -2879,15 +2671,13 @@ extension Iot {
             return ["ruleDisabled": "ruleDisabled", "maxResults": "maxResults", "nextToken": "nextToken", "topic": "topic"]
         }
         /// Specifies whether the rule is disabled.
-        public var ruleDisabled: Bool? = nil
+        public let ruleDisabled: Bool?
         /// The maximum number of results to return.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// A token used to retrieve the next value.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The topic.
-        public var topic: String? = nil
-
-        public init() {}
+        public let topic: String?
 
         public init(ruleDisabled: Bool? = nil, maxResults: Int32? = nil, nextToken: String? = nil, topic: String? = nil) {
             self.ruleDisabled = ruleDisabled
@@ -2908,17 +2698,15 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The default client ID.
-        public var defaultClientId: String? = nil
+        public let defaultClientId: String?
         /// The name of the thing.
-        public var thingName: String? = nil
+        public let thingName: String?
         /// The thing type name.
-        public var thingTypeName: String? = nil
+        public let thingTypeName: String?
         /// The thing attributes.
-        public var attributes: [String: String]? = nil
+        public let attributes: [String: String]?
         /// The current version of the thing record in the registry.  To avoid unintentional changes to the information in the registry, you can pass the version information in the expectedVersion parameter of the UpdateThing and DeleteThing calls. 
-        public var version: Int64? = nil
-
-        public init() {}
+        public let version: Int64?
 
         public init(defaultClientId: String? = nil, thingName: String? = nil, thingTypeName: String? = nil, attributes: [String: String]? = nil, version: Int64? = nil) {
             self.defaultClientId = defaultClientId
@@ -2934,6 +2722,8 @@ extension Iot {
             self.thingTypeName = dictionary["thingTypeName"] as? String
             if let attributes = dictionary["attributes"] as? [String: String] {
                 self.attributes = attributes
+            } else { 
+                self.attributes = nil
             }
             self.version = dictionary["version"] as? Int64
         }
@@ -2946,9 +2736,7 @@ extension Iot {
             return ["thingTypeName": "thingTypeName"]
         }
         /// The name of the thing type.
-        public var thingTypeName: String = ""
-
-        public init() {}
+        public let thingTypeName: String
 
         public init(thingTypeName: String) {
             self.thingTypeName = thingTypeName
@@ -2970,11 +2758,9 @@ extension Iot {
             return ["policyName": "policyName"]
         }
         /// The policy name.
-        public var policyName: String = ""
+        public let policyName: String
         /// The principal, which can be a certificate ARN (as returned from the CreateCertificate operation) or an Amazon Cognito ID.
-        public var principal: String = ""
-
-        public init() {}
+        public let principal: String
 
         public init(policyName: String, principal: String) {
             self.policyName = policyName
@@ -2996,17 +2782,15 @@ extension Iot {
             return ["thingName": "thingName"]
         }
         /// Remove a thing type association. If true, the assocation is removed.
-        public var removeThingType: Bool? = nil
+        public let removeThingType: Bool?
         /// The name of the thing to update.
-        public var thingName: String = ""
+        public let thingName: String
         /// The name of the thing type.
-        public var thingTypeName: String? = nil
+        public let thingTypeName: String?
         /// The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the UpdateThing request is rejected with a VersionConflictException.
-        public var expectedVersion: Int64? = nil
+        public let expectedVersion: Int64?
         /// A list of thing attributes, a JSON string containing name-value pairs. For example: {\"attributes\":{\"name1\":\"value2\"}}) This data is used to add new attributes or update existing attributes.
-        public var attributePayload: AttributePayload? = nil
-
-        public init() {}
+        public let attributePayload: AttributePayload?
 
         public init(removeThingType: Bool? = nil, thingName: String, thingTypeName: String? = nil, expectedVersion: Int64? = nil, attributePayload: AttributePayload? = nil) {
             self.removeThingType = removeThingType
@@ -3022,15 +2806,13 @@ extension Iot {
             self.thingName = thingName
             self.thingTypeName = dictionary["thingTypeName"] as? String
             self.expectedVersion = dictionary["expectedVersion"] as? Int64
-            if let attributePayload = dictionary["attributePayload"] as? [String: Any] { self.attributePayload = try Iot.AttributePayload(dictionary: attributePayload) }
+            if let attributePayload = dictionary["attributePayload"] as? [String: Any] { self.attributePayload = try Iot.AttributePayload(dictionary: attributePayload) } else { self.attributePayload = nil }
         }
     }
 
     public struct DeprecateThingTypeResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -3043,13 +2825,11 @@ extension Iot {
             return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
         }
         /// The marker for the next set of results.
-        public var marker: String? = nil
+        public let marker: String?
         /// The result page size.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
-        public var ascendingOrder: Bool? = nil
-
-        public init() {}
+        public let ascendingOrder: Bool?
 
         public init(marker: String? = nil, pageSize: Int32? = nil, ascendingOrder: Bool? = nil) {
             self.marker = marker
@@ -3071,11 +2851,9 @@ extension Iot {
             return ["ruleName": "ruleName"]
         }
         /// The name of the rule.
-        public var ruleName: String = ""
+        public let ruleName: String
         /// The rule payload.
-        public var topicRulePayload: TopicRulePayload = TopicRulePayload()
-
-        public init() {}
+        public let topicRulePayload: TopicRulePayload
 
         public init(ruleName: String, topicRulePayload: TopicRulePayload) {
             self.ruleName = ruleName
@@ -3094,19 +2872,17 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The CloudWatch metric value.
-        public var metricValue: String = ""
+        public let metricValue: String
         /// The IAM role that allows access to the CloudWatch metric.
-        public var roleArn: String = ""
+        public let roleArn: String
         /// An optional Unix timestamp.
-        public var metricTimestamp: String? = nil
+        public let metricTimestamp: String?
         /// The CloudWatch metric namespace name.
-        public var metricNamespace: String = ""
+        public let metricNamespace: String
         /// The CloudWatch metric name.
-        public var metricName: String = ""
+        public let metricName: String
         /// The metric unit supported by CloudWatch.
-        public var metricUnit: String = ""
-
-        public init() {}
+        public let metricUnit: String
 
         public init(metricValue: String, roleArn: String, metricTimestamp: String? = nil, metricNamespace: String, metricName: String, metricUnit: String) {
             self.metricValue = metricValue
@@ -3136,11 +2912,9 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The CA certificate identifier.
-        public var certificateId: String? = nil
+        public let certificateId: String?
         /// The CA certificate ARN.
-        public var certificateArn: String? = nil
-
-        public init() {}
+        public let certificateArn: String?
 
         public init(certificateId: String? = nil, certificateArn: String? = nil) {
             self.certificateId = certificateId
@@ -3156,13 +2930,11 @@ extension Iot {
     public struct DescribeThingTypeResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var thingTypeMetadata: ThingTypeMetadata? = nil
+        public let thingTypeMetadata: ThingTypeMetadata?
         /// The name of the thing type.
-        public var thingTypeName: String? = nil
+        public let thingTypeName: String?
         /// The ThingTypeProperties contains information about the thing type including description, and a list of searchable thing attribute names.
-        public var thingTypeProperties: ThingTypeProperties? = nil
-
-        public init() {}
+        public let thingTypeProperties: ThingTypeProperties?
 
         public init(thingTypeMetadata: ThingTypeMetadata? = nil, thingTypeName: String? = nil, thingTypeProperties: ThingTypeProperties? = nil) {
             self.thingTypeMetadata = thingTypeMetadata
@@ -3171,9 +2943,9 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let thingTypeMetadata = dictionary["thingTypeMetadata"] as? [String: Any] { self.thingTypeMetadata = try Iot.ThingTypeMetadata(dictionary: thingTypeMetadata) }
+            if let thingTypeMetadata = dictionary["thingTypeMetadata"] as? [String: Any] { self.thingTypeMetadata = try Iot.ThingTypeMetadata(dictionary: thingTypeMetadata) } else { self.thingTypeMetadata = nil }
             self.thingTypeName = dictionary["thingTypeName"] as? String
-            if let thingTypeProperties = dictionary["thingTypeProperties"] as? [String: Any] { self.thingTypeProperties = try Iot.ThingTypeProperties(dictionary: thingTypeProperties) }
+            if let thingTypeProperties = dictionary["thingTypeProperties"] as? [String: Any] { self.thingTypeProperties = try Iot.ThingTypeProperties(dictionary: thingTypeProperties) } else { self.thingTypeProperties = nil }
         }
     }
 
@@ -3181,27 +2953,25 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the IAM role that grants access to the DynamoDB table.
-        public var roleArn: String = ""
+        public let roleArn: String
         /// The range key type. Valid values are "STRING" or "NUMBER"
-        public var rangeKeyType: String? = nil
+        public let rangeKeyType: String?
         /// The range key value.
-        public var rangeKeyValue: String? = nil
+        public let rangeKeyValue: String?
         /// The hash key value.
-        public var hashKeyValue: String = ""
+        public let hashKeyValue: String
         /// The type of operation to be performed. This follows the substitution template, so it can be ${operation}, but the substitution must result in one of the following: INSERT, UPDATE, or DELETE.
-        public var operation: String? = nil
+        public let operation: String?
         /// The action payload. This name can be customized.
-        public var payloadField: String? = nil
+        public let payloadField: String?
         /// The range key name.
-        public var rangeKeyField: String? = nil
+        public let rangeKeyField: String?
         /// The name of the DynamoDB table.
-        public var tableName: String = ""
+        public let tableName: String
         /// The hash key name.
-        public var hashKeyField: String = ""
+        public let hashKeyField: String
         /// The hash key type. Valid values are "STRING" or "NUMBER"
-        public var hashKeyType: String? = nil
-
-        public init() {}
+        public let hashKeyType: String?
 
         public init(roleArn: String, rangeKeyType: String? = nil, rangeKeyValue: String? = nil, hashKeyValue: String, operation: String? = nil, payloadField: String? = nil, rangeKeyField: String? = nil, tableName: String, hashKeyField: String, hashKeyType: String? = nil) {
             self.roleArn = roleArn
@@ -3238,8 +3008,6 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -3248,8 +3016,6 @@ extension Iot {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -3257,8 +3023,6 @@ extension Iot {
     public struct DescribeEndpointRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -3274,11 +3038,9 @@ extension Iot {
             return ["thingName": "thingName"]
         }
         /// The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the DeleteThing request is rejected with a VersionConflictException.
-        public var expectedVersion: Int64? = nil
+        public let expectedVersion: Int64?
         /// The name of the thing to delete.
-        public var thingName: String = ""
-
-        public init() {}
+        public let thingName: String
 
         public init(expectedVersion: Int64? = nil, thingName: String) {
             self.expectedVersion = expectedVersion

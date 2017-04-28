@@ -33,13 +33,11 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Git commit hash for the Amazon ECS container agent build on the amazon-ecs-agent  GitHub repository.
-        public var agentHash: String? = nil
+        public let agentHash: String?
         /// The Docker version running on the container instance.
-        public var dockerVersion: String? = nil
+        public let dockerVersion: String?
         /// The version number of the Amazon ECS container agent.
-        public var agentVersion: String? = nil
-
-        public init() {}
+        public let agentVersion: String?
 
         public init(agentHash: String? = nil, dockerVersion: String? = nil, agentVersion: String? = nil) {
             self.agentHash = agentHash
@@ -58,27 +56,25 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of instantiations of the specified task definition to place and keep running on your cluster.
-        public var desiredCount: Int32 = 0
+        public let desiredCount: Int32
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. Up to 32 ASCII characters are allowed.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// The placement strategy objects to use for tasks in your service. You can specify a maximum of 5 strategy rules per service.
-        public var placementStrategy: [PlacementStrategy]? = nil
+        public let placementStrategy: [PlacementStrategy]?
         /// The short name or full Amazon Resource Name (ARN) of the cluster on which to run your service. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
+        public let cluster: String?
         /// An array of placement constraint objects to use for tasks in your service. You can specify a maximum of 10 constraints per task (this limit includes constraints in the task definition and those specified at run time). 
-        public var placementConstraints: [PlacementConstraint]? = nil
+        public let placementConstraints: [PlacementConstraint]?
         /// The name of your service. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. Service names must be unique within a cluster, but you can have similarly named services in multiple clusters within a region or across multiple regions.
-        public var serviceName: String = ""
+        public let serviceName: String
         /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
-        public var deploymentConfiguration: DeploymentConfiguration? = nil
+        public let deploymentConfiguration: DeploymentConfiguration?
         /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to run in your service. If a revision is not specified, the latest ACTIVE revision is used.
-        public var taskDefinition: String = ""
+        public let taskDefinition: String
         /// A load balancer object representing the load balancer to use with your service. Currently, you are limited to one load balancer or target group per service. After you create a service, the load balancer name or target group ARN, container name, and container port specified in the service definition are immutable. For Elastic Load Balancing Classic load balancers, this object must contain the load balancer name, the container name (as it appears in a container definition), and the container port to access from the load balancer. When a task from this service is placed on a container instance, the container instance is registered with the load balancer specified here. For Elastic Load Balancing Application load balancers, this object must contain the load balancer target group ARN, the container name (as it appears in a container definition), and the container port to access from the load balancer. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group specified here.
-        public var loadBalancers: [LoadBalancer]? = nil
+        public let loadBalancers: [LoadBalancer]?
         /// The name or full Amazon Resource Name (ARN) of the IAM role that allows Amazon ECS to make calls to your load balancer on your behalf. This parameter is required if you are using a load balancer with your service. If you specify the role parameter, you must also specify a load balancer object with the loadBalancers parameter. If your specified role has a path other than /, then you must either specify the full role ARN (this is recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/ then you would specify /foo/bar as the role name. For more information, see Friendly Names and Paths in the IAM User Guide.
-        public var role: String? = nil
-
-        public init() {}
+        public let role: String?
 
         public init(desiredCount: Int32, clientToken: String? = nil, placementStrategy: [PlacementStrategy]? = nil, cluster: String? = nil, placementConstraints: [PlacementConstraint]? = nil, serviceName: String, deploymentConfiguration: DeploymentConfiguration? = nil, taskDefinition: String, loadBalancers: [LoadBalancer]? = nil, role: String? = nil) {
             self.desiredCount = desiredCount
@@ -99,18 +95,24 @@ extension Ecs {
             self.clientToken = dictionary["clientToken"] as? String
             if let placementStrategy = dictionary["placementStrategy"] as? [[String: Any]] {
                 self.placementStrategy = try placementStrategy.map({ try PlacementStrategy(dictionary: $0) })
+            } else { 
+                self.placementStrategy = nil
             }
             self.cluster = dictionary["cluster"] as? String
             if let placementConstraints = dictionary["placementConstraints"] as? [[String: Any]] {
                 self.placementConstraints = try placementConstraints.map({ try PlacementConstraint(dictionary: $0) })
+            } else { 
+                self.placementConstraints = nil
             }
             guard let serviceName = dictionary["serviceName"] as? String else { throw InitializableError.missingRequiredParam("serviceName") }
             self.serviceName = serviceName
-            if let deploymentConfiguration = dictionary["deploymentConfiguration"] as? [String: Any] { self.deploymentConfiguration = try Ecs.DeploymentConfiguration(dictionary: deploymentConfiguration) }
+            if let deploymentConfiguration = dictionary["deploymentConfiguration"] as? [String: Any] { self.deploymentConfiguration = try Ecs.DeploymentConfiguration(dictionary: deploymentConfiguration) } else { self.deploymentConfiguration = nil }
             guard let taskDefinition = dictionary["taskDefinition"] as? String else { throw InitializableError.missingRequiredParam("taskDefinition") }
             self.taskDefinition = taskDefinition
             if let loadBalancers = dictionary["loadBalancers"] as? [[String: Any]] {
                 self.loadBalancers = try loadBalancers.map({ try LoadBalancer(dictionary: $0) })
+            } else { 
+                self.loadBalancers = nil
             }
             self.role = dictionary["role"] as? String
         }
@@ -120,11 +122,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of container instances.
-        public var containerInstances: [ContainerInstance]? = nil
+        public let containerInstances: [ContainerInstance]?
         /// Any failures associated with the call.
-        public var failures: [Failure]? = nil
-
-        public init() {}
+        public let failures: [Failure]?
 
         public init(containerInstances: [ContainerInstance]? = nil, failures: [Failure]? = nil) {
             self.containerInstances = containerInstances
@@ -134,9 +134,13 @@ extension Ecs {
         public init(dictionary: [String: Any]) throws {
             if let containerInstances = dictionary["containerInstances"] as? [[String: Any]] {
                 self.containerInstances = try containerInstances.map({ try ContainerInstance(dictionary: $0) })
+            } else { 
+                self.containerInstances = nil
             }
             if let failures = dictionary["failures"] as? [[String: Any]] {
                 self.failures = try failures.map({ try Failure(dictionary: $0) })
+            } else { 
+                self.failures = nil
             }
         }
     }
@@ -145,23 +149,21 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The most recent desired count of tasks that was specified for the service to deploy or maintain.
-        public var desiredCount: Int32? = nil
+        public let desiredCount: Int32?
         /// The status of the deployment. Valid values are PRIMARY (for the most recent deployment), ACTIVE (for previous deployments that still have tasks running, but are being replaced with the PRIMARY deployment), and INACTIVE (for deployments that have been completely replaced).
-        public var status: String? = nil
+        public let status: String?
         /// The ID of the deployment.
-        public var id: String? = nil
+        public let id: String?
         /// The Unix timestamp for when the service was created.
-        public var createdAt: Date? = nil
+        public let createdAt: Date?
         /// The Unix timestamp for when the service was last updated.
-        public var updatedAt: Date? = nil
+        public let updatedAt: Date?
         /// The number of tasks in the deployment that are in the PENDING status.
-        public var pendingCount: Int32? = nil
+        public let pendingCount: Int32?
         /// The most recent task definition that was specified for the service to use.
-        public var taskDefinition: String? = nil
+        public let taskDefinition: String?
         /// The number of tasks in the deployment that are in the RUNNING status.
-        public var runningCount: Int32? = nil
-
-        public init() {}
+        public let runningCount: Int32?
 
         public init(desiredCount: Int32? = nil, status: String? = nil, id: String? = nil, createdAt: Date? = nil, updatedAt: Date? = nil, pendingCount: Int32? = nil, taskDefinition: String? = nil, runningCount: Int32? = nil) {
             self.desiredCount = desiredCount
@@ -190,9 +192,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// Acknowledgement of the state change.
-        public var acknowledgment: String? = nil
-
-        public init() {}
+        public let acknowledgment: String?
 
         public init(acknowledgment: String? = nil) {
             self.acknowledgment = acknowledgment
@@ -207,9 +207,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of attribute objects that were successfully deleted from your resource.
-        public var attributes: [Attribute]? = nil
-
-        public init() {}
+        public let attributes: [Attribute]?
 
         public init(attributes: [Attribute]? = nil) {
             self.attributes = attributes
@@ -218,6 +216,8 @@ extension Ecs {
         public init(dictionary: [String: Any]) throws {
             if let attributes = dictionary["attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+            } else { 
+                self.attributes = nil
             }
         }
     }
@@ -226,31 +226,29 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of tasks on the container instance that are in the PENDING status.
-        public var pendingTasksCount: Int32? = nil
+        public let pendingTasksCount: Int32?
         /// For most resource types, this parameter describes the remaining resources of the container instance that are available for new tasks. For port resource types, this parameter describes the ports that are reserved by the Amazon ECS container agent and any containers that have reserved port mappings; any port that is not specified here is available for new tasks.
-        public var remainingResources: [Resource]? = nil
+        public let remainingResources: [Resource]?
         /// The version information for the Amazon ECS container agent and Docker daemon running on the container instance.
-        public var versionInfo: VersionInfo? = nil
+        public let versionInfo: VersionInfo?
         /// The attributes set for the container instance, either by the Amazon ECS container agent at instance registration or manually with the PutAttributes operation.
-        public var attributes: [Attribute]? = nil
+        public let attributes: [Attribute]?
         /// The EC2 instance ID of the container instance.
-        public var ec2InstanceId: String? = nil
+        public let ec2InstanceId: String?
         /// The Amazon Resource Name (ARN) of the container instance. The ARN contains the arn:aws:ecs namespace, followed by the region of the container instance, the AWS account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID .
-        public var containerInstanceArn: String? = nil
+        public let containerInstanceArn: String?
         /// For most resource types, this parameter describes the registered resources on the container instance that are in use by current tasks. For port resource types, this parameter describes the ports that were reserved by the Amazon ECS container agent when it registered the container instance with Amazon ECS.
-        public var registeredResources: [Resource]? = nil
+        public let registeredResources: [Resource]?
         /// This parameter returns true if the agent is actually connected to Amazon ECS. Registered instances with an agent that may be unhealthy or stopped return false, and instances without a connected agent cannot accept placement requests.
-        public var agentConnected: Bool? = nil
+        public let agentConnected: Bool?
         /// The status of the most recent agent update. If an update has never been requested, this value is NULL.
-        public var agentUpdateStatus: String? = nil
+        public let agentUpdateStatus: String?
         /// The version counter for the container instance. Every time a container instance experiences a change that triggers a CloudWatch event, the version counter is incremented. If you are replicating your Amazon ECS container instance state with CloudWatch events, you can compare the version of a container instance reported by the Amazon ECS APIs with the version reported in CloudWatch events for the container instance (inside the detail object) to verify that the version in your event stream is current.
-        public var version: Int64? = nil
+        public let version: Int64?
         /// The status of the container instance. The valid values are ACTIVE or INACTIVE. ACTIVE indicates that the container instance can accept tasks.
-        public var status: String? = nil
+        public let status: String?
         /// The number of tasks on the container instance that are in the RUNNING status.
-        public var runningTasksCount: Int32? = nil
-
-        public init() {}
+        public let runningTasksCount: Int32?
 
         public init(pendingTasksCount: Int32? = nil, remainingResources: [Resource]? = nil, versionInfo: VersionInfo? = nil, attributes: [Attribute]? = nil, ec2InstanceId: String? = nil, containerInstanceArn: String? = nil, registeredResources: [Resource]? = nil, agentConnected: Bool? = nil, agentUpdateStatus: String? = nil, version: Int64? = nil, status: String? = nil, runningTasksCount: Int32? = nil) {
             self.pendingTasksCount = pendingTasksCount
@@ -271,15 +269,21 @@ extension Ecs {
             self.pendingTasksCount = dictionary["pendingTasksCount"] as? Int32
             if let remainingResources = dictionary["remainingResources"] as? [[String: Any]] {
                 self.remainingResources = try remainingResources.map({ try Resource(dictionary: $0) })
+            } else { 
+                self.remainingResources = nil
             }
-            if let versionInfo = dictionary["versionInfo"] as? [String: Any] { self.versionInfo = try Ecs.VersionInfo(dictionary: versionInfo) }
+            if let versionInfo = dictionary["versionInfo"] as? [String: Any] { self.versionInfo = try Ecs.VersionInfo(dictionary: versionInfo) } else { self.versionInfo = nil }
             if let attributes = dictionary["attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+            } else { 
+                self.attributes = nil
             }
             self.ec2InstanceId = dictionary["ec2InstanceId"] as? String
             self.containerInstanceArn = dictionary["containerInstanceArn"] as? String
             if let registeredResources = dictionary["registeredResources"] as? [[String: Any]] {
                 self.registeredResources = try registeredResources.map({ try Resource(dictionary: $0) })
+            } else { 
+                self.registeredResources = nil
             }
             self.agentConnected = dictionary["agentConnected"] as? Bool
             self.agentUpdateStatus = dictionary["agentUpdateStatus"] as? String
@@ -293,16 +297,14 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The task that was stopped.
-        public var task: Task? = nil
-
-        public init() {}
+        public let task: Task?
 
         public init(task: Task? = nil) {
             self.task = task
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let task = dictionary["task"] as? [String: Any] { self.task = try Ecs.Task(dictionary: task) }
+            if let task = dictionary["task"] as? [String: Any] { self.task = try Ecs.Task(dictionary: task) } else { self.task = nil }
         }
     }
 
@@ -310,11 +312,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of task definition Amazon Resource Name (ARN) entries for the ListTaskDefinitions request.
-        public var taskDefinitionArns: [String]? = nil
+        public let taskDefinitionArns: [String]?
         /// The nextToken value to include in a future ListTaskDefinitions request. When the results of a ListTaskDefinitions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(taskDefinitionArns: [String]? = nil, nextToken: String? = nil) {
             self.taskDefinitionArns = taskDefinitionArns
@@ -322,9 +322,7 @@ extension Ecs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let taskDefinitionArns = dictionary["taskDefinitionArns"] as? [String] {
-                self.taskDefinitionArns = taskDefinitionArns
-            }
+            self.taskDefinitionArns = dictionary["taskDefinitionArns"] as? [String]
             self.nextToken = dictionary["nextToken"] as? String
         }
     }
@@ -333,11 +331,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The upper limit (as a percentage of the service's desiredCount) of the number of tasks that are allowed in the RUNNING or PENDING state in a service during a deployment. The maximum number of tasks during a deployment is the desiredCount multiplied by maximumPercent/100, rounded down to the nearest integer value.
-        public var maximumPercent: Int32? = nil
+        public let maximumPercent: Int32?
         /// The lower limit (as a percentage of the service's desiredCount) of the number of running tasks that must remain in the RUNNING state in a service during a deployment. The minimum healthy tasks during a deployment is the desiredCount multiplied by minimumHealthyPercent/100, rounded up to the nearest integer value.
-        public var minimumHealthyPercent: Int32? = nil
-
-        public init() {}
+        public let minimumHealthyPercent: Int32?
 
         public init(maximumPercent: Int32? = nil, minimumHealthyPercent: Int32? = nil) {
             self.maximumPercent = maximumPercent
@@ -354,13 +350,11 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A space-separated list of container instance IDs or full Amazon Resource Name (ARN) entries.
-        public var containerInstances: [String] = []
+        public let containerInstances: [String]
         /// The container instance state with which to update the container instance.
-        public var status: String = ""
+        public let status: String
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instance to update. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
-
-        public init() {}
+        public let cluster: String?
 
         public init(containerInstances: [String], status: String, cluster: String? = nil) {
             self.containerInstances = containerInstances
@@ -381,16 +375,14 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The container instance for which the container agent was updated.
-        public var containerInstance: ContainerInstance? = nil
-
-        public init() {}
+        public let containerInstance: ContainerInstance?
 
         public init(containerInstance: ContainerInstance? = nil) {
             self.containerInstance = containerInstance
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let containerInstance = dictionary["containerInstance"] as? [String: Any] { self.containerInstance = try Ecs.ContainerInstance(dictionary: containerInstance) }
+            if let containerInstance = dictionary["containerInstance"] as? [String: Any] { self.containerInstance = try Ecs.ContainerInstance(dictionary: containerInstance) } else { self.containerInstance = nil }
         }
     }
 
@@ -398,11 +390,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the container to mount volumes from.
-        public var sourceContainer: String? = nil
+        public let sourceContainer: String?
         /// If this value is true, the container has read-only access to the volume. If this value is false, then the container can write to the volume. The default value is false.
-        public var readOnly: Bool? = nil
-
-        public init() {}
+        public let readOnly: Bool?
 
         public init(sourceContainer: String? = nil, readOnly: Bool? = nil) {
             self.sourceContainer = sourceContainer
@@ -419,16 +409,14 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The full description of your new cluster.
-        public var cluster: Cluster? = nil
-
-        public init() {}
+        public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["cluster"] as? [String: Any] { self.cluster = try Ecs.Cluster(dictionary: cluster) }
+            if let cluster = dictionary["cluster"] as? [String: Any] { self.cluster = try Ecs.Cluster(dictionary: cluster) } else { self.cluster = nil }
         }
     }
 
@@ -436,16 +424,14 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The full description of the deleted service.
-        public var service: Service? = nil
-
-        public init() {}
+        public let service: Service?
 
         public init(service: Service? = nil) {
             self.service = service
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let service = dictionary["service"] as? [String: Any] { self.service = try Ecs.Service(dictionary: service) }
+            if let service = dictionary["service"] as? [String: Any] { self.service = try Ecs.Service(dictionary: service) } else { self.service = nil }
         }
     }
 
@@ -453,9 +439,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If the host parameter contains a sourcePath file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the sourcePath value does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported.
-        public var sourcePath: String? = nil
-
-        public init() {}
+        public let sourcePath: String?
 
         public init(sourcePath: String? = nil) {
             self.sourcePath = sourcePath
@@ -470,11 +454,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of constraint. The DistinctInstance constraint ensures that each task in a particular group is running on a different container instance. The MemberOf constraint restricts selection to be from a group of valid candidates.
-        public var type: String? = nil
+        public let type: String?
         /// A cluster query language expression to apply to the constraint. For more information, see Cluster Query Language in the Amazon EC2 Container Service Developer Guide.
-        public var expression: String? = nil
-
-        public init() {}
+        public let expression: String?
 
         public init(type: String? = nil, expression: String? = nil) {
             self.type = type
@@ -491,11 +473,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// Any failures associated with the call.
-        public var failures: [Failure]? = nil
+        public let failures: [Failure]?
         /// The list of tasks.
-        public var tasks: [Task]? = nil
-
-        public init() {}
+        public let tasks: [Task]?
 
         public init(failures: [Failure]? = nil, tasks: [Task]? = nil) {
             self.failures = failures
@@ -505,9 +485,13 @@ extension Ecs {
         public init(dictionary: [String: Any]) throws {
             if let failures = dictionary["failures"] as? [[String: Any]] {
                 self.failures = try failures.map({ try Failure(dictionary: $0) })
+            } else { 
+                self.failures = nil
             }
             if let tasks = dictionary["tasks"] as? [[String: Any]] {
                 self.tasks = try tasks.map({ try Task(dictionary: $0) })
+            } else { 
+                self.tasks = nil
             }
         }
     }
@@ -516,11 +500,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The nextToken value returned from a previous paginated ListClusters request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of cluster results returned by ListClusters in paginated output. When this parameter is used, ListClusters only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListClusters request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListClusters returns up to 100 results and a nextToken value if applicable.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -537,11 +519,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The configuration options to send to the log driver. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log into your container instance and run the following command: sudo docker version | grep "Server API version" 
-        public var options: [String: String]? = nil
+        public let options: [String: String]?
         /// The log driver to use for the container. The valid values listed for this parameter are log drivers that the Amazon ECS container agent can communicate with by default.   If you have a custom driver that is not listed above that you would like to work with the Amazon ECS container agent, you can fork the Amazon ECS container agent project that is available on GitHub and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, Amazon Web Services does not currently provide support for running modified copies of this software.  This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log into your container instance and run the following command: sudo docker version | grep "Server API version" 
-        public var logDriver: String = ""
-
-        public init() {}
+        public let logDriver: String
 
         public init(options: [String: String]? = nil, logDriver: String) {
             self.options = options
@@ -551,6 +531,8 @@ extension Ecs {
         public init(dictionary: [String: Any]) throws {
             if let options = dictionary["options"] as? [String: String] {
                 self.options = options
+            } else { 
+                self.options = nil
             }
             guard let logDriver = dictionary["logDriver"] as? String else { throw InitializableError.missingRequiredParam("logDriver") }
             self.logDriver = logDriver
@@ -561,11 +543,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The telemetry endpoint for the Amazon ECS agent.
-        public var telemetryEndpoint: String? = nil
+        public let telemetryEndpoint: String?
         /// The endpoint for the Amazon ECS agent to poll.
-        public var endpoint: String? = nil
-
-        public init() {}
+        public let endpoint: String?
 
         public init(telemetryEndpoint: String? = nil, endpoint: String? = nil) {
             self.telemetryEndpoint = telemetryEndpoint
@@ -582,13 +562,11 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// If this value is true, the container has read-only access to the volume. If this value is false, then the container can write to the volume. The default value is false.
-        public var readOnly: Bool? = nil
+        public let readOnly: Bool?
         /// The name of the volume to mount.
-        public var sourceVolume: String? = nil
+        public let sourceVolume: String?
         /// The path on the container to mount the host volume at.
-        public var containerPath: String? = nil
-
-        public init() {}
+        public let containerPath: String?
 
         public init(readOnly: Bool? = nil, sourceVolume: String? = nil, containerPath: String? = nil) {
             self.readOnly = readOnly
@@ -607,11 +585,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The nextToken value to include in a future ListContainerInstances request. When the results of a ListContainerInstances request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The list of container instances with full Amazon Resource Name (ARN) entries for each container instance associated with the specified cluster.
-        public var containerInstanceArns: [String]? = nil
-
-        public init() {}
+        public let containerInstanceArns: [String]?
 
         public init(nextToken: String? = nil, containerInstanceArns: [String]? = nil) {
             self.nextToken = nextToken
@@ -620,9 +596,7 @@ extension Ecs {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["nextToken"] as? String
-            if let containerInstanceArns = dictionary["containerInstanceArns"] as? [String] {
-                self.containerInstanceArns = containerInstanceArns
-            }
+            self.containerInstanceArns = dictionary["containerInstanceArns"] as? [String]
         }
     }
 
@@ -630,9 +604,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The short name or full Amazon Resource Name (ARN) of the cluster to delete.
-        public var cluster: String = ""
-
-        public init() {}
+        public let cluster: String
 
         public init(cluster: String) {
             self.cluster = cluster
@@ -648,59 +620,57 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The soft limit (in MiB) of memory to reserve for the container. When system memory is under heavy contention, Docker attempts to keep the container memory to this soft limit; however, your container can consume more memory when it needs to, up to either the hard limit specified with the memory parameter (if applicable), or all of the available memory on the container instance, whichever comes first. This parameter maps to MemoryReservation in the Create a container section of the Docker Remote API and the --memory-reservation option to docker run. You must specify a non-zero integer for one or both of memory or memoryReservation in container definitions. If you specify both, memory must be greater than memoryReservation. If you specify memoryReservation, then that value is subtracted from the available memory resources for the container instance on which the container is placed; otherwise, the value of memory is used. For example, if your container normally uses 128 MiB of memory, but occasionally bursts to 256 MiB of memory for short periods of time, you can set a memoryReservation of 128 MiB, and a memory hard limit of 300 MiB. This configuration would allow the container to only reserve 128 MiB of memory from the remaining resources on the container instance, but also allow the container to consume more memory resources when needed.
-        public var memoryReservation: Int32? = nil
+        public let memoryReservation: Int32?
         /// The list of port mappings for the container. Port mappings allow containers to access ports on the host container instance to send or receive traffic. This parameter maps to PortBindings in the Create a container section of the Docker Remote API and the --publish option to docker run. If the network mode of a task definition is set to none, then you cannot specify port mappings. If the network mode of a task definition is set to host, then host ports must either be undefined or they must match the container port in the port mapping.  After a task reaches the RUNNING status, manual and automatic host and container port assignments are visible in the Network Bindings section of a container description of a selected task in the Amazon ECS console, or the networkBindings section DescribeTasks responses. 
-        public var portMappings: [PortMapping]? = nil
+        public let portMappings: [PortMapping]?
         /// The number of cpu units reserved for the container. A container instance has 1,024 cpu units for every CPU core. This parameter specifies the minimum amount of CPU to reserve for a container, and containers share unallocated CPU units with other containers on the instance with the same ratio as their allocated amount. This parameter maps to CpuShares in the Create a container section of the Docker Remote API and the --cpu-shares option to docker run.  You can determine the number of CPU units that are available per EC2 instance type by multiplying the vCPUs listed for that instance type on the Amazon EC2 Instances detail page by 1,024.  For example, if you run a single-container task on a single-core instance type with 512 CPU units specified for that container, and that is the only task running on the container instance, that container could use the full 1,024 CPU unit share at any given time. However, if you launched another copy of the same task on that container instance, each task would be guaranteed a minimum of 512 CPU units when needed, and each container could float to higher CPU usage if the other container was not using it, but if both tasks were 100% active all of the time, they would be limited to 512 CPU units. The Docker daemon on the container instance uses the CPU value to calculate the relative CPU share ratios for running containers. For more information, see CPU share constraint in the Docker documentation. The minimum valid CPU share value that the Linux kernel allows is 2; however, the CPU parameter is not required, and you can use CPU values below 2 in your container definitions. For CPU values below 2 (including null), the behavior varies based on your Amazon ECS container agent version:    Agent versions less than or equal to 1.1.0: Null and zero CPU values are passed to Docker as 0, which Docker then converts to 1,024 CPU shares. CPU values of 1 are passed to Docker as 1, which the Linux kernel converts to 2 CPU shares.    Agent versions greater than or equal to 1.2.0: Null, zero, and CPU values of 1 are passed to Docker as 2.  
-        public var cpu: Int32? = nil
+        public let cpu: Int32?
         /// When this parameter is true, the container is given read-only access to its root file system. This parameter maps to ReadonlyRootfs in the Create a container section of the Docker Remote API and the --read-only option to docker run.
-        public var readonlyRootFilesystem: Bool? = nil
+        public let readonlyRootFilesystem: Bool?
         /// The mount points for data volumes in your container. This parameter maps to Volumes in the Create a container section of the Docker Remote API and the --volume option to docker run.
-        public var mountPoints: [MountPoint]? = nil
+        public let mountPoints: [MountPoint]?
         /// The hard limit (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run. You must specify a non-zero integer for one or both of memory or memoryReservation in container definitions. If you specify both, memory must be greater than memoryReservation. If you specify memoryReservation, then that value is subtracted from the available memory resources for the container instance on which the container is placed; otherwise, the value of memory is used. The Docker daemon reserves a minimum of 4 MiB of memory for a container, so you should not specify fewer than 4 MiB of memory for your containers. 
-        public var memory: Int32? = nil
+        public let memory: Int32?
         /// When this parameter is true, networking is disabled within the container. This parameter maps to NetworkDisabled in the Create a container section of the Docker Remote API.
-        public var disableNetworking: Bool? = nil
+        public let disableNetworking: Bool?
         /// A key/value map of labels to add to the container. This parameter maps to Labels in the Create a container section of the Docker Remote API and the --label option to docker run. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log into your container instance and run the following command: sudo docker version | grep "Server API version" 
-        public var dockerLabels: [String: String]? = nil
+        public let dockerLabels: [String: String]?
         /// The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with  repository-url/image:tag . Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the Create a container section of the Docker Remote API and the IMAGE parameter of docker run.  Amazon ECS task definitions currently only support tags as image identifiers within a specified repository (and not sha256 digests).    Images in Amazon ECR repositories use the full registry and repository URI (for example, 012345678910.dkr.ecr.&lt;region-name&gt;.amazonaws.com/&lt;repository-name&gt;).    Images in official repositories on Docker Hub use a single name (for example, ubuntu or mongo).   Images in other repositories on Docker Hub are qualified with an organization name (for example, amazon/amazon-ecs-agent).   Images in other online repositories are qualified further by a domain name (for example, quay.io/assemblyline/ubuntu).  
-        public var image: String? = nil
+        public let image: String?
         /// The command that is passed to the container. This parameter maps to Cmd in the Create a container section of the Docker Remote API and the COMMAND parameter to docker run. For more information, see https://docs.docker.com/engine/reference/builder/#cmd.
-        public var command: [String]? = nil
+        public let command: [String]?
         /// The hostname to use for your container. This parameter maps to Hostname in the Create a container section of the Docker Remote API and the --hostname option to docker run.
-        public var hostname: String? = nil
+        public let hostname: String?
         /// Data volumes to mount from another container. This parameter maps to VolumesFrom in the Create a container section of the Docker Remote API and the --volumes-from option to docker run.
-        public var volumesFrom: [VolumeFrom]? = nil
+        public let volumesFrom: [VolumeFrom]?
         /// The name of a container. If you are linking multiple containers together in a task definition, the name of one container can be entered in the links of another container to connect the containers. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. This parameter maps to name in the Create a container section of the Docker Remote API and the --name option to docker run. 
-        public var name: String? = nil
+        public let name: String?
         /// The user name to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run.
-        public var user: String? = nil
+        public let user: String?
         /// If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped. If the essential parameter of a container is marked as false, then its failure does not affect the rest of the containers in a task. If this parameter is omitted, a container is assumed to be essential. All tasks must have at least one essential container. If you have an application that is composed of multiple containers, you should group containers that are used for a common purpose into components, and separate the different components into multiple task definitions. For more information, see Application Architecture in the Amazon EC2 Container Service Developer Guide.
-        public var essential: Bool? = nil
+        public let essential: Bool?
         /// The working directory in which to run commands inside the container. This parameter maps to WorkingDir in the Create a container section of the Docker Remote API and the --workdir option to docker run.
-        public var workingDirectory: String? = nil
+        public let workingDirectory: String?
         /// A list of DNS servers that are presented to the container. This parameter maps to Dns in the Create a container section of the Docker Remote API and the --dns option to docker run.
-        public var dnsServers: [String]? = nil
+        public let dnsServers: [String]?
         /// The log configuration specification for the container. This parameter maps to LogConfig in the Create a container section of the Docker Remote API and the --log-driver option to docker run. By default, containers use the same logging driver that the Docker daemon uses; however the container may use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance (or on a different log server for remote logging options). For more information on the options for different supported log drivers, see Configure logging drivers in the Docker documentation.  Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon (shown in the LogConfiguration data type). Additional log drivers may be available in future releases of the Amazon ECS container agent.  This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log into your container instance and run the following command: sudo docker version | grep "Server API version"   The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see Amazon ECS Container Agent Configuration in the Amazon EC2 Container Service Developer Guide. 
-        public var logConfiguration: LogConfiguration? = nil
+        public let logConfiguration: LogConfiguration?
         /// A list of ulimits to set in the container. This parameter maps to Ulimits in the Create a container section of the Docker Remote API and the --ulimit option to docker run. Valid naming values are displayed in the Ulimit data type. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log into your container instance and run the following command: sudo docker version | grep "Server API version" 
-        public var ulimits: [Ulimit]? = nil
+        public let ulimits: [Ulimit]?
         /// A list of strings to provide custom labels for SELinux and AppArmor multi-level security systems. This parameter maps to SecurityOpt in the Create a container section of the Docker Remote API and the --security-opt option to docker run.  The Amazon ECS container agent running on a container instance must register with the ECS_SELINUX_CAPABLE=true or ECS_APPARMOR_CAPABLE=true environment variables before containers placed on that instance can use these security options. For more information, see Amazon ECS Container Agent Configuration in the Amazon EC2 Container Service Developer Guide. 
-        public var dockerSecurityOptions: [String]? = nil
+        public let dockerSecurityOptions: [String]?
         /// The environment variables to pass to a container. This parameter maps to Env in the Create a container section of the Docker Remote API and the --env option to docker run.  We do not recommend using plain text environment variables for sensitive information, such as credential data. 
-        public var environment: [KeyValuePair]? = nil
+        public let environment: [KeyValuePair]?
         ///  Early versions of the Amazon ECS container agent do not properly handle entryPoint parameters. If you have problems using entryPoint, update your container agent or enter your commands and arguments as command array items instead.  The entry point that is passed to the container. This parameter maps to Entrypoint in the Create a container section of the Docker Remote API and the --entrypoint option to docker run. For more information, see https://docs.docker.com/engine/reference/builder/#entrypoint.
-        public var entryPoint: [String]? = nil
+        public let entryPoint: [String]?
         /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user). This parameter maps to Privileged in the Create a container section of the Docker Remote API and the --privileged option to docker run.
-        public var privileged: Bool? = nil
+        public let privileged: Bool?
         /// A list of DNS search domains that are presented to the container. This parameter maps to DnsSearch in the Create a container section of the Docker Remote API and the --dns-search option to docker run.
-        public var dnsSearchDomains: [String]? = nil
+        public let dnsSearchDomains: [String]?
         /// The link parameter allows containers to communicate with each other without the need for port mappings, using the name parameter and optionally, an alias for the link. This construct is analogous to name:alias in Docker links. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed for each name and alias. For more information on linking Docker containers, see https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/. This parameter maps to Links in the Create a container section of the Docker Remote API and the --link option to docker run.  Containers that are collocated on a single container instance may be able to communicate with each other without requiring links or host port mappings. Network isolation is achieved on the container instance using security groups and VPC settings. 
-        public var links: [String]? = nil
+        public let links: [String]?
         /// A list of hostnames and IP address mappings to append to the /etc/hosts file on the container. This parameter maps to ExtraHosts in the Create a container section of the Docker Remote API and the --add-host option to docker run.
-        public var extraHosts: [HostEntry]? = nil
-
-        public init() {}
+        public let extraHosts: [HostEntry]?
 
         public init(memoryReservation: Int32? = nil, portMappings: [PortMapping]? = nil, cpu: Int32? = nil, readonlyRootFilesystem: Bool? = nil, mountPoints: [MountPoint]? = nil, memory: Int32? = nil, disableNetworking: Bool? = nil, dockerLabels: [String: String]? = nil, image: String? = nil, command: [String]? = nil, hostname: String? = nil, volumesFrom: [VolumeFrom]? = nil, name: String? = nil, user: String? = nil, essential: Bool? = nil, workingDirectory: String? = nil, dnsServers: [String]? = nil, logConfiguration: LogConfiguration? = nil, ulimits: [Ulimit]? = nil, dockerSecurityOptions: [String]? = nil, environment: [KeyValuePair]? = nil, entryPoint: [String]? = nil, privileged: Bool? = nil, dnsSearchDomains: [String]? = nil, links: [String]? = nil, extraHosts: [HostEntry]? = nil) {
             self.memoryReservation = memoryReservation
@@ -735,54 +705,56 @@ extension Ecs {
             self.memoryReservation = dictionary["memoryReservation"] as? Int32
             if let portMappings = dictionary["portMappings"] as? [[String: Any]] {
                 self.portMappings = try portMappings.map({ try PortMapping(dictionary: $0) })
+            } else { 
+                self.portMappings = nil
             }
             self.cpu = dictionary["cpu"] as? Int32
             self.readonlyRootFilesystem = dictionary["readonlyRootFilesystem"] as? Bool
             if let mountPoints = dictionary["mountPoints"] as? [[String: Any]] {
                 self.mountPoints = try mountPoints.map({ try MountPoint(dictionary: $0) })
+            } else { 
+                self.mountPoints = nil
             }
             self.memory = dictionary["memory"] as? Int32
             self.disableNetworking = dictionary["disableNetworking"] as? Bool
             if let dockerLabels = dictionary["dockerLabels"] as? [String: String] {
                 self.dockerLabels = dockerLabels
+            } else { 
+                self.dockerLabels = nil
             }
             self.image = dictionary["image"] as? String
-            if let command = dictionary["command"] as? [String] {
-                self.command = command
-            }
+            self.command = dictionary["command"] as? [String]
             self.hostname = dictionary["hostname"] as? String
             if let volumesFrom = dictionary["volumesFrom"] as? [[String: Any]] {
                 self.volumesFrom = try volumesFrom.map({ try VolumeFrom(dictionary: $0) })
+            } else { 
+                self.volumesFrom = nil
             }
             self.name = dictionary["name"] as? String
             self.user = dictionary["user"] as? String
             self.essential = dictionary["essential"] as? Bool
             self.workingDirectory = dictionary["workingDirectory"] as? String
-            if let dnsServers = dictionary["dnsServers"] as? [String] {
-                self.dnsServers = dnsServers
-            }
-            if let logConfiguration = dictionary["logConfiguration"] as? [String: Any] { self.logConfiguration = try Ecs.LogConfiguration(dictionary: logConfiguration) }
+            self.dnsServers = dictionary["dnsServers"] as? [String]
+            if let logConfiguration = dictionary["logConfiguration"] as? [String: Any] { self.logConfiguration = try Ecs.LogConfiguration(dictionary: logConfiguration) } else { self.logConfiguration = nil }
             if let ulimits = dictionary["ulimits"] as? [[String: Any]] {
                 self.ulimits = try ulimits.map({ try Ulimit(dictionary: $0) })
+            } else { 
+                self.ulimits = nil
             }
-            if let dockerSecurityOptions = dictionary["dockerSecurityOptions"] as? [String] {
-                self.dockerSecurityOptions = dockerSecurityOptions
-            }
+            self.dockerSecurityOptions = dictionary["dockerSecurityOptions"] as? [String]
             if let environment = dictionary["environment"] as? [[String: Any]] {
                 self.environment = try environment.map({ try KeyValuePair(dictionary: $0) })
+            } else { 
+                self.environment = nil
             }
-            if let entryPoint = dictionary["entryPoint"] as? [String] {
-                self.entryPoint = entryPoint
-            }
+            self.entryPoint = dictionary["entryPoint"] as? [String]
             self.privileged = dictionary["privileged"] as? Bool
-            if let dnsSearchDomains = dictionary["dnsSearchDomains"] as? [String] {
-                self.dnsSearchDomains = dnsSearchDomains
-            }
-            if let links = dictionary["links"] as? [String] {
-                self.links = links
-            }
+            self.dnsSearchDomains = dictionary["dnsSearchDomains"] as? [String]
+            self.links = dictionary["links"] as? [String]
             if let extraHosts = dictionary["extraHosts"] as? [[String: Any]] {
                 self.extraHosts = try extraHosts.map({ try HostEntry(dictionary: $0) })
+            } else { 
+                self.extraHosts = nil
             }
         }
     }
@@ -791,11 +763,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the service to delete.
-        public var service: String = ""
+        public let service: String
         /// The name of the cluster that hosts the service to delete. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
-
-        public init() {}
+        public let cluster: String?
 
         public init(service: String, cluster: String? = nil) {
             self.service = service
@@ -813,15 +783,13 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the attribute. Up to 128 letters (uppercase and lowercase), numbers, hyphens, underscores, and periods are allowed.
-        public var name: String = ""
+        public let name: String
         /// The value of the attribute. Up to 128 letters (uppercase and lowercase), numbers, hyphens, underscores, periods, at signs (@), forward slashes, colons, and spaces are allowed.
-        public var value: String? = nil
+        public let value: String?
         /// The ID of the target. You can specify the short form ID for a resource or the full Amazon Resource Name (ARN).
-        public var targetId: String? = nil
+        public let targetId: String?
         /// The type of the target with which to attach the attribute. This parameter is required if you use the short form ID for a resource instead of the full Amazon Resource Name (ARN).
-        public var targetType: String? = nil
-
-        public init() {}
+        public let targetType: String?
 
         public init(name: String, value: String? = nil, targetId: String? = nil, targetType: String? = nil) {
             self.name = name
@@ -843,13 +811,11 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The task ID or full Amazon Resource Name (ARN) entry of the task to stop.
-        public var task: String = ""
+        public let task: String
         /// An optional message specified when a task is stopped. For example, if you are using a custom scheduler, you can use this parameter to specify the reason for stopping the task here, and the message will appear in subsequent DescribeTasks API operations on this task. Up to 255 characters are allowed in this message.
-        public var reason: String? = nil
+        public let reason: String?
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task to stop. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
-
-        public init() {}
+        public let cluster: String?
 
         public init(task: String, reason: String? = nil, cluster: String? = nil) {
             self.task = task
@@ -869,11 +835,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of clusters.
-        public var clusters: [Cluster]? = nil
+        public let clusters: [Cluster]?
         /// Any failures associated with the call.
-        public var failures: [Failure]? = nil
-
-        public init() {}
+        public let failures: [Failure]?
 
         public init(clusters: [Cluster]? = nil, failures: [Failure]? = nil) {
             self.clusters = clusters
@@ -883,9 +847,13 @@ extension Ecs {
         public init(dictionary: [String: Any]) throws {
             if let clusters = dictionary["clusters"] as? [[String: Any]] {
                 self.clusters = try clusters.map({ try Cluster(dictionary: $0) })
+            } else { 
+                self.clusters = nil
             }
             if let failures = dictionary["failures"] as? [[String: Any]] {
                 self.failures = try failures.map({ try Failure(dictionary: $0) })
+            } else { 
+                self.failures = nil
             }
         }
     }
@@ -894,19 +862,17 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// When the longValue type is set, the value of the resource must be an extended precision floating-point type.
-        public var longValue: Int64? = nil
+        public let longValue: Int64?
         /// The name of the resource, such as cpu, memory, ports, or a user-defined resource.
-        public var name: String? = nil
+        public let name: String?
         /// When the doubleValue type is set, the value of the resource must be a double precision floating-point type.
-        public var doubleValue: Double? = nil
+        public let doubleValue: Double?
         /// The type of the resource, such as INTEGER, DOUBLE, LONG, or STRINGSET.
-        public var type: String? = nil
+        public let type: String?
         /// When the integerValue type is set, the value of the resource must be an integer.
-        public var integerValue: Int32? = nil
+        public let integerValue: Int32?
         /// When the stringSetValue type is set, the value of the resource must be a string type.
-        public var stringSetValue: [String]? = nil
-
-        public init() {}
+        public let stringSetValue: [String]?
 
         public init(longValue: Int64? = nil, name: String? = nil, doubleValue: Double? = nil, type: String? = nil, integerValue: Int32? = nil, stringSetValue: [String]? = nil) {
             self.longValue = longValue
@@ -923,9 +889,7 @@ extension Ecs {
             self.doubleValue = dictionary["doubleValue"] as? Double
             self.type = dictionary["type"] as? String
             self.integerValue = dictionary["integerValue"] as? Int32
-            if let stringSetValue = dictionary["stringSetValue"] as? [String] {
-                self.stringSetValue = stringSetValue
-            }
+            self.stringSetValue = dictionary["stringSetValue"] as? [String]
         }
     }
 
@@ -933,19 +897,17 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of placement constraint objects to use for the task. You can specify a maximum of 10 constraints per task (this limit includes constraints in the task definition and those specified at run time).
-        public var placementConstraints: [TaskDefinitionPlacementConstraint]? = nil
+        public let placementConstraints: [TaskDefinitionPlacementConstraint]?
         /// A list of container definitions in JSON format that describe the different containers that make up your task.
-        public var containerDefinitions: [ContainerDefinition] = []
+        public let containerDefinitions: [ContainerDefinition]
         /// You must specify a family for a task definition, which allows you to track multiple versions of the same task definition. The family is used as a name for your task definition. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
-        public var family: String = ""
+        public let family: String
         /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, and host.  The default Docker network mode is bridge. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the task's containers do not have external connectivity. The host network mode offers the highest networking performance for containers because they use the host network stack instead of the virtualized network stack provided by the bridge mode; however, exposed container ports are mapped directly to the corresponding host port, so you cannot take advantage of dynamic host port mappings or run multiple instantiations of the same task on a single container instance if port mappings are used. For more information, see Network settings in the Docker run reference.
-        public var networkMode: String? = nil
+        public let networkMode: String?
         /// The short name or full Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role. For more information, see IAM Roles for Tasks in the Amazon EC2 Container Service Developer Guide.
-        public var taskRoleArn: String? = nil
+        public let taskRoleArn: String?
         /// A list of volume definitions in JSON format that containers in your task may use.
-        public var volumes: [Volume]? = nil
-
-        public init() {}
+        public let volumes: [Volume]?
 
         public init(placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, containerDefinitions: [ContainerDefinition], family: String, networkMode: String? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
             self.placementConstraints = placementConstraints
@@ -959,6 +921,8 @@ extension Ecs {
         public init(dictionary: [String: Any]) throws {
             if let placementConstraints = dictionary["placementConstraints"] as? [[String: Any]] {
                 self.placementConstraints = try placementConstraints.map({ try TaskDefinitionPlacementConstraint(dictionary: $0) })
+            } else { 
+                self.placementConstraints = nil
             }
             guard let containerDefinitions = dictionary["containerDefinitions"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("containerDefinitions") }
             self.containerDefinitions = try containerDefinitions.map({ try ContainerDefinition(dictionary: $0) })
@@ -968,6 +932,8 @@ extension Ecs {
             self.taskRoleArn = dictionary["taskRoleArn"] as? String
             if let volumes = dictionary["volumes"] as? [[String: Any]] {
                 self.volumes = try volumes.map({ try Volume(dictionary: $0) })
+            } else { 
+                self.volumes = nil
             }
         }
     }
@@ -976,11 +942,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of task definition family names that match the ListTaskDefinitionFamilies request.
-        public var families: [String]? = nil
+        public let families: [String]?
         /// The nextToken value to include in a future ListTaskDefinitionFamilies request. When the results of a ListTaskDefinitionFamilies request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(families: [String]? = nil, nextToken: String? = nil) {
             self.families = families
@@ -988,9 +952,7 @@ extension Ecs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let families = dictionary["families"] as? [String] {
-                self.families = families
-            }
+            self.families = dictionary["families"] as? [String]
             self.nextToken = dictionary["nextToken"] as? String
         }
     }
@@ -999,13 +961,11 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The command to send to the container that overrides the default command from the Docker image or the task definition.
-        public var command: [String]? = nil
+        public let command: [String]?
         /// The name of the container that receives the override.
-        public var name: String? = nil
+        public let name: String?
         /// The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can override the existing environment variables from the Docker image or the task definition.
-        public var environment: [KeyValuePair]? = nil
-
-        public init() {}
+        public let environment: [KeyValuePair]?
 
         public init(command: [String]? = nil, name: String? = nil, environment: [KeyValuePair]? = nil) {
             self.command = command
@@ -1014,12 +974,12 @@ extension Ecs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let command = dictionary["command"] as? [String] {
-                self.command = command
-            }
+            self.command = dictionary["command"] as? [String]
             self.name = dictionary["name"] as? String
             if let environment = dictionary["environment"] as? [[String: Any]] {
                 self.environment = try environment.map({ try KeyValuePair(dictionary: $0) })
+            } else { 
+                self.environment = nil
             }
         }
     }
@@ -1028,9 +988,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to deregister. You must specify a revision.
-        public var taskDefinition: String = ""
-
-        public init() {}
+        public let taskDefinition: String
 
         public init(taskDefinition: String) {
             self.taskDefinition = taskDefinition
@@ -1046,23 +1004,21 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The nextToken value returned from a previous paginated ListTasks request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The container instance ID or full Amazon Resource Name (ARN) of the container instance with which to filter the ListTasks results. Specifying a containerInstance limits the results to tasks that belong to that container instance.
-        public var containerInstance: String? = nil
+        public let containerInstance: String?
         /// The name of the family with which to filter the ListTasks results. Specifying a family limits the results to tasks that belong to that family.
-        public var family: String? = nil
+        public let family: String?
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the tasks to list. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
+        public let cluster: String?
         /// The name of the service with which to filter the ListTasks results. Specifying a serviceName limits the results to tasks that belong to that service.
-        public var serviceName: String? = nil
+        public let serviceName: String?
         /// The task desired status with which to filter the ListTasks results. Specifying a desiredStatus of STOPPED limits the results to tasks that ECS has set the desired status to STOPPED, which can be useful for debugging tasks that are not starting properly or have died or finished. The default status filter is RUNNING, which shows tasks that ECS has set the desired status to RUNNING.  Although you can filter results based on a desired status of PENDING, this will not return any results because ECS never sets the desired status of a task to that value (only a task's lastStatus may have a value of PENDING). 
-        public var desiredStatus: String? = nil
+        public let desiredStatus: String?
         /// The maximum number of task results returned by ListTasks in paginated output. When this parameter is used, ListTasks only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListTasks request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListTasks returns up to 100 results and a nextToken value if applicable.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// The startedBy value with which to filter the task results. Specifying a startedBy value limits the results to tasks that were started with that value.
-        public var startedBy: String? = nil
-
-        public init() {}
+        public let startedBy: String?
 
         public init(nextToken: String? = nil, containerInstance: String? = nil, family: String? = nil, cluster: String? = nil, serviceName: String? = nil, desiredStatus: String? = nil, maxResults: Int32? = nil, startedBy: String? = nil) {
             self.nextToken = nextToken
@@ -1091,11 +1047,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to apply attributes. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
+        public let cluster: String?
         /// The attributes to apply to your resource. You can specify up to 10 custom attributes per resource. You can specify up to 10 attributes in a single call.
-        public var attributes: [Attribute] = []
-
-        public init() {}
+        public let attributes: [Attribute]
 
         public init(cluster: String? = nil, attributes: [Attribute]) {
             self.cluster = cluster
@@ -1113,39 +1067,37 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the IAM role associated with the service that allows the Amazon ECS container agent to register container instances with an Elastic Load Balancing load balancer.
-        public var roleArn: String? = nil
+        public let roleArn: String?
         /// The Amazon Resource Name (ARN) of the cluster that hosts the service.
-        public var clusterArn: String? = nil
+        public let clusterArn: String?
         /// The placement strategy that determines how tasks for the service are placed.
-        public var placementStrategy: [PlacementStrategy]? = nil
+        public let placementStrategy: [PlacementStrategy]?
         /// The Unix timestamp for when the service was created.
-        public var createdAt: Date? = nil
+        public let createdAt: Date?
         /// The name of your service. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. Service names must be unique within a cluster, but you can have similarly named services in multiple clusters within a region or across multiple regions.
-        public var serviceName: String? = nil
+        public let serviceName: String?
         /// The number of tasks in the cluster that are in the PENDING state.
-        public var pendingCount: Int32? = nil
+        public let pendingCount: Int32?
         /// The current state of deployments for the service.
-        public var deployments: [Deployment]? = nil
+        public let deployments: [Deployment]?
         /// A list of Elastic Load Balancing load balancer objects, containing the load balancer name, the container name (as it appears in a container definition), and the container port to access from the load balancer.
-        public var loadBalancers: [LoadBalancer]? = nil
+        public let loadBalancers: [LoadBalancer]?
         /// The event stream for your service. A maximum of 100 of the latest events are displayed.
-        public var events: [ServiceEvent]? = nil
+        public let events: [ServiceEvent]?
         /// The Amazon Resource Name (ARN) that identifies the service. The ARN contains the arn:aws:ecs namespace, followed by the region of the service, the AWS account ID of the service owner, the service namespace, and then the service name. For example, arn:aws:ecs:region:012345678910:service/my-service .
-        public var serviceArn: String? = nil
+        public let serviceArn: String?
         /// The desired number of instantiations of the task definition to keep running on the service. This value is specified when the service is created with CreateService, and it can be modified with UpdateService.
-        public var desiredCount: Int32? = nil
+        public let desiredCount: Int32?
         /// The status of the service. The valid values are ACTIVE, DRAINING, or INACTIVE.
-        public var status: String? = nil
+        public let status: String?
         /// The placement constraints for the tasks in the service.
-        public var placementConstraints: [PlacementConstraint]? = nil
+        public let placementConstraints: [PlacementConstraint]?
         /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
-        public var deploymentConfiguration: DeploymentConfiguration? = nil
+        public let deploymentConfiguration: DeploymentConfiguration?
         /// The task definition to use for tasks in the service. This value is specified when the service is created with CreateService, and it can be modified with UpdateService.
-        public var taskDefinition: String? = nil
+        public let taskDefinition: String?
         /// The number of tasks in the cluster that are in the RUNNING state.
-        public var runningCount: Int32? = nil
-
-        public init() {}
+        public let runningCount: Int32?
 
         public init(roleArn: String? = nil, clusterArn: String? = nil, placementStrategy: [PlacementStrategy]? = nil, createdAt: Date? = nil, serviceName: String? = nil, pendingCount: Int32? = nil, deployments: [Deployment]? = nil, loadBalancers: [LoadBalancer]? = nil, events: [ServiceEvent]? = nil, serviceArn: String? = nil, desiredCount: Int32? = nil, status: String? = nil, placementConstraints: [PlacementConstraint]? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, taskDefinition: String? = nil, runningCount: Int32? = nil) {
             self.roleArn = roleArn
@@ -1171,26 +1123,36 @@ extension Ecs {
             self.clusterArn = dictionary["clusterArn"] as? String
             if let placementStrategy = dictionary["placementStrategy"] as? [[String: Any]] {
                 self.placementStrategy = try placementStrategy.map({ try PlacementStrategy(dictionary: $0) })
+            } else { 
+                self.placementStrategy = nil
             }
             self.createdAt = dictionary["createdAt"] as? Date
             self.serviceName = dictionary["serviceName"] as? String
             self.pendingCount = dictionary["pendingCount"] as? Int32
             if let deployments = dictionary["deployments"] as? [[String: Any]] {
                 self.deployments = try deployments.map({ try Deployment(dictionary: $0) })
+            } else { 
+                self.deployments = nil
             }
             if let loadBalancers = dictionary["loadBalancers"] as? [[String: Any]] {
                 self.loadBalancers = try loadBalancers.map({ try LoadBalancer(dictionary: $0) })
+            } else { 
+                self.loadBalancers = nil
             }
             if let events = dictionary["events"] as? [[String: Any]] {
                 self.events = try events.map({ try ServiceEvent(dictionary: $0) })
+            } else { 
+                self.events = nil
             }
             self.serviceArn = dictionary["serviceArn"] as? String
             self.desiredCount = dictionary["desiredCount"] as? Int32
             self.status = dictionary["status"] as? String
             if let placementConstraints = dictionary["placementConstraints"] as? [[String: Any]] {
                 self.placementConstraints = try placementConstraints.map({ try PlacementConstraint(dictionary: $0) })
+            } else { 
+                self.placementConstraints = nil
             }
-            if let deploymentConfiguration = dictionary["deploymentConfiguration"] as? [String: Any] { self.deploymentConfiguration = try Ecs.DeploymentConfiguration(dictionary: deploymentConfiguration) }
+            if let deploymentConfiguration = dictionary["deploymentConfiguration"] as? [String: Any] { self.deploymentConfiguration = try Ecs.DeploymentConfiguration(dictionary: deploymentConfiguration) } else { self.deploymentConfiguration = nil }
             self.taskDefinition = dictionary["taskDefinition"] as? String
             self.runningCount = dictionary["runningCount"] as? Int32
         }
@@ -1200,17 +1162,15 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the service to update.
-        public var service: String = ""
+        public let service: String
         /// The number of instantiations of the task to place and keep running in your service.
-        public var desiredCount: Int32? = nil
+        public let desiredCount: Int32?
         /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
-        public var deploymentConfiguration: DeploymentConfiguration? = nil
+        public let deploymentConfiguration: DeploymentConfiguration?
         /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to run in your service. If a revision is not specified, the latest ACTIVE revision is used. If you modify the task definition with UpdateService, Amazon ECS spawns a task with the new version of the task definition and then stops an old task after the new version is running.
-        public var taskDefinition: String? = nil
+        public let taskDefinition: String?
         /// The short name or full Amazon Resource Name (ARN) of the cluster that your service is running on. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
-
-        public init() {}
+        public let cluster: String?
 
         public init(service: String, desiredCount: Int32? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, taskDefinition: String? = nil, cluster: String? = nil) {
             self.service = service
@@ -1224,7 +1184,7 @@ extension Ecs {
             guard let service = dictionary["service"] as? String else { throw InitializableError.missingRequiredParam("service") }
             self.service = service
             self.desiredCount = dictionary["desiredCount"] as? Int32
-            if let deploymentConfiguration = dictionary["deploymentConfiguration"] as? [String: Any] { self.deploymentConfiguration = try Ecs.DeploymentConfiguration(dictionary: deploymentConfiguration) }
+            if let deploymentConfiguration = dictionary["deploymentConfiguration"] as? [String: Any] { self.deploymentConfiguration = try Ecs.DeploymentConfiguration(dictionary: deploymentConfiguration) } else { self.deploymentConfiguration = nil }
             self.taskDefinition = dictionary["taskDefinition"] as? String
             self.cluster = dictionary["cluster"] as? String
         }
@@ -1234,16 +1194,14 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The full task definition description.
-        public var taskDefinition: TaskDefinition? = nil
-
-        public init() {}
+        public let taskDefinition: TaskDefinition?
 
         public init(taskDefinition: TaskDefinition? = nil) {
             self.taskDefinition = taskDefinition
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let taskDefinition = dictionary["taskDefinition"] as? [String: Any] { self.taskDefinition = try Ecs.TaskDefinition(dictionary: taskDefinition) }
+            if let taskDefinition = dictionary["taskDefinition"] as? [String: Any] { self.taskDefinition = try Ecs.TaskDefinition(dictionary: taskDefinition) } else { self.taskDefinition = nil }
         }
     }
 
@@ -1251,11 +1209,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The cluster that the container instance belongs to.
-        public var cluster: String? = nil
+        public let cluster: String?
         /// The container instance ID or full Amazon Resource Name (ARN) of the container instance. The ARN contains the arn:aws:ecs namespace, followed by the region of the container instance, the AWS account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID .
-        public var containerInstance: String? = nil
-
-        public init() {}
+        public let containerInstance: String?
 
         public init(cluster: String? = nil, containerInstance: String? = nil) {
             self.cluster = cluster
@@ -1272,11 +1228,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// Any failures associated with the call.
-        public var failures: [Failure]? = nil
+        public let failures: [Failure]?
         /// A full description of the tasks that were started. Each task that was successfully placed on your container instances are described here.
-        public var tasks: [Task]? = nil
-
-        public init() {}
+        public let tasks: [Task]?
 
         public init(failures: [Failure]? = nil, tasks: [Task]? = nil) {
             self.failures = failures
@@ -1286,9 +1240,13 @@ extension Ecs {
         public init(dictionary: [String: Any]) throws {
             if let failures = dictionary["failures"] as? [[String: Any]] {
                 self.failures = try failures.map({ try Failure(dictionary: $0) })
+            } else { 
+                self.failures = nil
             }
             if let tasks = dictionary["tasks"] as? [[String: Any]] {
                 self.tasks = try tasks.map({ try Task(dictionary: $0) })
+            } else { 
+                self.tasks = nil
             }
         }
     }
@@ -1297,11 +1255,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to apply attributes. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
+        public let cluster: String?
         /// The attributes to delete from your resource. You can specify up to 10 attributes per request. For custom attributes, specify the attribute name and target ID, but do not specify the value. If you specify the target ID using the short form, you must also specify the target type.
-        public var attributes: [Attribute] = []
-
-        public init() {}
+        public let attributes: [Attribute]
 
         public init(cluster: String? = nil, attributes: [Attribute]) {
             self.cluster = cluster
@@ -1319,17 +1275,15 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The container instance status with which to filter the ListContainerInstances results. Specifying a container instance status of DRAINING limits the results to container instances that have been set to drain with the UpdateContainerInstancesState operation.
-        public var status: String? = nil
+        public let status: String?
         /// The nextToken value returned from a previous paginated ListContainerInstances request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of container instance results returned by ListContainerInstances in paginated output. When this parameter is used, ListContainerInstances only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListContainerInstances request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListContainerInstances returns up to 100 results and a nextToken value if applicable.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// You can filter the results of a ListContainerInstances operation with cluster query language statements. For more information, see Cluster Query Language in the Amazon EC2 Container Service Developer Guide.
-        public var filter: String? = nil
+        public let filter: String?
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instances to list. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
-
-        public init() {}
+        public let cluster: String?
 
         public init(status: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil, filter: String? = nil, cluster: String? = nil) {
             self.status = status
@@ -1352,11 +1306,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints.
-        public var name: String? = nil
+        public let name: String?
         /// The contents of the host parameter determine whether your data volume persists on the host container instance and where it is stored. If the host parameter is empty, then the Docker daemon assigns a host path for your data volume, but the data is not guaranteed to persist after the containers associated with it stop running.
-        public var host: HostVolumeProperties? = nil
-
-        public init() {}
+        public let host: HostVolumeProperties?
 
         public init(name: String? = nil, host: HostVolumeProperties? = nil) {
             self.name = name
@@ -1365,7 +1317,7 @@ extension Ecs {
 
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["name"] as? String
-            if let host = dictionary["host"] as? [String: Any] { self.host = try Ecs.HostVolumeProperties(dictionary: host) }
+            if let host = dictionary["host"] as? [String: Any] { self.host = try Ecs.HostVolumeProperties(dictionary: host) } else { self.host = nil }
         }
     }
 
@@ -1373,13 +1325,11 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The protocol used for the port mapping. Valid values are tcp and udp. The default is tcp.
-        public var `protocol`: String? = nil
+        public let `protocol`: String?
         /// The port number on the container that is bound to the user-specified or automatically assigned host port. If you specify a container port and not a host port, your container automatically receives a host port in the ephemeral port range (for more information, see hostPort). Port mappings that are automatically assigned in this way do not count toward the 100 reserved ports limit of a container instance.
-        public var containerPort: Int32? = nil
+        public let containerPort: Int32?
         /// The port number on the container instance to reserve for your container. You can specify a non-reserved host port for your container port mapping, or you can omit the hostPort (or set it to 0) while specifying a containerPort and your container automatically receives a port in the ephemeral port range for your container instance operating system and Docker version. The default ephemeral port range is 49153 to 65535, and this range is used for Docker versions prior to 1.6.0. For Docker version 1.6.0 and later, the Docker daemon tries to read the ephemeral port range from /proc/sys/net/ipv4/ip_local_port_range; if this kernel parameter is unavailable, the default ephemeral port range is used. You should not attempt to specify a host port in the ephemeral port range, because these are reserved for automatic assignment. In general, ports below 32768 are outside of the ephemeral port range. The default reserved ports are 22 for SSH, the Docker ports 2375 and 2376, and the Amazon ECS container agent ports 51678 and 51679. Any host port that was previously specified in a running task is also reserved while the task is running (after a task stops, the host port is released).The current reserved ports are displayed in the remainingResources of DescribeContainerInstances output, and a container instance may have up to 100 reserved ports at a time, including the default reserved ports (automatically assigned ports do not count toward the 100 reserved ports limit).
-        public var hostPort: Int32? = nil
-
-        public init() {}
+        public let hostPort: Int32?
 
         public init(protocol: String? = nil, containerPort: Int32? = nil, hostPort: Int32? = nil) {
             self.`protocol` = `protocol`
@@ -1398,13 +1348,11 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The soft limit for the ulimit type.
-        public var softLimit: Int32 = 0
+        public let softLimit: Int32
         /// The type of the ulimit.
-        public var name: String = ""
+        public let name: String
         /// The hard limit for the ulimit type.
-        public var hardLimit: Int32 = 0
-
-        public init() {}
+        public let hardLimit: Int32
 
         public init(softLimit: Int32, name: String, hardLimit: Int32) {
             self.softLimit = softLimit
@@ -1426,11 +1374,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of services described.
-        public var services: [Service]? = nil
+        public let services: [Service]?
         /// Any failures associated with the call.
-        public var failures: [Failure]? = nil
-
-        public init() {}
+        public let failures: [Failure]?
 
         public init(services: [Service]? = nil, failures: [Failure]? = nil) {
             self.services = services
@@ -1440,9 +1386,13 @@ extension Ecs {
         public init(dictionary: [String: Any]) throws {
             if let services = dictionary["services"] as? [[String: Any]] {
                 self.services = try services.map({ try Service(dictionary: $0) })
+            } else { 
+                self.services = nil
             }
             if let failures = dictionary["failures"] as? [[String: Any]] {
                 self.failures = try failures.map({ try Failure(dictionary: $0) })
+            } else { 
+                self.failures = nil
             }
         }
     }
@@ -1451,21 +1401,19 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the container.
-        public var name: String? = nil
+        public let name: String?
         /// A short (255 max characters) human-readable string to provide additional details about a running or stopped container.
-        public var reason: String? = nil
+        public let reason: String?
         /// The network bindings associated with the container.
-        public var networkBindings: [NetworkBinding]? = nil
+        public let networkBindings: [NetworkBinding]?
         /// The Amazon Resource Name (ARN) of the container.
-        public var containerArn: String? = nil
+        public let containerArn: String?
         /// The exit code returned from the container.
-        public var exitCode: Int32? = nil
+        public let exitCode: Int32?
         /// The Amazon Resource Name (ARN) of the task.
-        public var taskArn: String? = nil
+        public let taskArn: String?
         /// The last known status of the container.
-        public var lastStatus: String? = nil
-
-        public init() {}
+        public let lastStatus: String?
 
         public init(name: String? = nil, reason: String? = nil, networkBindings: [NetworkBinding]? = nil, containerArn: String? = nil, exitCode: Int32? = nil, taskArn: String? = nil, lastStatus: String? = nil) {
             self.name = name
@@ -1482,6 +1430,8 @@ extension Ecs {
             self.reason = dictionary["reason"] as? String
             if let networkBindings = dictionary["networkBindings"] as? [[String: Any]] {
                 self.networkBindings = try networkBindings.map({ try NetworkBinding(dictionary: $0) })
+            } else { 
+                self.networkBindings = nil
             }
             self.containerArn = dictionary["containerArn"] as? String
             self.exitCode = dictionary["exitCode"] as? Int32
@@ -1494,9 +1444,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The family for the latest ACTIVE revision, family and revision (family:revision) for a specific revision in the family, or full Amazon Resource Name (ARN) of the task definition to describe.
-        public var taskDefinition: String = ""
-
-        public init() {}
+        public let taskDefinition: String
 
         public init(taskDefinition: String) {
             self.taskDefinition = taskDefinition
@@ -1512,15 +1460,13 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The full Amazon Resource Name (ARN) of the Elastic Load Balancing target group associated with a service.
-        public var targetGroupArn: String? = nil
+        public let targetGroupArn: String?
         /// The name of the load balancer.
-        public var loadBalancerName: String? = nil
+        public let loadBalancerName: String?
         /// The port on the container to associate with the load balancer. This port must correspond to a containerPort in the service's task definition. Your container instances must allow ingress traffic on the hostPort of the port mapping.
-        public var containerPort: Int32? = nil
+        public let containerPort: Int32?
         /// The name of the container (as it appears in a container definition) to associate with the load balancer.
-        public var containerName: String? = nil
-
-        public init() {}
+        public let containerName: String?
 
         public init(targetGroupArn: String? = nil, loadBalancerName: String? = nil, containerPort: Int32? = nil, containerName: String? = nil) {
             self.targetGroupArn = targetGroupArn
@@ -1541,11 +1487,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of container instances.
-        public var containerInstances: [ContainerInstance]? = nil
+        public let containerInstances: [ContainerInstance]?
         /// Any failures associated with the call.
-        public var failures: [Failure]? = nil
-
-        public init() {}
+        public let failures: [Failure]?
 
         public init(containerInstances: [ContainerInstance]? = nil, failures: [Failure]? = nil) {
             self.containerInstances = containerInstances
@@ -1555,9 +1499,13 @@ extension Ecs {
         public init(dictionary: [String: Any]) throws {
             if let containerInstances = dictionary["containerInstances"] as? [[String: Any]] {
                 self.containerInstances = try containerInstances.map({ try ContainerInstance(dictionary: $0) })
+            } else { 
+                self.containerInstances = nil
             }
             if let failures = dictionary["failures"] as? [[String: Any]] {
                 self.failures = try failures.map({ try Failure(dictionary: $0) })
+            } else { 
+                self.failures = nil
             }
         }
     }
@@ -1566,21 +1514,19 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of tasks in the cluster that are in the PENDING state.
-        public var pendingTasksCount: Int32? = nil
+        public let pendingTasksCount: Int32?
         /// The status of the cluster. The valid values are ACTIVE or INACTIVE. ACTIVE indicates that you can register container instances with the cluster and the associated instances can accept tasks.
-        public var status: String? = nil
+        public let status: String?
         /// The Amazon Resource Name (ARN) that identifies the cluster. The ARN contains the arn:aws:ecs namespace, followed by the region of the cluster, the AWS account ID of the cluster owner, the cluster namespace, and then the cluster name. For example, arn:aws:ecs:region:012345678910:cluster/test ..
-        public var clusterArn: String? = nil
+        public let clusterArn: String?
         /// A user-generated string that you use to identify your cluster.
-        public var clusterName: String? = nil
+        public let clusterName: String?
         /// The number of container instances registered into the cluster.
-        public var registeredContainerInstancesCount: Int32? = nil
+        public let registeredContainerInstancesCount: Int32?
         /// The number of tasks in the cluster that are in the RUNNING state.
-        public var runningTasksCount: Int32? = nil
+        public let runningTasksCount: Int32?
         /// The number of services that are running on the cluster in an ACTIVE state. You can view these services with ListServices.
-        public var activeServicesCount: Int32? = nil
-
-        public init() {}
+        public let activeServicesCount: Int32?
 
         public init(pendingTasksCount: Int32? = nil, status: String? = nil, clusterArn: String? = nil, clusterName: String? = nil, registeredContainerInstancesCount: Int32? = nil, runningTasksCount: Int32? = nil, activeServicesCount: Int32? = nil) {
             self.pendingTasksCount = pendingTasksCount
@@ -1607,19 +1553,17 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of container overrides in JSON format that specify the name of a container in the specified task definition and the overrides it should receive. You can override the default command for a container (that is specified in the task definition or Docker image) with a command override. You can also override existing environment variables (that are specified in the task definition or Docker image) on a container or add new environment variables to it with an environment override.  A total of 8192 characters are allowed for overrides. This limit includes the JSON formatting characters of the override structure. 
-        public var overrides: TaskOverride? = nil
+        public let overrides: TaskOverride?
         /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to start. If a revision is not specified, the latest ACTIVE revision is used.
-        public var taskDefinition: String = ""
+        public let taskDefinition: String
         /// The container instance IDs or full Amazon Resource Name (ARN) entries for the container instances on which you would like to place your task. You can specify up to 10 container instances.
-        public var containerInstances: [String] = []
+        public let containerInstances: [String]
         /// An optional tag specified when a task is started. For example if you automatically trigger a task to run a batch process job, you could apply a unique identifier for that job to your task with the startedBy parameter. You can then identify which tasks belong to that job by filtering the results of a ListTasks call with the startedBy value. Up to 36 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. If a task is started by an Amazon ECS service, then the startedBy parameter contains the deployment ID of the service that starts it.
-        public var startedBy: String? = nil
+        public let startedBy: String?
         /// The name of the task group to associate with the task. The default value is the family name of the task definition (for example, family:my-family-name).
-        public var group: String? = nil
+        public let group: String?
         /// The short name or full Amazon Resource Name (ARN) of the cluster on which to start your task. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
-
-        public init() {}
+        public let cluster: String?
 
         public init(overrides: TaskOverride? = nil, taskDefinition: String, containerInstances: [String], startedBy: String? = nil, group: String? = nil, cluster: String? = nil) {
             self.overrides = overrides
@@ -1631,7 +1575,7 @@ extension Ecs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let overrides = dictionary["overrides"] as? [String: Any] { self.overrides = try Ecs.TaskOverride(dictionary: overrides) }
+            if let overrides = dictionary["overrides"] as? [String: Any] { self.overrides = try Ecs.TaskOverride(dictionary: overrides) } else { self.overrides = nil }
             guard let taskDefinition = dictionary["taskDefinition"] as? String else { throw InitializableError.missingRequiredParam("taskDefinition") }
             self.taskDefinition = taskDefinition
             guard let containerInstances = dictionary["containerInstances"] as? [String] else { throw InitializableError.missingRequiredParam("containerInstances") }
@@ -1646,27 +1590,25 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The revision of the task in a particular family. The revision is a version number of a task definition in a family. When you register a task definition for the first time, the revision is 1; each time you register a new revision of a task definition in the same family, the revision value always increases by one (even if you have deregistered previous revisions in this family).
-        public var revision: Int32? = nil
+        public let revision: Int32?
         /// The status of the task definition.
-        public var status: String? = nil
+        public let status: String?
         /// The container instance attributes required by your task.
-        public var requiresAttributes: [Attribute]? = nil
+        public let requiresAttributes: [Attribute]?
         /// The family of your task definition, used as the definition name.
-        public var family: String? = nil
+        public let family: String?
         /// The list of volumes in a task. For more information about volume definition parameters and defaults, see Amazon ECS Task Definitions in the Amazon EC2 Container Service Developer Guide.
-        public var volumes: [Volume]? = nil
+        public let volumes: [Volume]?
         /// The Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role.
-        public var taskRoleArn: String? = nil
+        public let taskRoleArn: String?
         /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, and host.  If the network mode is none, the containers do not have external connectivity. The default Docker network mode is bridge. The host network mode offers the highest networking performance for containers because it uses the host network stack instead of the virtualized network stack provided by the bridge mode. For more information, see Network settings in the Docker run reference.
-        public var networkMode: String? = nil
+        public let networkMode: String?
         /// An array of placement constraint objects to use for tasks. 
-        public var placementConstraints: [TaskDefinitionPlacementConstraint]? = nil
+        public let placementConstraints: [TaskDefinitionPlacementConstraint]?
         /// A list of container definitions in JSON format that describe the different containers that make up your task. For more information about container definition parameters and defaults, see Amazon ECS Task Definitions in the Amazon EC2 Container Service Developer Guide.
-        public var containerDefinitions: [ContainerDefinition]? = nil
+        public let containerDefinitions: [ContainerDefinition]?
         /// The full Amazon Resource Name (ARN) of the task definition.
-        public var taskDefinitionArn: String? = nil
-
-        public init() {}
+        public let taskDefinitionArn: String?
 
         public init(revision: Int32? = nil, status: String? = nil, requiresAttributes: [Attribute]? = nil, family: String? = nil, volumes: [Volume]? = nil, taskRoleArn: String? = nil, networkMode: String? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, containerDefinitions: [ContainerDefinition]? = nil, taskDefinitionArn: String? = nil) {
             self.revision = revision
@@ -1686,18 +1628,26 @@ extension Ecs {
             self.status = dictionary["status"] as? String
             if let requiresAttributes = dictionary["requiresAttributes"] as? [[String: Any]] {
                 self.requiresAttributes = try requiresAttributes.map({ try Attribute(dictionary: $0) })
+            } else { 
+                self.requiresAttributes = nil
             }
             self.family = dictionary["family"] as? String
             if let volumes = dictionary["volumes"] as? [[String: Any]] {
                 self.volumes = try volumes.map({ try Volume(dictionary: $0) })
+            } else { 
+                self.volumes = nil
             }
             self.taskRoleArn = dictionary["taskRoleArn"] as? String
             self.networkMode = dictionary["networkMode"] as? String
             if let placementConstraints = dictionary["placementConstraints"] as? [[String: Any]] {
                 self.placementConstraints = try placementConstraints.map({ try TaskDefinitionPlacementConstraint(dictionary: $0) })
+            } else { 
+                self.placementConstraints = nil
             }
             if let containerDefinitions = dictionary["containerDefinitions"] as? [[String: Any]] {
                 self.containerDefinitions = try containerDefinitions.map({ try ContainerDefinition(dictionary: $0) })
+            } else { 
+                self.containerDefinitions = nil
             }
             self.taskDefinitionArn = dictionary["taskDefinitionArn"] as? String
         }
@@ -1707,11 +1657,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The hostname to use in the /etc/hosts entry.
-        public var hostname: String = ""
+        public let hostname: String
         /// The IP address to use in the /etc/hosts entry.
-        public var ipAddress: String = ""
-
-        public init() {}
+        public let ipAddress: String
 
         public init(hostname: String, ipAddress: String) {
             self.hostname = hostname
@@ -1730,11 +1678,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory (but still enough to run the task).
-        public var type: String? = nil
+        public let type: String?
         /// The field to apply the placement strategy against. For the spread placement strategy, valid values are instanceId (or host, which has the same effect), or any platform or custom attribute that is applied to a container instance, such as attribute:ecs.availability-zone. For the binpack placement strategy, valid values are cpu and memory. For the random placement strategy, this field is not used.
-        public var field: String? = nil
-
-        public init() {}
+        public let field: String?
 
         public init(type: String? = nil, field: String? = nil) {
             self.type = type
@@ -1751,13 +1697,11 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID string of the event.
-        public var id: String? = nil
+        public let id: String?
         /// The Unix timestamp for when the event was triggered.
-        public var createdAt: Date? = nil
+        public let createdAt: Date?
         /// The event message.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(id: String? = nil, createdAt: Date? = nil, message: String? = nil) {
             self.id = id
@@ -1776,9 +1720,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// Acknowledgement of the state change.
-        public var acknowledgment: String? = nil
-
-        public init() {}
+        public let acknowledgment: String?
 
         public init(acknowledgment: String? = nil) {
             self.acknowledgment = acknowledgment
@@ -1793,16 +1735,14 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The full description of your service following the update call.
-        public var service: Service? = nil
-
-        public init() {}
+        public let service: Service?
 
         public init(service: Service? = nil) {
             self.service = service
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let service = dictionary["service"] as? [String: Any] { self.service = try Ecs.Service(dictionary: service) }
+            if let service = dictionary["service"] as? [String: Any] { self.service = try Ecs.Service(dictionary: service) } else { self.service = nil }
         }
     }
 
@@ -1810,9 +1750,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of your cluster. If you do not specify a name for your cluster, you create a cluster named default. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
-        public var clusterName: String? = nil
-
-        public init() {}
+        public let clusterName: String?
 
         public init(clusterName: String? = nil) {
             self.clusterName = clusterName
@@ -1827,15 +1765,13 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the state change request.
-        public var status: String? = nil
+        public let status: String?
         /// The reason for the state change request.
-        public var reason: String? = nil
+        public let reason: String?
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task.
-        public var cluster: String? = nil
+        public let cluster: String?
         /// The task ID or full Amazon Resource Name (ARN) of the task in the state change request.
-        public var task: String? = nil
-
-        public init() {}
+        public let task: String?
 
         public init(status: String? = nil, reason: String? = nil, cluster: String? = nil, task: String? = nil) {
             self.status = status
@@ -1856,16 +1792,14 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The full description of the registered task definition.
-        public var taskDefinition: TaskDefinition? = nil
-
-        public init() {}
+        public let taskDefinition: TaskDefinition?
 
         public init(taskDefinition: TaskDefinition? = nil) {
             self.taskDefinition = taskDefinition
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let taskDefinition = dictionary["taskDefinition"] as? [String: Any] { self.taskDefinition = try Ecs.TaskDefinition(dictionary: taskDefinition) }
+            if let taskDefinition = dictionary["taskDefinition"] as? [String: Any] { self.taskDefinition = try Ecs.TaskDefinition(dictionary: taskDefinition) } else { self.taskDefinition = nil }
         }
     }
 
@@ -1873,16 +1807,14 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The full description of your service following the create call.
-        public var service: Service? = nil
-
-        public init() {}
+        public let service: Service?
 
         public init(service: Service? = nil) {
             self.service = service
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let service = dictionary["service"] as? [String: Any] { self.service = try Ecs.Service(dictionary: service) }
+            if let service = dictionary["service"] as? [String: Any] { self.service = try Ecs.Service(dictionary: service) } else { self.service = nil }
         }
     }
 
@@ -1890,13 +1822,11 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// Forces the deregistration of the container instance. If you have tasks running on the container instance when you deregister it with the force option, these tasks remain running until you terminate the instance or the tasks stop through some other means, but they are orphaned (no longer monitored or accounted for by Amazon ECS). If an orphaned task on your container instance is part of an Amazon ECS service, then the service scheduler starts another copy of that task, on a different container instance if possible.  Any containers in orphaned service tasks that are registered with a Classic load balancer or an Application load balancer target group are deregistered, and they will begin connection draining according to the settings on the load balancer or target group.
-        public var force: Bool? = nil
+        public let force: Bool?
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instance to deregister. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
+        public let cluster: String?
         /// The container instance ID or full Amazon Resource Name (ARN) of the container instance to deregister. The ARN contains the arn:aws:ecs namespace, followed by the region of the container instance, the AWS account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID .
-        public var containerInstance: String = ""
-
-        public init() {}
+        public let containerInstance: String
 
         public init(force: Bool? = nil, cluster: String? = nil, containerInstance: String) {
             self.force = force
@@ -1916,16 +1846,14 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The container instance that was deregistered.
-        public var containerInstance: ContainerInstance? = nil
-
-        public init() {}
+        public let containerInstance: ContainerInstance?
 
         public init(containerInstance: ContainerInstance? = nil) {
             self.containerInstance = containerInstance
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let containerInstance = dictionary["containerInstance"] as? [String: Any] { self.containerInstance = try Ecs.ContainerInstance(dictionary: containerInstance) }
+            if let containerInstance = dictionary["containerInstance"] as? [String: Any] { self.containerInstance = try Ecs.ContainerInstance(dictionary: containerInstance) } else { self.containerInstance = nil }
         }
     }
 
@@ -1933,11 +1861,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task to describe. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
+        public let cluster: String?
         /// A space-separated list of task IDs or full Amazon Resource Name (ARN) entries.
-        public var tasks: [String] = []
-
-        public init() {}
+        public let tasks: [String]
 
         public init(cluster: String? = nil, tasks: [String]) {
             self.cluster = cluster
@@ -1955,16 +1881,14 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The full description of the deleted cluster.
-        public var cluster: Cluster? = nil
-
-        public init() {}
+        public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["cluster"] as? [String: Any] { self.cluster = try Ecs.Cluster(dictionary: cluster) }
+            if let cluster = dictionary["cluster"] as? [String: Any] { self.cluster = try Ecs.Cluster(dictionary: cluster) } else { self.cluster = nil }
         }
     }
 
@@ -1972,16 +1896,14 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The full description of the deregistered task.
-        public var taskDefinition: TaskDefinition? = nil
-
-        public init() {}
+        public let taskDefinition: TaskDefinition?
 
         public init(taskDefinition: TaskDefinition? = nil) {
             self.taskDefinition = taskDefinition
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let taskDefinition = dictionary["taskDefinition"] as? [String: Any] { self.taskDefinition = try Ecs.TaskDefinition(dictionary: taskDefinition) }
+            if let taskDefinition = dictionary["taskDefinition"] as? [String: Any] { self.taskDefinition = try Ecs.TaskDefinition(dictionary: taskDefinition) } else { self.taskDefinition = nil }
         }
     }
 
@@ -1989,17 +1911,15 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The full family name with which to filter the ListTaskDefinitions results. Specifying a familyPrefix limits the listed task definitions to task definition revisions that belong to that family.
-        public var familyPrefix: String? = nil
+        public let familyPrefix: String?
         /// The task definition status with which to filter the ListTaskDefinitions results. By default, only ACTIVE task definitions are listed. By setting this parameter to INACTIVE, you can view task definitions that are INACTIVE as long as an active task or service still references them. If you paginate the resulting output, be sure to keep the status value constant in each subsequent request.
-        public var status: String? = nil
+        public let status: String?
         /// The nextToken value returned from a previous paginated ListTaskDefinitions request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of task definition results returned by ListTaskDefinitions in paginated output. When this parameter is used, ListTaskDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListTaskDefinitions request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListTaskDefinitions returns up to 100 results and a nextToken value if applicable.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// The order in which to sort the results. Valid values are ASC and DESC. By default (ASC), task definitions are listed lexicographically by family name and in ascending numerical order by revision so that the newest task definitions in a family are listed last. Setting this parameter to DESC reverses the sort order on family name and revision so that the newest task definitions in a family are listed first.
-        public var sort: String? = nil
-
-        public init() {}
+        public let sort: String?
 
         public init(familyPrefix: String? = nil, status: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil, sort: String? = nil) {
             self.familyPrefix = familyPrefix
@@ -2022,16 +1942,14 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The container instance that was registered.
-        public var containerInstance: ContainerInstance? = nil
-
-        public init() {}
+        public let containerInstance: ContainerInstance?
 
         public init(containerInstance: ContainerInstance? = nil) {
             self.containerInstance = containerInstance
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let containerInstance = dictionary["containerInstance"] as? [String: Any] { self.containerInstance = try Ecs.ContainerInstance(dictionary: containerInstance) }
+            if let containerInstance = dictionary["containerInstance"] as? [String: Any] { self.containerInstance = try Ecs.ContainerInstance(dictionary: containerInstance) } else { self.containerInstance = nil }
         }
     }
 
@@ -2039,11 +1957,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of services to describe. You may specify up to 10 services to describe in a single operation.
-        public var services: [String] = []
+        public let services: [String]
         /// The name of the cluster that hosts the service to describe. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
-
-        public init() {}
+        public let cluster: String?
 
         public init(services: [String], cluster: String? = nil) {
             self.services = services
@@ -2061,23 +1977,21 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of container overrides in JSON format that specify the name of a container in the specified task definition and the overrides it should receive. You can override the default command for a container (that is specified in the task definition or Docker image) with a command override. You can also override existing environment variables (that are specified in the task definition or Docker image) on a container or add new environment variables to it with an environment override.  A total of 8192 characters are allowed for overrides. This limit includes the JSON formatting characters of the override structure. 
-        public var overrides: TaskOverride? = nil
+        public let overrides: TaskOverride?
         /// The placement strategy objects to use for the task. You can specify a maximum of 5 strategy rules per task.
-        public var placementStrategy: [PlacementStrategy]? = nil
+        public let placementStrategy: [PlacementStrategy]?
         /// The short name or full Amazon Resource Name (ARN) of the cluster on which to run your task. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
+        public let cluster: String?
         /// The number of instantiations of the specified task to place on your cluster. You can specify up to 10 tasks per call.
-        public var count: Int32? = nil
+        public let count: Int32?
         /// An array of placement constraint objects to use for the task. You can specify up to 10 constraints per task (including constraints in the task definition and those specified at run time).
-        public var placementConstraints: [PlacementConstraint]? = nil
+        public let placementConstraints: [PlacementConstraint]?
         /// An optional tag specified when a task is started. For example if you automatically trigger a task to run a batch process job, you could apply a unique identifier for that job to your task with the startedBy parameter. You can then identify which tasks belong to that job by filtering the results of a ListTasks call with the startedBy value. Up to 36 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. If a task is started by an Amazon ECS service, then the startedBy parameter contains the deployment ID of the service that starts it.
-        public var startedBy: String? = nil
+        public let startedBy: String?
         /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to run. If a revision is not specified, the latest ACTIVE revision is used.
-        public var taskDefinition: String = ""
+        public let taskDefinition: String
         /// The name of the task group to associate with the task. The default value is the family name of the task definition (for example, family:my-family-name).
-        public var group: String? = nil
-
-        public init() {}
+        public let group: String?
 
         public init(overrides: TaskOverride? = nil, placementStrategy: [PlacementStrategy]? = nil, cluster: String? = nil, count: Int32? = nil, placementConstraints: [PlacementConstraint]? = nil, startedBy: String? = nil, taskDefinition: String, group: String? = nil) {
             self.overrides = overrides
@@ -2091,14 +2005,18 @@ extension Ecs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let overrides = dictionary["overrides"] as? [String: Any] { self.overrides = try Ecs.TaskOverride(dictionary: overrides) }
+            if let overrides = dictionary["overrides"] as? [String: Any] { self.overrides = try Ecs.TaskOverride(dictionary: overrides) } else { self.overrides = nil }
             if let placementStrategy = dictionary["placementStrategy"] as? [[String: Any]] {
                 self.placementStrategy = try placementStrategy.map({ try PlacementStrategy(dictionary: $0) })
+            } else { 
+                self.placementStrategy = nil
             }
             self.cluster = dictionary["cluster"] as? String
             self.count = dictionary["count"] as? Int32
             if let placementConstraints = dictionary["placementConstraints"] as? [[String: Any]] {
                 self.placementConstraints = try placementConstraints.map({ try PlacementConstraint(dictionary: $0) })
+            } else { 
+                self.placementConstraints = nil
             }
             self.startedBy = dictionary["startedBy"] as? String
             guard let taskDefinition = dictionary["taskDefinition"] as? String else { throw InitializableError.missingRequiredParam("taskDefinition") }
@@ -2111,19 +2029,17 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the attribute with which to filter results. You must also specify an attribute name to use this parameter.
-        public var attributeValue: String? = nil
+        public let attributeValue: String?
         /// The type of the target with which to list attributes.
-        public var targetType: String = ""
+        public let targetType: String
         /// The nextToken value returned from a previous paginated ListAttributes request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of cluster results returned by ListAttributes in paginated output. When this parameter is used, ListAttributes only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListAttributes request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListAttributes returns up to 100 results and a nextToken value if applicable.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// The name of the attribute with which to filter the results. 
-        public var attributeName: String? = nil
+        public let attributeName: String?
         /// The short name or full Amazon Resource Name (ARN) of the cluster to list attributes. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
-
-        public init() {}
+        public let cluster: String?
 
         public init(attributeValue: String? = nil, targetType: String, nextToken: String? = nil, maxResults: Int32? = nil, attributeName: String? = nil, cluster: String? = nil) {
             self.attributeValue = attributeValue
@@ -2149,11 +2065,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict selection to a group of valid candidates. Note that distinctInstance is not supported in task definitions.
-        public var type: String? = nil
+        public let type: String?
         /// A cluster query language expression to apply to the constraint. Note you cannot specify an expression if the constraint type is distinctInstance. For more information, see Cluster Query Language in the Amazon EC2 Container Service Developer Guide.
-        public var expression: String? = nil
-
-        public init() {}
+        public let expression: String?
 
         public init(type: String? = nil, expression: String? = nil) {
             self.type = type
@@ -2170,11 +2084,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more container overrides sent to a task.
-        public var containerOverrides: [ContainerOverride]? = nil
+        public let containerOverrides: [ContainerOverride]?
         /// The Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role.
-        public var taskRoleArn: String? = nil
-
-        public init() {}
+        public let taskRoleArn: String?
 
         public init(containerOverrides: [ContainerOverride]? = nil, taskRoleArn: String? = nil) {
             self.containerOverrides = containerOverrides
@@ -2184,6 +2096,8 @@ extension Ecs {
         public init(dictionary: [String: Any]) throws {
             if let containerOverrides = dictionary["containerOverrides"] as? [[String: Any]] {
                 self.containerOverrides = try containerOverrides.map({ try ContainerOverride(dictionary: $0) })
+            } else { 
+                self.containerOverrides = nil
             }
             self.taskRoleArn = dictionary["taskRoleArn"] as? String
         }
@@ -2193,11 +2107,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The nextToken value to include in a future ListTasks request. When the results of a ListTasks request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The list of task Amazon Resource Name (ARN) entries for the ListTasks request.
-        public var taskArns: [String]? = nil
-
-        public init() {}
+        public let taskArns: [String]?
 
         public init(nextToken: String? = nil, taskArns: [String]? = nil) {
             self.nextToken = nextToken
@@ -2206,9 +2118,7 @@ extension Ecs {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["nextToken"] as? String
-            if let taskArns = dictionary["taskArns"] as? [String] {
-                self.taskArns = taskArns
-            }
+            self.taskArns = dictionary["taskArns"] as? [String]
         }
     }
 
@@ -2216,11 +2126,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of attribute objects that meet the criteria of the request.
-        public var attributes: [Attribute]? = nil
+        public let attributes: [Attribute]?
         /// The nextToken value to include in a future ListAttributes request. When the results of a ListAttributes request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(attributes: [Attribute]? = nil, nextToken: String? = nil) {
             self.attributes = attributes
@@ -2230,6 +2138,8 @@ extension Ecs {
         public init(dictionary: [String: Any]) throws {
             if let attributes = dictionary["attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+            } else { 
+                self.attributes = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -2239,13 +2149,11 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The nextToken value returned from a previous paginated ListServices request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of container instance results returned by ListServices in paginated output. When this parameter is used, ListServices only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListServices request with the returned nextToken value. This value can be between 1 and 10. If this parameter is not used, then ListServices returns up to 10 results and a nextToken value if applicable.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the services to list. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
-
-        public init() {}
+        public let cluster: String?
 
         public init(nextToken: String? = nil, maxResults: Int32? = nil, cluster: String? = nil) {
             self.nextToken = nextToken
@@ -2264,9 +2172,7 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The attributes applied to your resource.
-        public var attributes: [Attribute]? = nil
-
-        public init() {}
+        public let attributes: [Attribute]?
 
         public init(attributes: [Attribute]? = nil) {
             self.attributes = attributes
@@ -2275,6 +2181,8 @@ extension Ecs {
         public init(dictionary: [String: Any]) throws {
             if let attributes = dictionary["attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+            } else { 
+                self.attributes = nil
             }
         }
     }
@@ -2283,21 +2191,19 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The version information for the Amazon ECS container agent and Docker daemon running on the container instance.
-        public var versionInfo: VersionInfo? = nil
+        public let versionInfo: VersionInfo?
         /// The container instance attributes that this container instance supports.
-        public var attributes: [Attribute]? = nil
+        public let attributes: [Attribute]?
         /// The Amazon Resource Name (ARN) of the container instance (if it was previously registered).
-        public var containerInstanceArn: String? = nil
+        public let containerInstanceArn: String?
         /// The short name or full Amazon Resource Name (ARN) of the cluster with which to register your container instance. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
+        public let cluster: String?
         /// The resources available on the instance.
-        public var totalResources: [Resource]? = nil
+        public let totalResources: [Resource]?
         /// The instance identity document signature for the EC2 instance to register. This signature can be found by running the following command from the instance: curl http://169.254.169.254/latest/dynamic/instance-identity/signature/ 
-        public var instanceIdentityDocumentSignature: String? = nil
+        public let instanceIdentityDocumentSignature: String?
         /// The instance identity document for the EC2 instance to register. This document can be found by running the following command from the instance: curl http://169.254.169.254/latest/dynamic/instance-identity/document/ 
-        public var instanceIdentityDocument: String? = nil
-
-        public init() {}
+        public let instanceIdentityDocument: String?
 
         public init(versionInfo: VersionInfo? = nil, attributes: [Attribute]? = nil, containerInstanceArn: String? = nil, cluster: String? = nil, totalResources: [Resource]? = nil, instanceIdentityDocumentSignature: String? = nil, instanceIdentityDocument: String? = nil) {
             self.versionInfo = versionInfo
@@ -2310,14 +2216,18 @@ extension Ecs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let versionInfo = dictionary["versionInfo"] as? [String: Any] { self.versionInfo = try Ecs.VersionInfo(dictionary: versionInfo) }
+            if let versionInfo = dictionary["versionInfo"] as? [String: Any] { self.versionInfo = try Ecs.VersionInfo(dictionary: versionInfo) } else { self.versionInfo = nil }
             if let attributes = dictionary["attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+            } else { 
+                self.attributes = nil
             }
             self.containerInstanceArn = dictionary["containerInstanceArn"] as? String
             self.cluster = dictionary["cluster"] as? String
             if let totalResources = dictionary["totalResources"] as? [[String: Any]] {
                 self.totalResources = try totalResources.map({ try Resource(dictionary: $0) })
+            } else { 
+                self.totalResources = nil
             }
             self.instanceIdentityDocumentSignature = dictionary["instanceIdentityDocumentSignature"] as? String
             self.instanceIdentityDocument = dictionary["instanceIdentityDocument"] as? String
@@ -2328,37 +2238,35 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the cluster that hosts the task.
-        public var clusterArn: String? = nil
+        public let clusterArn: String?
         /// One or more container overrides.
-        public var overrides: TaskOverride? = nil
+        public let overrides: TaskOverride?
         /// The Unix timestamp for when the task was created (the task entered the PENDING state).
-        public var createdAt: Date? = nil
+        public let createdAt: Date?
         /// The Unix timestamp for when the task was started (the task transitioned from the PENDING state to the RUNNING state).
-        public var startedAt: Date? = nil
+        public let startedAt: Date?
         /// The desired status of the task.
-        public var desiredStatus: String? = nil
+        public let desiredStatus: String?
         /// The Amazon Resource Name (ARN) of the task definition that creates the task.
-        public var taskDefinitionArn: String? = nil
+        public let taskDefinitionArn: String?
         /// The containers associated with the task.
-        public var containers: [Container]? = nil
+        public let containers: [Container]?
         /// The reason the task was stopped.
-        public var stoppedReason: String? = nil
+        public let stoppedReason: String?
         /// The Amazon Resource Name (ARN) of the container instances that host the task.
-        public var containerInstanceArn: String? = nil
+        public let containerInstanceArn: String?
         /// The Unix timestamp for when the task was stopped (the task transitioned from the RUNNING state to the STOPPED state).
-        public var stoppedAt: Date? = nil
+        public let stoppedAt: Date?
         /// The version counter for the task. Every time a task experiences a change that triggers a CloudWatch event, the version counter is incremented. If you are replicating your Amazon ECS task state with CloudWatch events, you can compare the version of a task reported by the Amazon ECS APIs with the version reported in CloudWatch events for the task (inside the detail object) to verify that the version in your event stream is current.
-        public var version: Int64? = nil
+        public let version: Int64?
         /// The Amazon Resource Name (ARN) of the task.
-        public var taskArn: String? = nil
+        public let taskArn: String?
         /// The tag specified when a task is started. If the task is started by an Amazon ECS service, then the startedBy parameter contains the deployment ID of the service that starts it.
-        public var startedBy: String? = nil
+        public let startedBy: String?
         /// The name of the task group associated with the task.
-        public var group: String? = nil
+        public let group: String?
         /// The last known status of the task.
-        public var lastStatus: String? = nil
-
-        public init() {}
+        public let lastStatus: String?
 
         public init(clusterArn: String? = nil, overrides: TaskOverride? = nil, createdAt: Date? = nil, startedAt: Date? = nil, desiredStatus: String? = nil, taskDefinitionArn: String? = nil, containers: [Container]? = nil, stoppedReason: String? = nil, containerInstanceArn: String? = nil, stoppedAt: Date? = nil, version: Int64? = nil, taskArn: String? = nil, startedBy: String? = nil, group: String? = nil, lastStatus: String? = nil) {
             self.clusterArn = clusterArn
@@ -2380,13 +2288,15 @@ extension Ecs {
 
         public init(dictionary: [String: Any]) throws {
             self.clusterArn = dictionary["clusterArn"] as? String
-            if let overrides = dictionary["overrides"] as? [String: Any] { self.overrides = try Ecs.TaskOverride(dictionary: overrides) }
+            if let overrides = dictionary["overrides"] as? [String: Any] { self.overrides = try Ecs.TaskOverride(dictionary: overrides) } else { self.overrides = nil }
             self.createdAt = dictionary["createdAt"] as? Date
             self.startedAt = dictionary["startedAt"] as? Date
             self.desiredStatus = dictionary["desiredStatus"] as? String
             self.taskDefinitionArn = dictionary["taskDefinitionArn"] as? String
             if let containers = dictionary["containers"] as? [[String: Any]] {
                 self.containers = try containers.map({ try Container(dictionary: $0) })
+            } else { 
+                self.containers = nil
             }
             self.stoppedReason = dictionary["stoppedReason"] as? String
             self.containerInstanceArn = dictionary["containerInstanceArn"] as? String
@@ -2403,11 +2313,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The short name or full Amazon Resource Name (ARN) of the cluster that your container instance is running on. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
+        public let cluster: String?
         /// The container instance ID or full Amazon Resource Name (ARN) entries for the container instance on which you would like to update the Amazon ECS container agent.
-        public var containerInstance: String = ""
-
-        public init() {}
+        public let containerInstance: String
 
         public init(cluster: String? = nil, containerInstance: String) {
             self.cluster = cluster
@@ -2425,11 +2333,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of full Amazon Resource Name (ARN) entries for each cluster associated with your account.
-        public var clusterArns: [String]? = nil
+        public let clusterArns: [String]?
         /// The nextToken value to include in a future ListClusters request. When the results of a ListClusters request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(clusterArns: [String]? = nil, nextToken: String? = nil) {
             self.clusterArns = clusterArns
@@ -2437,9 +2343,7 @@ extension Ecs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let clusterArns = dictionary["clusterArns"] as? [String] {
-                self.clusterArns = clusterArns
-            }
+            self.clusterArns = dictionary["clusterArns"] as? [String]
             self.nextToken = dictionary["nextToken"] as? String
         }
     }
@@ -2448,18 +2352,14 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A space-separated list of up to 100 cluster names or full cluster Amazon Resource Name (ARN) entries. If you do not specify a cluster, the default cluster is assumed.
-        public var clusters: [String]? = nil
-
-        public init() {}
+        public let clusters: [String]?
 
         public init(clusters: [String]? = nil) {
             self.clusters = clusters
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let clusters = dictionary["clusters"] as? [String] {
-                self.clusters = clusters
-            }
+            self.clusters = dictionary["clusters"] as? [String]
         }
     }
 
@@ -2467,11 +2367,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// Any failures associated with the call.
-        public var failures: [Failure]? = nil
+        public let failures: [Failure]?
         /// A full description of the tasks that were run. Each task that was successfully placed on your cluster are described here.
-        public var tasks: [Task]? = nil
-
-        public init() {}
+        public let tasks: [Task]?
 
         public init(failures: [Failure]? = nil, tasks: [Task]? = nil) {
             self.failures = failures
@@ -2481,9 +2379,13 @@ extension Ecs {
         public init(dictionary: [String: Any]) throws {
             if let failures = dictionary["failures"] as? [[String: Any]] {
                 self.failures = try failures.map({ try Failure(dictionary: $0) })
+            } else { 
+                self.failures = nil
             }
             if let tasks = dictionary["tasks"] as? [[String: Any]] {
                 self.tasks = try tasks.map({ try Task(dictionary: $0) })
+            } else { 
+                self.tasks = nil
             }
         }
     }
@@ -2492,11 +2394,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of full Amazon Resource Name (ARN) entries for each service associated with the specified cluster.
-        public var serviceArns: [String]? = nil
+        public let serviceArns: [String]?
         /// The nextToken value to include in a future ListServices request. When the results of a ListServices request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(serviceArns: [String]? = nil, nextToken: String? = nil) {
             self.serviceArns = serviceArns
@@ -2504,9 +2404,7 @@ extension Ecs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let serviceArns = dictionary["serviceArns"] as? [String] {
-                self.serviceArns = serviceArns
-            }
+            self.serviceArns = dictionary["serviceArns"] as? [String]
             self.nextToken = dictionary["nextToken"] as? String
         }
     }
@@ -2515,11 +2413,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the key value pair. For environment variables, this is the name of the environment variable.
-        public var name: String? = nil
+        public let name: String?
         /// The value of the key value pair. For environment variables, this is the value of the environment variable.
-        public var value: String? = nil
-
-        public init() {}
+        public let value: String?
 
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
@@ -2536,21 +2432,19 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the state change request.
-        public var status: String? = nil
+        public let status: String?
         /// The reason for the state change request.
-        public var reason: String? = nil
+        public let reason: String?
         /// The network bindings of the container.
-        public var networkBindings: [NetworkBinding]? = nil
+        public let networkBindings: [NetworkBinding]?
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container.
-        public var cluster: String? = nil
+        public let cluster: String?
         /// The exit code returned for the state change request.
-        public var exitCode: Int32? = nil
+        public let exitCode: Int32?
         /// The task ID or full Amazon Resource Name (ARN) of the task that hosts the container.
-        public var task: String? = nil
+        public let task: String?
         /// The name of the container.
-        public var containerName: String? = nil
-
-        public init() {}
+        public let containerName: String?
 
         public init(status: String? = nil, reason: String? = nil, networkBindings: [NetworkBinding]? = nil, cluster: String? = nil, exitCode: Int32? = nil, task: String? = nil, containerName: String? = nil) {
             self.status = status
@@ -2567,6 +2461,8 @@ extension Ecs {
             self.reason = dictionary["reason"] as? String
             if let networkBindings = dictionary["networkBindings"] as? [[String: Any]] {
                 self.networkBindings = try networkBindings.map({ try NetworkBinding(dictionary: $0) })
+            } else { 
+                self.networkBindings = nil
             }
             self.cluster = dictionary["cluster"] as? String
             self.exitCode = dictionary["exitCode"] as? Int32
@@ -2579,15 +2475,13 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The familyPrefix is a string that is used to filter the results of ListTaskDefinitionFamilies. If you specify a familyPrefix, only task definition family names that begin with the familyPrefix string are returned.
-        public var familyPrefix: String? = nil
+        public let familyPrefix: String?
         /// The task definition family status with which to filter the ListTaskDefinitionFamilies results. By default, both ACTIVE and INACTIVE task definition families are listed. If this parameter is set to ACTIVE, only task definition families that have an ACTIVE task definition revision are returned. If this parameter is set to INACTIVE, only task definition families that do not have any ACTIVE task definition revisions are returned. If you paginate the resulting output, be sure to keep the status value constant in each subsequent request.
-        public var status: String? = nil
+        public let status: String?
         /// The nextToken value returned from a previous paginated ListTaskDefinitionFamilies request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of task definition family results returned by ListTaskDefinitionFamilies in paginated output. When this parameter is used, ListTaskDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListTaskDefinitionFamilies request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListTaskDefinitionFamilies returns up to 100 results and a nextToken value if applicable.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(familyPrefix: String? = nil, status: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.familyPrefix = familyPrefix
@@ -2608,15 +2502,13 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The port number on the host that is used with the network binding.
-        public var hostPort: Int32? = nil
+        public let hostPort: Int32?
         /// The protocol used for the network binding.
-        public var `protocol`: String? = nil
+        public let `protocol`: String?
         /// The port number on the container that is be used with the network binding.
-        public var containerPort: Int32? = nil
+        public let containerPort: Int32?
         /// The IP address that the container is bound to on the container instance.
-        public var bindIP: String? = nil
-
-        public init() {}
+        public let bindIP: String?
 
         public init(hostPort: Int32? = nil, protocol: String? = nil, containerPort: Int32? = nil, bindIP: String? = nil) {
             self.hostPort = hostPort
@@ -2637,11 +2529,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The reason for the failure.
-        public var reason: String? = nil
+        public let reason: String?
         /// The Amazon Resource Name (ARN) of the failed resource.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(reason: String? = nil, arn: String? = nil) {
             self.reason = reason
@@ -2658,11 +2548,9 @@ extension Ecs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A space-separated list of container instance IDs or full Amazon Resource Name (ARN) entries.
-        public var containerInstances: [String] = []
+        public let containerInstances: [String]
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instances to describe. If you do not specify a cluster, the default cluster is assumed.
-        public var cluster: String? = nil
-
-        public init() {}
+        public let cluster: String?
 
         public init(containerInstances: [String], cluster: String? = nil) {
             self.containerInstances = containerInstances

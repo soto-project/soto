@@ -33,13 +33,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// A code representing the instance fleet status.
-        public var state: String? = nil
+        public let state: String?
         /// Provides historical timestamps for the instance fleet, including the time of creation, the time it became ready to run jobs, and the time of termination.
-        public var timeline: InstanceFleetTimeline? = nil
+        public let timeline: InstanceFleetTimeline?
         /// Provides status change reason details for the instance fleet.
-        public var stateChangeReason: InstanceFleetStateChangeReason? = nil
-
-        public init() {}
+        public let stateChangeReason: InstanceFleetStateChangeReason?
 
         public init(state: String? = nil, timeline: InstanceFleetTimeline? = nil, stateChangeReason: InstanceFleetStateChangeReason? = nil) {
             self.state = state
@@ -49,8 +47,8 @@ extension Elasticmapreduce {
 
         public init(dictionary: [String: Any]) throws {
             self.state = dictionary["State"] as? String
-            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.InstanceFleetTimeline(dictionary: timeline) }
-            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.InstanceFleetStateChangeReason(dictionary: stateChangeReason) }
+            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.InstanceFleetTimeline(dictionary: timeline) } else { self.timeline = nil }
+            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.InstanceFleetStateChangeReason(dictionary: stateChangeReason) } else { self.stateChangeReason = nil }
         }
     }
 
@@ -58,33 +56,31 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon EC2 instance identifier of the master node.
-        public var masterInstanceId: String? = nil
+        public let masterInstanceId: String?
         /// The Hadoop version for the cluster.
-        public var hadoopVersion: String? = nil
+        public let hadoopVersion: String?
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour that an m1.small runs. Larger instances are weighted more, so an Amazon EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
-        public var normalizedInstanceHours: Int32? = nil
+        public let normalizedInstanceHours: Int32?
         /// For clusters launched within Amazon Virtual Private Cloud, this is the identifier of the subnet where the cluster was launched.
-        public var ec2SubnetId: String? = nil
+        public let ec2SubnetId: String?
         /// The name of an Amazon EC2 key pair that can be used to ssh to the master node.
-        public var ec2KeyName: String? = nil
+        public let ec2KeyName: String?
         /// Specifies whether the cluster should remain available after completing all steps.
-        public var keepJobFlowAliveWhenNoSteps: Bool? = nil
+        public let keepJobFlowAliveWhenNoSteps: Bool?
         /// Details about the instance groups in a cluster.
-        public var instanceGroups: [InstanceGroupDetail]? = nil
+        public let instanceGroups: [InstanceGroupDetail]?
         /// The Amazon EC2 master node instance type.
-        public var masterInstanceType: String = ""
+        public let masterInstanceType: String
         /// The DNS name of the master node.
-        public var masterPublicDnsName: String? = nil
+        public let masterPublicDnsName: String?
         /// The Amazon EC2 Availability Zone for the cluster.
-        public var placement: PlacementType? = nil
+        public let placement: PlacementType?
         /// The Amazon EC2 slave node instance type.
-        public var slaveInstanceType: String = ""
+        public let slaveInstanceType: String
         /// The number of Amazon EC2 instances in the cluster. If the value is 1, the same instance serves as both the master and slave node. If the value is greater than 1, one instance is the master node and all others are slave nodes.
-        public var instanceCount: Int32 = 0
+        public let instanceCount: Int32
         /// Specifies whether the Amazon EC2 instances in the cluster are protected from termination by API calls, user intervention, or in the event of a job-flow error.
-        public var terminationProtected: Bool? = nil
-
-        public init() {}
+        public let terminationProtected: Bool?
 
         public init(masterInstanceId: String? = nil, hadoopVersion: String? = nil, normalizedInstanceHours: Int32? = nil, ec2SubnetId: String? = nil, ec2KeyName: String? = nil, keepJobFlowAliveWhenNoSteps: Bool? = nil, instanceGroups: [InstanceGroupDetail]? = nil, masterInstanceType: String, masterPublicDnsName: String? = nil, placement: PlacementType? = nil, slaveInstanceType: String, instanceCount: Int32, terminationProtected: Bool? = nil) {
             self.masterInstanceId = masterInstanceId
@@ -111,11 +107,13 @@ extension Elasticmapreduce {
             self.keepJobFlowAliveWhenNoSteps = dictionary["KeepJobFlowAliveWhenNoSteps"] as? Bool
             if let instanceGroups = dictionary["InstanceGroups"] as? [[String: Any]] {
                 self.instanceGroups = try instanceGroups.map({ try InstanceGroupDetail(dictionary: $0) })
+            } else { 
+                self.instanceGroups = nil
             }
             guard let masterInstanceType = dictionary["MasterInstanceType"] as? String else { throw InitializableError.missingRequiredParam("MasterInstanceType") }
             self.masterInstanceType = masterInstanceType
             self.masterPublicDnsName = dictionary["MasterPublicDnsName"] as? String
-            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Elasticmapreduce.PlacementType(dictionary: placement) }
+            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Elasticmapreduce.PlacementType(dictionary: placement) } else { self.placement = nil }
             guard let slaveInstanceType = dictionary["SlaveInstanceType"] as? String else { throw InitializableError.missingRequiredParam("SlaveInstanceType") }
             self.slaveInstanceType = slaveInstanceType
             guard let instanceCount = dictionary["InstanceCount"] as? Int32 else { throw InitializableError.missingRequiredParam("InstanceCount") }
@@ -128,13 +126,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the ID of the instance group to which the scaling policy is applied.
-        public var instanceGroupId: String? = nil
+        public let instanceGroupId: String?
         /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
-        public var clusterId: String? = nil
+        public let clusterId: String?
         /// The automatic scaling policy definition.
-        public var autoScalingPolicy: AutoScalingPolicyDescription? = nil
-
-        public init() {}
+        public let autoScalingPolicy: AutoScalingPolicyDescription?
 
         public init(instanceGroupId: String? = nil, clusterId: String? = nil, autoScalingPolicy: AutoScalingPolicyDescription? = nil) {
             self.instanceGroupId = instanceGroupId
@@ -145,7 +141,7 @@ extension Elasticmapreduce {
         public init(dictionary: [String: Any]) throws {
             self.instanceGroupId = dictionary["InstanceGroupId"] as? String
             self.clusterId = dictionary["ClusterId"] as? String
-            if let autoScalingPolicy = dictionary["AutoScalingPolicy"] as? [String: Any] { self.autoScalingPolicy = try Elasticmapreduce.AutoScalingPolicyDescription(dictionary: autoScalingPolicy) }
+            if let autoScalingPolicy = dictionary["AutoScalingPolicy"] as? [String: Any] { self.autoScalingPolicy = try Elasticmapreduce.AutoScalingPolicyDescription(dictionary: autoScalingPolicy) } else { self.autoScalingPolicy = nil }
         }
     }
 
@@ -153,15 +149,13 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        public var marker: String? = nil
+        public let marker: String?
         /// The filter to limit the step list based on the identifier of the steps.
-        public var stepIds: [String]? = nil
+        public let stepIds: [String]?
         /// The filter to limit the step list based on certain states.
-        public var stepStates: [String]? = nil
+        public let stepStates: [String]?
         /// The identifier of the cluster for which to list the steps.
-        public var clusterId: String = ""
-
-        public init() {}
+        public let clusterId: String
 
         public init(marker: String? = nil, stepIds: [String]? = nil, stepStates: [String]? = nil, clusterId: String) {
             self.marker = marker
@@ -172,12 +166,8 @@ extension Elasticmapreduce {
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let stepIds = dictionary["StepIds"] as? [String] {
-                self.stepIds = stepIds
-            }
-            if let stepStates = dictionary["StepStates"] as? [String] {
-                self.stepStates = stepStates
-            }
+            self.stepIds = dictionary["StepIds"] as? [String]
+            self.stepStates = dictionary["StepStates"] as? [String]
             guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
             self.clusterId = clusterId
         }
@@ -187,13 +177,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The amount by which to scale in or scale out, based on the specified AdjustmentType. A positive value adds to the instance group's EC2 instance count while a negative number removes instances. If AdjustmentType is set to EXACT_CAPACITY, the number should only be a positive integer. If AdjustmentType is set to PERCENT_CHANGE_IN_CAPACITY, the value should express the percentage as a decimal. For example, -0.20 indicates a decrease in 20% increments of cluster capacity.
-        public var scalingAdjustment: Int32 = 0
+        public let scalingAdjustment: Int32
         /// The amount of time, in seconds, after a scaling activity completes before any further trigger-related scaling activities can start. The default value is 0.
-        public var coolDown: Int32? = nil
+        public let coolDown: Int32?
         /// The way in which EC2 instances are added (if ScalingAdjustment is a positive number) or terminated (if ScalingAdjustment is a negative number) each time the scaling activity is triggered. CHANGE_IN_CAPACITY is the default. CHANGE_IN_CAPACITY indicates that the EC2 instance count increments or decrements by ScalingAdjustment, which should be expressed as an integer. PERCENT_CHANGE_IN_CAPACITY indicates the instance count increments or decrements by the percentage specified by ScalingAdjustment, which should be expressed as a decimal. For example, 0.20 indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY indicates the scaling activity results in an instance group with the number of EC2 instances specified by ScalingAdjustment, which should be expressed as a positive integer.
-        public var adjustmentType: String? = nil
-
-        public init() {}
+        public let adjustmentType: String?
 
         public init(scalingAdjustment: Int32, coolDown: Int32? = nil, adjustmentType: String? = nil) {
             self.scalingAdjustment = scalingAdjustment
@@ -213,27 +201,25 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When an On-Demand instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. You can use InstanceFleet$ProvisionedOnDemandCapacity to determine the Spot capacity units that have been provisioned for the instance fleet.  If not specified or set to 0, only Spot instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
-        public var targetOnDemandCapacity: Int32? = nil
+        public let targetOnDemandCapacity: Int32?
         /// The current status of the instance fleet. 
-        public var status: InstanceFleetStatus? = nil
+        public let status: InstanceFleetStatus?
         /// The specification for the instance types that comprise an instance fleet. Up to five unique instance specifications may be defined for each instance fleet. 
-        public var instanceTypeSpecifications: [InstanceTypeSpecification]? = nil
+        public let instanceTypeSpecifications: [InstanceTypeSpecification]?
         /// Describes the launch specification for an instance fleet. 
-        public var launchSpecifications: InstanceFleetProvisioningSpecifications? = nil
+        public let launchSpecifications: InstanceFleetProvisioningSpecifications?
         /// The number of On-Demand units that have been provisioned for the instance fleet to fulfill TargetOnDemandCapacity. This provisioned capacity might be less than or greater than TargetOnDemandCapacity.
-        public var provisionedOnDemandCapacity: Int32? = nil
+        public let provisionedOnDemandCapacity: Int32?
         /// A friendly name for the instance fleet.
-        public var name: String? = nil
+        public let name: String?
         /// The node type that the instance fleet hosts. Valid values are MASTER, CORE, or TASK. 
-        public var instanceFleetType: String? = nil
+        public let instanceFleetType: String?
         /// The number of Spot units that have been provisioned for this instance fleet to fulfill TargetSpotCapacity. This provisioned capacity might be less than or greater than TargetSpotCapacity.
-        public var provisionedSpotCapacity: Int32? = nil
+        public let provisionedSpotCapacity: Int32?
         /// The target capacity of Spot units for the instance fleet, which determines how many Spot instances to provision. When the instance fleet launches, Amazon EMR tries to provision Spot instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When a Spot instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. You can use InstanceFleet$ProvisionedSpotCapacity to determine the Spot capacity units that have been provisioned for the instance fleet.  If not specified or set to 0, only On-Demand instances are provisioned for the instance fleet. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
-        public var targetSpotCapacity: Int32? = nil
+        public let targetSpotCapacity: Int32?
         /// The unique identifier of the instance fleet.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(targetOnDemandCapacity: Int32? = nil, status: InstanceFleetStatus? = nil, instanceTypeSpecifications: [InstanceTypeSpecification]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, provisionedOnDemandCapacity: Int32? = nil, name: String? = nil, instanceFleetType: String? = nil, provisionedSpotCapacity: Int32? = nil, targetSpotCapacity: Int32? = nil, id: String? = nil) {
             self.targetOnDemandCapacity = targetOnDemandCapacity
@@ -250,11 +236,13 @@ extension Elasticmapreduce {
 
         public init(dictionary: [String: Any]) throws {
             self.targetOnDemandCapacity = dictionary["TargetOnDemandCapacity"] as? Int32
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.InstanceFleetStatus(dictionary: status) }
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.InstanceFleetStatus(dictionary: status) } else { self.status = nil }
             if let instanceTypeSpecifications = dictionary["InstanceTypeSpecifications"] as? [[String: Any]] {
                 self.instanceTypeSpecifications = try instanceTypeSpecifications.map({ try InstanceTypeSpecification(dictionary: $0) })
+            } else { 
+                self.instanceTypeSpecifications = nil
             }
-            if let launchSpecifications = dictionary["LaunchSpecifications"] as? [String: Any] { self.launchSpecifications = try Elasticmapreduce.InstanceFleetProvisioningSpecifications(dictionary: launchSpecifications) }
+            if let launchSpecifications = dictionary["LaunchSpecifications"] as? [String: Any] { self.launchSpecifications = try Elasticmapreduce.InstanceFleetProvisioningSpecifications(dictionary: launchSpecifications) } else { self.launchSpecifications = nil }
             self.provisionedOnDemandCapacity = dictionary["ProvisionedOnDemandCapacity"] as? Int32
             self.name = dictionary["Name"] as? String
             self.instanceFleetType = dictionary["InstanceFleetType"] as? String
@@ -268,13 +256,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current state of the instance group.
-        public var state: String? = nil
+        public let state: String?
         /// The timeline of the instance group status over time.
-        public var timeline: InstanceGroupTimeline? = nil
+        public let timeline: InstanceGroupTimeline?
         /// The status change reason details for the instance group.
-        public var stateChangeReason: InstanceGroupStateChangeReason? = nil
-
-        public init() {}
+        public let stateChangeReason: InstanceGroupStateChangeReason?
 
         public init(state: String? = nil, timeline: InstanceGroupTimeline? = nil, stateChangeReason: InstanceGroupStateChangeReason? = nil) {
             self.state = state
@@ -284,8 +270,8 @@ extension Elasticmapreduce {
 
         public init(dictionary: [String: Any]) throws {
             self.state = dictionary["State"] as? String
-            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.InstanceGroupTimeline(dictionary: timeline) }
-            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.InstanceGroupStateChangeReason(dictionary: stateChangeReason) }
+            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.InstanceGroupTimeline(dictionary: timeline) } else { self.timeline = nil }
+            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.InstanceGroupStateChangeReason(dictionary: stateChangeReason) } else { self.stateChangeReason = nil }
         }
     }
 
@@ -293,11 +279,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the security configuration.
-        public var name: String = ""
+        public let name: String
         /// The date and time the security configuration was created.
-        public var creationDateTime: Date = Date()
-
-        public init() {}
+        public let creationDateTime: Date
 
         public init(name: String, creationDateTime: Date) {
             self.name = name
@@ -316,13 +300,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The reason for the step failure. In the case where the service cannot successfully determine the root cause of the failure, it returns "Unknown Error" as a reason.
-        public var reason: String? = nil
+        public let reason: String?
         /// The path to the log file where the step failure root cause was originally recorded.
-        public var logFile: String? = nil
+        public let logFile: String?
         /// The descriptive message including the error the EMR service has identified as the cause of step failure. This is text from an error log that describes the root cause of the failure.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(reason: String? = nil, logFile: String? = nil, message: String? = nil) {
             self.reason = reason
@@ -341,15 +323,13 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The cluster state filters to apply when listing clusters.
-        public var clusterStates: [String]? = nil
+        public let clusterStates: [String]?
         /// The pagination token that indicates the next set of results to retrieve.
-        public var marker: String? = nil
+        public let marker: String?
         /// The creation date and time end value filter for listing clusters.
-        public var createdBefore: Date? = nil
+        public let createdBefore: Date?
         /// The creation date and time beginning value filter for listing clusters.
-        public var createdAfter: Date? = nil
-
-        public init() {}
+        public let createdAfter: Date?
 
         public init(clusterStates: [String]? = nil, marker: String? = nil, createdBefore: Date? = nil, createdAfter: Date? = nil) {
             self.clusterStates = clusterStates
@@ -359,9 +339,7 @@ extension Elasticmapreduce {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let clusterStates = dictionary["ClusterStates"] as? [String] {
-                self.clusterStates = clusterStates
-            }
+            self.clusterStates = dictionary["ClusterStates"] as? [String]
             self.marker = dictionary["Marker"] as? String
             self.createdBefore = dictionary["CreatedBefore"] as? Date
             self.createdAfter = dictionary["CreatedAfter"] as? Date
@@ -372,11 +350,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The programmatic code for the state change reason.
-        public var code: String? = nil
+        public let code: String?
         /// The descriptive message for the state change reason.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
@@ -393,13 +369,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of I/O operations per second (IOPS) that the volume supports.
-        public var iops: Int32? = nil
+        public let iops: Int32?
         /// The volume type. Volume types supported are gp2, io1, standard.
-        public var volumeType: String = ""
+        public let volumeType: String
         /// The volume size, in gibibytes (GiB). This can be a number from 1 - 1024. If the volume type is EBS-optimized, the minimum value is 10.
-        public var sizeInGB: Int32 = 0
-
-        public init() {}
+        public let sizeInGB: Int32
 
         public init(iops: Int32? = nil, volumeType: String, sizeInGB: Int32) {
             self.iops = iops
@@ -420,15 +394,13 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The version of the application.
-        public var version: String? = nil
+        public let version: String?
         /// The name of the application.
-        public var name: String? = nil
+        public let name: String?
         /// Arguments for Amazon EMR to pass to the application.
-        public var args: [String]? = nil
+        public let args: [String]?
         /// This option is for advanced users only. This is meta information about third-party applications that third-party vendors use for testing purposes.
-        public var additionalInfo: [String: String]? = nil
-
-        public init() {}
+        public let additionalInfo: [String: String]?
 
         public init(version: String? = nil, name: String? = nil, args: [String]? = nil, additionalInfo: [String: String]? = nil) {
             self.version = version
@@ -440,11 +412,11 @@ extension Elasticmapreduce {
         public init(dictionary: [String: Any]) throws {
             self.version = dictionary["Version"] as? String
             self.name = dictionary["Name"] as? String
-            if let args = dictionary["Args"] as? [String] {
-                self.args = args
-            }
+            self.args = dictionary["Args"] as? [String]
             if let additionalInfo = dictionary["AdditionalInfo"] as? [String: String] {
                 self.additionalInfo = additionalInfo
+            } else { 
+                self.additionalInfo = nil
             }
         }
     }
@@ -453,9 +425,7 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of job flows matching the parameters supplied.
-        public var jobFlows: [JobFlowDetail]? = nil
-
-        public init() {}
+        public let jobFlows: [JobFlowDetail]?
 
         public init(jobFlows: [JobFlowDetail]? = nil) {
             self.jobFlows = jobFlows
@@ -464,6 +434,8 @@ extension Elasticmapreduce {
         public init(dictionary: [String: Any]) throws {
             if let jobFlows = dictionary["JobFlows"] as? [[String: Any]] {
                 self.jobFlows = try jobFlows.map({ try JobFlowDetail(dictionary: $0) })
+            } else { 
+                self.jobFlows = nil
             }
         }
     }
@@ -472,25 +444,23 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value against which the specified statistic is compared.
-        public var threshold: Double = 0
+        public let threshold: Double
         /// The name of the CloudWatch metric that is watched to determine an alarm condition.
-        public var metricName: String = ""
+        public let metricName: String
         /// The period, in seconds, over which the statistic is applied. EMR CloudWatch metrics are emitted every five minutes (300 seconds), so if an EMR CloudWatch metric is specified, specify 300.
-        public var period: Int32 = 0
+        public let period: Int32
         /// The number of periods, expressed in seconds using Period, during which the alarm condition must exist before the alarm triggers automatic scaling activity. The default value is 1.
-        public var evaluationPeriods: Int32? = nil
+        public let evaluationPeriods: Int32?
         /// Determines how the metric specified by MetricName is compared to the value specified by Threshold.
-        public var comparisonOperator: String = ""
+        public let comparisonOperator: String
         /// The statistic to apply to the metric associated with the alarm. The default is AVERAGE.
-        public var statistic: String? = nil
+        public let statistic: String?
         /// The unit of measure associated with the CloudWatch metric being watched. The value specified for Unit must correspond to the units specified in the CloudWatch metric.
-        public var unit: String? = nil
+        public let unit: String?
         /// A CloudWatch metric dimension.
-        public var dimensions: [MetricDimension]? = nil
+        public let dimensions: [MetricDimension]?
         /// The namespace for the CloudWatch metric. The default is AWS/ElasticMapReduce.
-        public var namespace: String? = nil
-
-        public init() {}
+        public let namespace: String?
 
         public init(threshold: Double, metricName: String, period: Int32, evaluationPeriods: Int32? = nil, comparisonOperator: String, statistic: String? = nil, unit: String? = nil, dimensions: [MetricDimension]? = nil, namespace: String? = nil) {
             self.threshold = threshold
@@ -518,6 +488,8 @@ extension Elasticmapreduce {
             self.unit = dictionary["Unit"] as? String
             if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
                 self.dimensions = try dimensions.map({ try MetricDimension(dictionary: $0) })
+            } else { 
+                self.dimensions = nil
             }
             self.namespace = dictionary["Namespace"] as? String
         }
@@ -527,11 +499,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// A user-defined value, which is optional in a tag. For more information, see Tagging Amazon EMR Resources. 
-        public var value: String? = nil
+        public let value: String?
         /// A user-defined key, which is the minimum required information for a valid tag. For more information, see Tagging Amazon EMR Resources. 
-        public var key: String? = nil
-
-        public init() {}
+        public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
             self.value = value
@@ -548,13 +518,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The security configuration details in JSON format.
-        public var securityConfiguration: String? = nil
+        public let securityConfiguration: String?
         /// The name of the security configuration.
-        public var name: String? = nil
+        public let name: String?
         /// The date and time the security configuration was created
-        public var creationDateTime: Date? = nil
-
-        public init() {}
+        public let creationDateTime: Date?
 
         public init(securityConfiguration: String? = nil, name: String? = nil, creationDateTime: Date? = nil) {
             self.securityConfiguration = securityConfiguration
@@ -573,9 +541,7 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of CancelStepsInfo, which shows the status of specified cancel requests for each StepID specified.
-        public var cancelStepsInfoList: [CancelStepsInfo]? = nil
-
-        public init() {}
+        public let cancelStepsInfoList: [CancelStepsInfo]?
 
         public init(cancelStepsInfoList: [CancelStepsInfo]? = nil) {
             self.cancelStepsInfoList = cancelStepsInfoList
@@ -584,6 +550,8 @@ extension Elasticmapreduce {
         public init(dictionary: [String: Any]) throws {
             if let cancelStepsInfoList = dictionary["CancelStepsInfoList"] as? [[String: Any]] {
                 self.cancelStepsInfoList = try cancelStepsInfoList.map({ try CancelStepsInfo(dictionary: $0) })
+            } else { 
+                self.cancelStepsInfoList = nil
             }
         }
     }
@@ -592,9 +560,7 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The launch specification for Spot instances in the fleet, which determines the defined duration and provisioning timeout behavior.
-        public var spotSpecification: SpotProvisioningSpecification = SpotProvisioningSpecification()
-
-        public init() {}
+        public let spotSpecification: SpotProvisioningSpecification
 
         public init(spotSpecification: SpotProvisioningSpecification) {
             self.spotSpecification = spotSpecification
@@ -610,13 +576,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the ID of the instance group to which the automatic scaling policy is applied.
-        public var instanceGroupId: String = ""
+        public let instanceGroupId: String
         /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
-        public var clusterId: String = ""
+        public let clusterId: String
         /// Specifies the definition of the automatic scaling policy.
-        public var autoScalingPolicy: AutoScalingPolicy = AutoScalingPolicy()
-
-        public init() {}
+        public let autoScalingPolicy: AutoScalingPolicy
 
         public init(instanceGroupId: String, clusterId: String, autoScalingPolicy: AutoScalingPolicy) {
             self.instanceGroupId = instanceGroupId
@@ -638,13 +602,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date and time when the cluster was ready to execute steps.
-        public var readyDateTime: Date? = nil
+        public let readyDateTime: Date?
         /// The creation date and time of the cluster.
-        public var creationDateTime: Date? = nil
+        public let creationDateTime: Date?
         /// The date and time when the cluster was terminated.
-        public var endDateTime: Date? = nil
-
-        public init() {}
+        public let endDateTime: Date?
 
         public init(readyDateTime: Date? = nil, creationDateTime: Date? = nil, endDateTime: Date? = nil) {
             self.readyDateTime = readyDateTime
@@ -663,18 +625,14 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifiers of the list of steps added to the job flow.
-        public var stepIds: [String]? = nil
-
-        public init() {}
+        public let stepIds: [String]?
 
         public init(stepIds: [String]? = nil) {
             self.stepIds = stepIds
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let stepIds = dictionary["StepIds"] as? [String] {
-                self.stepIds = stepIds
-            }
+            self.stepIds = dictionary["StepIds"] as? [String]
         }
     }
 
@@ -682,31 +640,29 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of EBS volumes that are attached to this instance.
-        public var ebsVolumes: [EbsVolume]? = nil
+        public let ebsVolumes: [EbsVolume]?
         /// The unique identifier of the instance fleet to which an EC2 instance belongs.
-        public var instanceFleetId: String? = nil
+        public let instanceFleetId: String?
         /// The identifier of the instance group to which this instance belongs.
-        public var instanceGroupId: String? = nil
+        public let instanceGroupId: String?
         /// The current status of the instance.
-        public var status: InstanceStatus? = nil
+        public let status: InstanceStatus?
         /// The instance purchasing option. Valid values are ON_DEMAND or SPOT. 
-        public var market: String? = nil
+        public let market: String?
         /// The unique identifier for the instance in Amazon EMR.
-        public var id: String? = nil
+        public let id: String?
         /// The public IP address of the instance.
-        public var publicIpAddress: String? = nil
+        public let publicIpAddress: String?
         /// The public DNS name of the instance.
-        public var publicDnsName: String? = nil
+        public let publicDnsName: String?
         /// The private DNS name of the instance.
-        public var privateDnsName: String? = nil
+        public let privateDnsName: String?
         /// The EC2 instance type, for example m3.xlarge.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The unique identifier of the instance in Amazon EC2.
-        public var ec2InstanceId: String? = nil
+        public let ec2InstanceId: String?
         /// The private IP address of the instance.
-        public var privateIpAddress: String? = nil
-
-        public init() {}
+        public let privateIpAddress: String?
 
         public init(ebsVolumes: [EbsVolume]? = nil, instanceFleetId: String? = nil, instanceGroupId: String? = nil, status: InstanceStatus? = nil, market: String? = nil, id: String? = nil, publicIpAddress: String? = nil, publicDnsName: String? = nil, privateDnsName: String? = nil, instanceType: String? = nil, ec2InstanceId: String? = nil, privateIpAddress: String? = nil) {
             self.ebsVolumes = ebsVolumes
@@ -726,10 +682,12 @@ extension Elasticmapreduce {
         public init(dictionary: [String: Any]) throws {
             if let ebsVolumes = dictionary["EbsVolumes"] as? [[String: Any]] {
                 self.ebsVolumes = try ebsVolumes.map({ try EbsVolume(dictionary: $0) })
+            } else { 
+                self.ebsVolumes = nil
             }
             self.instanceFleetId = dictionary["InstanceFleetId"] as? String
             self.instanceGroupId = dictionary["InstanceGroupId"] as? String
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.InstanceStatus(dictionary: status) }
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.InstanceStatus(dictionary: status) } else { self.status = nil }
             self.market = dictionary["Market"] as? String
             self.id = dictionary["Id"] as? String
             self.publicIpAddress = dictionary["PublicIpAddress"] as? String
@@ -745,11 +703,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// Not available for instance groups. Instance groups use the market type specified for the group.
-        public var market: String? = nil
+        public let market: String?
         /// The type of adjustment the automatic scaling activity makes when triggered, and the periodicity of the adjustment.
-        public var simpleScalingPolicyConfiguration: SimpleScalingPolicyConfiguration = SimpleScalingPolicyConfiguration()
-
-        public init() {}
+        public let simpleScalingPolicyConfiguration: SimpleScalingPolicyConfiguration
 
         public init(market: String? = nil, simpleScalingPolicyConfiguration: SimpleScalingPolicyConfiguration) {
             self.market = market
@@ -767,17 +723,15 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// This specifies what action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE.
-        public var actionOnFailure: String? = nil
+        public let actionOnFailure: String?
         /// The current execution status details of the cluster step.
-        public var status: StepStatus? = nil
+        public let status: StepStatus?
         /// The name of the cluster step.
-        public var name: String? = nil
+        public let name: String?
         /// The Hadoop job configuration of the cluster step.
-        public var config: HadoopStepConfig? = nil
+        public let config: HadoopStepConfig?
         /// The identifier of the cluster step.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(actionOnFailure: String? = nil, status: StepStatus? = nil, name: String? = nil, config: HadoopStepConfig? = nil, id: String? = nil) {
             self.actionOnFailure = actionOnFailure
@@ -789,9 +743,9 @@ extension Elasticmapreduce {
 
         public init(dictionary: [String: Any]) throws {
             self.actionOnFailure = dictionary["ActionOnFailure"] as? String
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.StepStatus(dictionary: status) }
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.StepStatus(dictionary: status) } else { self.status = nil }
             self.name = dictionary["Name"] as? String
-            if let config = dictionary["Config"] as? [String: Any] { self.config = try Elasticmapreduce.HadoopStepConfig(dictionary: config) }
+            if let config = dictionary["Config"] as? [String: Any] { self.config = try Elasticmapreduce.HadoopStepConfig(dictionary: config) } else { self.config = nil }
             self.id = dictionary["Id"] as? String
         }
     }
@@ -800,11 +754,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The security configuration details in JSON format.
-        public var securityConfiguration: String = ""
+        public let securityConfiguration: String
         /// The name of the security configuration.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(securityConfiguration: String, name: String) {
             self.securityConfiguration = securityConfiguration
@@ -823,11 +775,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        public var marker: String? = nil
+        public let marker: String?
         /// The identifier of the cluster for which to list the instance groups.
-        public var clusterId: String = ""
-
-        public init() {}
+        public let clusterId: String
 
         public init(marker: String? = nil, clusterId: String) {
             self.marker = marker
@@ -845,35 +795,33 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The bid price for each EC2 instance in the instance group when launching nodes as Spot Instances, expressed in USD.
-        public var bidPrice: String? = nil
+        public let bidPrice: String?
         /// Policy for customizing shrink operations.
-        public var shrinkPolicy: ShrinkPolicy? = nil
+        public let shrinkPolicy: ShrinkPolicy?
         /// If the instance group is EBS-optimized. An Amazon EBS-optimized instance uses an optimized configuration stack and provides additional, dedicated capacity for Amazon EBS I/O.
-        public var ebsOptimized: Bool? = nil
+        public let ebsOptimized: Bool?
         /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
-        public var autoScalingPolicy: AutoScalingPolicyDescription? = nil
+        public let autoScalingPolicy: AutoScalingPolicyDescription?
         /// The EC2 instance type for all instances in the instance group.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The identifier of the instance group.
-        public var id: String? = nil
+        public let id: String?
         /// The current status of the instance group.
-        public var status: InstanceGroupStatus? = nil
+        public let status: InstanceGroupStatus?
         /// The target number of instances for the instance group.
-        public var requestedInstanceCount: Int32? = nil
+        public let requestedInstanceCount: Int32?
         /// The type of the instance group. Valid values are MASTER, CORE or TASK.
-        public var instanceGroupType: String? = nil
+        public let instanceGroupType: String?
         /// The EBS block devices that are mapped to this instance group.
-        public var ebsBlockDevices: [EbsBlockDevice]? = nil
+        public let ebsBlockDevices: [EbsBlockDevice]?
         /// The name of the instance group.
-        public var name: String? = nil
+        public let name: String?
         /// The number of instances currently running in this instance group.
-        public var runningInstanceCount: Int32? = nil
+        public let runningInstanceCount: Int32?
         /// The marketplace to provision instances for this group. Valid values are ON_DEMAND or SPOT.
-        public var market: String? = nil
+        public let market: String?
         ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
-        public var configurations: [Configuration]? = nil
-
-        public init() {}
+        public let configurations: [Configuration]?
 
         public init(bidPrice: String? = nil, shrinkPolicy: ShrinkPolicy? = nil, ebsOptimized: Bool? = nil, autoScalingPolicy: AutoScalingPolicyDescription? = nil, instanceType: String? = nil, id: String? = nil, status: InstanceGroupStatus? = nil, requestedInstanceCount: Int32? = nil, instanceGroupType: String? = nil, ebsBlockDevices: [EbsBlockDevice]? = nil, name: String? = nil, runningInstanceCount: Int32? = nil, market: String? = nil, configurations: [Configuration]? = nil) {
             self.bidPrice = bidPrice
@@ -894,22 +842,26 @@ extension Elasticmapreduce {
 
         public init(dictionary: [String: Any]) throws {
             self.bidPrice = dictionary["BidPrice"] as? String
-            if let shrinkPolicy = dictionary["ShrinkPolicy"] as? [String: Any] { self.shrinkPolicy = try Elasticmapreduce.ShrinkPolicy(dictionary: shrinkPolicy) }
+            if let shrinkPolicy = dictionary["ShrinkPolicy"] as? [String: Any] { self.shrinkPolicy = try Elasticmapreduce.ShrinkPolicy(dictionary: shrinkPolicy) } else { self.shrinkPolicy = nil }
             self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
-            if let autoScalingPolicy = dictionary["AutoScalingPolicy"] as? [String: Any] { self.autoScalingPolicy = try Elasticmapreduce.AutoScalingPolicyDescription(dictionary: autoScalingPolicy) }
+            if let autoScalingPolicy = dictionary["AutoScalingPolicy"] as? [String: Any] { self.autoScalingPolicy = try Elasticmapreduce.AutoScalingPolicyDescription(dictionary: autoScalingPolicy) } else { self.autoScalingPolicy = nil }
             self.instanceType = dictionary["InstanceType"] as? String
             self.id = dictionary["Id"] as? String
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.InstanceGroupStatus(dictionary: status) }
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.InstanceGroupStatus(dictionary: status) } else { self.status = nil }
             self.requestedInstanceCount = dictionary["RequestedInstanceCount"] as? Int32
             self.instanceGroupType = dictionary["InstanceGroupType"] as? String
             if let ebsBlockDevices = dictionary["EbsBlockDevices"] as? [[String: Any]] {
                 self.ebsBlockDevices = try ebsBlockDevices.map({ try EbsBlockDevice(dictionary: $0) })
+            } else { 
+                self.ebsBlockDevices = nil
             }
             self.name = dictionary["Name"] as? String
             self.runningInstanceCount = dictionary["RunningInstanceCount"] as? Int32
             self.market = dictionary["Market"] as? String
             if let configurations = dictionary["Configurations"] as? [[String: Any]] {
                 self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
+            } else { 
+                self.configurations = nil
             }
         }
     }
@@ -917,8 +869,6 @@ extension Elasticmapreduce {
     public struct AddTagsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -928,19 +878,17 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When an On-Demand instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units.  If not specified or set to 0, only Spot instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
-        public var targetOnDemandCapacity: Int32? = nil
+        public let targetOnDemandCapacity: Int32?
         /// The instance type configurations that define the EC2 instances in the instance fleet.
-        public var instanceTypeConfigs: [InstanceTypeConfig]? = nil
+        public let instanceTypeConfigs: [InstanceTypeConfig]?
         /// The launch specification for the instance fleet.
-        public var launchSpecifications: InstanceFleetProvisioningSpecifications? = nil
+        public let launchSpecifications: InstanceFleetProvisioningSpecifications?
         /// The friendly name of the instance fleet.
-        public var name: String? = nil
+        public let name: String?
         /// The node type that the instance fleet hosts. Valid values are MASTER,CORE,and TASK.
-        public var instanceFleetType: String = ""
+        public let instanceFleetType: String
         /// The target capacity of Spot units for the instance fleet, which determines how many Spot instances to provision. When the instance fleet launches, Amazon EMR tries to provision Spot instances as specified by InstanceTypeConfig. Each instance configuration has a specified WeightedCapacity. When a Spot instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units.  If not specified or set to 0, only On-Demand instances are provisioned for the instance fleet. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1. 
-        public var targetSpotCapacity: Int32? = nil
-
-        public init() {}
+        public let targetSpotCapacity: Int32?
 
         public init(targetOnDemandCapacity: Int32? = nil, instanceTypeConfigs: [InstanceTypeConfig]? = nil, launchSpecifications: InstanceFleetProvisioningSpecifications? = nil, name: String? = nil, instanceFleetType: String, targetSpotCapacity: Int32? = nil) {
             self.targetOnDemandCapacity = targetOnDemandCapacity
@@ -955,8 +903,10 @@ extension Elasticmapreduce {
             self.targetOnDemandCapacity = dictionary["TargetOnDemandCapacity"] as? Int32
             if let instanceTypeConfigs = dictionary["InstanceTypeConfigs"] as? [[String: Any]] {
                 self.instanceTypeConfigs = try instanceTypeConfigs.map({ try InstanceTypeConfig(dictionary: $0) })
+            } else { 
+                self.instanceTypeConfigs = nil
             }
-            if let launchSpecifications = dictionary["LaunchSpecifications"] as? [String: Any] { self.launchSpecifications = try Elasticmapreduce.InstanceFleetProvisioningSpecifications(dictionary: launchSpecifications) }
+            if let launchSpecifications = dictionary["LaunchSpecifications"] as? [String: Any] { self.launchSpecifications = try Elasticmapreduce.InstanceFleetProvisioningSpecifications(dictionary: launchSpecifications) } else { self.launchSpecifications = nil }
             self.name = dictionary["Name"] as? String
             guard let instanceFleetType = dictionary["InstanceFleetType"] as? String else { throw InitializableError.missingRequiredParam("InstanceFleetType") }
             self.instanceFleetType = instanceFleetType
@@ -968,11 +918,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        public var marker: String? = nil
+        public let marker: String?
         /// The unique identifier of the cluster.
-        public var clusterId: String = ""
-
-        public init() {}
+        public let clusterId: String
 
         public init(marker: String? = nil, clusterId: String) {
             self.marker = marker
@@ -990,13 +938,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the command.
-        public var name: String? = nil
+        public let name: String?
         /// Arguments for Amazon EMR to pass to the command for execution.
-        public var args: [String]? = nil
+        public let args: [String]?
         /// The Amazon S3 location of the command script.
-        public var scriptPath: String? = nil
-
-        public init() {}
+        public let scriptPath: String?
 
         public init(name: String? = nil, args: [String]? = nil, scriptPath: String? = nil) {
             self.name = name
@@ -1006,9 +952,7 @@ extension Elasticmapreduce {
 
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["Name"] as? String
-            if let args = dictionary["Args"] as? [String] {
-                self.args = args
-            }
+            self.args = dictionary["Args"] as? [String]
             self.scriptPath = dictionary["ScriptPath"] as? String
         }
     }
@@ -1017,11 +961,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates the status of the automatic scaling policy.
-        public var state: String? = nil
+        public let state: String?
         /// The reason for a change in status.
-        public var stateChangeReason: AutoScalingPolicyStateChangeReason? = nil
-
-        public init() {}
+        public let stateChangeReason: AutoScalingPolicyStateChangeReason?
 
         public init(state: String? = nil, stateChangeReason: AutoScalingPolicyStateChangeReason? = nil) {
             self.state = state
@@ -1030,7 +972,7 @@ extension Elasticmapreduce {
 
         public init(dictionary: [String: Any]) throws {
             self.state = dictionary["State"] as? String
-            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.AutoScalingPolicyStateChangeReason(dictionary: stateChangeReason) }
+            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.AutoScalingPolicyStateChangeReason(dictionary: stateChangeReason) } else { self.stateChangeReason = nil }
         }
     }
 
@@ -1038,11 +980,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        public var marker: String? = nil
+        public let marker: String?
         /// The list of instance fleets for the cluster and given filters.
-        public var instanceFleets: [InstanceFleet]? = nil
-
-        public init() {}
+        public let instanceFleets: [InstanceFleet]?
 
         public init(marker: String? = nil, instanceFleets: [InstanceFleet]? = nil) {
             self.marker = marker
@@ -1053,6 +993,8 @@ extension Elasticmapreduce {
             self.marker = dictionary["Marker"] as? String
             if let instanceFleets = dictionary["InstanceFleets"] as? [[String: Any]] {
                 self.instanceFleets = try instanceFleets.map({ try InstanceFleet(dictionary: $0) })
+            } else { 
+                self.instanceFleets = nil
             }
         }
     }
@@ -1061,16 +1003,14 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The step details for the requested step identifier.
-        public var step: Step? = nil
-
-        public init() {}
+        public let step: Step?
 
         public init(step: Step? = nil) {
             self.step = step
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let step = dictionary["Step"] as? [String: Any] { self.step = try Elasticmapreduce.Step(dictionary: step) }
+            if let step = dictionary["Step"] as? [String: Any] { self.step = try Elasticmapreduce.Step(dictionary: step) } else { self.step = nil }
         }
     }
 
@@ -1078,11 +1018,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// When multiple Availability Zones are specified, Amazon EMR evaluates them and launches instances in the optimal Availability Zone. AvailabilityZones is used for instance fleets, while AvailabilityZone (singular) is used for uniform instance groups.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. 
-        public var availabilityZones: [String]? = nil
+        public let availabilityZones: [String]?
         /// The Amazon EC2 Availability Zone for the cluster. AvailabilityZone is used for uniform instance groups, while AvailabilityZones (plural) is used for instance fleets.
-        public var availabilityZone: String? = nil
-
-        public init() {}
+        public let availabilityZone: String?
 
         public init(availabilityZones: [String]? = nil, availabilityZone: String? = nil) {
             self.availabilityZones = availabilityZones
@@ -1090,9 +1028,7 @@ extension Elasticmapreduce {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
-                self.availabilityZones = availabilityZones
-            }
+            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
         }
     }
@@ -1101,11 +1037,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The dimension value.
-        public var value: String? = nil
+        public let value: String?
         /// The dimension name.
-        public var key: String? = nil
-
-        public init() {}
+        public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
             self.value = value
@@ -1122,9 +1056,7 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the security configuration.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -1140,13 +1072,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The JAR file used for the step.
-        public var hadoopJarStep: HadoopJarStepConfig = HadoopJarStepConfig()
+        public let hadoopJarStep: HadoopJarStepConfig
         /// The name of the step.
-        public var name: String = ""
+        public let name: String
         /// The action to take if the step fails.
-        public var actionOnFailure: String? = nil
-
-        public init() {}
+        public let actionOnFailure: String?
 
         public init(hadoopJarStep: HadoopJarStepConfig, name: String, actionOnFailure: String? = nil) {
             self.hadoopJarStep = hadoopJarStep
@@ -1167,16 +1097,14 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// This output contains the details for the requested cluster.
-        public var cluster: Cluster? = nil
-
-        public init() {}
+        public let cluster: Cluster?
 
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Elasticmapreduce.Cluster(dictionary: cluster) }
+            if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Elasticmapreduce.Cluster(dictionary: cluster) } else { self.cluster = nil }
         }
     }
 
@@ -1184,21 +1112,19 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the instance group for which to list the instances.
-        public var instanceGroupId: String? = nil
+        public let instanceGroupId: String?
         /// The unique identifier of the instance fleet.
-        public var instanceFleetId: String? = nil
+        public let instanceFleetId: String?
         /// The pagination token that indicates the next set of results to retrieve.
-        public var marker: String? = nil
+        public let marker: String?
         /// The node type of the instance fleet. For example MASTER, CORE, or TASK.
-        public var instanceFleetType: String? = nil
+        public let instanceFleetType: String?
         /// The type of instance group for which to list the instances.
-        public var instanceGroupTypes: [String]? = nil
+        public let instanceGroupTypes: [String]?
         /// The identifier of the cluster for which to list the instances.
-        public var clusterId: String = ""
+        public let clusterId: String
         /// A list of instance states that will filter the instances returned with this request.
-        public var instanceStates: [String]? = nil
-
-        public init() {}
+        public let instanceStates: [String]?
 
         public init(instanceGroupId: String? = nil, instanceFleetId: String? = nil, marker: String? = nil, instanceFleetType: String? = nil, instanceGroupTypes: [String]? = nil, clusterId: String, instanceStates: [String]? = nil) {
             self.instanceGroupId = instanceGroupId
@@ -1215,14 +1141,10 @@ extension Elasticmapreduce {
             self.instanceFleetId = dictionary["InstanceFleetId"] as? String
             self.marker = dictionary["Marker"] as? String
             self.instanceFleetType = dictionary["InstanceFleetType"] as? String
-            if let instanceGroupTypes = dictionary["InstanceGroupTypes"] as? [String] {
-                self.instanceGroupTypes = instanceGroupTypes
-            }
+            self.instanceGroupTypes = dictionary["InstanceGroupTypes"] as? [String]
             guard let clusterId = dictionary["ClusterId"] as? String else { throw InitializableError.missingRequiredParam("ClusterId") }
             self.clusterId = clusterId
-            if let instanceStates = dictionary["InstanceStates"] as? [String] {
-                self.instanceStates = instanceStates
-            }
+            self.instanceStates = dictionary["InstanceStates"] as? [String]
         }
     }
 
@@ -1230,29 +1152,27 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the Amazon EC2 security group for the slave nodes.
-        public var emrManagedSlaveSecurityGroup: String? = nil
+        public let emrManagedSlaveSecurityGroup: String?
         /// The IAM role that was specified when the cluster was launched. The EC2 instances of the cluster assume this role.
-        public var iamInstanceProfile: String? = nil
+        public let iamInstanceProfile: String?
         /// To launch the cluster in Amazon VPC, set this parameter to the identifier of the Amazon VPC subnet where you want the cluster to launch. If you do not specify this value, the cluster is launched in the normal AWS cloud, outside of a VPC. Amazon VPC currently does not support cluster compute quadruple extra large (cc1.4xlarge) instances. Thus, you cannot specify the cc1.4xlarge instance type for nodes of a cluster launched in a VPC.
-        public var ec2SubnetId: String? = nil
+        public let ec2SubnetId: String?
         /// The identifier of the Amazon EC2 security group for the master node.
-        public var emrManagedMasterSecurityGroup: String? = nil
+        public let emrManagedMasterSecurityGroup: String?
         /// Applies to clusters configured with the The list of availability zones to choose from. The service will choose the availability zone with the best mix of available capacity and lowest cost to launch the cluster. If you do not specify this value, the cluster is launched in any availability zone that the customer account has access to.
-        public var requestedEc2AvailabilityZones: [String]? = nil
+        public let requestedEc2AvailabilityZones: [String]?
         /// A list of additional Amazon EC2 security group IDs for the master node.
-        public var additionalMasterSecurityGroups: [String]? = nil
+        public let additionalMasterSecurityGroups: [String]?
         /// The identifier of the Amazon EC2 security group for the Amazon EMR service to access clusters in VPC private subnets.
-        public var serviceAccessSecurityGroup: String? = nil
+        public let serviceAccessSecurityGroup: String?
         /// A list of additional Amazon EC2 security group IDs for the slave nodes.
-        public var additionalSlaveSecurityGroups: [String]? = nil
+        public let additionalSlaveSecurityGroups: [String]?
         /// Applies to clusters configured with the instance fleets option. Specifies the unique identifier of one or more Amazon EC2 subnets in which to launch EC2 cluster instances. Amazon EMR chooses the EC2 subnet with the best performance and cost characteristics from among the list of RequestedEc2SubnetIds and launches all cluster instances within that subnet. If this value is not specified, and the account supports EC2-Classic networks, the cluster launches instances in the EC2-Classic network and uses Requested
-        public var requestedEc2SubnetIds: [String]? = nil
+        public let requestedEc2SubnetIds: [String]?
         /// The Availability Zone in which the cluster will run. 
-        public var ec2AvailabilityZone: String? = nil
+        public let ec2AvailabilityZone: String?
         /// The name of the Amazon EC2 key pair to use when connecting with SSH into the master node as a user named "hadoop".
-        public var ec2KeyName: String? = nil
-
-        public init() {}
+        public let ec2KeyName: String?
 
         public init(emrManagedSlaveSecurityGroup: String? = nil, iamInstanceProfile: String? = nil, ec2SubnetId: String? = nil, emrManagedMasterSecurityGroup: String? = nil, requestedEc2AvailabilityZones: [String]? = nil, additionalMasterSecurityGroups: [String]? = nil, serviceAccessSecurityGroup: String? = nil, additionalSlaveSecurityGroups: [String]? = nil, requestedEc2SubnetIds: [String]? = nil, ec2AvailabilityZone: String? = nil, ec2KeyName: String? = nil) {
             self.emrManagedSlaveSecurityGroup = emrManagedSlaveSecurityGroup
@@ -1273,19 +1193,11 @@ extension Elasticmapreduce {
             self.iamInstanceProfile = dictionary["IamInstanceProfile"] as? String
             self.ec2SubnetId = dictionary["Ec2SubnetId"] as? String
             self.emrManagedMasterSecurityGroup = dictionary["EmrManagedMasterSecurityGroup"] as? String
-            if let requestedEc2AvailabilityZones = dictionary["RequestedEc2AvailabilityZones"] as? [String] {
-                self.requestedEc2AvailabilityZones = requestedEc2AvailabilityZones
-            }
-            if let additionalMasterSecurityGroups = dictionary["AdditionalMasterSecurityGroups"] as? [String] {
-                self.additionalMasterSecurityGroups = additionalMasterSecurityGroups
-            }
+            self.requestedEc2AvailabilityZones = dictionary["RequestedEc2AvailabilityZones"] as? [String]
+            self.additionalMasterSecurityGroups = dictionary["AdditionalMasterSecurityGroups"] as? [String]
             self.serviceAccessSecurityGroup = dictionary["ServiceAccessSecurityGroup"] as? String
-            if let additionalSlaveSecurityGroups = dictionary["AdditionalSlaveSecurityGroups"] as? [String] {
-                self.additionalSlaveSecurityGroups = additionalSlaveSecurityGroups
-            }
-            if let requestedEc2SubnetIds = dictionary["RequestedEc2SubnetIds"] as? [String] {
-                self.requestedEc2SubnetIds = requestedEc2SubnetIds
-            }
+            self.additionalSlaveSecurityGroups = dictionary["AdditionalSlaveSecurityGroups"] as? [String]
+            self.requestedEc2SubnetIds = dictionary["RequestedEc2SubnetIds"] as? [String]
             self.ec2AvailabilityZone = dictionary["Ec2AvailabilityZone"] as? String
             self.ec2KeyName = dictionary["Ec2KeyName"] as? String
         }
@@ -1295,11 +1207,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The volume identifier of the EBS volume.
-        public var volumeId: String? = nil
+        public let volumeId: String?
         /// The device name that is exposed to the instance, such as /dev/sdh.
-        public var device: String? = nil
-
-        public init() {}
+        public let device: String?
 
         public init(volumeId: String? = nil, device: String? = nil) {
             self.volumeId = volumeId
@@ -1316,11 +1226,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// A pagination token that indicates the next set of results to retrieve. Include the marker in the next ListSecurityConfiguration call to retrieve the next page of results, if required.
-        public var marker: String? = nil
+        public let marker: String?
         /// The creation date and time, and name, of each security configuration.
-        public var securityConfigurations: [SecurityConfigurationSummary]? = nil
-
-        public init() {}
+        public let securityConfigurations: [SecurityConfigurationSummary]?
 
         public init(marker: String? = nil, securityConfigurations: [SecurityConfigurationSummary]? = nil) {
             self.marker = marker
@@ -1331,6 +1239,8 @@ extension Elasticmapreduce {
             self.marker = dictionary["Marker"] as? String
             if let securityConfigurations = dictionary["SecurityConfigurations"] as? [[String: Any]] {
                 self.securityConfigurations = try securityConfigurations.map({ try SecurityConfigurationSummary(dictionary: $0) })
+            } else { 
+                self.securityConfigurations = nil
             }
         }
     }
@@ -1339,13 +1249,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date and time when the cluster step execution started.
-        public var startDateTime: Date? = nil
+        public let startDateTime: Date?
         /// The date and time when the cluster step was created.
-        public var creationDateTime: Date? = nil
+        public let creationDateTime: Date?
         /// The date and time when the cluster step execution completed or failed.
-        public var endDateTime: Date? = nil
-
-        public init() {}
+        public let endDateTime: Date?
 
         public init(startDateTime: Date? = nil, creationDateTime: Date? = nil, endDateTime: Date? = nil) {
             self.startDateTime = startDateTime
@@ -1364,11 +1272,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The programmable code for the state change reason.
-        public var code: String? = nil
+        public let code: String?
         /// The status change reason description.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
@@ -1385,11 +1291,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The scale-in and scale-out rules that comprise the automatic scaling policy.
-        public var rules: [ScalingRule] = []
+        public let rules: [ScalingRule]
         /// The upper and lower EC2 instance limits for an automatic scaling policy. Automatic scaling activity will not cause an instance group to grow above or below these limits.
-        public var constraints: ScalingConstraints = ScalingConstraints()
-
-        public init() {}
+        public let constraints: ScalingConstraints
 
         public init(rules: [ScalingRule], constraints: ScalingConstraints) {
             self.rules = rules
@@ -1408,13 +1312,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The classification within a configuration.
-        public var classification: String? = nil
+        public let classification: String?
         /// A list of additional configurations to apply within a configuration object.
-        public var configurations: [Configuration]? = nil
+        public let configurations: [Configuration]?
         /// A set of properties specified within a configuration classification.
-        public var properties: [String: String]? = nil
-
-        public init() {}
+        public let properties: [String: String]?
 
         public init(classification: String? = nil, configurations: [Configuration]? = nil, properties: [String: String]? = nil) {
             self.classification = classification
@@ -1426,9 +1328,13 @@ extension Elasticmapreduce {
             self.classification = dictionary["Classification"] as? String
             if let configurations = dictionary["Configurations"] as? [[String: Any]] {
                 self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
+            } else { 
+                self.configurations = nil
             }
             if let properties = dictionary["Properties"] as? [String: String] {
                 self.properties = properties
+            } else { 
+                self.properties = nil
             }
         }
     }
@@ -1437,13 +1343,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The reason for the failure if the CancelSteps request fails.
-        public var reason: String? = nil
+        public let reason: String?
         /// The status of a CancelSteps Request. The value may be SUBMITTED or FAILED.
-        public var status: String? = nil
+        public let status: String?
         /// The encrypted StepId of a step.
-        public var stepId: String? = nil
-
-        public init() {}
+        public let stepId: String?
 
         public init(reason: String? = nil, status: String? = nil, stepId: String? = nil) {
             self.reason = reason
@@ -1462,8 +1366,6 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1472,11 +1374,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The code indicating the reason for the change in status.USER_REQUEST indicates that the scaling policy status was changed by a user. PROVISION_FAILURE indicates that the status change was because the policy failed to provision. CLEANUP_FAILURE indicates an error.
-        public var code: String? = nil
+        public let code: String?
         /// A friendly, more verbose message that accompanies an automatic scaling policy state change.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
@@ -1493,11 +1393,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// A code corresponding to the reason the state change occurred.
-        public var code: String? = nil
+        public let code: String?
         /// An explanatory message.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
@@ -1514,15 +1412,13 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The conditions that trigger an automatic scaling activity.
-        public var action: ScalingAction = ScalingAction()
+        public let action: ScalingAction
         /// The name used to identify an automatic scaling rule. Rule names must be unique within a scaling policy.
-        public var name: String = ""
+        public let name: String
         /// The CloudWatch alarm definition that determines when automatic scaling activity is triggered.
-        public var trigger: ScalingTrigger = ScalingTrigger()
+        public let trigger: ScalingTrigger
         /// A friendly, more verbose description of the automatic scaling rule.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(action: ScalingAction, name: String, trigger: ScalingTrigger, description: String? = nil) {
             self.action = action
@@ -1546,9 +1442,7 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token that indicates the set of results to retrieve.
-        public var marker: String? = nil
-
-        public init() {}
+        public let marker: String?
 
         public init(marker: String? = nil) {
             self.marker = marker
@@ -1563,35 +1457,33 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of steps run by the job flow.
-        public var steps: [StepDetail]? = nil
+        public let steps: [StepDetail]?
         /// A list of strings set by third party software when the job flow is launched. If you are not using third party software to manage the job flow this value is empty.
-        public var supportedProducts: [String]? = nil
+        public let supportedProducts: [String]?
         /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides a way for the automatic scaling feature to get the required permissions it needs to launch and terminate EC2 instances in an instance group.
-        public var autoScalingRole: String? = nil
+        public let autoScalingRole: String?
         /// The version of the AMI used to initialize Amazon EC2 instances in the job flow. For a list of AMI versions currently supported by Amazon EMR, see AMI Versions Supported in EMR in the Amazon EMR Developer Guide. 
-        public var amiVersion: String? = nil
+        public let amiVersion: String?
         /// Specifies whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and (if they have the proper policy permissions set) manage the cluster. If it is set to false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
-        public var visibleToAllUsers: Bool? = nil
+        public let visibleToAllUsers: Bool?
         /// The job flow identifier.
-        public var jobFlowId: String = ""
+        public let jobFlowId: String
         /// The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
-        public var serviceRole: String? = nil
+        public let serviceRole: String?
         /// The IAM role that was specified when the job flow was launched. The EC2 instances of the job flow assume this role.
-        public var jobFlowRole: String? = nil
+        public let jobFlowRole: String?
         /// A list of the bootstrap actions run by the job flow.
-        public var bootstrapActions: [BootstrapActionDetail]? = nil
+        public let bootstrapActions: [BootstrapActionDetail]?
         /// The name of the job flow.
-        public var name: String = ""
+        public let name: String
         /// The way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR blacklists and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR version 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
-        public var scaleDownBehavior: String? = nil
+        public let scaleDownBehavior: String?
         /// The location in Amazon S3 where log files for the job are stored.
-        public var logUri: String? = nil
+        public let logUri: String?
         /// Describes the Amazon EC2 instances of the job flow.
-        public var instances: JobFlowInstancesDetail = JobFlowInstancesDetail()
+        public let instances: JobFlowInstancesDetail
         /// Describes the execution status of the job flow.
-        public var executionStatusDetail: JobFlowExecutionStatusDetail = JobFlowExecutionStatusDetail()
-
-        public init() {}
+        public let executionStatusDetail: JobFlowExecutionStatusDetail
 
         public init(steps: [StepDetail]? = nil, supportedProducts: [String]? = nil, autoScalingRole: String? = nil, amiVersion: String? = nil, visibleToAllUsers: Bool? = nil, jobFlowId: String, serviceRole: String? = nil, jobFlowRole: String? = nil, bootstrapActions: [BootstrapActionDetail]? = nil, name: String, scaleDownBehavior: String? = nil, logUri: String? = nil, instances: JobFlowInstancesDetail, executionStatusDetail: JobFlowExecutionStatusDetail) {
             self.steps = steps
@@ -1613,10 +1505,10 @@ extension Elasticmapreduce {
         public init(dictionary: [String: Any]) throws {
             if let steps = dictionary["Steps"] as? [[String: Any]] {
                 self.steps = try steps.map({ try StepDetail(dictionary: $0) })
+            } else { 
+                self.steps = nil
             }
-            if let supportedProducts = dictionary["SupportedProducts"] as? [String] {
-                self.supportedProducts = supportedProducts
-            }
+            self.supportedProducts = dictionary["SupportedProducts"] as? [String]
             self.autoScalingRole = dictionary["AutoScalingRole"] as? String
             self.amiVersion = dictionary["AmiVersion"] as? String
             self.visibleToAllUsers = dictionary["VisibleToAllUsers"] as? Bool
@@ -1626,6 +1518,8 @@ extension Elasticmapreduce {
             self.jobFlowRole = dictionary["JobFlowRole"] as? String
             if let bootstrapActions = dictionary["BootstrapActions"] as? [[String: Any]] {
                 self.bootstrapActions = try bootstrapActions.map({ try BootstrapActionDetail(dictionary: $0) })
+            } else { 
+                self.bootstrapActions = nil
             }
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
@@ -1642,13 +1536,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date and time when the instance group became ready to perform tasks.
-        public var readyDateTime: Date? = nil
+        public let readyDateTime: Date?
         /// The creation date and time of the instance group.
-        public var creationDateTime: Date? = nil
+        public let creationDateTime: Date?
         /// The date and time when the instance group terminated.
-        public var endDateTime: Date? = nil
-
-        public init() {}
+        public let endDateTime: Date?
 
         public init(readyDateTime: Date? = nil, creationDateTime: Date? = nil, endDateTime: Date? = nil) {
             self.readyDateTime = readyDateTime
@@ -1667,9 +1559,7 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The definition of a CloudWatch metric alarm. When the defined alarm conditions are met along with other trigger parameters, scaling activity begins.
-        public var cloudWatchAlarmDefinition: CloudWatchAlarmDefinition = CloudWatchAlarmDefinition()
-
-        public init() {}
+        public let cloudWatchAlarmDefinition: CloudWatchAlarmDefinition
 
         public init(cloudWatchAlarmDefinition: CloudWatchAlarmDefinition) {
             self.cloudWatchAlarmDefinition = cloudWatchAlarmDefinition
@@ -1685,16 +1575,14 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// A description of the bootstrap action.
-        public var bootstrapActionConfig: BootstrapActionConfig? = nil
-
-        public init() {}
+        public let bootstrapActionConfig: BootstrapActionConfig?
 
         public init(bootstrapActionConfig: BootstrapActionConfig? = nil) {
             self.bootstrapActionConfig = bootstrapActionConfig
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let bootstrapActionConfig = dictionary["BootstrapActionConfig"] as? [String: Any] { self.bootstrapActionConfig = try Elasticmapreduce.BootstrapActionConfig(dictionary: bootstrapActionConfig) }
+            if let bootstrapActionConfig = dictionary["BootstrapActionConfig"] as? [String: Any] { self.bootstrapActionConfig = try Elasticmapreduce.BootstrapActionConfig(dictionary: bootstrapActionConfig) } else { self.bootstrapActionConfig = nil }
         }
     }
 
@@ -1702,15 +1590,13 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// Return only job flows whose state is contained in this list.
-        public var jobFlowStates: [String]? = nil
+        public let jobFlowStates: [String]?
         /// Return only job flows whose job flow ID is contained in this list.
-        public var jobFlowIds: [String]? = nil
+        public let jobFlowIds: [String]?
         /// Return only job flows created before this date and time.
-        public var createdBefore: Date? = nil
+        public let createdBefore: Date?
         /// Return only job flows created after this date and time.
-        public var createdAfter: Date? = nil
-
-        public init() {}
+        public let createdAfter: Date?
 
         public init(jobFlowStates: [String]? = nil, jobFlowIds: [String]? = nil, createdBefore: Date? = nil, createdAfter: Date? = nil) {
             self.jobFlowStates = jobFlowStates
@@ -1720,12 +1606,8 @@ extension Elasticmapreduce {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let jobFlowStates = dictionary["JobFlowStates"] as? [String] {
-                self.jobFlowStates = jobFlowStates
-            }
-            if let jobFlowIds = dictionary["JobFlowIds"] as? [String] {
-                self.jobFlowIds = jobFlowIds
-            }
+            self.jobFlowStates = dictionary["JobFlowStates"] as? [String]
+            self.jobFlowIds = dictionary["JobFlowIds"] as? [String]
             self.createdBefore = dictionary["CreatedBefore"] as? Date
             self.createdAfter = dictionary["CreatedAfter"] as? Date
         }
@@ -1735,11 +1617,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
-        public var volumeSpecification: VolumeSpecification = VolumeSpecification()
+        public let volumeSpecification: VolumeSpecification
         /// Number of EBS volumes with a specific volume configuration that will be associated with every instance in the instance group
-        public var volumesPerInstance: Int32? = nil
-
-        public init() {}
+        public let volumesPerInstance: Int32?
 
         public init(volumeSpecification: VolumeSpecification, volumesPerInstance: Int32? = nil) {
             self.volumeSpecification = volumeSpecification
@@ -1757,11 +1637,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A list of strings that uniquely identify the clusters to protect. This identifier is returned by RunJobFlow and can also be obtained from DescribeJobFlows . 
-        public var jobFlowIds: [String] = []
+        public let jobFlowIds: [String]
         /// A Boolean that indicates whether to protect the cluster and prevent the Amazon EC2 instances in the cluster from shutting down due to API calls, user intervention, or job-flow error.
-        public var terminationProtected: Bool = false
-
-        public init() {}
+        public let terminationProtected: Bool
 
         public init(jobFlowIds: [String], terminationProtected: Bool) {
             self.jobFlowIds = jobFlowIds
@@ -1780,11 +1658,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon EMR resource identifier from which tags will be removed. This value must be a cluster identifier.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// A list of tag keys to remove from a resource.
-        public var tagKeys: [String] = []
-
-        public init() {}
+        public let tagKeys: [String]
 
         public init(resourceId: String, tagKeys: [String]) {
             self.resourceId = resourceId
@@ -1803,13 +1679,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current state of the instance.
-        public var state: String? = nil
+        public let state: String?
         /// The timeline of the instance status over time.
-        public var timeline: InstanceTimeline? = nil
+        public let timeline: InstanceTimeline?
         /// The details of the status change reason for the instance.
-        public var stateChangeReason: InstanceStateChangeReason? = nil
-
-        public init() {}
+        public let stateChangeReason: InstanceStateChangeReason?
 
         public init(state: String? = nil, timeline: InstanceTimeline? = nil, stateChangeReason: InstanceStateChangeReason? = nil) {
             self.state = state
@@ -1819,8 +1693,8 @@ extension Elasticmapreduce {
 
         public init(dictionary: [String: Any]) throws {
             self.state = dictionary["State"] as? String
-            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.InstanceTimeline(dictionary: timeline) }
-            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.InstanceStateChangeReason(dictionary: stateChangeReason) }
+            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.InstanceTimeline(dictionary: timeline) } else { self.timeline = nil }
+            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.InstanceStateChangeReason(dictionary: stateChangeReason) } else { self.stateChangeReason = nil }
         }
     }
 
@@ -1828,17 +1702,15 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// This specifies what action to take when the cluster step fails. Possible values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE.
-        public var actionOnFailure: String? = nil
+        public let actionOnFailure: String?
         /// The current execution status details of the cluster step.
-        public var status: StepStatus? = nil
+        public let status: StepStatus?
         /// The name of the cluster step.
-        public var name: String? = nil
+        public let name: String?
         /// The Hadoop job configuration of the cluster step.
-        public var config: HadoopStepConfig? = nil
+        public let config: HadoopStepConfig?
         /// The identifier of the cluster step.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(actionOnFailure: String? = nil, status: StepStatus? = nil, name: String? = nil, config: HadoopStepConfig? = nil, id: String? = nil) {
             self.actionOnFailure = actionOnFailure
@@ -1850,9 +1722,9 @@ extension Elasticmapreduce {
 
         public init(dictionary: [String: Any]) throws {
             self.actionOnFailure = dictionary["ActionOnFailure"] as? String
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.StepStatus(dictionary: status) }
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.StepStatus(dictionary: status) } else { self.status = nil }
             self.name = dictionary["Name"] as? String
-            if let config = dictionary["Config"] as? [String: Any] { self.config = try Elasticmapreduce.HadoopStepConfig(dictionary: config) }
+            if let config = dictionary["Config"] as? [String: Any] { self.config = try Elasticmapreduce.HadoopStepConfig(dictionary: config) } else { self.config = nil }
             self.id = dictionary["Id"] as? String
         }
     }
@@ -1861,11 +1733,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the bootstrap action.
-        public var name: String = ""
+        public let name: String
         /// The script run by the bootstrap action.
-        public var scriptBootstrapAction: ScriptBootstrapActionConfig = ScriptBootstrapActionConfig()
-
-        public init() {}
+        public let scriptBootstrapAction: ScriptBootstrapActionConfig
 
         public init(name: String, scriptBootstrapAction: ScriptBootstrapActionConfig) {
             self.name = name
@@ -1884,11 +1754,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The job flow ID in which the instance groups are added.
-        public var jobFlowId: String? = nil
+        public let jobFlowId: String?
         /// Instance group IDs of the newly created instance groups.
-        public var instanceGroupIds: [String]? = nil
-
-        public init() {}
+        public let instanceGroupIds: [String]?
 
         public init(jobFlowId: String? = nil, instanceGroupIds: [String]? = nil) {
             self.jobFlowId = jobFlowId
@@ -1897,9 +1765,7 @@ extension Elasticmapreduce {
 
         public init(dictionary: [String: Any]) throws {
             self.jobFlowId = dictionary["JobFlowId"] as? String
-            if let instanceGroupIds = dictionary["InstanceGroupIds"] as? [String] {
-                self.instanceGroupIds = instanceGroupIds
-            }
+            self.instanceGroupIds = dictionary["InstanceGroupIds"] as? [String]
         }
     }
 
@@ -1907,11 +1773,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        public var marker: String? = nil
+        public let marker: String?
         /// The list of instances for the cluster and given filters.
-        public var instances: [Instance]? = nil
-
-        public init() {}
+        public let instances: [Instance]?
 
         public init(marker: String? = nil, instances: [Instance]? = nil) {
             self.marker = marker
@@ -1922,6 +1786,8 @@ extension Elasticmapreduce {
             self.marker = dictionary["Marker"] as? String
             if let instances = dictionary["Instances"] as? [[String: Any]] {
                 self.instances = try instances.map({ try Instance(dictionary: $0) })
+            } else { 
+                self.instances = nil
             }
         }
     }
@@ -1930,13 +1796,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The target capacity of On-Demand units for the instance fleet. For more information see InstanceFleetConfig$TargetOnDemandCapacity.
-        public var targetOnDemandCapacity: Int32? = nil
+        public let targetOnDemandCapacity: Int32?
         /// A unique identifier for the instance fleet.
-        public var instanceFleetId: String = ""
+        public let instanceFleetId: String
         /// The target capacity of Spot units for the instance fleet. For more information, see InstanceFleetConfig$TargetSpotCapacity.
-        public var targetSpotCapacity: Int32? = nil
-
-        public init() {}
+        public let targetSpotCapacity: Int32?
 
         public init(targetOnDemandCapacity: Int32? = nil, instanceFleetId: String, targetSpotCapacity: Int32? = nil) {
             self.targetOnDemandCapacity = targetOnDemandCapacity
@@ -1956,11 +1820,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        public var marker: String? = nil
+        public let marker: String?
         /// The list of instance groups for the cluster and given filters.
-        public var instanceGroups: [InstanceGroup]? = nil
-
-        public init() {}
+        public let instanceGroups: [InstanceGroup]?
 
         public init(marker: String? = nil, instanceGroups: [InstanceGroup]? = nil) {
             self.marker = marker
@@ -1971,6 +1833,8 @@ extension Elasticmapreduce {
             self.marker = dictionary["Marker"] as? String
             if let instanceGroups = dictionary["InstanceGroups"] as? [[String: Any]] {
                 self.instanceGroups = try instanceGroups.map({ try InstanceGroup(dictionary: $0) })
+            } else { 
+                self.instanceGroups = nil
             }
         }
     }
@@ -1979,11 +1843,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the security configuration.
-        public var name: String? = nil
+        public let name: String?
         /// The date and time the security configuration was created.
-        public var creationDateTime: Date? = nil
-
-        public init() {}
+        public let creationDateTime: Date?
 
         public init(name: String? = nil, creationDateTime: Date? = nil) {
             self.name = name
@@ -2000,11 +1862,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier of the cluster.
-        public var clusterId: String? = nil
+        public let clusterId: String?
         /// The unique identifier of the instance fleet.
-        public var instanceFleetId: String? = nil
-
-        public init() {}
+        public let instanceFleetId: String?
 
         public init(clusterId: String? = nil, instanceFleetId: String? = nil) {
             self.clusterId = clusterId
@@ -2021,11 +1881,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        public var marker: String? = nil
+        public let marker: String?
         /// The bootstrap actions associated with the cluster.
-        public var bootstrapActions: [Command]? = nil
-
-        public init() {}
+        public let bootstrapActions: [Command]?
 
         public init(marker: String? = nil, bootstrapActions: [Command]? = nil) {
             self.marker = marker
@@ -2036,6 +1894,8 @@ extension Elasticmapreduce {
             self.marker = dictionary["Marker"] as? String
             if let bootstrapActions = dictionary["BootstrapActions"] as? [[String: Any]] {
                 self.bootstrapActions = try bootstrapActions.map({ try Command(dictionary: $0) })
+            } else { 
+                self.bootstrapActions = nil
             }
         }
     }
@@ -2044,11 +1904,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of StepIDs to cancel. Use ListSteps to get steps and their states for the specified cluster.
-        public var stepIds: [String]? = nil
+        public let stepIds: [String]?
         /// The ClusterID for which specified steps will be canceled. Use RunJobFlow and ListClusters to get ClusterIDs. 
-        public var clusterId: String? = nil
-
-        public init() {}
+        public let clusterId: String?
 
         public init(stepIds: [String]? = nil, clusterId: String? = nil) {
             self.stepIds = stepIds
@@ -2056,9 +1914,7 @@ extension Elasticmapreduce {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let stepIds = dictionary["StepIds"] as? [String] {
-                self.stepIds = stepIds
-            }
+            self.stepIds = dictionary["StepIds"] as? [String]
             self.clusterId = dictionary["ClusterId"] as? String
         }
     }
@@ -2067,11 +1923,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier of the cluster.
-        public var clusterId: String = ""
+        public let clusterId: String
         /// The unique identifier of the instance fleet.
-        public var instanceFleet: InstanceFleetModifyConfig = InstanceFleetModifyConfig()
-
-        public init() {}
+        public let instanceFleet: InstanceFleetModifyConfig
 
         public init(clusterId: String, instanceFleet: InstanceFleetModifyConfig) {
             self.clusterId = clusterId
@@ -2090,41 +1944,39 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.  Describes the EC2 instances and instance configurations for clusters that use the instance fleet configuration.
-        public var instanceFleets: [InstanceFleetConfig]? = nil
+        public let instanceFleets: [InstanceFleetConfig]?
         /// The Hadoop version for the cluster. Valid inputs are "0.18" (deprecated), "0.20" (deprecated), "0.20.205" (deprecated), "1.0.3", "2.2.0", or "2.4.0". If you do not set this value, the default of 0.18 is used, unless the AmiVersion parameter is set in the RunJobFlow call, in which case the default version of Hadoop for that AMI version is used.
-        public var hadoopVersion: String? = nil
+        public let hadoopVersion: String?
         /// Applies to clusters that use the uniform instance group configuration. To launch the cluster in Amazon Virtual Private Cloud (Amazon VPC), set this parameter to the identifier of the Amazon VPC subnet where you want the cluster to launch. If you do not specify this value, the cluster launches in the normal Amazon Web Services cloud, outside of an Amazon VPC, if the account launching the cluster supports EC2 Classic networks in the region where the cluster launches. Amazon VPC currently does not support cluster compute quadruple extra large (cc1.4xlarge) instances. Thus you cannot specify the cc1.4xlarge instance type for clusters launched in an Amazon VPC.
-        public var ec2SubnetId: String? = nil
+        public let ec2SubnetId: String?
         /// The identifier of the Amazon EC2 security group for the master node.
-        public var emrManagedMasterSecurityGroup: String? = nil
+        public let emrManagedMasterSecurityGroup: String?
         /// Specifies whether the cluster should remain available after completing all steps.
-        public var keepJobFlowAliveWhenNoSteps: Bool? = nil
+        public let keepJobFlowAliveWhenNoSteps: Bool?
         /// The name of the EC2 key pair that can be used to ssh to the master node as the user called "hadoop."
-        public var ec2KeyName: String? = nil
+        public let ec2KeyName: String?
         /// Configuration for the instance groups in a cluster.
-        public var instanceGroups: [InstanceGroupConfig]? = nil
+        public let instanceGroups: [InstanceGroupConfig]?
         /// The EC2 instance type of the master node.
-        public var masterInstanceType: String? = nil
+        public let masterInstanceType: String?
         /// The identifier of the Amazon EC2 security group for the slave nodes.
-        public var emrManagedSlaveSecurityGroup: String? = nil
+        public let emrManagedSlaveSecurityGroup: String?
         /// A list of additional Amazon EC2 security group IDs for the master node.
-        public var additionalMasterSecurityGroups: [String]? = nil
+        public let additionalMasterSecurityGroups: [String]?
         /// The Availability Zone in which the cluster runs.
-        public var placement: PlacementType? = nil
+        public let placement: PlacementType?
         /// The EC2 instance type of the slave nodes.
-        public var slaveInstanceType: String? = nil
+        public let slaveInstanceType: String?
         /// Applies to clusters that use the instance fleet configuration. When multiple EC2 subnet IDs are specified, Amazon EMR evaluates them and launches instances in the optimal subnet.  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. 
-        public var ec2SubnetIds: [String]? = nil
+        public let ec2SubnetIds: [String]?
         /// The identifier of the Amazon EC2 security group for the Amazon EMR service to access clusters in VPC private subnets.
-        public var serviceAccessSecurityGroup: String? = nil
+        public let serviceAccessSecurityGroup: String?
         /// A list of additional Amazon EC2 security group IDs for the slave nodes.
-        public var additionalSlaveSecurityGroups: [String]? = nil
+        public let additionalSlaveSecurityGroups: [String]?
         /// The number of EC2 instances in the cluster.
-        public var instanceCount: Int32? = nil
+        public let instanceCount: Int32?
         /// Specifies whether to lock the cluster to prevent the Amazon EC2 instances from being terminated by API call, user intervention, or in the event of a job-flow error.
-        public var terminationProtected: Bool? = nil
-
-        public init() {}
+        public let terminationProtected: Bool?
 
         public init(instanceFleets: [InstanceFleetConfig]? = nil, hadoopVersion: String? = nil, ec2SubnetId: String? = nil, emrManagedMasterSecurityGroup: String? = nil, keepJobFlowAliveWhenNoSteps: Bool? = nil, ec2KeyName: String? = nil, instanceGroups: [InstanceGroupConfig]? = nil, masterInstanceType: String? = nil, emrManagedSlaveSecurityGroup: String? = nil, additionalMasterSecurityGroups: [String]? = nil, placement: PlacementType? = nil, slaveInstanceType: String? = nil, ec2SubnetIds: [String]? = nil, serviceAccessSecurityGroup: String? = nil, additionalSlaveSecurityGroups: [String]? = nil, instanceCount: Int32? = nil, terminationProtected: Bool? = nil) {
             self.instanceFleets = instanceFleets
@@ -2149,6 +2001,8 @@ extension Elasticmapreduce {
         public init(dictionary: [String: Any]) throws {
             if let instanceFleets = dictionary["InstanceFleets"] as? [[String: Any]] {
                 self.instanceFleets = try instanceFleets.map({ try InstanceFleetConfig(dictionary: $0) })
+            } else { 
+                self.instanceFleets = nil
             }
             self.hadoopVersion = dictionary["HadoopVersion"] as? String
             self.ec2SubnetId = dictionary["Ec2SubnetId"] as? String
@@ -2157,21 +2011,17 @@ extension Elasticmapreduce {
             self.ec2KeyName = dictionary["Ec2KeyName"] as? String
             if let instanceGroups = dictionary["InstanceGroups"] as? [[String: Any]] {
                 self.instanceGroups = try instanceGroups.map({ try InstanceGroupConfig(dictionary: $0) })
+            } else { 
+                self.instanceGroups = nil
             }
             self.masterInstanceType = dictionary["MasterInstanceType"] as? String
             self.emrManagedSlaveSecurityGroup = dictionary["EmrManagedSlaveSecurityGroup"] as? String
-            if let additionalMasterSecurityGroups = dictionary["AdditionalMasterSecurityGroups"] as? [String] {
-                self.additionalMasterSecurityGroups = additionalMasterSecurityGroups
-            }
-            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Elasticmapreduce.PlacementType(dictionary: placement) }
+            self.additionalMasterSecurityGroups = dictionary["AdditionalMasterSecurityGroups"] as? [String]
+            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Elasticmapreduce.PlacementType(dictionary: placement) } else { self.placement = nil }
             self.slaveInstanceType = dictionary["SlaveInstanceType"] as? String
-            if let ec2SubnetIds = dictionary["Ec2SubnetIds"] as? [String] {
-                self.ec2SubnetIds = ec2SubnetIds
-            }
+            self.ec2SubnetIds = dictionary["Ec2SubnetIds"] as? [String]
             self.serviceAccessSecurityGroup = dictionary["ServiceAccessSecurityGroup"] as? String
-            if let additionalSlaveSecurityGroups = dictionary["AdditionalSlaveSecurityGroups"] as? [String] {
-                self.additionalSlaveSecurityGroups = additionalSlaveSecurityGroups
-            }
+            self.additionalSlaveSecurityGroups = dictionary["AdditionalSlaveSecurityGroups"] as? [String]
             self.instanceCount = dictionary["InstanceCount"] as? Int32
             self.terminationProtected = dictionary["TerminationProtected"] as? Bool
         }
@@ -2181,19 +2031,17 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. This value is 1 for a master instance fleet, and must be greater than 0 for core and task instance fleets. 
-        public var weightedCapacity: Int32? = nil
+        public let weightedCapacity: Int32?
         /// The bid price for each EC2 Spot instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%. 
-        public var bidPrice: String? = nil
+        public let bidPrice: String?
         /// The bid price, as a percentage of On-Demand price, for each EC2 Spot instance as defined by InstanceType. Expressed as a number between 0 and 1000 (for example, 20 specifies 20%). If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
-        public var bidPriceAsPercentageOfOnDemandPrice: Double? = nil
+        public let bidPriceAsPercentageOfOnDemandPrice: Double?
         /// An EC2 instance type, such as m3.xlarge. 
-        public var instanceType: String = ""
+        public let instanceType: String
         /// The configuration of Amazon Elastic Block Storage (EBS) attached to each instance as defined by InstanceType. 
-        public var ebsConfiguration: EbsConfiguration? = nil
+        public let ebsConfiguration: EbsConfiguration?
         /// A configuration classification that applies when provisioning cluster instances, which can include configurations for applications and software that run on the cluster.
-        public var configurations: [Configuration]? = nil
-
-        public init() {}
+        public let configurations: [Configuration]?
 
         public init(weightedCapacity: Int32? = nil, bidPrice: String? = nil, bidPriceAsPercentageOfOnDemandPrice: Double? = nil, instanceType: String, ebsConfiguration: EbsConfiguration? = nil, configurations: [Configuration]? = nil) {
             self.weightedCapacity = weightedCapacity
@@ -2210,9 +2058,11 @@ extension Elasticmapreduce {
             self.bidPriceAsPercentageOfOnDemandPrice = dictionary["BidPriceAsPercentageOfOnDemandPrice"] as? Double
             guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
             self.instanceType = instanceType
-            if let ebsConfiguration = dictionary["EbsConfiguration"] as? [String: Any] { self.ebsConfiguration = try Elasticmapreduce.EbsConfiguration(dictionary: ebsConfiguration) }
+            if let ebsConfiguration = dictionary["EbsConfiguration"] as? [String: Any] { self.ebsConfiguration = try Elasticmapreduce.EbsConfiguration(dictionary: ebsConfiguration) } else { self.ebsConfiguration = nil }
             if let configurations = dictionary["Configurations"] as? [[String: Any]] {
                 self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
+            } else { 
+                self.configurations = nil
             }
         }
     }
@@ -2221,9 +2071,7 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of job flows to be shutdown.
-        public var jobFlowIds: [String] = []
-
-        public init() {}
+        public let jobFlowIds: [String]
 
         public init(jobFlowIds: [String]) {
             self.jobFlowIds = jobFlowIds
@@ -2239,15 +2087,13 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the main class in the specified Java file. If not specified, the JAR file should specify a Main-Class in its manifest file.
-        public var mainClass: String? = nil
+        public let mainClass: String?
         /// A path to a JAR file run during the step.
-        public var jar: String = ""
+        public let jar: String
         /// A list of Java properties that are set when the step runs. You can use these properties to pass key value pairs to your main function.
-        public var properties: [KeyValue]? = nil
+        public let properties: [KeyValue]?
         /// A list of command line arguments passed to the JAR file's main function when executed.
-        public var args: [String]? = nil
-
-        public init() {}
+        public let args: [String]?
 
         public init(mainClass: String? = nil, jar: String, properties: [KeyValue]? = nil, args: [String]? = nil) {
             self.mainClass = mainClass
@@ -2262,10 +2108,10 @@ extension Elasticmapreduce {
             self.jar = jar
             if let properties = dictionary["Properties"] as? [[String: Any]] {
                 self.properties = try properties.map({ try KeyValue(dictionary: $0) })
+            } else { 
+                self.properties = nil
             }
-            if let args = dictionary["Args"] as? [String] {
-                self.args = args
-            }
+            self.args = dictionary["Args"] as? [String]
         }
     }
 
@@ -2273,11 +2119,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// Custom policy for requesting termination protection or termination of specific instances when shrinking an instance group.
-        public var instanceResizePolicy: InstanceResizePolicy? = nil
+        public let instanceResizePolicy: InstanceResizePolicy?
         /// The desired timeout for decommissioning an instance. Overrides the default YARN decommissioning timeout.
-        public var decommissionTimeout: Int32? = nil
-
-        public init() {}
+        public let decommissionTimeout: Int32?
 
         public init(instanceResizePolicy: InstanceResizePolicy? = nil, decommissionTimeout: Int32? = nil) {
             self.instanceResizePolicy = instanceResizePolicy
@@ -2285,7 +2129,7 @@ extension Elasticmapreduce {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let instanceResizePolicy = dictionary["InstanceResizePolicy"] as? [String: Any] { self.instanceResizePolicy = try Elasticmapreduce.InstanceResizePolicy(dictionary: instanceResizePolicy) }
+            if let instanceResizePolicy = dictionary["InstanceResizePolicy"] as? [String: Any] { self.instanceResizePolicy = try Elasticmapreduce.InstanceResizePolicy(dictionary: instanceResizePolicy) } else { self.instanceResizePolicy = nil }
             self.decommissionTimeout = dictionary["DecommissionTimeout"] as? Int32
         }
     }
@@ -2294,11 +2138,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        public var marker: String? = nil
+        public let marker: String?
         /// The cluster identifier for the bootstrap actions to list.
-        public var clusterId: String = ""
-
-        public init() {}
+        public let clusterId: String
 
         public init(marker: String? = nil, clusterId: String) {
             self.marker = marker
@@ -2316,13 +2158,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time and date the instance fleet was ready to run jobs.
-        public var readyDateTime: Date? = nil
+        public let readyDateTime: Date?
         /// The time and date the instance fleet was created.
-        public var creationDateTime: Date? = nil
+        public let creationDateTime: Date?
         /// The time and date the instance fleet terminated.
-        public var endDateTime: Date? = nil
-
-        public init() {}
+        public let endDateTime: Date?
 
         public init(readyDateTime: Date? = nil, creationDateTime: Date? = nil, endDateTime: Date? = nil) {
             self.readyDateTime = readyDateTime
@@ -2341,11 +2181,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The upper boundary of EC2 instances in an instance group beyond which scaling activities are not allowed to grow. Scale-out activities will not add instances beyond this boundary.
-        public var maxCapacity: Int32 = 0
+        public let maxCapacity: Int32
         /// The lower boundary of EC2 instances in an instance group below which scaling activities are not allowed to shrink. Scale-in activities will not terminate instances below this boundary.
-        public var minCapacity: Int32 = 0
-
-        public init() {}
+        public let minCapacity: Int32
 
         public init(maxCapacity: Int32, minCapacity: Int32) {
             self.maxCapacity = maxCapacity
@@ -2364,13 +2202,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of an automatic scaling policy. 
-        public var status: AutoScalingPolicyStatus? = nil
+        public let status: AutoScalingPolicyStatus?
         /// The scale-in and scale-out rules that comprise the automatic scaling policy.
-        public var rules: [ScalingRule]? = nil
+        public let rules: [ScalingRule]?
         /// The upper and lower EC2 instance limits for an automatic scaling policy. Automatic scaling activity will not cause an instance group to grow above or below these limits.
-        public var constraints: ScalingConstraints? = nil
-
-        public init() {}
+        public let constraints: ScalingConstraints?
 
         public init(status: AutoScalingPolicyStatus? = nil, rules: [ScalingRule]? = nil, constraints: ScalingConstraints? = nil) {
             self.status = status
@@ -2379,11 +2215,13 @@ extension Elasticmapreduce {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.AutoScalingPolicyStatus(dictionary: status) }
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.AutoScalingPolicyStatus(dictionary: status) } else { self.status = nil }
             if let rules = dictionary["Rules"] as? [[String: Any]] {
                 self.rules = try rules.map({ try ScalingRule(dictionary: $0) })
+            } else { 
+                self.rules = nil
             }
-            if let constraints = dictionary["Constraints"] as? [String: Any] { self.constraints = try Elasticmapreduce.ScalingConstraints(dictionary: constraints) }
+            if let constraints = dictionary["Constraints"] as? [String: Any] { self.constraints = try Elasticmapreduce.ScalingConstraints(dictionary: constraints) } else { self.constraints = nil }
         }
     }
 
@@ -2391,11 +2229,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the product configuration.
-        public var name: String? = nil
+        public let name: String?
         /// The list of user-supplied arguments.
-        public var args: [String]? = nil
-
-        public init() {}
+        public let args: [String]?
 
         public init(name: String? = nil, args: [String]? = nil) {
             self.name = name
@@ -2404,9 +2240,7 @@ extension Elasticmapreduce {
 
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["Name"] as? String
-            if let args = dictionary["Args"] as? [String] {
-                self.args = args
-            }
+            self.args = dictionary["Args"] as? [String]
         }
     }
 
@@ -2414,21 +2248,19 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig. Capacity values represent performance characteristics such as vCPUs, memory, or I/O. If not specified, the default value is 1.
-        public var weightedCapacity: Int32? = nil
+        public let weightedCapacity: Int32?
         /// The bid price for each EC2 Spot instance type as defined by InstanceType. Expressed in USD.
-        public var bidPrice: String? = nil
+        public let bidPrice: String?
         /// The configuration of Amazon Elastic Block Storage (EBS) attached to each instance as defined by InstanceType.
-        public var ebsBlockDevices: [EbsBlockDevice]? = nil
+        public let ebsBlockDevices: [EbsBlockDevice]?
         /// Evaluates to TRUE when the specified InstanceType is EBS-optimized.
-        public var ebsOptimized: Bool? = nil
+        public let ebsOptimized: Bool?
         /// The bid price, as a percentage of On-Demand price, for each EC2 Spot instance as defined by InstanceType. Expressed as a number (for example, 20 specifies 20%).
-        public var bidPriceAsPercentageOfOnDemandPrice: Double? = nil
+        public let bidPriceAsPercentageOfOnDemandPrice: Double?
         /// The EC2 instance type, for example m3.xlarge.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// A configuration classification that applies when provisioning cluster instances, which can include configurations for applications and software bundled with Amazon EMR.
-        public var configurations: [Configuration]? = nil
-
-        public init() {}
+        public let configurations: [Configuration]?
 
         public init(weightedCapacity: Int32? = nil, bidPrice: String? = nil, ebsBlockDevices: [EbsBlockDevice]? = nil, ebsOptimized: Bool? = nil, bidPriceAsPercentageOfOnDemandPrice: Double? = nil, instanceType: String? = nil, configurations: [Configuration]? = nil) {
             self.weightedCapacity = weightedCapacity
@@ -2445,12 +2277,16 @@ extension Elasticmapreduce {
             self.bidPrice = dictionary["BidPrice"] as? String
             if let ebsBlockDevices = dictionary["EbsBlockDevices"] as? [[String: Any]] {
                 self.ebsBlockDevices = try ebsBlockDevices.map({ try EbsBlockDevice(dictionary: $0) })
+            } else { 
+                self.ebsBlockDevices = nil
             }
             self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
             self.bidPriceAsPercentageOfOnDemandPrice = dictionary["BidPriceAsPercentageOfOnDemandPrice"] as? Double
             self.instanceType = dictionary["InstanceType"] as? String
             if let configurations = dictionary["Configurations"] as? [[String: Any]] {
                 self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
+            } else { 
+                self.configurations = nil
             }
         }
     }
@@ -2459,17 +2295,15 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The start date and time of the step.
-        public var startDateTime: Date? = nil
+        public let startDateTime: Date?
         /// A description of the step's current state.
-        public var lastStateChangeReason: String? = nil
+        public let lastStateChangeReason: String?
         /// The creation date and time of the step.
-        public var creationDateTime: Date = Date()
+        public let creationDateTime: Date
         /// The completion date and time of the step.
-        public var endDateTime: Date? = nil
+        public let endDateTime: Date?
         /// The state of the step.
-        public var state: String = ""
-
-        public init() {}
+        public let state: String
 
         public init(startDateTime: Date? = nil, lastStateChangeReason: String? = nil, creationDateTime: Date, endDateTime: Date? = nil, state: String) {
             self.startDateTime = startDateTime
@@ -2494,45 +2328,43 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of steps to run.
-        public var steps: [StepConfig]? = nil
+        public let steps: [StepConfig]?
         ///  Amazon EMR releases 4.x or later.  The release label for the Amazon EMR release. For Amazon EMR 3.x and 2.x AMIs, use amiVersion instead instead of ReleaseLabel.
-        public var releaseLabel: String? = nil
+        public let releaseLabel: String?
         ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and greater, use Applications.  A list of strings that indicates third-party software to use. For more information, see Use Third Party Applications with Amazon EMR. Currently supported values are:   "mapr-m3" - launch the job flow using MapR M3 Edition.   "mapr-m5" - launch the job flow using MapR M5 Edition.  
-        public var supportedProducts: [String]? = nil
+        public let supportedProducts: [String]?
         /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
-        public var autoScalingRole: String? = nil
+        public let autoScalingRole: String?
         /// The name of a security configuration to apply to the cluster.
-        public var securityConfiguration: String? = nil
+        public let securityConfiguration: String?
         /// A list of tags to associate with a cluster and propagate to Amazon EC2 instances.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and greater, use ReleaseLabel.  The version of the Amazon Machine Image (AMI) to use when launching Amazon EC2 instances in the job flow. The following values are valid:   The version number of the AMI to use, for example, "2.0."   If the AMI supports multiple versions of Hadoop (for example, AMI 1.0 supports both Hadoop 0.18 and 0.20) you can use the JobFlowInstancesConfig HadoopVersion parameter to modify the version of Hadoop from the defaults shown above. For details about the AMI versions currently supported by Amazon Elastic MapReduce, see AMI Versions Supported in Elastic MapReduce in the Amazon Elastic MapReduce Developer Guide.   Previously, the EMR AMI version API parameter options allowed you to use latest for the latest AMI version rather than specify a numerical value. Some regions no longer support this deprecated option as they only have a newer release label version of EMR, which requires you to specify an EMR release label release (EMR 4.x or later). 
-        public var amiVersion: String? = nil
+        public let amiVersion: String?
         /// Whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and (if they have the proper policy permissions set) manage the cluster. If it is set to false, only the IAM user that created the cluster can view and manage it.
-        public var visibleToAllUsers: Bool? = nil
+        public let visibleToAllUsers: Bool?
         ///  Amazon EMR releases 4.x or later.  A list of applications for the cluster. Valid values are: "Hadoop", "Hive", "Mahout", "Pig", and "Spark." They are case insensitive.
-        public var applications: [Application]? = nil
+        public let applications: [Application]?
         /// The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
-        public var serviceRole: String? = nil
+        public let serviceRole: String?
         ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and greater, use Applications.  A list of strings that indicates third-party software to use with the job flow that accepts a user argument list. EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action arguments. For more information, see "Launch a Job Flow on the MapR Distribution for Hadoop" in the Amazon EMR Developer Guide. Supported values are:   "mapr-m3" - launch the cluster using MapR M3 Edition.   "mapr-m5" - launch the cluster using MapR M5 Edition.   "mapr" with the user arguments specifying "--edition,m3" or "--edition,m5" - launch the job flow using MapR M3 or M5 Edition respectively.   "mapr-m7" - launch the cluster using MapR M7 Edition.   "hunk" - launch the cluster with the Hunk Big Data Analtics Platform.   "hue"- launch the cluster with Hue installed.   "spark" - launch the cluster with Apache Spark installed.   "ganglia" - launch the cluster with the Ganglia Monitoring System installed.  
-        public var newSupportedProducts: [SupportedProductConfig]? = nil
+        public let newSupportedProducts: [SupportedProductConfig]?
         /// Also called instance profile and EC2 role. An IAM role for an EMR cluster. The EC2 instances of the cluster assume this role. The default role is EMR_EC2_DefaultRole. In order to use the default role, you must have already created it using the CLI or console.
-        public var jobFlowRole: String? = nil
+        public let jobFlowRole: String?
         /// A list of bootstrap actions to run before Hadoop starts on the cluster nodes.
-        public var bootstrapActions: [BootstrapActionConfig]? = nil
+        public let bootstrapActions: [BootstrapActionConfig]?
         /// The name of the job flow.
-        public var name: String = ""
+        public let name: String
         /// Specifies the way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR blacklists and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR version 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
-        public var scaleDownBehavior: String? = nil
+        public let scaleDownBehavior: String?
         /// A JSON string for selecting additional features.
-        public var additionalInfo: String? = nil
+        public let additionalInfo: String?
         /// The location in Amazon S3 to write the log files of the job flow. If a value is not provided, logs are not created.
-        public var logUri: String? = nil
+        public let logUri: String?
         /// A specification of the number and type of Amazon EC2 instances.
-        public var instances: JobFlowInstancesConfig = JobFlowInstancesConfig()
+        public let instances: JobFlowInstancesConfig
         ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for the EMR cluster you are creating.
-        public var configurations: [Configuration]? = nil
-
-        public init() {}
+        public let configurations: [Configuration]?
 
         public init(steps: [StepConfig]? = nil, releaseLabel: String? = nil, supportedProducts: [String]? = nil, autoScalingRole: String? = nil, securityConfiguration: String? = nil, tags: [Tag]? = nil, amiVersion: String? = nil, visibleToAllUsers: Bool? = nil, applications: [Application]? = nil, serviceRole: String? = nil, newSupportedProducts: [SupportedProductConfig]? = nil, jobFlowRole: String? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, name: String, scaleDownBehavior: String? = nil, additionalInfo: String? = nil, logUri: String? = nil, instances: JobFlowInstancesConfig, configurations: [Configuration]? = nil) {
             self.steps = steps
@@ -2559,28 +2391,36 @@ extension Elasticmapreduce {
         public init(dictionary: [String: Any]) throws {
             if let steps = dictionary["Steps"] as? [[String: Any]] {
                 self.steps = try steps.map({ try StepConfig(dictionary: $0) })
+            } else { 
+                self.steps = nil
             }
             self.releaseLabel = dictionary["ReleaseLabel"] as? String
-            if let supportedProducts = dictionary["SupportedProducts"] as? [String] {
-                self.supportedProducts = supportedProducts
-            }
+            self.supportedProducts = dictionary["SupportedProducts"] as? [String]
             self.autoScalingRole = dictionary["AutoScalingRole"] as? String
             self.securityConfiguration = dictionary["SecurityConfiguration"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.amiVersion = dictionary["AmiVersion"] as? String
             self.visibleToAllUsers = dictionary["VisibleToAllUsers"] as? Bool
             if let applications = dictionary["Applications"] as? [[String: Any]] {
                 self.applications = try applications.map({ try Application(dictionary: $0) })
+            } else { 
+                self.applications = nil
             }
             self.serviceRole = dictionary["ServiceRole"] as? String
             if let newSupportedProducts = dictionary["NewSupportedProducts"] as? [[String: Any]] {
                 self.newSupportedProducts = try newSupportedProducts.map({ try SupportedProductConfig(dictionary: $0) })
+            } else { 
+                self.newSupportedProducts = nil
             }
             self.jobFlowRole = dictionary["JobFlowRole"] as? String
             if let bootstrapActions = dictionary["BootstrapActions"] as? [[String: Any]] {
                 self.bootstrapActions = try bootstrapActions.map({ try BootstrapActionConfig(dictionary: $0) })
+            } else { 
+                self.bootstrapActions = nil
             }
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
@@ -2591,6 +2431,8 @@ extension Elasticmapreduce {
             self.instances = try Elasticmapreduce.JobFlowInstancesConfig(dictionary: instances)
             if let configurations = dictionary["Configurations"] as? [[String: Any]] {
                 self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
+            } else { 
+                self.configurations = nil
             }
         }
     }
@@ -2598,8 +2440,6 @@ extension Elasticmapreduce {
     public struct RemoveAutoScalingPolicyOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -2609,11 +2449,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A list of StepConfig to be executed by the job flow. 
-        public var steps: [StepConfig] = []
+        public let steps: [StepConfig]
         /// A string that uniquely identifies the job flow. This identifier is returned by RunJobFlow and can also be obtained from ListClusters. 
-        public var jobFlowId: String = ""
-
-        public init() {}
+        public let jobFlowId: String
 
         public init(steps: [StepConfig], jobFlowId: String) {
             self.steps = steps
@@ -2632,49 +2470,47 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The release label for the Amazon EMR release. For Amazon EMR 3.x and 2.x AMIs, use amiVersion instead instead of ReleaseLabel.
-        public var releaseLabel: String? = nil
+        public let releaseLabel: String?
         /// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
-        public var autoScalingRole: String? = nil
+        public let autoScalingRole: String?
         /// The name of the security configuration applied to the cluster.
-        public var securityConfiguration: String? = nil
+        public let securityConfiguration: String?
         /// A list of tags associated with a cluster.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// Indicates whether the cluster is visible to all IAM users of the AWS account associated with the cluster. If this value is set to true, all IAM users of that AWS account can view and manage the cluster if they have the proper policy permissions set. If this value is false, only the IAM user that created the cluster can view and manage it. This value can be changed using the SetVisibleToAllUsers action.
-        public var visibleToAllUsers: Bool? = nil
+        public let visibleToAllUsers: Bool?
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
-        public var normalizedInstanceHours: Int32? = nil
+        public let normalizedInstanceHours: Int32?
         /// The applications installed on this cluster.
-        public var applications: [Application]? = nil
+        public let applications: [Application]?
         /// The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
-        public var serviceRole: String? = nil
+        public let serviceRole: String?
         /// Provides information about the EC2 instances in a cluster grouped by category. For example, key name, subnet ID, IAM instance profile, and so on.
-        public var ec2InstanceAttributes: Ec2InstanceAttributes? = nil
+        public let ec2InstanceAttributes: Ec2InstanceAttributes?
         ///  The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.  The instance group configuration of the cluster. A value of INSTANCE_GROUP indicates a uniform instance group configuration. A value of INSTANCE_FLEET indicates an instance fleets configuration.
-        public var instanceCollectionType: String? = nil
+        public let instanceCollectionType: String?
         /// The unique identifier for the cluster.
-        public var id: String? = nil
+        public let id: String?
         /// The current status details about the cluster.
-        public var status: ClusterStatus? = nil
+        public let status: ClusterStatus?
         /// The way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR blacklists and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION is available only in Amazon EMR version 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
-        public var scaleDownBehavior: String? = nil
+        public let scaleDownBehavior: String?
         /// The name of the cluster.
-        public var name: String? = nil
+        public let name: String?
         /// The AMI version running on this cluster.
-        public var runningAmiVersion: String? = nil
+        public let runningAmiVersion: String?
         /// The AMI version requested for this cluster.
-        public var requestedAmiVersion: String? = nil
+        public let requestedAmiVersion: String?
         /// The path to the Amazon S3 location where logs for this cluster are stored.
-        public var logUri: String? = nil
+        public let logUri: String?
         /// The public DNS name of the master EC2 instance.
-        public var masterPublicDnsName: String? = nil
+        public let masterPublicDnsName: String?
         /// Indicates whether Amazon EMR will lock the cluster to prevent the EC2 instances from being terminated by an API call or user intervention, or in the event of a cluster error.
-        public var terminationProtected: Bool? = nil
+        public let terminationProtected: Bool?
         ///  Amazon EMR releases 4.x or later.  The list of Configurations supplied to the EMR cluster.
-        public var configurations: [Configuration]? = nil
+        public let configurations: [Configuration]?
         /// Specifies whether the cluster should terminate after completing all steps.
-        public var autoTerminate: Bool? = nil
-
-        public init() {}
+        public let autoTerminate: Bool?
 
         public init(releaseLabel: String? = nil, autoScalingRole: String? = nil, securityConfiguration: String? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil, normalizedInstanceHours: Int32? = nil, applications: [Application]? = nil, serviceRole: String? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, instanceCollectionType: String? = nil, id: String? = nil, status: ClusterStatus? = nil, scaleDownBehavior: String? = nil, name: String? = nil, runningAmiVersion: String? = nil, requestedAmiVersion: String? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, terminationProtected: Bool? = nil, configurations: [Configuration]? = nil, autoTerminate: Bool? = nil) {
             self.releaseLabel = releaseLabel
@@ -2706,17 +2542,21 @@ extension Elasticmapreduce {
             self.securityConfiguration = dictionary["SecurityConfiguration"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.visibleToAllUsers = dictionary["VisibleToAllUsers"] as? Bool
             self.normalizedInstanceHours = dictionary["NormalizedInstanceHours"] as? Int32
             if let applications = dictionary["Applications"] as? [[String: Any]] {
                 self.applications = try applications.map({ try Application(dictionary: $0) })
+            } else { 
+                self.applications = nil
             }
             self.serviceRole = dictionary["ServiceRole"] as? String
-            if let ec2InstanceAttributes = dictionary["Ec2InstanceAttributes"] as? [String: Any] { self.ec2InstanceAttributes = try Elasticmapreduce.Ec2InstanceAttributes(dictionary: ec2InstanceAttributes) }
+            if let ec2InstanceAttributes = dictionary["Ec2InstanceAttributes"] as? [String: Any] { self.ec2InstanceAttributes = try Elasticmapreduce.Ec2InstanceAttributes(dictionary: ec2InstanceAttributes) } else { self.ec2InstanceAttributes = nil }
             self.instanceCollectionType = dictionary["InstanceCollectionType"] as? String
             self.id = dictionary["Id"] as? String
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.ClusterStatus(dictionary: status) }
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.ClusterStatus(dictionary: status) } else { self.status = nil }
             self.scaleDownBehavior = dictionary["ScaleDownBehavior"] as? String
             self.name = dictionary["Name"] as? String
             self.runningAmiVersion = dictionary["RunningAmiVersion"] as? String
@@ -2726,6 +2566,8 @@ extension Elasticmapreduce {
             self.terminationProtected = dictionary["TerminationProtected"] as? Bool
             if let configurations = dictionary["Configurations"] as? [[String: Any]] {
                 self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
+            } else { 
+                self.configurations = nil
             }
             self.autoTerminate = dictionary["AutoTerminate"] as? Bool
         }
@@ -2735,11 +2577,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description of the step status.
-        public var executionStatusDetail: StepExecutionStatusDetail = StepExecutionStatusDetail()
+        public let executionStatusDetail: StepExecutionStatusDetail
         /// The step configuration.
-        public var stepConfig: StepConfig = StepConfig()
-
-        public init() {}
+        public let stepConfig: StepConfig
 
         public init(executionStatusDetail: StepExecutionStatusDetail, stepConfig: StepConfig) {
             self.executionStatusDetail = executionStatusDetail
@@ -2758,11 +2598,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value part of the identified key.
-        public var value: String? = nil
+        public let value: String?
         /// The unique identifier of a key value pair.
-        public var key: String? = nil
-
-        public init() {}
+        public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
             self.value = value
@@ -2779,9 +2617,7 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the cluster to describe.
-        public var clusterId: String = ""
-
-        public init() {}
+        public let clusterId: String
 
         public init(clusterId: String) {
             self.clusterId = clusterId
@@ -2797,11 +2633,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the cluster with steps to describe.
-        public var clusterId: String = ""
+        public let clusterId: String
         /// The identifier of the step to describe.
-        public var stepId: String = ""
-
-        public init() {}
+        public let stepId: String
 
         public init(clusterId: String, stepId: String) {
             self.clusterId = clusterId
@@ -2820,9 +2654,7 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the security configuration.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -2838,9 +2670,7 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// An unique identifier for the job flow.
-        public var jobFlowId: String? = nil
-
-        public init() {}
+        public let jobFlowId: String?
 
         public init(jobFlowId: String? = nil) {
             self.jobFlowId = jobFlowId
@@ -2855,11 +2685,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// Job flow in which to add the instance groups.
-        public var jobFlowId: String = ""
+        public let jobFlowId: String
         /// Instance groups to add.
-        public var instanceGroups: [InstanceGroupConfig] = []
-
-        public init() {}
+        public let instanceGroups: [InstanceGroupConfig]
 
         public init(jobFlowId: String, instanceGroups: [InstanceGroupConfig]) {
             self.jobFlowId = jobFlowId
@@ -2878,15 +2706,13 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The details about the current status of the cluster.
-        public var status: ClusterStatus? = nil
+        public let status: ClusterStatus?
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
-        public var normalizedInstanceHours: Int32? = nil
+        public let normalizedInstanceHours: Int32?
         /// The name of the cluster.
-        public var name: String? = nil
+        public let name: String?
         /// The unique identifier for the cluster.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(status: ClusterStatus? = nil, normalizedInstanceHours: Int32? = nil, name: String? = nil, id: String? = nil) {
             self.status = status
@@ -2896,7 +2722,7 @@ extension Elasticmapreduce {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.ClusterStatus(dictionary: status) }
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Elasticmapreduce.ClusterStatus(dictionary: status) } else { self.status = nil }
             self.normalizedInstanceHours = dictionary["NormalizedInstanceHours"] as? Int32
             self.name = dictionary["Name"] as? String
             self.id = dictionary["Id"] as? String
@@ -2907,11 +2733,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// Identifiers of the job flows to receive the new visibility setting.
-        public var jobFlowIds: [String] = []
+        public let jobFlowIds: [String]
         /// Whether the specified clusters are visible to all IAM users of the AWS account associated with the cluster. If this value is set to True, all IAM users of that AWS account can view and, if they have the proper IAM policy permissions set, manage the clusters. If it is set to False, only the IAM user that created a cluster can view and manage it.
-        public var visibleToAllUsers: Bool = false
-
-        public init() {}
+        public let visibleToAllUsers: Bool
 
         public init(jobFlowIds: [String], visibleToAllUsers: Bool) {
             self.jobFlowIds = jobFlowIds
@@ -2930,15 +2754,13 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// Unique ID of the instance group to expand or shrink.
-        public var instanceGroupId: String = ""
+        public let instanceGroupId: String
         /// Policy for customizing shrink operations.
-        public var shrinkPolicy: ShrinkPolicy? = nil
+        public let shrinkPolicy: ShrinkPolicy?
         /// Target size for the instance group.
-        public var instanceCount: Int32? = nil
+        public let instanceCount: Int32?
         /// The EC2 InstanceIds to terminate. After you terminate the instances, the instance group will not return to its original requested size.
-        public var eC2InstanceIdsToTerminate: [String]? = nil
-
-        public init() {}
+        public let eC2InstanceIdsToTerminate: [String]?
 
         public init(instanceGroupId: String, shrinkPolicy: ShrinkPolicy? = nil, instanceCount: Int32? = nil, eC2InstanceIdsToTerminate: [String]? = nil) {
             self.instanceGroupId = instanceGroupId
@@ -2950,11 +2772,9 @@ extension Elasticmapreduce {
         public init(dictionary: [String: Any]) throws {
             guard let instanceGroupId = dictionary["InstanceGroupId"] as? String else { throw InitializableError.missingRequiredParam("InstanceGroupId") }
             self.instanceGroupId = instanceGroupId
-            if let shrinkPolicy = dictionary["ShrinkPolicy"] as? [String: Any] { self.shrinkPolicy = try Elasticmapreduce.ShrinkPolicy(dictionary: shrinkPolicy) }
+            if let shrinkPolicy = dictionary["ShrinkPolicy"] as? [String: Any] { self.shrinkPolicy = try Elasticmapreduce.ShrinkPolicy(dictionary: shrinkPolicy) } else { self.shrinkPolicy = nil }
             self.instanceCount = dictionary["InstanceCount"] as? Int32
-            if let eC2InstanceIdsToTerminate = dictionary["EC2InstanceIdsToTerminate"] as? [String] {
-                self.eC2InstanceIdsToTerminate = eC2InstanceIdsToTerminate
-            }
+            self.eC2InstanceIdsToTerminate = dictionary["EC2InstanceIdsToTerminate"] as? [String]
         }
     }
 
@@ -2962,11 +2782,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The programmable code for the state change reason.
-        public var code: String? = nil
+        public let code: String?
         /// The status change reason description.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
@@ -2983,15 +2801,13 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The reason for the step execution status change.
-        public var stateChangeReason: StepStateChangeReason? = nil
+        public let stateChangeReason: StepStateChangeReason?
         /// The details for the step failure including reason, message, and log file path where the root cause was identified.
-        public var failureDetails: FailureDetails? = nil
+        public let failureDetails: FailureDetails?
         /// The execution state of the cluster step.
-        public var state: String? = nil
+        public let state: String?
         /// The timeline of the cluster step status over time.
-        public var timeline: StepTimeline? = nil
-
-        public init() {}
+        public let timeline: StepTimeline?
 
         public init(stateChangeReason: StepStateChangeReason? = nil, failureDetails: FailureDetails? = nil, state: String? = nil, timeline: StepTimeline? = nil) {
             self.stateChangeReason = stateChangeReason
@@ -3001,10 +2817,10 @@ extension Elasticmapreduce {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.StepStateChangeReason(dictionary: stateChangeReason) }
-            if let failureDetails = dictionary["FailureDetails"] as? [String: Any] { self.failureDetails = try Elasticmapreduce.FailureDetails(dictionary: failureDetails) }
+            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.StepStateChangeReason(dictionary: stateChangeReason) } else { self.stateChangeReason = nil }
+            if let failureDetails = dictionary["FailureDetails"] as? [String: Any] { self.failureDetails = try Elasticmapreduce.FailureDetails(dictionary: failureDetails) } else { self.failureDetails = nil }
             self.state = dictionary["State"] as? String
-            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.StepTimeline(dictionary: timeline) }
+            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.StepTimeline(dictionary: timeline) } else { self.timeline = nil }
         }
     }
 
@@ -3012,11 +2828,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
-        public var volumeSpecification: VolumeSpecification? = nil
+        public let volumeSpecification: VolumeSpecification?
         /// The device name that is exposed to the instance, such as /dev/sdh.
-        public var device: String? = nil
-
-        public init() {}
+        public let device: String?
 
         public init(volumeSpecification: VolumeSpecification? = nil, device: String? = nil) {
             self.volumeSpecification = volumeSpecification
@@ -3024,7 +2838,7 @@ extension Elasticmapreduce {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let volumeSpecification = dictionary["VolumeSpecification"] as? [String: Any] { self.volumeSpecification = try Elasticmapreduce.VolumeSpecification(dictionary: volumeSpecification) }
+            if let volumeSpecification = dictionary["VolumeSpecification"] as? [String: Any] { self.volumeSpecification = try Elasticmapreduce.VolumeSpecification(dictionary: volumeSpecification) } else { self.volumeSpecification = nil }
             self.device = dictionary["Device"] as? String
         }
     }
@@ -3033,11 +2847,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The programmable code for the state change reason. Note: Currently, the service provides no code for the state change.
-        public var code: String? = nil
+        public let code: String?
         /// The descriptive message for the state change reason.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
@@ -3054,13 +2866,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current state of the cluster.
-        public var state: String? = nil
+        public let state: String?
         /// A timeline that represents the status of a cluster over the lifetime of the cluster.
-        public var timeline: ClusterTimeline? = nil
+        public let timeline: ClusterTimeline?
         /// The reason for the cluster status change.
-        public var stateChangeReason: ClusterStateChangeReason? = nil
-
-        public init() {}
+        public let stateChangeReason: ClusterStateChangeReason?
 
         public init(state: String? = nil, timeline: ClusterTimeline? = nil, stateChangeReason: ClusterStateChangeReason? = nil) {
             self.state = state
@@ -3070,8 +2880,8 @@ extension Elasticmapreduce {
 
         public init(dictionary: [String: Any]) throws {
             self.state = dictionary["State"] as? String
-            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.ClusterTimeline(dictionary: timeline) }
-            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.ClusterStateChangeReason(dictionary: stateChangeReason) }
+            if let timeline = dictionary["Timeline"] as? [String: Any] { self.timeline = try Elasticmapreduce.ClusterTimeline(dictionary: timeline) } else { self.timeline = nil }
+            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Elasticmapreduce.ClusterStateChangeReason(dictionary: stateChangeReason) } else { self.stateChangeReason = nil }
         }
     }
 
@@ -3079,11 +2889,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the cluster to which the instance group belongs.
-        public var clusterId: String? = nil
+        public let clusterId: String?
         /// Instance groups to change.
-        public var instanceGroups: [InstanceGroupModifyConfig]? = nil
-
-        public init() {}
+        public let instanceGroups: [InstanceGroupModifyConfig]?
 
         public init(clusterId: String? = nil, instanceGroups: [InstanceGroupModifyConfig]? = nil) {
             self.clusterId = clusterId
@@ -3094,6 +2902,8 @@ extension Elasticmapreduce {
             self.clusterId = dictionary["ClusterId"] as? String
             if let instanceGroups = dictionary["InstanceGroups"] as? [[String: Any]] {
                 self.instanceGroups = try instanceGroups.map({ try InstanceGroupModifyConfig(dictionary: $0) })
+            } else { 
+                self.instanceGroups = nil
             }
         }
     }
@@ -3101,8 +2911,6 @@ extension Elasticmapreduce {
     public struct DeleteSecurityConfigurationOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -3112,11 +2920,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token that indicates the next set of results to retrieve.
-        public var marker: String? = nil
+        public let marker: String?
         /// The list of clusters for the account based on the given filters.
-        public var clusters: [ClusterSummary]? = nil
-
-        public init() {}
+        public let clusters: [ClusterSummary]?
 
         public init(marker: String? = nil, clusters: [ClusterSummary]? = nil) {
             self.marker = marker
@@ -3127,6 +2933,8 @@ extension Elasticmapreduce {
             self.marker = dictionary["Marker"] as? String
             if let clusters = dictionary["Clusters"] as? [[String: Any]] {
                 self.clusters = try clusters.map({ try ClusterSummary(dictionary: $0) })
+            } else { 
+                self.clusters = nil
             }
         }
     }
@@ -3135,25 +2943,23 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// Bid price for each EC2 instance in the instance group when launching nodes as Spot Instances, expressed in USD.
-        public var bidPrice: String? = nil
+        public let bidPrice: String?
         /// Market type of the EC2 instances used to create a cluster node.
-        public var market: String? = nil
+        public let market: String?
         /// The role of the instance group in the cluster.
-        public var instanceRole: String = ""
+        public let instanceRole: String
         /// Friendly name given to the instance group.
-        public var name: String? = nil
+        public let name: String?
         /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
-        public var autoScalingPolicy: AutoScalingPolicy? = nil
+        public let autoScalingPolicy: AutoScalingPolicy?
         /// Target number of instances for the instance group.
-        public var instanceCount: Int32 = 0
+        public let instanceCount: Int32
         /// The EC2 instance type for all instances in the instance group.
-        public var instanceType: String = ""
+        public let instanceType: String
         /// EBS configurations that will be attached to each EC2 instance in the instance group.
-        public var ebsConfiguration: EbsConfiguration? = nil
+        public let ebsConfiguration: EbsConfiguration?
         ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
-        public var configurations: [Configuration]? = nil
-
-        public init() {}
+        public let configurations: [Configuration]?
 
         public init(bidPrice: String? = nil, market: String? = nil, instanceRole: String, name: String? = nil, autoScalingPolicy: AutoScalingPolicy? = nil, instanceCount: Int32, instanceType: String, ebsConfiguration: EbsConfiguration? = nil, configurations: [Configuration]? = nil) {
             self.bidPrice = bidPrice
@@ -3173,14 +2979,16 @@ extension Elasticmapreduce {
             guard let instanceRole = dictionary["InstanceRole"] as? String else { throw InitializableError.missingRequiredParam("InstanceRole") }
             self.instanceRole = instanceRole
             self.name = dictionary["Name"] as? String
-            if let autoScalingPolicy = dictionary["AutoScalingPolicy"] as? [String: Any] { self.autoScalingPolicy = try Elasticmapreduce.AutoScalingPolicy(dictionary: autoScalingPolicy) }
+            if let autoScalingPolicy = dictionary["AutoScalingPolicy"] as? [String: Any] { self.autoScalingPolicy = try Elasticmapreduce.AutoScalingPolicy(dictionary: autoScalingPolicy) } else { self.autoScalingPolicy = nil }
             guard let instanceCount = dictionary["InstanceCount"] as? Int32 else { throw InitializableError.missingRequiredParam("InstanceCount") }
             self.instanceCount = instanceCount
             guard let instanceType = dictionary["InstanceType"] as? String else { throw InitializableError.missingRequiredParam("InstanceType") }
             self.instanceType = instanceType
-            if let ebsConfiguration = dictionary["EbsConfiguration"] as? [String: Any] { self.ebsConfiguration = try Elasticmapreduce.EbsConfiguration(dictionary: ebsConfiguration) }
+            if let ebsConfiguration = dictionary["EbsConfiguration"] as? [String: Any] { self.ebsConfiguration = try Elasticmapreduce.EbsConfiguration(dictionary: ebsConfiguration) } else { self.ebsConfiguration = nil }
             if let configurations = dictionary["Configurations"] as? [[String: Any]] {
                 self.configurations = try configurations.map({ try Configuration(dictionary: $0) })
+            } else { 
+                self.configurations = nil
             }
         }
     }
@@ -3189,35 +2997,33 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// Unique identifier for the instance group.
-        public var instanceGroupId: String? = nil
+        public let instanceGroupId: String?
         /// Bid price for EC2 Instances when launching nodes as Spot Instances, expressed in USD.
-        public var bidPrice: String? = nil
+        public let bidPrice: String?
         /// Actual count of running instances.
-        public var instanceRunningCount: Int32 = 0
+        public let instanceRunningCount: Int32
         /// The date/time the instance group was terminated.
-        public var endDateTime: Date? = nil
+        public let endDateTime: Date?
         /// State of instance group. The following values are deprecated: STARTING, TERMINATED, and FAILED.
-        public var state: String = ""
+        public let state: String
         /// Details regarding the state of the instance group.
-        public var lastStateChangeReason: String? = nil
+        public let lastStateChangeReason: String?
         /// EC2 instance type.
-        public var instanceType: String = ""
+        public let instanceType: String
         /// The date/time the instance group was available to the cluster.
-        public var readyDateTime: Date? = nil
+        public let readyDateTime: Date?
         /// The date/time the instance group was created.
-        public var creationDateTime: Date = Date()
+        public let creationDateTime: Date
         /// Target number of instances to run in the instance group.
-        public var instanceRequestCount: Int32 = 0
+        public let instanceRequestCount: Int32
         /// Friendly name for the instance group.
-        public var name: String? = nil
+        public let name: String?
         /// Instance group role in the cluster
-        public var instanceRole: String = ""
+        public let instanceRole: String
         /// Market type of the EC2 instances used to create a cluster node.
-        public var market: String = ""
+        public let market: String
         /// The date/time the instance group was started.
-        public var startDateTime: Date? = nil
-
-        public init() {}
+        public let startDateTime: Date?
 
         public init(instanceGroupId: String? = nil, bidPrice: String? = nil, instanceRunningCount: Int32, endDateTime: Date? = nil, state: String, lastStateChangeReason: String? = nil, instanceType: String, readyDateTime: Date? = nil, creationDateTime: Date, instanceRequestCount: Int32, name: String? = nil, instanceRole: String, market: String, startDateTime: Date? = nil) {
             self.instanceGroupId = instanceGroupId
@@ -3265,11 +3071,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The filtered list of steps for the cluster.
-        public var steps: [StepSummary]? = nil
+        public let steps: [StepSummary]?
         /// The pagination token that indicates the next set of results to retrieve.
-        public var marker: String? = nil
-
-        public init() {}
+        public let marker: String?
 
         public init(steps: [StepSummary]? = nil, marker: String? = nil) {
             self.steps = steps
@@ -3279,6 +3083,8 @@ extension Elasticmapreduce {
         public init(dictionary: [String: Any]) throws {
             if let steps = dictionary["Steps"] as? [[String: Any]] {
                 self.steps = try steps.map({ try StepSummary(dictionary: $0) })
+            } else { 
+                self.steps = nil
             }
             self.marker = dictionary["Marker"] as? String
         }
@@ -3288,15 +3094,13 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the main class in the specified Java file. If not specified, the JAR file should specify a main class in its manifest file.
-        public var mainClass: String? = nil
+        public let mainClass: String?
         /// The path to the JAR file that runs during the step.
-        public var jar: String? = nil
+        public let jar: String?
         /// The list of Java properties that are set when the step runs. You can use these properties to pass key value pairs to your main function.
-        public var properties: [String: String]? = nil
+        public let properties: [String: String]?
         /// The list of command line arguments to pass to the JAR file's main function for execution.
-        public var args: [String]? = nil
-
-        public init() {}
+        public let args: [String]?
 
         public init(mainClass: String? = nil, jar: String? = nil, properties: [String: String]? = nil, args: [String]? = nil) {
             self.mainClass = mainClass
@@ -3310,10 +3114,10 @@ extension Elasticmapreduce {
             self.jar = dictionary["Jar"] as? String
             if let properties = dictionary["Properties"] as? [String: String] {
                 self.properties = properties
+            } else { 
+                self.properties = nil
             }
-            if let args = dictionary["Args"] as? [String] {
-                self.args = args
-            }
+            self.args = dictionary["Args"] as? [String]
         }
     }
 
@@ -3321,11 +3125,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether an Amazon EBS volume is EBS-optimized.
-        public var ebsOptimized: Bool? = nil
+        public let ebsOptimized: Bool?
         /// An array of Amazon EBS volume specifications attached to a cluster instance.
-        public var ebsBlockDeviceConfigs: [EbsBlockDeviceConfig]? = nil
-
-        public init() {}
+        public let ebsBlockDeviceConfigs: [EbsBlockDeviceConfig]?
 
         public init(ebsOptimized: Bool? = nil, ebsBlockDeviceConfigs: [EbsBlockDeviceConfig]? = nil) {
             self.ebsOptimized = ebsOptimized
@@ -3336,6 +3138,8 @@ extension Elasticmapreduce {
             self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
             if let ebsBlockDeviceConfigs = dictionary["EbsBlockDeviceConfigs"] as? [[String: Any]] {
                 self.ebsBlockDeviceConfigs = try ebsBlockDeviceConfigs.map({ try EbsBlockDeviceConfig(dictionary: $0) })
+            } else { 
+                self.ebsBlockDeviceConfigs = nil
             }
         }
     }
@@ -3344,13 +3148,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date and time when the instance was ready to perform tasks.
-        public var readyDateTime: Date? = nil
+        public let readyDateTime: Date?
         /// The creation date and time of the instance.
-        public var creationDateTime: Date? = nil
+        public let creationDateTime: Date?
         /// The date and time when the instance was terminated.
-        public var endDateTime: Date? = nil
-
-        public init() {}
+        public let endDateTime: Date?
 
         public init(readyDateTime: Date? = nil, creationDateTime: Date? = nil, endDateTime: Date? = nil) {
             self.readyDateTime = readyDateTime
@@ -3369,13 +3171,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specific list of instances to be terminated when shrinking an instance group.
-        public var instancesToTerminate: [String]? = nil
+        public let instancesToTerminate: [String]?
         /// Decommissioning timeout override for the specific list of instances to be terminated.
-        public var instanceTerminationTimeout: Int32? = nil
+        public let instanceTerminationTimeout: Int32?
         /// Specific list of instances to be protected when shrinking an instance group.
-        public var instancesToProtect: [String]? = nil
-
-        public init() {}
+        public let instancesToProtect: [String]?
 
         public init(instancesToTerminate: [String]? = nil, instanceTerminationTimeout: Int32? = nil, instancesToProtect: [String]? = nil) {
             self.instancesToTerminate = instancesToTerminate
@@ -3384,13 +3184,9 @@ extension Elasticmapreduce {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let instancesToTerminate = dictionary["InstancesToTerminate"] as? [String] {
-                self.instancesToTerminate = instancesToTerminate
-            }
+            self.instancesToTerminate = dictionary["InstancesToTerminate"] as? [String]
             self.instanceTerminationTimeout = dictionary["InstanceTerminationTimeout"] as? Int32
-            if let instancesToProtect = dictionary["InstancesToProtect"] as? [String] {
-                self.instancesToProtect = instancesToProtect
-            }
+            self.instancesToProtect = dictionary["InstancesToProtect"] as? [String]
         }
     }
 
@@ -3398,11 +3194,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon EMR resource identifier to which tags will be added. This value must be a cluster identifier.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// A list of tags to associate with a cluster and propagate to EC2 instances. Tags are user-defined key/value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
-        public var tags: [Tag] = []
-
-        public init() {}
+        public let tags: [Tag]
 
         public init(resourceId: String, tags: [Tag]) {
             self.resourceId = resourceId
@@ -3421,11 +3215,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of command line arguments to pass to the bootstrap action script.
-        public var args: [String]? = nil
+        public let args: [String]?
         /// Location of the script to run during a bootstrap action. Can be either a location in Amazon S3 or on a local file system.
-        public var path: String = ""
-
-        public init() {}
+        public let path: String
 
         public init(args: [String]? = nil, path: String) {
             self.args = args
@@ -3433,9 +3225,7 @@ extension Elasticmapreduce {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let args = dictionary["Args"] as? [String] {
-                self.args = args
-            }
+            self.args = dictionary["Args"] as? [String]
             guard let path = dictionary["Path"] as? String else { throw InitializableError.missingRequiredParam("Path") }
             self.path = path
         }
@@ -3445,11 +3235,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier of the cluster.
-        public var clusterId: String = ""
+        public let clusterId: String
         /// Specifies the configuration of the instance fleet.
-        public var instanceFleet: InstanceFleetConfig = InstanceFleetConfig()
-
-        public init() {}
+        public let instanceFleet: InstanceFleetConfig
 
         public init(clusterId: String, instanceFleet: InstanceFleetConfig) {
             self.clusterId = clusterId
@@ -3468,13 +3256,11 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The spot provisioning timeout period in minutes. If Spot instances are not provisioned within this time period, the TimeOutAction is taken. Minimum value is 5 and maximum value is 1440. The timeout applies only during initial provisioning, when the cluster is first created.
-        public var timeoutDurationMinutes: Int32 = 0
+        public let timeoutDurationMinutes: Int32
         /// The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired. Spot instances are not uprovisioned within the Spot provisioining timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND to fulfill the remaining capacity.
-        public var timeoutAction: String = ""
+        public let timeoutAction: String
         /// The defined duration for Spot instances (also known as Spot blocks) in minutes. When specified, the Spot instance does not terminate before the defined duration expires, and defined duration pricing for Spot instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot instance for termination and provides a Spot instance termination notice, which gives the instance a two-minute warning before it terminates. 
-        public var blockDurationMinutes: Int32? = nil
-
-        public init() {}
+        public let blockDurationMinutes: Int32?
 
         public init(timeoutDurationMinutes: Int32, timeoutAction: String, blockDurationMinutes: Int32? = nil) {
             self.timeoutDurationMinutes = timeoutDurationMinutes
@@ -3495,19 +3281,17 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date and time when the job flow was ready to start running bootstrap actions.
-        public var readyDateTime: Date? = nil
+        public let readyDateTime: Date?
         /// The start date and time of the job flow.
-        public var startDateTime: Date? = nil
+        public let startDateTime: Date?
         /// Description of the job flow last changed state.
-        public var lastStateChangeReason: String? = nil
+        public let lastStateChangeReason: String?
         /// The creation date and time of the job flow.
-        public var creationDateTime: Date = Date()
+        public let creationDateTime: Date
         /// The completion date and time of the job flow.
-        public var endDateTime: Date? = nil
+        public let endDateTime: Date?
         /// The state of the job flow.
-        public var state: String = ""
-
-        public init() {}
+        public let state: String
 
         public init(readyDateTime: Date? = nil, startDateTime: Date? = nil, lastStateChangeReason: String? = nil, creationDateTime: Date, endDateTime: Date? = nil, state: String) {
             self.readyDateTime = readyDateTime
@@ -3534,11 +3318,9 @@ extension Elasticmapreduce {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the ID of the instance group to which the scaling policy is applied.
-        public var instanceGroupId: String = ""
+        public let instanceGroupId: String
         /// Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
-        public var clusterId: String = ""
-
-        public init() {}
+        public let clusterId: String
 
         public init(instanceGroupId: String, clusterId: String) {
             self.instanceGroupId = instanceGroupId

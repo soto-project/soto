@@ -33,15 +33,13 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
-        public var repositoryNames: [String]? = nil
+        public let repositoryNames: [String]?
         /// The nextToken value returned from a previous paginated DescribeRepositories request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The AWS account ID associated with the registry that contains the repositories to be described. If you do not specify a registry, the default registry is assumed.
-        public var registryId: String? = nil
-
-        public init() {}
+        public let registryId: String?
 
         public init(maxResults: Int32? = nil, repositoryNames: [String]? = nil, nextToken: String? = nil, registryId: String? = nil) {
             self.maxResults = maxResults
@@ -52,9 +50,7 @@ extension Ecr {
 
         public init(dictionary: [String: Any]) throws {
             self.maxResults = dictionary["maxResults"] as? Int32
-            if let repositoryNames = dictionary["repositoryNames"] as? [String] {
-                self.repositoryNames = repositoryNames
-            }
+            self.repositoryNames = dictionary["repositoryNames"] as? [String]
             self.nextToken = dictionary["nextToken"] as? String
             self.registryId = dictionary["registryId"] as? String
         }
@@ -64,11 +60,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The nextToken value to include in a future ListImages request. When the results of a ListImages request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The list of image IDs for the requested repository.
-        public var imageIds: [ImageIdentifier]? = nil
-
-        public init() {}
+        public let imageIds: [ImageIdentifier]?
 
         public init(nextToken: String? = nil, imageIds: [ImageIdentifier]? = nil) {
             self.nextToken = nextToken
@@ -79,6 +73,8 @@ extension Ecr {
             self.nextToken = dictionary["nextToken"] as? String
             if let imageIds = dictionary["imageIds"] as? [[String: Any]] {
                 self.imageIds = try imageIds.map({ try ImageIdentifier(dictionary: $0) })
+            } else { 
+                self.imageIds = nil
             }
         }
     }
@@ -87,13 +83,11 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// A base64-encoded string that contains authorization data for the specified Amazon ECR registry. When the string is decoded, it is presented in the format user:password for private registry authentication using docker login.
-        public var authorizationToken: String? = nil
+        public let authorizationToken: String?
         /// The Unix time in seconds and milliseconds when the authorization token expires. Authorization tokens are valid for 12 hours.
-        public var expiresAt: Date? = nil
+        public let expiresAt: Date?
         /// The registry URL to use for this authorization token in a docker login command. The Amazon ECR registry URL format is https://aws_account_id.dkr.ecr.region.amazonaws.com. For example, https://012345678910.dkr.ecr.us-east-1.amazonaws.com.. 
-        public var proxyEndpoint: String? = nil
-
-        public init() {}
+        public let proxyEndpoint: String?
 
         public init(authorizationToken: String? = nil, expiresAt: Date? = nil, proxyEndpoint: String? = nil) {
             self.authorizationToken = authorizationToken
@@ -112,11 +106,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// Any failures associated with the call.
-        public var failures: [ImageFailure]? = nil
+        public let failures: [ImageFailure]?
         /// The image IDs of the deleted images.
-        public var imageIds: [ImageIdentifier]? = nil
-
-        public init() {}
+        public let imageIds: [ImageIdentifier]?
 
         public init(failures: [ImageFailure]? = nil, imageIds: [ImageIdentifier]? = nil) {
             self.failures = failures
@@ -126,9 +118,13 @@ extension Ecr {
         public init(dictionary: [String: Any]) throws {
             if let failures = dictionary["failures"] as? [[String: Any]] {
                 self.failures = try failures.map({ try ImageFailure(dictionary: $0) })
+            } else { 
+                self.failures = nil
             }
             if let imageIds = dictionary["imageIds"] as? [[String: Any]] {
                 self.imageIds = try imageIds.map({ try ImageIdentifier(dictionary: $0) })
+            } else { 
+                self.imageIds = nil
             }
         }
     }
@@ -137,11 +133,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The nextToken value to include in a future DescribeImages request. When the results of a DescribeImages request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of ImageDetail objects that contain data about the image.
-        public var imageDetails: [ImageDetail]? = nil
-
-        public init() {}
+        public let imageDetails: [ImageDetail]?
 
         public init(nextToken: String? = nil, imageDetails: [ImageDetail]? = nil) {
             self.nextToken = nextToken
@@ -152,6 +146,8 @@ extension Ecr {
             self.nextToken = dictionary["nextToken"] as? String
             if let imageDetails = dictionary["imageDetails"] as? [[String: Any]] {
                 self.imageDetails = try imageDetails.map({ try ImageDetail(dictionary: $0) })
+            } else { 
+                self.imageDetails = nil
             }
         }
     }
@@ -160,16 +156,14 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The repository that was deleted.
-        public var repository: Repository? = nil
-
-        public init() {}
+        public let repository: Repository?
 
         public init(repository: Repository? = nil) {
             self.repository = repository
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let repository = dictionary["repository"] as? [String: Any] { self.repository = try Ecr.Repository(dictionary: repository) }
+            if let repository = dictionary["repository"] as? [String: Any] { self.repository = try Ecr.Repository(dictionary: repository) } else { self.repository = nil }
         }
     }
 
@@ -177,15 +171,13 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The size, in bytes, of the image layer.
-        public var layerSize: Int64? = nil
+        public let layerSize: Int64?
         /// The availability status of the image layer.
-        public var layerAvailability: String? = nil
+        public let layerAvailability: String?
         /// The media type of the layer, such as application/vnd.docker.image.rootfs.diff.tar.gzip or application/vnd.oci.image.layer.v1.tar+gzip.
-        public var mediaType: String? = nil
+        public let mediaType: String?
         /// The sha256 digest of the image layer.
-        public var layerDigest: String? = nil
-
-        public init() {}
+        public let layerDigest: String?
 
         public init(layerSize: Int64? = nil, layerAvailability: String? = nil, mediaType: String? = nil, layerDigest: String? = nil) {
             self.layerSize = layerSize
@@ -206,19 +198,17 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of repository results returned by DescribeImages in paginated output. When this parameter is used, DescribeImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeImages returns up to 100 results and a nextToken value, if applicable.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// The nextToken value returned from a previous paginated DescribeImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The list of image IDs for the requested repository.
-        public var imageIds: [ImageIdentifier]? = nil
+        public let imageIds: [ImageIdentifier]?
         /// The filter key and value with which to filter your DescribeImages results.
-        public var filter: DescribeImagesFilter? = nil
+        public let filter: DescribeImagesFilter?
         /// A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
-        public var repositoryName: String = ""
+        public let repositoryName: String
         /// The AWS account ID associated with the registry that contains the repository in which to describe images. If you do not specify a registry, the default registry is assumed.
-        public var registryId: String? = nil
-
-        public init() {}
+        public let registryId: String?
 
         public init(maxResults: Int32? = nil, nextToken: String? = nil, imageIds: [ImageIdentifier]? = nil, filter: DescribeImagesFilter? = nil, repositoryName: String, registryId: String? = nil) {
             self.maxResults = maxResults
@@ -234,8 +224,10 @@ extension Ecr {
             self.nextToken = dictionary["nextToken"] as? String
             if let imageIds = dictionary["imageIds"] as? [[String: Any]] {
                 self.imageIds = try imageIds.map({ try ImageIdentifier(dictionary: $0) })
+            } else { 
+                self.imageIds = nil
             }
-            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Ecr.DescribeImagesFilter(dictionary: filter) }
+            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Ecr.DescribeImagesFilter(dictionary: filter) } else { self.filter = nil }
             guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
             self.repositoryName = repositoryName
             self.registryId = dictionary["registryId"] as? String
@@ -246,11 +238,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The tag used for the image.
-        public var imageTag: String? = nil
+        public let imageTag: String?
         /// The sha256 digest of the image manifest.
-        public var imageDigest: String? = nil
-
-        public init() {}
+        public let imageDigest: String?
 
         public init(imageTag: String? = nil, imageDigest: String? = nil) {
             self.imageTag = imageTag
@@ -267,13 +257,11 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The JSON repository policy that was deleted from the repository.
-        public var policyText: String? = nil
+        public let policyText: String?
         /// The registry ID associated with the request.
-        public var registryId: String? = nil
+        public let registryId: String?
         /// The repository name associated with the request.
-        public var repositoryName: String? = nil
-
-        public init() {}
+        public let repositoryName: String?
 
         public init(policyText: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.policyText = policyText
@@ -292,13 +280,11 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The layer digest associated with the failure.
-        public var layerDigest: String? = nil
+        public let layerDigest: String?
         /// The failure code associated with the failure.
-        public var failureCode: String? = nil
+        public let failureCode: String?
         /// The reason for the failure.
-        public var failureReason: String? = nil
-
-        public init() {}
+        public let failureReason: String?
 
         public init(layerDigest: String? = nil, failureCode: String? = nil, failureReason: String? = nil) {
             self.layerDigest = layerDigest
@@ -317,13 +303,11 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The image ID associated with the failure.
-        public var imageId: ImageIdentifier? = nil
+        public let imageId: ImageIdentifier?
         /// The code associated with the failure.
-        public var failureCode: String? = nil
+        public let failureCode: String?
         /// The reason for the failure.
-        public var failureReason: String? = nil
-
-        public init() {}
+        public let failureReason: String?
 
         public init(imageId: ImageIdentifier? = nil, failureCode: String? = nil, failureReason: String? = nil) {
             self.imageId = imageId
@@ -332,7 +316,7 @@ extension Ecr {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let imageId = dictionary["imageId"] as? [String: Any] { self.imageId = try Ecr.ImageIdentifier(dictionary: imageId) }
+            if let imageId = dictionary["imageId"] as? [String: Any] { self.imageId = try Ecr.ImageIdentifier(dictionary: imageId) } else { self.imageId = nil }
             self.failureCode = dictionary["failureCode"] as? String
             self.failureReason = dictionary["failureReason"] as? String
         }
@@ -342,11 +326,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// Any failures associated with the call.
-        public var failures: [ImageFailure]? = nil
+        public let failures: [ImageFailure]?
         /// A list of image objects corresponding to the image references in the request.
-        public var images: [Image]? = nil
-
-        public init() {}
+        public let images: [Image]?
 
         public init(failures: [ImageFailure]? = nil, images: [Image]? = nil) {
             self.failures = failures
@@ -356,9 +338,13 @@ extension Ecr {
         public init(dictionary: [String: Any]) throws {
             if let failures = dictionary["failures"] as? [[String: Any]] {
                 self.failures = try failures.map({ try ImageFailure(dictionary: $0) })
+            } else { 
+                self.failures = nil
             }
             if let images = dictionary["images"] as? [[String: Any]] {
                 self.images = try images.map({ try Image(dictionary: $0) })
+            } else { 
+                self.images = nil
             }
         }
     }
@@ -367,13 +353,11 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The JSON repository policy text applied to the repository.
-        public var policyText: String? = nil
+        public let policyText: String?
         /// The registry ID associated with the request.
-        public var registryId: String? = nil
+        public let registryId: String?
         /// The repository name associated with the request.
-        public var repositoryName: String? = nil
-
-        public init() {}
+        public let repositoryName: String?
 
         public init(policyText: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.policyText = policyText
@@ -392,18 +376,14 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of AWS account IDs that are associated with the registries for which to get authorization tokens. If you do not specify a registry, the default registry is assumed.
-        public var registryIds: [String]? = nil
-
-        public init() {}
+        public let registryIds: [String]?
 
         public init(registryIds: [String]? = nil) {
             self.registryIds = registryIds
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let registryIds = dictionary["registryIds"] as? [String] {
-                self.registryIds = registryIds
-            }
+            self.registryIds = dictionary["registryIds"] as? [String]
         }
     }
 
@@ -411,19 +391,17 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The size, in bytes, of the image in the repository.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages. 
-        public var imageSizeInBytes: Int64? = nil
+        public let imageSizeInBytes: Int64?
         /// The name of the repository to which this image belongs.
-        public var repositoryName: String? = nil
+        public let repositoryName: String?
         /// The sha256 digest of the image manifest.
-        public var imageDigest: String? = nil
+        public let imageDigest: String?
         /// The list of tags associated with this image.
-        public var imageTags: [String]? = nil
+        public let imageTags: [String]?
         /// The date and time, expressed in standard JavaScript date format, at which the current image was pushed to the repository. 
-        public var imagePushedAt: Date? = nil
+        public let imagePushedAt: Date?
         /// The AWS account ID associated with the registry to which this image belongs.
-        public var registryId: String? = nil
-
-        public init() {}
+        public let registryId: String?
 
         public init(imageSizeInBytes: Int64? = nil, repositoryName: String? = nil, imageDigest: String? = nil, imageTags: [String]? = nil, imagePushedAt: Date? = nil, registryId: String? = nil) {
             self.imageSizeInBytes = imageSizeInBytes
@@ -438,9 +416,7 @@ extension Ecr {
             self.imageSizeInBytes = dictionary["imageSizeInBytes"] as? Int64
             self.repositoryName = dictionary["repositoryName"] as? String
             self.imageDigest = dictionary["imageDigest"] as? String
-            if let imageTags = dictionary["imageTags"] as? [String] {
-                self.imageTags = imageTags
-            }
+            self.imageTags = dictionary["imageTags"] as? [String]
             self.imagePushedAt = dictionary["imagePushedAt"] as? Date
             self.registryId = dictionary["registryId"] as? String
         }
@@ -450,9 +426,7 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of authorization token data objects that correspond to the registryIds values in the request.
-        public var authorizationData: [AuthorizationData]? = nil
-
-        public init() {}
+        public let authorizationData: [AuthorizationData]?
 
         public init(authorizationData: [AuthorizationData]? = nil) {
             self.authorizationData = authorizationData
@@ -461,6 +435,8 @@ extension Ecr {
         public init(dictionary: [String: Any]) throws {
             if let authorizationData = dictionary["authorizationData"] as? [[String: Any]] {
                 self.authorizationData = try authorizationData.map({ try AuthorizationData(dictionary: $0) })
+            } else { 
+                self.authorizationData = nil
             }
         }
     }
@@ -469,11 +445,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The upload ID for the layer upload. This parameter is passed to further UploadLayerPart and CompleteLayerUpload operations.
-        public var uploadId: String? = nil
+        public let uploadId: String?
         /// The size, in bytes, that Amazon ECR expects future layer part uploads to be.
-        public var partSize: Int64? = nil
-
-        public init() {}
+        public let partSize: Int64?
 
         public init(uploadId: String? = nil, partSize: Int64? = nil) {
             self.uploadId = uploadId
@@ -490,15 +464,13 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The accepted media types for the request. Valid values: application/vnd.docker.distribution.manifest.v1+json | application/vnd.docker.distribution.manifest.v2+json | application/vnd.oci.image.manifest.v1+json 
-        public var acceptedMediaTypes: [String]? = nil
+        public let acceptedMediaTypes: [String]?
         /// A list of image ID references that correspond to images to describe. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
-        public var imageIds: [ImageIdentifier] = []
+        public let imageIds: [ImageIdentifier]
         /// The repository that contains the images to describe.
-        public var repositoryName: String = ""
+        public let repositoryName: String
         /// The AWS account ID associated with the registry that contains the images to describe. If you do not specify a registry, the default registry is assumed.
-        public var registryId: String? = nil
-
-        public init() {}
+        public let registryId: String?
 
         public init(acceptedMediaTypes: [String]? = nil, imageIds: [ImageIdentifier], repositoryName: String, registryId: String? = nil) {
             self.acceptedMediaTypes = acceptedMediaTypes
@@ -508,9 +480,7 @@ extension Ecr {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let acceptedMediaTypes = dictionary["acceptedMediaTypes"] as? [String] {
-                self.acceptedMediaTypes = acceptedMediaTypes
-            }
+            self.acceptedMediaTypes = dictionary["acceptedMediaTypes"] as? [String]
             guard let imageIds = dictionary["imageIds"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("imageIds") }
             self.imageIds = try imageIds.map({ try ImageIdentifier(dictionary: $0) })
             guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }
@@ -523,11 +493,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS account ID associated with the registry that contains the repository policy to delete. If you do not specify a registry, the default registry is assumed.
-        public var registryId: String? = nil
+        public let registryId: String?
         /// The name of the repository that is associated with the repository policy to delete.
-        public var repositoryName: String = ""
-
-        public init() {}
+        public let repositoryName: String
 
         public init(registryId: String? = nil, repositoryName: String) {
             self.registryId = registryId
@@ -545,11 +513,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The digest of the image layer to download.
-        public var layerDigest: String? = nil
+        public let layerDigest: String?
         /// The pre-signed Amazon S3 download URL for the requested layer.
-        public var downloadUrl: String? = nil
-
-        public init() {}
+        public let downloadUrl: String?
 
         public init(layerDigest: String? = nil, downloadUrl: String? = nil) {
             self.layerDigest = layerDigest
@@ -566,15 +532,13 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The image manifest associated with the image.
-        public var imageManifest: String? = nil
+        public let imageManifest: String?
         /// An object containing the image tag and image digest associated with an image.
-        public var imageId: ImageIdentifier? = nil
+        public let imageId: ImageIdentifier?
         /// The name of the repository associated with the image.
-        public var repositoryName: String? = nil
+        public let repositoryName: String?
         /// The AWS account ID associated with the registry containing the image.
-        public var registryId: String? = nil
-
-        public init() {}
+        public let registryId: String?
 
         public init(imageManifest: String? = nil, imageId: ImageIdentifier? = nil, repositoryName: String? = nil, registryId: String? = nil) {
             self.imageManifest = imageManifest
@@ -585,7 +549,7 @@ extension Ecr {
 
         public init(dictionary: [String: Any]) throws {
             self.imageManifest = dictionary["imageManifest"] as? String
-            if let imageId = dictionary["imageId"] as? [String: Any] { self.imageId = try Ecr.ImageIdentifier(dictionary: imageId) }
+            if let imageId = dictionary["imageId"] as? [String: Any] { self.imageId = try Ecr.ImageIdentifier(dictionary: imageId) } else { self.imageId = nil }
             self.repositoryName = dictionary["repositoryName"] as? String
             self.registryId = dictionary["registryId"] as? String
         }
@@ -595,9 +559,7 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app).
-        public var repositoryName: String = ""
-
-        public init() {}
+        public let repositoryName: String
 
         public init(repositoryName: String) {
             self.repositoryName = repositoryName
@@ -613,13 +575,11 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The JSON repository policy text associated with the repository.
-        public var policyText: String? = nil
+        public let policyText: String?
         /// The registry ID associated with the request.
-        public var registryId: String? = nil
+        public let registryId: String?
         /// The repository name associated with the request.
-        public var repositoryName: String? = nil
-
-        public init() {}
+        public let repositoryName: String?
 
         public init(policyText: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.policyText = policyText
@@ -638,13 +598,11 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The digest of the image layer to download.
-        public var layerDigest: String = ""
+        public let layerDigest: String
         /// The AWS account ID associated with the registry that contains the image layer to download. If you do not specify a registry, the default registry is assumed.
-        public var registryId: String? = nil
+        public let registryId: String?
         /// The name of the repository that is associated with the image layer to download.
-        public var repositoryName: String = ""
-
-        public init() {}
+        public let repositoryName: String
 
         public init(layerDigest: String, registryId: String? = nil, repositoryName: String) {
             self.layerDigest = layerDigest
@@ -665,9 +623,7 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The tag status with which to filter your ListImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
-        public var tagStatus: String? = nil
-
-        public init() {}
+        public let tagStatus: String?
 
         public init(tagStatus: String? = nil) {
             self.tagStatus = tagStatus
@@ -682,15 +638,13 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to prevent accidental repository lock outs.
-        public var force: Bool? = nil
+        public let force: Bool?
         /// The JSON repository policy text to apply to the repository.
-        public var policyText: String = ""
+        public let policyText: String
         /// The name of the repository to receive the policy.
-        public var repositoryName: String = ""
+        public let repositoryName: String
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
-        public var registryId: String? = nil
-
-        public init() {}
+        public let registryId: String?
 
         public init(force: Bool? = nil, policyText: String, repositoryName: String, registryId: String? = nil) {
             self.force = force
@@ -713,16 +667,14 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The repository that was created.
-        public var repository: Repository? = nil
-
-        public init() {}
+        public let repository: Repository?
 
         public init(repository: Repository? = nil) {
             self.repository = repository
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let repository = dictionary["repository"] as? [String: Any] { self.repository = try Ecr.Repository(dictionary: repository) }
+            if let repository = dictionary["repository"] as? [String: Any] { self.repository = try Ecr.Repository(dictionary: repository) } else { self.repository = nil }
         }
     }
 
@@ -730,13 +682,11 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The digests of the image layers to check.
-        public var layerDigests: [String] = []
+        public let layerDigests: [String]
         /// The AWS account ID associated with the registry that contains the image layers to check. If you do not specify a registry, the default registry is assumed.
-        public var registryId: String? = nil
+        public let registryId: String?
         /// The name of the repository that is associated with the image layers to check.
-        public var repositoryName: String = ""
-
-        public init() {}
+        public let repositoryName: String
 
         public init(layerDigests: [String], registryId: String? = nil, repositoryName: String) {
             self.layerDigests = layerDigests
@@ -757,11 +707,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
-        public var registryId: String? = nil
+        public let registryId: String?
         /// The name of the repository whose policy you want to retrieve.
-        public var repositoryName: String = ""
-
-        public init() {}
+        public let repositoryName: String
 
         public init(registryId: String? = nil, repositoryName: String) {
             self.registryId = registryId
@@ -779,15 +727,13 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The upload ID associated with the request.
-        public var uploadId: String? = nil
+        public let uploadId: String?
         /// The repository name associated with the request.
-        public var repositoryName: String? = nil
+        public let repositoryName: String?
         /// The registry ID associated with the request.
-        public var registryId: String? = nil
+        public let registryId: String?
         /// The integer value of the last byte received in the request.
-        public var lastByteReceived: Int64? = nil
-
-        public init() {}
+        public let lastByteReceived: Int64?
 
         public init(uploadId: String? = nil, repositoryName: String? = nil, registryId: String? = nil, lastByteReceived: Int64? = nil) {
             self.uploadId = uploadId
@@ -808,11 +754,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// Any failures associated with the call.
-        public var failures: [LayerFailure]? = nil
+        public let failures: [LayerFailure]?
         /// A list of image layer objects corresponding to the image layer references in the request.
-        public var layers: [Layer]? = nil
-
-        public init() {}
+        public let layers: [Layer]?
 
         public init(failures: [LayerFailure]? = nil, layers: [Layer]? = nil) {
             self.failures = failures
@@ -822,9 +766,13 @@ extension Ecr {
         public init(dictionary: [String: Any]) throws {
             if let failures = dictionary["failures"] as? [[String: Any]] {
                 self.failures = try failures.map({ try LayerFailure(dictionary: $0) })
+            } else { 
+                self.failures = nil
             }
             if let layers = dictionary["layers"] as? [[String: Any]] {
                 self.layers = try layers.map({ try Layer(dictionary: $0) })
+            } else { 
+                self.layers = nil
             }
         }
     }
@@ -833,15 +781,13 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or OCI formats.
-        public var imageTag: String? = nil
+        public let imageTag: String?
         /// The image manifest corresponding to the image to be uploaded.
-        public var imageManifest: String = ""
+        public let imageManifest: String
         /// The name of the repository in which to put the image.
-        public var repositoryName: String = ""
+        public let repositoryName: String
         /// The AWS account ID associated with the registry that contains the repository in which to put the image. If you do not specify a registry, the default registry is assumed.
-        public var registryId: String? = nil
-
-        public init() {}
+        public let registryId: String?
 
         public init(imageTag: String? = nil, imageManifest: String, repositoryName: String, registryId: String? = nil) {
             self.imageTag = imageTag
@@ -864,11 +810,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of repository objects corresponding to valid repositories.
-        public var repositories: [Repository]? = nil
+        public let repositories: [Repository]?
         /// The nextToken value to include in a future DescribeRepositories request. When the results of a DescribeRepositories request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(repositories: [Repository]? = nil, nextToken: String? = nil) {
             self.repositories = repositories
@@ -878,6 +822,8 @@ extension Ecr {
         public init(dictionary: [String: Any]) throws {
             if let repositories = dictionary["repositories"] as? [[String: Any]] {
                 self.repositories = try repositories.map({ try Repository(dictionary: $0) })
+            } else { 
+                self.repositories = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -887,11 +833,9 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS account ID associated with the registry that you intend to upload layers to. If you do not specify a registry, the default registry is assumed.
-        public var registryId: String? = nil
+        public let registryId: String?
         /// The name of the repository that you intend to upload layers to.
-        public var repositoryName: String = ""
-
-        public init() {}
+        public let repositoryName: String
 
         public init(registryId: String? = nil, repositoryName: String) {
             self.registryId = registryId
@@ -909,13 +853,11 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// Force the deletion of the repository if it contains images.
-        public var force: Bool? = nil
+        public let force: Bool?
         /// The AWS account ID associated with the registry that contains the repository to delete. If you do not specify a registry, the default registry is assumed.
-        public var registryId: String? = nil
+        public let registryId: String?
         /// The name of the repository to delete.
-        public var repositoryName: String = ""
-
-        public init() {}
+        public let repositoryName: String
 
         public init(force: Bool? = nil, registryId: String? = nil, repositoryName: String) {
             self.force = force
@@ -935,16 +877,14 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// Details of the image uploaded.
-        public var image: Image? = nil
-
-        public init() {}
+        public let image: Image?
 
         public init(image: Image? = nil) {
             self.image = image
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let image = dictionary["image"] as? [String: Any] { self.image = try Ecr.Image(dictionary: image) }
+            if let image = dictionary["image"] as? [String: Any] { self.image = try Ecr.Image(dictionary: image) } else { self.image = nil }
         }
     }
 
@@ -952,17 +892,15 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the repository.
-        public var repositoryName: String? = nil
+        public let repositoryName: String?
         /// The URI for the repository. You can use this URI for Docker push and pull operations.
-        public var repositoryUri: String? = nil
+        public let repositoryUri: String?
         /// The AWS account ID associated with the registry that contains the repository.
-        public var registryId: String? = nil
+        public let registryId: String?
         /// The date and time, in JavaScript date/time format, when the repository was created.
-        public var createdAt: Date? = nil
+        public let createdAt: Date?
         /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, the AWS account ID of the repository owner, the repository namespace, and then the repository name. For example, arn:aws:ecr:region:012345678910:repository/test.
-        public var repositoryArn: String? = nil
-
-        public init() {}
+        public let repositoryArn: String?
 
         public init(repositoryName: String? = nil, repositoryUri: String? = nil, registryId: String? = nil, createdAt: Date? = nil, repositoryArn: String? = nil) {
             self.repositoryName = repositoryName
@@ -985,13 +923,11 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS account ID associated with the registry that contains the image to delete. If you do not specify a registry, the default registry is assumed.
-        public var registryId: String? = nil
+        public let registryId: String?
         /// A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
-        public var imageIds: [ImageIdentifier] = []
+        public let imageIds: [ImageIdentifier]
         /// The repository that contains the image to delete.
-        public var repositoryName: String = ""
-
-        public init() {}
+        public let repositoryName: String
 
         public init(registryId: String? = nil, imageIds: [ImageIdentifier], repositoryName: String) {
             self.registryId = registryId
@@ -1012,15 +948,13 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The upload ID associated with the layer.
-        public var uploadId: String? = nil
+        public let uploadId: String?
         /// The repository name associated with the request.
-        public var repositoryName: String? = nil
+        public let repositoryName: String?
         /// The registry ID associated with the request.
-        public var registryId: String? = nil
+        public let registryId: String?
         /// The sha256 digest of the image layer.
-        public var layerDigest: String? = nil
-
-        public init() {}
+        public let layerDigest: String?
 
         public init(uploadId: String? = nil, repositoryName: String? = nil, registryId: String? = nil, layerDigest: String? = nil) {
             self.uploadId = uploadId
@@ -1041,19 +975,17 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The upload ID from a previous InitiateLayerUpload operation to associate with the layer part upload.
-        public var uploadId: String = ""
+        public let uploadId: String
         /// The base64-encoded layer part payload.
-        public var layerPartBlob: Data = Data()
+        public let layerPartBlob: Data
         /// The name of the repository that you are uploading layer parts to.
-        public var repositoryName: String = ""
+        public let repositoryName: String
         /// The integer value of the last byte of the layer part.
-        public var partLastByte: Int64 = 0
+        public let partLastByte: Int64
         /// The AWS account ID associated with the registry that you are uploading layer parts to. If you do not specify a registry, the default registry is assumed.
-        public var registryId: String? = nil
+        public let registryId: String?
         /// The integer value of the first byte of the layer part.
-        public var partFirstByte: Int64 = 0
-
-        public init() {}
+        public let partFirstByte: Int64
 
         public init(uploadId: String, layerPartBlob: Data, repositoryName: String, partLastByte: Int64, registryId: String? = nil, partFirstByte: Int64) {
             self.uploadId = uploadId
@@ -1083,15 +1015,13 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The upload ID from a previous InitiateLayerUpload operation to associate with the image layer.
-        public var uploadId: String = ""
+        public let uploadId: String
         /// The name of the repository to associate with the image layer.
-        public var repositoryName: String = ""
+        public let repositoryName: String
         /// The AWS account ID associated with the registry to which to upload layers. If you do not specify a registry, the default registry is assumed.
-        public var registryId: String? = nil
+        public let registryId: String?
         /// The sha256 digest of the image layer.
-        public var layerDigests: [String] = []
-
-        public init() {}
+        public let layerDigests: [String]
 
         public init(uploadId: String, repositoryName: String, registryId: String? = nil, layerDigests: [String]) {
             self.uploadId = uploadId
@@ -1115,9 +1045,7 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The tag status with which to filter your DescribeImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
-        public var tagStatus: String? = nil
-
-        public init() {}
+        public let tagStatus: String?
 
         public init(tagStatus: String? = nil) {
             self.tagStatus = tagStatus
@@ -1132,17 +1060,15 @@ extension Ecr {
         /// The key for the payload
         public static let payload: String? = nil
         /// The filter key and value with which to filter your ListImages results.
-        public var filter: ListImagesFilter? = nil
+        public let filter: ListImagesFilter?
         /// The nextToken value returned from a previous paginated ListImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of image results returned by ListImages in paginated output. When this parameter is used, ListImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListImages returns up to 100 results and a nextToken value, if applicable.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// The repository whose image IDs are to be listed.
-        public var repositoryName: String = ""
+        public let repositoryName: String
         /// The AWS account ID associated with the registry that contains the repository to list images in. If you do not specify a registry, the default registry is assumed.
-        public var registryId: String? = nil
-
-        public init() {}
+        public let registryId: String?
 
         public init(filter: ListImagesFilter? = nil, nextToken: String? = nil, maxResults: Int32? = nil, repositoryName: String, registryId: String? = nil) {
             self.filter = filter
@@ -1153,7 +1079,7 @@ extension Ecr {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Ecr.ListImagesFilter(dictionary: filter) }
+            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Ecr.ListImagesFilter(dictionary: filter) } else { self.filter = nil }
             self.nextToken = dictionary["nextToken"] as? String
             self.maxResults = dictionary["maxResults"] as? Int32
             guard let repositoryName = dictionary["repositoryName"] as? String else { throw InitializableError.missingRequiredParam("repositoryName") }

@@ -33,9 +33,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS OpsWorks volume ID, which is the GUID that AWS OpsWorks assigned to the instance when you registered the volume with the stack, not the Amazon EC2 volume ID.
-        public var volumeId: String = ""
-
-        public init() {}
+        public let volumeId: String
 
         public init(volumeId: String) {
             self.volumeId = volumeId
@@ -51,15 +49,13 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user's IAM ARN; this can also be a federated user's ARN.
-        public var iamUserArn: String = ""
+        public let iamUserArn: String
         /// The user's public SSH key.
-        public var sshPublicKey: String? = nil
+        public let sshPublicKey: String?
         /// The user's SSH user name. The allowable characters are [a-z], [A-Z], [0-9], '-', and '_'. If the specified name includes other punctuation marks, AWS OpsWorks removes them. For example, my.name will be changed to myname. If you do not specify an SSH user name, AWS OpsWorks generates one from the IAM user name. 
-        public var sshUsername: String? = nil
+        public let sshUsername: String?
         /// Whether users can specify their own SSH public key through the My Settings page. For more information, see Setting an IAM User's Public SSH Key.
-        public var allowSelfManagement: Bool? = nil
-
-        public init() {}
+        public let allowSelfManagement: Bool?
 
         public init(iamUserArn: String, sshPublicKey: String? = nil, sshUsername: String? = nil, allowSelfManagement: Bool? = nil) {
             self.iamUserArn = iamUserArn
@@ -81,11 +77,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack ID that the instances are registered with. The operation returns descriptions of all registered Amazon RDS instances.
-        public var stackId: String = ""
+        public let stackId: String
         /// An array containing the ARNs of the instances to be described.
-        public var rdsDbInstanceArns: [String]? = nil
-
-        public init() {}
+        public let rdsDbInstanceArns: [String]?
 
         public init(stackId: String, rdsDbInstanceArns: [String]? = nil) {
             self.stackId = stackId
@@ -95,9 +89,7 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
             self.stackId = stackId
-            if let rdsDbInstanceArns = dictionary["RdsDbInstanceArns"] as? [String] {
-                self.rdsDbInstanceArns = rdsDbInstanceArns
-            }
+            self.rdsDbInstanceArns = dictionary["RdsDbInstanceArns"] as? [String]
         }
     }
 
@@ -105,48 +97,46 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The layer short name.
-        public var shortname: String? = nil
+        public let shortname: String?
         /// An array of Package objects that describe the layer's packages.
-        public var packages: [String]? = nil
+        public let packages: [String]?
         /// A LifeCycleEventConfiguration object that specifies the Shutdown event configuration.
-        public var lifecycleEventConfiguration: LifecycleEventConfiguration? = nil
+        public let lifecycleEventConfiguration: LifecycleEventConfiguration?
         /// A LayerCustomRecipes object that specifies the layer's custom recipes.
-        public var customRecipes: Recipes? = nil
+        public let customRecipes: Recipes?
         /// Whether to automatically assign an Elastic IP address to the layer's instances. For more information, see How to Edit a Layer.
-        public var autoAssignElasticIps: Bool? = nil
+        public let autoAssignElasticIps: Bool?
         /// Whether to install operating system and package updates when the instance boots. The default value is true. If this value is set to false, you must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true, to ensure that your instances have the latest security updates. 
-        public var installUpdatesOnBoot: Bool? = nil
+        public let installUpdatesOnBoot: Bool?
         /// A JSON formatted string containing the layer's custom stack configuration and deployment attributes.
-        public var customJson: String? = nil
+        public let customJson: String?
         /// Date when the layer was created.
-        public var createdAt: String? = nil
+        public let createdAt: String?
         /// An array containing the layer's custom security group IDs.
-        public var customSecurityGroupIds: [String]? = nil
+        public let customSecurityGroupIds: [String]?
         /// The layer stack ID.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// The layer name.
-        public var name: String? = nil
+        public let name: String?
         /// The layer ID.
-        public var layerId: String? = nil
+        public let layerId: String?
         /// Whether auto healing is disabled for the layer.
-        public var enableAutoHealing: Bool? = nil
+        public let enableAutoHealing: Bool?
         /// A VolumeConfigurations object that describes the layer's Amazon EBS volumes.
-        public var volumeConfigurations: [VolumeConfiguration]? = nil
+        public let volumeConfigurations: [VolumeConfiguration]?
         /// An array containing the layer's security group names.
-        public var defaultSecurityGroupNames: [String]? = nil
+        public let defaultSecurityGroupNames: [String]?
         /// The layer attributes. For the HaproxyStatsPassword, MysqlRootPassword, and GangliaPassword attributes, AWS OpsWorks returns *****FILTERED***** instead of the actual value For an ECS Cluster layer, AWS OpsWorks the EcsClusterArn attribute is set to the cluster's ARN.
-        public var attributes: [String: String]? = nil
+        public let attributes: [String: String]?
         /// Whether the layer uses Amazon EBS-optimized instances.
-        public var useEbsOptimizedInstances: Bool? = nil
-        public var defaultRecipes: Recipes? = nil
+        public let useEbsOptimizedInstances: Bool?
+        public let defaultRecipes: Recipes?
         /// The layer type.
-        public var type: String? = nil
+        public let type: String?
         /// For stacks that are running in a VPC, whether to automatically assign a public IP address to the layer's instances. For more information, see How to Edit a Layer.
-        public var autoAssignPublicIps: Bool? = nil
+        public let autoAssignPublicIps: Bool?
         /// The ARN of the default IAM profile to be used for the layer's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
-        public var customInstanceProfileArn: String? = nil
-
-        public init() {}
+        public let customInstanceProfileArn: String?
 
         public init(shortname: String? = nil, packages: [String]? = nil, lifecycleEventConfiguration: LifecycleEventConfiguration? = nil, customRecipes: Recipes? = nil, autoAssignElasticIps: Bool? = nil, installUpdatesOnBoot: Bool? = nil, customJson: String? = nil, createdAt: String? = nil, customSecurityGroupIds: [String]? = nil, stackId: String? = nil, name: String? = nil, layerId: String? = nil, enableAutoHealing: Bool? = nil, volumeConfigurations: [VolumeConfiguration]? = nil, defaultSecurityGroupNames: [String]? = nil, attributes: [String: String]? = nil, useEbsOptimizedInstances: Bool? = nil, defaultRecipes: Recipes? = nil, type: String? = nil, autoAssignPublicIps: Bool? = nil, customInstanceProfileArn: String? = nil) {
             self.shortname = shortname
@@ -174,33 +164,31 @@ extension Opsworks {
 
         public init(dictionary: [String: Any]) throws {
             self.shortname = dictionary["Shortname"] as? String
-            if let packages = dictionary["Packages"] as? [String] {
-                self.packages = packages
-            }
-            if let lifecycleEventConfiguration = dictionary["LifecycleEventConfiguration"] as? [String: Any] { self.lifecycleEventConfiguration = try Opsworks.LifecycleEventConfiguration(dictionary: lifecycleEventConfiguration) }
-            if let customRecipes = dictionary["CustomRecipes"] as? [String: Any] { self.customRecipes = try Opsworks.Recipes(dictionary: customRecipes) }
+            self.packages = dictionary["Packages"] as? [String]
+            if let lifecycleEventConfiguration = dictionary["LifecycleEventConfiguration"] as? [String: Any] { self.lifecycleEventConfiguration = try Opsworks.LifecycleEventConfiguration(dictionary: lifecycleEventConfiguration) } else { self.lifecycleEventConfiguration = nil }
+            if let customRecipes = dictionary["CustomRecipes"] as? [String: Any] { self.customRecipes = try Opsworks.Recipes(dictionary: customRecipes) } else { self.customRecipes = nil }
             self.autoAssignElasticIps = dictionary["AutoAssignElasticIps"] as? Bool
             self.installUpdatesOnBoot = dictionary["InstallUpdatesOnBoot"] as? Bool
             self.customJson = dictionary["CustomJson"] as? String
             self.createdAt = dictionary["CreatedAt"] as? String
-            if let customSecurityGroupIds = dictionary["CustomSecurityGroupIds"] as? [String] {
-                self.customSecurityGroupIds = customSecurityGroupIds
-            }
+            self.customSecurityGroupIds = dictionary["CustomSecurityGroupIds"] as? [String]
             self.stackId = dictionary["StackId"] as? String
             self.name = dictionary["Name"] as? String
             self.layerId = dictionary["LayerId"] as? String
             self.enableAutoHealing = dictionary["EnableAutoHealing"] as? Bool
             if let volumeConfigurations = dictionary["VolumeConfigurations"] as? [[String: Any]] {
                 self.volumeConfigurations = try volumeConfigurations.map({ try VolumeConfiguration(dictionary: $0) })
+            } else { 
+                self.volumeConfigurations = nil
             }
-            if let defaultSecurityGroupNames = dictionary["DefaultSecurityGroupNames"] as? [String] {
-                self.defaultSecurityGroupNames = defaultSecurityGroupNames
-            }
+            self.defaultSecurityGroupNames = dictionary["DefaultSecurityGroupNames"] as? [String]
             if let attributes = dictionary["Attributes"] as? [String: String] {
                 self.attributes = attributes
+            } else { 
+                self.attributes = nil
             }
             self.useEbsOptimizedInstances = dictionary["UseEbsOptimizedInstances"] as? Bool
-            if let defaultRecipes = dictionary["DefaultRecipes"] as? [String: Any] { self.defaultRecipes = try Opsworks.Recipes(dictionary: defaultRecipes) }
+            if let defaultRecipes = dictionary["DefaultRecipes"] as? [String: Any] { self.defaultRecipes = try Opsworks.Recipes(dictionary: defaultRecipes) } else { self.defaultRecipes = nil }
             self.type = dictionary["Type"] as? String
             self.autoAssignPublicIps = dictionary["AutoAssignPublicIps"] as? Bool
             self.customInstanceProfileArn = dictionary["CustomInstanceProfileArn"] as? String
@@ -211,11 +199,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The instance ID.
-        public var instanceId: String = ""
+        public let instanceId: String
         /// An AutoScalingSchedule with the instance schedule.
-        public var autoScalingSchedule: WeeklyAutoScalingSchedule? = nil
-
-        public init() {}
+        public let autoScalingSchedule: WeeklyAutoScalingSchedule?
 
         public init(instanceId: String, autoScalingSchedule: WeeklyAutoScalingSchedule? = nil) {
             self.instanceId = instanceId
@@ -225,7 +211,7 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
             self.instanceId = instanceId
-            if let autoScalingSchedule = dictionary["AutoScalingSchedule"] as? [String: Any] { self.autoScalingSchedule = try Opsworks.WeeklyAutoScalingSchedule(dictionary: autoScalingSchedule) }
+            if let autoScalingSchedule = dictionary["AutoScalingSchedule"] as? [String: Any] { self.autoScalingSchedule = try Opsworks.WeeklyAutoScalingSchedule(dictionary: autoScalingSchedule) } else { self.autoScalingSchedule = nil }
         }
     }
 
@@ -233,13 +219,11 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack ID.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// An array of RAID array IDs. If you use this parameter, DescribeRaidArrays returns descriptions of the specified arrays. Otherwise, it returns a description of every array.
-        public var raidArrayIds: [String]? = nil
+        public let raidArrayIds: [String]?
         /// The instance ID. If you use this parameter, DescribeRaidArrays returns descriptions of the RAID arrays associated with the specified instance. 
-        public var instanceId: String? = nil
-
-        public init() {}
+        public let instanceId: String?
 
         public init(stackId: String? = nil, raidArrayIds: [String]? = nil, instanceId: String? = nil) {
             self.stackId = stackId
@@ -249,9 +233,7 @@ extension Opsworks {
 
         public init(dictionary: [String: Any]) throws {
             self.stackId = dictionary["StackId"] as? String
-            if let raidArrayIds = dictionary["RaidArrayIds"] as? [String] {
-                self.raidArrayIds = raidArrayIds
-            }
+            self.raidArrayIds = dictionary["RaidArrayIds"] as? [String]
             self.instanceId = dictionary["InstanceId"] as? String
         }
     }
@@ -260,19 +242,17 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An InstancesCount object with the number of instances in each status.
-        public var instancesCount: InstancesCount? = nil
+        public let instancesCount: InstancesCount?
         /// The number of layers.
-        public var layersCount: Int32? = nil
+        public let layersCount: Int32?
         /// The stack's ARN.
-        public var arn: String? = nil
+        public let arn: String?
         /// The stack ID.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// The stack name.
-        public var name: String? = nil
+        public let name: String?
         /// The number of apps.
-        public var appsCount: Int32? = nil
-
-        public init() {}
+        public let appsCount: Int32?
 
         public init(instancesCount: InstancesCount? = nil, layersCount: Int32? = nil, arn: String? = nil, stackId: String? = nil, name: String? = nil, appsCount: Int32? = nil) {
             self.instancesCount = instancesCount
@@ -284,7 +264,7 @@ extension Opsworks {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let instancesCount = dictionary["InstancesCount"] as? [String: Any] { self.instancesCount = try Opsworks.InstancesCount(dictionary: instancesCount) }
+            if let instancesCount = dictionary["InstancesCount"] as? [String: Any] { self.instancesCount = try Opsworks.InstancesCount(dictionary: instancesCount) } else { self.instancesCount = nil }
             self.layersCount = dictionary["LayersCount"] as? Int32
             self.arn = dictionary["Arn"] as? String
             self.stackId = dictionary["StackId"] as? String
@@ -297,9 +277,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of Command objects that describe each of the specified commands.
-        public var commands: [Command]? = nil
-
-        public init() {}
+        public let commands: [Command]?
 
         public init(commands: [Command]? = nil) {
             self.commands = commands
@@ -308,6 +286,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let commands = dictionary["Commands"] as? [[String: Any]] {
                 self.commands = try commands.map({ try Command(dictionary: $0) })
+            } else { 
+                self.commands = nil
             }
         }
     }
@@ -316,9 +296,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The cluster's ARN.
-        public var ecsClusterArn: String = ""
-
-        public init() {}
+        public let ecsClusterArn: String
 
         public init(ecsClusterArn: String) {
             self.ecsClusterArn = ecsClusterArn
@@ -334,11 +312,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of EcsCluster objects containing the cluster descriptions.
-        public var ecsClusters: [EcsCluster]? = nil
+        public let ecsClusters: [EcsCluster]?
         /// If a paginated request does not return all of the remaining results, this parameter is set to a token that you can assign to the request object's NextToken parameter to retrieve the next set of results. If the previous paginated request returned all of the remaining results, this parameter is set to null.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(ecsClusters: [EcsCluster]? = nil, nextToken: String? = nil) {
             self.ecsClusters = ecsClusters
@@ -348,6 +324,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let ecsClusters = dictionary["EcsClusters"] as? [[String: Any]] {
                 self.ecsClusters = try ecsClusters.map({ try EcsCluster(dictionary: $0) })
+            } else { 
+                self.ecsClusters = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -357,15 +335,13 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user IAM ARN. This can also be a federated user's ARN.
-        public var iamUserArn: String = ""
+        public let iamUserArn: String
         /// The user's new SSH public key.
-        public var sshPublicKey: String? = nil
+        public let sshPublicKey: String?
         /// The user's SSH user name. The allowable characters are [a-z], [A-Z], [0-9], '-', and '_'. If the specified name includes other punctuation marks, AWS OpsWorks removes them. For example, my.name will be changed to myname. If you do not specify an SSH user name, AWS OpsWorks generates one from the IAM user name. 
-        public var sshUsername: String? = nil
+        public let sshUsername: String?
         /// Whether users can specify their own SSH public key through the My Settings page. For more information, see Managing User Permissions.
-        public var allowSelfManagement: Bool? = nil
-
-        public init() {}
+        public let allowSelfManagement: Bool?
 
         public init(iamUserArn: String, sshPublicKey: String? = nil, sshUsername: String? = nil, allowSelfManagement: Bool? = nil) {
             self.iamUserArn = iamUserArn
@@ -387,18 +363,14 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of stack IDs that specify the stacks to be described. If you omit this parameter, DescribeStacks returns a description of every stack.
-        public var stackIds: [String]? = nil
-
-        public init() {}
+        public let stackIds: [String]?
 
         public init(stackIds: [String]? = nil) {
             self.stackIds = stackIds
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let stackIds = dictionary["StackIds"] as? [String] {
-                self.stackIds = stackIds
-            }
+            self.stackIds = dictionary["StackIds"] as? [String]
         }
     }
 
@@ -406,13 +378,11 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The contents of the certificate's domain.crt file.
-        public var certificate: String = ""
+        public let certificate: String
         /// Optional. Can be used to specify an intermediate certificate authority key or client authentication.
-        public var chain: String? = nil
+        public let chain: String?
         /// The private key; the contents of the certificate's domain.kex file.
-        public var privateKey: String = ""
-
-        public init() {}
+        public let privateKey: String
 
         public init(certificate: String, chain: String? = nil, privateKey: String) {
             self.certificate = certificate
@@ -433,13 +403,11 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// A stack ID. If you include this parameter, DescribeElasticIps returns a description of the Elastic IP addresses that are registered with the specified stack.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// An array of Elastic IP addresses to be described. If you include this parameter, DescribeElasticIps returns a description of the specified Elastic IP addresses. Otherwise, it returns a description of every Elastic IP address.
-        public var ips: [String]? = nil
+        public let ips: [String]?
         /// The instance ID. If you include this parameter, DescribeElasticIps returns a description of the Elastic IP addresses associated with the specified instance.
-        public var instanceId: String? = nil
-
-        public init() {}
+        public let instanceId: String?
 
         public init(stackId: String? = nil, ips: [String]? = nil, instanceId: String? = nil) {
             self.stackId = stackId
@@ -449,9 +417,7 @@ extension Opsworks {
 
         public init(dictionary: [String: Any]) throws {
             self.stackId = dictionary["StackId"] as? String
-            if let ips = dictionary["Ips"] as? [String] {
-                self.ips = ips
-            }
+            self.ips = dictionary["Ips"] as? [String]
             self.instanceId = dictionary["InstanceId"] as? String
         }
     }
@@ -460,11 +426,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name. This parameter must be set to "Chef".
-        public var name: String? = nil
+        public let name: String?
         /// The Chef version. This parameter must be set to 12, 11.10, or 11.4 for Linux stacks, and to 12.2 for Windows stacks. The default value for Linux stacks is 11.4.
-        public var version: String? = nil
-
-        public init() {}
+        public let version: String?
 
         public init(name: String? = nil, version: String? = nil) {
             self.name = name
@@ -481,29 +445,27 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The app ID.
-        public var appId: String = ""
+        public let appId: String
         /// The app name.
-        public var name: String? = nil
+        public let name: String?
         /// The app's data sources.
-        public var dataSources: [DataSource]? = nil
+        public let dataSources: [DataSource]?
         /// An array of EnvironmentVariable objects that specify environment variables to be associated with the app. After you deploy the app, these variables are defined on the associated app server instances.For more information, see  Environment Variables. There is no specific limit on the number of environment variables. However, the size of the associated data structure - which includes the variables' names, values, and protected flag values - cannot exceed 10 KB (10240 Bytes). This limit should accommodate most if not all use cases. Exceeding it will cause an exception with the message, "Environment: is too large (maximum is 10KB)."  This parameter is supported only by Chef 11.10 stacks. If you have specified one or more environment variables, you cannot modify the stack's Chef version. 
-        public var environment: [EnvironmentVariable]? = nil
+        public let environment: [EnvironmentVariable]?
         /// A Source object that specifies the app repository.
-        public var appSource: Source? = nil
+        public let appSource: Source?
         /// An SslConfiguration object with the SSL configuration.
-        public var sslConfiguration: SslConfiguration? = nil
+        public let sslConfiguration: SslConfiguration?
         /// One or more user-defined key/value pairs to be added to the stack attributes.
-        public var attributes: [String: String]? = nil
+        public let attributes: [String: String]?
         /// Whether SSL is enabled for the app.
-        public var enableSsl: Bool? = nil
+        public let enableSsl: Bool?
         /// The app type.
-        public var type: String? = nil
+        public let type: String?
         /// The app's virtual host settings, with multiple domains separated by commas. For example: 'www.example.com, example.com' 
-        public var domains: [String]? = nil
+        public let domains: [String]?
         /// A description of the app.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(appId: String, name: String? = nil, dataSources: [DataSource]? = nil, environment: [EnvironmentVariable]? = nil, appSource: Source? = nil, sslConfiguration: SslConfiguration? = nil, attributes: [String: String]? = nil, enableSsl: Bool? = nil, type: String? = nil, domains: [String]? = nil, description: String? = nil) {
             self.appId = appId
@@ -525,20 +487,24 @@ extension Opsworks {
             self.name = dictionary["Name"] as? String
             if let dataSources = dictionary["DataSources"] as? [[String: Any]] {
                 self.dataSources = try dataSources.map({ try DataSource(dictionary: $0) })
+            } else { 
+                self.dataSources = nil
             }
             if let environment = dictionary["Environment"] as? [[String: Any]] {
                 self.environment = try environment.map({ try EnvironmentVariable(dictionary: $0) })
+            } else { 
+                self.environment = nil
             }
-            if let appSource = dictionary["AppSource"] as? [String: Any] { self.appSource = try Opsworks.Source(dictionary: appSource) }
-            if let sslConfiguration = dictionary["SslConfiguration"] as? [String: Any] { self.sslConfiguration = try Opsworks.SslConfiguration(dictionary: sslConfiguration) }
+            if let appSource = dictionary["AppSource"] as? [String: Any] { self.appSource = try Opsworks.Source(dictionary: appSource) } else { self.appSource = nil }
+            if let sslConfiguration = dictionary["SslConfiguration"] as? [String: Any] { self.sslConfiguration = try Opsworks.SslConfiguration(dictionary: sslConfiguration) } else { self.sslConfiguration = nil }
             if let attributes = dictionary["Attributes"] as? [String: String] {
                 self.attributes = attributes
+            } else { 
+                self.attributes = nil
             }
             self.enableSsl = dictionary["EnableSsl"] as? Bool
             self.type = dictionary["Type"] as? String
-            if let domains = dictionary["Domains"] as? [String] {
-                self.domains = domains
-            }
+            self.domains = dictionary["Domains"] as? [String]
             self.description = dictionary["Description"] as? String
         }
     }
@@ -547,87 +513,85 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// For container instances, the instance's ARN.
-        public var ecsContainerInstanceArn: String? = nil
+        public let ecsContainerInstanceArn: String?
         /// The instance host name.
-        public var hostname: String? = nil
+        public let hostname: String?
         /// Whether this is an Amazon EBS-optimized instance.
-        public var ebsOptimized: Bool? = nil
+        public let ebsOptimized: Bool?
         /// Whether to install operating system and package updates when the instance boots. The default value is true. If this value is set to false, you must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or by manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true, to ensure that your instances have the latest security updates. 
-        public var installUpdatesOnBoot: Bool? = nil
+        public let installUpdatesOnBoot: Bool?
         /// The instance public IP address.
-        public var publicIp: String? = nil
+        public let publicIp: String?
         /// The instance type, such as t2.micro.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The instance Availability Zone. For more information, see Regions and Endpoints.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The ID of the associated Amazon EC2 instance.
-        public var ec2InstanceId: String? = nil
+        public let ec2InstanceId: String?
         /// The instance status:    booting     connection_lost     online     pending     rebooting     requested     running_setup     setup_failed     shutting_down     start_failed     stop_failed     stopped     stopping     terminated     terminating   
-        public var status: String? = nil
+        public let status: String?
         /// The instance's reported AWS OpsWorks agent version.
-        public var reportedAgentVersion: String? = nil
+        public let reportedAgentVersion: String?
         /// The stack ID.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// The instance Elastic IP address .
-        public var elasticIp: String? = nil
+        public let elasticIp: String?
         /// The instance ID.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The instance's Amazon EC2 key-pair name.
-        public var sshKeyName: String? = nil
+        public let sshKeyName: String?
         /// The instance's root device type. For more information, see Storage for the Root Device.
-        public var rootDeviceType: String? = nil
+        public let rootDeviceType: String?
         /// The ID of the last service error. For more information, call DescribeServiceErrors.
-        public var lastServiceErrorId: String? = nil
+        public let lastServiceErrorId: String?
         /// The instance public DNS name.
-        public var publicDns: String? = nil
+        public let publicDns: String?
         /// An array containing the instance layer IDs.
-        public var layerIds: [String]? = nil
+        public let layerIds: [String]?
         /// The instance's subnet ID; applicable only if the stack is running in a VPC.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// An array of BlockDeviceMapping objects that specify the instance's block device mappings.
-        public var blockDeviceMappings: [BlockDeviceMapping]? = nil
+        public let blockDeviceMappings: [BlockDeviceMapping]?
         /// The instance's platform.
-        public var platform: String? = nil
+        public let platform: String?
         /// For container instances, the Amazon ECS cluster's ARN.
-        public var ecsClusterArn: String? = nil
+        public let ecsClusterArn: String?
         /// The instance's private IP address.
-        public var privateIp: String? = nil
+        public let privateIp: String?
         /// For registered instances, the infrastructure class: ec2 or on-premises.
-        public var infrastructureClass: String? = nil
+        public let infrastructureClass: String?
         /// An array containing the instance security group IDs.
-        public var securityGroupIds: [String]? = nil
+        public let securityGroupIds: [String]?
         /// A custom AMI ID to be used to create the instance. For more information, see Instances 
-        public var amiId: String? = nil
+        public let amiId: String?
         /// The The instance's private DNS name.
-        public var privateDns: String? = nil
+        public let privateDns: String?
         /// The root device volume ID.
-        public var rootDeviceVolumeId: String? = nil
+        public let rootDeviceVolumeId: String?
         /// The instance's tenancy option, such as dedicated or host.
-        public var tenancy: String? = nil
+        public let tenancy: String?
         /// The SSH key's RSA fingerprint.
-        public var sshHostRsaKeyFingerprint: String? = nil
+        public let sshHostRsaKeyFingerprint: String?
         /// For registered instances, who performed the registration.
-        public var registeredBy: String? = nil
+        public let registeredBy: String?
         /// The time that the instance was created.
-        public var createdAt: String? = nil
+        public let createdAt: String?
         /// For registered instances, the reported operating system.
-        public var reportedOs: ReportedOs? = nil
+        public let reportedOs: ReportedOs?
         /// The agent version. This parameter is set to INHERIT if the instance inherits the default stack setting or to a a version number for a fixed agent version.
-        public var agentVersion: String? = nil
+        public let agentVersion: String?
         /// The SSH key's Deep Security Agent (DSA) fingerprint.
-        public var sshHostDsaKeyFingerprint: String? = nil
+        public let sshHostDsaKeyFingerprint: String?
         /// The instance architecture: "i386" or "x86_64".
-        public var architecture: String? = nil
+        public let architecture: String?
         /// The ARN of the instance's IAM profile. For more information about IAM ARNs, see Using Identifiers.
-        public var instanceProfileArn: String? = nil
+        public let instanceProfileArn: String?
         /// The instance's operating system.
-        public var os: String? = nil
+        public let os: String?
         /// For load-based or time-based instances, the type.
-        public var autoScalingType: String? = nil
+        public let autoScalingType: String?
         /// The instance's virtualization type: paravirtual or hvm.
-        public var virtualizationType: String? = nil
-
-        public init() {}
+        public let virtualizationType: String?
 
         public init(ecsContainerInstanceArn: String? = nil, hostname: String? = nil, ebsOptimized: Bool? = nil, installUpdatesOnBoot: Bool? = nil, publicIp: String? = nil, instanceType: String? = nil, availabilityZone: String? = nil, ec2InstanceId: String? = nil, status: String? = nil, reportedAgentVersion: String? = nil, stackId: String? = nil, elasticIp: String? = nil, instanceId: String? = nil, sshKeyName: String? = nil, rootDeviceType: String? = nil, lastServiceErrorId: String? = nil, publicDns: String? = nil, layerIds: [String]? = nil, subnetId: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, platform: String? = nil, ecsClusterArn: String? = nil, privateIp: String? = nil, infrastructureClass: String? = nil, securityGroupIds: [String]? = nil, amiId: String? = nil, privateDns: String? = nil, rootDeviceVolumeId: String? = nil, tenancy: String? = nil, sshHostRsaKeyFingerprint: String? = nil, registeredBy: String? = nil, createdAt: String? = nil, reportedOs: ReportedOs? = nil, agentVersion: String? = nil, sshHostDsaKeyFingerprint: String? = nil, architecture: String? = nil, instanceProfileArn: String? = nil, os: String? = nil, autoScalingType: String? = nil, virtualizationType: String? = nil) {
             self.ecsContainerInstanceArn = ecsContainerInstanceArn
@@ -690,20 +654,18 @@ extension Opsworks {
             self.rootDeviceType = dictionary["RootDeviceType"] as? String
             self.lastServiceErrorId = dictionary["LastServiceErrorId"] as? String
             self.publicDns = dictionary["PublicDns"] as? String
-            if let layerIds = dictionary["LayerIds"] as? [String] {
-                self.layerIds = layerIds
-            }
+            self.layerIds = dictionary["LayerIds"] as? [String]
             self.subnetId = dictionary["SubnetId"] as? String
             if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
                 self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            } else { 
+                self.blockDeviceMappings = nil
             }
             self.platform = dictionary["Platform"] as? String
             self.ecsClusterArn = dictionary["EcsClusterArn"] as? String
             self.privateIp = dictionary["PrivateIp"] as? String
             self.infrastructureClass = dictionary["InfrastructureClass"] as? String
-            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
-                self.securityGroupIds = securityGroupIds
-            }
+            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
             self.amiId = dictionary["AmiId"] as? String
             self.privateDns = dictionary["PrivateDns"] as? String
             self.rootDeviceVolumeId = dictionary["RootDeviceVolumeId"] as? String
@@ -711,7 +673,7 @@ extension Opsworks {
             self.sshHostRsaKeyFingerprint = dictionary["SshHostRsaKeyFingerprint"] as? String
             self.registeredBy = dictionary["RegisteredBy"] as? String
             self.createdAt = dictionary["CreatedAt"] as? String
-            if let reportedOs = dictionary["ReportedOs"] as? [String: Any] { self.reportedOs = try Opsworks.ReportedOs(dictionary: reportedOs) }
+            if let reportedOs = dictionary["ReportedOs"] as? [String: Any] { self.reportedOs = try Opsworks.ReportedOs(dictionary: reportedOs) } else { self.reportedOs = nil }
             self.agentVersion = dictionary["AgentVersion"] as? String
             self.sshHostDsaKeyFingerprint = dictionary["SshHostDsaKeyFingerprint"] as? String
             self.architecture = dictionary["Architecture"] as? String
@@ -726,18 +688,14 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of IAM or federated user ARNs that identify the users to be described.
-        public var iamUserArns: [String]? = nil
-
-        public init() {}
+        public let iamUserArns: [String]?
 
         public init(iamUserArns: [String]? = nil) {
             self.iamUserArns = iamUserArns
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let iamUserArns = dictionary["IamUserArns"] as? [String] {
-                self.iamUserArns = iamUserArns
-            }
+            self.iamUserArns = dictionary["IamUserArns"] as? [String]
         }
     }
 
@@ -745,13 +703,11 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether to delete the instance's Amazon EBS volumes.
-        public var deleteVolumes: Bool? = nil
+        public let deleteVolumes: Bool?
         /// The instance ID.
-        public var instanceId: String = ""
+        public let instanceId: String
         /// Whether to delete the instance Elastic IP address.
-        public var deleteElasticIp: Bool? = nil
-
-        public init() {}
+        public let deleteElasticIp: Bool?
 
         public init(deleteVolumes: Bool? = nil, instanceId: String, deleteElasticIp: Bool? = nil) {
             self.deleteVolumes = deleteVolumes
@@ -771,45 +727,43 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of instances with pending status.
-        public var pending: Int32? = nil
+        public let pending: Int32?
         /// The number of instances with stopping status.
-        public var stopping: Int32? = nil
+        public let stopping: Int32?
         /// The number of instances with booting status.
-        public var booting: Int32? = nil
+        public let booting: Int32?
         /// The number of instances with online status.
-        public var online: Int32? = nil
+        public let online: Int32?
         /// The number of instances with running_setup status.
-        public var runningSetup: Int32? = nil
+        public let runningSetup: Int32?
         /// The number of instances with terminated status.
-        public var terminated: Int32? = nil
+        public let terminated: Int32?
         /// The number of instances with setup_failed status.
-        public var setupFailed: Int32? = nil
+        public let setupFailed: Int32?
         /// The number of instances in the Assigning state.
-        public var assigning: Int32? = nil
+        public let assigning: Int32?
         /// The number of instances with connection_lost status.
-        public var connectionLost: Int32? = nil
+        public let connectionLost: Int32?
         /// The number of instances with terminating status.
-        public var terminating: Int32? = nil
+        public let terminating: Int32?
         /// The number of instances with shutting_down status.
-        public var shuttingDown: Int32? = nil
+        public let shuttingDown: Int32?
         /// The number of instances in the Registering state.
-        public var registering: Int32? = nil
+        public let registering: Int32?
         /// The number of instances with rebooting status.
-        public var rebooting: Int32? = nil
+        public let rebooting: Int32?
         /// The number of instances in the Unassigning state.
-        public var unassigning: Int32? = nil
+        public let unassigning: Int32?
         /// The number of instances with stopped status.
-        public var stopped: Int32? = nil
+        public let stopped: Int32?
         /// The number of instances with start_failed status.
-        public var startFailed: Int32? = nil
+        public let startFailed: Int32?
         /// The number of instances in the Registered state.
-        public var registered: Int32? = nil
+        public let registered: Int32?
         /// The number of instances in the Deregistering state.
-        public var deregistering: Int32? = nil
+        public let deregistering: Int32?
         /// The number of instances with requested status.
-        public var requested: Int32? = nil
-
-        public init() {}
+        public let requested: Int32?
 
         public init(pending: Int32? = nil, stopping: Int32? = nil, booting: Int32? = nil, online: Int32? = nil, runningSetup: Int32? = nil, terminated: Int32? = nil, setupFailed: Int32? = nil, assigning: Int32? = nil, connectionLost: Int32? = nil, terminating: Int32? = nil, shuttingDown: Int32? = nil, registering: Int32? = nil, rebooting: Int32? = nil, unassigning: Int32? = nil, stopped: Int32? = nil, startFailed: Int32? = nil, registered: Int32? = nil, deregistering: Int32? = nil, requested: Int32? = nil) {
             self.pending = pending
@@ -860,41 +814,39 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// For custom layers only, use this parameter to specify the layer's short name, which is used internally by AWS OpsWorks and by Chef recipes. The short name is also used as the name for the directory where your app files are installed. It can have a maximum of 200 characters, which are limited to the alphanumeric characters, '-', '_', and '.'. The built-in layers' short names are defined by AWS OpsWorks. For more information, see the Layer Reference.
-        public var shortname: String = ""
+        public let shortname: String
         /// An array of Package objects that describes the layer packages.
-        public var packages: [String]? = nil
+        public let packages: [String]?
         /// A LifeCycleEventConfiguration object that you can use to configure the Shutdown event to specify an execution timeout and enable or disable Elastic Load Balancer connection draining.
-        public var lifecycleEventConfiguration: LifecycleEventConfiguration? = nil
+        public let lifecycleEventConfiguration: LifecycleEventConfiguration?
         /// A LayerCustomRecipes object that specifies the layer custom recipes.
-        public var customRecipes: Recipes? = nil
+        public let customRecipes: Recipes?
         /// Whether to automatically assign an Elastic IP address to the layer's instances. For more information, see How to Edit a Layer.
-        public var autoAssignElasticIps: Bool? = nil
+        public let autoAssignElasticIps: Bool?
         /// Whether to install operating system and package updates when the instance boots. The default value is true. To control when updates are installed, set this value to false. You must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or by manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   To ensure that your instances have the latest security updates, we strongly recommend using the default value of true. 
-        public var installUpdatesOnBoot: Bool? = nil
+        public let installUpdatesOnBoot: Bool?
         /// A JSON-formatted string containing custom stack configuration and deployment attributes to be installed on the layer's instances. For more information, see  Using Custom JSON. This feature is supported as of version 1.7.42 of the AWS CLI. 
-        public var customJson: String? = nil
+        public let customJson: String?
         /// An array containing the layer custom security group IDs.
-        public var customSecurityGroupIds: [String]? = nil
+        public let customSecurityGroupIds: [String]?
         /// The layer stack ID.
-        public var stackId: String = ""
+        public let stackId: String
         /// The layer name, which is used by the console.
-        public var name: String = ""
+        public let name: String
         /// The ARN of an IAM profile to be used for the layer's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
-        public var customInstanceProfileArn: String? = nil
+        public let customInstanceProfileArn: String?
         /// Whether to disable auto healing for the layer.
-        public var enableAutoHealing: Bool? = nil
+        public let enableAutoHealing: Bool?
         /// A VolumeConfigurations object that describes the layer's Amazon EBS volumes.
-        public var volumeConfigurations: [VolumeConfiguration]? = nil
+        public let volumeConfigurations: [VolumeConfiguration]?
         /// One or more user-defined key-value pairs to be added to the stack attributes. To create a cluster layer, set the EcsClusterArn attribute to the cluster's ARN.
-        public var attributes: [String: String]? = nil
+        public let attributes: [String: String]?
         /// Whether to use Amazon EBS-optimized instances.
-        public var useEbsOptimizedInstances: Bool? = nil
+        public let useEbsOptimizedInstances: Bool?
         /// For stacks that are running in a VPC, whether to automatically assign a public IP address to the layer's instances. For more information, see How to Edit a Layer.
-        public var autoAssignPublicIps: Bool? = nil
+        public let autoAssignPublicIps: Bool?
         /// The layer type. A stack cannot have more than one built-in layer of the same type. It can have any number of custom layers. Built-in layers are not available in Chef 12 stacks.
-        public var type: String = ""
-
-        public init() {}
+        public let type: String
 
         public init(shortname: String, packages: [String]? = nil, lifecycleEventConfiguration: LifecycleEventConfiguration? = nil, customRecipes: Recipes? = nil, autoAssignElasticIps: Bool? = nil, installUpdatesOnBoot: Bool? = nil, customJson: String? = nil, customSecurityGroupIds: [String]? = nil, stackId: String, name: String, customInstanceProfileArn: String? = nil, enableAutoHealing: Bool? = nil, volumeConfigurations: [VolumeConfiguration]? = nil, attributes: [String: String]? = nil, useEbsOptimizedInstances: Bool? = nil, autoAssignPublicIps: Bool? = nil, type: String) {
             self.shortname = shortname
@@ -919,17 +871,13 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             guard let shortname = dictionary["Shortname"] as? String else { throw InitializableError.missingRequiredParam("Shortname") }
             self.shortname = shortname
-            if let packages = dictionary["Packages"] as? [String] {
-                self.packages = packages
-            }
-            if let lifecycleEventConfiguration = dictionary["LifecycleEventConfiguration"] as? [String: Any] { self.lifecycleEventConfiguration = try Opsworks.LifecycleEventConfiguration(dictionary: lifecycleEventConfiguration) }
-            if let customRecipes = dictionary["CustomRecipes"] as? [String: Any] { self.customRecipes = try Opsworks.Recipes(dictionary: customRecipes) }
+            self.packages = dictionary["Packages"] as? [String]
+            if let lifecycleEventConfiguration = dictionary["LifecycleEventConfiguration"] as? [String: Any] { self.lifecycleEventConfiguration = try Opsworks.LifecycleEventConfiguration(dictionary: lifecycleEventConfiguration) } else { self.lifecycleEventConfiguration = nil }
+            if let customRecipes = dictionary["CustomRecipes"] as? [String: Any] { self.customRecipes = try Opsworks.Recipes(dictionary: customRecipes) } else { self.customRecipes = nil }
             self.autoAssignElasticIps = dictionary["AutoAssignElasticIps"] as? Bool
             self.installUpdatesOnBoot = dictionary["InstallUpdatesOnBoot"] as? Bool
             self.customJson = dictionary["CustomJson"] as? String
-            if let customSecurityGroupIds = dictionary["CustomSecurityGroupIds"] as? [String] {
-                self.customSecurityGroupIds = customSecurityGroupIds
-            }
+            self.customSecurityGroupIds = dictionary["CustomSecurityGroupIds"] as? [String]
             guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
             self.stackId = stackId
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
@@ -938,9 +886,13 @@ extension Opsworks {
             self.enableAutoHealing = dictionary["EnableAutoHealing"] as? Bool
             if let volumeConfigurations = dictionary["VolumeConfigurations"] as? [[String: Any]] {
                 self.volumeConfigurations = try volumeConfigurations.map({ try VolumeConfiguration(dictionary: $0) })
+            } else { 
+                self.volumeConfigurations = nil
             }
             if let attributes = dictionary["Attributes"] as? [String: String] {
                 self.attributes = attributes
+            } else { 
+                self.attributes = nil
             }
             self.useEbsOptimizedInstances = dictionary["UseEbsOptimizedInstances"] as? Bool
             self.autoAssignPublicIps = dictionary["AutoAssignPublicIps"] as? Bool
@@ -953,31 +905,29 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The instance's layer IDs.
-        public var layerIds: [String]? = nil
+        public let layerIds: [String]?
         /// The instance host name.
-        public var hostname: String? = nil
+        public let hostname: String?
         /// The default AWS OpsWorks agent version. You have the following options:    INHERIT - Use the stack's default agent version setting.    version_number - Use the specified agent version. This value overrides the stack's default setting. To update the agent version, you must edit the instance configuration and specify a new version. AWS OpsWorks then automatically installs that version on the instance.   The default setting is INHERIT. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions.
-        public var agentVersion: String? = nil
+        public let agentVersion: String?
         /// This property cannot be updated.
-        public var ebsOptimized: Bool? = nil
+        public let ebsOptimized: Bool?
         /// The instance architecture. Instance types do not necessarily support both architectures. For a list of the architectures that are supported by the different instance types, see Instance Families and Types.
-        public var architecture: String? = nil
+        public let architecture: String?
         /// The ID of the AMI that was used to create the instance. The value of this parameter must be the same AMI ID that the instance is already using. You cannot apply a new AMI to an instance by running UpdateInstance. UpdateInstance does not work on instances that are using custom AMIs. 
-        public var amiId: String? = nil
+        public let amiId: String?
         /// For load-based or time-based instances, the type. Windows stacks can use only time-based instances.
-        public var autoScalingType: String? = nil
+        public let autoScalingType: String?
         /// Whether to install operating system and package updates when the instance boots. The default value is true. To control when updates are installed, set this value to false. You must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or by manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true, to ensure that your instances have the latest security updates. 
-        public var installUpdatesOnBoot: Bool? = nil
+        public let installUpdatesOnBoot: Bool?
         /// The instance ID.
-        public var instanceId: String = ""
+        public let instanceId: String
         /// The instance type, such as t2.micro. For a list of supported instance types, open the stack in the console, choose Instances, and choose + Instance. The Size list contains the currently supported types. For more information, see Instance Families and Types. The parameter values that you use to specify the various types are in the API Name column of the Available Instance Types table.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The instance's operating system, which must be set to one of the following. You cannot update an instance that is using a custom AMI.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   For more information on the supported operating systems, see AWS OpsWorks Operating Systems. The default option is the current Amazon Linux version. If you set this parameter to Custom, you must use the AmiId parameter to specify the custom AMI that you want to use. For more information on the supported operating systems, see Operating Systems. For more information on how to use custom AMIs with OpsWorks, see Using Custom AMIs.  You can specify a different Linux operating system for the updated stack, but you cannot change from Linux to Windows or Windows to Linux. 
-        public var os: String? = nil
+        public let os: String?
         /// The instance's Amazon EC2 key name.
-        public var sshKeyName: String? = nil
-
-        public init() {}
+        public let sshKeyName: String?
 
         public init(layerIds: [String]? = nil, hostname: String? = nil, agentVersion: String? = nil, ebsOptimized: Bool? = nil, architecture: String? = nil, amiId: String? = nil, autoScalingType: String? = nil, installUpdatesOnBoot: Bool? = nil, instanceId: String, instanceType: String? = nil, os: String? = nil, sshKeyName: String? = nil) {
             self.layerIds = layerIds
@@ -995,9 +945,7 @@ extension Opsworks {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let layerIds = dictionary["LayerIds"] as? [String] {
-                self.layerIds = layerIds
-            }
+            self.layerIds = dictionary["LayerIds"] as? [String]
             self.hostname = dictionary["Hostname"] as? String
             self.agentVersion = dictionary["AgentVersion"] as? String
             self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
@@ -1017,33 +965,31 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The array's Linux device. For example /dev/mdadm0.
-        public var device: String? = nil
+        public let device: String?
         /// For PIOPS volumes, the IOPS per disk.
-        public var iops: Int32? = nil
+        public let iops: Int32?
         /// The array's Availability Zone. For more information, see Regions and Endpoints.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The RAID level.
-        public var raidLevel: Int32? = nil
+        public let raidLevel: Int32?
         /// The array ID.
-        public var raidArrayId: String? = nil
+        public let raidArrayId: String?
         /// When the RAID array was created.
-        public var createdAt: String? = nil
+        public let createdAt: String?
         /// The volume type, standard or PIOPS.
-        public var volumeType: String? = nil
+        public let volumeType: String?
         /// The stack ID.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// The array's mount point.
-        public var mountPoint: String? = nil
+        public let mountPoint: String?
         /// The array name.
-        public var name: String? = nil
+        public let name: String?
         /// The instance ID.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The array's size.
-        public var size: Int32? = nil
+        public let size: Int32?
         /// The number of disks in the array.
-        public var numberOfDisks: Int32? = nil
-
-        public init() {}
+        public let numberOfDisks: Int32?
 
         public init(device: String? = nil, iops: Int32? = nil, availabilityZone: String? = nil, raidLevel: Int32? = nil, raidArrayId: String? = nil, createdAt: String? = nil, volumeType: String? = nil, stackId: String? = nil, mountPoint: String? = nil, name: String? = nil, instanceId: String? = nil, size: Int32? = nil, numberOfDisks: Int32? = nil) {
             self.device = device
@@ -1082,9 +1028,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The cloned stack ID.
-        public var stackId: String? = nil
-
-        public init() {}
+        public let stackId: String?
 
         public init(stackId: String? = nil) {
             self.stackId = stackId
@@ -1099,9 +1043,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack ID, which is an opaque string that you use to identify the stack when performing actions such as DescribeStacks.
-        public var stackId: String? = nil
-
-        public init() {}
+        public let stackId: String?
 
         public init(stackId: String? = nil) {
             self.stackId = stackId
@@ -1116,15 +1058,13 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An AutoScalingThresholds object that describes the downscaling configuration, which defines how and when AWS OpsWorks reduces the number of instances.
-        public var downScaling: AutoScalingThresholds? = nil
+        public let downScaling: AutoScalingThresholds?
         /// Whether load-based auto scaling is enabled for the layer.
-        public var enable: Bool? = nil
+        public let enable: Bool?
         /// An AutoScalingThresholds object that describes the upscaling configuration, which defines how and when AWS OpsWorks increases the number of instances.
-        public var upScaling: AutoScalingThresholds? = nil
+        public let upScaling: AutoScalingThresholds?
         /// The layer ID.
-        public var layerId: String? = nil
-
-        public init() {}
+        public let layerId: String?
 
         public init(downScaling: AutoScalingThresholds? = nil, enable: Bool? = nil, upScaling: AutoScalingThresholds? = nil, layerId: String? = nil) {
             self.downScaling = downScaling
@@ -1134,9 +1074,9 @@ extension Opsworks {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let downScaling = dictionary["DownScaling"] as? [String: Any] { self.downScaling = try Opsworks.AutoScalingThresholds(dictionary: downScaling) }
+            if let downScaling = dictionary["DownScaling"] as? [String: Any] { self.downScaling = try Opsworks.AutoScalingThresholds(dictionary: downScaling) } else { self.downScaling = nil }
             self.enable = dictionary["Enable"] as? Bool
-            if let upScaling = dictionary["UpScaling"] as? [String: Any] { self.upScaling = try Opsworks.AutoScalingThresholds(dictionary: upScaling) }
+            if let upScaling = dictionary["UpScaling"] as? [String: Any] { self.upScaling = try Opsworks.AutoScalingThresholds(dictionary: upScaling) } else { self.upScaling = nil }
             self.layerId = dictionary["LayerId"] as? String
         }
     }
@@ -1145,35 +1085,33 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The app's short name.
-        public var shortname: String? = nil
+        public let shortname: String?
         /// An SslConfiguration object with the SSL configuration.
-        public var sslConfiguration: SslConfiguration? = nil
+        public let sslConfiguration: SslConfiguration?
         /// A Source object that describes the app repository.
-        public var appSource: Source? = nil
+        public let appSource: Source?
         /// Whether to enable SSL for the app.
-        public var enableSsl: Bool? = nil
+        public let enableSsl: Bool?
         /// The app vhost settings with multiple domains separated by commas. For example: 'www.example.com, example.com' 
-        public var domains: [String]? = nil
+        public let domains: [String]?
         /// A description of the app.
-        public var description: String? = nil
+        public let description: String?
         /// When the app was created.
-        public var createdAt: String? = nil
+        public let createdAt: String?
         /// The app stack ID.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// The app name.
-        public var name: String? = nil
+        public let name: String?
         /// The app's data sources.
-        public var dataSources: [DataSource]? = nil
+        public let dataSources: [DataSource]?
         /// An array of EnvironmentVariable objects that specify environment variables to be associated with the app. After you deploy the app, these variables are defined on the associated app server instances. For more information, see  Environment Variables.   There is no specific limit on the number of environment variables. However, the size of the associated data structure - which includes the variable names, values, and protected flag values - cannot exceed 10 KB (10240 Bytes). This limit should accommodate most if not all use cases, but if you do exceed it, you will cause an exception (API) with an "Environment: is too large (maximum is 10KB)" message. 
-        public var environment: [EnvironmentVariable]? = nil
+        public let environment: [EnvironmentVariable]?
         /// The stack attributes.
-        public var attributes: [String: String]? = nil
+        public let attributes: [String: String]?
         /// The app type.
-        public var type: String? = nil
+        public let type: String?
         /// The app ID.
-        public var appId: String? = nil
-
-        public init() {}
+        public let appId: String?
 
         public init(shortname: String? = nil, sslConfiguration: SslConfiguration? = nil, appSource: Source? = nil, enableSsl: Bool? = nil, domains: [String]? = nil, description: String? = nil, createdAt: String? = nil, stackId: String? = nil, name: String? = nil, dataSources: [DataSource]? = nil, environment: [EnvironmentVariable]? = nil, attributes: [String: String]? = nil, type: String? = nil, appId: String? = nil) {
             self.shortname = shortname
@@ -1194,24 +1132,28 @@ extension Opsworks {
 
         public init(dictionary: [String: Any]) throws {
             self.shortname = dictionary["Shortname"] as? String
-            if let sslConfiguration = dictionary["SslConfiguration"] as? [String: Any] { self.sslConfiguration = try Opsworks.SslConfiguration(dictionary: sslConfiguration) }
-            if let appSource = dictionary["AppSource"] as? [String: Any] { self.appSource = try Opsworks.Source(dictionary: appSource) }
+            if let sslConfiguration = dictionary["SslConfiguration"] as? [String: Any] { self.sslConfiguration = try Opsworks.SslConfiguration(dictionary: sslConfiguration) } else { self.sslConfiguration = nil }
+            if let appSource = dictionary["AppSource"] as? [String: Any] { self.appSource = try Opsworks.Source(dictionary: appSource) } else { self.appSource = nil }
             self.enableSsl = dictionary["EnableSsl"] as? Bool
-            if let domains = dictionary["Domains"] as? [String] {
-                self.domains = domains
-            }
+            self.domains = dictionary["Domains"] as? [String]
             self.description = dictionary["Description"] as? String
             self.createdAt = dictionary["CreatedAt"] as? String
             self.stackId = dictionary["StackId"] as? String
             self.name = dictionary["Name"] as? String
             if let dataSources = dictionary["DataSources"] as? [[String: Any]] {
                 self.dataSources = try dataSources.map({ try DataSource(dictionary: $0) })
+            } else { 
+                self.dataSources = nil
             }
             if let environment = dictionary["Environment"] as? [[String: Any]] {
                 self.environment = try environment.map({ try EnvironmentVariable(dictionary: $0) })
+            } else { 
+                self.environment = nil
             }
             if let attributes = dictionary["Attributes"] as? [String: String] {
                 self.attributes = attributes
+            } else { 
+                self.attributes = nil
             }
             self.type = dictionary["Type"] as? String
             self.appId = dictionary["AppId"] as? String
@@ -1222,27 +1164,25 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The URL of the command log.
-        public var logUrl: String? = nil
+        public let logUrl: String?
         /// Date and time when the command was acknowledged.
-        public var acknowledgedAt: String? = nil
+        public let acknowledgedAt: String?
         /// Date and time when the command was run.
-        public var createdAt: String? = nil
+        public let createdAt: String?
         /// The command status:   failed   successful   skipped   pending  
-        public var status: String? = nil
+        public let status: String?
         /// The ID of the instance where the command was executed.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The command deployment ID.
-        public var deploymentId: String? = nil
+        public let deploymentId: String?
         /// The command exit code.
-        public var exitCode: Int32? = nil
+        public let exitCode: Int32?
         /// The command ID.
-        public var commandId: String? = nil
+        public let commandId: String?
         /// The command type:    deploy     rollback     start     stop     restart     undeploy     update_dependencies     install_dependencies     update_custom_cookbooks     execute_recipes   
-        public var type: String? = nil
+        public let type: String?
         /// Date when the command completed.
-        public var completedAt: String? = nil
-
-        public init() {}
+        public let completedAt: String?
 
         public init(logUrl: String? = nil, acknowledgedAt: String? = nil, createdAt: String? = nil, status: String? = nil, instanceId: String? = nil, deploymentId: String? = nil, exitCode: Int32? = nil, commandId: String? = nil, type: String? = nil, completedAt: String? = nil) {
             self.logUrl = logUrl
@@ -1275,17 +1215,15 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user's IAM ARN.
-        public var iamUserArn: String? = nil
+        public let iamUserArn: String?
         /// The user's SSH public key.
-        public var sshPublicKey: String? = nil
+        public let sshPublicKey: String?
         /// The user's SSH user name.
-        public var sshUsername: String? = nil
+        public let sshUsername: String?
         /// The user's name.
-        public var name: String? = nil
+        public let name: String?
         /// Whether users can specify their own SSH public key through the My Settings page. For more information, see Managing User Permissions.
-        public var allowSelfManagement: Bool? = nil
-
-        public init() {}
+        public let allowSelfManagement: Bool?
 
         public init(iamUserArn: String? = nil, sshPublicKey: String? = nil, sshUsername: String? = nil, name: String? = nil, allowSelfManagement: Bool? = nil) {
             self.iamUserArn = iamUserArn
@@ -1308,21 +1246,19 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The schedule for Saturday.
-        public var saturday: [String: String]? = nil
+        public let saturday: [String: String]?
         /// The schedule for Tuesday.
-        public var tuesday: [String: String]? = nil
+        public let tuesday: [String: String]?
         /// The schedule for Sunday.
-        public var sunday: [String: String]? = nil
+        public let sunday: [String: String]?
         /// The schedule for Friday.
-        public var friday: [String: String]? = nil
+        public let friday: [String: String]?
         /// The schedule for Monday.
-        public var monday: [String: String]? = nil
+        public let monday: [String: String]?
         /// The schedule for Thursday.
-        public var thursday: [String: String]? = nil
+        public let thursday: [String: String]?
         /// The schedule for Wednesday.
-        public var wednesday: [String: String]? = nil
-
-        public init() {}
+        public let wednesday: [String: String]?
 
         public init(saturday: [String: String]? = nil, tuesday: [String: String]? = nil, sunday: [String: String]? = nil, friday: [String: String]? = nil, monday: [String: String]? = nil, thursday: [String: String]? = nil, wednesday: [String: String]? = nil) {
             self.saturday = saturday
@@ -1337,24 +1273,38 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let saturday = dictionary["Saturday"] as? [String: String] {
                 self.saturday = saturday
+            } else { 
+                self.saturday = nil
             }
             if let tuesday = dictionary["Tuesday"] as? [String: String] {
                 self.tuesday = tuesday
+            } else { 
+                self.tuesday = nil
             }
             if let sunday = dictionary["Sunday"] as? [String: String] {
                 self.sunday = sunday
+            } else { 
+                self.sunday = nil
             }
             if let friday = dictionary["Friday"] as? [String: String] {
                 self.friday = friday
+            } else { 
+                self.friday = nil
             }
             if let monday = dictionary["Monday"] as? [String: String] {
                 self.monday = monday
+            } else { 
+                self.monday = nil
             }
             if let thursday = dictionary["Thursday"] as? [String: String] {
                 self.thursday = thursday
+            } else { 
+                self.thursday = nil
             }
             if let wednesday = dictionary["Wednesday"] as? [String: String] {
                 self.wednesday = wednesday
+            } else { 
+                self.wednesday = nil
             }
         }
     }
@@ -1363,9 +1313,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The cluster's ARN.
-        public var ecsClusterArn: String? = nil
-
-        public init() {}
+        public let ecsClusterArn: String?
 
         public init(ecsClusterArn: String? = nil) {
             self.ecsClusterArn = ecsClusterArn
@@ -1380,9 +1328,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Elastic IP address.
-        public var elasticIp: String? = nil
-
-        public init() {}
+        public let elasticIp: String?
 
         public init(elasticIp: String? = nil) {
             self.elasticIp = elasticIp
@@ -1397,9 +1343,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The layer ID.
-        public var layerId: String = ""
-
-        public init() {}
+        public let layerId: String
 
         public init(layerId: String) {
             self.layerId = layerId
@@ -1415,9 +1359,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The instance ID.
-        public var instanceId: String = ""
-
-        public init() {}
+        public let instanceId: String
 
         public init(instanceId: String) {
             self.instanceId = instanceId
@@ -1433,43 +1375,41 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of BlockDeviceMapping objects that specify the instance's block devices. For more information, see Block Device Mapping. Note that block device mappings are not supported for custom AMIs.
-        public var blockDeviceMappings: [BlockDeviceMapping]? = nil
+        public let blockDeviceMappings: [BlockDeviceMapping]?
         /// The ID of the instance's subnet. If the stack is running in a VPC, you can use this parameter to override the stack's default subnet ID value and direct AWS OpsWorks to launch the instance in a different subnet.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// An array that contains the instance's layer IDs.
-        public var layerIds: [String] = []
+        public let layerIds: [String]
         /// The instance host name.
-        public var hostname: String? = nil
+        public let hostname: String?
         /// Whether to create an Amazon EBS-optimized instance.
-        public var ebsOptimized: Bool? = nil
+        public let ebsOptimized: Bool?
         /// The instance's tenancy option. The default option is no tenancy, or if the instance is running in a VPC, inherit tenancy settings from the VPC. The following are valid values for this parameter: dedicated, default, or host. Because there are costs associated with changes in tenancy options, we recommend that you research tenancy options before choosing them for your instances. For more information about dedicated hosts, see Dedicated Hosts Overview and Amazon EC2 Dedicated Hosts. For more information about dedicated instances, see Dedicated Instances and Amazon EC2 Dedicated Instances.
-        public var tenancy: String? = nil
+        public let tenancy: String?
         /// A custom AMI ID to be used to create the instance. The AMI should be based on one of the supported operating systems. For more information, see Using Custom AMIs.  If you specify a custom AMI, you must set Os to Custom. 
-        public var amiId: String? = nil
+        public let amiId: String?
         /// Whether to install operating system and package updates when the instance boots. The default value is true. To control when updates are installed, set this value to false. You must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or by manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true to ensure that your instances have the latest security updates. 
-        public var installUpdatesOnBoot: Bool? = nil
+        public let installUpdatesOnBoot: Bool?
         /// The instance type, such as t2.micro. For a list of supported instance types, open the stack in the console, choose Instances, and choose + Instance. The Size list contains the currently supported types. For more information, see Instance Families and Types. The parameter values that you use to specify the various types are in the API Name column of the Available Instance Types table.
-        public var instanceType: String = ""
+        public let instanceType: String
         /// The instance Availability Zone. For more information, see Regions and Endpoints.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The default AWS OpsWorks agent version. You have the following options:    INHERIT - Use the stack's default agent version setting.    version_number - Use the specified agent version. This value overrides the stack's default setting. To update the agent version, edit the instance configuration and specify a new version. AWS OpsWorks then automatically installs that version on the instance.   The default setting is INHERIT. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions.
-        public var agentVersion: String? = nil
+        public let agentVersion: String?
         /// The stack ID.
-        public var stackId: String = ""
+        public let stackId: String
         /// The instance architecture. The default option is x86_64. Instance types do not necessarily support both architectures. For a list of the architectures that are supported by the different instance types, see Instance Families and Types.
-        public var architecture: String? = nil
+        public let architecture: String?
         /// The instance root device type. For more information, see Storage for the Root Device.
-        public var rootDeviceType: String? = nil
+        public let rootDeviceType: String?
         /// For load-based or time-based instances, the type. Windows stacks can use only time-based instances.
-        public var autoScalingType: String? = nil
+        public let autoScalingType: String?
         /// The instance's operating system, which must be set to one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom.   For more information on the supported operating systems, see AWS OpsWorks Operating Systems. The default option is the current Amazon Linux version. If you set this parameter to Custom, you must use the CreateInstance action's AmiId parameter to specify the custom AMI that you want to use. Block device mappings are not supported if the value is Custom. For more information on the supported operating systems, see Operating SystemsFor more information on how to use custom AMIs with AWS OpsWorks, see Using Custom AMIs.
-        public var os: String? = nil
+        public let os: String?
         /// The instance's Amazon EC2 key-pair name.
-        public var sshKeyName: String? = nil
+        public let sshKeyName: String?
         /// The instance's virtualization type, paravirtual or hvm.
-        public var virtualizationType: String? = nil
-
-        public init() {}
+        public let virtualizationType: String?
 
         public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, subnetId: String? = nil, layerIds: [String], hostname: String? = nil, ebsOptimized: Bool? = nil, tenancy: String? = nil, amiId: String? = nil, installUpdatesOnBoot: Bool? = nil, instanceType: String, availabilityZone: String? = nil, agentVersion: String? = nil, stackId: String, architecture: String? = nil, rootDeviceType: String? = nil, autoScalingType: String? = nil, os: String? = nil, sshKeyName: String? = nil, virtualizationType: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
@@ -1495,6 +1435,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
                 self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            } else { 
+                self.blockDeviceMappings = nil
             }
             self.subnetId = dictionary["SubnetId"] as? String
             guard let layerIds = dictionary["LayerIds"] as? [String] else { throw InitializableError.missingRequiredParam("LayerIds") }
@@ -1523,31 +1465,29 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The app's short name.
-        public var shortname: String? = nil
+        public let shortname: String?
         /// The stack ID.
-        public var stackId: String = ""
+        public let stackId: String
         /// The app name.
-        public var name: String = ""
+        public let name: String
         /// The app's data source.
-        public var dataSources: [DataSource]? = nil
+        public let dataSources: [DataSource]?
         /// An SslConfiguration object with the SSL configuration.
-        public var sslConfiguration: SslConfiguration? = nil
+        public let sslConfiguration: SslConfiguration?
         /// A Source object that specifies the app repository.
-        public var appSource: Source? = nil
+        public let appSource: Source?
         /// One or more user-defined key/value pairs to be added to the stack attributes.
-        public var attributes: [String: String]? = nil
+        public let attributes: [String: String]?
         /// An array of EnvironmentVariable objects that specify environment variables to be associated with the app. After you deploy the app, these variables are defined on the associated app server instance. For more information, see  Environment Variables. There is no specific limit on the number of environment variables. However, the size of the associated data structure - which includes the variables' names, values, and protected flag values - cannot exceed 10 KB (10240 Bytes). This limit should accommodate most if not all use cases. Exceeding it will cause an exception with the message, "Environment: is too large (maximum is 10KB)."  This parameter is supported only by Chef 11.10 stacks. If you have specified one or more environment variables, you cannot modify the stack's Chef version. 
-        public var environment: [EnvironmentVariable]? = nil
+        public let environment: [EnvironmentVariable]?
         /// Whether to enable SSL for the app.
-        public var enableSsl: Bool? = nil
+        public let enableSsl: Bool?
         /// The app virtual host settings, with multiple domains separated by commas. For example: 'www.example.com, example.com' 
-        public var domains: [String]? = nil
+        public let domains: [String]?
         /// The app type. Each supported type is associated with a particular layer. For example, PHP applications are associated with a PHP layer. AWS OpsWorks deploys an application to those instances that are members of the corresponding layer. If your app isn't one of the standard types, or you prefer to implement your own Deploy recipes, specify other.
-        public var type: String = ""
+        public let type: String
         /// A description of the app.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(shortname: String? = nil, stackId: String, name: String, dataSources: [DataSource]? = nil, sslConfiguration: SslConfiguration? = nil, appSource: Source? = nil, attributes: [String: String]? = nil, environment: [EnvironmentVariable]? = nil, enableSsl: Bool? = nil, domains: [String]? = nil, type: String, description: String? = nil) {
             self.shortname = shortname
@@ -1572,19 +1512,23 @@ extension Opsworks {
             self.name = name
             if let dataSources = dictionary["DataSources"] as? [[String: Any]] {
                 self.dataSources = try dataSources.map({ try DataSource(dictionary: $0) })
+            } else { 
+                self.dataSources = nil
             }
-            if let sslConfiguration = dictionary["SslConfiguration"] as? [String: Any] { self.sslConfiguration = try Opsworks.SslConfiguration(dictionary: sslConfiguration) }
-            if let appSource = dictionary["AppSource"] as? [String: Any] { self.appSource = try Opsworks.Source(dictionary: appSource) }
+            if let sslConfiguration = dictionary["SslConfiguration"] as? [String: Any] { self.sslConfiguration = try Opsworks.SslConfiguration(dictionary: sslConfiguration) } else { self.sslConfiguration = nil }
+            if let appSource = dictionary["AppSource"] as? [String: Any] { self.appSource = try Opsworks.Source(dictionary: appSource) } else { self.appSource = nil }
             if let attributes = dictionary["Attributes"] as? [String: String] {
                 self.attributes = attributes
+            } else { 
+                self.attributes = nil
             }
             if let environment = dictionary["Environment"] as? [[String: Any]] {
                 self.environment = try environment.map({ try EnvironmentVariable(dictionary: $0) })
+            } else { 
+                self.environment = nil
             }
             self.enableSsl = dictionary["EnableSsl"] as? Bool
-            if let domains = dictionary["Domains"] as? [String] {
-                self.domains = domains
-            }
+            self.domains = dictionary["Domains"] as? [String]
             guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
             self.type = type
             self.description = dictionary["Description"] as? String
@@ -1595,11 +1539,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time, in seconds, that AWS OpsWorks will wait after triggering a Shutdown event before shutting down an instance.
-        public var executionTimeout: Int32? = nil
+        public let executionTimeout: Int32?
         /// Whether to enable Elastic Load Balancing connection draining. For more information, see Connection Draining 
-        public var delayUntilElbConnectionsDrained: Bool? = nil
-
-        public init() {}
+        public let delayUntilElbConnectionsDrained: Bool?
 
         public init(executionTimeout: Int32? = nil, delayUntilElbConnectionsDrained: Bool? = nil) {
             self.executionTimeout = executionTimeout
@@ -1616,9 +1558,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user's IAM ARN.
-        public var iamUserArn: String? = nil
-
-        public init() {}
+        public let iamUserArn: String?
 
         public init(iamUserArn: String? = nil) {
             self.iamUserArn = iamUserArn
@@ -1633,50 +1573,48 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack's operating system, which must be set to one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS 7     Red Hat Enterprise Linux 7     Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information on how to use custom AMIs with OpsWorks, see Using Custom AMIs.   The default option is the parent stack's operating system. For more information on the supported operating systems, see AWS OpsWorks Operating Systems.  You can specify a different Linux operating system for the cloned stack, but you cannot change from Linux to Windows or Windows to Linux. 
-        public var defaultOs: String? = nil
+        public let defaultOs: String?
         /// Whether to clone the source stack's permissions.
-        public var clonePermissions: Bool? = nil
+        public let clonePermissions: Bool?
         /// The stack AWS Identity and Access Management (IAM) role, which allows AWS OpsWorks to work with AWS resources on your behalf. You must set this parameter to the Amazon Resource Name (ARN) for an existing IAM role. If you create a stack by using the AWS OpsWorks console, it creates the role for you. You can obtain an existing stack's IAM ARN programmatically by calling DescribePermissions. For more information about IAM ARNs, see Using Identifiers.  You must set this parameter to a valid service role ARN or the action will fail; there is no default value. You can specify the source stack's service role ARN, if you prefer, but you must do so explicitly. 
-        public var serviceRoleArn: String = ""
+        public let serviceRoleArn: String
         /// The default root device type. This value is used by default for all instances in the cloned stack, but you can override it when you create an instance. For more information, see Storage for the Root Device.
-        public var defaultRootDeviceType: String? = nil
+        public let defaultRootDeviceType: String?
         /// The Amazon Resource Name (ARN) of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
-        public var defaultInstanceProfileArn: String? = nil
+        public let defaultInstanceProfileArn: String?
         /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create a New Stack.
-        public var chefConfiguration: ChefConfiguration? = nil
+        public let chefConfiguration: ChefConfiguration?
         /// The cloned stack AWS region, such as "ap-northeast-2". For more information about AWS regions, see Regions and Endpoints.
-        public var region: String? = nil
+        public let region: String?
         /// The source stack ID.
-        public var sourceStackId: String = ""
+        public let sourceStackId: String
         /// A string that contains user-defined, custom JSON. It is used to override the corresponding default stack configuration JSON values. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information on custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes 
-        public var customJson: String? = nil
+        public let customJson: String?
         /// Whether to use custom cookbooks.
-        public var useCustomCookbooks: Bool? = nil
-        public var customCookbooksSource: Source? = nil
+        public let useCustomCookbooks: Bool?
+        public let customCookbooksSource: Source?
         /// A default Amazon EC2 key pair name. The default value is none. If you specify a key pair name, AWS OpsWorks installs the public key on the instance and you can use the private key with an SSH client to log in to the instance. For more information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override this setting by specifying a different key pair, or no key pair, when you  create an instance. 
-        public var defaultSshKeyName: String? = nil
+        public let defaultSshKeyName: String?
         /// The default AWS OpsWorks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must edit the stack configuration and specify a new version. AWS OpsWorks then automatically installs that version on the stack's instances.   The default setting is LATEST. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting. 
-        public var agentVersion: String? = nil
+        public let agentVersion: String?
         /// The ID of the VPC that the cloned stack is to be launched into. It must be in the specified region. All instances are launched into this VPC, and you cannot change the ID later.   If your account supports EC2 Classic, the default value is no VPC.   If your account does not support EC2 Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks infers the value of the other parameter. If you specify neither parameter, AWS OpsWorks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively.  If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information on how to use AWS OpsWorks with a VPC, see Running a Stack in a VPC. For more information on default VPC and EC2 Classic, see Supported Platforms. 
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The cloned stack name.
-        public var name: String? = nil
+        public let name: String?
         /// A list of source stack app IDs to be included in the cloned stack.
-        public var cloneAppIds: [String]? = nil
+        public let cloneAppIds: [String]?
         /// A list of stack attributes and values as key/value pairs to be added to the cloned stack.
-        public var attributes: [String: String]? = nil
+        public let attributes: [String: String]?
         /// The stack's default VPC subnet ID. This parameter is required if you specify a value for the VpcId parameter. All instances are launched into this subnet unless you specify otherwise when you create the instance. If you also specify a value for DefaultAvailabilityZone, the subnet must be in that zone. For information on default values and when this parameter is required, see the VpcId parameter description. 
-        public var defaultSubnetId: String? = nil
+        public let defaultSubnetId: String?
         /// The cloned stack's default Availability Zone, which must be in the specified region. For more information, see Regions and Endpoints. If you also specify a value for DefaultSubnetId, the subnet must be in the same zone. For more information, see the VpcId parameter description. 
-        public var defaultAvailabilityZone: String? = nil
+        public let defaultAvailabilityZone: String?
         /// The stack's host name theme, with spaces are replaced by underscores. The theme is used to generate host names for the stack's instances. By default, HostnameTheme is set to Layer_Dependent, which creates host names by appending integers to the layer's short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities     Fruits     Greek_Deities     Legendary_creatures_from_Japan     Planets_and_Moons     Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To obtain a generated host name, call GetHostNameSuggestion, which returns a host name based on the current theme.
-        public var hostnameTheme: String? = nil
+        public let hostnameTheme: String?
         /// The configuration manager. When you clone a stack we recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 12.
-        public var configurationManager: StackConfigurationManager? = nil
+        public let configurationManager: StackConfigurationManager?
         /// Whether to associate the AWS OpsWorks built-in security groups with the stack's layers. AWS OpsWorks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. With UseOpsworksSecurityGroups you can instead provide your own custom security groups. UseOpsworksSecurityGroups has the following settings:    True - AWS OpsWorks automatically associates the appropriate built-in security group with each layer (default setting). You can associate additional security groups with a layer after you create it but you cannot delete the built-in security group.   False - AWS OpsWorks does not associate built-in security groups with layers. You must create appropriate Amazon Elastic Compute Cloud (Amazon EC2) security groups and associate a security group with each layer that you create. However, you can still manually associate a built-in security group with a layer on creation; custom security groups are required only for those layers that need custom settings.   For more information, see Create a New Stack.
-        public var useOpsworksSecurityGroups: Bool? = nil
-
-        public init() {}
+        public let useOpsworksSecurityGroups: Bool?
 
         public init(defaultOs: String? = nil, clonePermissions: Bool? = nil, serviceRoleArn: String, defaultRootDeviceType: String? = nil, defaultInstanceProfileArn: String? = nil, chefConfiguration: ChefConfiguration? = nil, region: String? = nil, sourceStackId: String, customJson: String? = nil, useCustomCookbooks: Bool? = nil, customCookbooksSource: Source? = nil, defaultSshKeyName: String? = nil, agentVersion: String? = nil, vpcId: String? = nil, name: String? = nil, cloneAppIds: [String]? = nil, attributes: [String: String]? = nil, defaultSubnetId: String? = nil, defaultAvailabilityZone: String? = nil, hostnameTheme: String? = nil, configurationManager: StackConfigurationManager? = nil, useOpsworksSecurityGroups: Bool? = nil) {
             self.defaultOs = defaultOs
@@ -1710,27 +1648,27 @@ extension Opsworks {
             self.serviceRoleArn = serviceRoleArn
             self.defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String
             self.defaultInstanceProfileArn = dictionary["DefaultInstanceProfileArn"] as? String
-            if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) }
+            if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) } else { self.chefConfiguration = nil }
             self.region = dictionary["Region"] as? String
             guard let sourceStackId = dictionary["SourceStackId"] as? String else { throw InitializableError.missingRequiredParam("SourceStackId") }
             self.sourceStackId = sourceStackId
             self.customJson = dictionary["CustomJson"] as? String
             self.useCustomCookbooks = dictionary["UseCustomCookbooks"] as? Bool
-            if let customCookbooksSource = dictionary["CustomCookbooksSource"] as? [String: Any] { self.customCookbooksSource = try Opsworks.Source(dictionary: customCookbooksSource) }
+            if let customCookbooksSource = dictionary["CustomCookbooksSource"] as? [String: Any] { self.customCookbooksSource = try Opsworks.Source(dictionary: customCookbooksSource) } else { self.customCookbooksSource = nil }
             self.defaultSshKeyName = dictionary["DefaultSshKeyName"] as? String
             self.agentVersion = dictionary["AgentVersion"] as? String
             self.vpcId = dictionary["VpcId"] as? String
             self.name = dictionary["Name"] as? String
-            if let cloneAppIds = dictionary["CloneAppIds"] as? [String] {
-                self.cloneAppIds = cloneAppIds
-            }
+            self.cloneAppIds = dictionary["CloneAppIds"] as? [String]
             if let attributes = dictionary["Attributes"] as? [String: String] {
                 self.attributes = attributes
+            } else { 
+                self.attributes = nil
             }
             self.defaultSubnetId = dictionary["DefaultSubnetId"] as? String
             self.defaultAvailabilityZone = dictionary["DefaultAvailabilityZone"] as? String
             self.hostnameTheme = dictionary["HostnameTheme"] as? String
-            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) }
+            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) } else { self.configurationManager = nil }
             self.useOpsworksSecurityGroups = dictionary["UseOpsworksSecurityGroups"] as? Bool
         }
     }
@@ -1739,11 +1677,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack ID.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// An array of layer IDs that specify the layers to be described. If you omit this parameter, DescribeLayers returns a description of every layer in the specified stack.
-        public var layerIds: [String]? = nil
-
-        public init() {}
+        public let layerIds: [String]?
 
         public init(stackId: String? = nil, layerIds: [String]? = nil) {
             self.stackId = stackId
@@ -1752,9 +1688,7 @@ extension Opsworks {
 
         public init(dictionary: [String: Any]) throws {
             self.stackId = dictionary["StackId"] as? String
-            if let layerIds = dictionary["LayerIds"] as? [String] {
-                self.layerIds = layerIds
-            }
+            self.layerIds = dictionary["LayerIds"] as? [String]
         }
     }
 
@@ -1762,11 +1696,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack ID.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// The configuration manager.
-        public var configurationManager: StackConfigurationManager? = nil
-
-        public init() {}
+        public let configurationManager: StackConfigurationManager?
 
         public init(stackId: String? = nil, configurationManager: StackConfigurationManager? = nil) {
             self.stackId = stackId
@@ -1775,7 +1707,7 @@ extension Opsworks {
 
         public init(dictionary: [String: Any]) throws {
             self.stackId = dictionary["StackId"] as? String
-            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) }
+            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) } else { self.configurationManager = nil }
         }
     }
 
@@ -1783,13 +1715,11 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack ID. If you include this parameter, DescribeDeployments returns a description of the commands associated with the specified stack.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// An array of deployment IDs to be described. If you include this parameter, DescribeDeployments returns a description of the specified deployments. Otherwise, it returns a description of every deployment.
-        public var deploymentIds: [String]? = nil
+        public let deploymentIds: [String]?
         /// The app ID. If you include this parameter, DescribeDeployments returns a description of the commands associated with the specified app.
-        public var appId: String? = nil
-
-        public init() {}
+        public let appId: String?
 
         public init(stackId: String? = nil, deploymentIds: [String]? = nil, appId: String? = nil) {
             self.stackId = stackId
@@ -1799,9 +1729,7 @@ extension Opsworks {
 
         public init(dictionary: [String: Any]) throws {
             self.stackId = dictionary["StackId"] as? String
-            if let deploymentIds = dictionary["DeploymentIds"] as? [String] {
-                self.deploymentIds = deploymentIds
-            }
+            self.deploymentIds = dictionary["DeploymentIds"] as? [String]
             self.appId = dictionary["AppId"] as? String
         }
     }
@@ -1810,9 +1738,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of App objects that describe the specified apps. 
-        public var apps: [App]? = nil
-
-        public init() {}
+        public let apps: [App]?
 
         public init(apps: [App]? = nil) {
             self.apps = apps
@@ -1821,6 +1747,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let apps = dictionary["Apps"] as? [[String: Any]] {
                 self.apps = try apps.map({ try App(dictionary: $0) })
+            } else { 
+                self.apps = nil
             }
         }
     }
@@ -1829,9 +1757,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of volume IDs.
-        public var volumes: [Volume]? = nil
-
-        public init() {}
+        public let volumes: [Volume]?
 
         public init(volumes: [Volume]? = nil) {
             self.volumes = volumes
@@ -1840,6 +1766,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let volumes = dictionary["Volumes"] as? [[String: Any]] {
                 self.volumes = try volumes.map({ try Volume(dictionary: $0) })
+            } else { 
+                self.volumes = nil
             }
         }
     }
@@ -1848,11 +1776,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The length of time (in minutes) that the grant is valid. When the grant expires at the end of this period, the user will no longer be able to use the credentials to log in. If the user is logged in at the time, he or she automatically will be logged out.
-        public var validForInMinutes: Int32? = nil
+        public let validForInMinutes: Int32?
         /// The instance's AWS OpsWorks ID.
-        public var instanceId: String = ""
-
-        public init() {}
+        public let instanceId: String
 
         public init(validForInMinutes: Int32? = nil, instanceId: String) {
             self.validForInMinutes = validForInMinutes
@@ -1870,9 +1796,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of Layer objects that describe the layers.
-        public var layers: [Layer]? = nil
-
-        public init() {}
+        public let layers: [Layer]?
 
         public init(layers: [Layer]? = nil) {
             self.layers = layers
@@ -1881,6 +1805,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let layers = dictionary["Layers"] as? [[String: Any]] {
                 self.layers = try layers.map({ try Layer(dictionary: $0) })
+            } else { 
+                self.layers = nil
             }
         }
     }
@@ -1889,11 +1815,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the layer that the Elastic Load Balancing instance is attached to.
-        public var layerId: String = ""
+        public let layerId: String
         /// The Elastic Load Balancing instance's name.
-        public var elasticLoadBalancerName: String = ""
-
-        public init() {}
+        public let elasticLoadBalancerName: String
 
         public init(layerId: String, elasticLoadBalancerName: String) {
             self.layerId = layerId
@@ -1912,9 +1836,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The registered instance's AWS OpsWorks ID.
-        public var instanceId: String? = nil
-
-        public init() {}
+        public let instanceId: String?
 
         public init(instanceId: String? = nil) {
             self.instanceId = instanceId
@@ -1929,17 +1851,15 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The domain.
-        public var domain: String? = nil
+        public let domain: String?
         /// The IP address.
-        public var ip: String? = nil
+        public let ip: String?
         /// The ID of the instance that the address is attached to.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The AWS region. For more information, see Regions and Endpoints.
-        public var region: String? = nil
+        public let region: String?
         /// The name.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(domain: String? = nil, ip: String? = nil, instanceId: String? = nil, region: String? = nil, name: String? = nil) {
             self.domain = domain
@@ -1962,16 +1882,14 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// A TemporaryCredential object that contains the data needed to log in to the instance by RDP clients, such as the Microsoft Remote Desktop Connection.
-        public var temporaryCredential: TemporaryCredential? = nil
-
-        public init() {}
+        public let temporaryCredential: TemporaryCredential?
 
         public init(temporaryCredential: TemporaryCredential? = nil) {
             self.temporaryCredential = temporaryCredential
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let temporaryCredential = dictionary["TemporaryCredential"] as? [String: Any] { self.temporaryCredential = try Opsworks.TemporaryCredential(dictionary: temporaryCredential) }
+            if let temporaryCredential = dictionary["TemporaryCredential"] as? [String: Any] { self.temporaryCredential = try Opsworks.TemporaryCredential(dictionary: temporaryCredential) } else { self.temporaryCredential = nil }
         }
     }
 
@@ -1979,11 +1897,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The layer ID, which must correspond to a custom layer. You cannot assign a registered instance to a built-in layer.
-        public var layerIds: [String] = []
+        public let layerIds: [String]
         /// The instance ID.
-        public var instanceId: String = ""
-
-        public init() {}
+        public let instanceId: String
 
         public init(layerIds: [String], instanceId: String) {
             self.layerIds = layerIds
@@ -2002,11 +1918,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Elastic IP address.
-        public var elasticIp: String = ""
+        public let elasticIp: String
         /// The instance ID.
-        public var instanceId: String? = nil
-
-        public init() {}
+        public let instanceId: String?
 
         public init(elasticIp: String, instanceId: String? = nil) {
             self.elasticIp = elasticIp
@@ -2024,9 +1938,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The volume ID.
-        public var volumeId: String = ""
-
-        public init() {}
+        public let volumeId: String
 
         public init(volumeId: String) {
             self.volumeId = volumeId
@@ -2042,19 +1954,17 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of disks in the volume.
-        public var numberOfDisks: Int32 = 0
+        public let numberOfDisks: Int32
         /// The volume type:    standard - Magnetic    io1 - Provisioned IOPS (SSD)    gp2 - General Purpose (SSD)  
-        public var volumeType: String? = nil
+        public let volumeType: String?
         /// For PIOPS volumes, the IOPS per disk.
-        public var iops: Int32? = nil
+        public let iops: Int32?
         /// The volume mount point. For example "/dev/sdh".
-        public var mountPoint: String = ""
+        public let mountPoint: String
         /// The volume size.
-        public var size: Int32 = 0
+        public let size: Int32
         /// The volume RAID level.
-        public var raidLevel: Int32? = nil
-
-        public init() {}
+        public let raidLevel: Int32?
 
         public init(numberOfDisks: Int32, volumeType: String? = nil, iops: Int32? = nil, mountPoint: String, size: Int32, raidLevel: Int32? = nil) {
             self.numberOfDisks = numberOfDisks
@@ -2082,9 +1992,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The app ID.
-        public var appId: String? = nil
-
-        public init() {}
+        public let appId: String?
 
         public init(appId: String? = nil) {
             self.appId = appId
@@ -2099,9 +2007,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// A Users object that describes the specified users.
-        public var userProfiles: [UserProfile]? = nil
-
-        public init() {}
+        public let userProfiles: [UserProfile]?
 
         public init(userProfiles: [UserProfile]? = nil) {
             self.userProfiles = userProfiles
@@ -2110,6 +2016,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let userProfiles = dictionary["UserProfiles"] as? [[String: Any]] {
                 self.userProfiles = try userProfiles.map({ try UserProfile(dictionary: $0) })
+            } else { 
+                self.userProfiles = nil
             }
         }
     }
@@ -2118,15 +2026,13 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An AutoScalingThresholds object with the downscaling threshold configuration. If the load falls below these thresholds for a specified amount of time, AWS OpsWorks stops a specified number of instances.
-        public var downScaling: AutoScalingThresholds? = nil
+        public let downScaling: AutoScalingThresholds?
         /// Enables load-based auto scaling for the layer.
-        public var enable: Bool? = nil
+        public let enable: Bool?
         /// An AutoScalingThresholds object with the upscaling threshold configuration. If the load exceeds these thresholds for a specified amount of time, AWS OpsWorks starts a specified number of instances.
-        public var upScaling: AutoScalingThresholds? = nil
+        public let upScaling: AutoScalingThresholds?
         /// The layer ID.
-        public var layerId: String = ""
-
-        public init() {}
+        public let layerId: String
 
         public init(downScaling: AutoScalingThresholds? = nil, enable: Bool? = nil, upScaling: AutoScalingThresholds? = nil, layerId: String) {
             self.downScaling = downScaling
@@ -2136,9 +2042,9 @@ extension Opsworks {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let downScaling = dictionary["DownScaling"] as? [String: Any] { self.downScaling = try Opsworks.AutoScalingThresholds(dictionary: downScaling) }
+            if let downScaling = dictionary["DownScaling"] as? [String: Any] { self.downScaling = try Opsworks.AutoScalingThresholds(dictionary: downScaling) } else { self.downScaling = nil }
             self.enable = dictionary["Enable"] as? Bool
-            if let upScaling = dictionary["UpScaling"] as? [String: Any] { self.upScaling = try Opsworks.AutoScalingThresholds(dictionary: upScaling) }
+            if let upScaling = dictionary["UpScaling"] as? [String: Any] { self.upScaling = try Opsworks.AutoScalingThresholds(dictionary: upScaling) } else { self.upScaling = nil }
             guard let layerId = dictionary["LayerId"] as? String else { throw InitializableError.missingRequiredParam("LayerId") }
             self.layerId = layerId
         }
@@ -2148,9 +2054,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack ID.
-        public var stackId: String = ""
-
-        public init() {}
+        public let stackId: String
 
         public init(stackId: String) {
             self.stackId = stackId
@@ -2166,9 +2070,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user's SSH public key.
-        public var sshPublicKey: String? = nil
-
-        public init() {}
+        public let sshPublicKey: String?
 
         public init(sshPublicKey: String? = nil) {
             self.sshPublicKey = sshPublicKey
@@ -2183,9 +2085,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The instance ID.
-        public var instanceId: String = ""
-
-        public init() {}
+        public let instanceId: String
 
         public init(instanceId: String) {
             self.instanceId = instanceId
@@ -2201,13 +2101,11 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// A stack ID. If you use this parameter, DescribeInstances returns descriptions of the instances associated with the specified stack.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// An array of instance IDs to be described. If you use this parameter, DescribeInstances returns a description of the specified instances. Otherwise, it returns a description of every instance.
-        public var instanceIds: [String]? = nil
+        public let instanceIds: [String]?
         /// A layer ID. If you use this parameter, DescribeInstances returns descriptions of the instances associated with the specified layer.
-        public var layerId: String? = nil
-
-        public init() {}
+        public let layerId: String?
 
         public init(stackId: String? = nil, instanceIds: [String]? = nil, layerId: String? = nil) {
             self.stackId = stackId
@@ -2217,9 +2115,7 @@ extension Opsworks {
 
         public init(dictionary: [String: Any]) throws {
             self.stackId = dictionary["StackId"] as? String
-            if let instanceIds = dictionary["InstanceIds"] as? [String] {
-                self.instanceIds = instanceIds
-            }
+            self.instanceIds = dictionary["InstanceIds"] as? [String]
             self.layerId = dictionary["LayerId"] as? String
         }
     }
@@ -2228,9 +2124,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of LoadBasedAutoScalingConfiguration objects that describe each layer's configuration.
-        public var loadBasedAutoScalingConfigurations: [LoadBasedAutoScalingConfiguration]? = nil
-
-        public init() {}
+        public let loadBasedAutoScalingConfigurations: [LoadBasedAutoScalingConfiguration]?
 
         public init(loadBasedAutoScalingConfigurations: [LoadBasedAutoScalingConfiguration]? = nil) {
             self.loadBasedAutoScalingConfigurations = loadBasedAutoScalingConfigurations
@@ -2239,6 +2133,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let loadBasedAutoScalingConfigurations = dictionary["LoadBasedAutoScalingConfigurations"] as? [[String: Any]] {
                 self.loadBasedAutoScalingConfigurations = try loadBasedAutoScalingConfigurations.map({ try LoadBasedAutoScalingConfiguration(dictionary: $0) })
+            } else { 
+                self.loadBasedAutoScalingConfigurations = nil
             }
         }
     }
@@ -2247,11 +2143,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the operation. You can specify only one command. For stacks, the following commands are available:    execute_recipes: Execute one or more recipes. To specify the recipes, set an Args parameter named recipes to the list of recipes to be executed. For example, to execute phpapp::appsetup, set Args to {"recipes":["phpapp::appsetup"]}.    install_dependencies: Install the stack's dependencies.    update_custom_cookbooks: Update the stack's custom cookbooks.    update_dependencies: Update the stack's dependencies.    The update_dependencies and install_dependencies commands are supported only for Linux instances. You can run the commands successfully on Windows instances, but they do nothing.  For apps, the following commands are available:    deploy: Deploy an app. Ruby on Rails apps have an optional Args parameter named migrate. Set Args to {"migrate":["true"]} to migrate the database. The default setting is {"migrate":["false"]}.    rollback Roll the app back to the previous version. When you update an app, AWS OpsWorks stores the previous version, up to a maximum of five versions. You can use this command to roll an app back as many as four versions.    start: Start the app's web or application server.    stop: Stop the app's web or application server.    restart: Restart the app's web or application server.    undeploy: Undeploy the app.  
-        public var name: String = ""
+        public let name: String
         /// The arguments of those commands that take arguments. It should be set to a JSON object with the following format:  {"arg_name1" : ["value1", "value2", ...], "arg_name2" : ["value1", "value2", ...], ...}  The update_dependencies command takes two arguments:    upgrade_os_to - Specifies the desired Amazon Linux version for instances whose OS you want to upgrade, such as Amazon Linux 2014.09. You must also set the allow_reboot argument to true.    allow_reboot - Specifies whether to allow AWS OpsWorks to reboot the instances if necessary, after installing the updates. This argument can be set to either true or false. The default value is false.   For example, to upgrade an instance to Amazon Linux 2014.09, set Args to the following.   { "upgrade_os_to":["Amazon Linux 2014.09"], "allow_reboot":["true"] }  
-        public var args: [String: [String]]? = nil
-
-        public init() {}
+        public let args: [String: [String]]?
 
         public init(name: String, args: [String: [String]]? = nil) {
             self.name = name
@@ -2268,6 +2162,8 @@ extension Opsworks {
                     argsDict[key] = strings
                 }
                 self.args = argsDict
+            } else { 
+                self.args = nil
             }
         }
     }
@@ -2276,15 +2172,13 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack ID.
-        public var stackId: String = ""
+        public let stackId: String
         /// The Amazon RDS instance's ARN.
-        public var rdsDbInstanceArn: String = ""
+        public let rdsDbInstanceArn: String
         /// The database password.
-        public var dbPassword: String = ""
+        public let dbPassword: String
         /// The database's master user name.
-        public var dbUser: String = ""
-
-        public init() {}
+        public let dbUser: String
 
         public init(stackId: String, rdsDbInstanceArn: String, dbPassword: String, dbUser: String) {
             self.stackId = stackId
@@ -2309,9 +2203,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The instance ID.
-        public var instanceId: String? = nil
-
-        public init() {}
+        public let instanceId: String?
 
         public init(instanceId: String? = nil) {
             self.instanceId = instanceId
@@ -2326,30 +2218,28 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// Date when the deployment completed.
-        public var completedAt: String? = nil
+        public let completedAt: String?
         /// The deployment status:   running   successful   failed  
-        public var status: String? = nil
+        public let status: String?
         /// Date when the deployment was created.
-        public var createdAt: String? = nil
+        public let createdAt: String?
         /// The stack ID.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// A user-defined comment.
-        public var comment: String? = nil
+        public let comment: String?
         /// The deployment ID.
-        public var deploymentId: String? = nil
+        public let deploymentId: String?
         /// The user's IAM ARN.
-        public var iamUserArn: String? = nil
+        public let iamUserArn: String?
         /// A string that contains user-defined custom JSON. It can be used to override the corresponding default stack configuration attribute values for stack or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information on custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
-        public var customJson: String? = nil
+        public let customJson: String?
         /// The deployment duration.
-        public var duration: Int32? = nil
+        public let duration: Int32?
         /// The IDs of the target instances.
-        public var instanceIds: [String]? = nil
-        public var command: DeploymentCommand? = nil
+        public let instanceIds: [String]?
+        public let command: DeploymentCommand?
         /// The app ID.
-        public var appId: String? = nil
-
-        public init() {}
+        public let appId: String?
 
         public init(completedAt: String? = nil, status: String? = nil, createdAt: String? = nil, stackId: String? = nil, comment: String? = nil, deploymentId: String? = nil, iamUserArn: String? = nil, customJson: String? = nil, duration: Int32? = nil, instanceIds: [String]? = nil, command: DeploymentCommand? = nil, appId: String? = nil) {
             self.completedAt = completedAt
@@ -2376,10 +2266,8 @@ extension Opsworks {
             self.iamUserArn = dictionary["IamUserArn"] as? String
             self.customJson = dictionary["CustomJson"] as? String
             self.duration = dictionary["Duration"] as? Int32
-            if let instanceIds = dictionary["InstanceIds"] as? [String] {
-                self.instanceIds = instanceIds
-            }
-            if let command = dictionary["Command"] as? [String: Any] { self.command = try Opsworks.DeploymentCommand(dictionary: command) }
+            self.instanceIds = dictionary["InstanceIds"] as? [String]
+            if let command = dictionary["Command"] as? [String: Any] { self.command = try Opsworks.DeploymentCommand(dictionary: command) } else { self.command = nil }
             self.appId = dictionary["AppId"] as? String
         }
     }
@@ -2388,21 +2276,19 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An InstanceIdentity object that contains the instance's identity.
-        public var instanceIdentity: InstanceIdentity? = nil
+        public let instanceIdentity: InstanceIdentity?
         /// The instance's hostname.
-        public var hostname: String? = nil
+        public let hostname: String?
         /// The ID of the stack that the instance is to be registered with.
-        public var stackId: String = ""
+        public let stackId: String
         /// The instance's private IP address.
-        public var privateIp: String? = nil
+        public let privateIp: String?
         /// The instances public RSA key fingerprint.
-        public var rsaPublicKeyFingerprint: String? = nil
+        public let rsaPublicKeyFingerprint: String?
         /// The instance's public IP address.
-        public var publicIp: String? = nil
+        public let publicIp: String?
         /// The instances public RSA key. This key is used to encrypt communication between the instance and the service.
-        public var rsaPublicKey: String? = nil
-
-        public init() {}
+        public let rsaPublicKey: String?
 
         public init(instanceIdentity: InstanceIdentity? = nil, hostname: String? = nil, stackId: String, privateIp: String? = nil, rsaPublicKeyFingerprint: String? = nil, publicIp: String? = nil, rsaPublicKey: String? = nil) {
             self.instanceIdentity = instanceIdentity
@@ -2415,7 +2301,7 @@ extension Opsworks {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let instanceIdentity = dictionary["InstanceIdentity"] as? [String: Any] { self.instanceIdentity = try Opsworks.InstanceIdentity(dictionary: instanceIdentity) }
+            if let instanceIdentity = dictionary["InstanceIdentity"] as? [String: Any] { self.instanceIdentity = try Opsworks.InstanceIdentity(dictionary: instanceIdentity) } else { self.instanceIdentity = nil }
             self.hostname = dictionary["Hostname"] as? String
             guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
             self.stackId = stackId
@@ -2430,11 +2316,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The app stack ID. If you use this parameter, DescribeApps returns a description of the apps in the specified stack.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// An array of app IDs for the apps to be described. If you use this parameter, DescribeApps returns a description of the specified apps. Otherwise, it returns a description of every app.
-        public var appIds: [String]? = nil
-
-        public init() {}
+        public let appIds: [String]?
 
         public init(stackId: String? = nil, appIds: [String]? = nil) {
             self.stackId = stackId
@@ -2443,9 +2327,7 @@ extension Opsworks {
 
         public init(dictionary: [String: Any]) throws {
             self.stackId = dictionary["StackId"] as? String
-            if let appIds = dictionary["AppIds"] as? [String] {
-                self.appIds = appIds
-            }
+            self.appIds = dictionary["AppIds"] as? [String]
         }
     }
 
@@ -2453,19 +2335,17 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// In requests, the repository's SSH key. In responses, AWS OpsWorks returns *****FILTERED***** instead of the actual value.
-        public var sshKey: String? = nil
+        public let sshKey: String?
         /// This parameter depends on the repository type.   For Amazon S3 bundles, set Username to the appropriate IAM access key ID.   For HTTP bundles, Git repositories, and Subversion repositories, set Username to the user name.  
-        public var username: String? = nil
+        public let username: String?
         /// When included in a request, the parameter depends on the repository type.   For Amazon S3 bundles, set Password to the appropriate IAM secret access key.   For HTTP bundles and Subversion repositories, set Password to the password.   For more information on how to safely handle IAM credentials, see http://docs.aws.amazon.com/general/latest/gr/aws-access-keys-best-practices.html. In responses, AWS OpsWorks returns *****FILTERED***** instead of the actual value.
-        public var password: String? = nil
+        public let password: String?
         /// The repository type.
-        public var type: String? = nil
+        public let type: String?
         /// The source URL.
-        public var url: String? = nil
+        public let url: String?
         /// The application's version. AWS OpsWorks enables you to easily deploy new versions of an application. One of the simplest approaches is to have branches or revisions in your repository that represent different versions that can potentially be deployed.
-        public var revision: String? = nil
-
-        public init() {}
+        public let revision: String?
 
         public init(sshKey: String? = nil, username: String? = nil, password: String? = nil, type: String? = nil, url: String? = nil, revision: String? = nil) {
             self.sshKey = sshKey
@@ -2490,9 +2370,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// A RaidArrays object that describes the specified RAID arrays.
-        public var raidArrays: [RaidArray]? = nil
-
-        public init() {}
+        public let raidArrays: [RaidArray]?
 
         public init(raidArrays: [RaidArray]? = nil) {
             self.raidArrays = raidArrays
@@ -2501,6 +2379,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let raidArrays = dictionary["RaidArrays"] as? [[String: Any]] {
                 self.raidArrays = try raidArrays.map({ try RaidArray(dictionary: $0) })
+            } else { 
+                self.raidArrays = nil
             }
         }
     }
@@ -2509,9 +2389,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of Stack objects that describe the stacks.
-        public var stacks: [Stack]? = nil
-
-        public init() {}
+        public let stacks: [Stack]?
 
         public init(stacks: [Stack]? = nil) {
             self.stacks = stacks
@@ -2520,6 +2398,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let stacks = dictionary["Stacks"] as? [[String: Any]] {
                 self.stacks = try stacks.map({ try Stack(dictionary: $0) })
+            } else { 
+                self.stacks = nil
             }
         }
     }
@@ -2528,13 +2408,11 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack ID. If you use this parameter, DescribeServiceErrors returns descriptions of the errors associated with the specified stack.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// The instance ID. If you use this parameter, DescribeServiceErrors returns descriptions of the errors associated with the specified instance.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// An array of service error IDs. If you use this parameter, DescribeServiceErrors returns descriptions of the specified errors. Otherwise, it returns a description of every error.
-        public var serviceErrorIds: [String]? = nil
-
-        public init() {}
+        public let serviceErrorIds: [String]?
 
         public init(stackId: String? = nil, instanceId: String? = nil, serviceErrorIds: [String]? = nil) {
             self.stackId = stackId
@@ -2545,9 +2423,7 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             self.stackId = dictionary["StackId"] as? String
             self.instanceId = dictionary["InstanceId"] as? String
-            if let serviceErrorIds = dictionary["ServiceErrorIds"] as? [String] {
-                self.serviceErrorIds = serviceErrorIds
-            }
+            self.serviceErrorIds = dictionary["ServiceErrorIds"] as? [String]
         }
     }
 
@@ -2555,15 +2431,13 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The RAID array ID. If you use this parameter, DescribeVolumes returns descriptions of the volumes associated with the specified RAID array.
-        public var raidArrayId: String? = nil
+        public let raidArrayId: String?
         /// Am array of volume IDs. If you use this parameter, DescribeVolumes returns descriptions of the specified volumes. Otherwise, it returns a description of every volume.
-        public var volumeIds: [String]? = nil
+        public let volumeIds: [String]?
         /// A stack ID. The action describes the stack's registered Amazon EBS volumes.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// The instance ID. If you use this parameter, DescribeVolumes returns descriptions of the volumes associated with the specified instance.
-        public var instanceId: String? = nil
-
-        public init() {}
+        public let instanceId: String?
 
         public init(raidArrayId: String? = nil, volumeIds: [String]? = nil, stackId: String? = nil, instanceId: String? = nil) {
             self.raidArrayId = raidArrayId
@@ -2574,9 +2448,7 @@ extension Opsworks {
 
         public init(dictionary: [String: Any]) throws {
             self.raidArrayId = dictionary["RaidArrayId"] as? String
-            if let volumeIds = dictionary["VolumeIds"] as? [String] {
-                self.volumeIds = volumeIds
-            }
+            self.volumeIds = dictionary["VolumeIds"] as? [String]
             self.stackId = dictionary["StackId"] as? String
             self.instanceId = dictionary["InstanceId"] as? String
         }
@@ -2586,21 +2458,19 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The memory utilization threshold, as a percent of the available memory. A value of -1 disables the threshold.
-        public var memoryThreshold: Double? = nil
+        public let memoryThreshold: Double?
         /// The CPU utilization threshold, as a percent of the available CPU. A value of -1 disables the threshold.
-        public var cpuThreshold: Double? = nil
+        public let cpuThreshold: Double?
         /// The amount of time (in minutes) after a scaling event occurs that AWS OpsWorks should ignore metrics and suppress additional scaling events. For example, AWS OpsWorks adds new instances following an upscaling event but the instances won't start reducing the load until they have been booted and configured. There is no point in raising additional scaling events during that operation, which typically takes several minutes. IgnoreMetricsTime allows you to direct AWS OpsWorks to suppress scaling events long enough to get the new instances online.
-        public var ignoreMetricsTime: Int32? = nil
+        public let ignoreMetricsTime: Int32?
         /// The load threshold. A value of -1 disables the threshold. For more information about how load is computed, see Load (computing).
-        public var loadThreshold: Double? = nil
+        public let loadThreshold: Double?
         /// The number of instances to add or remove when the load exceeds a threshold.
-        public var instanceCount: Int32? = nil
+        public let instanceCount: Int32?
         /// Custom Cloudwatch auto scaling alarms, to be used as thresholds. This parameter takes a list of up to five alarm names, which are case sensitive and must be in the same region as the stack.  To use custom alarms, you must update your service role to allow cloudwatch:DescribeAlarms. You can either have AWS OpsWorks update the role for you when you first use this feature or you can edit the role manually. For more information, see Allowing AWS OpsWorks to Act on Your Behalf. 
-        public var alarms: [String]? = nil
+        public let alarms: [String]?
         /// The amount of time, in minutes, that the load must exceed a threshold before more instances are added or removed.
-        public var thresholdsWaitTime: Int32? = nil
-
-        public init() {}
+        public let thresholdsWaitTime: Int32?
 
         public init(memoryThreshold: Double? = nil, cpuThreshold: Double? = nil, ignoreMetricsTime: Int32? = nil, loadThreshold: Double? = nil, instanceCount: Int32? = nil, alarms: [String]? = nil, thresholdsWaitTime: Int32? = nil) {
             self.memoryThreshold = memoryThreshold
@@ -2618,9 +2488,7 @@ extension Opsworks {
             self.ignoreMetricsTime = dictionary["IgnoreMetricsTime"] as? Int32
             self.loadThreshold = dictionary["LoadThreshold"] as? Double
             self.instanceCount = dictionary["InstanceCount"] as? Int32
-            if let alarms = dictionary["Alarms"] as? [String] {
-                self.alarms = alarms
-            }
+            self.alarms = dictionary["Alarms"] as? [String]
             self.thresholdsWaitTime = dictionary["ThresholdsWaitTime"] as? Int32
         }
     }
@@ -2629,15 +2497,13 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of ARNs, one for each cluster to be described.
-        public var ecsClusterArns: [String]? = nil
+        public let ecsClusterArns: [String]?
         /// A stack ID. DescribeEcsClusters returns a description of the cluster that is registered with the stack.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// If the previous paginated request did not return all of the remaining results, the response object'sNextToken parameter value is set to a token. To retrieve the next set of results, call DescribeEcsClusters again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(ecsClusterArns: [String]? = nil, stackId: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.ecsClusterArns = ecsClusterArns
@@ -2647,9 +2513,7 @@ extension Opsworks {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let ecsClusterArns = dictionary["EcsClusterArns"] as? [String] {
-                self.ecsClusterArns = ecsClusterArns
-            }
+            self.ecsClusterArns = dictionary["EcsClusterArns"] as? [String]
             self.stackId = dictionary["StackId"] as? String
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
@@ -2660,38 +2524,36 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// For custom layers only, use this parameter to specify the layer's short name, which is used internally by AWS OpsWorksand by Chef. The short name is also used as the name for the directory where your app files are installed. It can have a maximum of 200 characters and must be in the following format: /\A[a-z0-9\-\_\.]+\Z/. The built-in layers' short names are defined by AWS OpsWorks. For more information, see the Layer Reference 
-        public var shortname: String? = nil
+        public let shortname: String?
         /// An array of Package objects that describe the layer's packages.
-        public var packages: [String]? = nil
-        public var lifecycleEventConfiguration: LifecycleEventConfiguration? = nil
+        public let packages: [String]?
+        public let lifecycleEventConfiguration: LifecycleEventConfiguration?
         /// A LayerCustomRecipes object that specifies the layer's custom recipes.
-        public var customRecipes: Recipes? = nil
+        public let customRecipes: Recipes?
         /// Whether to automatically assign an Elastic IP address to the layer's instances. For more information, see How to Edit a Layer.
-        public var autoAssignElasticIps: Bool? = nil
+        public let autoAssignElasticIps: Bool?
         /// Whether to install operating system and package updates when the instance boots. The default value is true. To control when updates are installed, set this value to false. You must then update your instances manually by using CreateDeployment to run the update_dependencies stack command or manually running yum (Amazon Linux) or apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true, to ensure that your instances have the latest security updates. 
-        public var installUpdatesOnBoot: Bool? = nil
+        public let installUpdatesOnBoot: Bool?
         /// A JSON-formatted string containing custom stack configuration and deployment attributes to be installed on the layer's instances. For more information, see  Using Custom JSON. 
-        public var customJson: String? = nil
+        public let customJson: String?
         /// An array containing the layer's custom security group IDs.
-        public var customSecurityGroupIds: [String]? = nil
+        public let customSecurityGroupIds: [String]?
         /// The layer name, which is used by the console.
-        public var name: String? = nil
+        public let name: String?
         /// The layer ID.
-        public var layerId: String = ""
+        public let layerId: String
         /// The ARN of an IAM profile to be used for all of the layer's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
-        public var customInstanceProfileArn: String? = nil
+        public let customInstanceProfileArn: String?
         /// Whether to disable auto healing for the layer.
-        public var enableAutoHealing: Bool? = nil
+        public let enableAutoHealing: Bool?
         /// A VolumeConfigurations object that describes the layer's Amazon EBS volumes.
-        public var volumeConfigurations: [VolumeConfiguration]? = nil
+        public let volumeConfigurations: [VolumeConfiguration]?
         /// One or more user-defined key/value pairs to be added to the stack attributes.
-        public var attributes: [String: String]? = nil
+        public let attributes: [String: String]?
         /// Whether to use Amazon EBS-optimized instances.
-        public var useEbsOptimizedInstances: Bool? = nil
+        public let useEbsOptimizedInstances: Bool?
         /// For stacks that are running in a VPC, whether to automatically assign a public IP address to the layer's instances. For more information, see How to Edit a Layer.
-        public var autoAssignPublicIps: Bool? = nil
-
-        public init() {}
+        public let autoAssignPublicIps: Bool?
 
         public init(shortname: String? = nil, packages: [String]? = nil, lifecycleEventConfiguration: LifecycleEventConfiguration? = nil, customRecipes: Recipes? = nil, autoAssignElasticIps: Bool? = nil, installUpdatesOnBoot: Bool? = nil, customJson: String? = nil, customSecurityGroupIds: [String]? = nil, name: String? = nil, layerId: String, customInstanceProfileArn: String? = nil, enableAutoHealing: Bool? = nil, volumeConfigurations: [VolumeConfiguration]? = nil, attributes: [String: String]? = nil, useEbsOptimizedInstances: Bool? = nil, autoAssignPublicIps: Bool? = nil) {
             self.shortname = shortname
@@ -2714,17 +2576,13 @@ extension Opsworks {
 
         public init(dictionary: [String: Any]) throws {
             self.shortname = dictionary["Shortname"] as? String
-            if let packages = dictionary["Packages"] as? [String] {
-                self.packages = packages
-            }
-            if let lifecycleEventConfiguration = dictionary["LifecycleEventConfiguration"] as? [String: Any] { self.lifecycleEventConfiguration = try Opsworks.LifecycleEventConfiguration(dictionary: lifecycleEventConfiguration) }
-            if let customRecipes = dictionary["CustomRecipes"] as? [String: Any] { self.customRecipes = try Opsworks.Recipes(dictionary: customRecipes) }
+            self.packages = dictionary["Packages"] as? [String]
+            if let lifecycleEventConfiguration = dictionary["LifecycleEventConfiguration"] as? [String: Any] { self.lifecycleEventConfiguration = try Opsworks.LifecycleEventConfiguration(dictionary: lifecycleEventConfiguration) } else { self.lifecycleEventConfiguration = nil }
+            if let customRecipes = dictionary["CustomRecipes"] as? [String: Any] { self.customRecipes = try Opsworks.Recipes(dictionary: customRecipes) } else { self.customRecipes = nil }
             self.autoAssignElasticIps = dictionary["AutoAssignElasticIps"] as? Bool
             self.installUpdatesOnBoot = dictionary["InstallUpdatesOnBoot"] as? Bool
             self.customJson = dictionary["CustomJson"] as? String
-            if let customSecurityGroupIds = dictionary["CustomSecurityGroupIds"] as? [String] {
-                self.customSecurityGroupIds = customSecurityGroupIds
-            }
+            self.customSecurityGroupIds = dictionary["CustomSecurityGroupIds"] as? [String]
             self.name = dictionary["Name"] as? String
             guard let layerId = dictionary["LayerId"] as? String else { throw InitializableError.missingRequiredParam("LayerId") }
             self.layerId = layerId
@@ -2732,9 +2590,13 @@ extension Opsworks {
             self.enableAutoHealing = dictionary["EnableAutoHealing"] as? Bool
             if let volumeConfigurations = dictionary["VolumeConfigurations"] as? [[String: Any]] {
                 self.volumeConfigurations = try volumeConfigurations.map({ try VolumeConfiguration(dictionary: $0) })
+            } else { 
+                self.volumeConfigurations = nil
             }
             if let attributes = dictionary["Attributes"] as? [String: String] {
                 self.attributes = attributes
+            } else { 
+                self.attributes = nil
             }
             self.useEbsOptimizedInstances = dictionary["UseEbsOptimizedInstances"] as? Bool
             self.autoAssignPublicIps = dictionary["AutoAssignPublicIps"] as? Bool
@@ -2745,11 +2607,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An embedded object that contains the provisioning parameters.
-        public var parameters: [String: String]? = nil
+        public let parameters: [String: String]?
         /// The AWS OpsWorks agent installer's URL.
-        public var agentInstallerUrl: String? = nil
-
-        public init() {}
+        public let agentInstallerUrl: String?
 
         public init(parameters: [String: String]? = nil, agentInstallerUrl: String? = nil) {
             self.parameters = parameters
@@ -2759,6 +2619,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let parameters = dictionary["Parameters"] as? [String: String] {
                 self.parameters = parameters
+            } else { 
+                self.parameters = nil
             }
             self.agentInstallerUrl = dictionary["AgentInstallerUrl"] as? String
         }
@@ -2768,9 +2630,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The instance ID.
-        public var instanceId: String = ""
-
-        public init() {}
+        public let instanceId: String
 
         public init(instanceId: String) {
             self.instanceId = instanceId
@@ -2786,50 +2646,48 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack's default operating system.
-        public var defaultOs: String? = nil
+        public let defaultOs: String?
         /// Whether the stack automatically associates the AWS OpsWorks built-in security groups with the stack's layers.
-        public var useOpsworksSecurityGroups: Bool? = nil
+        public let useOpsworksSecurityGroups: Bool?
         /// The stack's ARN.
-        public var arn: String? = nil
+        public let arn: String?
         /// The default root device type. This value is used by default for all instances in the stack, but you can override it when you create an instance. For more information, see Storage for the Root Device.
-        public var defaultRootDeviceType: String? = nil
+        public let defaultRootDeviceType: String?
         /// The ARN of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
-        public var defaultInstanceProfileArn: String? = nil
+        public let defaultInstanceProfileArn: String?
         /// The stack AWS Identity and Access Management (IAM) role.
-        public var serviceRoleArn: String? = nil
+        public let serviceRoleArn: String?
         /// The stack AWS region, such as "ap-northeast-2". For more information about AWS regions, see Regions and Endpoints.
-        public var region: String? = nil
+        public let region: String?
         /// Whether the stack uses custom cookbooks.
-        public var useCustomCookbooks: Bool? = nil
+        public let useCustomCookbooks: Bool?
         /// A JSON object that contains user-defined attributes to be added to the stack configuration and deployment attributes. You can use custom JSON to override the corresponding default stack configuration attribute values or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information on custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
-        public var customJson: String? = nil
-        public var customCookbooksSource: Source? = nil
+        public let customJson: String?
+        public let customCookbooksSource: Source?
         /// A default Amazon EC2 key pair for the stack's instances. You can override this value when you create or update an instance.
-        public var defaultSshKeyName: String? = nil
+        public let defaultSshKeyName: String?
         /// The date when the stack was created.
-        public var createdAt: String? = nil
+        public let createdAt: String?
         /// The VPC ID; applicable only if the stack is running in a VPC.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The stack ID.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// The stack name.
-        public var name: String? = nil
+        public let name: String?
         /// The agent version. This parameter is set to LATEST for auto-update. or a version number for a fixed agent version.
-        public var agentVersion: String? = nil
+        public let agentVersion: String?
         /// The stack's attributes.
-        public var attributes: [String: String]? = nil
+        public let attributes: [String: String]?
         /// The default subnet ID; applicable only if the stack is running in a VPC.
-        public var defaultSubnetId: String? = nil
+        public let defaultSubnetId: String?
         /// The stack's default Availability Zone. For more information, see Regions and Endpoints.
-        public var defaultAvailabilityZone: String? = nil
+        public let defaultAvailabilityZone: String?
         /// The stack host name theme, with spaces replaced by underscores.
-        public var hostnameTheme: String? = nil
+        public let hostnameTheme: String?
         /// The configuration manager.
-        public var configurationManager: StackConfigurationManager? = nil
+        public let configurationManager: StackConfigurationManager?
         /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version. For more information, see Create a New Stack.
-        public var chefConfiguration: ChefConfiguration? = nil
-
-        public init() {}
+        public let chefConfiguration: ChefConfiguration?
 
         public init(defaultOs: String? = nil, useOpsworksSecurityGroups: Bool? = nil, arn: String? = nil, defaultRootDeviceType: String? = nil, defaultInstanceProfileArn: String? = nil, serviceRoleArn: String? = nil, region: String? = nil, useCustomCookbooks: Bool? = nil, customJson: String? = nil, customCookbooksSource: Source? = nil, defaultSshKeyName: String? = nil, createdAt: String? = nil, vpcId: String? = nil, stackId: String? = nil, name: String? = nil, agentVersion: String? = nil, attributes: [String: String]? = nil, defaultSubnetId: String? = nil, defaultAvailabilityZone: String? = nil, hostnameTheme: String? = nil, configurationManager: StackConfigurationManager? = nil, chefConfiguration: ChefConfiguration? = nil) {
             self.defaultOs = defaultOs
@@ -2866,7 +2724,7 @@ extension Opsworks {
             self.region = dictionary["Region"] as? String
             self.useCustomCookbooks = dictionary["UseCustomCookbooks"] as? Bool
             self.customJson = dictionary["CustomJson"] as? String
-            if let customCookbooksSource = dictionary["CustomCookbooksSource"] as? [String: Any] { self.customCookbooksSource = try Opsworks.Source(dictionary: customCookbooksSource) }
+            if let customCookbooksSource = dictionary["CustomCookbooksSource"] as? [String: Any] { self.customCookbooksSource = try Opsworks.Source(dictionary: customCookbooksSource) } else { self.customCookbooksSource = nil }
             self.defaultSshKeyName = dictionary["DefaultSshKeyName"] as? String
             self.createdAt = dictionary["CreatedAt"] as? String
             self.vpcId = dictionary["VpcId"] as? String
@@ -2875,12 +2733,14 @@ extension Opsworks {
             self.agentVersion = dictionary["AgentVersion"] as? String
             if let attributes = dictionary["Attributes"] as? [String: String] {
                 self.attributes = attributes
+            } else { 
+                self.attributes = nil
             }
             self.defaultSubnetId = dictionary["DefaultSubnetId"] as? String
             self.defaultAvailabilityZone = dictionary["DefaultAvailabilityZone"] as? String
             self.hostnameTheme = dictionary["HostnameTheme"] as? String
-            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) }
-            if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) }
+            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) } else { self.configurationManager = nil }
+            if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) } else { self.chefConfiguration = nil }
         }
     }
 
@@ -2888,9 +2748,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack ID.
-        public var stackId: String = ""
-
-        public init() {}
+        public let stackId: String
 
         public init(stackId: String) {
             self.stackId = stackId
@@ -2906,13 +2764,11 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The operating system family.
-        public var family: String? = nil
+        public let family: String?
         /// The operating system name.
-        public var name: String? = nil
+        public let name: String?
         /// The operating system version.
-        public var version: String? = nil
-
-        public init() {}
+        public let version: String?
 
         public init(family: String? = nil, name: String? = nil, version: String? = nil) {
             self.family = family
@@ -2931,17 +2787,15 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of custom recipe names to be run following a undeploy event.
-        public var undeploy: [String]? = nil
+        public let undeploy: [String]?
         /// An array of custom recipe names to be run following a configure event.
-        public var configure: [String]? = nil
+        public let configure: [String]?
         /// An array of custom recipe names to be run following a setup event.
-        public var setup: [String]? = nil
+        public let setup: [String]?
         /// An array of custom recipe names to be run following a shutdown event.
-        public var shutdown: [String]? = nil
+        public let shutdown: [String]?
         /// An array of custom recipe names to be run following a deploy event.
-        public var deploy: [String]? = nil
-
-        public init() {}
+        public let deploy: [String]?
 
         public init(undeploy: [String]? = nil, configure: [String]? = nil, setup: [String]? = nil, shutdown: [String]? = nil, deploy: [String]? = nil) {
             self.undeploy = undeploy
@@ -2952,21 +2806,11 @@ extension Opsworks {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let undeploy = dictionary["Undeploy"] as? [String] {
-                self.undeploy = undeploy
-            }
-            if let configure = dictionary["Configure"] as? [String] {
-                self.configure = configure
-            }
-            if let setup = dictionary["Setup"] as? [String] {
-                self.setup = setup
-            }
-            if let shutdown = dictionary["Shutdown"] as? [String] {
-                self.shutdown = shutdown
-            }
-            if let deploy = dictionary["Deploy"] as? [String] {
-                self.deploy = deploy
-            }
+            self.undeploy = dictionary["Undeploy"] as? [String]
+            self.configure = dictionary["Configure"] as? [String]
+            self.setup = dictionary["Setup"] as? [String]
+            self.shutdown = dictionary["Shutdown"] as? [String]
+            self.deploy = dictionary["Deploy"] as? [String]
         }
     }
 
@@ -2974,17 +2818,15 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user's permission level, which must be set to one of the following strings. You cannot set your own permissions level.    deny     show     deploy     manage     iam_only    For more information on the permissions associated with these levels, see Managing User Permissions.
-        public var level: String? = nil
+        public let level: String?
         /// The user's IAM ARN. This can also be a federated user's ARN.
-        public var iamUserArn: String = ""
+        public let iamUserArn: String
         /// The user is allowed to use SSH to communicate with the instance.
-        public var allowSsh: Bool? = nil
+        public let allowSsh: Bool?
         /// The stack ID.
-        public var stackId: String = ""
+        public let stackId: String
         /// The user is allowed to use sudo to elevate privileges.
-        public var allowSudo: Bool? = nil
-
-        public init() {}
+        public let allowSudo: Bool?
 
         public init(level: String? = nil, iamUserArn: String, allowSsh: Bool? = nil, stackId: String, allowSudo: Bool? = nil) {
             self.level = level
@@ -3009,9 +2851,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of TimeBasedAutoScalingConfiguration objects that describe the configuration for the specified instances.
-        public var timeBasedAutoScalingConfigurations: [TimeBasedAutoScalingConfiguration]? = nil
-
-        public init() {}
+        public let timeBasedAutoScalingConfigurations: [TimeBasedAutoScalingConfiguration]?
 
         public init(timeBasedAutoScalingConfigurations: [TimeBasedAutoScalingConfiguration]? = nil) {
             self.timeBasedAutoScalingConfigurations = timeBasedAutoScalingConfigurations
@@ -3020,6 +2860,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let timeBasedAutoScalingConfigurations = dictionary["TimeBasedAutoScalingConfigurations"] as? [[String: Any]] {
                 self.timeBasedAutoScalingConfigurations = try timeBasedAutoScalingConfigurations.map({ try TimeBasedAutoScalingConfiguration(dictionary: $0) })
+            } else { 
+                self.timeBasedAutoScalingConfigurations = nil
             }
         }
     }
@@ -3028,11 +2870,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// A stack ID. The action describes the stack's Elastic Load Balancing instances.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// A list of layer IDs. The action describes the Elastic Load Balancing instances for the specified layers.
-        public var layerIds: [String]? = nil
-
-        public init() {}
+        public let layerIds: [String]?
 
         public init(stackId: String? = nil, layerIds: [String]? = nil) {
             self.stackId = stackId
@@ -3041,9 +2881,7 @@ extension Opsworks {
 
         public init(dictionary: [String: Any]) throws {
             self.stackId = dictionary["StackId"] as? String
-            if let layerIds = dictionary["LayerIds"] as? [String] {
-                self.layerIds = layerIds
-            }
+            self.layerIds = dictionary["LayerIds"] as? [String]
         }
     }
 
@@ -3051,13 +2889,11 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The new mount point.
-        public var mountPoint: String? = nil
+        public let mountPoint: String?
         /// The volume ID.
-        public var volumeId: String = ""
+        public let volumeId: String
         /// The new name.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(mountPoint: String? = nil, volumeId: String, name: String? = nil) {
             self.mountPoint = mountPoint
@@ -3077,9 +2913,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The volume ID.
-        public var volumeId: String? = nil
-
-        public init() {}
+        public let volumeId: String?
 
         public init(volumeId: String? = nil) {
             self.volumeId = volumeId
@@ -3094,16 +2928,14 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// A UserProfile object that describes the user's SSH information.
-        public var userProfile: SelfUserProfile? = nil
-
-        public init() {}
+        public let userProfile: SelfUserProfile?
 
         public init(userProfile: SelfUserProfile? = nil) {
             self.userProfile = userProfile
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let userProfile = dictionary["UserProfile"] as? [String: Any] { self.userProfile = try Opsworks.SelfUserProfile(dictionary: userProfile) }
+            if let userProfile = dictionary["UserProfile"] as? [String: Any] { self.userProfile = try Opsworks.SelfUserProfile(dictionary: userProfile) } else { self.userProfile = nil }
         }
     }
 
@@ -3111,11 +2943,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Elastic IP address.
-        public var elasticIp: String = ""
+        public let elasticIp: String
         /// The stack ID.
-        public var stackId: String = ""
-
-        public init() {}
+        public let stackId: String
 
         public init(elasticIp: String, stackId: String) {
             self.elasticIp = elasticIp
@@ -3134,13 +2964,11 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of command IDs. If you include this parameter, DescribeCommands returns a description of the specified commands. Otherwise, it returns a description of every command.
-        public var commandIds: [String]? = nil
+        public let commandIds: [String]?
         /// The deployment ID. If you include this parameter, DescribeCommands returns a description of the commands associated with the specified deployment.
-        public var deploymentId: String? = nil
+        public let deploymentId: String?
         /// The instance ID. If you include this parameter, DescribeCommands returns a description of the commands associated with the specified instance.
-        public var instanceId: String? = nil
-
-        public init() {}
+        public let instanceId: String?
 
         public init(commandIds: [String]? = nil, deploymentId: String? = nil, instanceId: String? = nil) {
             self.commandIds = commandIds
@@ -3149,9 +2977,7 @@ extension Opsworks {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let commandIds = dictionary["CommandIds"] as? [String] {
-                self.commandIds = commandIds
-            }
+            self.commandIds = dictionary["CommandIds"] as? [String]
             self.deploymentId = dictionary["DeploymentId"] as? String
             self.instanceId = dictionary["InstanceId"] as? String
         }
@@ -3161,9 +2987,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The agent versions for the specified stack or configuration manager. Note that this value is the complete version number, not the abbreviated number used by the console.
-        public var agentVersions: [AgentVersion]? = nil
-
-        public init() {}
+        public let agentVersions: [AgentVersion]?
 
         public init(agentVersions: [AgentVersion]? = nil) {
             self.agentVersions = agentVersions
@@ -3172,6 +2996,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let agentVersions = dictionary["AgentVersions"] as? [[String: Any]] {
                 self.agentVersions = try agentVersions.map({ try AgentVersion(dictionary: $0) })
+            } else { 
+                self.agentVersions = nil
             }
         }
     }
@@ -3180,44 +3006,42 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack's default operating system, which is installed on every instance unless you specify a different operating system when you create the instance. You can specify one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information, see  Using Custom AMIs.   The default option is the current Amazon Linux version. For more information on the supported operating systems, see AWS OpsWorks Operating Systems.
-        public var defaultOs: String? = nil
+        public let defaultOs: String?
         /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create a New Stack.
-        public var chefConfiguration: ChefConfiguration? = nil
+        public let chefConfiguration: ChefConfiguration?
         /// The stack's AWS Identity and Access Management (IAM) role, which allows AWS OpsWorks to work with AWS resources on your behalf. You must set this parameter to the Amazon Resource Name (ARN) for an existing IAM role. For more information about IAM ARNs, see Using Identifiers.
-        public var serviceRoleArn: String = ""
+        public let serviceRoleArn: String
         /// The default root device type. This value is the default for all instances in the stack, but you can override it when you create an instance. The default option is instance-store. For more information, see Storage for the Root Device.
-        public var defaultRootDeviceType: String? = nil
+        public let defaultRootDeviceType: String?
         /// The Amazon Resource Name (ARN) of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
-        public var defaultInstanceProfileArn: String = ""
+        public let defaultInstanceProfileArn: String
         /// The stack's AWS region, such as "ap-south-1". For more information about Amazon regions, see Regions and Endpoints.
-        public var region: String = ""
-        public var customCookbooksSource: Source? = nil
+        public let region: String
+        public let customCookbooksSource: Source?
         /// A string that contains user-defined, custom JSON. It can be used to override the corresponding default stack configuration attribute values or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information on custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
-        public var customJson: String? = nil
+        public let customJson: String?
         /// Whether the stack uses custom cookbooks.
-        public var useCustomCookbooks: Bool? = nil
+        public let useCustomCookbooks: Bool?
         /// A default Amazon EC2 key pair name. The default value is none. If you specify a key pair name, AWS OpsWorks installs the public key on the instance and you can use the private key with an SSH client to log in to the instance. For more information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override this setting by specifying a different key pair, or no key pair, when you  create an instance. 
-        public var defaultSshKeyName: String? = nil
+        public let defaultSshKeyName: String?
         /// The default AWS OpsWorks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must edit the stack configuration and specify a new version. AWS OpsWorks then automatically installs that version on the stack's instances.   The default setting is the most recent release of the agent. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting. 
-        public var agentVersion: String? = nil
+        public let agentVersion: String?
         /// The stack name.
-        public var name: String = ""
+        public let name: String
         /// The ID of the VPC that the stack is to be launched into. The VPC must be in the stack's region. All instances are launched into this VPC. You cannot change the ID later.   If your account supports EC2-Classic, the default value is no VPC.   If your account does not support EC2-Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks infers the value of the other parameter. If you specify neither parameter, AWS OpsWorks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively. If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information on how to use AWS OpsWorks with a VPC, see Running a Stack in a VPC. For more information on default VPC and EC2-Classic, see Supported Platforms. 
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// One or more user-defined key-value pairs to be added to the stack attributes.
-        public var attributes: [String: String]? = nil
+        public let attributes: [String: String]?
         /// The stack's default VPC subnet ID. This parameter is required if you specify a value for the VpcId parameter. All instances are launched into this subnet unless you specify otherwise when you create the instance. If you also specify a value for DefaultAvailabilityZone, the subnet must be in that zone. For information on default values and when this parameter is required, see the VpcId parameter description. 
-        public var defaultSubnetId: String? = nil
+        public let defaultSubnetId: String?
         /// The configuration manager. When you create a stack we recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 11.4.
-        public var configurationManager: StackConfigurationManager? = nil
+        public let configurationManager: StackConfigurationManager?
         /// The stack's default Availability Zone, which must be in the specified region. For more information, see Regions and Endpoints. If you also specify a value for DefaultSubnetId, the subnet must be in the same zone. For more information, see the VpcId parameter description. 
-        public var defaultAvailabilityZone: String? = nil
+        public let defaultAvailabilityZone: String?
         /// The stack's host name theme, with spaces replaced by underscores. The theme is used to generate host names for the stack's instances. By default, HostnameTheme is set to Layer_Dependent, which creates host names by appending integers to the layer's short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities     Fruits     Greek_Deities     Legendary_creatures_from_Japan     Planets_and_Moons     Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To obtain a generated host name, call GetHostNameSuggestion, which returns a host name based on the current theme.
-        public var hostnameTheme: String? = nil
+        public let hostnameTheme: String?
         /// Whether to associate the AWS OpsWorks built-in security groups with the stack's layers. AWS OpsWorks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. With UseOpsworksSecurityGroups you can instead provide your own custom security groups. UseOpsworksSecurityGroups has the following settings:    True - AWS OpsWorks automatically associates the appropriate built-in security group with each layer (default setting). You can associate additional security groups with a layer after you create it, but you cannot delete the built-in security group.   False - AWS OpsWorks does not associate built-in security groups with layers. You must create appropriate EC2 security groups and associate a security group with each layer that you create. However, you can still manually associate a built-in security group with a layer on creation; custom security groups are required only for those layers that need custom settings.   For more information, see Create a New Stack.
-        public var useOpsworksSecurityGroups: Bool? = nil
-
-        public init() {}
+        public let useOpsworksSecurityGroups: Bool?
 
         public init(defaultOs: String? = nil, chefConfiguration: ChefConfiguration? = nil, serviceRoleArn: String, defaultRootDeviceType: String? = nil, defaultInstanceProfileArn: String, region: String, customCookbooksSource: Source? = nil, customJson: String? = nil, useCustomCookbooks: Bool? = nil, defaultSshKeyName: String? = nil, agentVersion: String? = nil, name: String, vpcId: String? = nil, attributes: [String: String]? = nil, defaultSubnetId: String? = nil, configurationManager: StackConfigurationManager? = nil, defaultAvailabilityZone: String? = nil, hostnameTheme: String? = nil, useOpsworksSecurityGroups: Bool? = nil) {
             self.defaultOs = defaultOs
@@ -3243,7 +3067,7 @@ extension Opsworks {
 
         public init(dictionary: [String: Any]) throws {
             self.defaultOs = dictionary["DefaultOs"] as? String
-            if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) }
+            if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) } else { self.chefConfiguration = nil }
             guard let serviceRoleArn = dictionary["ServiceRoleArn"] as? String else { throw InitializableError.missingRequiredParam("ServiceRoleArn") }
             self.serviceRoleArn = serviceRoleArn
             self.defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String
@@ -3251,7 +3075,7 @@ extension Opsworks {
             self.defaultInstanceProfileArn = defaultInstanceProfileArn
             guard let region = dictionary["Region"] as? String else { throw InitializableError.missingRequiredParam("Region") }
             self.region = region
-            if let customCookbooksSource = dictionary["CustomCookbooksSource"] as? [String: Any] { self.customCookbooksSource = try Opsworks.Source(dictionary: customCookbooksSource) }
+            if let customCookbooksSource = dictionary["CustomCookbooksSource"] as? [String: Any] { self.customCookbooksSource = try Opsworks.Source(dictionary: customCookbooksSource) } else { self.customCookbooksSource = nil }
             self.customJson = dictionary["CustomJson"] as? String
             self.useCustomCookbooks = dictionary["UseCustomCookbooks"] as? Bool
             self.defaultSshKeyName = dictionary["DefaultSshKeyName"] as? String
@@ -3261,9 +3085,11 @@ extension Opsworks {
             self.vpcId = dictionary["VpcId"] as? String
             if let attributes = dictionary["Attributes"] as? [String: String] {
                 self.attributes = attributes
+            } else { 
+                self.attributes = nil
             }
             self.defaultSubnetId = dictionary["DefaultSubnetId"] as? String
-            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) }
+            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) } else { self.configurationManager = nil }
             self.defaultAvailabilityZone = dictionary["DefaultAvailabilityZone"] as? String
             self.hostnameTheme = dictionary["HostnameTheme"] as? String
             self.useOpsworksSecurityGroups = dictionary["UseOpsworksSecurityGroups"] as? Bool
@@ -3274,9 +3100,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The layer ID.
-        public var layerId: String = ""
-
-        public init() {}
+        public let layerId: String
 
         public init(layerId: String) {
             self.layerId = layerId
@@ -3292,11 +3116,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack ID.
-        public var stackId: String = ""
+        public let stackId: String
         /// The cluster's ARN.
-        public var ecsClusterArn: String = ""
-
-        public init() {}
+        public let ecsClusterArn: String
 
         public init(stackId: String, ecsClusterArn: String) {
             self.stackId = stackId
@@ -3315,13 +3137,11 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The database password.
-        public var dbPassword: String? = nil
+        public let dbPassword: String?
         /// The master user name.
-        public var dbUser: String? = nil
+        public let dbUser: String?
         /// The Amazon RDS instance's ARN.
-        public var rdsDbInstanceArn: String = ""
-
-        public init() {}
+        public let rdsDbInstanceArn: String
 
         public init(dbPassword: String? = nil, dbUser: String? = nil, rdsDbInstanceArn: String) {
             self.dbPassword = dbPassword
@@ -3341,11 +3161,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether to enable Berkshelf.
-        public var manageBerkshelf: Bool? = nil
+        public let manageBerkshelf: Bool?
         /// The Berkshelf version.
-        public var berkshelfVersion: String? = nil
-
-        public init() {}
+        public let berkshelfVersion: String?
 
         public init(manageBerkshelf: Bool? = nil, berkshelfVersion: String? = nil) {
             self.manageBerkshelf = manageBerkshelf
@@ -3362,9 +3180,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Elastic IP address.
-        public var elasticIp: String = ""
-
-        public init() {}
+        public let elasticIp: String
 
         public init(elasticIp: String) {
             self.elasticIp = elasticIp
@@ -3380,11 +3196,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the layer that the Elastic Load Balancing instance is to be attached to.
-        public var layerId: String = ""
+        public let layerId: String
         /// The Elastic Load Balancing instance's name.
-        public var elasticLoadBalancerName: String = ""
-
-        public init() {}
+        public let elasticLoadBalancerName: String
 
         public init(layerId: String, elasticLoadBalancerName: String) {
             self.layerId = layerId
@@ -3403,13 +3217,11 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// (Optional) The environment variable's value, which can be left empty. If you specify a value, it can contain up to 256 characters, which must all be printable.
-        public var value: String = ""
+        public let value: String
         /// (Required) The environment variable's name, which can consist of up to 64 characters and must be specified. The name can contain upper- and lowercase letters, numbers, and underscores (_), but it must start with a letter or underscore.
-        public var key: String = ""
+        public let key: String
         /// (Optional) Whether the variable's value will be returned by the DescribeApps action. To conceal an environment variable's value, set Secure to true. DescribeApps then returns *****FILTERED***** instead of the actual value. The default value for Secure is false. 
-        public var secure: Bool? = nil
-
-        public init() {}
+        public let secure: Bool?
 
         public init(value: String, key: String, secure: Bool? = nil) {
             self.value = value
@@ -3430,9 +3242,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of layer IDs.
-        public var layerIds: [String] = []
-
-        public init() {}
+        public let layerIds: [String]
 
         public init(layerIds: [String]) {
             self.layerIds = layerIds
@@ -3448,25 +3258,23 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the stack that the instance is registered with.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// The instance's address.
-        public var address: String? = nil
+        public let address: String?
         /// The master user name.
-        public var dbUser: String? = nil
+        public let dbUser: String?
         /// The instance's AWS region.
-        public var region: String? = nil
+        public let region: String?
         /// The instance's database engine.
-        public var engine: String? = nil
+        public let engine: String?
         /// Set to true if AWS OpsWorks was unable to discover the Amazon RDS instance. AWS OpsWorks attempts to discover the instance only once. If this value is set to true, you must deregister the instance and then register it again.
-        public var missingOnRds: Bool? = nil
+        public let missingOnRds: Bool?
         /// The instance's ARN.
-        public var rdsDbInstanceArn: String? = nil
+        public let rdsDbInstanceArn: String?
         /// AWS OpsWorks returns *****FILTERED***** instead of the actual value.
-        public var dbPassword: String? = nil
+        public let dbPassword: String?
         /// The DB instance identifier.
-        public var dbInstanceIdentifier: String? = nil
-
-        public init() {}
+        public let dbInstanceIdentifier: String?
 
         public init(stackId: String? = nil, address: String? = nil, dbUser: String? = nil, region: String? = nil, engine: String? = nil, missingOnRds: Bool? = nil, rdsDbInstanceArn: String? = nil, dbPassword: String? = nil, dbInstanceIdentifier: String? = nil) {
             self.stackId = stackId
@@ -3497,16 +3305,14 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// A StackSummary object that contains the results.
-        public var stackSummary: StackSummary? = nil
-
-        public init() {}
+        public let stackSummary: StackSummary?
 
         public init(stackSummary: StackSummary? = nil) {
             self.stackSummary = stackSummary
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let stackSummary = dictionary["StackSummary"] as? [String: Any] { self.stackSummary = try Opsworks.StackSummary(dictionary: stackSummary) }
+            if let stackSummary = dictionary["StackSummary"] as? [String: Any] { self.stackSummary = try Opsworks.StackSummary(dictionary: stackSummary) } else { self.stackSummary = nil }
         }
     }
 
@@ -3514,33 +3320,31 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device name.
-        public var device: String? = nil
+        public let device: String?
         /// The volume ID.
-        public var volumeId: String? = nil
+        public let volumeId: String?
         /// The AWS region. For more information about AWS regions, see Regions and Endpoints.
-        public var region: String? = nil
+        public let region: String?
         /// The Amazon EC2 volume ID.
-        public var ec2VolumeId: String? = nil
+        public let ec2VolumeId: String?
         /// For PIOPS volumes, the IOPS per disk.
-        public var iops: Int32? = nil
+        public let iops: Int32?
         /// The volume Availability Zone. For more information, see Regions and Endpoints.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The RAID array ID.
-        public var raidArrayId: String? = nil
+        public let raidArrayId: String?
         /// The value returned by DescribeVolumes.
-        public var status: String? = nil
+        public let status: String?
         /// The volume type, standard or PIOPS.
-        public var volumeType: String? = nil
+        public let volumeType: String?
         /// The volume mount point. For example, "/mnt/disk1".
-        public var mountPoint: String? = nil
+        public let mountPoint: String?
         /// The volume name.
-        public var name: String? = nil
+        public let name: String?
         /// The instance ID.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The volume size.
-        public var size: Int32? = nil
-
-        public init() {}
+        public let size: Int32?
 
         public init(device: String? = nil, volumeId: String? = nil, region: String? = nil, ec2VolumeId: String? = nil, iops: Int32? = nil, availabilityZone: String? = nil, raidArrayId: String? = nil, status: String? = nil, volumeType: String? = nil, mountPoint: String? = nil, name: String? = nil, instanceId: String? = nil, size: Int32? = nil) {
             self.device = device
@@ -3579,15 +3383,13 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user's IAM ARN.
-        public var iamUserArn: String? = nil
+        public let iamUserArn: String?
         /// The user's SSH public key.
-        public var sshPublicKey: String? = nil
+        public let sshPublicKey: String?
         /// The user's SSH user name.
-        public var sshUsername: String? = nil
+        public let sshUsername: String?
         /// The user's name.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(iamUserArn: String? = nil, sshPublicKey: String? = nil, sshUsername: String? = nil, name: String? = nil) {
             self.iamUserArn = iamUserArn
@@ -3608,15 +3410,13 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The cluster name.
-        public var ecsClusterName: String? = nil
+        public let ecsClusterName: String?
         /// The time and date that the cluster was registered with the stack.
-        public var registeredAt: String? = nil
+        public let registeredAt: String?
         /// The stack ID.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// The cluster's ARN.
-        public var ecsClusterArn: String? = nil
-
-        public init() {}
+        public let ecsClusterArn: String?
 
         public init(ecsClusterName: String? = nil, registeredAt: String? = nil, stackId: String? = nil, ecsClusterArn: String? = nil) {
             self.ecsClusterName = ecsClusterName
@@ -3637,9 +3437,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack ID.
-        public var stackId: String = ""
-
-        public init() {}
+        public let stackId: String
 
         public init(stackId: String) {
             self.stackId = stackId
@@ -3655,9 +3453,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The layer ID.
-        public var layerId: String? = nil
-
-        public init() {}
+        public let layerId: String?
 
         public init(layerId: String? = nil) {
             self.layerId = layerId
@@ -3672,15 +3468,13 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The length of time (in minutes) that the grant is valid. When the grant expires, at the end of this period, the user will no longer be able to use the credentials to log in. If they are logged in at the time, they will be automatically logged out.
-        public var validForInMinutes: Int32? = nil
+        public let validForInMinutes: Int32?
         /// The password.
-        public var password: String? = nil
+        public let password: String?
         /// The instance's AWS OpsWorks ID.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The user name.
-        public var username: String? = nil
-
-        public init() {}
+        public let username: String?
 
         public init(validForInMinutes: Int32? = nil, password: String? = nil, instanceId: String? = nil, username: String? = nil) {
             self.validForInMinutes = validForInMinutes
@@ -3701,9 +3495,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Elastic IP address.
-        public var elasticIp: String = ""
-
-        public init() {}
+        public let elasticIp: String
 
         public init(elasticIp: String) {
             self.elasticIp = elasticIp
@@ -3719,21 +3511,19 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The layer IDs for the deployment targets.
-        public var layerIds: [String]? = nil
+        public let layerIds: [String]?
         /// The stack ID.
-        public var stackId: String = ""
+        public let stackId: String
         /// A user-defined comment.
-        public var comment: String? = nil
+        public let comment: String?
         /// A string that contains user-defined, custom JSON. It is used to override the corresponding default stack configuration JSON values. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information on custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
-        public var customJson: String? = nil
+        public let customJson: String?
         /// A DeploymentCommand object that specifies the deployment command and any associated arguments.
-        public var command: DeploymentCommand = DeploymentCommand()
+        public let command: DeploymentCommand
         /// The instance IDs for the deployment targets.
-        public var instanceIds: [String]? = nil
+        public let instanceIds: [String]?
         /// The app ID. This parameter is required for app deployments, but not for other deployment commands.
-        public var appId: String? = nil
-
-        public init() {}
+        public let appId: String?
 
         public init(layerIds: [String]? = nil, stackId: String, comment: String? = nil, customJson: String? = nil, command: DeploymentCommand, instanceIds: [String]? = nil, appId: String? = nil) {
             self.layerIds = layerIds
@@ -3746,18 +3536,14 @@ extension Opsworks {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let layerIds = dictionary["LayerIds"] as? [String] {
-                self.layerIds = layerIds
-            }
+            self.layerIds = dictionary["LayerIds"] as? [String]
             guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
             self.stackId = stackId
             self.comment = dictionary["Comment"] as? String
             self.customJson = dictionary["CustomJson"] as? String
             guard let command = dictionary["Command"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Command") }
             self.command = try Opsworks.DeploymentCommand(dictionary: command)
-            if let instanceIds = dictionary["InstanceIds"] as? [String] {
-                self.instanceIds = instanceIds
-            }
+            self.instanceIds = dictionary["InstanceIds"] as? [String]
             self.appId = dictionary["AppId"] as? String
         }
     }
@@ -3766,9 +3552,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of instance IDs.
-        public var instanceIds: [String] = []
-
-        public init() {}
+        public let instanceIds: [String]
 
         public init(instanceIds: [String]) {
             self.instanceIds = instanceIds
@@ -3784,9 +3568,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack ID.
-        public var stackId: String = ""
-
-        public init() {}
+        public let stackId: String
 
         public init(stackId: String) {
             self.stackId = stackId
@@ -3802,9 +3584,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An a array of RdsDbInstance objects that describe the instances.
-        public var rdsDbInstances: [RdsDbInstance]? = nil
-
-        public init() {}
+        public let rdsDbInstances: [RdsDbInstance]?
 
         public init(rdsDbInstances: [RdsDbInstance]? = nil) {
             self.rdsDbInstances = rdsDbInstances
@@ -3813,6 +3593,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let rdsDbInstances = dictionary["RdsDbInstances"] as? [[String: Any]] {
                 self.rdsDbInstances = try rdsDbInstances.map({ try RdsDbInstance(dictionary: $0) })
+            } else { 
+                self.rdsDbInstances = nil
             }
         }
     }
@@ -3821,19 +3603,17 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// When the error occurred.
-        public var createdAt: String? = nil
+        public let createdAt: String?
         /// A message that describes the error.
-        public var message: String? = nil
+        public let message: String?
         /// The stack ID.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// The error type.
-        public var type: String? = nil
+        public let type: String?
         /// The instance ID.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The error ID.
-        public var serviceErrorId: String? = nil
-
-        public init() {}
+        public let serviceErrorId: String?
 
         public init(createdAt: String? = nil, message: String? = nil, stackId: String? = nil, type: String? = nil, instanceId: String? = nil, serviceErrorId: String? = nil) {
             self.createdAt = createdAt
@@ -3858,9 +3638,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The instance ID.
-        public var instanceId: String = ""
-
-        public init() {}
+        public let instanceId: String
 
         public init(instanceId: String) {
             self.instanceId = instanceId
@@ -3876,9 +3654,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The deployment ID, which can be used with other requests to identify the deployment.
-        public var deploymentId: String? = nil
-
-        public init() {}
+        public let deploymentId: String?
 
         public init(deploymentId: String? = nil) {
             self.deploymentId = deploymentId
@@ -3893,9 +3669,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of ServiceError objects that describe the specified service errors.
-        public var serviceErrors: [ServiceError]? = nil
-
-        public init() {}
+        public let serviceErrors: [ServiceError]?
 
         public init(serviceErrors: [ServiceError]? = nil) {
             self.serviceErrors = serviceErrors
@@ -3904,6 +3678,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let serviceErrors = dictionary["ServiceErrors"] as? [[String: Any]] {
                 self.serviceErrors = try serviceErrors.map({ try ServiceError(dictionary: $0) })
+            } else { 
+                self.serviceErrors = nil
             }
         }
     }
@@ -3912,11 +3688,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack ID.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// The user's IAM ARN. This can also be a federated user's ARN. For more information about IAM ARNs, see Using Identifiers.
-        public var iamUserArn: String? = nil
-
-        public init() {}
+        public let iamUserArn: String?
 
         public init(stackId: String? = nil, iamUserArn: String? = nil) {
             self.stackId = stackId
@@ -3933,11 +3707,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The configuration manager.
-        public var configurationManager: StackConfigurationManager? = nil
+        public let configurationManager: StackConfigurationManager?
         /// The agent version.
-        public var version: String? = nil
-
-        public init() {}
+        public let version: String?
 
         public init(configurationManager: StackConfigurationManager? = nil, version: String? = nil) {
             self.configurationManager = configurationManager
@@ -3945,7 +3717,7 @@ extension Opsworks {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) }
+            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) } else { self.configurationManager = nil }
             self.version = dictionary["Version"] as? String
         }
     }
@@ -3954,13 +3726,11 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The data source's type, AutoSelectOpsworksMysqlInstance, OpsworksMysqlInstance, or RdsDbInstance.
-        public var type: String? = nil
+        public let type: String?
         /// The data source's ARN.
-        public var arn: String? = nil
+        public let arn: String?
         /// The database name.
-        public var databaseName: String? = nil
-
-        public init() {}
+        public let databaseName: String?
 
         public init(type: String? = nil, arn: String? = nil, databaseName: String? = nil) {
             self.type = type
@@ -3979,9 +3749,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of ElasticLoadBalancer objects that describe the specified Elastic Load Balancing instances.
-        public var elasticLoadBalancers: [ElasticLoadBalancer]? = nil
-
-        public init() {}
+        public let elasticLoadBalancers: [ElasticLoadBalancer]?
 
         public init(elasticLoadBalancers: [ElasticLoadBalancer]? = nil) {
             self.elasticLoadBalancers = elasticLoadBalancers
@@ -3990,6 +3758,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let elasticLoadBalancers = dictionary["ElasticLoadBalancers"] as? [[String: Any]] {
                 self.elasticLoadBalancers = try elasticLoadBalancers.map({ try ElasticLoadBalancer(dictionary: $0) })
+            } else { 
+                self.elasticLoadBalancers = nil
             }
         }
     }
@@ -3998,11 +3768,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The instance ID.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// A WeeklyAutoScalingSchedule object with the instance schedule.
-        public var autoScalingSchedule: WeeklyAutoScalingSchedule? = nil
-
-        public init() {}
+        public let autoScalingSchedule: WeeklyAutoScalingSchedule?
 
         public init(instanceId: String? = nil, autoScalingSchedule: WeeklyAutoScalingSchedule? = nil) {
             self.instanceId = instanceId
@@ -4011,7 +3779,7 @@ extension Opsworks {
 
         public init(dictionary: [String: Any]) throws {
             self.instanceId = dictionary["InstanceId"] as? String
-            if let autoScalingSchedule = dictionary["AutoScalingSchedule"] as? [String: Any] { self.autoScalingSchedule = try Opsworks.WeeklyAutoScalingSchedule(dictionary: autoScalingSchedule) }
+            if let autoScalingSchedule = dictionary["AutoScalingSchedule"] as? [String: Any] { self.autoScalingSchedule = try Opsworks.WeeklyAutoScalingSchedule(dictionary: autoScalingSchedule) } else { self.autoScalingSchedule = nil }
         }
     }
 
@@ -4019,11 +3787,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The generated host name.
-        public var hostname: String? = nil
+        public let hostname: String?
         /// The layer ID.
-        public var layerId: String? = nil
-
-        public init() {}
+        public let layerId: String?
 
         public init(hostname: String? = nil, layerId: String? = nil) {
             self.hostname = hostname
@@ -4040,17 +3806,15 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The snapshot ID.
-        public var snapshotId: String? = nil
+        public let snapshotId: String?
         /// The volume size, in GiB. For more information, see EbsBlockDevice.
-        public var volumeSize: Int32? = nil
+        public let volumeSize: Int32?
         /// Whether the volume is deleted on instance termination.
-        public var deleteOnTermination: Bool? = nil
+        public let deleteOnTermination: Bool?
         /// The volume type. gp2 for General Purpose (SSD) volumes, io1 for Provisioned IOPS (SSD) volumes, and standard for Magnetic volumes.
-        public var volumeType: String? = nil
+        public let volumeType: String?
         /// The number of I/O operations per second (IOPS) that the volume supports. For more information, see EbsBlockDevice.
-        public var iops: Int32? = nil
-
-        public init() {}
+        public let iops: Int32?
 
         public init(snapshotId: String? = nil, volumeSize: Int32? = nil, deleteOnTermination: Bool? = nil, volumeType: String? = nil, iops: Int32? = nil) {
             self.snapshotId = snapshotId
@@ -4073,15 +3837,13 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// Suppresses the specified device included in the AMI's block device mapping.
-        public var noDevice: String? = nil
+        public let noDevice: String?
         /// The virtual device name. For more information, see BlockDeviceMapping.
-        public var virtualName: String? = nil
+        public let virtualName: String?
         /// The device name that is exposed to the instance, such as /dev/sdh. For the root device, you can use the explicit device name or you can set this parameter to ROOT_DEVICE and AWS OpsWorks will provide the correct device name.
-        public var deviceName: String? = nil
+        public let deviceName: String?
         /// An EBSBlockDevice that defines how to configure an Amazon EBS volume when the instance is launched.
-        public var ebs: EbsBlockDevice? = nil
-
-        public init() {}
+        public let ebs: EbsBlockDevice?
 
         public init(noDevice: String? = nil, virtualName: String? = nil, deviceName: String? = nil, ebs: EbsBlockDevice? = nil) {
             self.noDevice = noDevice
@@ -4094,7 +3856,7 @@ extension Opsworks {
             self.noDevice = dictionary["NoDevice"] as? String
             self.virtualName = dictionary["VirtualName"] as? String
             self.deviceName = dictionary["DeviceName"] as? String
-            if let ebs = dictionary["Ebs"] as? [String: Any] { self.ebs = try Opsworks.EbsBlockDevice(dictionary: ebs) }
+            if let ebs = dictionary["Ebs"] as? [String: Any] { self.ebs = try Opsworks.EbsBlockDevice(dictionary: ebs) } else { self.ebs = nil }
         }
     }
 
@@ -4102,9 +3864,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon RDS instance's ARN.
-        public var rdsDbInstanceArn: String = ""
-
-        public init() {}
+        public let rdsDbInstanceArn: String
 
         public init(rdsDbInstanceArn: String) {
             self.rdsDbInstanceArn = rdsDbInstanceArn
@@ -4120,42 +3880,40 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack's operating system, which must be set to one of the following:   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information on how to use custom AMIs with OpsWorks, see Using Custom AMIs.   The default option is the stack's current operating system. For more information on the supported operating systems, see AWS OpsWorks Operating Systems.
-        public var defaultOs: String? = nil
+        public let defaultOs: String?
         /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create a New Stack.
-        public var chefConfiguration: ChefConfiguration? = nil
+        public let chefConfiguration: ChefConfiguration?
         /// Do not use this parameter. You cannot update a stack's service role.
-        public var serviceRoleArn: String? = nil
+        public let serviceRoleArn: String?
         /// The default root device type. This value is used by default for all instances in the stack, but you can override it when you create an instance. For more information, see Storage for the Root Device.
-        public var defaultRootDeviceType: String? = nil
+        public let defaultRootDeviceType: String?
         /// The ARN of an IAM profile that is the default profile for all of the stack's EC2 instances. For more information about IAM ARNs, see Using Identifiers.
-        public var defaultInstanceProfileArn: String? = nil
-        public var customCookbooksSource: Source? = nil
+        public let defaultInstanceProfileArn: String?
+        public let customCookbooksSource: Source?
         /// A string that contains user-defined, custom JSON. It can be used to override the corresponding default stack configuration JSON values or to pass data to recipes. The string should be in the following format:  "{\"key1\": \"value1\", \"key2\": \"value2\",...}"  For more information on custom JSON, see Use Custom JSON to Modify the Stack Configuration Attributes.
-        public var customJson: String? = nil
+        public let customJson: String?
         /// Whether the stack uses custom cookbooks.
-        public var useCustomCookbooks: Bool? = nil
+        public let useCustomCookbooks: Bool?
         /// A default Amazon EC2 key-pair name. The default value is none. If you specify a key-pair name, AWS OpsWorks installs the public key on the instance and you can use the private key with an SSH client to log in to the instance. For more information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override this setting by specifying a different key pair, or no key pair, when you  create an instance. 
-        public var defaultSshKeyName: String? = nil
+        public let defaultSshKeyName: String?
         /// The default AWS OpsWorks agent version. You have the following options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks automatically installs new agent versions on the stack's instances as soon as they are available.   Fixed version - Set this parameter to your preferred agent version. To update the agent version, you must edit the stack configuration and specify a new version. AWS OpsWorks then automatically installs that version on the stack's instances.   The default setting is LATEST. To specify an agent version, you must use the complete version number, not the abbreviated number shown on the console. For a list of available agent version numbers, call DescribeAgentVersions.  You can also specify an agent version when you create or update an instance, which overrides the stack's default setting. 
-        public var agentVersion: String? = nil
+        public let agentVersion: String?
         /// The stack's new name.
-        public var name: String? = nil
+        public let name: String?
         /// The stack ID.
-        public var stackId: String = ""
+        public let stackId: String
         /// The configuration manager. When you update a stack, we recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently 11.4.
-        public var configurationManager: StackConfigurationManager? = nil
+        public let configurationManager: StackConfigurationManager?
         /// One or more user-defined key-value pairs to be added to the stack attributes.
-        public var attributes: [String: String]? = nil
+        public let attributes: [String: String]?
         /// The stack's default VPC subnet ID. This parameter is required if you specify a value for the VpcId parameter. All instances are launched into this subnet unless you specify otherwise when you create the instance. If you also specify a value for DefaultAvailabilityZone, the subnet must be in that zone. For information on default values and when this parameter is required, see the VpcId parameter description. 
-        public var defaultSubnetId: String? = nil
+        public let defaultSubnetId: String?
         /// The stack's new host name theme, with spaces replaced by underscores. The theme is used to generate host names for the stack's instances. By default, HostnameTheme is set to Layer_Dependent, which creates host names by appending integers to the layer's short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities     Fruits     Greek_Deities     Legendary_creatures_from_Japan     Planets_and_Moons     Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To obtain a generated host name, call GetHostNameSuggestion, which returns a host name based on the current theme.
-        public var hostnameTheme: String? = nil
+        public let hostnameTheme: String?
         /// The stack's default Availability Zone, which must be in the stack's region. For more information, see Regions and Endpoints. If you also specify a value for DefaultSubnetId, the subnet must be in the same zone. For more information, see CreateStack. 
-        public var defaultAvailabilityZone: String? = nil
+        public let defaultAvailabilityZone: String?
         /// Whether to associate the AWS OpsWorks built-in security groups with the stack's layers. AWS OpsWorks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. UseOpsworksSecurityGroups allows you to provide your own custom security groups instead of using the built-in groups. UseOpsworksSecurityGroups has the following settings:    True - AWS OpsWorks automatically associates the appropriate built-in security group with each layer (default setting). You can associate additional security groups with a layer after you create it, but you cannot delete the built-in security group.   False - AWS OpsWorks does not associate built-in security groups with layers. You must create appropriate EC2 security groups and associate a security group with each layer that you create. However, you can still manually associate a built-in security group with a layer on. Custom security groups are required only for those layers that need custom settings.   For more information, see Create a New Stack.
-        public var useOpsworksSecurityGroups: Bool? = nil
-
-        public init() {}
+        public let useOpsworksSecurityGroups: Bool?
 
         public init(defaultOs: String? = nil, chefConfiguration: ChefConfiguration? = nil, serviceRoleArn: String? = nil, defaultRootDeviceType: String? = nil, defaultInstanceProfileArn: String? = nil, customCookbooksSource: Source? = nil, customJson: String? = nil, useCustomCookbooks: Bool? = nil, defaultSshKeyName: String? = nil, agentVersion: String? = nil, name: String? = nil, stackId: String, configurationManager: StackConfigurationManager? = nil, attributes: [String: String]? = nil, defaultSubnetId: String? = nil, hostnameTheme: String? = nil, defaultAvailabilityZone: String? = nil, useOpsworksSecurityGroups: Bool? = nil) {
             self.defaultOs = defaultOs
@@ -4180,11 +3938,11 @@ extension Opsworks {
 
         public init(dictionary: [String: Any]) throws {
             self.defaultOs = dictionary["DefaultOs"] as? String
-            if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) }
+            if let chefConfiguration = dictionary["ChefConfiguration"] as? [String: Any] { self.chefConfiguration = try Opsworks.ChefConfiguration(dictionary: chefConfiguration) } else { self.chefConfiguration = nil }
             self.serviceRoleArn = dictionary["ServiceRoleArn"] as? String
             self.defaultRootDeviceType = dictionary["DefaultRootDeviceType"] as? String
             self.defaultInstanceProfileArn = dictionary["DefaultInstanceProfileArn"] as? String
-            if let customCookbooksSource = dictionary["CustomCookbooksSource"] as? [String: Any] { self.customCookbooksSource = try Opsworks.Source(dictionary: customCookbooksSource) }
+            if let customCookbooksSource = dictionary["CustomCookbooksSource"] as? [String: Any] { self.customCookbooksSource = try Opsworks.Source(dictionary: customCookbooksSource) } else { self.customCookbooksSource = nil }
             self.customJson = dictionary["CustomJson"] as? String
             self.useCustomCookbooks = dictionary["UseCustomCookbooks"] as? Bool
             self.defaultSshKeyName = dictionary["DefaultSshKeyName"] as? String
@@ -4192,9 +3950,11 @@ extension Opsworks {
             self.name = dictionary["Name"] as? String
             guard let stackId = dictionary["StackId"] as? String else { throw InitializableError.missingRequiredParam("StackId") }
             self.stackId = stackId
-            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) }
+            if let configurationManager = dictionary["ConfigurationManager"] as? [String: Any] { self.configurationManager = try Opsworks.StackConfigurationManager(dictionary: configurationManager) } else { self.configurationManager = nil }
             if let attributes = dictionary["Attributes"] as? [String: String] {
                 self.attributes = attributes
+            } else { 
+                self.attributes = nil
             }
             self.defaultSubnetId = dictionary["DefaultSubnetId"] as? String
             self.hostnameTheme = dictionary["HostnameTheme"] as? String
@@ -4207,11 +3967,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The address.
-        public var elasticIp: String = ""
+        public let elasticIp: String
         /// The new name.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(elasticIp: String, name: String? = nil) {
             self.elasticIp = elasticIp
@@ -4229,11 +3987,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// A JSON document that contains the metadata.
-        public var document: String? = nil
+        public let document: String?
         /// A signature that can be used to verify the document's accuracy and authenticity.
-        public var signature: String? = nil
-
-        public init() {}
+        public let signature: String?
 
         public init(document: String? = nil, signature: String? = nil) {
             self.document = document
@@ -4250,9 +4006,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of Instance objects that describe the instances.
-        public var instances: [Instance]? = nil
-
-        public init() {}
+        public let instances: [Instance]?
 
         public init(instances: [Instance]? = nil) {
             self.instances = instances
@@ -4261,6 +4015,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let instances = dictionary["Instances"] as? [[String: Any]] {
                 self.instances = try instances.map({ try Instance(dictionary: $0) })
+            } else { 
+                self.instances = nil
             }
         }
     }
@@ -4269,16 +4025,14 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// A ShutdownEventConfiguration object that specifies the Shutdown event configuration.
-        public var shutdown: ShutdownEventConfiguration? = nil
-
-        public init() {}
+        public let shutdown: ShutdownEventConfiguration?
 
         public init(shutdown: ShutdownEventConfiguration? = nil) {
             self.shutdown = shutdown
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let shutdown = dictionary["Shutdown"] as? [String: Any] { self.shutdown = try Opsworks.ShutdownEventConfiguration(dictionary: shutdown) }
+            if let shutdown = dictionary["Shutdown"] as? [String: Any] { self.shutdown = try Opsworks.ShutdownEventConfiguration(dictionary: shutdown) } else { self.shutdown = nil }
         }
     }
 
@@ -4286,9 +4040,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack ID
-        public var stackId: String = ""
-
-        public init() {}
+        public let stackId: String
 
         public init(stackId: String) {
             self.stackId = stackId
@@ -4304,9 +4056,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The app ID.
-        public var appId: String = ""
-
-        public init() {}
+        public let appId: String
 
         public init(appId: String) {
             self.appId = appId
@@ -4322,9 +4072,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of Deployment objects that describe the deployments.
-        public var deployments: [Deployment]? = nil
-
-        public init() {}
+        public let deployments: [Deployment]?
 
         public init(deployments: [Deployment]? = nil) {
             self.deployments = deployments
@@ -4333,6 +4081,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let deployments = dictionary["Deployments"] as? [[String: Any]] {
                 self.deployments = try deployments.map({ try Deployment(dictionary: $0) })
+            } else { 
+                self.deployments = nil
             }
         }
     }
@@ -4341,9 +4091,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of Permission objects that describe the stack permissions.   If the request object contains only a stack ID, the array contains a Permission object with permissions for each of the stack IAM ARNs.   If the request object contains only an IAM ARN, the array contains a Permission object with permissions for each of the user's stack IDs.   If the request contains a stack ID and an IAM ARN, the array contains a single Permission object with permissions for the specified stack and IAM ARN.  
-        public var permissions: [Permission]? = nil
-
-        public init() {}
+        public let permissions: [Permission]?
 
         public init(permissions: [Permission]? = nil) {
             self.permissions = permissions
@@ -4352,6 +4100,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let permissions = dictionary["Permissions"] as? [[String: Any]] {
                 self.permissions = try permissions.map({ try Permission(dictionary: $0) })
+            } else { 
+                self.permissions = nil
             }
         }
     }
@@ -4360,11 +4110,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The stack ID.
-        public var stackId: String = ""
+        public let stackId: String
         /// The Amazon EBS volume ID.
-        public var ec2VolumeId: String? = nil
-
-        public init() {}
+        public let ec2VolumeId: String?
 
         public init(stackId: String, ec2VolumeId: String? = nil) {
             self.stackId = stackId
@@ -4382,9 +4130,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The instance ID.
-        public var instanceId: String = ""
-
-        public init() {}
+        public let instanceId: String
 
         public init(instanceId: String) {
             self.instanceId = instanceId
@@ -4400,17 +4146,15 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user's permission level, which must be the following:    deny     show     deploy     manage     iam_only    For more information on the permissions associated with these levels, see Managing User Permissions 
-        public var level: String? = nil
+        public let level: String?
         /// The Amazon Resource Name (ARN) for an AWS Identity and Access Management (IAM) role. For more information about IAM ARNs, see Using Identifiers.
-        public var iamUserArn: String? = nil
+        public let iamUserArn: String?
         /// Whether the user can use SSH.
-        public var allowSsh: Bool? = nil
+        public let allowSsh: Bool?
         /// A stack ID.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// Whether the user can use sudo.
-        public var allowSudo: Bool? = nil
-
-        public init() {}
+        public let allowSudo: Bool?
 
         public init(level: String? = nil, iamUserArn: String? = nil, allowSsh: Bool? = nil, stackId: String? = nil, allowSudo: Bool? = nil) {
             self.level = level
@@ -4433,11 +4177,9 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The instance ID.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The volume ID.
-        public var volumeId: String = ""
-
-        public init() {}
+        public let volumeId: String
 
         public init(instanceId: String? = nil, volumeId: String) {
             self.instanceId = instanceId
@@ -4455,9 +4197,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user's IAM ARN. This can also be a federated user's ARN.
-        public var iamUserArn: String = ""
-
-        public init() {}
+        public let iamUserArn: String
 
         public init(iamUserArn: String) {
             self.iamUserArn = iamUserArn
@@ -4473,25 +4213,23 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of subnet IDs, if the stack is running in a VPC.
-        public var subnetIds: [String]? = nil
+        public let subnetIds: [String]?
         /// A list of Availability Zones.
-        public var availabilityZones: [String]? = nil
+        public let availabilityZones: [String]?
         /// The ID of the stack that the instance is associated with.
-        public var stackId: String? = nil
+        public let stackId: String?
         /// A list of the EC2 instances that the Elastic Load Balancing instance is managing traffic for.
-        public var ec2InstanceIds: [String]? = nil
+        public let ec2InstanceIds: [String]?
         /// The instance's AWS region.
-        public var region: String? = nil
+        public let region: String?
         /// The ID of the layer that the instance is attached to.
-        public var layerId: String? = nil
+        public let layerId: String?
         /// The VPC ID.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The Elastic Load Balancing instance's name.
-        public var elasticLoadBalancerName: String? = nil
+        public let elasticLoadBalancerName: String?
         /// The instance's public DNS name.
-        public var dnsName: String? = nil
-
-        public init() {}
+        public let dnsName: String?
 
         public init(subnetIds: [String]? = nil, availabilityZones: [String]? = nil, stackId: String? = nil, ec2InstanceIds: [String]? = nil, region: String? = nil, layerId: String? = nil, vpcId: String? = nil, elasticLoadBalancerName: String? = nil, dnsName: String? = nil) {
             self.subnetIds = subnetIds
@@ -4506,16 +4244,10 @@ extension Opsworks {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let subnetIds = dictionary["SubnetIds"] as? [String] {
-                self.subnetIds = subnetIds
-            }
-            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
-                self.availabilityZones = availabilityZones
-            }
+            self.subnetIds = dictionary["SubnetIds"] as? [String]
+            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
             self.stackId = dictionary["StackId"] as? String
-            if let ec2InstanceIds = dictionary["Ec2InstanceIds"] as? [String] {
-                self.ec2InstanceIds = ec2InstanceIds
-            }
+            self.ec2InstanceIds = dictionary["Ec2InstanceIds"] as? [String]
             self.region = dictionary["Region"] as? String
             self.layerId = dictionary["LayerId"] as? String
             self.vpcId = dictionary["VpcId"] as? String
@@ -4528,9 +4260,7 @@ extension Opsworks {
         /// The key for the payload
         public static let payload: String? = nil
         /// An ElasticIps object that describes the specified Elastic IP addresses.
-        public var elasticIps: [ElasticIp]? = nil
-
-        public init() {}
+        public let elasticIps: [ElasticIp]?
 
         public init(elasticIps: [ElasticIp]? = nil) {
             self.elasticIps = elasticIps
@@ -4539,6 +4269,8 @@ extension Opsworks {
         public init(dictionary: [String: Any]) throws {
             if let elasticIps = dictionary["ElasticIps"] as? [[String: Any]] {
                 self.elasticIps = try elasticIps.map({ try ElasticIp(dictionary: $0) })
+            } else { 
+                self.elasticIps = nil
             }
         }
     }

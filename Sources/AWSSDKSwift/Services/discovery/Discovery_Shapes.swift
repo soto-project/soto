@@ -33,11 +33,9 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Configuration ID of an application from which each item will be disassociated.
-        public var applicationConfigurationId: String = ""
+        public let applicationConfigurationId: String
         /// Configuration ID of each item be be disassociated from an application.
-        public var configurationIds: [String] = []
-
-        public init() {}
+        public let configurationIds: [String]
 
         public init(applicationConfigurationId: String, configurationIds: [String]) {
             self.applicationConfigurationId = applicationConfigurationId
@@ -56,11 +54,9 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Depending on the input, this is a list of configuration items tagged with a specific tag, or a list of tags for a specific configuration item.
-        public var tags: [ConfigurationTag]? = nil
+        public let tags: [ConfigurationTag]?
         /// The call returns a token. Use this token to get the next set of results.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(tags: [ConfigurationTag]? = nil, nextToken: String? = nil) {
             self.tags = tags
@@ -70,6 +66,8 @@ extension Discovery {
         public init(dictionary: [String: Any]) throws {
             if let tags = dictionary["tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try ConfigurationTag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -79,11 +77,9 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Tags that you want to associate with one or more configuration items. Specify the tags that you want to create in a key-value format. For example:  {"key": "serverType", "value": "webServer"} 
-        public var tags: [Tag] = []
+        public let tags: [Tag]
         /// A list of configuration items that you want to tag.
-        public var configurationIds: [String] = []
-
-        public init() {}
+        public let configurationIds: [String]
 
         public init(tags: [Tag], configurationIds: [String]) {
             self.tags = tags
@@ -102,8 +98,6 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -111,8 +105,6 @@ extension Discovery {
     public struct UpdateApplicationResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -122,17 +114,15 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// A valid configuration identified by the Discovery Service. 
-        public var configurationType: String = ""
+        public let configurationType: String
         /// The total number of items to return. The maximum value is 100.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// Token to retrieve the next set of results. For example, if a previous call to ListConfigurations returned 100 items, but you set ListConfigurationsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// You can filter the request using various logical operators and a key-value format. For example:   {"key": "serverType", "value": "webServer"}  For a complete list of filter options and guidance about using them with this action, see Querying Discovered Configuration Items. 
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Certain filter criteria return output that can be sorted in ascending or descending order. For a list of output characteristics for each filter, see Querying Discovered Configuration Items.
-        public var orderBy: [OrderByElement]? = nil
-
-        public init() {}
+        public let orderBy: [OrderByElement]?
 
         public init(configurationType: String, maxResults: Int32? = nil, nextToken: String? = nil, filters: [Filter]? = nil, orderBy: [OrderByElement]? = nil) {
             self.configurationType = configurationType
@@ -149,9 +139,13 @@ extension Discovery {
             self.nextToken = dictionary["nextToken"] as? String
             if let filters = dictionary["filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             if let orderBy = dictionary["orderBy"] as? [[String: Any]] {
                 self.orderBy = try orderBy.map({ try OrderByElement(dictionary: $0) })
+            } else { 
+                self.orderBy = nil
             }
         }
     }
@@ -160,11 +154,9 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Field to order on.
-        public var fieldName: String = ""
+        public let fieldName: String
         /// Ordering direction.
-        public var sortOrder: String? = nil
-
-        public init() {}
+        public let sortOrder: String?
 
         public init(fieldName: String, sortOrder: String? = nil) {
             self.fieldName = fieldName
@@ -182,27 +174,25 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// The health of the agent or connector.
-        public var health: String? = nil
+        public let health: String?
         /// Network details about the host where the agent or connector resides.
-        public var agentNetworkInfoList: [AgentNetworkInfo]? = nil
+        public let agentNetworkInfoList: [AgentNetworkInfo]?
         /// Time since agent or connector health was reported.
-        public var lastHealthPingTime: String? = nil
+        public let lastHealthPingTime: String?
         /// Type of agent.
-        public var agentType: String? = nil
+        public let agentType: String?
         /// Status of the collection process for an agent or connector.
-        public var collectionStatus: String? = nil
+        public let collectionStatus: String?
         /// The agent or connector version.
-        public var version: String? = nil
+        public let version: String?
         /// The ID of the connector.
-        public var connectorId: String? = nil
+        public let connectorId: String?
         /// The agent or connector ID.
-        public var agentId: String? = nil
+        public let agentId: String?
         /// Agent's first registration time stamp in UTC.
-        public var registeredTime: String? = nil
+        public let registeredTime: String?
         /// The name of the host where the agent or connector resides. The host can be a server or virtual machine.
-        public var hostName: String? = nil
-
-        public init() {}
+        public let hostName: String?
 
         public init(health: String? = nil, agentNetworkInfoList: [AgentNetworkInfo]? = nil, lastHealthPingTime: String? = nil, agentType: String? = nil, collectionStatus: String? = nil, version: String? = nil, connectorId: String? = nil, agentId: String? = nil, registeredTime: String? = nil, hostName: String? = nil) {
             self.health = health
@@ -221,6 +211,8 @@ extension Discovery {
             self.health = dictionary["health"] as? String
             if let agentNetworkInfoList = dictionary["agentNetworkInfoList"] as? [[String: Any]] {
                 self.agentNetworkInfoList = try agentNetworkInfoList.map({ try AgentNetworkInfo(dictionary: $0) })
+            } else { 
+                self.agentNetworkInfoList = nil
             }
             self.lastHealthPingTime = dictionary["lastHealthPingTime"] as? String
             self.agentType = dictionary["agentType"] as? String
@@ -237,19 +229,17 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Number of servers mapped to tags.
-        public var serversMappedtoTags: Int64? = nil
+        public let serversMappedtoTags: Int64?
         /// Number of applications discovered.
-        public var applications: Int64? = nil
+        public let applications: Int64?
         /// Details about discovered connectors, including connector status and health.
-        public var connectorSummary: CustomerConnectorInfo? = nil
+        public let connectorSummary: CustomerConnectorInfo?
         /// Details about discovered agents, including agent status and health.
-        public var agentSummary: CustomerAgentInfo? = nil
+        public let agentSummary: CustomerAgentInfo?
         /// Number of servers discovered.
-        public var servers: Int64? = nil
+        public let servers: Int64?
         /// Number of servers mapped to applications.
-        public var serversMappedToApplications: Int64? = nil
-
-        public init() {}
+        public let serversMappedToApplications: Int64?
 
         public init(serversMappedtoTags: Int64? = nil, applications: Int64? = nil, connectorSummary: CustomerConnectorInfo? = nil, agentSummary: CustomerAgentInfo? = nil, servers: Int64? = nil, serversMappedToApplications: Int64? = nil) {
             self.serversMappedtoTags = serversMappedtoTags
@@ -263,8 +253,8 @@ extension Discovery {
         public init(dictionary: [String: Any]) throws {
             self.serversMappedtoTags = dictionary["serversMappedtoTags"] as? Int64
             self.applications = dictionary["applications"] as? Int64
-            if let connectorSummary = dictionary["connectorSummary"] as? [String: Any] { self.connectorSummary = try Discovery.CustomerConnectorInfo(dictionary: connectorSummary) }
-            if let agentSummary = dictionary["agentSummary"] as? [String: Any] { self.agentSummary = try Discovery.CustomerAgentInfo(dictionary: agentSummary) }
+            if let connectorSummary = dictionary["connectorSummary"] as? [String: Any] { self.connectorSummary = try Discovery.CustomerConnectorInfo(dictionary: connectorSummary) } else { self.connectorSummary = nil }
+            if let agentSummary = dictionary["agentSummary"] as? [String: Any] { self.agentSummary = try Discovery.CustomerAgentInfo(dictionary: agentSummary) } else { self.agentSummary = nil }
             self.servers = dictionary["servers"] as? Int64
             self.serversMappedToApplications = dictionary["serversMappedToApplications"] as? Int64
         }
@@ -274,13 +264,11 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// A unique identifier that you can use to query the export status.
-        public var exportIds: [String]? = nil
+        public let exportIds: [String]?
         /// A token to get the next set of results. For example, if you specified 100 IDs for DescribeExportConfigurationsRequest$exportIds but set DescribeExportConfigurationsRequest$maxResults to 10, you will get results in a set of 10. Use the token in the query to get the next set of 10.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results that you want to display as a part of the query.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(exportIds: [String]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.exportIds = exportIds
@@ -289,9 +277,7 @@ extension Discovery {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let exportIds = dictionary["exportIds"] as? [String] {
-                self.exportIds = exportIds
-            }
+            self.exportIds = dictionary["exportIds"] as? [String]
             self.nextToken = dictionary["nextToken"] as? String
             self.maxResults = dictionary["maxResults"] as? Int32
         }
@@ -301,17 +287,15 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time the configuration tag was created in Coordinated Universal Time (UTC).
-        public var timeOfCreation: Date? = nil
+        public let timeOfCreation: Date?
         /// A type of IT asset that you want to tag.
-        public var configurationType: String? = nil
+        public let configurationType: String?
         /// A value to filter on. For example key = serverType and value = web server.
-        public var value: String? = nil
+        public let value: String?
         /// A type of tag to filter on. For example, serverType.
-        public var key: String? = nil
+        public let key: String?
         /// The configuration ID for the item you want to tag. You can specify a list of keys and values.
-        public var configurationId: String? = nil
-
-        public init() {}
+        public let configurationId: String?
 
         public init(timeOfCreation: Date? = nil, configurationType: String? = nil, value: String? = nil, key: String? = nil, configurationId: String? = nil) {
             self.timeOfCreation = timeOfCreation
@@ -334,11 +318,9 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns configuration details, including the configuration ID, attribute names, and attribute values.
-        public var configurations: [[String: String]]? = nil
+        public let configurations: [[String: String]]?
         /// Token to retrieve the next set of results. For example, if your call to ListConfigurations returned 100 items, but you set ListConfigurationsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(configurations: [[String: String]]? = nil, nextToken: String? = nil) {
             self.configurations = configurations
@@ -346,9 +328,7 @@ extension Discovery {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let configurations = dictionary["configurations"] as? [[String: String]] {
-                self.configurations = configurations
-            }
+            self.configurations = dictionary["configurations"] as? [[String: String]]
             self.nextToken = dictionary["nextToken"] as? String
         }
     }
@@ -357,13 +337,11 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// A description of the operation performed.
-        public var description: String? = nil
+        public let description: String?
         /// The agent/Connector ID.
-        public var agentId: String? = nil
+        public let agentId: String?
         /// Information about the status of the StartDataCollection and StopDataCollection operations. The system has recorded the data collection operation. The agent/Connector receives this command the next time it polls for a new command. 
-        public var operationSucceeded: Bool? = nil
-
-        public init() {}
+        public let operationSucceeded: Bool?
 
         public init(description: String? = nil, agentId: String? = nil, operationSucceeded: Bool? = nil) {
             self.description = description
@@ -382,9 +360,7 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Configuration ID of an application to be deleted.
-        public var configurationIds: [String] = []
-
-        public init() {}
+        public let configurationIds: [String]
 
         public init(configurationIds: [String]) {
             self.configurationIds = configurationIds
@@ -400,21 +376,19 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Number of unhealthy discovery connectors.
-        public var unhealthyConnectors: Int32 = 0
+        public let unhealthyConnectors: Int32
         /// Number of healthy discovery connectors.
-        public var healthyConnectors: Int32 = 0
+        public let healthyConnectors: Int32
         /// Number of active discovery connectors.
-        public var activeConnectors: Int32 = 0
+        public let activeConnectors: Int32
         /// Total number of discovery connectors.
-        public var totalConnectors: Int32 = 0
+        public let totalConnectors: Int32
         /// Number of discovery connectors with status SHUTDOWN,
-        public var shutdownConnectors: Int32 = 0
+        public let shutdownConnectors: Int32
         /// Number of unknown discovery connectors.
-        public var unknownConnectors: Int32 = 0
+        public let unknownConnectors: Int32
         /// Number of blacklisted discovery connectors.
-        public var blackListedConnectors: Int32 = 0
-
-        public init() {}
+        public let blackListedConnectors: Int32
 
         public init(unhealthyConnectors: Int32, healthyConnectors: Int32, activeConnectors: Int32, totalConnectors: Int32, shutdownConnectors: Int32, unknownConnectors: Int32, blackListedConnectors: Int32) {
             self.unhealthyConnectors = unhealthyConnectors
@@ -448,17 +422,15 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// ID of the server that accepted the networker connection.
-        public var destinationServerId: String = ""
+        public let destinationServerId: String
         /// Network protocol used for the connection.
-        public var transportProtocol: String? = nil
+        public let transportProtocol: String?
         /// Number of open network connections with the neighboring server.
-        public var connectionsCount: Int64 = 0
+        public let connectionsCount: Int64
         /// Destination network port for the connection.
-        public var destinationPort: Int32? = nil
+        public let destinationPort: Int32?
         /// ID of server that opened the network connection.
-        public var sourceServerId: String = ""
-
-        public init() {}
+        public let sourceServerId: String
 
         public init(destinationServerId: String, transportProtocol: String? = nil, connectionsCount: Int64, destinationPort: Int32? = nil, sourceServerId: String) {
             self.destinationServerId = destinationServerId
@@ -484,9 +456,7 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the agents or Connectors that you want to stop collecting data.
-        public var agentIds: [String] = []
-
-        public init() {}
+        public let agentIds: [String]
 
         public init(agentIds: [String]) {
             self.agentIds = agentIds
@@ -502,13 +472,11 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// You can filter the list using a key-value format. You can separate these items by using logical operators. Allowed filters include tagKey, tagValue, and configurationId.  For a complete list of filter options and guidance about using them with this action, see Managing AWS Application Discovery Service Agents and the AWS Application Discovery Connector .
-        public var filters: [TagFilter]? = nil
+        public let filters: [TagFilter]?
         /// The total number of items to return in a single page of output. The maximum value is 100.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// A token to start the list. Use this token to get the next set of results.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(filters: [TagFilter]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.filters = filters
@@ -519,6 +487,8 @@ extension Discovery {
         public init(dictionary: [String: Any]) throws {
             if let filters = dictionary["filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try TagFilter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.maxResults = dictionary["maxResults"] as? Int32
             self.nextToken = dictionary["nextToken"] as? String
@@ -529,11 +499,9 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Tags that you want to delete from one or more configuration items. Specify the tags that you want to delete in a key-value format. For example:  {"key": "serverType", "value": "webServer"} 
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// A list of configuration items with tags that you want to delete.
-        public var configurationIds: [String] = []
-
-        public init() {}
+        public let configurationIds: [String]
 
         public init(tags: [Tag]? = nil, configurationIds: [String]) {
             self.tags = tags
@@ -543,6 +511,8 @@ extension Discovery {
         public init(dictionary: [String: Any]) throws {
             if let tags = dictionary["tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let configurationIds = dictionary["configurationIds"] as? [String] else { throw InitializableError.missingRequiredParam("configurationIds") }
             self.configurationIds = configurationIds
@@ -553,9 +523,7 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more configuration IDs.
-        public var configurationIds: [String] = []
-
-        public init() {}
+        public let configurationIds: [String]
 
         public init(configurationIds: [String]) {
             self.configurationIds = configurationIds
@@ -571,13 +539,11 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of distinct servers that are one hop away from the given server.
-        public var neighbors: [NeighborConnectionDetail] = []
+        public let neighbors: [NeighborConnectionDetail]
         /// Token to retrieve the next set of results. For example, if you specified 100 IDs for ListServerNeighborsRequest$neighborConfigurationIds but set ListServerNeighborsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Count of distinct servers that are one hop away from the given server.
-        public var knownDependencyCount: Int64? = nil
-
-        public init() {}
+        public let knownDependencyCount: Int64?
 
         public init(neighbors: [NeighborConnectionDetail], nextToken: String? = nil, knownDependencyCount: Int64? = nil) {
             self.neighbors = neighbors
@@ -597,8 +563,6 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -607,11 +571,9 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token to get the next set of results. For example, if you specified 100 IDs for DescribeExportConfigurationsRequest$exportIds but set DescribeExportConfigurationsRequest$maxResults to 10, you will get results in a set of 10. Use the token in the query to get the next set of 10.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Returns export details. When the status is complete, the response includes a URL for an Amazon S3 bucket where you can view the data in a CSV file.
-        public var exportsInfo: [ExportInfo]? = nil
-
-        public init() {}
+        public let exportsInfo: [ExportInfo]?
 
         public init(nextToken: String? = nil, exportsInfo: [ExportInfo]? = nil) {
             self.nextToken = nextToken
@@ -622,6 +584,8 @@ extension Discovery {
             self.nextToken = dictionary["nextToken"] as? String
             if let exportsInfo = dictionary["exportsInfo"] as? [[String: Any]] {
                 self.exportsInfo = try exportsInfo.map({ try ExportInfo(dictionary: $0) })
+            } else { 
+                self.exportsInfo = nil
             }
         }
     }
@@ -630,9 +594,7 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about agents or the Connector that were instructed to stop collecting data. Information includes the agent/Connector ID, a description of the operation performed, and whether or not the agent/Connector configuration was updated.
-        public var agentsConfigurationStatus: [AgentConfigurationStatus]? = nil
-
-        public init() {}
+        public let agentsConfigurationStatus: [AgentConfigurationStatus]?
 
         public init(agentsConfigurationStatus: [AgentConfigurationStatus]? = nil) {
             self.agentsConfigurationStatus = agentsConfigurationStatus
@@ -641,6 +603,8 @@ extension Discovery {
         public init(dictionary: [String: Any]) throws {
             if let agentsConfigurationStatus = dictionary["agentsConfigurationStatus"] as? [[String: Any]] {
                 self.agentsConfigurationStatus = try agentsConfigurationStatus.map({ try AgentConfigurationStatus(dictionary: $0) })
+            } else { 
+                self.agentsConfigurationStatus = nil
             }
         }
     }
@@ -649,9 +613,7 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about agents or the Connector that were instructed to start collecting data. Information includes the agent/Connector ID, a description of the operation performed, and whether or not the agent/Connector configuration was updated.
-        public var agentsConfigurationStatus: [AgentConfigurationStatus]? = nil
-
-        public init() {}
+        public let agentsConfigurationStatus: [AgentConfigurationStatus]?
 
         public init(agentsConfigurationStatus: [AgentConfigurationStatus]? = nil) {
             self.agentsConfigurationStatus = agentsConfigurationStatus
@@ -660,6 +622,8 @@ extension Discovery {
         public init(dictionary: [String: Any]) throws {
             if let agentsConfigurationStatus = dictionary["agentsConfigurationStatus"] as? [[String: Any]] {
                 self.agentsConfigurationStatus = try agentsConfigurationStatus.map({ try AgentConfigurationStatus(dictionary: $0) })
+            } else { 
+                self.agentsConfigurationStatus = nil
             }
         }
     }
@@ -668,9 +632,7 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Configuration ID of an application to be created.
-        public var configurationId: String? = nil
-
-        public init() {}
+        public let configurationId: String?
 
         public init(configurationId: String? = nil) {
             self.configurationId = configurationId
@@ -685,11 +647,9 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// A name of a tag filter.
-        public var name: String = ""
+        public let name: String
         /// Values of a tag filter.
-        public var values: [String] = []
-
-        public init() {}
+        public let values: [String]
 
         public init(name: String, values: [String]) {
             self.name = name
@@ -708,11 +668,9 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// The configuration ID of an application with which items are to be associated.
-        public var applicationConfigurationId: String = ""
+        public let applicationConfigurationId: String
         /// The ID of each configuration item to be associated with an application.
-        public var configurationIds: [String] = []
-
-        public init() {}
+        public let configurationIds: [String]
 
         public init(applicationConfigurationId: String, configurationIds: [String]) {
             self.applicationConfigurationId = applicationConfigurationId
@@ -731,11 +689,9 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// A type of tag to filter on.
-        public var key: String = ""
+        public let key: String
         /// A value for a tag key to filter on.
-        public var value: String = ""
-
-        public init() {}
+        public let value: String
 
         public init(key: String, value: String) {
             self.key = key
@@ -754,8 +710,6 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -764,17 +718,15 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// A unique identifier that you can use to query the export.
-        public var exportId: String = ""
+        public let exportId: String
         /// The status of the configuration data export. The status can succeed, fail, or be in-progress.
-        public var exportStatus: String = ""
+        public let exportStatus: String
         /// A URL for an Amazon S3 bucket where you can review the configuration data. The URL is displayed only if the export succeeded.
-        public var configurationsDownloadUrl: String? = nil
+        public let configurationsDownloadUrl: String?
         /// Helpful status messages for API callers. For example: Too many exports in the last 6 hours. Export in progress. Export was successful.
-        public var statusMessage: String = ""
+        public let statusMessage: String
         /// The time the configuration data export was initiated.
-        public var exportRequestTime: Date = Date()
-
-        public init() {}
+        public let exportRequestTime: Date
 
         public init(exportId: String, exportStatus: String, configurationsDownloadUrl: String? = nil, statusMessage: String, exportRequestTime: Date) {
             self.exportId = exportId
@@ -801,11 +753,9 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Lists agents or the Connector by ID or lists all agents/Connectors associated with your user account if you did not specify an agent/Connector ID. The output includes agent/Connector IDs, IP addresses, media access control (MAC) addresses, agent/Connector health, host name where the agent/Connector resides, and the version number of each agent/Connector.
-        public var agentsInfo: [AgentInfo]? = nil
+        public let agentsInfo: [AgentInfo]?
         /// Token to retrieve the next set of results. For example, if you specified 100 IDs for DescribeAgentsRequest$agentIds but set DescribeAgentsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(agentsInfo: [AgentInfo]? = nil, nextToken: String? = nil) {
             self.agentsInfo = agentsInfo
@@ -815,6 +765,8 @@ extension Discovery {
         public init(dictionary: [String: Any]) throws {
             if let agentsInfo = dictionary["agentsInfo"] as? [[String: Any]] {
                 self.agentsInfo = try agentsInfo.map({ try AgentInfo(dictionary: $0) })
+            } else { 
+                self.agentsInfo = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -824,8 +776,6 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -834,18 +784,14 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// A key in the response map. The value is an array of data.
-        public var configurations: [[String: String]]? = nil
-
-        public init() {}
+        public let configurations: [[String: String]]?
 
         public init(configurations: [[String: String]]? = nil) {
             self.configurations = configurations
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let configurations = dictionary["configurations"] as? [[String: String]] {
-                self.configurations = configurations
-            }
+            self.configurations = dictionary["configurations"] as? [[String: String]]
         }
     }
 
@@ -853,15 +799,13 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// The total number of agents/Connectors to return in a single page of output. The maximum value is 100.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// Token to retrieve the next set of results. For example, if you previously specified 100 IDs for DescribeAgentsRequest$agentIds but set DescribeAgentsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// You can filter the request using various logical operators and a key-value format. For example:   {"key": "collectionStatus", "value": "STARTED"}  For a complete list of filter options and guidance about using them with this action, see Managing AWS Application Discovery Service Agents and the AWS Application Discovery Connector .
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// The agent or the Connector IDs for which you want information. If you specify no IDs, the system returns information about all agents/Connectors associated with your AWS user account.
-        public var agentIds: [String]? = nil
-
-        public init() {}
+        public let agentIds: [String]?
 
         public init(maxResults: Int32? = nil, nextToken: String? = nil, filters: [Filter]? = nil, agentIds: [String]? = nil) {
             self.maxResults = maxResults
@@ -875,10 +819,10 @@ extension Discovery {
             self.nextToken = dictionary["nextToken"] as? String
             if let filters = dictionary["filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
-            if let agentIds = dictionary["agentIds"] as? [String] {
-                self.agentIds = agentIds
-            }
+            self.agentIds = dictionary["agentIds"] as? [String]
         }
     }
 
@@ -886,9 +830,7 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// A unique identifier that you can use to query the export status.
-        public var exportId: String? = nil
-
-        public init() {}
+        public let exportId: String?
 
         public init(exportId: String? = nil) {
             self.exportId = exportId
@@ -903,11 +845,9 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Description of the application to be created.
-        public var description: String? = nil
+        public let description: String?
         /// Name of the application to be created.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(description: String? = nil, name: String) {
             self.description = description
@@ -925,8 +865,6 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -935,21 +873,19 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Number of unhealthy discovery agents.
-        public var unhealthyAgents: Int32 = 0
+        public let unhealthyAgents: Int32
         /// Number of blacklisted discovery agents.
-        public var blackListedAgents: Int32 = 0
+        public let blackListedAgents: Int32
         /// Total number of discovery agents.
-        public var totalAgents: Int32 = 0
+        public let totalAgents: Int32
         /// Number of unknown discovery agents.
-        public var unknownAgents: Int32 = 0
+        public let unknownAgents: Int32
         /// Number of healthy discovery agents
-        public var healthyAgents: Int32 = 0
+        public let healthyAgents: Int32
         /// Number of active discovery agents.
-        public var activeAgents: Int32 = 0
+        public let activeAgents: Int32
         /// Number of discovery agents with status SHUTDOWN.
-        public var shutdownAgents: Int32 = 0
-
-        public init() {}
+        public let shutdownAgents: Int32
 
         public init(unhealthyAgents: Int32, blackListedAgents: Int32, totalAgents: Int32, unknownAgents: Int32, healthyAgents: Int32, activeAgents: Int32, shutdownAgents: Int32) {
             self.unhealthyAgents = unhealthyAgents
@@ -983,9 +919,7 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the agents or Connectors that you want to start collecting data. If you send a request to an agent/Connector ID that you do not have permission to contact, according to your AWS account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents/Connectors and you do not have permission to contact some of those agents/Connectors, the system does not throw an exception. Instead, the system shows Failed in the Description field.
-        public var agentIds: [String] = []
-
-        public init() {}
+        public let agentIds: [String]
 
         public init(agentIds: [String]) {
             self.agentIds = agentIds
@@ -1001,17 +935,15 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Maximum number of results to return in a single page of output.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// Flag to indicate if port and protocol information is needed as part of the response.
-        public var portInformationNeeded: Bool? = nil
+        public let portInformationNeeded: Bool?
         /// Token to retrieve the next set of results. For example, if you previously specified 100 IDs for ListServerNeighborsRequest$neighborConfigurationIds but set ListServerNeighborsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// List of configuration IDs to test for one-hop-away.
-        public var neighborConfigurationIds: [String]? = nil
+        public let neighborConfigurationIds: [String]?
         /// Configuration ID of the server for which neighbors are being listed.
-        public var configurationId: String = ""
-
-        public init() {}
+        public let configurationId: String
 
         public init(maxResults: Int32? = nil, portInformationNeeded: Bool? = nil, nextToken: String? = nil, neighborConfigurationIds: [String]? = nil, configurationId: String) {
             self.maxResults = maxResults
@@ -1025,9 +957,7 @@ extension Discovery {
             self.maxResults = dictionary["maxResults"] as? Int32
             self.portInformationNeeded = dictionary["portInformationNeeded"] as? Bool
             self.nextToken = dictionary["nextToken"] as? String
-            if let neighborConfigurationIds = dictionary["neighborConfigurationIds"] as? [String] {
-                self.neighborConfigurationIds = neighborConfigurationIds
-            }
+            self.neighborConfigurationIds = dictionary["neighborConfigurationIds"] as? [String]
             guard let configurationId = dictionary["configurationId"] as? String else { throw InitializableError.missingRequiredParam("configurationId") }
             self.configurationId = configurationId
         }
@@ -1037,13 +967,11 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// New description of the application to be updated.
-        public var description: String? = nil
+        public let description: String?
         /// New name of the application to be updated.
-        public var name: String? = nil
+        public let name: String?
         /// Configuration ID of the application to be updated.
-        public var configurationId: String = ""
-
-        public init() {}
+        public let configurationId: String
 
         public init(description: String? = nil, name: String? = nil, configurationId: String) {
             self.description = description
@@ -1063,13 +991,11 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the filter.
-        public var name: String = ""
+        public let name: String
         /// A string value that you want to filter on. For example, if you choose the destinationServer.osVersion filter name, you could specify Ubuntu for the value.
-        public var values: [String] = []
+        public let values: [String]
         /// A conditional operator. The following operators are valid: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the system utilizes all filters as though concatenated by AND. If you specify multiple values for a particular filter, the system differentiates the values using OR. Calling either DescribeConfigurations or ListConfigurations returns attributes of matching configuration items.
-        public var condition: String = ""
-
-        public init() {}
+        public let condition: String
 
         public init(name: String, values: [String], condition: String) {
             self.name = name
@@ -1091,11 +1017,9 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// The MAC address for the host where the agent/Connector resides.
-        public var macAddress: String? = nil
+        public let macAddress: String?
         /// The IP address for the host where the agent/Connector resides.
-        public var ipAddress: String? = nil
-
-        public init() {}
+        public let ipAddress: String?
 
         public init(macAddress: String? = nil, ipAddress: String? = nil) {
             self.macAddress = macAddress
@@ -1111,8 +1035,6 @@ extension Discovery {
     public struct CreateTagsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }

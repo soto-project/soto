@@ -32,10 +32,8 @@ extension Cur {
     public struct DescribeReportDefinitionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var nextToken: String? = nil
-        public var reportDefinitions: [ReportDefinition]? = nil
-
-        public init() {}
+        public let nextToken: String?
+        public let reportDefinitions: [ReportDefinition]?
 
         public init(nextToken: String? = nil, reportDefinitions: [ReportDefinition]? = nil) {
             self.nextToken = nextToken
@@ -46,6 +44,8 @@ extension Cur {
             self.nextToken = dictionary["NextToken"] as? String
             if let reportDefinitions = dictionary["ReportDefinitions"] as? [[String: Any]] {
                 self.reportDefinitions = try reportDefinitions.map({ try ReportDefinition(dictionary: $0) })
+            } else { 
+                self.reportDefinitions = nil
             }
         }
     }
@@ -53,9 +53,7 @@ extension Cur {
     public struct DeleteReportDefinitionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var responseMessage: String? = nil
-
-        public init() {}
+        public let responseMessage: String?
 
         public init(responseMessage: String? = nil) {
             self.responseMessage = responseMessage
@@ -70,8 +68,6 @@ extension Cur {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -79,17 +75,15 @@ extension Cur {
     public struct ReportDefinition: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var timeUnit: String = ""
-        public var format: String = ""
-        public var compression: String = ""
-        public var reportName: String = ""
-        public var s3Region: String = ""
-        public var additionalArtifacts: [String]? = nil
-        public var additionalSchemaElements: [String] = []
-        public var s3Bucket: String = ""
-        public var s3Prefix: String = ""
-
-        public init() {}
+        public let timeUnit: String
+        public let format: String
+        public let compression: String
+        public let reportName: String
+        public let s3Region: String
+        public let additionalArtifacts: [String]?
+        public let additionalSchemaElements: [String]
+        public let s3Bucket: String
+        public let s3Prefix: String
 
         public init(timeUnit: String, format: String, compression: String, reportName: String, s3Region: String, additionalArtifacts: [String]? = nil, additionalSchemaElements: [String], s3Bucket: String, s3Prefix: String) {
             self.timeUnit = timeUnit
@@ -114,9 +108,7 @@ extension Cur {
             self.reportName = reportName
             guard let s3Region = dictionary["S3Region"] as? String else { throw InitializableError.missingRequiredParam("S3Region") }
             self.s3Region = s3Region
-            if let additionalArtifacts = dictionary["AdditionalArtifacts"] as? [String] {
-                self.additionalArtifacts = additionalArtifacts
-            }
+            self.additionalArtifacts = dictionary["AdditionalArtifacts"] as? [String]
             guard let additionalSchemaElements = dictionary["AdditionalSchemaElements"] as? [String] else { throw InitializableError.missingRequiredParam("AdditionalSchemaElements") }
             self.additionalSchemaElements = additionalSchemaElements
             guard let s3Bucket = dictionary["S3Bucket"] as? String else { throw InitializableError.missingRequiredParam("S3Bucket") }
@@ -129,9 +121,7 @@ extension Cur {
     public struct PutReportDefinitionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var reportDefinition: ReportDefinition = ReportDefinition()
-
-        public init() {}
+        public let reportDefinition: ReportDefinition
 
         public init(reportDefinition: ReportDefinition) {
             self.reportDefinition = reportDefinition
@@ -146,10 +136,8 @@ extension Cur {
     public struct DescribeReportDefinitionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var nextToken: String? = nil
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let nextToken: String?
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -165,9 +153,7 @@ extension Cur {
     public struct DeleteReportDefinitionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var reportName: String? = nil
-
-        public init() {}
+        public let reportName: String?
 
         public init(reportName: String? = nil) {
             self.reportName = reportName

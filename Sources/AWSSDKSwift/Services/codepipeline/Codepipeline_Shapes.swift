@@ -33,9 +33,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the action within the context of a job.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(name: String? = nil) {
             self.name = name
@@ -50,15 +48,13 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date and time of the last update to the pipeline, in timestamp format.
-        public var updated: Date? = nil
+        public let updated: Date?
         /// The name of the pipeline.
-        public var name: String? = nil
+        public let name: String?
         /// The version number of the pipeline.
-        public var version: Int32? = nil
+        public let version: Int32?
         /// The date and time the pipeline was created, in timestamp format.
-        public var created: Date? = nil
-
-        public init() {}
+        public let created: Date?
 
         public init(updated: Date? = nil, name: String? = nil, version: Int32? = nil, created: Date? = nil) {
             self.updated = updated
@@ -79,13 +75,11 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of the failure.
-        public var type: String = ""
+        public let type: String
         /// The message about the failure.
-        public var message: String = ""
+        public let message: String
         /// The external ID of the run of the action that failed.
-        public var externalExecutionId: String? = nil
-
-        public init() {}
+        public let externalExecutionId: String?
 
         public init(type: String, message: String, externalExecutionId: String? = nil) {
             self.type = type
@@ -106,11 +100,9 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// Provides details of the action types.
-        public var actionTypes: [ActionType] = []
+        public let actionTypes: [ActionType]
         /// If the amount of returned information is significantly large, an identifier is also returned which can be used in a subsequent list action types call to return the next set of action types in the list.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(actionTypes: [ActionType], nextToken: String? = nil) {
             self.actionTypes = actionTypes
@@ -128,9 +120,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique system-generated ID for the job.
-        public var jobId: String = ""
-
-        public init() {}
+        public let jobId: String
 
         public init(jobId: String) {
             self.jobId = jobId
@@ -146,15 +136,13 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The revision ID of the current version of an artifact.
-        public var revision: String = ""
+        public let revision: String
         /// The change identifier for the current revision.
-        public var changeIdentifier: String = ""
+        public let changeIdentifier: String
         /// The date and time when the most recent revision of the artifact was created, in timestamp format.
-        public var created: Date? = nil
+        public let created: Date?
         /// The summary of the most recent revision of the artifact.
-        public var revisionSummary: String? = nil
-
-        public init() {}
+        public let revisionSummary: String?
 
         public init(revision: String, changeIdentifier: String, created: Date? = nil, revisionSummary: String? = nil) {
             self.revision = revision
@@ -177,11 +165,9 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the current workflow state of the pipeline.
-        public var pipelineExecutionId: String? = nil
+        public let pipelineExecutionId: String?
         /// Indicates whether the artifact revision was previously used in an execution of the specified pipeline.
-        public var newRevision: Bool? = nil
-
-        public init() {}
+        public let newRevision: Bool?
 
         public init(pipelineExecutionId: String? = nil, newRevision: Bool? = nil) {
             self.pipelineExecutionId = pipelineExecutionId
@@ -198,9 +184,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the current workflow execution in the failed stage.
-        public var pipelineExecutionId: String? = nil
-
-        public init() {}
+        public let pipelineExecutionId: String?
 
         public init(pipelineExecutionId: String? = nil) {
             self.pipelineExecutionId = pipelineExecutionId
@@ -215,11 +199,9 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The minimum number of artifacts allowed for the action type.
-        public var minimumCount: Int32 = 0
+        public let minimumCount: Int32
         /// The maximum number of artifacts allowed for the action type.
-        public var maximumCount: Int32 = 0
-
-        public init() {}
+        public let maximumCount: Int32
 
         public init(minimumCount: Int32, maximumCount: Int32) {
             self.minimumCount = minimumCount
@@ -238,11 +220,9 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The system ID or error number code of the error.
-        public var code: String? = nil
+        public let code: String?
         /// The text of the error message.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
@@ -259,21 +239,19 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the action configuration property.
-        public var name: String = ""
+        public let name: String
         /// Whether the configuration property is a key.
-        public var key: Bool = false
+        public let key: Bool
         /// Whether the configuration property is secret. Secrets are hidden from all calls except for GetJobDetails, GetThirdPartyJobDetails, PollForJobs, and PollForThirdPartyJobs. When updating a pipeline, passing * * * * * without changing any other values of the action will preserve the prior value of the secret.
-        public var secret: Bool = false
+        public let secret: Bool
         /// The description of the action configuration property that will be displayed to users.
-        public var description: String? = nil
+        public let description: String?
         /// Whether the configuration property is a required value.
-        public var required: Bool = false
+        public let required: Bool
         /// The type of the configuration property.
-        public var type: String? = nil
+        public let type: String?
         /// Indicates that the proprety will be used in conjunction with PollForJobs. When creating a custom action, an action can have up to one queryable property. If it has one, that property must be both required and not secret. If you create a pipeline with a custom action type, and that custom action contains a queryable property, the value for that configuration property is subject to additional restrictions. The value must be less than or equal to twenty (20) characters. The value can contain only alphanumeric characters, underscores, and hyphens.
-        public var queryable: Bool? = nil
-
-        public init() {}
+        public let queryable: Bool?
 
         public init(name: String, key: Bool, secret: Bool, description: String? = nil, required: Bool, type: String? = nil, queryable: Bool? = nil) {
             self.name = name
@@ -304,9 +282,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the stage.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(name: String? = nil) {
             self.name = name
@@ -321,11 +297,9 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the stage, or for a completed stage, the last status of the stage.
-        public var status: String = ""
+        public let status: String
         /// The ID of the pipeline execution associated with the stage.
-        public var pipelineExecutionId: String = ""
-
-        public init() {}
+        public let pipelineExecutionId: String
 
         public init(status: String, pipelineExecutionId: String) {
             self.status = status
@@ -344,25 +318,23 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// A summary of the run of the action.
-        public var summary: String? = nil
+        public let summary: String?
         /// The status of the action, or for a completed action, the last status of the action.
-        public var status: String? = nil
+        public let status: String?
         /// The ARN of the user who last changed the pipeline.
-        public var lastUpdatedBy: String? = nil
+        public let lastUpdatedBy: String?
         /// The external ID of the run of the action.
-        public var externalExecutionId: String? = nil
+        public let externalExecutionId: String?
         /// The URL of a resource external to AWS that will be used when running the action, for example an external repository URL.
-        public var externalExecutionUrl: String? = nil
+        public let externalExecutionUrl: String?
         /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState command and is used to validate that the approval request corresponding to this token is still valid.
-        public var token: String? = nil
+        public let token: String?
         /// The details of an error returned by a URL external to AWS.
-        public var errorDetails: ErrorDetails? = nil
+        public let errorDetails: ErrorDetails?
         /// A percentage of completeness of the action as it runs.
-        public var percentComplete: Int32? = nil
+        public let percentComplete: Int32?
         /// The last status change of the action.
-        public var lastStatusChange: Date? = nil
-
-        public init() {}
+        public let lastStatusChange: Date?
 
         public init(summary: String? = nil, status: String? = nil, lastUpdatedBy: String? = nil, externalExecutionId: String? = nil, externalExecutionUrl: String? = nil, token: String? = nil, errorDetails: ErrorDetails? = nil, percentComplete: Int32? = nil, lastStatusChange: Date? = nil) {
             self.summary = summary
@@ -383,7 +355,7 @@ extension Codepipeline {
             self.externalExecutionId = dictionary["externalExecutionId"] as? String
             self.externalExecutionUrl = dictionary["externalExecutionUrl"] as? String
             self.token = dictionary["token"] as? String
-            if let errorDetails = dictionary["errorDetails"] as? [String: Any] { self.errorDetails = try Codepipeline.ErrorDetails(dictionary: errorDetails) }
+            if let errorDetails = dictionary["errorDetails"] as? [String: Any] { self.errorDetails = try Codepipeline.ErrorDetails(dictionary: errorDetails) } else { self.errorDetails = nil }
             self.percentComplete = dictionary["percentComplete"] as? Int32
             self.lastStatusChange = dictionary["lastStatusChange"] as? Date
         }
@@ -393,9 +365,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the pipeline to start.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -411,15 +381,13 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the inbound transition, which is either enabled or disabled.
-        public var inboundTransitionState: TransitionState? = nil
+        public let inboundTransitionState: TransitionState?
         /// The state of the stage.
-        public var actionStates: [ActionState]? = nil
+        public let actionStates: [ActionState]?
         /// The name of the stage.
-        public var stageName: String? = nil
+        public let stageName: String?
         /// Information about the latest execution in the stage, including its ID and status.
-        public var latestExecution: StageExecution? = nil
-
-        public init() {}
+        public let latestExecution: StageExecution?
 
         public init(inboundTransitionState: TransitionState? = nil, actionStates: [ActionState]? = nil, stageName: String? = nil, latestExecution: StageExecution? = nil) {
             self.inboundTransitionState = inboundTransitionState
@@ -429,12 +397,14 @@ extension Codepipeline {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let inboundTransitionState = dictionary["inboundTransitionState"] as? [String: Any] { self.inboundTransitionState = try Codepipeline.TransitionState(dictionary: inboundTransitionState) }
+            if let inboundTransitionState = dictionary["inboundTransitionState"] as? [String: Any] { self.inboundTransitionState = try Codepipeline.TransitionState(dictionary: inboundTransitionState) } else { self.inboundTransitionState = nil }
             if let actionStates = dictionary["actionStates"] as? [[String: Any]] {
                 self.actionStates = try actionStates.map({ try ActionState(dictionary: $0) })
+            } else { 
+                self.actionStates = nil
             }
             self.stageName = dictionary["stageName"] as? String
-            if let latestExecution = dictionary["latestExecution"] as? [String: Any] { self.latestExecution = try Codepipeline.StageExecution(dictionary: latestExecution) }
+            if let latestExecution = dictionary["latestExecution"] as? [String: Any] { self.latestExecution = try Codepipeline.StageExecution(dictionary: latestExecution) } else { self.latestExecution = nil }
         }
     }
 
@@ -442,14 +412,12 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the stage that contains the action that will act upon the revision.
-        public var stageName: String = ""
+        public let stageName: String
         /// The name of the action that will process the revision.
-        public var actionName: String = ""
+        public let actionName: String
         /// The name of the pipeline that will start processing the revision to the source.
-        public var pipelineName: String = ""
-        public var actionRevision: ActionRevision = ActionRevision()
-
-        public init() {}
+        public let pipelineName: String
+        public let actionRevision: ActionRevision
 
         public init(stageName: String, actionName: String, pipelineName: String, actionRevision: ActionRevision) {
             self.stageName = stageName
@@ -473,13 +441,11 @@ extension Codepipeline {
     public struct PutThirdPartyJobFailureResultInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var failureDetails: FailureDetails = FailureDetails()
+        public let failureDetails: FailureDetails
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
-        public var clientToken: String = ""
+        public let clientToken: String
         /// The ID of the job that failed. This is the same ID returned from PollForThirdPartyJobs.
-        public var jobId: String = ""
-
-        public init() {}
+        public let jobId: String
 
         public init(failureDetails: FailureDetails, clientToken: String, jobId: String) {
             self.failureDetails = failureDetails
@@ -501,13 +467,11 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The artifact's revision ID. Depending on the type of object, this could be a commit ID (GitHub) or a revision ID (Amazon S3).
-        public var revision: String? = nil
+        public let revision: String?
         /// The artifact's name.
-        public var name: String? = nil
+        public let name: String?
         /// The location of an artifact.
-        public var location: ArtifactLocation? = nil
-
-        public init() {}
+        public let location: ArtifactLocation?
 
         public init(revision: String? = nil, name: String? = nil, location: ArtifactLocation? = nil) {
             self.revision = revision
@@ -518,26 +482,24 @@ extension Codepipeline {
         public init(dictionary: [String: Any]) throws {
             self.revision = dictionary["revision"] as? String
             self.name = dictionary["name"] as? String
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Codepipeline.ArtifactLocation(dictionary: location) }
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Codepipeline.ArtifactLocation(dictionary: location) } else { self.location = nil }
         }
     }
 
     public struct JobData: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var actionTypeId: ActionTypeId? = nil
-        public var actionConfiguration: ActionConfiguration? = nil
-        public var artifactCredentials: AWSSessionCredentials? = nil
+        public let actionTypeId: ActionTypeId?
+        public let actionConfiguration: ActionConfiguration?
+        public let artifactCredentials: AWSSessionCredentials?
         /// The output of the job.
-        public var outputArtifacts: [Artifact]? = nil
-        public var encryptionKey: EncryptionKey? = nil
+        public let outputArtifacts: [Artifact]?
+        public let encryptionKey: EncryptionKey?
         /// A system-generated token, such as a AWS CodeDeploy deployment ID, that a job requires in order to continue the job asynchronously.
-        public var continuationToken: String? = nil
+        public let continuationToken: String?
         /// The artifact supplied to the job.
-        public var inputArtifacts: [Artifact]? = nil
-        public var pipelineContext: PipelineContext? = nil
-
-        public init() {}
+        public let inputArtifacts: [Artifact]?
+        public let pipelineContext: PipelineContext?
 
         public init(actionTypeId: ActionTypeId? = nil, actionConfiguration: ActionConfiguration? = nil, artifactCredentials: AWSSessionCredentials? = nil, outputArtifacts: [Artifact]? = nil, encryptionKey: EncryptionKey? = nil, continuationToken: String? = nil, inputArtifacts: [Artifact]? = nil, pipelineContext: PipelineContext? = nil) {
             self.actionTypeId = actionTypeId
@@ -551,18 +513,22 @@ extension Codepipeline {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let actionTypeId = dictionary["actionTypeId"] as? [String: Any] { self.actionTypeId = try Codepipeline.ActionTypeId(dictionary: actionTypeId) }
-            if let actionConfiguration = dictionary["actionConfiguration"] as? [String: Any] { self.actionConfiguration = try Codepipeline.ActionConfiguration(dictionary: actionConfiguration) }
-            if let artifactCredentials = dictionary["artifactCredentials"] as? [String: Any] { self.artifactCredentials = try Codepipeline.AWSSessionCredentials(dictionary: artifactCredentials) }
+            if let actionTypeId = dictionary["actionTypeId"] as? [String: Any] { self.actionTypeId = try Codepipeline.ActionTypeId(dictionary: actionTypeId) } else { self.actionTypeId = nil }
+            if let actionConfiguration = dictionary["actionConfiguration"] as? [String: Any] { self.actionConfiguration = try Codepipeline.ActionConfiguration(dictionary: actionConfiguration) } else { self.actionConfiguration = nil }
+            if let artifactCredentials = dictionary["artifactCredentials"] as? [String: Any] { self.artifactCredentials = try Codepipeline.AWSSessionCredentials(dictionary: artifactCredentials) } else { self.artifactCredentials = nil }
             if let outputArtifacts = dictionary["outputArtifacts"] as? [[String: Any]] {
                 self.outputArtifacts = try outputArtifacts.map({ try Artifact(dictionary: $0) })
+            } else { 
+                self.outputArtifacts = nil
             }
-            if let encryptionKey = dictionary["encryptionKey"] as? [String: Any] { self.encryptionKey = try Codepipeline.EncryptionKey(dictionary: encryptionKey) }
+            if let encryptionKey = dictionary["encryptionKey"] as? [String: Any] { self.encryptionKey = try Codepipeline.EncryptionKey(dictionary: encryptionKey) } else { self.encryptionKey = nil }
             self.continuationToken = dictionary["continuationToken"] as? String
             if let inputArtifacts = dictionary["inputArtifacts"] as? [[String: Any]] {
                 self.inputArtifacts = try inputArtifacts.map({ try Artifact(dictionary: $0) })
+            } else { 
+                self.inputArtifacts = nil
             }
-            if let pipelineContext = dictionary["pipelineContext"] as? [String: Any] { self.pipelineContext = try Codepipeline.PipelineContext(dictionary: pipelineContext) }
+            if let pipelineContext = dictionary["pipelineContext"] as? [String: Any] { self.pipelineContext = try Codepipeline.PipelineContext(dictionary: pipelineContext) } else { self.pipelineContext = nil }
         }
     }
 
@@ -570,17 +536,15 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the stage that contains the action.
-        public var stageName: String = ""
+        public let stageName: String
         /// The name of the action for which approval is requested.
-        public var actionName: String = ""
+        public let actionName: String
         /// Represents information about the result of the approval request.
-        public var result: ApprovalResult = ApprovalResult()
+        public let result: ApprovalResult
         /// The name of the pipeline that contains the action. 
-        public var pipelineName: String = ""
+        public let pipelineName: String
         /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState action and is used to validate that the approval request corresponding to this token is still valid.
-        public var token: String = ""
-
-        public init() {}
+        public let token: String
 
         public init(stageName: String, actionName: String, result: ApprovalResult, pipelineName: String, token: String) {
             self.stageName = stageName
@@ -608,11 +572,9 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of artifact in the location.
-        public var type: String? = nil
+        public let type: String?
         /// The Amazon S3 bucket that contains the artifact.
-        public var s3Location: S3ArtifactLocation? = nil
-
-        public init() {}
+        public let s3Location: S3ArtifactLocation?
 
         public init(type: String? = nil, s3Location: S3ArtifactLocation? = nil) {
             self.type = type
@@ -621,7 +583,7 @@ extension Codepipeline {
 
         public init(dictionary: [String: Any]) throws {
             self.type = dictionary["type"] as? String
-            if let s3Location = dictionary["s3Location"] as? [String: Any] { self.s3Location = try Codepipeline.S3ArtifactLocation(dictionary: s3Location) }
+            if let s3Location = dictionary["s3Location"] as? [String: Any] { self.s3Location = try Codepipeline.S3ArtifactLocation(dictionary: s3Location) } else { self.s3Location = nil }
         }
     }
 
@@ -629,11 +591,9 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the pipeline about which you want to get execution details.
-        public var pipelineName: String = ""
+        public let pipelineName: String
         /// The ID of the pipeline execution about which you want to get execution details.
-        public var pipelineExecutionId: String = ""
-
-        public init() {}
+        public let pipelineExecutionId: String
 
         public init(pipelineName: String, pipelineExecutionId: String) {
             self.pipelineName = pipelineName
@@ -652,15 +612,13 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether artifacts will be prevented from transitioning into the stage and being processed by the actions in that stage (inbound), or prevented from transitioning from the stage after they have been processed by the actions in that stage (outbound).
-        public var transitionType: String = ""
+        public let transitionType: String
         /// The name of the stage where you want to disable the inbound or outbound transition of artifacts.
-        public var stageName: String = ""
+        public let stageName: String
         /// The reason given to the user why a stage is disabled, such as waiting for manual approval or manual tests. This message is displayed in the pipeline console UI.
-        public var reason: String = ""
+        public let reason: String
         /// The name of the pipeline in which you want to disable the flow of artifacts from one stage to another.
-        public var pipelineName: String = ""
-
-        public init() {}
+        public let pipelineName: String
 
         public init(transitionType: String, stageName: String, reason: String, pipelineName: String) {
             self.transitionType = transitionType
@@ -685,16 +643,14 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The details of the job.  If AWSSessionCredentials is used, a long-running job can call GetJobDetails again to obtain new credentials. 
-        public var jobDetails: JobDetails? = nil
-
-        public init() {}
+        public let jobDetails: JobDetails?
 
         public init(jobDetails: JobDetails? = nil) {
             self.jobDetails = jobDetails
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let jobDetails = dictionary["jobDetails"] as? [String: Any] { self.jobDetails = try Codepipeline.JobDetails(dictionary: jobDetails) }
+            if let jobDetails = dictionary["jobDetails"] as? [String: Any] { self.jobDetails = try Codepipeline.JobDetails(dictionary: jobDetails) } else { self.jobDetails = nil }
         }
     }
 
@@ -702,9 +658,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether the job worker has received the specified job.
-        public var status: String? = nil
-
-        public init() {}
+        public let status: String?
 
         public init(status: String? = nil) {
             self.status = status
@@ -719,17 +673,15 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Succeeded: The pipeline execution completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution caught up and continued through the pipeline instead.    Failed: The pipeline did not complete successfully.  
-        public var status: String? = nil
+        public let status: String?
         /// The version number of the pipeline that was executed.
-        public var pipelineVersion: Int32? = nil
+        public let pipelineVersion: Int32?
         /// The ID of the pipeline execution.
-        public var pipelineExecutionId: String? = nil
+        public let pipelineExecutionId: String?
         /// The name of the pipeline that was executed.
-        public var pipelineName: String? = nil
+        public let pipelineName: String?
         /// A list of ArtifactRevision objects included in a pipeline execution.
-        public var artifactRevisions: [ArtifactRevision]? = nil
-
-        public init() {}
+        public let artifactRevisions: [ArtifactRevision]?
 
         public init(status: String? = nil, pipelineVersion: Int32? = nil, pipelineExecutionId: String? = nil, pipelineName: String? = nil, artifactRevisions: [ArtifactRevision]? = nil) {
             self.status = status
@@ -746,6 +698,8 @@ extension Codepipeline {
             self.pipelineName = dictionary["pipelineName"] as? String
             if let artifactRevisions = dictionary["artifactRevisions"] as? [[String: Any]] {
                 self.artifactRevisions = try artifactRevisions.map({ try ArtifactRevision(dictionary: $0) })
+            } else { 
+                self.artifactRevisions = nil
             }
         }
     }
@@ -754,11 +708,9 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response of the PollForJobs request that returned this job.
-        public var nonce: String = ""
+        public let nonce: String
         /// The unique system-generated ID of the job for which you want to confirm receipt.
-        public var jobId: String = ""
-
-        public init() {}
+        public let jobId: String
 
         public init(nonce: String, jobId: String) {
             self.nonce = nonce
@@ -777,12 +729,10 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique system-generated ID of the job.
-        public var id: String? = nil
+        public let id: String?
         /// The AWS account ID associated with the job.
-        public var accountId: String? = nil
-        public var data: JobData? = nil
-
-        public init() {}
+        public let accountId: String?
+        public let data: JobData?
 
         public init(id: String? = nil, accountId: String? = nil, data: JobData? = nil) {
             self.id = id
@@ -793,7 +743,7 @@ extension Codepipeline {
         public init(dictionary: [String: Any]) throws {
             self.id = dictionary["id"] as? String
             self.accountId = dictionary["accountId"] as? String
-            if let data = dictionary["data"] as? [String: Any] { self.data = try Codepipeline.JobData(dictionary: data) }
+            if let data = dictionary["data"] as? [String: Any] { self.data = try Codepipeline.JobData(dictionary: data) } else { self.data = nil }
         }
     }
 
@@ -801,11 +751,9 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the Amazon S3 bucket.
-        public var bucketName: String = ""
+        public let bucketName: String
         /// The key of the object in the Amazon S3 bucket, which uniquely identifies the object in the bucket.
-        public var objectKey: String = ""
-
-        public init() {}
+        public let objectKey: String
 
         public init(bucketName: String, objectKey: String) {
             self.bucketName = bucketName
@@ -823,9 +771,7 @@ extension Codepipeline {
     public struct CreateCustomActionTypeOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var actionType: ActionType = ActionType()
-
-        public init() {}
+        public let actionType: ActionType
 
         public init(actionType: ActionType) {
             self.actionType = actionType
@@ -841,15 +787,13 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The creator of the action being called.
-        public var owner: String = ""
+        public let owner: String
         /// A string that identifies the action type.
-        public var version: String = ""
+        public let version: String
         /// The provider of the service being called by the action. Valid providers are determined by the action category. For example, an action in the Deploy category type might have a provider of AWS CodeDeploy, which would be specified as CodeDeploy.
-        public var provider: String = ""
+        public let provider: String
         /// A category defines what kind of action can be taken in the stage, and constrains the provider type for the action. Valid categories are limited to one of the values below.
-        public var category: String = ""
-
-        public init() {}
+        public let category: String
 
         public init(owner: String, version: String, provider: String, category: String) {
             self.owner = owner
@@ -874,11 +818,9 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
-        public var clientToken: String = ""
+        public let clientToken: String
         /// The unique system-generated ID used for identifying the job.
-        public var jobId: String = ""
-
-        public init() {}
+        public let jobId: String
 
         public init(clientToken: String, jobId: String) {
             self.clientToken = clientToken
@@ -896,16 +838,14 @@ extension Codepipeline {
     public struct PutThirdPartyJobSuccessResultInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var executionDetails: ExecutionDetails? = nil
+        public let executionDetails: ExecutionDetails?
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
-        public var clientToken: String = ""
+        public let clientToken: String
         /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID, that a successful job provides to identify a partner action in progress. Future jobs will use this token in order to identify the running instance of the action. It can be reused to return additional information about the progress of the partner action. When the action is complete, no continuation token should be supplied.
-        public var continuationToken: String? = nil
-        public var currentRevision: CurrentRevision? = nil
+        public let continuationToken: String?
+        public let currentRevision: CurrentRevision?
         /// The ID of the job that successfully completed. This is the same ID returned from PollForThirdPartyJobs.
-        public var jobId: String = ""
-
-        public init() {}
+        public let jobId: String
 
         public init(executionDetails: ExecutionDetails? = nil, clientToken: String, continuationToken: String? = nil, currentRevision: CurrentRevision? = nil, jobId: String) {
             self.executionDetails = executionDetails
@@ -916,11 +856,11 @@ extension Codepipeline {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let executionDetails = dictionary["executionDetails"] as? [String: Any] { self.executionDetails = try Codepipeline.ExecutionDetails(dictionary: executionDetails) }
+            if let executionDetails = dictionary["executionDetails"] as? [String: Any] { self.executionDetails = try Codepipeline.ExecutionDetails(dictionary: executionDetails) } else { self.executionDetails = nil }
             guard let clientToken = dictionary["clientToken"] as? String else { throw InitializableError.missingRequiredParam("clientToken") }
             self.clientToken = clientToken
             self.continuationToken = dictionary["continuationToken"] as? String
-            if let currentRevision = dictionary["currentRevision"] as? [String: Any] { self.currentRevision = try Codepipeline.CurrentRevision(dictionary: currentRevision) }
+            if let currentRevision = dictionary["currentRevision"] as? [String: Any] { self.currentRevision = try Codepipeline.CurrentRevision(dictionary: currentRevision) } else { self.currentRevision = nil }
             guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
             self.jobId = jobId
         }
@@ -930,13 +870,11 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The provider of the service used in the custom action, such as AWS CodeDeploy.
-        public var provider: String = ""
+        public let provider: String
         /// The version of the custom action to delete.
-        public var version: String = ""
+        public let version: String
         /// The category of the custom action that you want to delete, such as source or deploy.
-        public var category: String = ""
-
-        public init() {}
+        public let category: String
 
         public init(provider: String, version: String, category: String) {
             self.provider = provider
@@ -958,13 +896,11 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// Reserved for future use.
-        public var blockers: [BlockerDeclaration]? = nil
+        public let blockers: [BlockerDeclaration]?
         /// The name of the stage.
-        public var name: String = ""
+        public let name: String
         /// The actions included in a stage.
-        public var actions: [ActionDeclaration] = []
-
-        public init() {}
+        public let actions: [ActionDeclaration]
 
         public init(blockers: [BlockerDeclaration]? = nil, name: String, actions: [ActionDeclaration]) {
             self.blockers = blockers
@@ -975,6 +911,8 @@ extension Codepipeline {
         public init(dictionary: [String: Any]) throws {
             if let blockers = dictionary["blockers"] as? [[String: Any]] {
                 self.blockers = try blockers.map({ try BlockerDeclaration(dictionary: $0) })
+            } else { 
+                self.blockers = nil
             }
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
@@ -987,13 +925,11 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token for the session.
-        public var sessionToken: String = ""
+        public let sessionToken: String
         /// The access key for the session.
-        public var accessKeyId: String = ""
+        public let accessKeyId: String
         /// The secret access key for the session.
-        public var secretAccessKey: String = ""
-
-        public init() {}
+        public let secretAccessKey: String
 
         public init(sessionToken: String, accessKeyId: String, secretAccessKey: String) {
             self.sessionToken = sessionToken
@@ -1015,11 +951,9 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID used to identify the key. For an AWS KMS key, this is the key ID or key ARN.
-        public var id: String = ""
+        public let id: String
         /// The type of encryption key, such as an AWS Key Management Service (AWS KMS) key. When creating or updating a pipeline, the value must be set to 'KMS'.
-        public var type: String = ""
-
-        public init() {}
+        public let type: String
 
         public init(id: String, type: String) {
             self.id = id
@@ -1038,13 +972,11 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the pipeline in which you want to enable the flow of artifacts from one stage to another.
-        public var pipelineName: String = ""
+        public let pipelineName: String
         /// Specifies whether artifacts will be allowed to enter the stage and be processed by the actions in that stage (inbound) or whether already-processed artifacts will be allowed to transition to the next stage (outbound).
-        public var transitionType: String = ""
+        public let transitionType: String
         /// The name of the stage where you want to enable the transition of artifacts, either into the stage (inbound) or from that stage to the next stage (outbound).
-        public var stageName: String = ""
-
-        public init() {}
+        public let stageName: String
 
         public init(pipelineName: String, transitionType: String, stageName: String) {
             self.pipelineName = pipelineName
@@ -1066,9 +998,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the artifact to be worked on, for example, "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -1084,9 +1014,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the jobs to take action on.
-        public var jobs: [Job]? = nil
-
-        public init() {}
+        public let jobs: [Job]?
 
         public init(jobs: [Job]? = nil) {
             self.jobs = jobs
@@ -1095,6 +1023,8 @@ extension Codepipeline {
         public init(dictionary: [String: Any]) throws {
             if let jobs = dictionary["jobs"] as? [[String: Any]] {
                 self.jobs = try jobs.map({ try Job(dictionary: $0) })
+            } else { 
+                self.jobs = nil
             }
         }
     }
@@ -1103,21 +1033,19 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The configuration information for the action type.
-        public var actionTypeId: ActionTypeId = ActionTypeId()
+        public let actionTypeId: ActionTypeId
         /// The ARN of the IAM service role that will perform the declared action. This is assumed through the roleArn for the pipeline.
-        public var roleArn: String? = nil
+        public let roleArn: String?
         /// The action declaration's name.
-        public var name: String = ""
+        public let name: String
         /// The order in which actions are run.
-        public var runOrder: Int32? = nil
+        public let runOrder: Int32?
         /// The name or ID of the result of the action declaration, such as a test or build artifact.
-        public var outputArtifacts: [OutputArtifact]? = nil
+        public let outputArtifacts: [OutputArtifact]?
         /// The name or ID of the artifact consumed by the action, such as a test or build artifact.
-        public var inputArtifacts: [InputArtifact]? = nil
+        public let inputArtifacts: [InputArtifact]?
         /// The action declaration's configuration.
-        public var configuration: [String: String]? = nil
-
-        public init() {}
+        public let configuration: [String: String]?
 
         public init(actionTypeId: ActionTypeId, roleArn: String? = nil, name: String, runOrder: Int32? = nil, outputArtifacts: [OutputArtifact]? = nil, inputArtifacts: [InputArtifact]? = nil, configuration: [String: String]? = nil) {
             self.actionTypeId = actionTypeId
@@ -1138,12 +1066,18 @@ extension Codepipeline {
             self.runOrder = dictionary["runOrder"] as? Int32
             if let outputArtifacts = dictionary["outputArtifacts"] as? [[String: Any]] {
                 self.outputArtifacts = try outputArtifacts.map({ try OutputArtifact(dictionary: $0) })
+            } else { 
+                self.outputArtifacts = nil
             }
             if let inputArtifacts = dictionary["inputArtifacts"] as? [[String: Any]] {
                 self.inputArtifacts = try inputArtifacts.map({ try InputArtifact(dictionary: $0) })
+            } else { 
+                self.inputArtifacts = nil
             }
             if let configuration = dictionary["configuration"] as? [String: String] {
                 self.configuration = configuration
+            } else { 
+                self.configuration = nil
             }
         }
     }
@@ -1152,17 +1086,15 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date and time the pipeline was last updated, in timestamp format.
-        public var updated: Date? = nil
+        public let updated: Date?
         /// The version number of the pipeline.  A newly-created pipeline is always assigned a version number of 1. 
-        public var pipelineVersion: Int32? = nil
+        public let pipelineVersion: Int32?
         /// A list of the pipeline stage output information, including stage name, state, most recent run details, whether the stage is disabled, and other data.
-        public var stageStates: [StageState]? = nil
+        public let stageStates: [StageState]?
         /// The date and time the pipeline was created, in timestamp format.
-        public var created: Date? = nil
+        public let created: Date?
         /// The name of the pipeline for which you want to get the state.
-        public var pipelineName: String? = nil
-
-        public init() {}
+        public let pipelineName: String?
 
         public init(updated: Date? = nil, pipelineVersion: Int32? = nil, stageStates: [StageState]? = nil, created: Date? = nil, pipelineName: String? = nil) {
             self.updated = updated
@@ -1177,6 +1109,8 @@ extension Codepipeline {
             self.pipelineVersion = dictionary["pipelineVersion"] as? Int32
             if let stageStates = dictionary["stageStates"] as? [[String: Any]] {
                 self.stageStates = try stageStates.map({ try StageState(dictionary: $0) })
+            } else { 
+                self.stageStates = nil
             }
             self.created = dictionary["created"] as? Date
             self.pipelineName = dictionary["pipelineName"] as? String
@@ -1187,15 +1121,13 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The execution details of the successful job, such as the actions taken by the job worker.
-        public var executionDetails: ExecutionDetails? = nil
+        public let executionDetails: ExecutionDetails?
         /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID, that a successful job provides to identify a custom action in progress. Future jobs will use this token in order to identify the running instance of the action. It can be reused to return additional information about the progress of the custom action. When the action is complete, no continuation token should be supplied.
-        public var continuationToken: String? = nil
+        public let continuationToken: String?
         /// The ID of the current revision of the artifact successfully worked upon by the job.
-        public var currentRevision: CurrentRevision? = nil
+        public let currentRevision: CurrentRevision?
         /// The unique system-generated ID of the job that succeeded. This is the same ID returned from PollForJobs.
-        public var jobId: String = ""
-
-        public init() {}
+        public let jobId: String
 
         public init(executionDetails: ExecutionDetails? = nil, continuationToken: String? = nil, currentRevision: CurrentRevision? = nil, jobId: String) {
             self.executionDetails = executionDetails
@@ -1205,9 +1137,9 @@ extension Codepipeline {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let executionDetails = dictionary["executionDetails"] as? [String: Any] { self.executionDetails = try Codepipeline.ExecutionDetails(dictionary: executionDetails) }
+            if let executionDetails = dictionary["executionDetails"] as? [String: Any] { self.executionDetails = try Codepipeline.ExecutionDetails(dictionary: executionDetails) } else { self.executionDetails = nil }
             self.continuationToken = dictionary["continuationToken"] as? String
-            if let currentRevision = dictionary["currentRevision"] as? [String: Any] { self.currentRevision = try Codepipeline.CurrentRevision(dictionary: currentRevision) }
+            if let currentRevision = dictionary["currentRevision"] as? [String: Any] { self.currentRevision = try Codepipeline.CurrentRevision(dictionary: currentRevision) } else { self.currentRevision = nil }
             guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
             self.jobId = jobId
         }
@@ -1217,9 +1149,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the output of an artifact, such as "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions. Output artifact names must be unique within a pipeline.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -1235,9 +1165,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the pipeline to be deleted.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -1252,17 +1180,15 @@ extension Codepipeline {
     public struct PipelineDeclaration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var artifactStore: ArtifactStore = ArtifactStore()
+        public let artifactStore: ArtifactStore
         /// The name of the action to be performed.
-        public var name: String = ""
+        public let name: String
         /// The stage in which to perform the action.
-        public var stages: [StageDeclaration] = []
+        public let stages: [StageDeclaration]
         /// The Amazon Resource Name (ARN) for AWS CodePipeline to use to either perform actions with no actionRoleArn, or to use to assume roles for actions with an actionRoleArn.
-        public var roleArn: String = ""
+        public let roleArn: String
         /// The version number of the pipeline. A new pipeline always has a version number of 1. This number is automatically incremented when a pipeline is updated.
-        public var version: Int32? = nil
-
-        public init() {}
+        public let version: Int32?
 
         public init(artifactStore: ArtifactStore, name: String, stages: [StageDeclaration], roleArn: String, version: Int32? = nil) {
             self.artifactStore = artifactStore
@@ -1289,13 +1215,11 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier used to identify the job details in AWS CodePipeline.
-        public var id: String? = nil
+        public let id: String?
         /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Use this number in an AcknowledgeThirdPartyJob request.
-        public var nonce: String? = nil
+        public let nonce: String?
         /// The data to be returned by the third party job worker.
-        public var data: ThirdPartyJobData? = nil
-
-        public init() {}
+        public let data: ThirdPartyJobData?
 
         public init(id: String? = nil, nonce: String? = nil, data: ThirdPartyJobData? = nil) {
             self.id = id
@@ -1306,7 +1230,7 @@ extension Codepipeline {
         public init(dictionary: [String: Any]) throws {
             self.id = dictionary["id"] as? String
             self.nonce = dictionary["nonce"] as? String
-            if let data = dictionary["data"] as? [String: Any] { self.data = try Codepipeline.ThirdPartyJobData(dictionary: data) }
+            if let data = dictionary["data"] as? [String: Any] { self.data = try Codepipeline.ThirdPartyJobData(dictionary: data) } else { self.data = nil }
         }
     }
 
@@ -1314,15 +1238,13 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// A URL link for more information about the state of the action, such as a deployment group details page.
-        public var entityUrl: String? = nil
+        public let entityUrl: String?
         /// The name of the action.
-        public var actionName: String? = nil
-        public var currentRevision: ActionRevision? = nil
+        public let actionName: String?
+        public let currentRevision: ActionRevision?
         /// A URL link for more information about the revision, such as a commit details page.
-        public var revisionUrl: String? = nil
-        public var latestExecution: ActionExecution? = nil
-
-        public init() {}
+        public let revisionUrl: String?
+        public let latestExecution: ActionExecution?
 
         public init(entityUrl: String? = nil, actionName: String? = nil, currentRevision: ActionRevision? = nil, revisionUrl: String? = nil, latestExecution: ActionExecution? = nil) {
             self.entityUrl = entityUrl
@@ -1335,22 +1257,20 @@ extension Codepipeline {
         public init(dictionary: [String: Any]) throws {
             self.entityUrl = dictionary["entityUrl"] as? String
             self.actionName = dictionary["actionName"] as? String
-            if let currentRevision = dictionary["currentRevision"] as? [String: Any] { self.currentRevision = try Codepipeline.ActionRevision(dictionary: currentRevision) }
+            if let currentRevision = dictionary["currentRevision"] as? [String: Any] { self.currentRevision = try Codepipeline.ActionRevision(dictionary: currentRevision) } else { self.currentRevision = nil }
             self.revisionUrl = dictionary["revisionUrl"] as? String
-            if let latestExecution = dictionary["latestExecution"] as? [String: Any] { self.latestExecution = try Codepipeline.ActionExecution(dictionary: latestExecution) }
+            if let latestExecution = dictionary["latestExecution"] as? [String: Any] { self.latestExecution = try Codepipeline.ActionExecution(dictionary: latestExecution) } else { self.latestExecution = nil }
         }
     }
 
     public struct PollForJobsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var actionTypeId: ActionTypeId = ActionTypeId()
+        public let actionTypeId: ActionTypeId
         /// A map of property names and values. For an action type with no queryable properties, this value must be null or an empty map. For an action type with a queryable property, you must supply that property as a key in the map. Only jobs whose action configuration matches the mapped value will be returned.
-        public var queryParam: [String: String]? = nil
+        public let queryParam: [String: String]?
         /// The maximum number of jobs to return in a poll for jobs call.
-        public var maxBatchSize: Int32? = nil
-
-        public init() {}
+        public let maxBatchSize: Int32?
 
         public init(actionTypeId: ActionTypeId, queryParam: [String: String]? = nil, maxBatchSize: Int32? = nil) {
             self.actionTypeId = actionTypeId
@@ -1363,6 +1283,8 @@ extension Codepipeline {
             self.actionTypeId = try Codepipeline.ActionTypeId(dictionary: actionTypeId)
             if let queryParam = dictionary["queryParam"] as? [String: String] {
                 self.queryParam = queryParam
+            } else { 
+                self.queryParam = nil
             }
             self.maxBatchSize = dictionary["maxBatchSize"] as? Int32
         }
@@ -1372,11 +1294,9 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier used to identify the job in AWS CodePipeline.
-        public var jobId: String? = nil
+        public let jobId: String?
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
-        public var clientId: String? = nil
-
-        public init() {}
+        public let clientId: String?
 
         public init(jobId: String? = nil, clientId: String? = nil) {
             self.jobId = jobId
@@ -1393,19 +1313,17 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// Summary information about the most recent revision of the artifact. For GitHub and AWS CodeCommit repositories, the commit message. For Amazon S3 buckets or actions, the user-provided content of a codepipeline-artifact-revision-summary key specified in the object metadata.
-        public var revisionSummary: String? = nil
+        public let revisionSummary: String?
         /// The name of an artifact. This name might be system-generated, such as "MyApp", or might be defined by the user when an action is created.
-        public var name: String? = nil
+        public let name: String?
         /// The date and time when the most recent revision of the artifact was created, in timestamp format.
-        public var created: Date? = nil
+        public let created: Date?
         /// An additional identifier for a revision, such as a commit date or, for artifacts stored in Amazon S3 buckets, the ETag value.
-        public var revisionChangeIdentifier: String? = nil
+        public let revisionChangeIdentifier: String?
         /// The revision ID of the artifact.
-        public var revisionId: String? = nil
+        public let revisionId: String?
         /// The commit ID for the artifact revision. For artifacts stored in GitHub or AWS CodeCommit repositories, the commit ID is linked to a commit details page.
-        public var revisionUrl: String? = nil
-
-        public init() {}
+        public let revisionUrl: String?
 
         public init(revisionSummary: String? = nil, name: String? = nil, created: Date? = nil, revisionChangeIdentifier: String? = nil, revisionId: String? = nil, revisionUrl: String? = nil) {
             self.revisionSummary = revisionSummary
@@ -1430,9 +1348,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous list pipelines call, which can be used to return the next set of pipelines in the list.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
@@ -1447,13 +1363,11 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date and time when the most recent version of the action was created, in timestamp format.
-        public var created: Date = Date()
+        public let created: Date
         /// The unique identifier of the change that set the state to this revision, for example a deployment ID or timestamp.
-        public var revisionChangeId: String = ""
+        public let revisionChangeId: String
         /// The system-generated unique ID that identifies the revision number of the action.
-        public var revisionId: String = ""
-
-        public init() {}
+        public let revisionId: String
 
         public init(created: Date, revisionChangeId: String, revisionId: String) {
             self.created = created
@@ -1475,15 +1389,13 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The scope of the retry attempt. Currently, the only supported value is FAILED_ACTIONS.
-        public var retryMode: String = ""
+        public let retryMode: String
         /// The ID of the pipeline execution in the failed stage to be retried. Use the GetPipelineState action to retrieve the current pipelineExecutionId of the failed stage
-        public var pipelineExecutionId: String = ""
+        public let pipelineExecutionId: String
         /// The name of the failed stage to be retried.
-        public var stageName: String = ""
+        public let stageName: String
         /// The name of the pipeline that contains the failed stage.
-        public var pipelineName: String = ""
-
-        public init() {}
+        public let pipelineName: String
 
         public init(retryMode: String, pipelineExecutionId: String, stageName: String, pipelineName: String) {
             self.retryMode = retryMode
@@ -1508,15 +1420,13 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether the transition between stages is enabled (true) or disabled (false).
-        public var enabled: Bool? = nil
+        public let enabled: Bool?
         /// The user-specified reason why the transition between two stages of a pipeline was disabled.
-        public var disabledReason: String? = nil
+        public let disabledReason: String?
         /// The timestamp when the transition state was last changed.
-        public var lastChangedAt: Date? = nil
+        public let lastChangedAt: Date?
         /// The ID of the user who last changed the transition state.
-        public var lastChangedBy: String? = nil
-
-        public init() {}
+        public let lastChangedBy: String?
 
         public init(enabled: Bool? = nil, disabledReason: String? = nil, lastChangedAt: Date? = nil, lastChangedBy: String? = nil) {
             self.enabled = enabled
@@ -1537,12 +1447,10 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the pipeline. This is a user-specified value. Pipeline names must be unique across all pipeline names under an Amazon Web Services account.
-        public var pipelineName: String? = nil
-        public var action: ActionContext? = nil
+        public let pipelineName: String?
+        public let action: ActionContext?
         /// The stage of the pipeline.
-        public var stage: StageContext? = nil
-
-        public init() {}
+        public let stage: StageContext?
 
         public init(pipelineName: String? = nil, action: ActionContext? = nil, stage: StageContext? = nil) {
             self.pipelineName = pipelineName
@@ -1552,19 +1460,17 @@ extension Codepipeline {
 
         public init(dictionary: [String: Any]) throws {
             self.pipelineName = dictionary["pipelineName"] as? String
-            if let action = dictionary["action"] as? [String: Any] { self.action = try Codepipeline.ActionContext(dictionary: action) }
-            if let stage = dictionary["stage"] as? [String: Any] { self.stage = try Codepipeline.StageContext(dictionary: stage) }
+            if let action = dictionary["action"] as? [String: Any] { self.action = try Codepipeline.ActionContext(dictionary: action) } else { self.action = nil }
+            if let stage = dictionary["stage"] as? [String: Any] { self.stage = try Codepipeline.StageContext(dictionary: stage) } else { self.stage = nil }
         }
     }
 
     public struct PollForThirdPartyJobsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var actionTypeId: ActionTypeId = ActionTypeId()
+        public let actionTypeId: ActionTypeId
         /// The maximum number of jobs to return in a poll for jobs call.
-        public var maxBatchSize: Int32? = nil
-
-        public init() {}
+        public let maxBatchSize: Int32?
 
         public init(actionTypeId: ActionTypeId, maxBatchSize: Int32? = nil) {
             self.actionTypeId = actionTypeId
@@ -1582,9 +1488,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the jobs to take action on.
-        public var jobs: [ThirdPartyJob]? = nil
-
-        public init() {}
+        public let jobs: [ThirdPartyJob]?
 
         public init(jobs: [ThirdPartyJob]? = nil) {
             self.jobs = jobs
@@ -1593,6 +1497,8 @@ extension Codepipeline {
         public init(dictionary: [String: Any]) throws {
             if let jobs = dictionary["jobs"] as? [[String: Any]] {
                 self.jobs = try jobs.map({ try ThirdPartyJob(dictionary: $0) })
+            } else { 
+                self.jobs = nil
             }
         }
     }
@@ -1601,11 +1507,9 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The details about the failure of a job.
-        public var failureDetails: FailureDetails = FailureDetails()
+        public let failureDetails: FailureDetails
         /// The unique system-generated ID of the job that failed. This is the same ID returned from PollForJobs.
-        public var jobId: String = ""
-
-        public init() {}
+        public let jobId: String
 
         public init(failureDetails: FailureDetails, jobId: String) {
             self.failureDetails = failureDetails
@@ -1624,13 +1528,11 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of the artifact store, such as S3.
-        public var type: String = ""
+        public let type: String
         /// The location for storing the artifacts for a pipeline, such as an S3 bucket or folder.
-        public var location: String = ""
+        public let location: String
         /// The encryption key used to encrypt the data in the artifact store, such as an AWS Key Management Service (AWS KMS) key. If this is undefined, the default key for Amazon S3 is used.
-        public var encryptionKey: EncryptionKey? = nil
-
-        public init() {}
+        public let encryptionKey: EncryptionKey?
 
         public init(type: String, location: String, encryptionKey: EncryptionKey? = nil) {
             self.type = type
@@ -1643,7 +1545,7 @@ extension Codepipeline {
             self.type = type
             guard let location = dictionary["location"] as? String else { throw InitializableError.missingRequiredParam("location") }
             self.location = location
-            if let encryptionKey = dictionary["encryptionKey"] as? [String: Any] { self.encryptionKey = try Codepipeline.EncryptionKey(dictionary: encryptionKey) }
+            if let encryptionKey = dictionary["encryptionKey"] as? [String: Any] { self.encryptionKey = try Codepipeline.EncryptionKey(dictionary: encryptionKey) } else { self.encryptionKey = nil }
         }
     }
 
@@ -1651,9 +1553,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The timestamp showing when the approval or rejection was submitted.
-        public var approvedAt: Date? = nil
-
-        public init() {}
+        public let approvedAt: Date?
 
         public init(approvedAt: Date? = nil) {
             self.approvedAt = approvedAt
@@ -1668,11 +1568,9 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the pipeline for which you want to get information. Pipeline names must be unique under an Amazon Web Services (AWS) user account.
-        public var name: String = ""
+        public let name: String
         /// The version number of the pipeline. If you do not specify a version, defaults to the most current version.
-        public var version: Int32? = nil
-
-        public init() {}
+        public let version: Int32?
 
         public init(name: String, version: Int32? = nil) {
             self.name = name
@@ -1690,16 +1588,14 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The details of the input artifact for the action, such as its commit ID.
-        public var inputArtifactDetails: ArtifactDetails = ArtifactDetails()
-        public var id: ActionTypeId = ActionTypeId()
+        public let inputArtifactDetails: ArtifactDetails
+        public let id: ActionTypeId
         /// The configuration properties for the action type.
-        public var actionConfigurationProperties: [ActionConfigurationProperty]? = nil
+        public let actionConfigurationProperties: [ActionConfigurationProperty]?
         /// The settings for the action type.
-        public var settings: ActionTypeSettings? = nil
+        public let settings: ActionTypeSettings?
         /// The details of the output artifact of the action, such as its commit ID.
-        public var outputArtifactDetails: ArtifactDetails = ArtifactDetails()
-
-        public init() {}
+        public let outputArtifactDetails: ArtifactDetails
 
         public init(inputArtifactDetails: ArtifactDetails, id: ActionTypeId, actionConfigurationProperties: [ActionConfigurationProperty]? = nil, settings: ActionTypeSettings? = nil, outputArtifactDetails: ArtifactDetails) {
             self.inputArtifactDetails = inputArtifactDetails
@@ -1716,8 +1612,10 @@ extension Codepipeline {
             self.id = try Codepipeline.ActionTypeId(dictionary: id)
             if let actionConfigurationProperties = dictionary["actionConfigurationProperties"] as? [[String: Any]] {
                 self.actionConfigurationProperties = try actionConfigurationProperties.map({ try ActionConfigurationProperty(dictionary: $0) })
+            } else { 
+                self.actionConfigurationProperties = nil
             }
-            if let settings = dictionary["settings"] as? [String: Any] { self.settings = try Codepipeline.ActionTypeSettings(dictionary: settings) }
+            if let settings = dictionary["settings"] as? [String: Any] { self.settings = try Codepipeline.ActionTypeSettings(dictionary: settings) } else { self.settings = nil }
             guard let outputArtifactDetails = dictionary["outputArtifactDetails"] as? [String: Any] else { throw InitializableError.missingRequiredParam("outputArtifactDetails") }
             self.outputArtifactDetails = try Codepipeline.ArtifactDetails(dictionary: outputArtifactDetails)
         }
@@ -1727,36 +1625,32 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// Represents information about the execution of a pipeline.
-        public var pipelineExecution: PipelineExecution? = nil
-
-        public init() {}
+        public let pipelineExecution: PipelineExecution?
 
         public init(pipelineExecution: PipelineExecution? = nil) {
             self.pipelineExecution = pipelineExecution
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let pipelineExecution = dictionary["pipelineExecution"] as? [String: Any] { self.pipelineExecution = try Codepipeline.PipelineExecution(dictionary: pipelineExecution) }
+            if let pipelineExecution = dictionary["pipelineExecution"] as? [String: Any] { self.pipelineExecution = try Codepipeline.PipelineExecution(dictionary: pipelineExecution) } else { self.pipelineExecution = nil }
         }
     }
 
     public struct ThirdPartyJobData: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var actionTypeId: ActionTypeId? = nil
-        public var actionConfiguration: ActionConfiguration? = nil
-        public var artifactCredentials: AWSSessionCredentials? = nil
+        public let actionTypeId: ActionTypeId?
+        public let actionConfiguration: ActionConfiguration?
+        public let artifactCredentials: AWSSessionCredentials?
         /// The name of the artifact that will be the result of the action, if any. This name might be system-generated, such as "MyBuiltApp", or might be defined by the user when the action is created.
-        public var outputArtifacts: [Artifact]? = nil
+        public let outputArtifacts: [Artifact]?
         /// The encryption key used to encrypt and decrypt data in the artifact store for the pipeline, such as an AWS Key Management Service (AWS KMS) key. This is optional and might not be present.
-        public var encryptionKey: EncryptionKey? = nil
+        public let encryptionKey: EncryptionKey?
         /// A system-generated token, such as a AWS CodeDeploy deployment ID, that a job requires in order to continue the job asynchronously.
-        public var continuationToken: String? = nil
+        public let continuationToken: String?
         /// The name of the artifact that will be worked upon by the action, if any. This name might be system-generated, such as "MyApp", or might be defined by the user when the action is created. The input artifact name must match the name of an output artifact generated by an action in an earlier action or stage of the pipeline.
-        public var inputArtifacts: [Artifact]? = nil
-        public var pipelineContext: PipelineContext? = nil
-
-        public init() {}
+        public let inputArtifacts: [Artifact]?
+        public let pipelineContext: PipelineContext?
 
         public init(actionTypeId: ActionTypeId? = nil, actionConfiguration: ActionConfiguration? = nil, artifactCredentials: AWSSessionCredentials? = nil, outputArtifacts: [Artifact]? = nil, encryptionKey: EncryptionKey? = nil, continuationToken: String? = nil, inputArtifacts: [Artifact]? = nil, pipelineContext: PipelineContext? = nil) {
             self.actionTypeId = actionTypeId
@@ -1770,34 +1664,36 @@ extension Codepipeline {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let actionTypeId = dictionary["actionTypeId"] as? [String: Any] { self.actionTypeId = try Codepipeline.ActionTypeId(dictionary: actionTypeId) }
-            if let actionConfiguration = dictionary["actionConfiguration"] as? [String: Any] { self.actionConfiguration = try Codepipeline.ActionConfiguration(dictionary: actionConfiguration) }
-            if let artifactCredentials = dictionary["artifactCredentials"] as? [String: Any] { self.artifactCredentials = try Codepipeline.AWSSessionCredentials(dictionary: artifactCredentials) }
+            if let actionTypeId = dictionary["actionTypeId"] as? [String: Any] { self.actionTypeId = try Codepipeline.ActionTypeId(dictionary: actionTypeId) } else { self.actionTypeId = nil }
+            if let actionConfiguration = dictionary["actionConfiguration"] as? [String: Any] { self.actionConfiguration = try Codepipeline.ActionConfiguration(dictionary: actionConfiguration) } else { self.actionConfiguration = nil }
+            if let artifactCredentials = dictionary["artifactCredentials"] as? [String: Any] { self.artifactCredentials = try Codepipeline.AWSSessionCredentials(dictionary: artifactCredentials) } else { self.artifactCredentials = nil }
             if let outputArtifacts = dictionary["outputArtifacts"] as? [[String: Any]] {
                 self.outputArtifacts = try outputArtifacts.map({ try Artifact(dictionary: $0) })
+            } else { 
+                self.outputArtifacts = nil
             }
-            if let encryptionKey = dictionary["encryptionKey"] as? [String: Any] { self.encryptionKey = try Codepipeline.EncryptionKey(dictionary: encryptionKey) }
+            if let encryptionKey = dictionary["encryptionKey"] as? [String: Any] { self.encryptionKey = try Codepipeline.EncryptionKey(dictionary: encryptionKey) } else { self.encryptionKey = nil }
             self.continuationToken = dictionary["continuationToken"] as? String
             if let inputArtifacts = dictionary["inputArtifacts"] as? [[String: Any]] {
                 self.inputArtifacts = try inputArtifacts.map({ try Artifact(dictionary: $0) })
+            } else { 
+                self.inputArtifacts = nil
             }
-            if let pipelineContext = dictionary["pipelineContext"] as? [String: Any] { self.pipelineContext = try Codepipeline.PipelineContext(dictionary: pipelineContext) }
+            if let pipelineContext = dictionary["pipelineContext"] as? [String: Any] { self.pipelineContext = try Codepipeline.PipelineContext(dictionary: pipelineContext) } else { self.pipelineContext = nil }
         }
     }
 
     public struct GetPipelineOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var pipeline: PipelineDeclaration? = nil
-
-        public init() {}
+        public let pipeline: PipelineDeclaration?
 
         public init(pipeline: PipelineDeclaration? = nil) {
             self.pipeline = pipeline
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let pipeline = dictionary["pipeline"] as? [String: Any] { self.pipeline = try Codepipeline.PipelineDeclaration(dictionary: pipeline) }
+            if let pipeline = dictionary["pipeline"] as? [String: Any] { self.pipeline = try Codepipeline.PipelineDeclaration(dictionary: pipeline) } else { self.pipeline = nil }
         }
     }
 
@@ -1805,9 +1701,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The configuration data for the action.
-        public var configuration: [String: String]? = nil
-
-        public init() {}
+        public let configuration: [String: String]?
 
         public init(configuration: [String: String]? = nil) {
             self.configuration = configuration
@@ -1816,6 +1710,8 @@ extension Codepipeline {
         public init(dictionary: [String: Any]) throws {
             if let configuration = dictionary["configuration"] as? [String: String] {
                 self.configuration = configuration
+            } else { 
+                self.configuration = nil
             }
         }
     }
@@ -1823,16 +1719,14 @@ extension Codepipeline {
     public struct CreatePipelineOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var pipeline: PipelineDeclaration? = nil
-
-        public init() {}
+        public let pipeline: PipelineDeclaration?
 
         public init(pipeline: PipelineDeclaration? = nil) {
             self.pipeline = pipeline
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let pipeline = dictionary["pipeline"] as? [String: Any] { self.pipeline = try Codepipeline.PipelineDeclaration(dictionary: pipeline) }
+            if let pipeline = dictionary["pipeline"] as? [String: Any] { self.pipeline = try Codepipeline.PipelineDeclaration(dictionary: pipeline) } else { self.pipeline = nil }
         }
     }
 
@@ -1840,9 +1734,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique system-generated ID of the pipeline execution that was started.
-        public var pipelineExecutionId: String? = nil
-
-        public init() {}
+        public let pipelineExecutionId: String?
 
         public init(pipelineExecutionId: String? = nil) {
             self.pipelineExecutionId = pipelineExecutionId
@@ -1857,9 +1749,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the pipeline about which you want to get information.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -1875,15 +1765,13 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The URL returned to the AWS CodePipeline console that contains a link to the page where customers can update or change the configuration of the external action.
-        public var revisionUrlTemplate: String? = nil
+        public let revisionUrlTemplate: String?
         /// The URL of a sign-up page where users can sign up for an external service and perform initial configuration of the action provided by that service.
-        public var thirdPartyConfigurationUrl: String? = nil
+        public let thirdPartyConfigurationUrl: String?
         /// The URL returned to the AWS CodePipeline console that contains a link to the top-level landing page for the external system, such as console page for AWS CodeDeploy. This link is shown on the pipeline view page in the AWS CodePipeline console and provides a link to the execution entity of the external action.
-        public var executionUrlTemplate: String? = nil
+        public let executionUrlTemplate: String?
         /// The URL returned to the AWS CodePipeline console that provides a deep link to the resources of the external system, such as the configuration page for an AWS CodeDeploy deployment group. This link is provided as part of the action display within the pipeline.
-        public var entityUrlTemplate: String? = nil
-
-        public init() {}
+        public let entityUrlTemplate: String?
 
         public init(revisionUrlTemplate: String? = nil, thirdPartyConfigurationUrl: String? = nil, executionUrlTemplate: String? = nil, entityUrlTemplate: String? = nil) {
             self.revisionUrlTemplate = revisionUrlTemplate
@@ -1904,9 +1792,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status information for the third party job, if any.
-        public var status: String? = nil
-
-        public init() {}
+        public let status: String?
 
         public init(status: String? = nil) {
             self.status = status
@@ -1920,19 +1806,17 @@ extension Codepipeline {
     public struct CreateCustomActionTypeInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var inputArtifactDetails: ArtifactDetails = ArtifactDetails()
-        public var settings: ActionTypeSettings? = nil
-        public var outputArtifactDetails: ArtifactDetails = ArtifactDetails()
+        public let inputArtifactDetails: ArtifactDetails
+        public let settings: ActionTypeSettings?
+        public let outputArtifactDetails: ArtifactDetails
         /// The configuration properties for the custom action.  You can refer to a name in the configuration properties of the custom action within the URL templates by following the format of {Config:name}, as long as the configuration property is both required and not secret. For more information, see Create a Custom Action for a Pipeline. 
-        public var configurationProperties: [ActionConfigurationProperty]? = nil
+        public let configurationProperties: [ActionConfigurationProperty]?
         /// The version identifier of the custom action.
-        public var version: String = ""
+        public let version: String
         /// The provider of the service used in the custom action, such as AWS CodeDeploy.
-        public var provider: String = ""
+        public let provider: String
         /// The category of the custom action, such as a build action or a test action.  Although Source and Approval are listed as valid values, they are not currently functional. These values are reserved for future use. 
-        public var category: String = ""
-
-        public init() {}
+        public let category: String
 
         public init(inputArtifactDetails: ArtifactDetails, settings: ActionTypeSettings? = nil, outputArtifactDetails: ArtifactDetails, configurationProperties: [ActionConfigurationProperty]? = nil, version: String, provider: String, category: String) {
             self.inputArtifactDetails = inputArtifactDetails
@@ -1947,11 +1831,13 @@ extension Codepipeline {
         public init(dictionary: [String: Any]) throws {
             guard let inputArtifactDetails = dictionary["inputArtifactDetails"] as? [String: Any] else { throw InitializableError.missingRequiredParam("inputArtifactDetails") }
             self.inputArtifactDetails = try Codepipeline.ArtifactDetails(dictionary: inputArtifactDetails)
-            if let settings = dictionary["settings"] as? [String: Any] { self.settings = try Codepipeline.ActionTypeSettings(dictionary: settings) }
+            if let settings = dictionary["settings"] as? [String: Any] { self.settings = try Codepipeline.ActionTypeSettings(dictionary: settings) } else { self.settings = nil }
             guard let outputArtifactDetails = dictionary["outputArtifactDetails"] as? [String: Any] else { throw InitializableError.missingRequiredParam("outputArtifactDetails") }
             self.outputArtifactDetails = try Codepipeline.ArtifactDetails(dictionary: outputArtifactDetails)
             if let configurationProperties = dictionary["configurationProperties"] as? [[String: Any]] {
                 self.configurationProperties = try configurationProperties.map({ try ActionConfigurationProperty(dictionary: $0) })
+            } else { 
+                self.configurationProperties = nil
             }
             guard let version = dictionary["version"] as? String else { throw InitializableError.missingRequiredParam("version") }
             self.version = version
@@ -1966,11 +1852,9 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The summary of the current status of the approval request.
-        public var summary: String = ""
+        public let summary: String
         /// The response submitted by a reviewer assigned to an approval action request.
-        public var status: String = ""
-
-        public init() {}
+        public let status: String
 
         public init(summary: String, status: String) {
             self.summary = summary
@@ -1989,11 +1873,9 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// Reserved for future use.
-        public var type: String = ""
+        public let type: String
         /// Reserved for future use.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(type: String, name: String) {
             self.type = type
@@ -2012,11 +1894,9 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous list action types call, which can be used to return the next set of action types in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Filters the list of action types to those created by a specified entity.
-        public var actionOwnerFilter: String? = nil
-
-        public init() {}
+        public let actionOwnerFilter: String?
 
         public init(nextToken: String? = nil, actionOwnerFilter: String? = nil) {
             self.nextToken = nextToken
@@ -2032,9 +1912,7 @@ extension Codepipeline {
     public struct CreatePipelineInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var pipeline: PipelineDeclaration = PipelineDeclaration()
-
-        public init() {}
+        public let pipeline: PipelineDeclaration
 
         public init(pipeline: PipelineDeclaration) {
             self.pipeline = pipeline
@@ -2050,9 +1928,7 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the pipeline to be updated.
-        public var pipeline: PipelineDeclaration = PipelineDeclaration()
-
-        public init() {}
+        public let pipeline: PipelineDeclaration
 
         public init(pipeline: PipelineDeclaration) {
             self.pipeline = pipeline
@@ -2068,15 +1944,13 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the AWS account to use when performing the job.
-        public var accountId: String? = nil
+        public let accountId: String?
         /// Additional data about a job.
-        public var data: JobData? = nil
+        public let data: JobData?
         /// The unique system-generated ID of the job.
-        public var id: String? = nil
+        public let id: String?
         /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Use this number in an AcknowledgeJob request.
-        public var nonce: String? = nil
-
-        public init() {}
+        public let nonce: String?
 
         public init(accountId: String? = nil, data: JobData? = nil, id: String? = nil, nonce: String? = nil) {
             self.accountId = accountId
@@ -2087,7 +1961,7 @@ extension Codepipeline {
 
         public init(dictionary: [String: Any]) throws {
             self.accountId = dictionary["accountId"] as? String
-            if let data = dictionary["data"] as? [String: Any] { self.data = try Codepipeline.JobData(dictionary: data) }
+            if let data = dictionary["data"] as? [String: Any] { self.data = try Codepipeline.JobData(dictionary: data) } else { self.data = nil }
             self.id = dictionary["id"] as? String
             self.nonce = dictionary["nonce"] as? String
         }
@@ -2097,16 +1971,14 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The structure of the updated pipeline.
-        public var pipeline: PipelineDeclaration? = nil
-
-        public init() {}
+        public let pipeline: PipelineDeclaration?
 
         public init(pipeline: PipelineDeclaration? = nil) {
             self.pipeline = pipeline
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let pipeline = dictionary["pipeline"] as? [String: Any] { self.pipeline = try Codepipeline.PipelineDeclaration(dictionary: pipeline) }
+            if let pipeline = dictionary["pipeline"] as? [String: Any] { self.pipeline = try Codepipeline.PipelineDeclaration(dictionary: pipeline) } else { self.pipeline = nil }
         }
     }
 
@@ -2114,13 +1986,11 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The summary of the current status of the actions.
-        public var summary: String? = nil
+        public let summary: String?
         /// The percentage of work completed on the action, represented on a scale of zero to one hundred percent.
-        public var percentComplete: Int32? = nil
+        public let percentComplete: Int32?
         /// The system-generated unique ID of this action used to identify this job worker in any external systems, such as AWS CodeDeploy.
-        public var externalExecutionId: String? = nil
-
-        public init() {}
+        public let externalExecutionId: String?
 
         public init(summary: String? = nil, percentComplete: Int32? = nil, externalExecutionId: String? = nil) {
             self.summary = summary
@@ -2139,16 +2009,14 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The details of the job, including any protected values defined for the job.
-        public var jobDetails: ThirdPartyJobDetails? = nil
-
-        public init() {}
+        public let jobDetails: ThirdPartyJobDetails?
 
         public init(jobDetails: ThirdPartyJobDetails? = nil) {
             self.jobDetails = jobDetails
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let jobDetails = dictionary["jobDetails"] as? [String: Any] { self.jobDetails = try Codepipeline.ThirdPartyJobDetails(dictionary: jobDetails) }
+            if let jobDetails = dictionary["jobDetails"] as? [String: Any] { self.jobDetails = try Codepipeline.ThirdPartyJobDetails(dictionary: jobDetails) } else { self.jobDetails = nil }
         }
     }
 
@@ -2156,13 +2024,11 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response to a GetThirdPartyJobDetails request.
-        public var nonce: String = ""
+        public let nonce: String
         /// The unique system-generated ID of the job.
-        public var jobId: String = ""
+        public let jobId: String
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
-        public var clientToken: String = ""
-
-        public init() {}
+        public let clientToken: String
 
         public init(nonce: String, jobId: String, clientToken: String) {
             self.nonce = nonce
@@ -2184,11 +2050,9 @@ extension Codepipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// If the amount of returned information is significantly large, an identifier is also returned which can be used in a subsequent list pipelines call to return the next set of pipelines in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The list of pipelines.
-        public var pipelines: [PipelineSummary]? = nil
-
-        public init() {}
+        public let pipelines: [PipelineSummary]?
 
         public init(nextToken: String? = nil, pipelines: [PipelineSummary]? = nil) {
             self.nextToken = nextToken
@@ -2199,6 +2063,8 @@ extension Codepipeline {
             self.nextToken = dictionary["nextToken"] as? String
             if let pipelines = dictionary["pipelines"] as? [[String: Any]] {
                 self.pipelines = try pipelines.map({ try PipelineSummary(dictionary: $0) })
+            } else { 
+                self.pipelines = nil
             }
         }
     }

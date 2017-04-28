@@ -33,9 +33,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the high-availability partition group.
-        public var hapgArn: String? = nil
-
-        public init() {}
+        public let hapgArn: String?
 
         public init(hapgArn: String? = nil) {
             self.hapgArn = hapgArn
@@ -50,9 +48,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the operation.
-        public var status: String = ""
-
-        public init() {}
+        public let status: String
 
         public init(status: String) {
             self.status = status
@@ -68,11 +64,9 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The serial number of the HSM. Either the HsmArn or the HsmSerialNumber parameter must be specified.
-        public var hsmSerialNumber: String? = nil
+        public let hsmSerialNumber: String?
         /// The ARN of the HSM. Either the HsmArn or the SerialNumber parameter must be specified.
-        public var hsmArn: String? = nil
-
-        public init() {}
+        public let hsmArn: String?
 
         public init(hsmSerialNumber: String? = nil, hsmArn: String? = nil) {
             self.hsmSerialNumber = hsmSerialNumber
@@ -89,9 +83,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
-        public var resourceArn: String = ""
-
-        public init() {}
+        public let resourceArn: String
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
@@ -107,9 +99,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more tags.
-        public var tagList: [Tag] = []
-
-        public init() {}
+        public let tagList: [Tag]
 
         public init(tagList: [Tag]) {
             self.tagList = tagList
@@ -125,9 +115,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The label of the new high-availability partition group.
-        public var label: String = ""
-
-        public init() {}
+        public let label: String
 
         public init(label: String) {
             self.label = label
@@ -143,13 +131,11 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the client.
-        public var clientArn: String = ""
+        public let clientArn: String
         /// A list of ARNs that identify the high-availability partition groups that are associated with the client.
-        public var hapgList: [String] = []
+        public let hapgList: [String]
         /// The client version.
-        public var clientVersion: String = ""
-
-        public init() {}
+        public let clientVersion: String
 
         public init(clientArn: String, hapgList: [String], clientVersion: String) {
             self.clientArn = clientArn
@@ -171,13 +157,11 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The new label for the high-availability partition group.
-        public var label: String? = nil
+        public let label: String?
         /// The ARN of the high-availability partition group to modify.
-        public var hapgArn: String = ""
+        public let hapgArn: String
         /// The list of partition serial numbers to make members of the high-availability partition group.
-        public var partitionSerialList: [String]? = nil
-
-        public init() {}
+        public let partitionSerialList: [String]?
 
         public init(label: String? = nil, hapgArn: String, partitionSerialList: [String]? = nil) {
             self.label = label
@@ -189,9 +173,7 @@ extension Cloudhsm {
             self.label = dictionary["Label"] as? String
             guard let hapgArn = dictionary["HapgArn"] as? String else { throw InitializableError.missingRequiredParam("HapgArn") }
             self.hapgArn = hapgArn
-            if let partitionSerialList = dictionary["PartitionSerialList"] as? [String] {
-                self.partitionSerialList = partitionSerialList
-            }
+            self.partitionSerialList = dictionary["PartitionSerialList"] as? [String]
         }
     }
 
@@ -199,9 +181,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The NextToken value from a previous call to ListLunaClients. Pass null if this is the first call.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
@@ -216,11 +196,9 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The contents of a Base64-Encoded X.509 v3 certificate to be installed on the HSMs used by this client.
-        public var certificate: String = ""
+        public let certificate: String
         /// The label for the client.
-        public var label: String? = nil
-
-        public init() {}
+        public let label: String?
 
         public init(certificate: String, label: String? = nil) {
             self.certificate = certificate
@@ -238,11 +216,9 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The new certificate for the client.
-        public var certificate: String = ""
+        public let certificate: String
         /// The ARN of the client.
-        public var clientArn: String = ""
-
-        public init() {}
+        public let clientArn: String
 
         public init(certificate: String, clientArn: String) {
             self.certificate = certificate
@@ -261,11 +237,9 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the client.
-        public var clientArn: String? = nil
+        public let clientArn: String?
         /// The certificate fingerprint.
-        public var certificateFingerprint: String? = nil
-
-        public init() {}
+        public let certificateFingerprint: String?
 
         public init(clientArn: String? = nil, certificateFingerprint: String? = nil) {
             self.clientArn = clientArn
@@ -282,13 +256,11 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of credentials.
-        public var configType: String? = nil
+        public let configType: String?
         /// The chrystoki.conf configuration file.
-        public var configFile: String? = nil
+        public let configFile: String?
         /// The certificate file containing the server.pem files of the HSMs.
-        public var configCred: String? = nil
-
-        public init() {}
+        public let configCred: String?
 
         public init(configType: String? = nil, configFile: String? = nil, configCred: String? = nil) {
             self.configType = configType
@@ -307,9 +279,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the HSM to delete.
-        public var hsmArn: String = ""
-
-        public init() {}
+        public let hsmArn: String
 
         public init(hsmArn: String) {
             self.hsmArn = hsmArn
@@ -325,9 +295,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The NextToken value from a previous call to ListHsms. Pass null if this is the first call.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
@@ -342,19 +310,17 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The new external ID.
-        public var externalId: String? = nil
+        public let externalId: String?
         /// The new identifier of the subnet that the HSM is in. The new subnet must be in the same Availability Zone as the current subnet.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// The new IP address for the elastic network interface (ENI) attached to the HSM. If the HSM is moved to a different subnet, and an IP address is not specified, an IP address will be randomly chosen from the CIDR range of the new subnet.
-        public var eniIp: String? = nil
+        public let eniIp: String?
         /// The new IAM role ARN.
-        public var iamRoleArn: String? = nil
+        public let iamRoleArn: String?
         /// The new IP address for the syslog monitoring server. The AWS CloudHSM service only supports one syslog monitoring server.
-        public var syslogIp: String? = nil
+        public let syslogIp: String?
         /// The ARN of the HSM to modify.
-        public var hsmArn: String = ""
-
-        public init() {}
+        public let hsmArn: String
 
         public init(externalId: String? = nil, subnetId: String? = nil, eniIp: String? = nil, iamRoleArn: String? = nil, syslogIp: String? = nil, hsmArn: String) {
             self.externalId = externalId
@@ -379,23 +345,21 @@ extension Cloudhsm {
     public struct DescribeHapgResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var hsmsPendingDeletion: [String]? = nil
+        public let hsmsPendingDeletion: [String]?
         /// The state of the high-availability partition group.
-        public var state: String? = nil
+        public let state: String?
         /// The ARN of the high-availability partition group.
-        public var hapgArn: String? = nil
+        public let hapgArn: String?
         /// The serial number of the high-availability partition group.
-        public var hapgSerial: String? = nil
-        public var hsmsLastActionFailed: [String]? = nil
+        public let hapgSerial: String?
+        public let hsmsLastActionFailed: [String]?
         /// The list of partition serial numbers that belong to the high-availability partition group.
-        public var partitionSerialList: [String]? = nil
-        public var hsmsPendingRegistration: [String]? = nil
+        public let partitionSerialList: [String]?
+        public let hsmsPendingRegistration: [String]?
         /// The date and time the high-availability partition group was last modified.
-        public var lastModifiedTimestamp: String? = nil
+        public let lastModifiedTimestamp: String?
         /// The label for the high-availability partition group.
-        public var label: String? = nil
-
-        public init() {}
+        public let label: String?
 
         public init(hsmsPendingDeletion: [String]? = nil, state: String? = nil, hapgArn: String? = nil, hapgSerial: String? = nil, hsmsLastActionFailed: [String]? = nil, partitionSerialList: [String]? = nil, hsmsPendingRegistration: [String]? = nil, lastModifiedTimestamp: String? = nil, label: String? = nil) {
             self.hsmsPendingDeletion = hsmsPendingDeletion
@@ -410,21 +374,13 @@ extension Cloudhsm {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let hsmsPendingDeletion = dictionary["HsmsPendingDeletion"] as? [String] {
-                self.hsmsPendingDeletion = hsmsPendingDeletion
-            }
+            self.hsmsPendingDeletion = dictionary["HsmsPendingDeletion"] as? [String]
             self.state = dictionary["State"] as? String
             self.hapgArn = dictionary["HapgArn"] as? String
             self.hapgSerial = dictionary["HapgSerial"] as? String
-            if let hsmsLastActionFailed = dictionary["HsmsLastActionFailed"] as? [String] {
-                self.hsmsLastActionFailed = hsmsLastActionFailed
-            }
-            if let partitionSerialList = dictionary["PartitionSerialList"] as? [String] {
-                self.partitionSerialList = partitionSerialList
-            }
-            if let hsmsPendingRegistration = dictionary["HsmsPendingRegistration"] as? [String] {
-                self.hsmsPendingRegistration = hsmsPendingRegistration
-            }
+            self.hsmsLastActionFailed = dictionary["HsmsLastActionFailed"] as? [String]
+            self.partitionSerialList = dictionary["PartitionSerialList"] as? [String]
+            self.hsmsPendingRegistration = dictionary["HsmsPendingRegistration"] as? [String]
             self.lastModifiedTimestamp = dictionary["LastModifiedTimestamp"] as? String
             self.label = dictionary["Label"] as? String
         }
@@ -434,17 +390,15 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The certificate installed on the HSMs used by this client.
-        public var certificate: String? = nil
+        public let certificate: String?
         /// The date and time the client was last modified.
-        public var lastModifiedTimestamp: String? = nil
+        public let lastModifiedTimestamp: String?
         /// The ARN of the client.
-        public var clientArn: String? = nil
+        public let clientArn: String?
         /// The certificate fingerprint.
-        public var certificateFingerprint: String? = nil
+        public let certificateFingerprint: String?
         /// The label of the client.
-        public var label: String? = nil
-
-        public init() {}
+        public let label: String?
 
         public init(certificate: String? = nil, lastModifiedTimestamp: String? = nil, clientArn: String? = nil, certificateFingerprint: String? = nil, label: String? = nil) {
             self.certificate = certificate
@@ -467,9 +421,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the operation.
-        public var status: String = ""
-
-        public init() {}
+        public let status: String
 
         public init(status: String) {
             self.status = status
@@ -485,11 +437,9 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the tag.
-        public var value: String = ""
+        public let value: String
         /// The key of the tag.
-        public var key: String = ""
-
-        public init() {}
+        public let key: String
 
         public init(value: String, key: String) {
             self.value = value
@@ -508,9 +458,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the operation.
-        public var status: String = ""
-
-        public init() {}
+        public let status: String
 
         public init(status: String) {
             self.status = status
@@ -526,9 +474,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the high-availability partition group to delete.
-        public var hapgArn: String = ""
-
-        public init() {}
+        public let hapgArn: String
 
         public init(hapgArn: String) {
             self.hapgArn = hapgArn
@@ -544,48 +490,46 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Contains additional information about the status of the HSM.
-        public var statusDetails: String? = nil
+        public let statusDetails: String?
         /// The identifier of the subnet that the HSM is in.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// The IP address assigned to the HSM's ENI.
-        public var eniIp: String? = nil
+        public let eniIp: String?
         /// The identifier of the elastic network interface (ENI) attached to the HSM.
-        public var eniId: String? = nil
+        public let eniId: String?
         /// The ARN of the HSM.
-        public var hsmArn: String? = nil
+        public let hsmArn: String?
         /// The public SSH key.
-        public var sshPublicKey: String? = nil
+        public let sshPublicKey: String?
         /// The subscription end date.
-        public var subscriptionEndDate: String? = nil
+        public let subscriptionEndDate: String?
         /// The date and time that the SSH key was last updated.
-        public var sshKeyLastUpdated: String? = nil
+        public let sshKeyLastUpdated: String?
         /// The serial number of the HSM.
-        public var serialNumber: String? = nil
+        public let serialNumber: String?
         /// The Availability Zone that the HSM is in.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The status of the HSM.
-        public var status: String? = nil
+        public let status: String?
         /// The ARN of the IAM role assigned to the HSM.
-        public var iamRoleArn: String? = nil
+        public let iamRoleArn: String?
         /// The date and time that the server certificate was last updated.
-        public var serverCertLastUpdated: String? = nil
+        public let serverCertLastUpdated: String?
         /// The identifier of the VPC that the HSM is in.
-        public var vpcId: String? = nil
-        public var subscriptionType: String? = nil
+        public let vpcId: String?
+        public let subscriptionType: String?
         /// The URI of the certificate server.
-        public var serverCertUri: String? = nil
+        public let serverCertUri: String?
         /// The list of partitions on the HSM.
-        public var partitions: [String]? = nil
+        public let partitions: [String]?
         /// The HSM software version.
-        public var softwareVersion: String? = nil
+        public let softwareVersion: String?
         /// The HSM model type.
-        public var hsmType: String? = nil
+        public let hsmType: String?
         /// The subscription start date.
-        public var subscriptionStartDate: String? = nil
+        public let subscriptionStartDate: String?
         /// The name of the HSM vendor.
-        public var vendorName: String? = nil
-
-        public init() {}
+        public let vendorName: String?
 
         public init(statusDetails: String? = nil, subnetId: String? = nil, eniIp: String? = nil, eniId: String? = nil, hsmArn: String? = nil, sshPublicKey: String? = nil, subscriptionEndDate: String? = nil, sshKeyLastUpdated: String? = nil, serialNumber: String? = nil, availabilityZone: String? = nil, status: String? = nil, iamRoleArn: String? = nil, serverCertLastUpdated: String? = nil, vpcId: String? = nil, subscriptionType: String? = nil, serverCertUri: String? = nil, partitions: [String]? = nil, softwareVersion: String? = nil, hsmType: String? = nil, subscriptionStartDate: String? = nil, vendorName: String? = nil) {
             self.statusDetails = statusDetails
@@ -628,9 +572,7 @@ extension Cloudhsm {
             self.vpcId = dictionary["VpcId"] as? String
             self.subscriptionType = dictionary["SubscriptionType"] as? String
             self.serverCertUri = dictionary["ServerCertUri"] as? String
-            if let partitions = dictionary["Partitions"] as? [String] {
-                self.partitions = partitions
-            }
+            self.partitions = dictionary["Partitions"] as? [String]
             self.softwareVersion = dictionary["SoftwareVersion"] as? String
             self.hsmType = dictionary["HsmType"] as? String
             self.subscriptionStartDate = dictionary["SubscriptionStartDate"] as? String
@@ -642,11 +584,9 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// If not null, more results are available. Pass this to ListLunaClients to retrieve the next set of items.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The list of clients.
-        public var clientList: [String] = []
-
-        public init() {}
+        public let clientList: [String]
 
         public init(nextToken: String? = nil, clientList: [String]) {
             self.nextToken = nextToken
@@ -664,9 +604,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the action.
-        public var status: String = ""
-
-        public init() {}
+        public let status: String
 
         public init(status: String) {
             self.status = status
@@ -682,18 +620,14 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of Availability Zones that have available AWS CloudHSM capacity.
-        public var aZList: [String]? = nil
-
-        public init() {}
+        public let aZList: [String]?
 
         public init(aZList: [String]? = nil) {
             self.aZList = aZList
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let aZList = dictionary["AZList"] as? [String] {
-                self.aZList = aZList
-            }
+            self.aZList = dictionary["AZList"] as? [String]
         }
     }
 
@@ -701,11 +635,9 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource to tag.
-        public var resourceArn: String = ""
+        public let resourceArn: String
         /// One or more tags.
-        public var tagList: [Tag] = []
-
-        public init() {}
+        public let tagList: [Tag]
 
         public init(resourceArn: String, tagList: [Tag]) {
             self.resourceArn = resourceArn
@@ -724,9 +656,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the client.
-        public var clientArn: String? = nil
-
-        public init() {}
+        public let clientArn: String?
 
         public init(clientArn: String? = nil) {
             self.clientArn = clientArn
@@ -741,9 +671,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the high-availability partition group.
-        public var hapgArn: String? = nil
-
-        public init() {}
+        public let hapgArn: String?
 
         public init(hapgArn: String? = nil) {
             self.hapgArn = hapgArn
@@ -758,9 +686,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the HSM.
-        public var hsmArn: String? = nil
-
-        public init() {}
+        public let hsmArn: String?
 
         public init(hsmArn: String? = nil) {
             self.hsmArn = hsmArn
@@ -775,11 +701,9 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// If not null, more results are available. Pass this value to ListHapgs to retrieve the next set of items.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The list of high-availability partition groups.
-        public var hapgList: [String] = []
-
-        public init() {}
+        public let hapgList: [String]
 
         public init(nextToken: String? = nil, hapgList: [String]) {
             self.nextToken = nextToken
@@ -797,22 +721,20 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the subnet in your VPC in which to place the HSM.
-        public var subnetId: String = ""
+        public let subnetId: String
         /// A user-defined token to ensure idempotence. Subsequent calls to this operation with the same token will be ignored.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// The IP address to assign to the HSM's ENI. If an IP address is not specified, an IP address will be randomly chosen from the CIDR range of the subnet.
-        public var eniIp: String? = nil
+        public let eniIp: String?
         /// The ARN of an IAM role to enable the AWS CloudHSM service to allocate an ENI on your behalf.
-        public var iamRoleArn: String = ""
+        public let iamRoleArn: String
         /// The SSH public key to install on the HSM.
-        public var sshKey: String = ""
-        public var subscriptionType: String = ""
+        public let sshKey: String
+        public let subscriptionType: String
         /// The IP address for the syslog monitoring server. The AWS CloudHSM service only supports one syslog monitoring server.
-        public var syslogIp: String? = nil
+        public let syslogIp: String?
         /// The external ID from IamRoleArn, if present.
-        public var externalId: String? = nil
-
-        public init() {}
+        public let externalId: String?
 
         public init(subnetId: String, clientToken: String? = nil, eniIp: String? = nil, iamRoleArn: String, sshKey: String, subscriptionType: String, syslogIp: String? = nil, externalId: String? = nil) {
             self.subnetId = subnetId
@@ -845,11 +767,9 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The tag key or keys to remove. Specify only the tag key to remove (not the value). To overwrite the value for an existing tag, use AddTagsToResource.
-        public var tagKeyList: [String] = []
+        public let tagKeyList: [String]
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
-        public var resourceArn: String = ""
-
-        public init() {}
+        public let resourceArn: String
 
         public init(tagKeyList: [String], resourceArn: String) {
             self.tagKeyList = tagKeyList
@@ -868,8 +788,6 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -878,9 +796,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the action.
-        public var status: String = ""
-
-        public init() {}
+        public let status: String
 
         public init(status: String) {
             self.status = status
@@ -896,9 +812,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the client to delete.
-        public var clientArn: String = ""
-
-        public init() {}
+        public let clientArn: String
 
         public init(clientArn: String) {
             self.clientArn = clientArn
@@ -914,11 +828,9 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of ARNs that identify the HSMs.
-        public var hsmList: [String]? = nil
+        public let hsmList: [String]?
         /// If not null, more results are available. Pass this value to ListHsms to retrieve the next set of items.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(hsmList: [String]? = nil, nextToken: String? = nil) {
             self.hsmList = hsmList
@@ -926,9 +838,7 @@ extension Cloudhsm {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let hsmList = dictionary["HsmList"] as? [String] {
-                self.hsmList = hsmList
-            }
+            self.hsmList = dictionary["HsmList"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
         }
     }
@@ -937,9 +847,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the high-availability partition group to describe.
-        public var hapgArn: String = ""
-
-        public init() {}
+        public let hapgArn: String
 
         public init(hapgArn: String) {
             self.hapgArn = hapgArn
@@ -955,9 +863,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the client.
-        public var clientArn: String? = nil
-
-        public init() {}
+        public let clientArn: String?
 
         public init(clientArn: String? = nil) {
             self.clientArn = clientArn
@@ -972,9 +878,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the HSM.
-        public var hsmArn: String? = nil
-
-        public init() {}
+        public let hsmArn: String?
 
         public init(hsmArn: String? = nil) {
             self.hsmArn = hsmArn
@@ -989,9 +893,7 @@ extension Cloudhsm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The NextToken value from a previous call to ListHapgs. Pass null if this is the first call.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken

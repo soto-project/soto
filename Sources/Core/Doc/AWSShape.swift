@@ -6,7 +6,7 @@
 //
 //
 
-public protocol AWSShape: DictionarySerializable, XMLNodeSerializable, Initializable, InitializableFromDictionary {
+public protocol AWSShape: DictionarySerializable, XMLNodeSerializable, InitializableFromDictionary {
     static var pathParams: [String: String] { get }
     static var headerParams: [String: String] { get }
     static var queryParams: [String: String] { get }

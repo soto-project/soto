@@ -33,11 +33,9 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// Input template where you can use the values of the keys from InputPathsMap to customize the data sent to the target.
-        public var inputTemplate: String = ""
+        public let inputTemplate: String
         /// Map of JSON paths to be extracted from the event. These are key-value pairs, where each value is a JSON path.
-        public var inputPathsMap: [String: String]? = nil
-
-        public init() {}
+        public let inputPathsMap: [String: String]?
 
         public init(inputTemplate: String, inputPathsMap: [String: String]? = nil) {
             self.inputTemplate = inputTemplate
@@ -49,6 +47,8 @@ extension Events {
             self.inputTemplate = inputTemplate
             if let inputPathsMap = dictionary["InputPathsMap"] as? [String: String] {
                 self.inputPathsMap = inputPathsMap
+            } else { 
+                self.inputPathsMap = nil
             }
         }
     }
@@ -57,11 +57,9 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of failed entries.
-        public var failedEntryCount: Int32? = nil
+        public let failedEntryCount: Int32?
         /// The failed target entries.
-        public var failedEntries: [PutTargetsResultEntry]? = nil
-
-        public init() {}
+        public let failedEntries: [PutTargetsResultEntry]?
 
         public init(failedEntryCount: Int32? = nil, failedEntries: [PutTargetsResultEntry]? = nil) {
             self.failedEntryCount = failedEntryCount
@@ -72,6 +70,8 @@ extension Events {
             self.failedEntryCount = dictionary["FailedEntryCount"] as? Int32
             if let failedEntries = dictionary["FailedEntries"] as? [[String: Any]] {
                 self.failedEntries = try failedEntries.map({ try PutTargetsResultEntry(dictionary: $0) })
+            } else { 
+                self.failedEntries = nil
             }
         }
     }
@@ -80,21 +80,19 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the rule.
-        public var arn: String? = nil
+        public let arn: String?
         /// The state of the rule.
-        public var state: String? = nil
+        public let state: String?
         /// The name of the rule.
-        public var name: String? = nil
+        public let name: String?
         /// The event pattern of the rule.
-        public var eventPattern: String? = nil
+        public let eventPattern: String?
         /// The Amazon Resource Name (ARN) of the role that is used for target invocation.
-        public var roleArn: String? = nil
+        public let roleArn: String?
         /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)".
-        public var scheduleExpression: String? = nil
+        public let scheduleExpression: String?
         /// The description of the rule.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(arn: String? = nil, state: String? = nil, name: String? = nil, eventPattern: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, description: String? = nil) {
             self.arn = arn
@@ -121,25 +119,23 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// Parameters used when you are using the rule to invoke Amazon EC2 Run Command.
-        public var runCommandParameters: RunCommandParameters? = nil
+        public let runCommandParameters: RunCommandParameters?
         /// Settings to enable you to provide custom input to a target based on certain event data. You can extract one or more key-value pairs from the event and then use that data to send customized input to the target.
-        public var inputTransformer: InputTransformer? = nil
+        public let inputTransformer: InputTransformer?
         /// The Amazon Resource Name (ARN) of the target.
-        public var arn: String = ""
+        public let arn: String
         /// Valid JSON text passed to the target. In this case, nothing from the event itself is passed to the target. For more information, see The JavaScript Object Notation (JSON) Data Interchange Format.
-        public var input: String? = nil
+        public let input: String?
         /// The value of the JSONPath that is used for extracting part of the matched event when passing it to the target. For more information about JSON paths, see JSONPath.
-        public var inputPath: String? = nil
+        public let inputPath: String?
         /// Contains the Amazon ECS task definition and task count to be used, if the event target is an Amazon ECS task. For more information about Amazon ECS tasks, see Task Definitions  in the Amazon EC2 Container Service Developer Guide.
-        public var ecsParameters: EcsParameters? = nil
+        public let ecsParameters: EcsParameters?
         /// The Amazon Resource Name (ARN) of the IAM role to be used for this target when the rule is triggered. If one rule triggers multiple targets, you can use a different IAM role for each target.
-        public var roleArn: String? = nil
+        public let roleArn: String?
         /// The custom parameter you can use to control shard assignment, when the target is an Amazon Kinesis stream. If you do not include this parameter, the default is to use the eventId as the partition key.
-        public var kinesisParameters: KinesisParameters? = nil
+        public let kinesisParameters: KinesisParameters?
         /// The ID of the target.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(runCommandParameters: RunCommandParameters? = nil, inputTransformer: InputTransformer? = nil, arn: String, input: String? = nil, inputPath: String? = nil, ecsParameters: EcsParameters? = nil, roleArn: String? = nil, kinesisParameters: KinesisParameters? = nil, id: String) {
             self.runCommandParameters = runCommandParameters
@@ -154,15 +150,15 @@ extension Events {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let runCommandParameters = dictionary["RunCommandParameters"] as? [String: Any] { self.runCommandParameters = try Events.RunCommandParameters(dictionary: runCommandParameters) }
-            if let inputTransformer = dictionary["InputTransformer"] as? [String: Any] { self.inputTransformer = try Events.InputTransformer(dictionary: inputTransformer) }
+            if let runCommandParameters = dictionary["RunCommandParameters"] as? [String: Any] { self.runCommandParameters = try Events.RunCommandParameters(dictionary: runCommandParameters) } else { self.runCommandParameters = nil }
+            if let inputTransformer = dictionary["InputTransformer"] as? [String: Any] { self.inputTransformer = try Events.InputTransformer(dictionary: inputTransformer) } else { self.inputTransformer = nil }
             guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
             self.arn = arn
             self.input = dictionary["Input"] as? String
             self.inputPath = dictionary["InputPath"] as? String
-            if let ecsParameters = dictionary["EcsParameters"] as? [String: Any] { self.ecsParameters = try Events.EcsParameters(dictionary: ecsParameters) }
+            if let ecsParameters = dictionary["EcsParameters"] as? [String: Any] { self.ecsParameters = try Events.EcsParameters(dictionary: ecsParameters) } else { self.ecsParameters = nil }
             self.roleArn = dictionary["RoleArn"] as? String
-            if let kinesisParameters = dictionary["KinesisParameters"] as? [String: Any] { self.kinesisParameters = try Events.KinesisParameters(dictionary: kinesisParameters) }
+            if let kinesisParameters = dictionary["KinesisParameters"] as? [String: Any] { self.kinesisParameters = try Events.KinesisParameters(dictionary: kinesisParameters) } else { self.kinesisParameters = nil }
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id
         }
@@ -172,9 +168,7 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the rule.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -190,11 +184,9 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The event, in JSON format, to test against the event pattern.
-        public var event: String = ""
+        public let event: String
         /// The event pattern.
-        public var eventPattern: String = ""
-
-        public init() {}
+        public let eventPattern: String
 
         public init(event: String, eventPattern: String) {
             self.event = event
@@ -213,11 +205,9 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// Can be either tag: tag-key or InstanceIds.
-        public var key: String = ""
+        public let key: String
         /// If Key is tag: tag-key, Values is a list of tag values. If Key is InstanceIds, Values is a list of Amazon EC2 instance IDs.
-        public var values: [String] = []
-
-        public init() {}
+        public let values: [String]
 
         public init(key: String, values: [String]) {
             self.key = key
@@ -236,13 +226,11 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token returned by a previous call to retrieve the next set of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the target resource.
-        public var targetArn: String = ""
+        public let targetArn: String
         /// The maximum number of results to return.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(nextToken: String? = nil, targetArn: String, limit: Int32? = nil) {
             self.nextToken = nextToken
@@ -262,19 +250,17 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// A description of the rule.
-        public var description: String? = nil
+        public let description: String?
         /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)".
-        public var scheduleExpression: String? = nil
+        public let scheduleExpression: String?
         /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
-        public var roleArn: String? = nil
+        public let roleArn: String?
         /// The event pattern.
-        public var eventPattern: String? = nil
+        public let eventPattern: String?
         /// The name of the rule that you are creating or updating.
-        public var name: String = ""
+        public let name: String
         /// Indicates whether the rule is enabled or disabled.
-        public var state: String? = nil
-
-        public init() {}
+        public let state: String?
 
         public init(description: String? = nil, scheduleExpression: String? = nil, roleArn: String? = nil, eventPattern: String? = nil, name: String, state: String? = nil) {
             self.description = description
@@ -300,9 +286,7 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// Currently, we support including only one RunCommandTarget block, which specifies either an array of InstanceIds or a tag.
-        public var runCommandTargets: [RunCommandTarget] = []
-
-        public init() {}
+        public let runCommandTargets: [RunCommandTarget]
 
         public init(runCommandTargets: [RunCommandTarget]) {
             self.runCommandTargets = runCommandTargets
@@ -318,11 +302,9 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The targets assigned to the rule.
-        public var targets: [Target]? = nil
+        public let targets: [Target]?
         /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(targets: [Target]? = nil, nextToken: String? = nil) {
             self.targets = targets
@@ -332,6 +314,8 @@ extension Events {
         public init(dictionary: [String: Any]) throws {
             if let targets = dictionary["Targets"] as? [[String: Any]] {
                 self.targets = try targets.map({ try Target(dictionary: $0) })
+            } else { 
+                self.targets = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -341,9 +325,7 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the rule.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -359,21 +341,19 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the rule.
-        public var arn: String? = nil
+        public let arn: String?
         /// Specifies whether the rule is enabled or disabled.
-        public var state: String? = nil
+        public let state: String?
         /// The name of the rule.
-        public var name: String? = nil
+        public let name: String?
         /// The event pattern.
-        public var eventPattern: String? = nil
+        public let eventPattern: String?
         /// The Amazon Resource Name (ARN) of the IAM role associated with the rule.
-        public var roleArn: String? = nil
+        public let roleArn: String?
         /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)".
-        public var scheduleExpression: String? = nil
+        public let scheduleExpression: String?
         /// The description of the rule.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(arn: String? = nil, state: String? = nil, name: String? = nil, eventPattern: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, description: String? = nil) {
             self.arn = arn
@@ -400,9 +380,7 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
-        public var entries: [PutEventsRequestEntry] = []
-
-        public init() {}
+        public let entries: [PutEventsRequestEntry]
 
         public init(entries: [PutEventsRequestEntry]) {
             self.entries = entries
@@ -418,13 +396,11 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The error message that explains why the target removal failed.
-        public var errorMessage: String? = nil
+        public let errorMessage: String?
         /// The error code that indicates why the target removal failed.
-        public var errorCode: String? = nil
+        public let errorCode: String?
         /// The ID of the target.
-        public var targetId: String? = nil
-
-        public init() {}
+        public let targetId: String?
 
         public init(errorMessage: String? = nil, errorCode: String? = nil, targetId: String? = nil) {
             self.errorMessage = errorMessage
@@ -443,17 +419,15 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// In the JSON sense, an object containing fields, which may also contain nested subobjects. No constraints are imposed on its contents.
-        public var detail: String? = nil
+        public let detail: String?
         /// Free-form string used to decide what fields to expect in the event detail.
-        public var detailType: String? = nil
+        public let detailType: String?
         /// The source of the event.
-        public var source: String? = nil
+        public let source: String?
         /// The timestamp of the event, per RFC3339. If no timestamp is provided, the timestamp of the PutEvents call is used.
-        public var time: Date? = nil
+        public let time: Date?
         /// AWS resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
-        public var resources: [String]? = nil
-
-        public init() {}
+        public let resources: [String]?
 
         public init(detail: String? = nil, detailType: String? = nil, source: String? = nil, time: Date? = nil, resources: [String]? = nil) {
             self.detail = detail
@@ -468,9 +442,7 @@ extension Events {
             self.detailType = dictionary["DetailType"] as? String
             self.source = dictionary["Source"] as? String
             self.time = dictionary["Time"] as? Date
-            if let resources = dictionary["Resources"] as? [String] {
-                self.resources = resources
-            }
+            self.resources = dictionary["Resources"] as? [String]
         }
     }
 
@@ -478,9 +450,7 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether the event matches the event pattern.
-        public var result: Bool? = nil
-
-        public init() {}
+        public let result: Bool?
 
         public init(result: Bool? = nil) {
             self.result = result
@@ -495,11 +465,9 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The targets to update or add to the rule.
-        public var targets: [Target] = []
+        public let targets: [Target]
         /// The name of the rule.
-        public var rule: String = ""
-
-        public init() {}
+        public let rule: String
 
         public init(targets: [Target], rule: String) {
             self.targets = targets
@@ -518,9 +486,7 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the rule.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -536,13 +502,11 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The error message that explains why the target addition failed.
-        public var errorMessage: String? = nil
+        public let errorMessage: String?
         /// The error code that indicates why the target addition failed.
-        public var errorCode: String? = nil
+        public let errorCode: String?
         /// The ID of the target.
-        public var targetId: String? = nil
-
-        public init() {}
+        public let targetId: String?
 
         public init(errorMessage: String? = nil, errorCode: String? = nil, targetId: String? = nil) {
             self.errorMessage = errorMessage
@@ -561,11 +525,9 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The rules that match the specified criteria.
-        public var rules: [Rule]? = nil
-
-        public init() {}
+        public let rules: [Rule]?
 
         public init(nextToken: String? = nil, rules: [Rule]? = nil) {
             self.nextToken = nextToken
@@ -576,6 +538,8 @@ extension Events {
             self.nextToken = dictionary["NextToken"] as? String
             if let rules = dictionary["Rules"] as? [[String: Any]] {
                 self.rules = try rules.map({ try Rule(dictionary: $0) })
+            } else { 
+                self.rules = nil
             }
         }
     }
@@ -584,11 +548,9 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of failed entries.
-        public var failedEntryCount: Int32? = nil
+        public let failedEntryCount: Int32?
         /// The failed target entries.
-        public var failedEntries: [RemoveTargetsResultEntry]? = nil
-
-        public init() {}
+        public let failedEntries: [RemoveTargetsResultEntry]?
 
         public init(failedEntryCount: Int32? = nil, failedEntries: [RemoveTargetsResultEntry]? = nil) {
             self.failedEntryCount = failedEntryCount
@@ -599,6 +561,8 @@ extension Events {
             self.failedEntryCount = dictionary["FailedEntryCount"] as? Int32
             if let failedEntries = dictionary["FailedEntries"] as? [[String: Any]] {
                 self.failedEntries = try failedEntries.map({ try RemoveTargetsResultEntry(dictionary: $0) })
+            } else { 
+                self.failedEntries = nil
             }
         }
     }
@@ -607,11 +571,9 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of tasks to create based on the TaskDefinition. The default is one.
-        public var taskCount: Int32? = nil
+        public let taskCount: Int32?
         /// The ARN of the task definition to use if the event target is an Amazon ECS cluster. 
-        public var taskDefinitionArn: String = ""
-
-        public init() {}
+        public let taskDefinitionArn: String
 
         public init(taskCount: Int32? = nil, taskDefinitionArn: String) {
             self.taskCount = taskCount
@@ -629,9 +591,7 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the rule.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -647,11 +607,9 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the targets to remove from the rule.
-        public var ids: [String] = []
+        public let ids: [String]
         /// The name of the rule.
-        public var rule: String = ""
-
-        public init() {}
+        public let rule: String
 
         public init(ids: [String], rule: String) {
             self.ids = ids
@@ -670,9 +628,7 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the rule.
-        public var ruleArn: String? = nil
-
-        public init() {}
+        public let ruleArn: String?
 
         public init(ruleArn: String? = nil) {
             self.ruleArn = ruleArn
@@ -687,13 +643,11 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The prefix matching the rule name.
-        public var namePrefix: String? = nil
+        public let namePrefix: String?
         /// The token returned by a previous call to retrieve the next set of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to return.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(namePrefix: String? = nil, nextToken: String? = nil, limit: Int32? = nil) {
             self.namePrefix = namePrefix
@@ -712,11 +666,9 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The names of the rules that can invoke the given target.
-        public var ruleNames: [String]? = nil
-
-        public init() {}
+        public let ruleNames: [String]?
 
         public init(nextToken: String? = nil, ruleNames: [String]? = nil) {
             self.nextToken = nextToken
@@ -725,9 +677,7 @@ extension Events {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["NextToken"] as? String
-            if let ruleNames = dictionary["RuleNames"] as? [String] {
-                self.ruleNames = ruleNames
-            }
+            self.ruleNames = dictionary["RuleNames"] as? [String]
         }
     }
 
@@ -735,13 +685,11 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the rule.
-        public var rule: String = ""
+        public let rule: String
         /// The token returned by a previous call to retrieve the next set of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to return.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(rule: String, nextToken: String? = nil, limit: Int32? = nil) {
             self.rule = rule
@@ -761,13 +709,11 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The error message that explains why the event submission failed.
-        public var errorMessage: String? = nil
+        public let errorMessage: String?
         /// The ID of the event.
-        public var eventId: String? = nil
+        public let eventId: String?
         /// The error code that indicates why the event submission failed.
-        public var errorCode: String? = nil
-
-        public init() {}
+        public let errorCode: String?
 
         public init(errorMessage: String? = nil, eventId: String? = nil, errorCode: String? = nil) {
             self.errorMessage = errorMessage
@@ -786,11 +732,9 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of failed entries.
-        public var failedEntryCount: Int32? = nil
+        public let failedEntryCount: Int32?
         /// The successfully and unsuccessfully ingested events results. If the ingestion was successful, the entry has the event ID in it. Otherwise, you can use the error code and error message to identify the problem with the entry.
-        public var entries: [PutEventsResultEntry]? = nil
-
-        public init() {}
+        public let entries: [PutEventsResultEntry]?
 
         public init(failedEntryCount: Int32? = nil, entries: [PutEventsResultEntry]? = nil) {
             self.failedEntryCount = failedEntryCount
@@ -801,6 +745,8 @@ extension Events {
             self.failedEntryCount = dictionary["FailedEntryCount"] as? Int32
             if let entries = dictionary["Entries"] as? [[String: Any]] {
                 self.entries = try entries.map({ try PutEventsResultEntry(dictionary: $0) })
+            } else { 
+                self.entries = nil
             }
         }
     }
@@ -809,9 +755,7 @@ extension Events {
         /// The key for the payload
         public static let payload: String? = nil
         /// The JSON path to be extracted from the event and used as the partition key. For more information, see Amazon Kinesis Streams Key Concepts in the Amazon Kinesis Streams Developer Guide.
-        public var partitionKeyPath: String = ""
-
-        public init() {}
+        public let partitionKeyPath: String
 
         public init(partitionKeyPath: String) {
             self.partitionKeyPath = partitionKeyPath

@@ -33,9 +33,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ClassicLink status of one or more VPCs.
-        public var vpcs: [VpcClassicLink]? = nil
-
-        public init() {}
+        public let vpcs: [VpcClassicLink]?
 
         public init(vpcs: [VpcClassicLink]? = nil) {
             self.vpcs = vpcs
@@ -44,6 +42,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let vpcs = dictionary["Vpcs"] as? [[String: Any]] {
                 self.vpcs = try vpcs.map({ try VpcClassicLink(dictionary: $0) })
+            } else { 
+                self.vpcs = nil
             }
         }
     }
@@ -52,13 +52,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// When set to true, acts as keystroke input and wakes up an instance that's in standby or "sleep" mode.
-        public var wakeUp: Bool? = nil
+        public let wakeUp: Bool?
         /// The ID of the instance.
-        public var instanceId: String = ""
+        public let instanceId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(wakeUp: Bool? = nil, instanceId: String, dryRun: Bool? = nil) {
             self.wakeUp = wakeUp
@@ -78,15 +76,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more IAM instance profile associations.
-        public var associationIds: [String]? = nil
+        public let associationIds: [String]?
         /// One or more filters.    instance-id - The ID of the instance.    state - The state of the association (associating | associated | disassociating | disassociated).  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// The token to request the next page of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(associationIds: [String]? = nil, filters: [Filter]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.associationIds = associationIds
@@ -96,11 +92,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let associationIds = dictionary["AssociationIds"] as? [String] {
-                self.associationIds = associationIds
-            }
+            self.associationIds = dictionary["AssociationIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
@@ -111,13 +107,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the instance.
-        public var instanceId: String = ""
+        public let instanceId: String
         /// The instance attribute. Note: The enaSupport attribute is not supported at this time.
-        public var attribute: String = ""
-
-        public init() {}
+        public let attribute: String
 
         public init(dryRun: Bool? = nil, instanceId: String, attribute: String) {
             self.dryRun = dryRun
@@ -137,9 +131,7 @@ extension Ec2 {
     public struct BlobAttributeValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var value: Data? = nil
-
-        public init() {}
+        public let value: Data?
 
         public init(value: Data? = nil) {
             self.value = value
@@ -154,13 +146,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// Indicates whether the volume should be auto-enabled for I/O operations.
-        public var autoEnableIO: AttributeBooleanValue? = nil
+        public let autoEnableIO: AttributeBooleanValue?
         /// The ID of the volume.
-        public var volumeId: String = ""
-
-        public init() {}
+        public let volumeId: String
 
         public init(dryRun: Bool? = nil, autoEnableIO: AttributeBooleanValue? = nil, volumeId: String) {
             self.dryRun = dryRun
@@ -170,7 +160,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let autoEnableIO = dictionary["AutoEnableIO"] as? [String: Any] { self.autoEnableIO = try Ec2.AttributeBooleanValue(dictionary: autoEnableIO) }
+            if let autoEnableIO = dictionary["AutoEnableIO"] as? [String: Any] { self.autoEnableIO = try Ec2.AttributeBooleanValue(dictionary: autoEnableIO) } else { self.autoEnableIO = nil }
             guard let volumeId = dictionary["VolumeId"] as? String else { throw InitializableError.missingRequiredParam("VolumeId") }
             self.volumeId = volumeId
         }
@@ -180,11 +170,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The current state of the attachment.
-        public var state: String? = nil
-
-        public init() {}
+        public let state: String?
 
         public init(vpcId: String? = nil, state: String? = nil) {
             self.vpcId = vpcId
@@ -201,11 +189,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Information about the available Scheduled Instances.
-        public var scheduledInstanceAvailabilitySet: [ScheduledInstanceAvailability]? = nil
-
-        public init() {}
+        public let scheduledInstanceAvailabilitySet: [ScheduledInstanceAvailability]?
 
         public init(nextToken: String? = nil, scheduledInstanceAvailabilitySet: [ScheduledInstanceAvailability]? = nil) {
             self.nextToken = nextToken
@@ -216,6 +202,8 @@ extension Ec2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let scheduledInstanceAvailabilitySet = dictionary["ScheduledInstanceAvailabilitySet"] as? [[String: Any]] {
                 self.scheduledInstanceAvailabilitySet = try scheduledInstanceAvailabilitySet.map({ try ScheduledInstanceAvailability(dictionary: $0) })
+            } else { 
+                self.scheduledInstanceAvailabilitySet = nil
             }
         }
     }
@@ -224,9 +212,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more Elastic IP addresses.
-        public var addresses: [Address]? = nil
-
-        public init() {}
+        public let addresses: [Address]?
 
         public init(addresses: [Address]? = nil) {
             self.addresses = addresses
@@ -235,6 +221,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let addresses = dictionary["Addresses"] as? [[String: Any]] {
                 self.addresses = try addresses.map({ try Address(dictionary: $0) })
+            } else { 
+                self.addresses = nil
             }
         }
     }
@@ -243,11 +231,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the NAT gateways.
-        public var natGateways: [NatGateway]? = nil
+        public let natGateways: [NatGateway]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(natGateways: [NatGateway]? = nil, nextToken: String? = nil) {
             self.natGateways = natGateways
@@ -257,6 +243,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let natGateways = dictionary["NatGateways"] as? [[String: Any]] {
                 self.natGateways = try natGateways.map({ try NatGateway(dictionary: $0) })
+            } else { 
+                self.natGateways = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -266,13 +254,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC for which to create the egress-only Internet gateway.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(vpcId: String, clientToken: String? = nil, dryRun: Bool? = nil) {
             self.vpcId = vpcId
@@ -292,13 +278,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// Indicates whether the DNS resolution is supported for the VPC. If enabled, queries to the Amazon provided DNS server at the 169.254.169.253 IP address, or the reserved IP address at the base of the VPC network range "plus two" will succeed. If disabled, the Amazon provided DNS service in the VPC that resolves public DNS hostnames to IP addresses is not enabled. You cannot modify the DNS resolution and DNS hostnames attributes in the same request. Use separate requests for each attribute.
-        public var enableDnsSupport: AttributeBooleanValue? = nil
+        public let enableDnsSupport: AttributeBooleanValue?
         /// Indicates whether the instances launched in the VPC get DNS hostnames. If enabled, instances in the VPC get DNS hostnames; otherwise, they do not. You cannot modify the DNS resolution and DNS hostnames attributes in the same request. Use separate requests for each attribute. You can only enable DNS hostnames if you've enabled DNS support.
-        public var enableDnsHostnames: AttributeBooleanValue? = nil
-
-        public init() {}
+        public let enableDnsHostnames: AttributeBooleanValue?
 
         public init(vpcId: String, enableDnsSupport: AttributeBooleanValue? = nil, enableDnsHostnames: AttributeBooleanValue? = nil) {
             self.vpcId = vpcId
@@ -309,8 +293,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             guard let vpcId = dictionary["VpcId"] as? String else { throw InitializableError.missingRequiredParam("VpcId") }
             self.vpcId = vpcId
-            if let enableDnsSupport = dictionary["EnableDnsSupport"] as? [String: Any] { self.enableDnsSupport = try Ec2.AttributeBooleanValue(dictionary: enableDnsSupport) }
-            if let enableDnsHostnames = dictionary["EnableDnsHostnames"] as? [String: Any] { self.enableDnsHostnames = try Ec2.AttributeBooleanValue(dictionary: enableDnsHostnames) }
+            if let enableDnsSupport = dictionary["EnableDnsSupport"] as? [String: Any] { self.enableDnsSupport = try Ec2.AttributeBooleanValue(dictionary: enableDnsSupport) } else { self.enableDnsSupport = nil }
+            if let enableDnsHostnames = dictionary["EnableDnsHostnames"] as? [String: Any] { self.enableDnsHostnames = try Ec2.AttributeBooleanValue(dictionary: enableDnsHostnames) } else { self.enableDnsHostnames = nil }
         }
     }
 
@@ -318,15 +302,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS account ID of the owner of the peer VPC. Default: Your AWS account ID
-        public var peerOwnerId: String? = nil
+        public let peerOwnerId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the requester VPC.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The ID of the VPC with which you are creating the VPC peering connection.
-        public var peerVpcId: String? = nil
-
-        public init() {}
+        public let peerVpcId: String?
 
         public init(peerOwnerId: String? = nil, dryRun: Bool? = nil, vpcId: String? = nil, peerVpcId: String? = nil) {
             self.peerOwnerId = peerOwnerId
@@ -347,25 +329,23 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see How to Ensure Idempotency in the Amazon Elastic Compute Cloud User Guide. 
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// Whether auto-placement is on or off.
-        public var autoPlacement: String? = nil
+        public let autoPlacement: String?
         /// The ID of the Dedicated Host.
-        public var hostId: String? = nil
+        public let hostId: String?
         /// The Dedicated Host's state.
-        public var state: String? = nil
+        public let state: String?
         /// The number of new instances that can be launched onto the Dedicated Host.
-        public var availableCapacity: AvailableCapacity? = nil
+        public let availableCapacity: AvailableCapacity?
         /// The reservation ID of the Dedicated Host. This returns a null response if the Dedicated Host doesn't have an associated reservation.
-        public var hostReservationId: String? = nil
+        public let hostReservationId: String?
         /// The IDs and instance type that are currently running on the Dedicated Host.
-        public var instances: [HostInstance]? = nil
+        public let instances: [HostInstance]?
         /// The hardware specifications of the Dedicated Host.
-        public var hostProperties: HostProperties? = nil
+        public let hostProperties: HostProperties?
         /// The Availability Zone of the Dedicated Host.
-        public var availabilityZone: String? = nil
-
-        public init() {}
+        public let availabilityZone: String?
 
         public init(clientToken: String? = nil, autoPlacement: String? = nil, hostId: String? = nil, state: String? = nil, availableCapacity: AvailableCapacity? = nil, hostReservationId: String? = nil, instances: [HostInstance]? = nil, hostProperties: HostProperties? = nil, availabilityZone: String? = nil) {
             self.clientToken = clientToken
@@ -384,12 +364,14 @@ extension Ec2 {
             self.autoPlacement = dictionary["AutoPlacement"] as? String
             self.hostId = dictionary["HostId"] as? String
             self.state = dictionary["State"] as? String
-            if let availableCapacity = dictionary["AvailableCapacity"] as? [String: Any] { self.availableCapacity = try Ec2.AvailableCapacity(dictionary: availableCapacity) }
+            if let availableCapacity = dictionary["AvailableCapacity"] as? [String: Any] { self.availableCapacity = try Ec2.AvailableCapacity(dictionary: availableCapacity) } else { self.availableCapacity = nil }
             self.hostReservationId = dictionary["HostReservationId"] as? String
             if let instances = dictionary["Instances"] as? [[String: Any]] {
                 self.instances = try instances.map({ try HostInstance(dictionary: $0) })
+            } else { 
+                self.instances = nil
             }
-            if let hostProperties = dictionary["HostProperties"] as? [String: Any] { self.hostProperties = try Ec2.HostProperties(dictionary: hostProperties) }
+            if let hostProperties = dictionary["HostProperties"] as? [String: Any] { self.hostProperties = try Ec2.HostProperties(dictionary: hostProperties) } else { self.hostProperties = nil }
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
         }
     }
@@ -398,11 +380,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The configuration of the Convertible Reserved Instances that make up the exchange.
-        public var targetConfiguration: TargetConfiguration? = nil
+        public let targetConfiguration: TargetConfiguration?
         /// The total value of the Convertible Reserved Instances that make up the exchange. This is the sum of the list value, remaining upfront price, and additional upfront cost of the exchange.
-        public var reservationValue: ReservationValue? = nil
-
-        public init() {}
+        public let reservationValue: ReservationValue?
 
         public init(targetConfiguration: TargetConfiguration? = nil, reservationValue: ReservationValue? = nil) {
             self.targetConfiguration = targetConfiguration
@@ -410,8 +390,8 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let targetConfiguration = dictionary["TargetConfiguration"] as? [String: Any] { self.targetConfiguration = try Ec2.TargetConfiguration(dictionary: targetConfiguration) }
-            if let reservationValue = dictionary["ReservationValue"] as? [String: Any] { self.reservationValue = try Ec2.ReservationValue(dictionary: reservationValue) }
+            if let targetConfiguration = dictionary["TargetConfiguration"] as? [String: Any] { self.targetConfiguration = try Ec2.TargetConfiguration(dictionary: targetConfiguration) } else { self.targetConfiguration = nil }
+            if let reservationValue = dictionary["ReservationValue"] as? [String: Any] { self.reservationValue = try Ec2.ReservationValue(dictionary: reservationValue) } else { self.reservationValue = nil }
         }
     }
 
@@ -419,11 +399,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The key pair name you provided.
-        public var keyName: String? = nil
+        public let keyName: String?
         /// The MD5 public key fingerprint as specified in section 4 of RFC 4716.
-        public var keyFingerprint: String? = nil
-
-        public init() {}
+        public let keyFingerprint: String?
 
         public init(keyName: String? = nil, keyFingerprint: String? = nil) {
             self.keyName = keyName
@@ -440,11 +418,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The NextToken value to include in a future DescribeSnapshots request. When the results of a DescribeSnapshots request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Information about the snapshots.
-        public var snapshots: [Snapshot]? = nil
-
-        public init() {}
+        public let snapshots: [Snapshot]?
 
         public init(nextToken: String? = nil, snapshots: [Snapshot]? = nil) {
             self.nextToken = nextToken
@@ -455,6 +431,8 @@ extension Ec2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let snapshots = dictionary["Snapshots"] as? [[String: Any]] {
                 self.snapshots = try snapshots.map({ try Snapshot(dictionary: $0) })
+            } else { 
+                self.snapshots = nil
             }
         }
     }
@@ -463,19 +441,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more filters.    availability-zone - The Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is an opaque internal value and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// When true, includes the health status for all instances. When false, includes the health status for running instances only. Default: false 
-        public var includeAllInstances: Bool? = nil
+        public let includeAllInstances: Bool?
         /// One or more instance IDs. Default: Describes all your instances. Constraints: Maximum 100 explicitly specified instance IDs.
-        public var instanceIds: [String]? = nil
+        public let instanceIds: [String]?
         /// The token to retrieve the next page of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. This value can be between 5 and 1000. You cannot specify this parameter and the instance IDs parameter in the same call.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(filters: [Filter]? = nil, dryRun: Bool? = nil, includeAllInstances: Bool? = nil, instanceIds: [String]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.filters = filters
@@ -489,12 +465,12 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
             self.includeAllInstances = dictionary["IncludeAllInstances"] as? Bool
-            if let instanceIds = dictionary["InstanceIds"] as? [String] {
-                self.instanceIds = instanceIds
-            }
+            self.instanceIds = dictionary["InstanceIds"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -504,17 +480,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The details of the operation.
-        public var actions: [VolumeStatusAction]? = nil
+        public let actions: [VolumeStatusAction]?
         /// The volume status.
-        public var volumeStatus: VolumeStatusInfo? = nil
+        public let volumeStatus: VolumeStatusInfo?
         /// A list of events associated with the volume.
-        public var events: [VolumeStatusEvent]? = nil
+        public let events: [VolumeStatusEvent]?
         /// The Availability Zone of the volume.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The volume ID.
-        public var volumeId: String? = nil
-
-        public init() {}
+        public let volumeId: String?
 
         public init(actions: [VolumeStatusAction]? = nil, volumeStatus: VolumeStatusInfo? = nil, events: [VolumeStatusEvent]? = nil, availabilityZone: String? = nil, volumeId: String? = nil) {
             self.actions = actions
@@ -527,10 +501,14 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let actions = dictionary["Actions"] as? [[String: Any]] {
                 self.actions = try actions.map({ try VolumeStatusAction(dictionary: $0) })
+            } else { 
+                self.actions = nil
             }
-            if let volumeStatus = dictionary["VolumeStatus"] as? [String: Any] { self.volumeStatus = try Ec2.VolumeStatusInfo(dictionary: volumeStatus) }
+            if let volumeStatus = dictionary["VolumeStatus"] as? [String: Any] { self.volumeStatus = try Ec2.VolumeStatusInfo(dictionary: volumeStatus) } else { self.volumeStatus = nil }
             if let events = dictionary["Events"] as? [[String: Any]] {
                 self.events = try events.map({ try VolumeStatusEvent(dictionary: $0) })
+            } else { 
+                self.events = nil
             }
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
             self.volumeId = dictionary["VolumeId"] as? String
@@ -541,16 +519,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the route table.
-        public var routeTable: RouteTable? = nil
-
-        public init() {}
+        public let routeTable: RouteTable?
 
         public init(routeTable: RouteTable? = nil) {
             self.routeTable = routeTable
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let routeTable = dictionary["RouteTable"] as? [String: Any] { self.routeTable = try Ec2.RouteTable(dictionary: routeTable) }
+            if let routeTable = dictionary["RouteTable"] as? [String: Any] { self.routeTable = try Ec2.RouteTable(dictionary: routeTable) } else { self.routeTable = nil }
         }
     }
 
@@ -558,11 +534,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(vpcId: String, dryRun: Bool? = nil) {
             self.vpcId = vpcId
@@ -580,37 +554,35 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the subnet.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// The ID of the network interface.
-        public var networkInterfaceId: String? = nil
+        public let networkInterfaceId: String?
         /// The MAC address.
-        public var macAddress: String? = nil
+        public let macAddress: String?
         /// Indicates whether to validate network traffic to or from this network interface.
-        public var sourceDestCheck: Bool? = nil
+        public let sourceDestCheck: Bool?
         /// The private DNS name.
-        public var privateDnsName: String? = nil
+        public let privateDnsName: String?
         /// The ID of the AWS account that created the network interface.
-        public var ownerId: String? = nil
+        public let ownerId: String?
         /// The network interface attachment.
-        public var attachment: InstanceNetworkInterfaceAttachment? = nil
+        public let attachment: InstanceNetworkInterfaceAttachment?
         /// The description.
-        public var description: String? = nil
+        public let description: String?
         /// The IPv4 address of the network interface within the subnet.
-        public var privateIpAddress: String? = nil
+        public let privateIpAddress: String?
         /// The status of the network interface.
-        public var status: String? = nil
+        public let status: String?
         /// One or more private IPv4 addresses associated with the network interface.
-        public var privateIpAddresses: [InstancePrivateIpAddress]? = nil
+        public let privateIpAddresses: [InstancePrivateIpAddress]?
         /// The ID of the VPC.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// One or more IPv6 addresses associated with the network interface.
-        public var ipv6Addresses: [InstanceIpv6Address]? = nil
+        public let ipv6Addresses: [InstanceIpv6Address]?
         /// One or more security groups.
-        public var groups: [GroupIdentifier]? = nil
+        public let groups: [GroupIdentifier]?
         /// The association information for an Elastic IPv4 associated with the network interface.
-        public var association: InstanceNetworkInterfaceAssociation? = nil
-
-        public init() {}
+        public let association: InstanceNetworkInterfaceAssociation?
 
         public init(subnetId: String? = nil, networkInterfaceId: String? = nil, macAddress: String? = nil, sourceDestCheck: Bool? = nil, privateDnsName: String? = nil, ownerId: String? = nil, attachment: InstanceNetworkInterfaceAttachment? = nil, description: String? = nil, privateIpAddress: String? = nil, status: String? = nil, privateIpAddresses: [InstancePrivateIpAddress]? = nil, vpcId: String? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, groups: [GroupIdentifier]? = nil, association: InstanceNetworkInterfaceAssociation? = nil) {
             self.subnetId = subnetId
@@ -637,21 +609,27 @@ extension Ec2 {
             self.sourceDestCheck = dictionary["SourceDestCheck"] as? Bool
             self.privateDnsName = dictionary["PrivateDnsName"] as? String
             self.ownerId = dictionary["OwnerId"] as? String
-            if let attachment = dictionary["Attachment"] as? [String: Any] { self.attachment = try Ec2.InstanceNetworkInterfaceAttachment(dictionary: attachment) }
+            if let attachment = dictionary["Attachment"] as? [String: Any] { self.attachment = try Ec2.InstanceNetworkInterfaceAttachment(dictionary: attachment) } else { self.attachment = nil }
             self.description = dictionary["Description"] as? String
             self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
             self.status = dictionary["Status"] as? String
             if let privateIpAddresses = dictionary["PrivateIpAddresses"] as? [[String: Any]] {
                 self.privateIpAddresses = try privateIpAddresses.map({ try InstancePrivateIpAddress(dictionary: $0) })
+            } else { 
+                self.privateIpAddresses = nil
             }
             self.vpcId = dictionary["VpcId"] as? String
             if let ipv6Addresses = dictionary["Ipv6Addresses"] as? [[String: Any]] {
                 self.ipv6Addresses = try ipv6Addresses.map({ try InstanceIpv6Address(dictionary: $0) })
+            } else { 
+                self.ipv6Addresses = nil
             }
             if let groups = dictionary["Groups"] as? [[String: Any]] {
                 self.groups = try groups.map({ try GroupIdentifier(dictionary: $0) })
+            } else { 
+                self.groups = nil
             }
-            if let association = dictionary["Association"] as? [String: Any] { self.association = try Ec2.InstanceNetworkInterfaceAssociation(dictionary: association) }
+            if let association = dictionary["Association"] as? [String: Any] { self.association = try Ec2.InstanceNetworkInterfaceAssociation(dictionary: association) } else { self.association = nil }
         }
     }
 
@@ -659,16 +637,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the network interface.
-        public var networkInterface: NetworkInterface? = nil
-
-        public init() {}
+        public let networkInterface: NetworkInterface?
 
         public init(networkInterface: NetworkInterface? = nil) {
             self.networkInterface = networkInterface
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let networkInterface = dictionary["NetworkInterface"] as? [String: Any] { self.networkInterface = try Ec2.NetworkInterface(dictionary: networkInterface) }
+            if let networkInterface = dictionary["NetworkInterface"] as? [String: Any] { self.networkInterface = try Ec2.NetworkInterface(dictionary: networkInterface) } else { self.networkInterface = nil }
         }
     }
 
@@ -676,13 +652,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the instance.
-        public var instanceId: String = ""
+        public let instanceId: String
         /// The attribute to reset.  You can only reset the following attributes: kernel | ramdisk | sourceDestCheck. To change an instance attribute, use ModifyInstanceAttribute. 
-        public var attribute: String = ""
-
-        public init() {}
+        public let attribute: String
 
         public init(dryRun: Bool? = nil, instanceId: String, attribute: String) {
             self.dryRun = dryRun
@@ -703,9 +677,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
-        public var state: String? = nil
-
-        public init() {}
+        public let state: String?
 
         public init(state: String? = nil) {
             self.state = state
@@ -720,36 +692,34 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more block device mapping entries. Although you can specify encrypted EBS volumes in this block device mapping for your Spot Instances, these volumes are not encrypted.
-        public var blockDeviceMappings: [BlockDeviceMapping]? = nil
+        public let blockDeviceMappings: [BlockDeviceMapping]?
         /// The ID of the subnet in which to launch the instance.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// The user data to make available to the instances. If you are using an AWS SDK or command line tool, Base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide Base64-encoded text.
-        public var userData: String? = nil
+        public let userData: String?
         /// Indicates whether the instance is optimized for EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS Optimized instance. Default: false 
-        public var ebsOptimized: Bool? = nil
+        public let ebsOptimized: Bool?
         /// The ID of the kernel.
-        public var kernelId: String? = nil
-        public var securityGroupIds: [String]? = nil
-        public var monitoring: RunInstancesMonitoringEnabled? = nil
+        public let kernelId: String?
+        public let securityGroupIds: [String]?
+        public let monitoring: RunInstancesMonitoringEnabled?
         /// The instance type.
-        public var instanceType: String? = nil
-        public var securityGroups: [String]? = nil
+        public let instanceType: String?
+        public let securityGroups: [String]?
         /// The name of the key pair.
-        public var keyName: String? = nil
+        public let keyName: String?
         /// Deprecated.
-        public var addressingType: String? = nil
+        public let addressingType: String?
         /// The IAM instance profile.
-        public var iamInstanceProfile: IamInstanceProfileSpecification? = nil
+        public let iamInstanceProfile: IamInstanceProfileSpecification?
         /// The ID of the AMI.
-        public var imageId: String? = nil
+        public let imageId: String?
         /// One or more network interfaces. If you specify a network interface, you must specify subnet IDs and security group IDs using the network interface.
-        public var networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil
+        public let networkInterfaces: [InstanceNetworkInterfaceSpecification]?
         /// The placement information for the instance.
-        public var placement: SpotPlacement? = nil
+        public let placement: SpotPlacement?
         /// The ID of the RAM disk.
-        public var ramdiskId: String? = nil
-
-        public init() {}
+        public let ramdiskId: String?
 
         public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, subnetId: String? = nil, userData: String? = nil, ebsOptimized: Bool? = nil, kernelId: String? = nil, securityGroupIds: [String]? = nil, monitoring: RunInstancesMonitoringEnabled? = nil, instanceType: String? = nil, securityGroups: [String]? = nil, keyName: String? = nil, addressingType: String? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: SpotPlacement? = nil, ramdiskId: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
@@ -773,27 +743,27 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
                 self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            } else { 
+                self.blockDeviceMappings = nil
             }
             self.subnetId = dictionary["SubnetId"] as? String
             self.userData = dictionary["UserData"] as? String
             self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
             self.kernelId = dictionary["KernelId"] as? String
-            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
-                self.securityGroupIds = securityGroupIds
-            }
-            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.RunInstancesMonitoringEnabled(dictionary: monitoring) }
+            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
+            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.RunInstancesMonitoringEnabled(dictionary: monitoring) } else { self.monitoring = nil }
             self.instanceType = dictionary["InstanceType"] as? String
-            if let securityGroups = dictionary["SecurityGroups"] as? [String] {
-                self.securityGroups = securityGroups
-            }
+            self.securityGroups = dictionary["SecurityGroups"] as? [String]
             self.keyName = dictionary["KeyName"] as? String
             self.addressingType = dictionary["AddressingType"] as? String
-            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.IamInstanceProfileSpecification(dictionary: iamInstanceProfile) }
+            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.IamInstanceProfileSpecification(dictionary: iamInstanceProfile) } else { self.iamInstanceProfile = nil }
             self.imageId = dictionary["ImageId"] as? String
             if let networkInterfaces = dictionary["NetworkInterfaces"] as? [[String: Any]] {
                 self.networkInterfaces = try networkInterfaces.map({ try InstanceNetworkInterfaceSpecification(dictionary: $0) })
+            } else { 
+                self.networkInterfaces = nil
             }
-            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.SpotPlacement(dictionary: placement) }
+            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.SpotPlacement(dictionary: placement) } else { self.placement = nil }
             self.ramdiskId = dictionary["RamdiskId"] as? String
         }
     }
@@ -802,11 +772,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IPv6 addresses, or the size of the CIDR block.
-        public var amazonProvidedIpv6CidrBlock: Bool? = nil
-
-        public init() {}
+        public let amazonProvidedIpv6CidrBlock: Bool?
 
         public init(vpcId: String, amazonProvidedIpv6CidrBlock: Bool? = nil) {
             self.vpcId = vpcId
@@ -824,19 +792,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The S3 bucket for the disk image.
-        public var userBucket: UserBucket? = nil
+        public let userBucket: UserBucket?
         /// The format of the disk image being imported. Valid values: RAW | VHD | VMDK | OVA 
-        public var format: String? = nil
+        public let format: String?
         /// The ID of the EBS snapshot to be used for importing the snapshot.
-        public var snapshotId: String? = nil
+        public let snapshotId: String?
         /// The URL to the Amazon S3-based disk image being imported. The URL can either be a https URL (https://..) or an Amazon S3 URL (s3://..)
-        public var url: String? = nil
+        public let url: String?
         /// The block device mapping for the disk.
-        public var deviceName: String? = nil
+        public let deviceName: String?
         /// The description of the disk image.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(userBucket: UserBucket? = nil, format: String? = nil, snapshotId: String? = nil, url: String? = nil, deviceName: String? = nil, description: String? = nil) {
             self.userBucket = userBucket
@@ -848,7 +814,7 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let userBucket = dictionary["UserBucket"] as? [String: Any] { self.userBucket = try Ec2.UserBucket(dictionary: userBucket) }
+            if let userBucket = dictionary["UserBucket"] as? [String: Any] { self.userBucket = try Ec2.UserBucket(dictionary: userBucket) } else { self.userBucket = nil }
             self.format = dictionary["Format"] as? String
             self.snapshotId = dictionary["SnapshotId"] as? String
             self.url = dictionary["Url"] as? String
@@ -861,15 +827,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the Reserved Instance offering to purchase.
-        public var reservedInstancesOfferingId: String = ""
+        public let reservedInstancesOfferingId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The number of Reserved Instances to purchase.
-        public var instanceCount: Int32 = 0
+        public let instanceCount: Int32
         /// Specified for Reserved Instance Marketplace offerings to limit the total order and ensure that the Reserved Instances are not purchased at unexpected prices.
-        public var limitPrice: ReservedInstanceLimitPrice? = nil
-
-        public init() {}
+        public let limitPrice: ReservedInstanceLimitPrice?
 
         public init(reservedInstancesOfferingId: String, dryRun: Bool? = nil, instanceCount: Int32, limitPrice: ReservedInstanceLimitPrice? = nil) {
             self.reservedInstancesOfferingId = reservedInstancesOfferingId
@@ -884,7 +848,7 @@ extension Ec2 {
             self.dryRun = dictionary["DryRun"] as? Bool
             guard let instanceCount = dictionary["InstanceCount"] as? Int32 else { throw InitializableError.missingRequiredParam("InstanceCount") }
             self.instanceCount = instanceCount
-            if let limitPrice = dictionary["LimitPrice"] as? [String: Any] { self.limitPrice = try Ec2.ReservedInstanceLimitPrice(dictionary: limitPrice) }
+            if let limitPrice = dictionary["LimitPrice"] as? [String: Any] { self.limitPrice = try Ec2.ReservedInstanceLimitPrice(dictionary: limitPrice) } else { self.limitPrice = nil }
         }
     }
 
@@ -892,43 +856,41 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The recurring charge tag assigned to the resource.
-        public var recurringCharges: [RecurringCharge]? = nil
+        public let recurringCharges: [RecurringCharge]?
         /// Any tags assigned to the resource.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The usage price of the Reserved Instance, per hour.
-        public var usagePrice: Float? = nil
+        public let usagePrice: Float?
         /// The state of the Reserved Instance purchase.
-        public var state: String? = nil
+        public let state: String?
         /// The tenancy of the instance.
-        public var instanceTenancy: String? = nil
+        public let instanceTenancy: String?
         /// The instance type on which the Reserved Instance can be used.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The Reserved Instance offering type.
-        public var offeringType: String? = nil
+        public let offeringType: String?
         /// The Reserved Instance product platform description.
-        public var productDescription: String? = nil
+        public let productDescription: String?
         /// The offering class of the Reserved Instance.
-        public var offeringClass: String? = nil
+        public let offeringClass: String?
         /// The Availability Zone in which the Reserved Instance can be used.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The date and time the Reserved Instance started.
-        public var start: Date? = nil
+        public let start: Date?
         /// The time when the Reserved Instance expires.
-        public var end: Date? = nil
+        public let end: Date?
         /// The ID of the Reserved Instance.
-        public var reservedInstancesId: String? = nil
+        public let reservedInstancesId: String?
         /// The currency of the Reserved Instance. It's specified using ISO 4217 standard currency codes. At this time, the only supported currency is USD.
-        public var currencyCode: String? = nil
+        public let currencyCode: String?
         /// The number of reservations purchased.
-        public var instanceCount: Int32? = nil
+        public let instanceCount: Int32?
         /// The duration of the Reserved Instance, in seconds.
-        public var duration: Int64? = nil
+        public let duration: Int64?
         /// The scope of the Reserved Instance.
-        public var scope: String? = nil
+        public let scope: String?
         /// The purchase price of the Reserved Instance.
-        public var fixedPrice: Float? = nil
-
-        public init() {}
+        public let fixedPrice: Float?
 
         public init(recurringCharges: [RecurringCharge]? = nil, tags: [Tag]? = nil, usagePrice: Float? = nil, state: String? = nil, instanceTenancy: String? = nil, instanceType: String? = nil, offeringType: String? = nil, productDescription: String? = nil, offeringClass: String? = nil, availabilityZone: String? = nil, start: Date? = nil, end: Date? = nil, reservedInstancesId: String? = nil, currencyCode: String? = nil, instanceCount: Int32? = nil, duration: Int64? = nil, scope: String? = nil, fixedPrice: Float? = nil) {
             self.recurringCharges = recurringCharges
@@ -954,9 +916,13 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let recurringCharges = dictionary["RecurringCharges"] as? [[String: Any]] {
                 self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
+            } else { 
+                self.recurringCharges = nil
             }
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.usagePrice = dictionary["UsagePrice"] as? Float
             self.state = dictionary["State"] as? String
@@ -981,9 +947,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IPv6 address.
-        public var ipv6Address: String? = nil
-
-        public init() {}
+        public let ipv6Address: String?
 
         public init(ipv6Address: String? = nil) {
             self.ipv6Address = ipv6Address
@@ -998,13 +962,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more customer gateway IDs. Default: Describes all your customer gateways.
-        public var customerGatewayIds: [String]? = nil
+        public let customerGatewayIds: [String]?
         /// One or more filters.    bgp-asn - The customer gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN).    customer-gateway-id - The ID of the customer gateway.    ip-address - The IP address of the customer gateway's Internet-routable external interface.    state - The state of the customer gateway (pending | available | deleting | deleted).    type - The type of customer gateway. Currently, the only supported type is ipsec.1.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(customerGatewayIds: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil) {
             self.customerGatewayIds = customerGatewayIds
@@ -1013,11 +975,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let customerGatewayIds = dictionary["CustomerGatewayIds"] as? [String] {
-                self.customerGatewayIds = customerGatewayIds
-            }
+            self.customerGatewayIds = dictionary["CustomerGatewayIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
         }
@@ -1027,47 +989,45 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the subnet.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// The ID of the network interface.
-        public var networkInterfaceId: String? = nil
+        public let networkInterfaceId: String?
         /// The MAC address.
-        public var macAddress: String? = nil
+        public let macAddress: String?
         /// Indicates whether traffic to or from the instance is validated.
-        public var sourceDestCheck: Bool? = nil
+        public let sourceDestCheck: Bool?
         /// The private DNS name.
-        public var privateDnsName: String? = nil
+        public let privateDnsName: String?
         /// The network interface attachment.
-        public var attachment: NetworkInterfaceAttachment? = nil
+        public let attachment: NetworkInterfaceAttachment?
         /// The type of interface.
-        public var interfaceType: String? = nil
+        public let interfaceType: String?
         /// Any tags assigned to the network interface.
-        public var tagSet: [Tag]? = nil
+        public let tagSet: [Tag]?
         /// The IPv4 address of the network interface within the subnet.
-        public var privateIpAddress: String? = nil
+        public let privateIpAddress: String?
         /// The ID of the entity that launched the instance on your behalf (for example, AWS Management Console or Auto Scaling).
-        public var requesterId: String? = nil
+        public let requesterId: String?
         /// A description.
-        public var description: String? = nil
+        public let description: String?
         /// The AWS account ID of the owner of the network interface.
-        public var ownerId: String? = nil
+        public let ownerId: String?
         /// The private IPv4 addresses associated with the network interface.
-        public var privateIpAddresses: [NetworkInterfacePrivateIpAddress]? = nil
+        public let privateIpAddresses: [NetworkInterfacePrivateIpAddress]?
         /// The ID of the VPC.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The Availability Zone.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The status of the network interface.
-        public var status: String? = nil
+        public let status: String?
         /// Indicates whether the network interface is being managed by AWS.
-        public var requesterManaged: Bool? = nil
+        public let requesterManaged: Bool?
         /// The IPv6 addresses associated with the network interface.
-        public var ipv6Addresses: [NetworkInterfaceIpv6Address]? = nil
+        public let ipv6Addresses: [NetworkInterfaceIpv6Address]?
         /// Any security groups for the network interface.
-        public var groups: [GroupIdentifier]? = nil
+        public let groups: [GroupIdentifier]?
         /// The association information for an Elastic IP address (IPv4) associated with the network interface.
-        public var association: NetworkInterfaceAssociation? = nil
-
-        public init() {}
+        public let association: NetworkInterfaceAssociation?
 
         public init(subnetId: String? = nil, networkInterfaceId: String? = nil, macAddress: String? = nil, sourceDestCheck: Bool? = nil, privateDnsName: String? = nil, attachment: NetworkInterfaceAttachment? = nil, interfaceType: String? = nil, tagSet: [Tag]? = nil, privateIpAddress: String? = nil, requesterId: String? = nil, description: String? = nil, ownerId: String? = nil, privateIpAddresses: [NetworkInterfacePrivateIpAddress]? = nil, vpcId: String? = nil, availabilityZone: String? = nil, status: String? = nil, requesterManaged: Bool? = nil, ipv6Addresses: [NetworkInterfaceIpv6Address]? = nil, groups: [GroupIdentifier]? = nil, association: NetworkInterfaceAssociation? = nil) {
             self.subnetId = subnetId
@@ -1098,10 +1058,12 @@ extension Ec2 {
             self.macAddress = dictionary["MacAddress"] as? String
             self.sourceDestCheck = dictionary["SourceDestCheck"] as? Bool
             self.privateDnsName = dictionary["PrivateDnsName"] as? String
-            if let attachment = dictionary["Attachment"] as? [String: Any] { self.attachment = try Ec2.NetworkInterfaceAttachment(dictionary: attachment) }
+            if let attachment = dictionary["Attachment"] as? [String: Any] { self.attachment = try Ec2.NetworkInterfaceAttachment(dictionary: attachment) } else { self.attachment = nil }
             self.interfaceType = dictionary["InterfaceType"] as? String
             if let tagSet = dictionary["TagSet"] as? [[String: Any]] {
                 self.tagSet = try tagSet.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tagSet = nil
             }
             self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
             self.requesterId = dictionary["RequesterId"] as? String
@@ -1109,6 +1071,8 @@ extension Ec2 {
             self.ownerId = dictionary["OwnerId"] as? String
             if let privateIpAddresses = dictionary["PrivateIpAddresses"] as? [[String: Any]] {
                 self.privateIpAddresses = try privateIpAddresses.map({ try NetworkInterfacePrivateIpAddress(dictionary: $0) })
+            } else { 
+                self.privateIpAddresses = nil
             }
             self.vpcId = dictionary["VpcId"] as? String
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
@@ -1116,11 +1080,15 @@ extension Ec2 {
             self.requesterManaged = dictionary["RequesterManaged"] as? Bool
             if let ipv6Addresses = dictionary["Ipv6Addresses"] as? [[String: Any]] {
                 self.ipv6Addresses = try ipv6Addresses.map({ try NetworkInterfaceIpv6Address(dictionary: $0) })
+            } else { 
+                self.ipv6Addresses = nil
             }
             if let groups = dictionary["Groups"] as? [[String: Any]] {
                 self.groups = try groups.map({ try GroupIdentifier(dictionary: $0) })
+            } else { 
+                self.groups = nil
             }
-            if let association = dictionary["Association"] as? [String: Any] { self.association = try Ec2.NetworkInterfaceAssociation(dictionary: association) }
+            if let association = dictionary["Association"] as? [String: Any] { self.association = try Ec2.NetworkInterfaceAssociation(dictionary: association) } else { self.association = nil }
         }
     }
 
@@ -1128,29 +1096,27 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether instances launched in this subnet receive a public IPv4 address.
-        public var mapPublicIpOnLaunch: Bool? = nil
+        public let mapPublicIpOnLaunch: Bool?
         /// The ID of the subnet.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// Indicates whether this is the default subnet for the Availability Zone.
-        public var defaultForAz: Bool? = nil
+        public let defaultForAz: Bool?
         /// The ID of the VPC the subnet is in.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The current state of the subnet.
-        public var state: String? = nil
+        public let state: String?
         /// Any tags assigned to the subnet.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// Indicates whether a network interface created in this subnet (including a network interface created by RunInstances) receives an IPv6 address.
-        public var assignIpv6AddressOnCreation: Bool? = nil
+        public let assignIpv6AddressOnCreation: Bool?
         /// Information about the IPv6 CIDR blocks associated with the subnet.
-        public var ipv6CidrBlockAssociationSet: [SubnetIpv6CidrBlockAssociation]? = nil
+        public let ipv6CidrBlockAssociationSet: [SubnetIpv6CidrBlockAssociation]?
         /// The number of unused private IPv4 addresses in the subnet. Note that the IPv4 addresses for any stopped instances are considered unavailable.
-        public var availableIpAddressCount: Int32? = nil
+        public let availableIpAddressCount: Int32?
         /// The Availability Zone of the subnet.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The IPv4 CIDR block assigned to the subnet.
-        public var cidrBlock: String? = nil
-
-        public init() {}
+        public let cidrBlock: String?
 
         public init(mapPublicIpOnLaunch: Bool? = nil, subnetId: String? = nil, defaultForAz: Bool? = nil, vpcId: String? = nil, state: String? = nil, tags: [Tag]? = nil, assignIpv6AddressOnCreation: Bool? = nil, ipv6CidrBlockAssociationSet: [SubnetIpv6CidrBlockAssociation]? = nil, availableIpAddressCount: Int32? = nil, availabilityZone: String? = nil, cidrBlock: String? = nil) {
             self.mapPublicIpOnLaunch = mapPublicIpOnLaunch
@@ -1174,10 +1140,14 @@ extension Ec2 {
             self.state = dictionary["State"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.assignIpv6AddressOnCreation = dictionary["AssignIpv6AddressOnCreation"] as? Bool
             if let ipv6CidrBlockAssociationSet = dictionary["Ipv6CidrBlockAssociationSet"] as? [[String: Any]] {
                 self.ipv6CidrBlockAssociationSet = try ipv6CidrBlockAssociationSet.map({ try SubnetIpv6CidrBlockAssociation(dictionary: $0) })
+            } else { 
+                self.ipv6CidrBlockAssociationSet = nil
             }
             self.availableIpAddressCount = dictionary["AvailableIpAddressCount"] as? Int32
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
@@ -1189,9 +1159,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more Spot instance requests.
-        public var cancelledSpotInstanceRequests: [CancelledSpotInstanceRequest]? = nil
-
-        public init() {}
+        public let cancelledSpotInstanceRequests: [CancelledSpotInstanceRequest]?
 
         public init(cancelledSpotInstanceRequests: [CancelledSpotInstanceRequest]? = nil) {
             self.cancelledSpotInstanceRequests = cancelledSpotInstanceRequests
@@ -1200,6 +1168,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let cancelledSpotInstanceRequests = dictionary["CancelledSpotInstanceRequests"] as? [[String: Any]] {
                 self.cancelledSpotInstanceRequests = try cancelledSpotInstanceRequests.map({ try CancelledSpotInstanceRequest(dictionary: $0) })
+            } else { 
+                self.cancelledSpotInstanceRequests = nil
             }
         }
     }
@@ -1208,11 +1178,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the volume.
-        public var volumeId: String = ""
+        public let volumeId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(volumeId: String, dryRun: Bool? = nil) {
             self.volumeId = volumeId
@@ -1230,11 +1198,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the subnet.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// Information about the IPv6 CIDR block association.
-        public var ipv6CidrBlockAssociation: SubnetIpv6CidrBlockAssociation? = nil
-
-        public init() {}
+        public let ipv6CidrBlockAssociation: SubnetIpv6CidrBlockAssociation?
 
         public init(subnetId: String? = nil, ipv6CidrBlockAssociation: SubnetIpv6CidrBlockAssociation? = nil) {
             self.subnetId = subnetId
@@ -1243,7 +1209,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.subnetId = dictionary["SubnetId"] as? String
-            if let ipv6CidrBlockAssociation = dictionary["Ipv6CidrBlockAssociation"] as? [String: Any] { self.ipv6CidrBlockAssociation = try Ec2.SubnetIpv6CidrBlockAssociation(dictionary: ipv6CidrBlockAssociation) }
+            if let ipv6CidrBlockAssociation = dictionary["Ipv6CidrBlockAssociation"] as? [String: Any] { self.ipv6CidrBlockAssociation = try Ec2.SubnetIpv6CidrBlockAssociation(dictionary: ipv6CidrBlockAssociation) } else { self.ipv6CidrBlockAssociation = nil }
         }
     }
 
@@ -1251,13 +1217,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The event. The following are the error events.    iamFleetRoleInvalid - The Spot fleet did not have the required permissions either to launch or terminate an instance.    launchSpecTemporarilyBlacklisted - The configuration is not valid and several attempts to launch instances have failed. For more information, see the description of the event.    spotFleetRequestConfigurationInvalid - The configuration is not valid. For more information, see the description of the event.    spotInstanceCountLimitExceeded - You've reached the limit on the number of Spot instances that you can launch.   The following are the fleetRequestChange events.    active - The Spot fleet has been validated and Amazon EC2 is attempting to maintain the target number of running Spot instances.    cancelled - The Spot fleet is canceled and has no running Spot instances. The Spot fleet will be deleted two days after its instances were terminated.    cancelled_running - The Spot fleet is canceled and will not launch additional Spot instances, but its existing Spot instances continue to run until they are interrupted or terminated.    cancelled_terminating - The Spot fleet is canceled and its Spot instances are terminating.    expired - The Spot fleet request has expired. A subsequent event indicates that the instances were terminated, if the request was created with TerminateInstancesWithExpiration set.    modify_in_progress - A request to modify the Spot fleet request was accepted and is in progress.    modify_successful - The Spot fleet request was modified.    price_update - The bid price for a launch configuration was adjusted because it was too high. This change is permanent.    submitted - The Spot fleet request is being evaluated and Amazon EC2 is preparing to launch the target number of Spot instances.   The following are the instanceChange events.    launched - A bid was fulfilled and a new instance was launched.    terminated - An instance was terminated by the user.  
-        public var eventSubType: String? = nil
+        public let eventSubType: String?
         /// The ID of the instance. This information is available only for instanceChange events.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The description of the event.
-        public var eventDescription: String? = nil
-
-        public init() {}
+        public let eventDescription: String?
 
         public init(eventSubType: String? = nil, instanceId: String? = nil, eventDescription: String? = nil) {
             self.eventSubType = eventSubType
@@ -1276,13 +1240,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more subnet IDs. Default: Describes all your subnets.
-        public var subnetIds: [String]? = nil
+        public let subnetIds: [String]?
         /// One or more filters.    availabilityZone - The Availability Zone for the subnet. You can also use availability-zone as the filter name.    available-ip-address-count - The number of IPv4 addresses in the subnet that are available.    cidrBlock - The IPv4 CIDR block of the subnet. The CIDR block you specify must exactly match the subnet's CIDR block for information to be returned for the subnet. You can also use cidr or cidr-block as the filter names.    defaultForAz - Indicates whether this is the default subnet for the Availability Zone. You can also use default-for-az as the filter name.    ipv6-cidr-block-association.ipv6-cidr-block - An IPv6 CIDR block associated with the subnet.    ipv6-cidr-block-association.association-id - An association ID for an IPv6 CIDR block associated with the subnet.    ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the subnet.    state - The state of the subnet (pending | available).    subnet-id - The ID of the subnet.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-id - The ID of the VPC for the subnet.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(subnetIds: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil) {
             self.subnetIds = subnetIds
@@ -1291,11 +1253,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let subnetIds = dictionary["SubnetIds"] as? [String] {
-                self.subnetIds = subnetIds
-            }
+            self.subnetIds = dictionary["SubnetIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
         }
@@ -1305,11 +1267,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return..
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of tags.
-        public var tags: [TagDescription]? = nil
-
-        public init() {}
+        public let tags: [TagDescription]?
 
         public init(nextToken: String? = nil, tags: [TagDescription]? = nil) {
             self.nextToken = nextToken
@@ -1320,6 +1280,8 @@ extension Ec2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try TagDescription(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
         }
     }
@@ -1328,9 +1290,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the successful exchange.
-        public var exchangeId: String? = nil
-
-        public init() {}
+        public let exchangeId: String?
 
         public init(exchangeId: String? = nil) {
             self.exchangeId = exchangeId
@@ -1345,15 +1305,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more filters.    nat-gateway-id - The ID of the NAT gateway.    state - The state of the NAT gateway (pending | failed | available | deleting | deleted).    subnet-id - The ID of the subnet in which the NAT gateway resides.    vpc-id - The ID of the VPC in which the NAT gateway resides.  
-        public var filter: [Filter]? = nil
+        public let filter: [Filter]?
         /// One or more NAT gateway IDs.
-        public var natGatewayIds: [String]? = nil
+        public let natGatewayIds: [String]?
         /// The token to retrieve the next page of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of items to return for this request. The request returns a token that you can specify in a subsequent call to get the next set of results. Constraint: If the value specified is greater than 1000, we return only 1000 items.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(filter: [Filter]? = nil, natGatewayIds: [String]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.filter = filter
@@ -1365,10 +1323,10 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let filter = dictionary["Filter"] as? [[String: Any]] {
                 self.filter = try filter.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filter = nil
             }
-            if let natGatewayIds = dictionary["NatGatewayIds"] as? [String] {
-                self.natGatewayIds = natGatewayIds
-            }
+            self.natGatewayIds = dictionary["NatGatewayIds"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -1378,15 +1336,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The private IPv4 address.
-        public var privateIpAddress: String? = nil
+        public let privateIpAddress: String?
         /// The private DNS name.
-        public var privateDnsName: String? = nil
+        public let privateDnsName: String?
         /// Indicates whether this IPv4 address is the primary private IPv4 address of the network interface.
-        public var primary: Bool? = nil
+        public let primary: Bool?
         /// The association information for an Elastic IP address (IPv4) associated with the network interface.
-        public var association: NetworkInterfaceAssociation? = nil
-
-        public init() {}
+        public let association: NetworkInterfaceAssociation?
 
         public init(privateIpAddress: String? = nil, privateDnsName: String? = nil, primary: Bool? = nil, association: NetworkInterfaceAssociation? = nil) {
             self.privateIpAddress = privateIpAddress
@@ -1399,7 +1355,7 @@ extension Ec2 {
             self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
             self.privateDnsName = dictionary["PrivateDnsName"] as? String
             self.primary = dictionary["Primary"] as? Bool
-            if let association = dictionary["Association"] as? [String: Any] { self.association = try Ec2.NetworkInterfaceAssociation(dictionary: association) }
+            if let association = dictionary["Association"] as? [String: Any] { self.association = try Ec2.NetworkInterfaceAssociation(dictionary: association) } else { self.association = nil }
         }
     }
 
@@ -1407,9 +1363,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more network ACLs.
-        public var networkAcls: [NetworkAcl]? = nil
-
-        public init() {}
+        public let networkAcls: [NetworkAcl]?
 
         public init(networkAcls: [NetworkAcl]? = nil) {
             self.networkAcls = networkAcls
@@ -1418,6 +1372,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let networkAcls = dictionary["NetworkAcls"] as? [[String: Any]] {
                 self.networkAcls = try networkAcls.map({ try NetworkAcl(dictionary: $0) })
+            } else { 
+                self.networkAcls = nil
             }
         }
     }
@@ -1426,27 +1382,25 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the Reserved Instance listing.
-        public var status: String? = nil
+        public let status: String?
         /// The price of the Reserved Instance listing.
-        public var priceSchedules: [PriceSchedule]? = nil
+        public let priceSchedules: [PriceSchedule]?
         /// The ID of the Reserved Instance listing.
-        public var reservedInstancesListingId: String? = nil
+        public let reservedInstancesListingId: String?
         /// A unique, case-sensitive key supplied by the client to ensure that the request is idempotent. For more information, see Ensuring Idempotency.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// Any tags assigned to the resource.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The last modified timestamp of the listing.
-        public var updateDate: Date? = nil
+        public let updateDate: Date?
         /// The ID of the Reserved Instance.
-        public var reservedInstancesId: String? = nil
+        public let reservedInstancesId: String?
         /// The time the listing was created.
-        public var createDate: Date? = nil
+        public let createDate: Date?
         /// The reason for the current status of the Reserved Instance listing. The response can be blank.
-        public var statusMessage: String? = nil
+        public let statusMessage: String?
         /// The number of instances in this state.
-        public var instanceCounts: [InstanceCount]? = nil
-
-        public init() {}
+        public let instanceCounts: [InstanceCount]?
 
         public init(status: String? = nil, priceSchedules: [PriceSchedule]? = nil, reservedInstancesListingId: String? = nil, clientToken: String? = nil, tags: [Tag]? = nil, updateDate: Date? = nil, reservedInstancesId: String? = nil, createDate: Date? = nil, statusMessage: String? = nil, instanceCounts: [InstanceCount]? = nil) {
             self.status = status
@@ -1465,11 +1419,15 @@ extension Ec2 {
             self.status = dictionary["Status"] as? String
             if let priceSchedules = dictionary["PriceSchedules"] as? [[String: Any]] {
                 self.priceSchedules = try priceSchedules.map({ try PriceSchedule(dictionary: $0) })
+            } else { 
+                self.priceSchedules = nil
             }
             self.reservedInstancesListingId = dictionary["ReservedInstancesListingId"] as? String
             self.clientToken = dictionary["ClientToken"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.updateDate = dictionary["UpdateDate"] as? Date
             self.reservedInstancesId = dictionary["ReservedInstancesId"] as? String
@@ -1477,6 +1435,8 @@ extension Ec2 {
             self.statusMessage = dictionary["StatusMessage"] as? String
             if let instanceCounts = dictionary["InstanceCounts"] as? [[String: Any]] {
                 self.instanceCounts = try instanceCounts.map({ try InstanceCount(dictionary: $0) })
+            } else { 
+                self.instanceCounts = nil
             }
         }
     }
@@ -1485,11 +1445,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the network ACL.
-        public var networkAclId: String = ""
-
-        public init() {}
+        public let networkAclId: String
 
         public init(dryRun: Bool? = nil, networkAclId: String) {
             self.dryRun = dryRun
@@ -1507,17 +1465,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// This is enabled by default. This property allows instances to be automatically placed onto available Dedicated Hosts, when you are launching instances without specifying a host ID. Default: Enabled
-        public var autoPlacement: String? = nil
+        public let autoPlacement: String?
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see How to Ensure Idempotency in the Amazon Elastic Compute Cloud User Guide. 
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// Specify the instance type that you want your Dedicated Hosts to be configured for. When you specify the instance type, that is the only instance type that you can launch onto that host.
-        public var instanceType: String = ""
+        public let instanceType: String
         /// The Availability Zone for the Dedicated Hosts.
-        public var availabilityZone: String = ""
+        public let availabilityZone: String
         /// The number of Dedicated Hosts you want to allocate to your account with these parameters.
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(autoPlacement: String? = nil, clientToken: String? = nil, instanceType: String, availabilityZone: String, quantity: Int32) {
             self.autoPlacement = autoPlacement
@@ -1543,13 +1499,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The token for the next set of items to return. (You received this token from a prior call.)
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of items to return for this request. The request returns a token that you can specify in a subsequent call to get the next set of results. Constraint: If the value is greater than 1000, we return only 1000 items.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(dryRun: Bool? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.dryRun = dryRun
@@ -1568,11 +1522,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IPv6 addresses to unassign from the network interface.
-        public var ipv6Addresses: [String] = []
+        public let ipv6Addresses: [String]
         /// The ID of the network interface.
-        public var networkInterfaceId: String = ""
-
-        public init() {}
+        public let networkInterfaceId: String
 
         public init(ipv6Addresses: [String], networkInterfaceId: String) {
             self.ipv6Addresses = ipv6Addresses
@@ -1591,16 +1543,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the bundle task.
-        public var bundleTask: BundleTask? = nil
-
-        public init() {}
+        public let bundleTask: BundleTask?
 
         public init(bundleTask: BundleTask? = nil) {
             self.bundleTask = bundleTask
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let bundleTask = dictionary["BundleTask"] as? [String: Any] { self.bundleTask = try Ec2.BundleTask(dictionary: bundleTask) }
+            if let bundleTask = dictionary["BundleTask"] as? [String: Any] { self.bundleTask = try Ec2.BundleTask(dictionary: bundleTask) } else { self.bundleTask = nil }
         }
     }
 
@@ -1608,11 +1558,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The name of the placement group.
-        public var groupName: String = ""
-
-        public init() {}
+        public let groupName: String
 
         public init(dryRun: Bool? = nil, groupName: String) {
             self.dryRun = dryRun
@@ -1630,9 +1578,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the prefix.
-        public var prefixListId: String? = nil
-
-        public init() {}
+        public let prefixListId: String?
 
         public init(prefixListId: String? = nil) {
             self.prefixListId = prefixListId
@@ -1647,13 +1593,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// If true, enables outbound communication from instances in a local VPC to an EC2-Classic instance that's linked to a peer VPC via ClassicLink.
-        public var allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil
+        public let allowEgressFromLocalVpcToRemoteClassicLink: Bool?
         /// If true, enables a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC.
-        public var allowDnsResolutionFromRemoteVpc: Bool? = nil
+        public let allowDnsResolutionFromRemoteVpc: Bool?
         /// If true, enables outbound communication from an EC2-Classic instance that's linked to a local VPC via ClassicLink to instances in a peer VPC.
-        public var allowEgressFromLocalClassicLinkToRemoteVpc: Bool? = nil
-
-        public init() {}
+        public let allowEgressFromLocalClassicLinkToRemoteVpc: Bool?
 
         public init(allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil, allowDnsResolutionFromRemoteVpc: Bool? = nil, allowEgressFromLocalClassicLinkToRemoteVpc: Bool? = nil) {
             self.allowEgressFromLocalVpcToRemoteClassicLink = allowEgressFromLocalVpcToRemoteClassicLink
@@ -1672,9 +1616,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the attribute.
-        public var attributeValue: String? = nil
-
-        public init() {}
+        public let attributeValue: String?
 
         public init(attributeValue: String? = nil) {
             self.attributeValue = attributeValue
@@ -1689,13 +1631,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more purchase requests.
-        public var purchaseRequests: [PurchaseRequest] = []
+        public let purchaseRequests: [PurchaseRequest]
         /// Unique, case-sensitive identifier that ensures the idempotency of the request. For more information, see Ensuring Idempotency.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(purchaseRequests: [PurchaseRequest], clientToken: String? = nil, dryRun: Bool? = nil) {
             self.purchaseRequests = purchaseRequests
@@ -1715,19 +1655,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// This is the maximum duration of the reservation you'd like to purchase, specified in seconds. Reservations are available in one-year and three-year terms. The number of seconds specified must be the number of seconds in a year (365x24x60x60) times one of the supported durations (1 or 3). For example, specify 94608000 for three years.
-        public var maxDuration: Int32? = nil
+        public let maxDuration: Int32?
         /// This is the minimum duration of the reservation you'd like to purchase, specified in seconds. Reservations are available in one-year and three-year terms. The number of seconds specified must be the number of seconds in a year (365x24x60x60) times one of the supported durations (1 or 3). For example, specify 31536000 for one year.
-        public var minDuration: Int32? = nil
+        public let minDuration: Int32?
         /// One or more filters.    instance-family - The instance family of the offering (e.g., m4).    payment-option - The payment option (NoUpfront | PartialUpfront | AllUpfront).  
-        public var filter: [Filter]? = nil
+        public let filter: [Filter]?
         /// The token to use to retrieve the next page of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The ID of the reservation offering.
-        public var offeringId: String? = nil
+        public let offeringId: String?
         /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned nextToken value. This value can be between 5 and 500; if maxResults is given a larger value than 500, you will receive an error.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(maxDuration: Int32? = nil, minDuration: Int32? = nil, filter: [Filter]? = nil, nextToken: String? = nil, offeringId: String? = nil, maxResults: Int32? = nil) {
             self.maxDuration = maxDuration
@@ -1743,6 +1681,8 @@ extension Ec2 {
             self.minDuration = dictionary["MinDuration"] as? Int32
             if let filter = dictionary["Filter"] as? [[String: Any]] {
                 self.filter = try filter.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filter = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
             self.offeringId = dictionary["OfferingId"] as? String
@@ -1754,9 +1694,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more stopped instances.
-        public var stoppingInstances: [InstanceStateChange]? = nil
-
-        public init() {}
+        public let stoppingInstances: [InstanceStateChange]?
 
         public init(stoppingInstances: [InstanceStateChange]? = nil) {
             self.stoppingInstances = stoppingInstances
@@ -1765,6 +1703,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let stoppingInstances = dictionary["StoppingInstances"] as? [[String: Any]] {
                 self.stoppingInstances = try stoppingInstances.map({ try InstanceStateChange(dictionary: $0) })
+            } else { 
+                self.stoppingInstances = nil
             }
         }
     }
@@ -1773,23 +1713,21 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time period for the first schedule to start.
-        public var firstSlotStartTimeRange: SlotDateTimeRangeRequest = SlotDateTimeRangeRequest()
+        public let firstSlotStartTimeRange: SlotDateTimeRangeRequest
         /// The minimum available duration, in hours. The minimum required duration is 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours.
-        public var minSlotDurationInHours: Int32? = nil
+        public let minSlotDurationInHours: Int32?
         /// The maximum available duration, in hours. This value must be greater than MinSlotDurationInHours and less than 1,720.
-        public var maxSlotDurationInHours: Int32? = nil
+        public let maxSlotDurationInHours: Int32?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// One or more filters.    availability-zone - The Availability Zone (for example, us-west-2a).    instance-type - The instance type (for example, c4.large).    network-platform - The network platform (EC2-Classic or EC2-VPC).    platform - The platform (Linux/UNIX or Windows).  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// The token for the next set of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The schedule recurrence.
-        public var recurrence: ScheduledInstanceRecurrenceRequest = ScheduledInstanceRecurrenceRequest()
+        public let recurrence: ScheduledInstanceRecurrenceRequest
         /// The maximum number of results to return in a single call. This value can be between 5 and 300. The default value is 300. To retrieve the remaining results, make another call with the returned NextToken value.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(firstSlotStartTimeRange: SlotDateTimeRangeRequest, minSlotDurationInHours: Int32? = nil, maxSlotDurationInHours: Int32? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, nextToken: String? = nil, recurrence: ScheduledInstanceRecurrenceRequest, maxResults: Int32? = nil) {
             self.firstSlotStartTimeRange = firstSlotStartTimeRange
@@ -1810,6 +1748,8 @@ extension Ec2 {
             self.dryRun = dictionary["DryRun"] as? Bool
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
             guard let recurrence = dictionary["Recurrence"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Recurrence") }
@@ -1822,11 +1762,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID for the Reserved Instances that were created as part of the modification request. This field is only available when the modification is fulfilled.
-        public var reservedInstancesId: String? = nil
+        public let reservedInstancesId: String?
         /// The target Reserved Instances configurations supplied as part of the modification request.
-        public var targetConfiguration: ReservedInstancesConfiguration? = nil
-
-        public init() {}
+        public let targetConfiguration: ReservedInstancesConfiguration?
 
         public init(reservedInstancesId: String? = nil, targetConfiguration: ReservedInstancesConfiguration? = nil) {
             self.reservedInstancesId = reservedInstancesId
@@ -1835,7 +1773,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.reservedInstancesId = dictionary["ReservedInstancesId"] as? String
-            if let targetConfiguration = dictionary["TargetConfiguration"] as? [String: Any] { self.targetConfiguration = try Ec2.ReservedInstancesConfiguration(dictionary: targetConfiguration) }
+            if let targetConfiguration = dictionary["TargetConfiguration"] as? [String: Any] { self.targetConfiguration = try Ec2.ReservedInstancesConfiguration(dictionary: targetConfiguration) } else { self.targetConfiguration = nil }
         }
     }
 
@@ -1843,9 +1781,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
-        public var `return`: Bool? = nil
-
-        public init() {}
+        public let `return`: Bool?
 
         public init(return: Bool? = nil) {
             self.`return` = `return`
@@ -1860,17 +1796,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The disk image.
-        public var image: DiskImageDetail = DiskImageDetail()
+        public let image: DiskImageDetail
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The volume size.
-        public var volume: VolumeDetail = VolumeDetail()
+        public let volume: VolumeDetail
         /// The Availability Zone for the resulting EBS volume.
-        public var availabilityZone: String = ""
+        public let availabilityZone: String
         /// A description of the volume.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(image: DiskImageDetail, dryRun: Bool? = nil, volume: VolumeDetail, availabilityZone: String, description: String? = nil) {
             self.image = image
@@ -1896,15 +1830,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// [EC2-Classic] One or more Elastic IP addresses. Default: Describes all your Elastic IP addresses.
-        public var publicIps: [String]? = nil
+        public let publicIps: [String]?
         /// [EC2-VPC] One or more allocation IDs. Default: Describes all your Elastic IP addresses.
-        public var allocationIds: [String]? = nil
+        public let allocationIds: [String]?
         /// One or more filters. Filter names and values are case-sensitive.    allocation-id - [EC2-VPC] The allocation ID for the address.    association-id - [EC2-VPC] The association ID for the address.    domain - Indicates whether the address is for use in EC2-Classic (standard) or in a VPC (vpc).    instance-id - The ID of the instance the address is associated with, if any.    network-interface-id - [EC2-VPC] The ID of the network interface that the address is associated with, if any.    network-interface-owner-id - The AWS account ID of the owner.    private-ip-address - [EC2-VPC] The private IP address associated with the Elastic IP address.    public-ip - The Elastic IP address.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(publicIps: [String]? = nil, allocationIds: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil) {
             self.publicIps = publicIps
@@ -1914,14 +1846,12 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let publicIps = dictionary["PublicIps"] as? [String] {
-                self.publicIps = publicIps
-            }
-            if let allocationIds = dictionary["AllocationIds"] as? [String] {
-                self.allocationIds = allocationIds
-            }
+            self.publicIps = dictionary["PublicIps"] as? [String]
+            self.allocationIds = dictionary["AllocationIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
         }
@@ -1931,9 +1861,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IPv6 CIDR block.
-        public var ipv6CidrBlock: String? = nil
-
-        public init() {}
+        public let ipv6CidrBlock: String?
 
         public init(ipv6CidrBlock: String? = nil) {
             self.ipv6CidrBlock = ipv6CidrBlock
@@ -1948,23 +1876,21 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// [EC2-VPC] One or more outbound rules associated with the security group.
-        public var ipPermissionsEgress: [IpPermission]? = nil
+        public let ipPermissionsEgress: [IpPermission]?
         /// The name of the security group.
-        public var groupName: String? = nil
+        public let groupName: String?
         /// [EC2-VPC] The ID of the VPC for the security group.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// One or more inbound rules associated with the security group.
-        public var ipPermissions: [IpPermission]? = nil
+        public let ipPermissions: [IpPermission]?
         /// Any tags assigned to the security group.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The AWS account ID of the owner of the security group.
-        public var ownerId: String? = nil
+        public let ownerId: String?
         /// The ID of the security group.
-        public var groupId: String? = nil
+        public let groupId: String?
         /// A description of the security group.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(ipPermissionsEgress: [IpPermission]? = nil, groupName: String? = nil, vpcId: String? = nil, ipPermissions: [IpPermission]? = nil, tags: [Tag]? = nil, ownerId: String? = nil, groupId: String? = nil, description: String? = nil) {
             self.ipPermissionsEgress = ipPermissionsEgress
@@ -1980,14 +1906,20 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let ipPermissionsEgress = dictionary["IpPermissionsEgress"] as? [[String: Any]] {
                 self.ipPermissionsEgress = try ipPermissionsEgress.map({ try IpPermission(dictionary: $0) })
+            } else { 
+                self.ipPermissionsEgress = nil
             }
             self.groupName = dictionary["GroupName"] as? String
             self.vpcId = dictionary["VpcId"] as? String
             if let ipPermissions = dictionary["IpPermissions"] as? [[String: Any]] {
                 self.ipPermissions = try ipPermissions.map({ try IpPermission(dictionary: $0) })
+            } else { 
+                self.ipPermissions = nil
             }
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.ownerId = dictionary["OwnerId"] as? String
             self.groupId = dictionary["GroupId"] as? String
@@ -1999,9 +1931,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more account attributes.
-        public var accountAttributes: [AccountAttribute]? = nil
-
-        public init() {}
+        public let accountAttributes: [AccountAttribute]?
 
         public init(accountAttributes: [AccountAttribute]? = nil) {
             self.accountAttributes = accountAttributes
@@ -2010,6 +1940,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let accountAttributes = dictionary["AccountAttributes"] as? [[String: Any]] {
                 self.accountAttributes = try accountAttributes.map({ try AccountAttribute(dictionary: $0) })
+            } else { 
+                self.accountAttributes = nil
             }
         }
     }
@@ -2018,27 +1950,25 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// [IPv4 traffic only] The ID of a NAT gateway.
-        public var natGatewayId: String? = nil
+        public let natGatewayId: String?
         /// The ID of a network interface.
-        public var networkInterfaceId: String? = nil
+        public let networkInterfaceId: String?
         /// The ID of a NAT instance in your VPC.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The IPv6 CIDR address block used for the destination match. The value you provide must match the CIDR of an existing route in the table.
-        public var destinationIpv6CidrBlock: String? = nil
+        public let destinationIpv6CidrBlock: String?
         /// The ID of a VPC peering connection.
-        public var vpcPeeringConnectionId: String? = nil
+        public let vpcPeeringConnectionId: String?
         /// The ID of the route table.
-        public var routeTableId: String = ""
+        public let routeTableId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// [IPv6 traffic only] The ID of an egress-only Internet gateway.
-        public var egressOnlyInternetGatewayId: String? = nil
+        public let egressOnlyInternetGatewayId: String?
         /// The ID of an Internet gateway or virtual private gateway.
-        public var gatewayId: String? = nil
+        public let gatewayId: String?
         /// The IPv4 CIDR address block used for the destination match. The value you provide must match the CIDR of an existing route in the table.
-        public var destinationCidrBlock: String? = nil
-
-        public init() {}
+        public let destinationCidrBlock: String?
 
         public init(natGatewayId: String? = nil, networkInterfaceId: String? = nil, instanceId: String? = nil, destinationIpv6CidrBlock: String? = nil, vpcPeeringConnectionId: String? = nil, routeTableId: String, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, destinationCidrBlock: String? = nil) {
             self.natGatewayId = natGatewayId
@@ -2072,27 +2002,25 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// [IPv4 traffic only] The ID of a NAT gateway.
-        public var natGatewayId: String? = nil
+        public let natGatewayId: String?
         /// The ID of a network interface.
-        public var networkInterfaceId: String? = nil
+        public let networkInterfaceId: String?
         /// The ID of a NAT instance in your VPC. The operation fails if you specify an instance ID unless exactly one network interface is attached.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The IPv6 CIDR block used for the destination match. Routing decisions are based on the most specific match.
-        public var destinationIpv6CidrBlock: String? = nil
+        public let destinationIpv6CidrBlock: String?
         /// The ID of a VPC peering connection.
-        public var vpcPeeringConnectionId: String? = nil
+        public let vpcPeeringConnectionId: String?
         /// The ID of the route table for the route.
-        public var routeTableId: String = ""
+        public let routeTableId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// [IPv6 traffic only] The ID of an egress-only Internet gateway.
-        public var egressOnlyInternetGatewayId: String? = nil
+        public let egressOnlyInternetGatewayId: String?
         /// The ID of an Internet gateway or virtual private gateway attached to your VPC.
-        public var gatewayId: String? = nil
+        public let gatewayId: String?
         /// The IPv4 CIDR address block used for the destination match. Routing decisions are based on the most specific match.
-        public var destinationCidrBlock: String? = nil
-
-        public init() {}
+        public let destinationCidrBlock: String?
 
         public init(natGatewayId: String? = nil, networkInterfaceId: String? = nil, instanceId: String? = nil, destinationIpv6CidrBlock: String? = nil, vpcPeeringConnectionId: String? = nil, routeTableId: String, dryRun: Bool? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, destinationCidrBlock: String? = nil) {
             self.natGatewayId = natGatewayId
@@ -2126,11 +2054,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPN connection.
-        public var vpnConnectionId: String = ""
+        public let vpnConnectionId: String
         /// The CIDR block associated with the local subnet of the customer network.
-        public var destinationCidrBlock: String = ""
-
-        public init() {}
+        public let destinationCidrBlock: String
 
         public init(vpnConnectionId: String, destinationCidrBlock: String) {
             self.vpnConnectionId = vpnConnectionId
@@ -2149,11 +2075,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the key pair.
-        public var keyName: String? = nil
+        public let keyName: String?
         /// If you used CreateKeyPair to create the key pair, this is the SHA-1 digest of the DER encoded private key. If you used ImportKeyPair to provide AWS the public key, this is the MD5 public key fingerprint as specified in section 4 of RFC4716.
-        public var keyFingerprint: String? = nil
-
-        public init() {}
+        public let keyFingerprint: String?
 
         public init(keyName: String? = nil, keyFingerprint: String? = nil) {
             self.keyName = keyName
@@ -2170,19 +2094,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time stamp when the attachment initiated.
-        public var attachTime: Date? = nil
+        public let attachTime: Date?
         /// Indicates whether the EBS volume is deleted on instance termination.
-        public var deleteOnTermination: Bool? = nil
+        public let deleteOnTermination: Bool?
         /// The device name.
-        public var device: String? = nil
+        public let device: String?
         /// The ID of the instance.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The ID of the volume.
-        public var volumeId: String? = nil
+        public let volumeId: String?
         /// The attachment state of the volume.
-        public var state: String? = nil
-
-        public init() {}
+        public let state: String?
 
         public init(attachTime: Date? = nil, deleteOnTermination: Bool? = nil, device: String? = nil, instanceId: String? = nil, volumeId: String? = nil, state: String? = nil) {
             self.attachTime = attachTime
@@ -2207,13 +2129,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A description of the import snapshot task.
-        public var description: String? = nil
+        public let description: String?
         /// Describes an import snapshot task.
-        public var snapshotTaskDetail: SnapshotTaskDetail? = nil
+        public let snapshotTaskDetail: SnapshotTaskDetail?
         /// The ID of the import snapshot task.
-        public var importTaskId: String? = nil
-
-        public init() {}
+        public let importTaskId: String?
 
         public init(description: String? = nil, snapshotTaskDetail: SnapshotTaskDetail? = nil, importTaskId: String? = nil) {
             self.description = description
@@ -2223,7 +2143,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.description = dictionary["Description"] as? String
-            if let snapshotTaskDetail = dictionary["SnapshotTaskDetail"] as? [String: Any] { self.snapshotTaskDetail = try Ec2.SnapshotTaskDetail(dictionary: snapshotTaskDetail) }
+            if let snapshotTaskDetail = dictionary["SnapshotTaskDetail"] as? [String: Any] { self.snapshotTaskDetail = try Ec2.SnapshotTaskDetail(dictionary: snapshotTaskDetail) } else { self.snapshotTaskDetail = nil }
             self.importTaskId = dictionary["ImportTaskId"] as? String
         }
     }
@@ -2232,13 +2152,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The subnet in which to create the NAT gateway.
-        public var subnetId: String = ""
+        public let subnetId: String
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency. Constraint: Maximum 64 ASCII characters.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// The allocation ID of an Elastic IP address to associate with the NAT gateway. If the Elastic IP address is associated with another resource, you must first disassociate it.
-        public var allocationId: String = ""
-
-        public init() {}
+        public let allocationId: String
 
         public init(subnetId: String, clientToken: String? = nil, allocationId: String) {
             self.subnetId = subnetId
@@ -2259,16 +2177,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the attachment.
-        public var vpcAttachment: VpcAttachment? = nil
-
-        public init() {}
+        public let vpcAttachment: VpcAttachment?
 
         public init(vpcAttachment: VpcAttachment? = nil) {
             self.vpcAttachment = vpcAttachment
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let vpcAttachment = dictionary["VpcAttachment"] as? [String: Any] { self.vpcAttachment = try Ec2.VpcAttachment(dictionary: vpcAttachment) }
+            if let vpcAttachment = dictionary["VpcAttachment"] as? [String: Any] { self.vpcAttachment = try Ec2.VpcAttachment(dictionary: vpcAttachment) } else { self.vpcAttachment = nil }
         }
     }
 
@@ -2276,28 +2192,26 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The required duration for the Spot instances (also known as Spot blocks), in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or 360). The duration period starts as soon as your Spot instance receives its instance ID. At the end of the duration period, Amazon EC2 marks the Spot instance for termination and provides a Spot instance termination notice, which gives the instance a two-minute warning before it terminates. Note that you can't specify an Availability Zone group or a launch group if you specify a duration.
-        public var blockDurationMinutes: Int32? = nil
+        public let blockDurationMinutes: Int32?
         /// The user-specified name for a logical grouping of bids. When you specify an Availability Zone group in a Spot Instance request, all Spot instances in the request are launched in the same Availability Zone. Instance proximity is maintained with this parameter, but the choice of Availability Zone is not. The group applies only to bids for Spot Instances of the same instance type. Any additional Spot instance requests that are specified with the same Availability Zone group name are launched in that same Availability Zone, as long as at least one instance from the group is still active. If there is no active instance running in the Availability Zone group that you specify for a new Spot instance request (all instances are terminated, the bid is expired, or the bid falls below current market), then Amazon EC2 launches the instance in any Availability Zone where the constraint can be met. Consequently, the subsequent set of Spot instances could be placed in a different zone from the original request, even if you specified the same Availability Zone group. Default: Instances are launched in any available Availability Zone.
-        public var availabilityZoneGroup: String? = nil
+        public let availabilityZoneGroup: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency in the Amazon Elastic Compute Cloud User Guide.
-        public var clientToken: String? = nil
-        public var launchSpecification: RequestSpotLaunchSpecification? = nil
+        public let clientToken: String?
+        public let launchSpecification: RequestSpotLaunchSpecification?
         /// The start date of the request. If this is a one-time request, the request becomes active at this date and time and remains active until all instances launch, the request expires, or the request is canceled. If the request is persistent, the request becomes active at this date and time and remains active until it expires or is canceled. Default: The request is effective indefinitely.
-        public var validFrom: Date? = nil
+        public let validFrom: Date?
         /// The maximum hourly price (bid) for any Spot instance launched to fulfill the request.
-        public var spotPrice: String = ""
+        public let spotPrice: String
         /// The end date of the request. If this is a one-time request, the request remains active until all instances launch, the request is canceled, or this date is reached. If the request is persistent, it remains active until it is canceled or this date and time is reached. Default: The request is effective indefinitely.
-        public var validUntil: Date? = nil
+        public let validUntil: Date?
         /// The Spot instance request type. Default: one-time 
-        public var type: String? = nil
+        public let type: String?
         /// The maximum number of Spot instances to launch. Default: 1
-        public var instanceCount: Int32? = nil
+        public let instanceCount: Int32?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The instance launch group. Launch groups are Spot instances that launch together and terminate together. Default: Instances are launched and terminated individually
-        public var launchGroup: String? = nil
-
-        public init() {}
+        public let launchGroup: String?
 
         public init(blockDurationMinutes: Int32? = nil, availabilityZoneGroup: String? = nil, clientToken: String? = nil, launchSpecification: RequestSpotLaunchSpecification? = nil, validFrom: Date? = nil, spotPrice: String, validUntil: Date? = nil, type: String? = nil, instanceCount: Int32? = nil, dryRun: Bool? = nil, launchGroup: String? = nil) {
             self.blockDurationMinutes = blockDurationMinutes
@@ -2317,7 +2231,7 @@ extension Ec2 {
             self.blockDurationMinutes = dictionary["BlockDurationMinutes"] as? Int32
             self.availabilityZoneGroup = dictionary["AvailabilityZoneGroup"] as? String
             self.clientToken = dictionary["ClientToken"] as? String
-            if let launchSpecification = dictionary["LaunchSpecification"] as? [String: Any] { self.launchSpecification = try Ec2.RequestSpotLaunchSpecification(dictionary: launchSpecification) }
+            if let launchSpecification = dictionary["LaunchSpecification"] as? [String: Any] { self.launchSpecification = try Ec2.RequestSpotLaunchSpecification(dictionary: launchSpecification) } else { self.launchSpecification = nil }
             self.validFrom = dictionary["ValidFrom"] as? Date
             guard let spotPrice = dictionary["SpotPrice"] as? String else { throw InitializableError.missingRequiredParam("SpotPrice") }
             self.spotPrice = spotPrice
@@ -2333,17 +2247,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more filters.    architecture - The image architecture (i386 | x86_64).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name for the EBS volume (for example, /dev/sdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the EBS volume.    block-device-mapping.volume-size - The volume size of the EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the EBS volume (gp2 | io1 | st1 | sc1 | standard).    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - String value from an Amazon-maintained list (amazon | aws-marketplace | microsoft) of snapshot owners. Not to be confused with the user-configured AWS account alias, which is set from the IAM console.    owner-id - The AWS account ID of the image owner.    platform - The platform. To only list Windows-based AMIs, use windows.    product-code - The product code.    product-code.type - The type of the product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    virtualization-type - The virtualization type (paravirtual | hvm).  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// Scopes the images by users with explicit launch permissions. Specify an AWS account ID, self (the sender of the request), or all (public AMIs).
-        public var executableUsers: [String]? = nil
+        public let executableUsers: [String]?
         /// One or more image IDs. Default: Describes all images available to you.
-        public var imageIds: [String]? = nil
+        public let imageIds: [String]?
         /// Filters the images by the owner. Specify an AWS account ID, self (owner is the sender of the request), or an AWS owner alias (valid values are amazon | aws-marketplace | microsoft). Omitting this option returns all images for which you have launch permissions, regardless of ownership.
-        public var owners: [String]? = nil
-
-        public init() {}
+        public let owners: [String]?
 
         public init(filters: [Filter]? = nil, dryRun: Bool? = nil, executableUsers: [String]? = nil, imageIds: [String]? = nil, owners: [String]? = nil) {
             self.filters = filters
@@ -2356,17 +2268,13 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let executableUsers = dictionary["ExecutableUsers"] as? [String] {
-                self.executableUsers = executableUsers
-            }
-            if let imageIds = dictionary["ImageIds"] as? [String] {
-                self.imageIds = imageIds
-            }
-            if let owners = dictionary["Owners"] as? [String] {
-                self.owners = owners
-            }
+            self.executableUsers = dictionary["ExecutableUsers"] as? [String]
+            self.imageIds = dictionary["ImageIds"] as? [String]
+            self.owners = dictionary["Owners"] as? [String]
         }
     }
 
@@ -2374,21 +2282,19 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The upfront price of the offering. Does not apply to No Upfront offerings.
-        public var upfrontPrice: String? = nil
+        public let upfrontPrice: String?
         /// The available payment option.
-        public var paymentOption: String? = nil
+        public let paymentOption: String?
         /// The ID of the offering.
-        public var offeringId: String? = nil
+        public let offeringId: String?
         /// The hourly price of the offering.
-        public var hourlyPrice: String? = nil
+        public let hourlyPrice: String?
         /// The currency of the offering.
-        public var currencyCode: String? = nil
+        public let currencyCode: String?
         /// The duration of the offering (in seconds).
-        public var duration: Int32? = nil
+        public let duration: Int32?
         /// The instance family of the offering.
-        public var instanceFamily: String? = nil
-
-        public init() {}
+        public let instanceFamily: String?
 
         public init(upfrontPrice: String? = nil, paymentOption: String? = nil, offeringId: String? = nil, hourlyPrice: String? = nil, currencyCode: String? = nil, duration: Int32? = nil, instanceFamily: String? = nil) {
             self.upfrontPrice = upfrontPrice
@@ -2415,31 +2321,29 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The index of the device on the instance for the network interface attachment. If you are specifying a network interface in a RunInstances request, you must provide the device index.
-        public var deviceIndex: Int32? = nil
+        public let deviceIndex: Int32?
         /// The ID of the subnet associated with the network string. Applies only if creating a network interface when launching an instance.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// The ID of the network interface.
-        public var networkInterfaceId: String? = nil
+        public let networkInterfaceId: String?
         /// The description of the network interface. Applies only if creating a network interface when launching an instance.
-        public var description: String? = nil
+        public let description: String?
         /// The private IPv4 address of the network interface. Applies only if creating a network interface when launching an instance. You cannot specify this option if you're launching more than one instance in a RunInstances request.
-        public var privateIpAddress: String? = nil
+        public let privateIpAddress: String?
         /// The number of secondary private IPv4 addresses. You can't specify this option and specify more than one private IP address using the private IP addresses option. You cannot specify this option if you're launching more than one instance in a RunInstances request.
-        public var secondaryPrivateIpAddressCount: Int32? = nil
+        public let secondaryPrivateIpAddressCount: Int32?
         /// One or more private IPv4 addresses to assign to the network interface. Only one private IPv4 address can be designated as primary. You cannot specify this option if you're launching more than one instance in a RunInstances request.
-        public var privateIpAddresses: [PrivateIpAddressSpecification]? = nil
+        public let privateIpAddresses: [PrivateIpAddressSpecification]?
         /// A number of IPv6 addresses to assign to the network interface. Amazon EC2 chooses the IPv6 addresses from the range of the subnet. You cannot specify this option and the option to assign specific IPv6 addresses in the same request. You can specify this option if you've specified a minimum number of instances to launch.
-        public var ipv6AddressCount: Int32? = nil
+        public let ipv6AddressCount: Int32?
         /// One or more IPv6 addresses to assign to the network interface. You cannot specify this option and the option to assign a number of IPv6 addresses in the same request. You cannot specify this option if you've specified a minimum number of instances to launch.
-        public var ipv6Addresses: [InstanceIpv6Address]? = nil
+        public let ipv6Addresses: [InstanceIpv6Address]?
         /// If set to true, the interface is deleted when the instance is terminated. You can specify true only if creating a new network interface when launching an instance.
-        public var deleteOnTermination: Bool? = nil
+        public let deleteOnTermination: Bool?
         /// Indicates whether to assign a public IPv4 address to an instance you launch in a VPC. The public IP address can only be assigned to a network interface for eth0, and can only be assigned to a new network interface, not an existing one. You cannot specify more than one network interface in the request. If launching into a default subnet, the default value is true.
-        public var associatePublicIpAddress: Bool? = nil
+        public let associatePublicIpAddress: Bool?
         /// The IDs of the security groups for the network interface. Applies only if creating a network interface when launching an instance.
-        public var groups: [String]? = nil
-
-        public init() {}
+        public let groups: [String]?
 
         public init(deviceIndex: Int32? = nil, subnetId: String? = nil, networkInterfaceId: String? = nil, description: String? = nil, privateIpAddress: String? = nil, secondaryPrivateIpAddressCount: Int32? = nil, privateIpAddresses: [PrivateIpAddressSpecification]? = nil, ipv6AddressCount: Int32? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, deleteOnTermination: Bool? = nil, associatePublicIpAddress: Bool? = nil, groups: [String]? = nil) {
             self.deviceIndex = deviceIndex
@@ -2465,16 +2369,18 @@ extension Ec2 {
             self.secondaryPrivateIpAddressCount = dictionary["SecondaryPrivateIpAddressCount"] as? Int32
             if let privateIpAddresses = dictionary["PrivateIpAddresses"] as? [[String: Any]] {
                 self.privateIpAddresses = try privateIpAddresses.map({ try PrivateIpAddressSpecification(dictionary: $0) })
+            } else { 
+                self.privateIpAddresses = nil
             }
             self.ipv6AddressCount = dictionary["Ipv6AddressCount"] as? Int32
             if let ipv6Addresses = dictionary["Ipv6Addresses"] as? [[String: Any]] {
                 self.ipv6Addresses = try ipv6Addresses.map({ try InstanceIpv6Address(dictionary: $0) })
+            } else { 
+                self.ipv6Addresses = nil
             }
             self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
             self.associatePublicIpAddress = dictionary["AssociatePublicIpAddress"] as? Bool
-            if let groups = dictionary["Groups"] as? [String] {
-                self.groups = groups
-            }
+            self.groups = dictionary["Groups"] as? [String]
         }
     }
 
@@ -2482,11 +2388,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the route table.
-        public var routeTableId: String = ""
+        public let routeTableId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(routeTableId: String, dryRun: Bool? = nil) {
             self.routeTableId = routeTableId
@@ -2504,15 +2408,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the network interface associated with the NAT gateway.
-        public var networkInterfaceId: String? = nil
+        public let networkInterfaceId: String?
         /// The Elastic IP address associated with the NAT gateway.
-        public var publicIp: String? = nil
+        public let publicIp: String?
         /// The private IP address associated with the Elastic IP address.
-        public var privateIp: String? = nil
+        public let privateIp: String?
         /// The allocation ID of the Elastic IP address that's associated with the NAT gateway.
-        public var allocationId: String? = nil
-
-        public init() {}
+        public let allocationId: String?
 
         public init(networkInterfaceId: String? = nil, publicIp: String? = nil, privateIp: String? = nil, allocationId: String? = nil) {
             self.networkInterfaceId = networkInterfaceId
@@ -2533,17 +2435,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description of the network interface.
-        public var description: AttributeValue? = nil
+        public let description: AttributeValue?
         /// The ID of the network interface.
-        public var networkInterfaceId: String? = nil
+        public let networkInterfaceId: String?
         /// The attachment (if any) of the network interface.
-        public var attachment: NetworkInterfaceAttachment? = nil
+        public let attachment: NetworkInterfaceAttachment?
         /// The security groups associated with the network interface.
-        public var groups: [GroupIdentifier]? = nil
+        public let groups: [GroupIdentifier]?
         /// Indicates whether source/destination checking is enabled.
-        public var sourceDestCheck: AttributeBooleanValue? = nil
-
-        public init() {}
+        public let sourceDestCheck: AttributeBooleanValue?
 
         public init(description: AttributeValue? = nil, networkInterfaceId: String? = nil, attachment: NetworkInterfaceAttachment? = nil, groups: [GroupIdentifier]? = nil, sourceDestCheck: AttributeBooleanValue? = nil) {
             self.description = description
@@ -2554,13 +2454,15 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let description = dictionary["Description"] as? [String: Any] { self.description = try Ec2.AttributeValue(dictionary: description) }
+            if let description = dictionary["Description"] as? [String: Any] { self.description = try Ec2.AttributeValue(dictionary: description) } else { self.description = nil }
             self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
-            if let attachment = dictionary["Attachment"] as? [String: Any] { self.attachment = try Ec2.NetworkInterfaceAttachment(dictionary: attachment) }
+            if let attachment = dictionary["Attachment"] as? [String: Any] { self.attachment = try Ec2.NetworkInterfaceAttachment(dictionary: attachment) } else { self.attachment = nil }
             if let groups = dictionary["Groups"] as? [[String: Any]] {
                 self.groups = try groups.map({ try GroupIdentifier(dictionary: $0) })
+            } else { 
+                self.groups = nil
             }
-            if let sourceDestCheck = dictionary["SourceDestCheck"] as? [String: Any] { self.sourceDestCheck = try Ec2.AttributeBooleanValue(dictionary: sourceDestCheck) }
+            if let sourceDestCheck = dictionary["SourceDestCheck"] as? [String: Any] { self.sourceDestCheck = try Ec2.AttributeBooleanValue(dictionary: sourceDestCheck) } else { self.sourceDestCheck = nil }
         }
     }
 
@@ -2568,9 +2470,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
-        public var `return`: Bool? = nil
-
-        public init() {}
+        public let `return`: Bool?
 
         public init(return: Bool? = nil) {
             self.`return` = `return`
@@ -2585,19 +2485,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Token to enable idempotency for VM import requests.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// The name of the role to use when not using the default role, 'vmimport'.
-        public var roleName: String? = nil
+        public let roleName: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The client-specific data.
-        public var clientData: ClientData? = nil
+        public let clientData: ClientData?
         /// Information about the disk container.
-        public var diskContainer: SnapshotDiskContainer? = nil
+        public let diskContainer: SnapshotDiskContainer?
         /// The description string for the import snapshot task.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(clientToken: String? = nil, roleName: String? = nil, dryRun: Bool? = nil, clientData: ClientData? = nil, diskContainer: SnapshotDiskContainer? = nil, description: String? = nil) {
             self.clientToken = clientToken
@@ -2612,8 +2510,8 @@ extension Ec2 {
             self.clientToken = dictionary["ClientToken"] as? String
             self.roleName = dictionary["RoleName"] as? String
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let clientData = dictionary["ClientData"] as? [String: Any] { self.clientData = try Ec2.ClientData(dictionary: clientData) }
-            if let diskContainer = dictionary["DiskContainer"] as? [String: Any] { self.diskContainer = try Ec2.SnapshotDiskContainer(dictionary: diskContainer) }
+            if let clientData = dictionary["ClientData"] as? [String: Any] { self.clientData = try Ec2.ClientData(dictionary: clientData) } else { self.clientData = nil }
+            if let diskContainer = dictionary["DiskContainer"] as? [String: Any] { self.diskContainer = try Ec2.SnapshotDiskContainer(dictionary: diskContainer) } else { self.diskContainer = nil }
             self.description = dictionary["Description"] as? String
         }
     }
@@ -2622,15 +2520,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The tenancy options for instances launched into the VPC. For default, instances are launched with shared tenancy by default. You can launch instances with any tenancy into a shared tenancy VPC. For dedicated, instances are launched as dedicated tenancy instances by default. You can only launch instances with a tenancy of dedicated or host into a dedicated tenancy VPC.   Important: The host value cannot be used with this parameter. Use the default or dedicated values only. Default: default 
-        public var instanceTenancy: String? = nil
+        public let instanceTenancy: String?
         /// Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IP addresses, or the size of the CIDR block.
-        public var amazonProvidedIpv6CidrBlock: Bool? = nil
+        public let amazonProvidedIpv6CidrBlock: Bool?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The IPv4 network range for the VPC, in CIDR notation. For example, 10.0.0.0/16.
-        public var cidrBlock: String = ""
-
-        public init() {}
+        public let cidrBlock: String
 
         public init(instanceTenancy: String? = nil, amazonProvidedIpv6CidrBlock: Bool? = nil, dryRun: Bool? = nil, cidrBlock: String) {
             self.instanceTenancy = instanceTenancy
@@ -2652,11 +2548,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(vpcId: String, dryRun: Bool? = nil) {
             self.vpcId = vpcId
@@ -2674,9 +2568,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more VPCs.
-        public var vpcs: [Vpc]? = nil
-
-        public init() {}
+        public let vpcs: [Vpc]?
 
         public init(vpcs: [Vpc]? = nil) {
             self.vpcs = vpcs
@@ -2685,6 +2577,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let vpcs = dictionary["Vpcs"] as? [[String: Any]] {
                 self.vpcs = try vpcs.map({ try Vpc(dictionary: $0) })
+            } else { 
+                self.vpcs = nil
             }
         }
     }
@@ -2693,17 +2587,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The disk image.
-        public var diskImages: [DiskImage]? = nil
+        public let diskImages: [DiskImage]?
         /// The instance operating system.
-        public var platform: String = ""
+        public let platform: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The launch specification.
-        public var launchSpecification: ImportInstanceLaunchSpecification? = nil
+        public let launchSpecification: ImportInstanceLaunchSpecification?
         /// A description for the instance being imported.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(diskImages: [DiskImage]? = nil, platform: String, dryRun: Bool? = nil, launchSpecification: ImportInstanceLaunchSpecification? = nil, description: String? = nil) {
             self.diskImages = diskImages
@@ -2716,11 +2608,13 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let diskImages = dictionary["DiskImages"] as? [[String: Any]] {
                 self.diskImages = try diskImages.map({ try DiskImage(dictionary: $0) })
+            } else { 
+                self.diskImages = nil
             }
             guard let platform = dictionary["Platform"] as? String else { throw InitializableError.missingRequiredParam("Platform") }
             self.platform = platform
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let launchSpecification = dictionary["LaunchSpecification"] as? [String: Any] { self.launchSpecification = try Ec2.ImportInstanceLaunchSpecification(dictionary: launchSpecification) }
+            if let launchSpecification = dictionary["LaunchSpecification"] as? [String: Any] { self.launchSpecification = try Ec2.ImportInstanceLaunchSpecification(dictionary: launchSpecification) } else { self.launchSpecification = nil }
             self.description = dictionary["Description"] as? String
         }
     }
@@ -2729,19 +2623,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// The AWS service name, in the form com.amazonaws.region.service . To get a list of available services, use the DescribeVpcEndpointServices request.
-        public var serviceName: String = ""
+        public let serviceName: String
         /// The ID of the VPC in which the endpoint will be used.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// A policy to attach to the endpoint that controls access to the service. The policy must be in valid JSON format. If this parameter is not specified, we attach a default policy that allows full access to the service.
-        public var policyDocument: String? = nil
+        public let policyDocument: String?
         /// One or more route table IDs.
-        public var routeTableIds: [String]? = nil
-
-        public init() {}
+        public let routeTableIds: [String]?
 
         public init(clientToken: String? = nil, serviceName: String, vpcId: String, dryRun: Bool? = nil, policyDocument: String? = nil, routeTableIds: [String]? = nil) {
             self.clientToken = clientToken
@@ -2760,9 +2652,7 @@ extension Ec2 {
             self.vpcId = vpcId
             self.dryRun = dictionary["DryRun"] as? Bool
             self.policyDocument = dictionary["PolicyDocument"] as? String
-            if let routeTableIds = dictionary["RouteTableIds"] as? [String] {
-                self.routeTableIds = routeTableIds
-            }
+            self.routeTableIds = dictionary["RouteTableIds"] as? [String]
         }
     }
 
@@ -2770,11 +2660,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the Elastic IP address that's being moved to the EC2-VPC platform, or restored to the EC2-Classic platform.
-        public var moveStatus: String? = nil
+        public let moveStatus: String?
         /// The Elastic IP address.
-        public var publicIp: String? = nil
-
-        public init() {}
+        public let publicIp: String?
 
         public init(moveStatus: String? = nil, publicIp: String? = nil) {
             self.moveStatus = moveStatus
@@ -2791,11 +2679,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the AMI.
-        public var imageId: String = ""
-
-        public init() {}
+        public let imageId: String
 
         public init(dryRun: Bool? = nil, imageId: String) {
             self.dryRun = dryRun
@@ -2813,11 +2699,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the EBS snapshot.
-        public var snapshotId: String = ""
+        public let snapshotId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(snapshotId: String, dryRun: Bool? = nil) {
             self.snapshotId = snapshotId
@@ -2835,37 +2719,35 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum duration (in seconds) to filter when searching for offerings. Default: 94608000 (3 years)
-        public var maxDuration: Int64? = nil
+        public let maxDuration: Int64?
         /// The tenancy of the instances covered by the reservation. A Reserved Instance with a tenancy of dedicated is applied to instances that run in a VPC on single-tenant hardware (i.e., Dedicated Instances). Default: default 
-        public var instanceTenancy: String? = nil
+        public let instanceTenancy: String?
         /// One or more Reserved Instances offering IDs.
-        public var reservedInstancesOfferingIds: [String]? = nil
+        public let reservedInstancesOfferingIds: [String]?
         /// One or more filters.    availability-zone - The Availability Zone where the Reserved Instance can be used.    duration - The duration of the Reserved Instance (for example, one year or three years), in seconds (31536000 | 94608000).    fixed-price - The purchase price of the Reserved Instance (for example, 9800.0).    instance-type - The instance type that is covered by the reservation.    marketplace - Set to true to show only Reserved Instance Marketplace offerings. When this filter is not used, which is the default behavior, all offerings from both AWS and the Reserved Instance Marketplace are listed.    product-description - The Reserved Instance product platform description. Instances that include (Amazon VPC) in the product platform description will only be displayed to EC2-Classic account holders and are for use with Amazon VPC. (Linux/UNIX | Linux/UNIX (Amazon VPC) | SUSE Linux | SUSE Linux (Amazon VPC) | Red Hat Enterprise Linux | Red Hat Enterprise Linux (Amazon VPC) | Windows | Windows (Amazon VPC) | Windows with SQL Server Standard | Windows with SQL Server Standard (Amazon VPC) | Windows with SQL Server Web |  Windows with SQL Server Web (Amazon VPC) | Windows with SQL Server Enterprise | Windows with SQL Server Enterprise (Amazon VPC))     reserved-instances-offering-id - The Reserved Instances offering ID.    scope - The scope of the Reserved Instance (Availability Zone or Region).    usage-price - The usage price of the Reserved Instance, per hour (for example, 0.84).  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The instance type that the reservation will cover (for example, m1.small). For more information, see Instance Types in the Amazon Elastic Compute Cloud User Guide.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The Availability Zone in which the Reserved Instance can be used.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The Reserved Instance product platform description. Instances that include (Amazon VPC) in the description are for use with Amazon VPC.
-        public var productDescription: String? = nil
+        public let productDescription: String?
         /// The maximum number of results to return for the request in a single page. The remaining results of the initial request can be seen by sending another request with the returned NextToken value. The maximum is 100. Default: 100
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// The Reserved Instance offering type. If you are using tools that predate the 2011-11-01 API version, you only have access to the Medium Utilization Reserved Instance offering type. 
-        public var offeringType: String? = nil
+        public let offeringType: String?
         /// The offering class of the Reserved Instance. Can be standard or convertible.
-        public var offeringClass: String? = nil
+        public let offeringClass: String?
         /// Include Reserved Instance Marketplace offerings in the response.
-        public var includeMarketplace: Bool? = nil
+        public let includeMarketplace: Bool?
         /// The minimum duration (in seconds) to filter when searching for offerings. Default: 2592000 (1 month)
-        public var minDuration: Int64? = nil
+        public let minDuration: Int64?
         /// The maximum number of instances to filter when searching for offerings. Default: 20
-        public var maxInstanceCount: Int32? = nil
+        public let maxInstanceCount: Int32?
         /// The token to retrieve the next page of results.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(maxDuration: Int64? = nil, instanceTenancy: String? = nil, reservedInstancesOfferingIds: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil, instanceType: String? = nil, availabilityZone: String? = nil, productDescription: String? = nil, maxResults: Int32? = nil, offeringType: String? = nil, offeringClass: String? = nil, includeMarketplace: Bool? = nil, minDuration: Int64? = nil, maxInstanceCount: Int32? = nil, nextToken: String? = nil) {
             self.maxDuration = maxDuration
@@ -2888,11 +2770,11 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             self.maxDuration = dictionary["MaxDuration"] as? Int64
             self.instanceTenancy = dictionary["InstanceTenancy"] as? String
-            if let reservedInstancesOfferingIds = dictionary["ReservedInstancesOfferingIds"] as? [String] {
-                self.reservedInstancesOfferingIds = reservedInstancesOfferingIds
-            }
+            self.reservedInstancesOfferingIds = dictionary["ReservedInstancesOfferingIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
             self.instanceType = dictionary["InstanceType"] as? String
@@ -2912,11 +2794,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the Spot instance request.
-        public var spotInstanceRequestId: String? = nil
+        public let spotInstanceRequestId: String?
         /// The state of the Spot instance request.
-        public var state: String? = nil
-
-        public init() {}
+        public let state: String?
 
         public init(spotInstanceRequestId: String? = nil, state: String? = nil) {
             self.spotInstanceRequestId = spotInstanceRequestId
@@ -2933,27 +2813,25 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more product codes. After you add a product code to an AMI, it can't be removed. This is only valid when modifying the productCodes attribute.
-        public var productCodes: [String]? = nil
+        public let productCodes: [String]?
         /// A description for the AMI.
-        public var description: AttributeValue? = nil
+        public let description: AttributeValue?
         /// One or more AWS account IDs. This is only valid when modifying the launchPermission attribute.
-        public var userIds: [String]? = nil
+        public let userIds: [String]?
         /// The ID of the AMI.
-        public var imageId: String = ""
+        public let imageId: String
         /// One or more user groups. This is only valid when modifying the launchPermission attribute.
-        public var userGroups: [String]? = nil
+        public let userGroups: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The name of the attribute to modify.
-        public var attribute: String? = nil
+        public let attribute: String?
         /// The value of the attribute being modified. This is only valid when modifying the description attribute.
-        public var value: String? = nil
+        public let value: String?
         /// A launch permission modification.
-        public var launchPermission: LaunchPermissionModifications? = nil
+        public let launchPermission: LaunchPermissionModifications?
         /// The operation type.
-        public var operationType: String? = nil
-
-        public init() {}
+        public let operationType: String?
 
         public init(productCodes: [String]? = nil, description: AttributeValue? = nil, userIds: [String]? = nil, imageId: String, userGroups: [String]? = nil, dryRun: Bool? = nil, attribute: String? = nil, value: String? = nil, launchPermission: LaunchPermissionModifications? = nil, operationType: String? = nil) {
             self.productCodes = productCodes
@@ -2969,22 +2847,16 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let productCodes = dictionary["ProductCodes"] as? [String] {
-                self.productCodes = productCodes
-            }
-            if let description = dictionary["Description"] as? [String: Any] { self.description = try Ec2.AttributeValue(dictionary: description) }
-            if let userIds = dictionary["UserIds"] as? [String] {
-                self.userIds = userIds
-            }
+            self.productCodes = dictionary["ProductCodes"] as? [String]
+            if let description = dictionary["Description"] as? [String: Any] { self.description = try Ec2.AttributeValue(dictionary: description) } else { self.description = nil }
+            self.userIds = dictionary["UserIds"] as? [String]
             guard let imageId = dictionary["ImageId"] as? String else { throw InitializableError.missingRequiredParam("ImageId") }
             self.imageId = imageId
-            if let userGroups = dictionary["UserGroups"] as? [String] {
-                self.userGroups = userGroups
-            }
+            self.userGroups = dictionary["UserGroups"] as? [String]
             self.dryRun = dictionary["DryRun"] as? Bool
             self.attribute = dictionary["Attribute"] as? String
             self.value = dictionary["Value"] as? String
-            if let launchPermission = dictionary["LaunchPermission"] as? [String: Any] { self.launchPermission = try Ec2.LaunchPermissionModifications(dictionary: launchPermission) }
+            if let launchPermission = dictionary["LaunchPermission"] as? [String: Any] { self.launchPermission = try Ec2.LaunchPermissionModifications(dictionary: launchPermission) } else { self.launchPermission = nil }
             self.operationType = dictionary["OperationType"] as? String
         }
     }
@@ -2993,13 +2865,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the state of the CIDR block.
-        public var ipv6CidrBlockState: SubnetCidrBlockState? = nil
+        public let ipv6CidrBlockState: SubnetCidrBlockState?
         /// The IPv6 CIDR block.
-        public var ipv6CidrBlock: String? = nil
+        public let ipv6CidrBlock: String?
         /// The association ID for the CIDR block.
-        public var associationId: String? = nil
-
-        public init() {}
+        public let associationId: String?
 
         public init(ipv6CidrBlockState: SubnetCidrBlockState? = nil, ipv6CidrBlock: String? = nil, associationId: String? = nil) {
             self.ipv6CidrBlockState = ipv6CidrBlockState
@@ -3008,7 +2878,7 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let ipv6CidrBlockState = dictionary["Ipv6CidrBlockState"] as? [String: Any] { self.ipv6CidrBlockState = try Ec2.SubnetCidrBlockState(dictionary: ipv6CidrBlockState) }
+            if let ipv6CidrBlockState = dictionary["Ipv6CidrBlockState"] as? [String: Any] { self.ipv6CidrBlockState = try Ec2.SubnetCidrBlockState(dictionary: ipv6CidrBlockState) } else { self.ipv6CidrBlockState = nil }
             self.ipv6CidrBlock = dictionary["Ipv6CidrBlock"] as? String
             self.associationId = dictionary["AssociationId"] as? String
         }
@@ -3018,16 +2888,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A set of DHCP options.
-        public var dhcpOptions: DhcpOptions? = nil
-
-        public init() {}
+        public let dhcpOptions: DhcpOptions?
 
         public init(dhcpOptions: DhcpOptions? = nil) {
             self.dhcpOptions = dhcpOptions
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dhcpOptions = dictionary["DhcpOptions"] as? [String: Any] { self.dhcpOptions = try Ec2.DhcpOptions(dictionary: dhcpOptions) }
+            if let dhcpOptions = dictionary["DhcpOptions"] as? [String: Any] { self.dhcpOptions = try Ec2.DhcpOptions(dictionary: dhcpOptions) } else { self.dhcpOptions = nil }
         }
     }
 
@@ -3035,13 +2903,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The public DNS name.
-        public var publicDnsName: String? = nil
+        public let publicDnsName: String?
         /// The ID of the owner of the Elastic IP address.
-        public var ipOwnerId: String? = nil
+        public let ipOwnerId: String?
         /// The public IP address or Elastic IP address bound to the network interface.
-        public var publicIp: String? = nil
-
-        public init() {}
+        public let publicIp: String?
 
         public init(publicDnsName: String? = nil, ipOwnerId: String? = nil, publicIp: String? = nil) {
             self.publicDnsName = publicDnsName
@@ -3060,15 +2926,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time stamp when the attachment initiated.
-        public var attachTime: Date? = nil
+        public let attachTime: Date?
         /// Indicates whether the volume is deleted on instance termination.
-        public var deleteOnTermination: Bool? = nil
+        public let deleteOnTermination: Bool?
         /// The attachment state.
-        public var status: String? = nil
+        public let status: String?
         /// The ID of the EBS volume.
-        public var volumeId: String? = nil
-
-        public init() {}
+        public let volumeId: String?
 
         public init(attachTime: Date? = nil, deleteOnTermination: Bool? = nil, status: String? = nil, volumeId: String? = nil) {
             self.attachTime = attachTime
@@ -3089,13 +2953,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The reason for canceling the task.
-        public var cancelReason: String? = nil
+        public let cancelReason: String?
         /// The ID of the import image or import snapshot task to be canceled.
-        public var importTaskId: String? = nil
-
-        public init() {}
+        public let importTaskId: String?
 
         public init(dryRun: Bool? = nil, cancelReason: String? = nil, importTaskId: String? = nil) {
             self.dryRun = dryRun
@@ -3114,11 +2976,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the Convertible Reserved Instance that you are exchanging.
-        public var reservedInstanceId: String? = nil
+        public let reservedInstanceId: String?
         /// The total value of the Convertible Reserved Instance that you are exchanging.
-        public var reservationValue: ReservationValue? = nil
-
-        public init() {}
+        public let reservationValue: ReservationValue?
 
         public init(reservedInstanceId: String? = nil, reservationValue: ReservationValue? = nil) {
             self.reservedInstanceId = reservedInstanceId
@@ -3127,7 +2987,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.reservedInstanceId = dictionary["ReservedInstanceId"] as? String
-            if let reservationValue = dictionary["ReservationValue"] as? [String: Any] { self.reservationValue = try Ec2.ReservationValue(dictionary: reservationValue) }
+            if let reservationValue = dictionary["ReservationValue"] as? [String: Any] { self.reservationValue = try Ec2.ReservationValue(dictionary: reservationValue) } else { self.reservationValue = nil }
         }
     }
 
@@ -3135,13 +2995,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the flow logs.
-        public var flowLogIds: [String]? = nil
+        public let flowLogIds: [String]?
         /// Information about the flow logs that could not be created successfully.
-        public var unsuccessful: [UnsuccessfulItem]? = nil
+        public let unsuccessful: [UnsuccessfulItem]?
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request.
-        public var clientToken: String? = nil
-
-        public init() {}
+        public let clientToken: String?
 
         public init(flowLogIds: [String]? = nil, unsuccessful: [UnsuccessfulItem]? = nil, clientToken: String? = nil) {
             self.flowLogIds = flowLogIds
@@ -3150,11 +3008,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let flowLogIds = dictionary["FlowLogIds"] as? [String] {
-                self.flowLogIds = flowLogIds
-            }
+            self.flowLogIds = dictionary["FlowLogIds"] as? [String]
             if let unsuccessful = dictionary["Unsuccessful"] as? [[String: Any]] {
                 self.unsuccessful = try unsuccessful.map({ try UnsuccessfulItem(dictionary: $0) })
+            } else { 
+                self.unsuccessful = nil
             }
             self.clientToken = dictionary["ClientToken"] as? String
         }
@@ -3164,13 +3022,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// One or more instance IDs.
-        public var instanceIds: [String] = []
+        public let instanceIds: [String]
         /// Forces the instances to stop. The instances do not have an opportunity to flush file system caches or file system metadata. If you use this option, you must perform file system check and repair procedures. This option is not recommended for Windows instances. Default: false 
-        public var force: Bool? = nil
-
-        public init() {}
+        public let force: Bool?
 
         public init(dryRun: Bool? = nil, instanceIds: [String], force: Bool? = nil) {
             self.dryRun = dryRun
@@ -3190,15 +3046,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the Availability Zone.
-        public var zoneName: String? = nil
+        public let zoneName: String?
         /// The state of the Availability Zone.
-        public var state: String? = nil
+        public let state: String?
         /// Any messages about the Availability Zone.
-        public var messages: [AvailabilityZoneMessage]? = nil
+        public let messages: [AvailabilityZoneMessage]?
         /// The name of the region.
-        public var regionName: String? = nil
-
-        public init() {}
+        public let regionName: String?
 
         public init(zoneName: String? = nil, state: String? = nil, messages: [AvailabilityZoneMessage]? = nil, regionName: String? = nil) {
             self.zoneName = zoneName
@@ -3212,6 +3066,8 @@ extension Ec2 {
             self.state = dictionary["State"] as? String
             if let messages = dictionary["Messages"] as? [[String: Any]] {
                 self.messages = try messages.map({ try AvailabilityZoneMessage(dictionary: $0) })
+            } else { 
+                self.messages = nil
             }
             self.regionName = dictionary["RegionName"] as? String
         }
@@ -3221,11 +3077,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the volume status.
-        public var name: String? = nil
+        public let name: String?
         /// The intended status of the volume status.
-        public var status: String? = nil
-
-        public init() {}
+        public let status: String?
 
         public init(name: String? = nil, status: String? = nil) {
             self.name = name
@@ -3242,16 +3096,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the IAM instance profile association.
-        public var iamInstanceProfileAssociation: IamInstanceProfileAssociation? = nil
-
-        public init() {}
+        public let iamInstanceProfileAssociation: IamInstanceProfileAssociation?
 
         public init(iamInstanceProfileAssociation: IamInstanceProfileAssociation? = nil) {
             self.iamInstanceProfileAssociation = iamInstanceProfileAssociation
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let iamInstanceProfileAssociation = dictionary["IamInstanceProfileAssociation"] as? [String: Any] { self.iamInstanceProfileAssociation = try Ec2.IamInstanceProfileAssociation(dictionary: iamInstanceProfileAssociation) }
+            if let iamInstanceProfileAssociation = dictionary["IamInstanceProfileAssociation"] as? [String: Any] { self.iamInstanceProfileAssociation = try Ec2.IamInstanceProfileAssociation(dictionary: iamInstanceProfileAssociation) } else { self.iamInstanceProfileAssociation = nil }
         }
     }
 
@@ -3259,13 +3111,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token to retrieve the next page of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// One or more filters.    client-token - The idempotency token for the modification request.    create-date - The time when the modification request was created.    effective-date - The time when the modification becomes effective.    modification-result.reserved-instances-id - The ID for the Reserved Instances created as part of the modification request. This ID is only available when the status of the modification is fulfilled.    modification-result.target-configuration.availability-zone - The Availability Zone for the new Reserved Instances.    modification-result.target-configuration.instance-count  - The number of new Reserved Instances.    modification-result.target-configuration.instance-type - The instance type of the new Reserved Instances.    modification-result.target-configuration.platform - The network platform of the new Reserved Instances (EC2-Classic | EC2-VPC).    reserved-instances-id - The ID of the Reserved Instances modified.    reserved-instances-modification-id - The ID of the modification request.    status - The status of the Reserved Instances modification request (processing | fulfilled | failed).    status-message - The reason for the status.    update-date - The time when the modification request was last updated.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// IDs for the submitted modification request.
-        public var reservedInstancesModificationIds: [String]? = nil
-
-        public init() {}
+        public let reservedInstancesModificationIds: [String]?
 
         public init(nextToken: String? = nil, filters: [Filter]? = nil, reservedInstancesModificationIds: [String]? = nil) {
             self.nextToken = nextToken
@@ -3277,10 +3127,10 @@ extension Ec2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
-            if let reservedInstancesModificationIds = dictionary["ReservedInstancesModificationIds"] as? [String] {
-                self.reservedInstancesModificationIds = reservedInstancesModificationIds
-            }
+            self.reservedInstancesModificationIds = dictionary["ReservedInstancesModificationIds"] as? [String]
         }
     }
 
@@ -3288,11 +3138,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The reason code for the Spot instance state change.
-        public var code: String? = nil
+        public let code: String?
         /// The message for the Spot instance state change.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
@@ -3309,9 +3157,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more images.
-        public var images: [Image]? = nil
-
-        public init() {}
+        public let images: [Image]?
 
         public init(images: [Image]? = nil) {
             self.images = images
@@ -3320,6 +3166,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let images = dictionary["Images"] as? [[String: Any]] {
                 self.images = try images.map({ try Image(dictionary: $0) })
+            } else { 
+                self.images = nil
             }
         }
     }
@@ -3328,11 +3176,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Availability Zone.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The name of the placement group.
-        public var groupName: String? = nil
-
-        public init() {}
+        public let groupName: String?
 
         public init(availabilityZone: String? = nil, groupName: String? = nil) {
             self.availabilityZone = availabilityZone
@@ -3349,13 +3195,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current state of the Spot fleet request.
-        public var currentSpotFleetRequestState: String = ""
+        public let currentSpotFleetRequestState: String
         /// The previous state of the Spot fleet request.
-        public var previousSpotFleetRequestState: String = ""
+        public let previousSpotFleetRequestState: String
         /// The ID of the Spot fleet request.
-        public var spotFleetRequestId: String = ""
-
-        public init() {}
+        public let spotFleetRequestId: String
 
         public init(currentSpotFleetRequestState: String, previousSpotFleetRequestState: String, spotFleetRequestId: String) {
             self.currentSpotFleetRequestState = currentSpotFleetRequestState
@@ -3377,27 +3221,25 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// [EC2-Classic] The AWS account number for the source security group, if the source security group is in a different account. You can't specify this parameter in combination with the following parameters: the CIDR IP address range, the IP protocol, the start of the port range, and the end of the port range. Creates rules that grant full ICMP, UDP, and TCP access. To create a rule with a specific IP protocol and port range, use a set of IP permissions instead.
-        public var sourceSecurityGroupOwnerId: String? = nil
+        public let sourceSecurityGroupOwnerId: String?
         /// [EC2-Classic, default VPC] The name of the security group.
-        public var groupName: String? = nil
+        public let groupName: String?
         /// A set of IP permissions. Can be used to specify multiple rules in a single command.
-        public var ipPermissions: [IpPermission]? = nil
+        public let ipPermissions: [IpPermission]?
         /// The CIDR IPv4 address range. You can't specify this parameter when specifying a source security group.
-        public var cidrIp: String? = nil
+        public let cidrIp: String?
         /// [EC2-Classic, default VPC] The name of the source security group. You can't specify this parameter in combination with the following parameters: the CIDR IP address range, the start of the port range, the IP protocol, and the end of the port range. Creates rules that grant full ICMP, UDP, and TCP access. To create a rule with a specific IP protocol and port range, use a set of IP permissions instead. For EC2-VPC, the source security group must be in the same VPC.
-        public var sourceSecurityGroupName: String? = nil
+        public let sourceSecurityGroupName: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The end of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code number. For the ICMP/ICMPv6 code number, use -1 to specify all codes.
-        public var toPort: Int32? = nil
+        public let toPort: Int32?
         /// The start of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type number. For the ICMP/ICMPv6 type number, use -1 to specify all types.
-        public var fromPort: Int32? = nil
+        public let fromPort: Int32?
         /// The IP protocol name (tcp, udp, icmp) or number (see Protocol Numbers). (VPC only) Use -1 to specify all protocols. If you specify -1, or a protocol number other than tcp, udp, icmp, or 58 (ICMPv6), traffic on all ports is allowed, regardless of any ports you specify. For tcp, udp, and icmp, you must specify a port range. For protocol 58 (ICMPv6), you can optionally specify a port range; if you don't, traffic for all types and codes is allowed.
-        public var ipProtocol: String? = nil
+        public let ipProtocol: String?
         /// The ID of the security group. Required for a nondefault VPC.
-        public var groupId: String? = nil
-
-        public init() {}
+        public let groupId: String?
 
         public init(sourceSecurityGroupOwnerId: String? = nil, groupName: String? = nil, ipPermissions: [IpPermission]? = nil, cidrIp: String? = nil, sourceSecurityGroupName: String? = nil, dryRun: Bool? = nil, toPort: Int32? = nil, fromPort: Int32? = nil, ipProtocol: String? = nil, groupId: String? = nil) {
             self.sourceSecurityGroupOwnerId = sourceSecurityGroupOwnerId
@@ -3417,6 +3259,8 @@ extension Ec2 {
             self.groupName = dictionary["GroupName"] as? String
             if let ipPermissions = dictionary["IpPermissions"] as? [[String: Any]] {
                 self.ipPermissions = try ipPermissions.map({ try IpPermission(dictionary: $0) })
+            } else { 
+                self.ipPermissions = nil
             }
             self.cidrIp = dictionary["CidrIp"] as? String
             self.sourceSecurityGroupName = dictionary["SourceSecurityGroupName"] as? String
@@ -3432,11 +3276,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The first port in the range.
-        public var from: Int32? = nil
+        public let from: Int32?
         /// The last port in the range.
-        public var to: Int32? = nil
-
-        public init() {}
+        public let to: Int32?
 
         public init(from: Int32? = nil, to: Int32? = nil) {
             self.from = from
@@ -3453,11 +3295,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current state of the instance.
-        public var name: String? = nil
+        public let name: String?
         /// The low byte represents the state. The high byte is an opaque internal value and should be ignored.    0 : pending     16 : running     32 : shutting-down     48 : terminated     64 : stopping     80 : stopped   
-        public var code: Int32? = nil
-
-        public init() {}
+        public let code: Int32?
 
         public init(name: String? = nil, code: Int32? = nil) {
             self.name = name
@@ -3474,15 +3314,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The private IPv4 address of the network interface.
-        public var privateIpAddress: String? = nil
+        public let privateIpAddress: String?
         /// The private IPv4 DNS name.
-        public var privateDnsName: String? = nil
+        public let privateDnsName: String?
         /// Indicates whether this IPv4 address is the primary private IP address of the network interface.
-        public var primary: Bool? = nil
+        public let primary: Bool?
         /// The association information for an Elastic IP address for the network interface.
-        public var association: InstanceNetworkInterfaceAssociation? = nil
-
-        public init() {}
+        public let association: InstanceNetworkInterfaceAssociation?
 
         public init(privateIpAddress: String? = nil, privateDnsName: String? = nil, primary: Bool? = nil, association: InstanceNetworkInterfaceAssociation? = nil) {
             self.privateIpAddress = privateIpAddress
@@ -3495,7 +3333,7 @@ extension Ec2 {
             self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
             self.privateDnsName = dictionary["PrivateDnsName"] as? String
             self.primary = dictionary["Primary"] as? Bool
-            if let association = dictionary["Association"] as? [String: Any] { self.association = try Ec2.InstanceNetworkInterfaceAssociation(dictionary: association) }
+            if let association = dictionary["Association"] as? [String: Any] { self.association = try Ec2.InstanceNetworkInterfaceAssociation(dictionary: association) } else { self.association = nil }
         }
     }
 
@@ -3503,15 +3341,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of sockets on the Dedicated Host.
-        public var sockets: Int32? = nil
+        public let sockets: Int32?
         /// The instance type size that the Dedicated Host supports (for example, m3.medium).
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The number of vCPUs on the Dedicated Host.
-        public var totalVCpus: Int32? = nil
+        public let totalVCpus: Int32?
         /// The number of cores on the Dedicated Host.
-        public var cores: Int32? = nil
-
-        public init() {}
+        public let cores: Int32?
 
         public init(sockets: Int32? = nil, instanceType: String? = nil, totalVCpus: Int32? = nil, cores: Int32? = nil) {
             self.sockets = sockets
@@ -3532,11 +3368,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the network interface.
-        public var networkInterfaceId: String = ""
+        public let networkInterfaceId: String
         /// The secondary private IP addresses to unassign from the network interface. You can specify this option multiple times to unassign more than one IP address.
-        public var privateIpAddresses: [String] = []
-
-        public init() {}
+        public let privateIpAddresses: [String]
 
         public init(networkInterfaceId: String, privateIpAddresses: [String]) {
             self.networkInterfaceId = networkInterfaceId
@@ -3555,13 +3389,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC with the referencing security group.
-        public var referencingVpcId: String = ""
+        public let referencingVpcId: String
         /// The ID of your security group.
-        public var groupId: String = ""
+        public let groupId: String
         /// The ID of the VPC peering connection.
-        public var vpcPeeringConnectionId: String? = nil
-
-        public init() {}
+        public let vpcPeeringConnectionId: String?
 
         public init(referencingVpcId: String, groupId: String, vpcPeeringConnectionId: String? = nil) {
             self.referencingVpcId = referencingVpcId
@@ -3582,15 +3414,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current price schedule, as determined by the term remaining for the Reserved Instance in the listing. A specific price schedule is always in effect, but only one price schedule can be active at any time. Take, for example, a Reserved Instance listing that has five months remaining in its term. When you specify price schedules for five months and two months, this means that schedule 1, covering the first three months of the remaining term, will be active during months 5, 4, and 3. Then schedule 2, covering the last two months of the term, will be active for months 2 and 1.
-        public var active: Bool? = nil
+        public let active: Bool?
         /// The currency for transacting the Reserved Instance resale. At this time, the only supported currency is USD.
-        public var currencyCode: String? = nil
+        public let currencyCode: String?
         /// The number of months remaining in the reservation. For example, 2 is the second to the last month before the capacity reservation expires.
-        public var term: Int64? = nil
+        public let term: Int64?
         /// The fixed price for the term.
-        public var price: Double? = nil
-
-        public init() {}
+        public let price: Double?
 
         public init(active: Bool? = nil, currencyCode: String? = nil, term: Int64? = nil, price: Double? = nil) {
             self.active = active
@@ -3611,17 +3441,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more prefix list IDs.
-        public var prefixListIds: [String]? = nil
+        public let prefixListIds: [String]?
         /// One or more filters.    prefix-list-id: The ID of a prefix list.    prefix-list-name: The name of a prefix list.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The token for the next set of items to return. (You received this token from a prior call.)
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of items to return for this request. The request returns a token that you can specify in a subsequent call to get the next set of results. Constraint: If the value specified is greater than 1000, we return only 1000 items.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(prefixListIds: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.prefixListIds = prefixListIds
@@ -3632,11 +3460,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let prefixListIds = dictionary["PrefixListIds"] as? [String] {
-                self.prefixListIds = prefixListIds
-            }
+            self.prefixListIds = dictionary["PrefixListIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
             self.nextToken = dictionary["NextToken"] as? String
@@ -3648,13 +3476,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the disk image.
-        public var image: DiskImageDetail? = nil
+        public let image: DiskImageDetail?
         /// Information about the volume.
-        public var volume: VolumeDetail? = nil
+        public let volume: VolumeDetail?
         /// A description of the disk image.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(image: DiskImageDetail? = nil, volume: VolumeDetail? = nil, description: String? = nil) {
             self.image = image
@@ -3663,8 +3489,8 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let image = dictionary["Image"] as? [String: Any] { self.image = try Ec2.DiskImageDetail(dictionary: image) }
-            if let volume = dictionary["Volume"] as? [String: Any] { self.volume = try Ec2.VolumeDetail(dictionary: volume) }
+            if let image = dictionary["Image"] as? [String: Any] { self.image = try Ec2.DiskImageDetail(dictionary: image) } else { self.image = nil }
+            if let volume = dictionary["Volume"] as? [String: Any] { self.volume = try Ec2.VolumeDetail(dictionary: volume) } else { self.volume = nil }
             self.description = dictionary["Description"] as? String
         }
     }
@@ -3673,13 +3499,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more route table IDs. Default: Describes all your route tables.
-        public var routeTableIds: [String]? = nil
+        public let routeTableIds: [String]?
         /// One or more filters.    association.route-table-association-id - The ID of an association ID for the route table.    association.route-table-id - The ID of the route table involved in the association.    association.subnet-id - The ID of the subnet involved in the association.    association.main - Indicates whether the route table is the main route table for the VPC (true | false).    route-table-id - The ID of the route table.    route.destination-cidr-block - The IPv4 CIDR range specified in a route in the table.    route.destination-ipv6-cidr-block - The IPv6 CIDR range specified in a route in the route table.    route.destination-prefix-list-id - The ID (prefix) of the AWS service specified in a route in the table.    route.egress-only-internet-gateway-id - The ID of an egress-only Internet gateway specified in a route in the route table.    route.gateway-id - The ID of a gateway specified in a route in the table.    route.instance-id - The ID of an instance specified in a route in the table.    route.nat-gateway-id - The ID of a NAT gateway.    route.origin - Describes how the route was created. CreateRouteTable indicates that the route was automatically created when the route table was created; CreateRoute indicates that the route was manually added to the route table; EnableVgwRoutePropagation indicates that the route was propagated by route propagation.    route.state - The state of a route in the route table (active | blackhole). The blackhole state indicates that the route's target isn't available (for example, the specified gateway isn't attached to the VPC, the specified NAT instance has been terminated, and so on).    route.vpc-peering-connection-id - The ID of a VPC peering connection specified in a route in the table.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-id - The ID of the VPC for the route table.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(routeTableIds: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil) {
             self.routeTableIds = routeTableIds
@@ -3688,11 +3512,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let routeTableIds = dictionary["RouteTableIds"] as? [String] {
-                self.routeTableIds = routeTableIds
-            }
+            self.routeTableIds = dictionary["RouteTableIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
         }
@@ -3702,9 +3526,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more Internet gateways.
-        public var internetGateways: [InternetGateway]? = nil
-
-        public init() {}
+        public let internetGateways: [InternetGateway]?
 
         public init(internetGateways: [InternetGateway]? = nil) {
             self.internetGateways = internetGateways
@@ -3713,6 +3535,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let internetGateways = dictionary["InternetGateways"] as? [[String: Any]] {
                 self.internetGateways = try internetGateways.map({ try InternetGateway(dictionary: $0) })
+            } else { 
+                self.internetGateways = nil
             }
         }
     }
@@ -3721,17 +3545,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time stamp when the attachment initiated.
-        public var attachTime: Date? = nil
+        public let attachTime: Date?
         /// Indicates whether the network interface is deleted when the instance is terminated.
-        public var deleteOnTermination: Bool? = nil
+        public let deleteOnTermination: Bool?
         /// The index of the device on the instance for the network interface attachment.
-        public var deviceIndex: Int32? = nil
+        public let deviceIndex: Int32?
         /// The ID of the network interface attachment.
-        public var attachmentId: String? = nil
+        public let attachmentId: String?
         /// The attachment state.
-        public var status: String? = nil
-
-        public init() {}
+        public let status: String?
 
         public init(attachTime: Date? = nil, deleteOnTermination: Bool? = nil, deviceIndex: Int32? = nil, attachmentId: String? = nil, status: String? = nil) {
             self.attachTime = attachTime
@@ -3754,9 +3576,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The association ID for the CIDR block.
-        public var associationId: String = ""
-
-        public init() {}
+        public let associationId: String
 
         public init(associationId: String) {
             self.associationId = associationId
@@ -3772,13 +3592,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// One or more filters.    accepter-vpc-info.cidr-block - The IPv4 CIDR block of the peer VPC.    accepter-vpc-info.owner-id - The AWS account ID of the owner of the peer VPC.    accepter-vpc-info.vpc-id - The ID of the peer VPC.    expiration-time - The expiration date and time for the VPC peering connection.    requester-vpc-info.cidr-block - The IPv4 CIDR block of the requester's VPC.    requester-vpc-info.owner-id - The AWS account ID of the owner of the requester VPC.    requester-vpc-info.vpc-id - The ID of the requester VPC.    status-code - The status of the VPC peering connection (pending-acceptance | failed | expired | provisioning | active | deleted | rejected).    status-message - A message that provides more information about the status of the VPC peering connection, if applicable.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-peering-connection-id - The ID of the VPC peering connection.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// One or more VPC peering connection IDs. Default: Describes all your VPC peering connections.
-        public var vpcPeeringConnectionIds: [String]? = nil
-
-        public init() {}
+        public let vpcPeeringConnectionIds: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, vpcPeeringConnectionIds: [String]? = nil) {
             self.dryRun = dryRun
@@ -3790,10 +3608,10 @@ extension Ec2 {
             self.dryRun = dictionary["DryRun"] as? Bool
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
-            if let vpcPeeringConnectionIds = dictionary["VpcPeeringConnectionIds"] as? [String] {
-                self.vpcPeeringConnectionIds = vpcPeeringConnectionIds
-            }
+            self.vpcPeeringConnectionIds = dictionary["VpcPeeringConnectionIds"] as? [String]
         }
     }
 
@@ -3801,13 +3619,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC to which the instance is linked.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// The ID of the instance to unlink from the VPC.
-        public var instanceId: String = ""
+        public let instanceId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(vpcId: String, instanceId: String, dryRun: Bool? = nil) {
             self.vpcId = vpcId
@@ -3828,13 +3644,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The hourly rate of the reservation.
-        public var hourlyPrice: String? = nil
+        public let hourlyPrice: String?
         /// The balance of the total value (the sum of remainingUpfrontValue + hourlyPrice * number of hours remaining).
-        public var remainingTotalValue: String? = nil
+        public let remainingTotalValue: String?
         /// The remaining upfront cost of the reservation.
-        public var remainingUpfrontValue: String? = nil
-
-        public init() {}
+        public let remainingUpfrontValue: String?
 
         public init(hourlyPrice: String? = nil, remainingTotalValue: String? = nil, remainingUpfrontValue: String? = nil) {
             self.hourlyPrice = hourlyPrice
@@ -3853,9 +3667,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
-        public var `return`: Bool? = nil
-
-        public init() {}
+        public let `return`: Bool?
 
         public init(return: Bool? = nil) {
             self.`return` = `return`
@@ -3870,17 +3682,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that Amazon EC2 creates on your behalf. If you specify a bucket that belongs to someone else, Amazon EC2 returns an error.
-        public var bucket: String? = nil
+        public let bucket: String?
         /// The access key ID of the owner of the bucket. Before you specify a value for your access key ID, review and follow the guidance in Best Practices for Managing AWS Access Keys.
-        public var aWSAccessKeyId: String? = nil
+        public let aWSAccessKeyId: String?
         /// The signature of the JSON document.
-        public var uploadPolicySignature: String? = nil
+        public let uploadPolicySignature: String?
         /// The beginning of the file name of the AMI.
-        public var prefix: String? = nil
+        public let prefix: String?
         /// An Amazon S3 upload policy that gives Amazon EC2 permission to upload items into Amazon S3 on your behalf.
-        public var uploadPolicy: Data? = nil
-
-        public init() {}
+        public let uploadPolicy: Data?
 
         public init(bucket: String? = nil, aWSAccessKeyId: String? = nil, uploadPolicySignature: String? = nil, prefix: String? = nil, uploadPolicy: Data? = nil) {
             self.bucket = bucket
@@ -3903,11 +3713,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Zero or more reservations.
-        public var reservations: [Reservation]? = nil
-
-        public init() {}
+        public let reservations: [Reservation]?
 
         public init(nextToken: String? = nil, reservations: [Reservation]? = nil) {
             self.nextToken = nextToken
@@ -3918,6 +3726,8 @@ extension Ec2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let reservations = dictionary["Reservations"] as? [[String: Any]] {
                 self.reservations = try reservations.map({ try Reservation(dictionary: $0) })
+            } else { 
+                self.reservations = nil
             }
         }
     }
@@ -3926,13 +3736,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more Reserved Instance IDs.
-        public var reservedInstancesId: String? = nil
+        public let reservedInstancesId: String?
         /// One or more Reserved Instance listing IDs.
-        public var reservedInstancesListingId: String? = nil
+        public let reservedInstancesListingId: String?
         /// One or more filters.    reserved-instances-id - The ID of the Reserved Instances.    reserved-instances-listing-id - The ID of the Reserved Instances listing.    status - The status of the Reserved Instance listing (pending | active | cancelled | closed).    status-message - The reason for the status.  
-        public var filters: [Filter]? = nil
-
-        public init() {}
+        public let filters: [Filter]?
 
         public init(reservedInstancesId: String? = nil, reservedInstancesListingId: String? = nil, filters: [Filter]? = nil) {
             self.reservedInstancesId = reservedInstancesId
@@ -3945,6 +3753,8 @@ extension Ec2 {
             self.reservedInstancesListingId = dictionary["ReservedInstancesListingId"] as? String
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
         }
     }
@@ -3953,11 +3763,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the bundle task.
-        public var bundleId: String = ""
+        public let bundleId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(bundleId: String, dryRun: Bool? = nil) {
             self.bundleId = bundleId
@@ -3975,11 +3783,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the customer gateway.
-        public var customerGatewayId: String = ""
+        public let customerGatewayId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(customerGatewayId: String, dryRun: Bool? = nil) {
             self.customerGatewayId = customerGatewayId
@@ -3997,11 +3803,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the Dedicated Hosts.
-        public var hosts: [Host]? = nil
+        public let hosts: [Host]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(hosts: [Host]? = nil, nextToken: String? = nil) {
             self.hosts = hosts
@@ -4011,6 +3815,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let hosts = dictionary["Hosts"] as? [[String: Any]] {
                 self.hosts = try hosts.map({ try Host(dictionary: $0) })
+            } else { 
+                self.hosts = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -4020,17 +3826,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Describes the details of the purchase.
-        public var purchase: [Purchase]? = nil
+        public let purchase: [Purchase]?
         /// The total amount that will be charged to your account when you purchase the reservation.
-        public var totalUpfrontPrice: String? = nil
+        public let totalUpfrontPrice: String?
         /// The currency in which the totalUpfrontPrice and totalHourlyPrice amounts are specified. At this time, the only supported currency is USD.
-        public var currencyCode: String? = nil
+        public let currencyCode: String?
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see How to Ensure Idempotency in the Amazon Elastic Compute Cloud User Guide 
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// The total hourly price of the reservation calculated per hour.
-        public var totalHourlyPrice: String? = nil
-
-        public init() {}
+        public let totalHourlyPrice: String?
 
         public init(purchase: [Purchase]? = nil, totalUpfrontPrice: String? = nil, currencyCode: String? = nil, clientToken: String? = nil, totalHourlyPrice: String? = nil) {
             self.purchase = purchase
@@ -4043,6 +3847,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let purchase = dictionary["Purchase"] as? [[String: Any]] {
                 self.purchase = try purchase.map({ try Purchase(dictionary: $0) })
+            } else { 
+                self.purchase = nil
             }
             self.totalUpfrontPrice = dictionary["TotalUpfrontPrice"] as? String
             self.currencyCode = dictionary["CurrencyCode"] as? String
@@ -4055,9 +3861,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
-        public var returnCode: Bool? = nil
-
-        public init() {}
+        public let returnCode: Bool?
 
         public init(returnCode: Bool? = nil) {
             self.returnCode = returnCode
@@ -4072,11 +3876,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the volume.
-        public var volumeId: String = ""
+        public let volumeId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(volumeId: String, dryRun: Bool? = nil) {
             self.volumeId = volumeId
@@ -4094,11 +3896,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the Convertible Reserved Instance offering.
-        public var offeringId: String? = nil
+        public let offeringId: String?
         /// The number of instances the Convertible Reserved Instance offering can be applied to. This parameter is reserved and cannot be specified in a request
-        public var instanceCount: Int32? = nil
-
-        public init() {}
+        public let instanceCount: Int32?
 
         public init(offeringId: String? = nil, instanceCount: Int32? = nil) {
             self.offeringId = offeringId
@@ -4115,16 +3915,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the customer gateway.
-        public var customerGateway: CustomerGateway? = nil
-
-        public init() {}
+        public let customerGateway: CustomerGateway?
 
         public init(customerGateway: CustomerGateway? = nil) {
             self.customerGateway = customerGateway
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let customerGateway = dictionary["CustomerGateway"] as? [String: Any] { self.customerGateway = try Ec2.CustomerGateway(dictionary: customerGateway) }
+            if let customerGateway = dictionary["CustomerGateway"] as? [String: Any] { self.customerGateway = try Ec2.CustomerGateway(dictionary: customerGateway) } else { self.customerGateway = nil }
         }
     }
 
@@ -4132,9 +3930,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more bundle tasks.
-        public var bundleTasks: [BundleTask]? = nil
-
-        public init() {}
+        public let bundleTasks: [BundleTask]?
 
         public init(bundleTasks: [BundleTask]? = nil) {
             self.bundleTasks = bundleTasks
@@ -4143,6 +3939,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let bundleTasks = dictionary["BundleTasks"] as? [[String: Any]] {
                 self.bundleTasks = try bundleTasks.map({ try BundleTask(dictionary: $0) })
+            } else { 
+                self.bundleTasks = nil
             }
         }
     }
@@ -4151,25 +3949,23 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The new end date of the reservation term.
-        public var outputReservedInstancesWillExpireAt: Date? = nil
+        public let outputReservedInstancesWillExpireAt: Date?
         /// The cost associated with the Reserved Instance.
-        public var targetConfigurationValueRollup: ReservationValue? = nil
+        public let targetConfigurationValueRollup: ReservationValue?
         /// If true, the exchange is valid. If false, the exchange cannot be completed.
-        public var isValidExchange: Bool? = nil
+        public let isValidExchange: Bool?
         /// The cost associated with the Reserved Instance.
-        public var reservedInstanceValueRollup: ReservationValue? = nil
+        public let reservedInstanceValueRollup: ReservationValue?
         /// The configuration of your Convertible Reserved Instances.
-        public var reservedInstanceValueSet: [ReservedInstanceReservationValue]? = nil
+        public let reservedInstanceValueSet: [ReservedInstanceReservationValue]?
         /// The total true upfront charge for the exchange.
-        public var paymentDue: String? = nil
+        public let paymentDue: String?
         /// The currency of the transaction.
-        public var currencyCode: String? = nil
+        public let currencyCode: String?
         /// The values of the target Convertible Reserved Instances.
-        public var targetConfigurationValueSet: [TargetReservationValue]? = nil
+        public let targetConfigurationValueSet: [TargetReservationValue]?
         /// Describes the reason why the exchange cannot be completed.
-        public var validationFailureReason: String? = nil
-
-        public init() {}
+        public let validationFailureReason: String?
 
         public init(outputReservedInstancesWillExpireAt: Date? = nil, targetConfigurationValueRollup: ReservationValue? = nil, isValidExchange: Bool? = nil, reservedInstanceValueRollup: ReservationValue? = nil, reservedInstanceValueSet: [ReservedInstanceReservationValue]? = nil, paymentDue: String? = nil, currencyCode: String? = nil, targetConfigurationValueSet: [TargetReservationValue]? = nil, validationFailureReason: String? = nil) {
             self.outputReservedInstancesWillExpireAt = outputReservedInstancesWillExpireAt
@@ -4185,16 +3981,20 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.outputReservedInstancesWillExpireAt = dictionary["OutputReservedInstancesWillExpireAt"] as? Date
-            if let targetConfigurationValueRollup = dictionary["TargetConfigurationValueRollup"] as? [String: Any] { self.targetConfigurationValueRollup = try Ec2.ReservationValue(dictionary: targetConfigurationValueRollup) }
+            if let targetConfigurationValueRollup = dictionary["TargetConfigurationValueRollup"] as? [String: Any] { self.targetConfigurationValueRollup = try Ec2.ReservationValue(dictionary: targetConfigurationValueRollup) } else { self.targetConfigurationValueRollup = nil }
             self.isValidExchange = dictionary["IsValidExchange"] as? Bool
-            if let reservedInstanceValueRollup = dictionary["ReservedInstanceValueRollup"] as? [String: Any] { self.reservedInstanceValueRollup = try Ec2.ReservationValue(dictionary: reservedInstanceValueRollup) }
+            if let reservedInstanceValueRollup = dictionary["ReservedInstanceValueRollup"] as? [String: Any] { self.reservedInstanceValueRollup = try Ec2.ReservationValue(dictionary: reservedInstanceValueRollup) } else { self.reservedInstanceValueRollup = nil }
             if let reservedInstanceValueSet = dictionary["ReservedInstanceValueSet"] as? [[String: Any]] {
                 self.reservedInstanceValueSet = try reservedInstanceValueSet.map({ try ReservedInstanceReservationValue(dictionary: $0) })
+            } else { 
+                self.reservedInstanceValueSet = nil
             }
             self.paymentDue = dictionary["PaymentDue"] as? String
             self.currencyCode = dictionary["CurrencyCode"] as? String
             if let targetConfigurationValueSet = dictionary["TargetConfigurationValueSet"] as? [[String: Any]] {
                 self.targetConfigurationValueSet = try targetConfigurationValueSet.map({ try TargetReservationValue(dictionary: $0) })
+            } else { 
+                self.targetConfigurationValueSet = nil
             }
             self.validationFailureReason = dictionary["ValidationFailureReason"] as? String
         }
@@ -4204,11 +4004,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the resource being exported.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The target virtualization environment.
-        public var targetEnvironment: String? = nil
-
-        public init() {}
+        public let targetEnvironment: String?
 
         public init(instanceId: String? = nil, targetEnvironment: String? = nil) {
             self.instanceId = instanceId
@@ -4225,19 +4023,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether this is the default network ACL for the VPC.
-        public var isDefault: Bool? = nil
+        public let isDefault: Bool?
         /// One or more entries (rules) in the network ACL.
-        public var entries: [NetworkAclEntry]? = nil
+        public let entries: [NetworkAclEntry]?
         /// The ID of the network ACL.
-        public var networkAclId: String? = nil
+        public let networkAclId: String?
         /// The ID of the VPC for the network ACL.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// Any tags assigned to the network ACL.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// Any associations between the network ACL and one or more subnets
-        public var associations: [NetworkAclAssociation]? = nil
-
-        public init() {}
+        public let associations: [NetworkAclAssociation]?
 
         public init(isDefault: Bool? = nil, entries: [NetworkAclEntry]? = nil, networkAclId: String? = nil, vpcId: String? = nil, tags: [Tag]? = nil, associations: [NetworkAclAssociation]? = nil) {
             self.isDefault = isDefault
@@ -4252,14 +4048,20 @@ extension Ec2 {
             self.isDefault = dictionary["IsDefault"] as? Bool
             if let entries = dictionary["Entries"] as? [[String: Any]] {
                 self.entries = try entries.map({ try NetworkAclEntry(dictionary: $0) })
+            } else { 
+                self.entries = nil
             }
             self.networkAclId = dictionary["NetworkAclId"] as? String
             self.vpcId = dictionary["VpcId"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             if let associations = dictionary["Associations"] as? [[String: Any]] {
                 self.associations = try associations.map({ try NetworkAclAssociation(dictionary: $0) })
+            } else { 
+                self.associations = nil
             }
         }
     }
@@ -4268,27 +4070,25 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// [EC2-Classic] The AWS account ID of the source security group, if the source security group is in a different account. You can't specify this parameter in combination with the following parameters: the CIDR IP address range, the IP protocol, the start of the port range, and the end of the port range. To revoke a specific rule for an IP protocol and port range, use a set of IP permissions instead.
-        public var sourceSecurityGroupOwnerId: String? = nil
+        public let sourceSecurityGroupOwnerId: String?
         /// [EC2-Classic, default VPC] The name of the security group.
-        public var groupName: String? = nil
+        public let groupName: String?
         /// A set of IP permissions. You can't specify a source security group and a CIDR IP address range.
-        public var ipPermissions: [IpPermission]? = nil
+        public let ipPermissions: [IpPermission]?
         /// The CIDR IP address range. You can't specify this parameter when specifying a source security group.
-        public var cidrIp: String? = nil
+        public let cidrIp: String?
         /// [EC2-Classic, default VPC] The name of the source security group. You can't specify this parameter in combination with the following parameters: the CIDR IP address range, the start of the port range, the IP protocol, and the end of the port range. For EC2-VPC, the source security group must be in the same VPC. To revoke a specific rule for an IP protocol and port range, use a set of IP permissions instead.
-        public var sourceSecurityGroupName: String? = nil
+        public let sourceSecurityGroupName: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The end of port range for the TCP and UDP protocols, or an ICMP code number. For the ICMP code number, use -1 to specify all ICMP codes for the ICMP type.
-        public var toPort: Int32? = nil
+        public let toPort: Int32?
         /// The start of port range for the TCP and UDP protocols, or an ICMP type number. For the ICMP type number, use -1 to specify all ICMP types.
-        public var fromPort: Int32? = nil
+        public let fromPort: Int32?
         /// The IP protocol name (tcp, udp, icmp) or number (see Protocol Numbers). Use -1 to specify all.
-        public var ipProtocol: String? = nil
+        public let ipProtocol: String?
         /// The ID of the security group. Required for a security group in a nondefault VPC.
-        public var groupId: String? = nil
-
-        public init() {}
+        public let groupId: String?
 
         public init(sourceSecurityGroupOwnerId: String? = nil, groupName: String? = nil, ipPermissions: [IpPermission]? = nil, cidrIp: String? = nil, sourceSecurityGroupName: String? = nil, dryRun: Bool? = nil, toPort: Int32? = nil, fromPort: Int32? = nil, ipProtocol: String? = nil, groupId: String? = nil) {
             self.sourceSecurityGroupOwnerId = sourceSecurityGroupOwnerId
@@ -4308,6 +4108,8 @@ extension Ec2 {
             self.groupName = dictionary["GroupName"] as? String
             if let ipPermissions = dictionary["IpPermissions"] as? [[String: Any]] {
                 self.ipPermissions = try ipPermissions.map({ try IpPermission(dictionary: $0) })
+            } else { 
+                self.ipPermissions = nil
             }
             self.cidrIp = dictionary["CidrIp"] as? String
             self.sourceSecurityGroupName = dictionary["SourceSecurityGroupName"] as? String
@@ -4323,9 +4125,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more key pairs.
-        public var keyPairs: [KeyPairInfo]? = nil
-
-        public init() {}
+        public let keyPairs: [KeyPairInfo]?
 
         public init(keyPairs: [KeyPairInfo]? = nil) {
             self.keyPairs = keyPairs
@@ -4334,6 +4134,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let keyPairs = dictionary["KeyPairs"] as? [[String: Any]] {
                 self.keyPairs = try keyPairs.map({ try KeyPairInfo(dictionary: $0) })
+            } else { 
+                self.keyPairs = nil
             }
         }
     }
@@ -4342,11 +4144,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether this is a primary IPv4 address. Otherwise, this is a secondary IPv4 address.
-        public var primary: Bool? = nil
+        public let primary: Bool?
         /// The IPv4 address.
-        public var privateIpAddress: String? = nil
-
-        public init() {}
+        public let privateIpAddress: String?
 
         public init(primary: Bool? = nil, privateIpAddress: String? = nil) {
             self.primary = primary
@@ -4363,9 +4163,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Reserved Instance listing.
-        public var reservedInstancesListings: [ReservedInstancesListing]? = nil
-
-        public init() {}
+        public let reservedInstancesListings: [ReservedInstancesListing]?
 
         public init(reservedInstancesListings: [ReservedInstancesListing]? = nil) {
             self.reservedInstancesListings = reservedInstancesListings
@@ -4374,6 +4172,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let reservedInstancesListings = dictionary["ReservedInstancesListings"] as? [[String: Any]] {
                 self.reservedInstancesListings = try reservedInstancesListings.map({ try ReservedInstancesListing(dictionary: $0) })
+            } else { 
+                self.reservedInstancesListings = nil
             }
         }
     }
@@ -4382,13 +4182,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the Convertible Reserved Instances to exchange for other Convertible Reserved Instances of the same or higher value.
-        public var reservedInstanceIds: [String] = []
+        public let reservedInstanceIds: [String]
         /// The configurations of the Convertible Reserved Instance offerings that you are purchasing in this exchange.
-        public var targetConfigurations: [TargetConfigurationRequest]? = nil
+        public let targetConfigurations: [TargetConfigurationRequest]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(reservedInstanceIds: [String], targetConfigurations: [TargetConfigurationRequest]? = nil, dryRun: Bool? = nil) {
             self.reservedInstanceIds = reservedInstanceIds
@@ -4401,6 +4199,8 @@ extension Ec2 {
             self.reservedInstanceIds = reservedInstanceIds
             if let targetConfigurations = dictionary["TargetConfigurations"] as? [[String: Any]] {
                 self.targetConfigurations = try targetConfigurations.map({ try TargetConfigurationRequest(dictionary: $0) })
+            } else { 
+                self.targetConfigurations = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
         }
@@ -4410,13 +4210,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the instance to bundle. Type: String Default: None Required: Yes
-        public var instanceId: String = ""
+        public let instanceId: String
         /// The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that Amazon EC2 creates on your behalf. If you specify a bucket that belongs to someone else, Amazon EC2 returns an error.
-        public var storage: Storage = Storage()
+        public let storage: Storage
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(instanceId: String, storage: Storage, dryRun: Bool? = nil) {
             self.instanceId = instanceId
@@ -4437,11 +4235,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Token for pagination, null if there are no more results 
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of returned VolumeModification objects.
-        public var volumesModifications: [VolumeModification]? = nil
-
-        public init() {}
+        public let volumesModifications: [VolumeModification]?
 
         public init(nextToken: String? = nil, volumesModifications: [VolumeModification]? = nil) {
             self.nextToken = nextToken
@@ -4452,6 +4248,8 @@ extension Ec2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let volumesModifications = dictionary["VolumesModifications"] as? [[String: Any]] {
                 self.volumesModifications = try volumesModifications.map({ try VolumeModification(dictionary: $0) })
+            } else { 
+                self.volumesModifications = nil
             }
         }
     }
@@ -4460,13 +4258,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// One or more filters.    is-classic-link-enabled - Whether the VPC is enabled for ClassicLink (true | false).    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// One or more VPCs for which you want to describe the ClassicLink status.
-        public var vpcIds: [String]? = nil
-
-        public init() {}
+        public let vpcIds: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, vpcIds: [String]? = nil) {
             self.dryRun = dryRun
@@ -4478,10 +4274,10 @@ extension Ec2 {
             self.dryRun = dictionary["DryRun"] as? Bool
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
-            if let vpcIds = dictionary["VpcIds"] as? [String] {
-                self.vpcIds = vpcIds
-            }
+            self.vpcIds = dictionary["VpcIds"] as? [String]
         }
     }
 
@@ -4489,13 +4285,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the volume.
-        public var volumeId: String = ""
+        public let volumeId: String
         /// The instance attribute.
-        public var attribute: String? = nil
-
-        public init() {}
+        public let attribute: String?
 
         public init(dryRun: Bool? = nil, volumeId: String, attribute: String? = nil) {
             self.dryRun = dryRun
@@ -4515,11 +4309,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the Windows instance.
-        public var instanceId: String = ""
+        public let instanceId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(instanceId: String, dryRun: Bool? = nil) {
             self.instanceId = instanceId
@@ -4537,21 +4329,19 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time at which the reported instance health state began.
-        public var startTime: Date? = nil
+        public let startTime: Date?
         /// The status of all instances listed.
-        public var status: String = ""
+        public let status: String
         /// The time at which the reported instance health state ended.
-        public var endTime: Date? = nil
+        public let endTime: Date?
         /// One or more instances.
-        public var instances: [String] = []
+        public let instances: [String]
         /// One or more reason codes that describes the health state of your instance.    instance-stuck-in-state: My instance is stuck in a state.    unresponsive: My instance is unresponsive.    not-accepting-credentials: My instance is not accepting my credentials.    password-not-available: A password is not available for my instance.    performance-network: My instance is experiencing performance problems which I believe are network related.    performance-instance-store: My instance is experiencing performance problems which I believe are related to the instance stores.    performance-ebs-volume: My instance is experiencing performance problems which I believe are related to an EBS volume.    performance-other: My instance is experiencing performance problems.    other: [explain using the description parameter]  
-        public var reasonCodes: [String] = []
+        public let reasonCodes: [String]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// Descriptive text about the health state of your instance.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(startTime: Date? = nil, status: String, endTime: Date? = nil, instances: [String], reasonCodes: [String], dryRun: Bool? = nil, description: String? = nil) {
             self.startTime = startTime
@@ -4581,18 +4371,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the allocated Dedicated Host. This is used when you want to launch an instance onto a specific host.
-        public var hostIds: [String]? = nil
-
-        public init() {}
+        public let hostIds: [String]?
 
         public init(hostIds: [String]? = nil) {
             self.hostIds = hostIds
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let hostIds = dictionary["HostIds"] as? [String] {
-                self.hostIds = hostIds
-            }
+            self.hostIds = dictionary["HostIds"] as? [String]
         }
     }
 
@@ -4600,11 +4386,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 255 Unicode characters.
-        public var value: String? = nil
+        public let value: String?
         /// The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 127 Unicode characters. May not begin with aws: 
-        public var key: String? = nil
-
-        public init() {}
+        public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
             self.value = value
@@ -4621,13 +4405,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The names of one or more regions.
-        public var regionNames: [String]? = nil
+        public let regionNames: [String]?
         /// One or more filters.    endpoint - The endpoint of the region (for example, ec2.us-east-1.amazonaws.com).    region-name - The name of the region (for example, us-east-1).  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(regionNames: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil) {
             self.regionNames = regionNames
@@ -4636,11 +4418,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let regionNames = dictionary["RegionNames"] as? [String] {
-                self.regionNames = regionNames
-            }
+            self.regionNames = dictionary["RegionNames"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
         }
@@ -4650,15 +4432,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The tag key.
-        public var key: String? = nil
+        public let key: String?
         /// The ID of the resource. For example, ami-1a2b3c4d.
-        public var resourceId: String? = nil
+        public let resourceId: String?
         /// The tag value.
-        public var value: String? = nil
+        public let value: String?
         /// The resource type.
-        public var resourceType: String? = nil
-
-        public init() {}
+        public let resourceType: String?
 
         public init(key: String? = nil, resourceId: String? = nil, value: String? = nil, resourceType: String? = nil) {
             self.key = key
@@ -4679,17 +4459,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Reserved. If you need to sustain traffic greater than the documented limits, contact us through the Support Center.
-        public var provisioned: String? = nil
+        public let provisioned: String?
         /// Reserved. If you need to sustain traffic greater than the documented limits, contact us through the Support Center.
-        public var status: String? = nil
+        public let status: String?
         /// Reserved. If you need to sustain traffic greater than the documented limits, contact us through the Support Center.
-        public var requestTime: Date? = nil
+        public let requestTime: Date?
         /// Reserved. If you need to sustain traffic greater than the documented limits, contact us through the Support Center.
-        public var provisionTime: Date? = nil
+        public let provisionTime: Date?
         /// Reserved. If you need to sustain traffic greater than the documented limits, contact us through the Support Center.
-        public var requested: String? = nil
-
-        public init() {}
+        public let requested: String?
 
         public init(provisioned: String? = nil, status: String? = nil, requestTime: Date? = nil, provisionTime: Date? = nil, requested: String? = nil) {
             self.provisioned = provisioned
@@ -4712,13 +4490,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the EBS snapshot.
-        public var snapshotId: String = ""
+        public let snapshotId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The snapshot attribute you would like to view.
-        public var attribute: String = ""
-
-        public init() {}
+        public let attribute: String
 
         public init(snapshotId: String, dryRun: Bool? = nil, attribute: String) {
             self.snapshotId = snapshotId
@@ -4739,9 +4515,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
@@ -4756,13 +4530,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of permissions for creating volumes from the snapshot.
-        public var createVolumePermissions: [CreateVolumePermission]? = nil
+        public let createVolumePermissions: [CreateVolumePermission]?
         /// A list of product codes.
-        public var productCodes: [ProductCode]? = nil
+        public let productCodes: [ProductCode]?
         /// The ID of the EBS snapshot.
-        public var snapshotId: String? = nil
-
-        public init() {}
+        public let snapshotId: String?
 
         public init(createVolumePermissions: [CreateVolumePermission]? = nil, productCodes: [ProductCode]? = nil, snapshotId: String? = nil) {
             self.createVolumePermissions = createVolumePermissions
@@ -4773,9 +4545,13 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let createVolumePermissions = dictionary["CreateVolumePermissions"] as? [[String: Any]] {
                 self.createVolumePermissions = try createVolumePermissions.map({ try CreateVolumePermission(dictionary: $0) })
+            } else { 
+                self.createVolumePermissions = nil
             }
             if let productCodes = dictionary["ProductCodes"] as? [[String: Any]] {
                 self.productCodes = try productCodes.map({ try ProductCode(dictionary: $0) })
+            } else { 
+                self.productCodes = nil
             }
             self.snapshotId = dictionary["SnapshotId"] as? String
         }
@@ -4785,11 +4561,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The frequency of the recurring charge.
-        public var frequency: String? = nil
+        public let frequency: String?
         /// The amount of the recurring charge.
-        public var amount: Double? = nil
-
-        public init() {}
+        public let amount: Double?
 
         public init(frequency: String? = nil, amount: Double? = nil) {
             self.frequency = frequency
@@ -4806,11 +4580,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the VPC peering connection.
-        public var vpcPeeringConnectionId: String = ""
-
-        public init() {}
+        public let vpcPeeringConnectionId: String
 
         public init(dryRun: Bool? = nil, vpcPeeringConnectionId: String) {
             self.dryRun = dryRun
@@ -4828,13 +4600,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The names of one or more Availability Zones.
-        public var zoneNames: [String]? = nil
+        public let zoneNames: [String]?
         /// One or more filters.    message - Information about the Availability Zone.    region-name - The name of the region for the Availability Zone (for example, us-east-1).    state - The state of the Availability Zone (available | information | impaired | unavailable).    zone-name - The name of the Availability Zone (for example, us-east-1a).  
-        public var filters: [Filter]? = nil
-
-        public init() {}
+        public let filters: [Filter]?
 
         public init(dryRun: Bool? = nil, zoneNames: [String]? = nil, filters: [Filter]? = nil) {
             self.dryRun = dryRun
@@ -4844,11 +4614,11 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let zoneNames = dictionary["ZoneNames"] as? [String] {
-                self.zoneNames = zoneNames
-            }
+            self.zoneNames = dictionary["ZoneNames"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
         }
     }
@@ -4857,9 +4627,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The route table association ID (needed to disassociate the route table).
-        public var associationId: String? = nil
-
-        public init() {}
+        public let associationId: String?
 
         public init(associationId: String? = nil) {
             self.associationId = associationId
@@ -4874,11 +4642,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ICMP type. A value of -1 means all types.
-        public var type: Int32? = nil
+        public let type: Int32?
         /// The ICMP code. A value of -1 means all codes for the specified ICMP type.
-        public var code: Int32? = nil
-
-        public init() {}
+        public let code: Int32?
 
         public init(type: Int32? = nil, code: Int32? = nil) {
             self.type = type
@@ -4895,9 +4661,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more flow log IDs.
-        public var flowLogIds: [String] = []
-
-        public init() {}
+        public let flowLogIds: [String]
 
         public init(flowLogIds: [String]) {
             self.flowLogIds = flowLogIds
@@ -4913,13 +4677,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more VPN connection IDs. Default: Describes your VPN connections.
-        public var vpnConnectionIds: [String]? = nil
+        public let vpnConnectionIds: [String]?
         /// One or more filters.    customer-gateway-configuration - The configuration information for the customer gateway.    customer-gateway-id - The ID of a customer gateway associated with the VPN connection.    state - The state of the VPN connection (pending | available | deleting | deleted).    option.static-routes-only - Indicates whether the connection has static routes only. Used for devices that do not support Border Gateway Protocol (BGP).    route.destination-cidr-block - The destination CIDR block. This corresponds to the subnet used in a customer data center.    bgp-asn - The BGP Autonomous System Number (ASN) associated with a BGP device.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    type - The type of VPN connection. Currently the only supported type is ipsec.1.    vpn-connection-id - The ID of the VPN connection.    vpn-gateway-id - The ID of a virtual private gateway associated with the VPN connection.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(vpnConnectionIds: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil) {
             self.vpnConnectionIds = vpnConnectionIds
@@ -4928,11 +4690,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let vpnConnectionIds = dictionary["VpnConnectionIds"] as? [String] {
-                self.vpnConnectionIds = vpnConnectionIds
-            }
+            self.vpnConnectionIds = dictionary["VpnConnectionIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
         }
@@ -4942,11 +4704,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The currency in which the limitPrice amount is specified. At this time, the only supported currency is USD.
-        public var currencyCode: String? = nil
+        public let currencyCode: String?
         /// Used for Reserved Instance Marketplace offerings. Specifies the limit price on the total order (instanceCount * price).
-        public var amount: Double? = nil
-
-        public init() {}
+        public let amount: Double?
 
         public init(currencyCode: String? = nil, amount: Double? = nil) {
             self.currencyCode = currencyCode
@@ -4962,10 +4722,8 @@ extension Ec2 {
     public struct NewDhcpConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var key: String? = nil
-        public var values: [String]? = nil
-
-        public init() {}
+        public let key: String?
+        public let values: [String]?
 
         public init(key: String? = nil, values: [String]? = nil) {
             self.key = key
@@ -4974,9 +4732,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.key = dictionary["Key"] as? String
-            if let values = dictionary["Values"] as? [String] {
-                self.values = values
-            }
+            self.values = dictionary["Values"] as? [String]
         }
     }
 
@@ -4984,23 +4740,21 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IPv4 network range to allow or deny, in CIDR notation.
-        public var cidrBlock: String? = nil
+        public let cidrBlock: String?
         /// ICMP protocol: The ICMP type and code.
-        public var icmpTypeCode: IcmpTypeCode? = nil
+        public let icmpTypeCode: IcmpTypeCode?
         /// The rule number for the entry. ACL entries are processed in ascending order by rule number.
-        public var ruleNumber: Int32? = nil
+        public let ruleNumber: Int32?
         /// The protocol. A value of -1 means all protocols.
-        public var `protocol`: String? = nil
+        public let `protocol`: String?
         /// Indicates whether to allow or deny the traffic that matches the rule.
-        public var ruleAction: String? = nil
+        public let ruleAction: String?
         /// Indicates whether the rule is an egress rule (applied to traffic leaving the subnet).
-        public var egress: Bool? = nil
+        public let egress: Bool?
         /// The IPv6 network range to allow or deny, in CIDR notation.
-        public var ipv6CidrBlock: String? = nil
+        public let ipv6CidrBlock: String?
         /// TCP or UDP protocols: The range of ports the rule applies to.
-        public var portRange: PortRange? = nil
-
-        public init() {}
+        public let portRange: PortRange?
 
         public init(cidrBlock: String? = nil, icmpTypeCode: IcmpTypeCode? = nil, ruleNumber: Int32? = nil, protocol: String? = nil, ruleAction: String? = nil, egress: Bool? = nil, ipv6CidrBlock: String? = nil, portRange: PortRange? = nil) {
             self.cidrBlock = cidrBlock
@@ -5015,13 +4769,13 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.cidrBlock = dictionary["CidrBlock"] as? String
-            if let icmpTypeCode = dictionary["IcmpTypeCode"] as? [String: Any] { self.icmpTypeCode = try Ec2.IcmpTypeCode(dictionary: icmpTypeCode) }
+            if let icmpTypeCode = dictionary["IcmpTypeCode"] as? [String: Any] { self.icmpTypeCode = try Ec2.IcmpTypeCode(dictionary: icmpTypeCode) } else { self.icmpTypeCode = nil }
             self.ruleNumber = dictionary["RuleNumber"] as? Int32
             self.`protocol` = dictionary["Protocol"] as? String
             self.ruleAction = dictionary["RuleAction"] as? String
             self.egress = dictionary["Egress"] as? Bool
             self.ipv6CidrBlock = dictionary["Ipv6CidrBlock"] as? String
-            if let portRange = dictionary["PortRange"] as? [String: Any] { self.portRange = try Ec2.PortRange(dictionary: portRange) }
+            if let portRange = dictionary["PortRange"] as? [String: Any] { self.portRange = try Ec2.PortRange(dictionary: portRange) } else { self.portRange = nil }
         }
     }
 
@@ -5029,23 +4783,21 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether the VPC is the default VPC.
-        public var isDefault: Bool? = nil
+        public let isDefault: Bool?
         /// The ID of the VPC.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The current state of the VPC.
-        public var state: String? = nil
+        public let state: String?
         /// Any tags assigned to the VPC.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The ID of the set of DHCP options you've associated with the VPC (or default if the default options are associated with the VPC).
-        public var dhcpOptionsId: String? = nil
+        public let dhcpOptionsId: String?
         /// Information about the IPv6 CIDR blocks associated with the VPC.
-        public var ipv6CidrBlockAssociationSet: [VpcIpv6CidrBlockAssociation]? = nil
+        public let ipv6CidrBlockAssociationSet: [VpcIpv6CidrBlockAssociation]?
         /// The allowed tenancy of instances launched into the VPC.
-        public var instanceTenancy: String? = nil
+        public let instanceTenancy: String?
         /// The IPv4 CIDR block for the VPC.
-        public var cidrBlock: String? = nil
-
-        public init() {}
+        public let cidrBlock: String?
 
         public init(isDefault: Bool? = nil, vpcId: String? = nil, state: String? = nil, tags: [Tag]? = nil, dhcpOptionsId: String? = nil, ipv6CidrBlockAssociationSet: [VpcIpv6CidrBlockAssociation]? = nil, instanceTenancy: String? = nil, cidrBlock: String? = nil) {
             self.isDefault = isDefault
@@ -5064,10 +4816,14 @@ extension Ec2 {
             self.state = dictionary["State"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.dhcpOptionsId = dictionary["DhcpOptionsId"] as? String
             if let ipv6CidrBlockAssociationSet = dictionary["Ipv6CidrBlockAssociationSet"] as? [[String: Any]] {
                 self.ipv6CidrBlockAssociationSet = try ipv6CidrBlockAssociationSet.map({ try VpcIpv6CidrBlockAssociation(dictionary: $0) })
+            } else { 
+                self.ipv6CidrBlockAssociationSet = nil
             }
             self.instanceTenancy = dictionary["InstanceTenancy"] as? String
             self.cidrBlock = dictionary["CidrBlock"] as? String
@@ -5078,9 +4834,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The message about the Availability Zone.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(message: String? = nil) {
             self.message = message
@@ -5095,15 +4849,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the VPC.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// The token for the next set of items to return. (You received this token from a prior call.)
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of items to return for this request. The request returns a token that you can specify in a subsequent call to get the next set of results.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(dryRun: Bool? = nil, vpcId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.dryRun = dryRun
@@ -5125,11 +4877,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The Elastic IP address.
-        public var publicIp: String = ""
-
-        public init() {}
+        public let publicIp: String
 
         public init(dryRun: Bool? = nil, publicIp: String) {
             self.dryRun = dryRun
@@ -5147,19 +4897,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The routes in the route table.
-        public var routes: [Route]? = nil
+        public let routes: [Route]?
         /// Any virtual private gateway (VGW) propagating routes.
-        public var propagatingVgws: [PropagatingVgw]? = nil
+        public let propagatingVgws: [PropagatingVgw]?
         /// The ID of the route table.
-        public var routeTableId: String? = nil
+        public let routeTableId: String?
         /// The ID of the VPC.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// Any tags assigned to the route table.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The associations between the route table and one or more subnets.
-        public var associations: [RouteTableAssociation]? = nil
-
-        public init() {}
+        public let associations: [RouteTableAssociation]?
 
         public init(routes: [Route]? = nil, propagatingVgws: [PropagatingVgw]? = nil, routeTableId: String? = nil, vpcId: String? = nil, tags: [Tag]? = nil, associations: [RouteTableAssociation]? = nil) {
             self.routes = routes
@@ -5173,17 +4921,25 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let routes = dictionary["Routes"] as? [[String: Any]] {
                 self.routes = try routes.map({ try Route(dictionary: $0) })
+            } else { 
+                self.routes = nil
             }
             if let propagatingVgws = dictionary["PropagatingVgws"] as? [[String: Any]] {
                 self.propagatingVgws = try propagatingVgws.map({ try PropagatingVgw(dictionary: $0) })
+            } else { 
+                self.propagatingVgws = nil
             }
             self.routeTableId = dictionary["RouteTableId"] as? String
             self.vpcId = dictionary["VpcId"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             if let associations = dictionary["Associations"] as? [[String: Any]] {
                 self.associations = try associations.map({ try RouteTableAssociation(dictionary: $0) })
+            } else { 
+                self.associations = nil
             }
         }
     }
@@ -5192,17 +4948,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The earliest start time of the event.
-        public var notBefore: Date? = nil
+        public let notBefore: Date?
         /// The type of this event.
-        public var eventType: String? = nil
+        public let eventType: String?
         /// The latest end time of the event.
-        public var notAfter: Date? = nil
+        public let notAfter: Date?
         /// The ID of this event.
-        public var eventId: String? = nil
+        public let eventId: String?
         /// A description of the event.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(notBefore: Date? = nil, eventType: String? = nil, notAfter: Date? = nil, eventId: String? = nil, description: String? = nil) {
             self.notBefore = notBefore
@@ -5225,19 +4979,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more route tables IDs to associate with the endpoint.
-        public var addRouteTableIds: [String]? = nil
+        public let addRouteTableIds: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the endpoint.
-        public var vpcEndpointId: String = ""
+        public let vpcEndpointId: String
         /// A policy document to attach to the endpoint. The policy must be in valid JSON format.
-        public var policyDocument: String? = nil
+        public let policyDocument: String?
         /// Specify true to reset the policy document to the default policy. The default policy allows access to the service.
-        public var resetPolicy: Bool? = nil
+        public let resetPolicy: Bool?
         /// One or more route table IDs to disassociate from the endpoint.
-        public var removeRouteTableIds: [String]? = nil
-
-        public init() {}
+        public let removeRouteTableIds: [String]?
 
         public init(addRouteTableIds: [String]? = nil, dryRun: Bool? = nil, vpcEndpointId: String, policyDocument: String? = nil, resetPolicy: Bool? = nil, removeRouteTableIds: [String]? = nil) {
             self.addRouteTableIds = addRouteTableIds
@@ -5249,17 +5001,13 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let addRouteTableIds = dictionary["AddRouteTableIds"] as? [String] {
-                self.addRouteTableIds = addRouteTableIds
-            }
+            self.addRouteTableIds = dictionary["AddRouteTableIds"] as? [String]
             self.dryRun = dictionary["DryRun"] as? Bool
             guard let vpcEndpointId = dictionary["VpcEndpointId"] as? String else { throw InitializableError.missingRequiredParam("VpcEndpointId") }
             self.vpcEndpointId = vpcEndpointId
             self.policyDocument = dictionary["PolicyDocument"] as? String
             self.resetPolicy = dictionary["ResetPolicy"] as? Bool
-            if let removeRouteTableIds = dictionary["RemoveRouteTableIds"] as? [String] {
-                self.removeRouteTableIds = removeRouteTableIds
-            }
+            self.removeRouteTableIds = dictionary["RemoveRouteTableIds"] as? [String]
         }
     }
 
@@ -5267,13 +5015,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// Any tags assigned to the VPC.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// Indicates whether the VPC is enabled for ClassicLink.
-        public var classicLinkEnabled: Bool? = nil
-
-        public init() {}
+        public let classicLinkEnabled: Bool?
 
         public init(vpcId: String? = nil, tags: [Tag]? = nil, classicLinkEnabled: Bool? = nil) {
             self.vpcId = vpcId
@@ -5285,6 +5031,8 @@ extension Ec2 {
             self.vpcId = dictionary["VpcId"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.classicLinkEnabled = dictionary["ClassicLinkEnabled"] as? Bool
         }
@@ -5294,9 +5042,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the IAM instance profile association.
-        public var associationId: String = ""
-
-        public init() {}
+        public let associationId: String
 
         public init(associationId: String) {
             self.associationId = associationId
@@ -5312,11 +5058,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the offerings.
-        public var offeringSet: [HostOffering]? = nil
+        public let offeringSet: [HostOffering]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(offeringSet: [HostOffering]? = nil, nextToken: String? = nil) {
             self.offeringSet = offeringSet
@@ -5326,6 +5070,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let offeringSet = dictionary["OfferingSet"] as? [[String: Any]] {
                 self.offeringSet = try offeringSet.map({ try HostOffering(dictionary: $0) })
+            } else { 
+                self.offeringSet = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -5335,11 +5081,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the CIDR block.
-        public var state: String? = nil
+        public let state: String?
         /// A message about the status of the CIDR block, if applicable.
-        public var statusMessage: String? = nil
-
-        public init() {}
+        public let statusMessage: String?
 
         public init(state: String? = nil, statusMessage: String? = nil) {
             self.state = state
@@ -5356,13 +5100,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the subnet.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// The ID of the association between a network ACL and a subnet.
-        public var networkAclAssociationId: String? = nil
+        public let networkAclAssociationId: String?
         /// The ID of the network ACL.
-        public var networkAclId: String? = nil
-
-        public init() {}
+        public let networkAclId: String?
 
         public init(subnetId: String? = nil, networkAclAssociationId: String? = nil, networkAclId: String? = nil) {
             self.subnetId = subnetId
@@ -5381,9 +5123,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the NAT gateway.
-        public var natGatewayId: String = ""
-
-        public init() {}
+        public let natGatewayId: String
 
         public init(natGatewayId: String) {
             self.natGatewayId = natGatewayId
@@ -5399,9 +5139,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the Scheduled Instances.
-        public var scheduledInstanceSet: [ScheduledInstance]? = nil
-
-        public init() {}
+        public let scheduledInstanceSet: [ScheduledInstance]?
 
         public init(scheduledInstanceSet: [ScheduledInstance]? = nil) {
             self.scheduledInstanceSet = scheduledInstanceSet
@@ -5410,6 +5148,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let scheduledInstanceSet = dictionary["ScheduledInstanceSet"] as? [[String: Any]] {
                 self.scheduledInstanceSet = try scheduledInstanceSet.map({ try ScheduledInstance(dictionary: $0) })
+            } else { 
+                self.scheduledInstanceSet = nil
             }
         }
     }
@@ -5418,11 +5158,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of volumes.
-        public var volumeStatuses: [VolumeStatusItem]? = nil
-
-        public init() {}
+        public let volumeStatuses: [VolumeStatusItem]?
 
         public init(nextToken: String? = nil, volumeStatuses: [VolumeStatusItem]? = nil) {
             self.nextToken = nextToken
@@ -5433,6 +5171,8 @@ extension Ec2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let volumeStatuses = dictionary["VolumeStatuses"] as? [[String: Any]] {
                 self.volumeStatuses = try volumeStatuses.map({ try VolumeStatusItem(dictionary: $0) })
+            } else { 
+                self.volumeStatuses = nil
             }
         }
     }
@@ -5441,11 +5181,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The total number of instances that the Dedicated Host supports.
-        public var availableInstanceCapacity: [InstanceCapacity]? = nil
+        public let availableInstanceCapacity: [InstanceCapacity]?
         /// The number of vCPUs available on the Dedicated Host.
-        public var availableVCpus: Int32? = nil
-
-        public init() {}
+        public let availableVCpus: Int32?
 
         public init(availableInstanceCapacity: [InstanceCapacity]? = nil, availableVCpus: Int32? = nil) {
             self.availableInstanceCapacity = availableInstanceCapacity
@@ -5455,6 +5193,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let availableInstanceCapacity = dictionary["AvailableInstanceCapacity"] as? [[String: Any]] {
                 self.availableInstanceCapacity = try availableInstanceCapacity.map({ try InstanceCapacity(dictionary: $0) })
+            } else { 
+                self.availableInstanceCapacity = nil
             }
             self.availableVCpus = dictionary["AvailableVCpus"] as? Int32
         }
@@ -5464,17 +5204,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date and time the request was created, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public var timestamp: Date? = nil
+        public let timestamp: Date?
         /// The instance type. Note that T2 and HS1 instance types are not supported.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The Availability Zone.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The maximum price (bid) that you are willing to pay for a Spot instance.
-        public var spotPrice: String? = nil
+        public let spotPrice: String?
         /// A general description of the AMI.
-        public var productDescription: String? = nil
-
-        public init() {}
+        public let productDescription: String?
 
         public init(timestamp: Date? = nil, instanceType: String? = nil, availabilityZone: String? = nil, spotPrice: String? = nil, productDescription: String? = nil) {
             self.timestamp = timestamp
@@ -5497,17 +5235,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The network platform of the modified Reserved Instances, which is either EC2-Classic or EC2-VPC.
-        public var platform: String? = nil
+        public let platform: String?
         /// The number of modified Reserved Instances.
-        public var instanceCount: Int32? = nil
+        public let instanceCount: Int32?
         /// The instance type for the modified Reserved Instances.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The Availability Zone for the modified Reserved Instances.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// Whether the Reserved Instance is applied to instances in a region or instances in a specific Availability Zone.
-        public var scope: String? = nil
-
-        public init() {}
+        public let scope: String?
 
         public init(platform: String? = nil, instanceCount: Int32? = nil, instanceType: String? = nil, availabilityZone: String? = nil, scope: String? = nil) {
             self.platform = platform
@@ -5530,13 +5266,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The placement strategy.
-        public var strategy: String = ""
+        public let strategy: String
         /// A name for the placement group. Constraints: Up to 255 ASCII characters
-        public var groupName: String = ""
-
-        public init() {}
+        public let groupName: String
 
         public init(dryRun: Bool? = nil, strategy: String, groupName: String) {
             self.dryRun = dryRun
@@ -5557,11 +5291,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more security group IDs in your account.
-        public var groupId: [String] = []
+        public let groupId: [String]
         /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(groupId: [String], dryRun: Bool? = nil) {
             self.groupId = groupId
@@ -5579,17 +5311,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more volume IDs for which in-progress modifications will be described.
-        public var volumeIds: [String]? = nil
+        public let volumeIds: [String]?
         /// One or more filters. Supported filters: volume-id, modification-state, target-size, target-iops, target-volume-type, original-size, original-iops, original-volume-type, start-time. 
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The nextToken value returned by a previous paginated request.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results (up to a limit of 500) to be returned in a paginated request.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(volumeIds: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.volumeIds = volumeIds
@@ -5600,11 +5330,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let volumeIds = dictionary["VolumeIds"] as? [String] {
-                self.volumeIds = volumeIds
-            }
+            self.volumeIds = dictionary["VolumeIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
             self.nextToken = dictionary["NextToken"] as? String
@@ -5616,23 +5346,21 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more block device mapping entries.
-        public var blockDeviceMappings: [BlockDeviceMapping]? = nil
+        public let blockDeviceMappings: [BlockDeviceMapping]?
         /// One or more product codes.
-        public var productCodes: [ProductCode]? = nil
+        public let productCodes: [ProductCode]?
         /// One or more launch permissions.
-        public var launchPermissions: [LaunchPermission]? = nil
+        public let launchPermissions: [LaunchPermission]?
         /// Indicates whether enhanced networking with the Intel 82599 Virtual Function interface is enabled.
-        public var sriovNetSupport: AttributeValue? = nil
+        public let sriovNetSupport: AttributeValue?
         /// The kernel ID.
-        public var kernelId: AttributeValue? = nil
+        public let kernelId: AttributeValue?
         /// The ID of the AMI.
-        public var imageId: String? = nil
+        public let imageId: String?
         /// The RAM disk ID.
-        public var ramdiskId: AttributeValue? = nil
+        public let ramdiskId: AttributeValue?
         /// A description for the AMI.
-        public var description: AttributeValue? = nil
-
-        public init() {}
+        public let description: AttributeValue?
 
         public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, productCodes: [ProductCode]? = nil, launchPermissions: [LaunchPermission]? = nil, sriovNetSupport: AttributeValue? = nil, kernelId: AttributeValue? = nil, imageId: String? = nil, ramdiskId: AttributeValue? = nil, description: AttributeValue? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
@@ -5648,18 +5376,24 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
                 self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            } else { 
+                self.blockDeviceMappings = nil
             }
             if let productCodes = dictionary["ProductCodes"] as? [[String: Any]] {
                 self.productCodes = try productCodes.map({ try ProductCode(dictionary: $0) })
+            } else { 
+                self.productCodes = nil
             }
             if let launchPermissions = dictionary["LaunchPermissions"] as? [[String: Any]] {
                 self.launchPermissions = try launchPermissions.map({ try LaunchPermission(dictionary: $0) })
+            } else { 
+                self.launchPermissions = nil
             }
-            if let sriovNetSupport = dictionary["SriovNetSupport"] as? [String: Any] { self.sriovNetSupport = try Ec2.AttributeValue(dictionary: sriovNetSupport) }
-            if let kernelId = dictionary["KernelId"] as? [String: Any] { self.kernelId = try Ec2.AttributeValue(dictionary: kernelId) }
+            if let sriovNetSupport = dictionary["SriovNetSupport"] as? [String: Any] { self.sriovNetSupport = try Ec2.AttributeValue(dictionary: sriovNetSupport) } else { self.sriovNetSupport = nil }
+            if let kernelId = dictionary["KernelId"] as? [String: Any] { self.kernelId = try Ec2.AttributeValue(dictionary: kernelId) } else { self.kernelId = nil }
             self.imageId = dictionary["ImageId"] as? String
-            if let ramdiskId = dictionary["RamdiskId"] as? [String: Any] { self.ramdiskId = try Ec2.AttributeValue(dictionary: ramdiskId) }
-            if let description = dictionary["Description"] as? [String: Any] { self.description = try Ec2.AttributeValue(dictionary: description) }
+            if let ramdiskId = dictionary["RamdiskId"] as? [String: Any] { self.ramdiskId = try Ec2.AttributeValue(dictionary: ramdiskId) } else { self.ramdiskId = nil }
+            if let description = dictionary["Description"] as? [String: Any] { self.description = try Ec2.AttributeValue(dictionary: description) } else { self.description = nil }
         }
     }
 
@@ -5667,15 +5401,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The target virtualization environment.
-        public var targetEnvironment: String? = nil
+        public let targetEnvironment: String?
         /// The format and location for an instance export task.
-        public var exportToS3Task: ExportToS3TaskSpecification? = nil
+        public let exportToS3Task: ExportToS3TaskSpecification?
         /// The ID of the instance.
-        public var instanceId: String = ""
+        public let instanceId: String
         /// A description for the conversion task or the resource being exported. The maximum length is 255 bytes.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(targetEnvironment: String? = nil, exportToS3Task: ExportToS3TaskSpecification? = nil, instanceId: String, description: String? = nil) {
             self.targetEnvironment = targetEnvironment
@@ -5686,7 +5418,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.targetEnvironment = dictionary["TargetEnvironment"] as? String
-            if let exportToS3Task = dictionary["ExportToS3Task"] as? [String: Any] { self.exportToS3Task = try Ec2.ExportToS3TaskSpecification(dictionary: exportToS3Task) }
+            if let exportToS3Task = dictionary["ExportToS3Task"] as? [String: Any] { self.exportToS3Task = try Ec2.ExportToS3TaskSpecification(dictionary: exportToS3Task) } else { self.exportToS3Task = nil }
             guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
             self.instanceId = instanceId
             self.description = dictionary["Description"] as? String
@@ -5697,19 +5429,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of traffic to log.
-        public var trafficType: String = ""
+        public let trafficType: String
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// One or more subnet, network interface, or VPC IDs. Constraints: Maximum of 1000 resources
-        public var resourceIds: [String] = []
+        public let resourceIds: [String]
         /// The ARN for the IAM role that's used to post flow logs to a CloudWatch Logs log group.
-        public var deliverLogsPermissionArn: String = ""
+        public let deliverLogsPermissionArn: String
         /// The type of resource on which to create the flow log.
-        public var resourceType: String = ""
+        public let resourceType: String
         /// The name of the CloudWatch log group.
-        public var logGroupName: String = ""
-
-        public init() {}
+        public let logGroupName: String
 
         public init(trafficType: String, clientToken: String? = nil, resourceIds: [String], deliverLogsPermissionArn: String, resourceType: String, logGroupName: String) {
             self.trafficType = trafficType
@@ -5739,29 +5469,27 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The license type of the virtual machine.
-        public var licenseType: String? = nil
+        public let licenseType: String?
         /// A brief status for the import image task.
-        public var status: String? = nil
+        public let status: String?
         /// The description string for the import image task.
-        public var platform: String? = nil
+        public let platform: String?
         /// The percentage of progress of the import image task.
-        public var progress: String? = nil
+        public let progress: String?
         /// The target hypervisor for the import task. Valid values: xen 
-        public var hypervisor: String? = nil
+        public let hypervisor: String?
         /// The architecture of the virtual machine. Valid values: i386 | x86_64 
-        public var architecture: String? = nil
+        public let architecture: String?
         /// The ID of the Amazon Machine Image (AMI) of the imported virtual machine.
-        public var imageId: String? = nil
+        public let imageId: String?
         /// The ID of the import image task.
-        public var importTaskId: String? = nil
+        public let importTaskId: String?
         /// A descriptive status message for the import image task.
-        public var statusMessage: String? = nil
+        public let statusMessage: String?
         /// Information about the snapshots.
-        public var snapshotDetails: [SnapshotDetail]? = nil
+        public let snapshotDetails: [SnapshotDetail]?
         /// A description of the import task.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(licenseType: String? = nil, status: String? = nil, platform: String? = nil, progress: String? = nil, hypervisor: String? = nil, architecture: String? = nil, imageId: String? = nil, importTaskId: String? = nil, statusMessage: String? = nil, snapshotDetails: [SnapshotDetail]? = nil, description: String? = nil) {
             self.licenseType = licenseType
@@ -5789,6 +5517,8 @@ extension Ec2 {
             self.statusMessage = dictionary["StatusMessage"] as? String
             if let snapshotDetails = dictionary["SnapshotDetails"] as? [[String: Any]] {
                 self.snapshotDetails = try snapshotDetails.map({ try SnapshotDetail(dictionary: $0) })
+            } else { 
+                self.snapshotDetails = nil
             }
             self.description = dictionary["Description"] as? String
         }
@@ -5798,11 +5528,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the volumes.
-        public var volumes: [Volume]? = nil
+        public let volumes: [Volume]?
         /// The NextToken value to include in a future DescribeVolumes request. When the results of a DescribeVolumes request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(volumes: [Volume]? = nil, nextToken: String? = nil) {
             self.volumes = volumes
@@ -5812,6 +5540,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let volumes = dictionary["Volumes"] as? [[String: Any]] {
                 self.volumes = try volumes.map({ try Volume(dictionary: $0) })
+            } else { 
+                self.volumes = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -5821,15 +5551,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The new affinity setting for the instance.
-        public var affinity: String? = nil
+        public let affinity: String?
         /// The ID of the Dedicated Host that the instance will have affinity with.
-        public var hostId: String? = nil
+        public let hostId: String?
         /// The ID of the instance that you are modifying.
-        public var instanceId: String = ""
+        public let instanceId: String
         /// The tenancy of the instance that you are modifying.
-        public var tenancy: String? = nil
-
-        public init() {}
+        public let tenancy: String?
 
         public init(affinity: String? = nil, hostId: String? = nil, instanceId: String, tenancy: String? = nil) {
             self.affinity = affinity
@@ -5851,35 +5579,33 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more block device mapping entries.
-        public var blockDeviceMappings: [ScheduledInstancesBlockDeviceMapping]? = nil
+        public let blockDeviceMappings: [ScheduledInstancesBlockDeviceMapping]?
         /// The ID of the subnet in which to launch the instances.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// The base64-encoded MIME user data.
-        public var userData: String? = nil
+        public let userData: String?
         /// Indicates whether the instances are optimized for EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS-optimized instance. Default: false 
-        public var ebsOptimized: Bool? = nil
+        public let ebsOptimized: Bool?
         /// The ID of the kernel.
-        public var kernelId: String? = nil
+        public let kernelId: String?
         /// The IDs of one or more security groups.
-        public var securityGroupIds: [String]? = nil
+        public let securityGroupIds: [String]?
         /// Enable or disable monitoring for the instances.
-        public var monitoring: ScheduledInstancesMonitoring? = nil
+        public let monitoring: ScheduledInstancesMonitoring?
         /// The instance type.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The name of the key pair.
-        public var keyName: String? = nil
+        public let keyName: String?
         /// The IAM instance profile.
-        public var iamInstanceProfile: ScheduledInstancesIamInstanceProfile? = nil
+        public let iamInstanceProfile: ScheduledInstancesIamInstanceProfile?
         /// The ID of the Amazon Machine Image (AMI).
-        public var imageId: String = ""
+        public let imageId: String
         /// One or more network interfaces.
-        public var networkInterfaces: [ScheduledInstancesNetworkInterface]? = nil
+        public let networkInterfaces: [ScheduledInstancesNetworkInterface]?
         /// The placement information.
-        public var placement: ScheduledInstancesPlacement? = nil
+        public let placement: ScheduledInstancesPlacement?
         /// The ID of the RAM disk.
-        public var ramdiskId: String? = nil
-
-        public init() {}
+        public let ramdiskId: String?
 
         public init(blockDeviceMappings: [ScheduledInstancesBlockDeviceMapping]? = nil, subnetId: String? = nil, userData: String? = nil, ebsOptimized: Bool? = nil, kernelId: String? = nil, securityGroupIds: [String]? = nil, monitoring: ScheduledInstancesMonitoring? = nil, instanceType: String? = nil, keyName: String? = nil, iamInstanceProfile: ScheduledInstancesIamInstanceProfile? = nil, imageId: String, networkInterfaces: [ScheduledInstancesNetworkInterface]? = nil, placement: ScheduledInstancesPlacement? = nil, ramdiskId: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
@@ -5901,24 +5627,26 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
                 self.blockDeviceMappings = try blockDeviceMappings.map({ try ScheduledInstancesBlockDeviceMapping(dictionary: $0) })
+            } else { 
+                self.blockDeviceMappings = nil
             }
             self.subnetId = dictionary["SubnetId"] as? String
             self.userData = dictionary["UserData"] as? String
             self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
             self.kernelId = dictionary["KernelId"] as? String
-            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
-                self.securityGroupIds = securityGroupIds
-            }
-            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.ScheduledInstancesMonitoring(dictionary: monitoring) }
+            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
+            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.ScheduledInstancesMonitoring(dictionary: monitoring) } else { self.monitoring = nil }
             self.instanceType = dictionary["InstanceType"] as? String
             self.keyName = dictionary["KeyName"] as? String
-            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.ScheduledInstancesIamInstanceProfile(dictionary: iamInstanceProfile) }
+            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.ScheduledInstancesIamInstanceProfile(dictionary: iamInstanceProfile) } else { self.iamInstanceProfile = nil }
             guard let imageId = dictionary["ImageId"] as? String else { throw InitializableError.missingRequiredParam("ImageId") }
             self.imageId = imageId
             if let networkInterfaces = dictionary["NetworkInterfaces"] as? [[String: Any]] {
                 self.networkInterfaces = try networkInterfaces.map({ try ScheduledInstancesNetworkInterface(dictionary: $0) })
+            } else { 
+                self.networkInterfaces = nil
             }
-            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.ScheduledInstancesPlacement(dictionary: placement) }
+            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.ScheduledInstancesPlacement(dictionary: placement) } else { self.placement = nil }
             self.ramdiskId = dictionary["RamdiskId"] as? String
         }
     }
@@ -5927,11 +5655,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(vpcId: String, dryRun: Bool? = nil) {
             self.vpcId = vpcId
@@ -5949,11 +5675,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the move of the IP address.
-        public var status: String? = nil
+        public let status: String?
         /// The allocation ID for the Elastic IP address.
-        public var allocationId: String? = nil
-
-        public init() {}
+        public let allocationId: String?
 
         public init(status: String? = nil, allocationId: String? = nil) {
             self.status = status
@@ -5970,11 +5694,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPN connection.
-        public var vpnConnectionId: String = ""
+        public let vpnConnectionId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(vpnConnectionId: String, dryRun: Bool? = nil) {
             self.vpnConnectionId = vpnConnectionId
@@ -5992,11 +5714,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The specific AWS account ID that is to be added or removed from a volume's list of create volume permissions.
-        public var userId: String? = nil
+        public let userId: String?
         /// The specific group that is to be added or removed from a volume's list of create volume permissions.
-        public var group: String? = nil
-
-        public init() {}
+        public let group: String?
 
         public init(userId: String? = nil, group: String? = nil) {
             self.userId = userId
@@ -6013,19 +5733,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the customer gateway.
-        public var customerGatewayId: String? = nil
+        public let customerGatewayId: String?
         /// The customer gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN).
-        public var bgpAsn: String? = nil
+        public let bgpAsn: String?
         /// The type of VPN connection the customer gateway supports (ipsec.1).
-        public var type: String? = nil
+        public let type: String?
         /// Any tags assigned to the customer gateway.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The current state of the customer gateway (pending | available | deleting | deleted).
-        public var state: String? = nil
+        public let state: String?
         /// The Internet-routable IP address of the customer gateway's outside interface.
-        public var ipAddress: String? = nil
-
-        public init() {}
+        public let ipAddress: String?
 
         public init(customerGatewayId: String? = nil, bgpAsn: String? = nil, type: String? = nil, tags: [Tag]? = nil, state: String? = nil, ipAddress: String? = nil) {
             self.customerGatewayId = customerGatewayId
@@ -6042,6 +5760,8 @@ extension Ec2 {
             self.type = dictionary["Type"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.state = dictionary["State"] as? String
             self.ipAddress = dictionary["IpAddress"] as? String
@@ -6052,11 +5772,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more account attribute names.
-        public var attributeNames: [String]? = nil
+        public let attributeNames: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(attributeNames: [String]? = nil, dryRun: Bool? = nil) {
             self.attributeNames = attributeNames
@@ -6064,9 +5782,7 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let attributeNames = dictionary["AttributeNames"] as? [String] {
-                self.attributeNames = attributeNames
-            }
+            self.attributeNames = dictionary["AttributeNames"] as? [String]
             self.dryRun = dictionary["DryRun"] as? Bool
         }
     }
@@ -6075,13 +5791,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of VPN connection this virtual private gateway supports.
-        public var type: String = ""
+        public let type: String
         /// The Availability Zone for the virtual private gateway.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(type: String, availabilityZone: String? = nil, dryRun: Bool? = nil) {
             self.type = type
@@ -6101,9 +5815,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
@@ -6118,31 +5830,29 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the egress-only Internet gateway.
-        public var egressOnlyInternetGatewayId: String? = nil
+        public let egressOnlyInternetGatewayId: String?
         /// The ID of the network interface.
-        public var networkInterfaceId: String? = nil
+        public let networkInterfaceId: String?
         /// The ID of a NAT gateway.
-        public var natGatewayId: String? = nil
+        public let natGatewayId: String?
         /// Describes how the route was created.    CreateRouteTable - The route was automatically created when the route table was created.    CreateRoute - The route was manually added to the route table.    EnableVgwRoutePropagation - The route was propagated by route propagation.  
-        public var origin: String? = nil
+        public let origin: String?
         /// The state of the route. The blackhole state indicates that the route's target isn't available (for example, the specified gateway isn't attached to the VPC, or the specified NAT instance has been terminated).
-        public var state: String? = nil
+        public let state: String?
         /// The IPv6 CIDR block used for the destination match.
-        public var destinationIpv6CidrBlock: String? = nil
+        public let destinationIpv6CidrBlock: String?
         /// The prefix of the AWS service.
-        public var destinationPrefixListId: String? = nil
+        public let destinationPrefixListId: String?
         /// The ID of the VPC peering connection.
-        public var vpcPeeringConnectionId: String? = nil
+        public let vpcPeeringConnectionId: String?
         /// The ID of a NAT instance in your VPC.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The AWS account ID of the owner of the instance.
-        public var instanceOwnerId: String? = nil
+        public let instanceOwnerId: String?
         /// The ID of a gateway attached to your VPC.
-        public var gatewayId: String? = nil
+        public let gatewayId: String?
         /// The IPv4 CIDR block used for the destination match.
-        public var destinationCidrBlock: String? = nil
-
-        public init() {}
+        public let destinationCidrBlock: String?
 
         public init(egressOnlyInternetGatewayId: String? = nil, networkInterfaceId: String? = nil, natGatewayId: String? = nil, origin: String? = nil, state: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, vpcPeeringConnectionId: String? = nil, instanceId: String? = nil, instanceOwnerId: String? = nil, gatewayId: String? = nil, destinationCidrBlock: String? = nil) {
             self.egressOnlyInternetGatewayId = egressOnlyInternetGatewayId
@@ -6179,11 +5889,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the Spot fleet requests that are successfully canceled.
-        public var successfulFleetRequests: [CancelSpotFleetRequestsSuccessItem]? = nil
+        public let successfulFleetRequests: [CancelSpotFleetRequestsSuccessItem]?
         /// Information about the Spot fleet requests that are not successfully canceled.
-        public var unsuccessfulFleetRequests: [CancelSpotFleetRequestsErrorItem]? = nil
-
-        public init() {}
+        public let unsuccessfulFleetRequests: [CancelSpotFleetRequestsErrorItem]?
 
         public init(successfulFleetRequests: [CancelSpotFleetRequestsSuccessItem]? = nil, unsuccessfulFleetRequests: [CancelSpotFleetRequestsErrorItem]? = nil) {
             self.successfulFleetRequests = successfulFleetRequests
@@ -6193,9 +5901,13 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let successfulFleetRequests = dictionary["SuccessfulFleetRequests"] as? [[String: Any]] {
                 self.successfulFleetRequests = try successfulFleetRequests.map({ try CancelSpotFleetRequestsSuccessItem(dictionary: $0) })
+            } else { 
+                self.successfulFleetRequests = nil
             }
             if let unsuccessfulFleetRequests = dictionary["UnsuccessfulFleetRequests"] as? [[String: Any]] {
                 self.unsuccessfulFleetRequests = try unsuccessfulFleetRequests.map({ try CancelSpotFleetRequestsErrorItem(dictionary: $0) })
+            } else { 
+                self.unsuccessfulFleetRequests = nil
             }
         }
     }
@@ -6204,13 +5916,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the security group. Required for a nondefault VPC.
-        public var groupId: String? = nil
+        public let groupId: String?
         /// [EC2-Classic, default VPC] The name of the security group. You can specify either the security group name or the security group ID.
-        public var groupName: String? = nil
-
-        public init() {}
+        public let groupName: String?
 
         public init(dryRun: Bool? = nil, groupId: String? = nil, groupName: String? = nil) {
             self.dryRun = dryRun
@@ -6229,16 +5939,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the VPC.
-        public var vpc: Vpc? = nil
-
-        public init() {}
+        public let vpc: Vpc?
 
         public init(vpc: Vpc? = nil) {
             self.vpc = vpc
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let vpc = dictionary["Vpc"] as? [String: Any] { self.vpc = try Ec2.Vpc(dictionary: vpc) }
+            if let vpc = dictionary["Vpc"] as? [String: Any] { self.vpc = try Ec2.Vpc(dictionary: vpc) } else { self.vpc = nil }
         }
     }
 
@@ -6246,17 +5954,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64).    association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    availability-zone - The Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2010-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name for the EBS volume (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    client-token - The idempotency token you provided when you launched the instance.    dns-name - The public DNS name of the instance.    group-id - The ID of the security group for the instance. EC2-Classic only.    group-name - The name of the security group for the instance. EC2-Classic only.    host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen).    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance or a Scheduled Instance (spot | scheduled).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is an opaque internal value and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched.    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by AWS.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    owner-id - The AWS account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    platform - The platform. Use windows if you have Windows instances; otherwise, leave blank.    private-dns-name - The private IPv4 DNS name of the instance.    private-ip-address - The private IPv4 address of the instance.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, AWS Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you'll get one reservation ID. If you launch ten instances using the same launch request, you'll also get one reservation ID.    root-device-name - The name of the root device for the instance (for example, /dev/sda1 or /dev/xvda).    root-device-type - The type of root device that the instance uses (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    tenancy - The tenancy of an instance (dedicated | default | host).    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// One or more instance IDs. Default: Describes all your instances.
-        public var instanceIds: [String]? = nil
+        public let instanceIds: [String]?
         /// The token to request the next page of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. This value can be between 5 and 1000. You cannot specify this parameter and the instance IDs parameter or tag filters in the same call.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(filters: [Filter]? = nil, dryRun: Bool? = nil, instanceIds: [String]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.filters = filters
@@ -6269,11 +5975,11 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let instanceIds = dictionary["InstanceIds"] as? [String] {
-                self.instanceIds = instanceIds
-            }
+            self.instanceIds = dictionary["InstanceIds"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -6283,11 +5989,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Information about the Scheduled Instances.
-        public var scheduledInstanceSet: [ScheduledInstance]? = nil
-
-        public init() {}
+        public let scheduledInstanceSet: [ScheduledInstance]?
 
         public init(nextToken: String? = nil, scheduledInstanceSet: [ScheduledInstance]? = nil) {
             self.nextToken = nextToken
@@ -6298,6 +6002,8 @@ extension Ec2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let scheduledInstanceSet = dictionary["ScheduledInstanceSet"] as? [[String: Any]] {
                 self.scheduledInstanceSet = try scheduledInstanceSet.map({ try ScheduledInstance(dictionary: $0) })
+            } else { 
+                self.scheduledInstanceSet = nil
             }
         }
     }
@@ -6306,15 +6012,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the network ACL.
-        public var networkAclId: String = ""
+        public let networkAclId: String
         /// The rule number of the entry to delete.
-        public var ruleNumber: Int32 = 0
+        public let ruleNumber: Int32
         /// Indicates whether the rule is an egress rule.
-        public var egress: Bool = false
+        public let egress: Bool
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(networkAclId: String, ruleNumber: Int32, egress: Bool, dryRun: Bool? = nil) {
             self.networkAclId = networkAclId
@@ -6338,13 +6042,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the snapshot.
-        public var snapshotId: String = ""
+        public let snapshotId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The attribute to reset. Currently, only the attribute for permission to create volumes can be reset.
-        public var attribute: String = ""
-
-        public init() {}
+        public let attribute: String
 
         public init(snapshotId: String, dryRun: Bool? = nil, attribute: String) {
             self.snapshotId = snapshotId
@@ -6365,19 +6067,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Any VPCs attached to the virtual private gateway.
-        public var vpcAttachments: [VpcAttachment]? = nil
+        public let vpcAttachments: [VpcAttachment]?
         /// The ID of the virtual private gateway.
-        public var vpnGatewayId: String? = nil
+        public let vpnGatewayId: String?
         /// The type of VPN connection the virtual private gateway supports.
-        public var type: String? = nil
+        public let type: String?
         /// The Availability Zone where the virtual private gateway was created, if applicable. This field may be empty or not returned.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// Any tags assigned to the virtual private gateway.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The current state of the virtual private gateway.
-        public var state: String? = nil
-
-        public init() {}
+        public let state: String?
 
         public init(vpcAttachments: [VpcAttachment]? = nil, vpnGatewayId: String? = nil, type: String? = nil, availabilityZone: String? = nil, tags: [Tag]? = nil, state: String? = nil) {
             self.vpcAttachments = vpcAttachments
@@ -6391,12 +6091,16 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let vpcAttachments = dictionary["VpcAttachments"] as? [[String: Any]] {
                 self.vpcAttachments = try vpcAttachments.map({ try VpcAttachment(dictionary: $0) })
+            } else { 
+                self.vpcAttachments = nil
             }
             self.vpnGatewayId = dictionary["VpnGatewayId"] as? String
             self.type = dictionary["Type"] as? String
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.state = dictionary["State"] as? String
         }
@@ -6406,13 +6110,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// Indicates whether to terminate instances for a Spot fleet request if it is canceled successfully.
-        public var terminateInstances: Bool = false
+        public let terminateInstances: Bool
         /// The IDs of the Spot fleet requests.
-        public var spotFleetRequestIds: [String] = []
-
-        public init() {}
+        public let spotFleetRequestIds: [String]
 
         public init(dryRun: Bool? = nil, terminateInstances: Bool, spotFleetRequestIds: [String]) {
             self.dryRun = dryRun
@@ -6433,17 +6135,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more volume IDs. Default: Describes all your volumes.
-        public var volumeIds: [String]? = nil
+        public let volumeIds: [String]?
         /// One or more filters.    action.code - The action code for the event (for example, enable-volume-io).    action.description - A description of the action.    action.event-id - The event ID associated with the action.    availability-zone - The Availability Zone of the instance.    event.description - A description of the event.    event.event-id - The event ID.    event.event-type - The event type (for io-enabled: passed | failed; for io-performance: io-performance:degraded | io-performance:severely-degraded | io-performance:stalled).    event.not-after - The latest end time for the event.    event.not-before - The earliest start time for the event.    volume-status.details-name - The cause for volume-status.status (io-enabled | io-performance).    volume-status.details-status - The status of volume-status.details-name (for io-enabled: passed | failed; for io-performance: normal | degraded | severely-degraded | stalled).    volume-status.status - The status of the volume (ok | impaired | warning | insufficient-data).  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The NextToken value to include in a future DescribeVolumeStatus request. When the results of the request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of volume results returned by DescribeVolumeStatus in paginated output. When this parameter is used, the request only returns MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another request with the returned NextToken value. This value can be between 5 and 1000; if MaxResults is given a value larger than 1000, only 1000 results are returned. If this parameter is not used, then DescribeVolumeStatus returns all results. You cannot specify this parameter and the volume IDs parameter in the same request.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(volumeIds: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.volumeIds = volumeIds
@@ -6454,11 +6154,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let volumeIds = dictionary["VolumeIds"] as? [String] {
-                self.volumeIds = volumeIds
-            }
+            self.volumeIds = dictionary["VolumeIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
             self.nextToken = dictionary["NextToken"] as? String
@@ -6470,15 +6170,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more security group IDs. Required for security groups in a nondefault VPC. Default: Describes all your security groups.
-        public var groupIds: [String]? = nil
+        public let groupIds: [String]?
         /// One or more filters. If using multiple filters for rules, the results include security groups for which any combination of rules - not necessarily a single rule - match all filters.    description - The description of the security group.    egress.ip-permission.prefix-list-id - The ID (prefix) of the AWS service to which the security group allows access.    group-id - The ID of the security group.     group-name - The name of the security group.    ip-permission.cidr - An IPv4 CIDR range that has been granted permission in a security group rule.    ip-permission.from-port - The start of port range for the TCP and UDP protocols, or an ICMP type number.    ip-permission.group-id - The ID of a security group that has been granted permission.    ip-permission.group-name - The name of a security group that has been granted permission.    ip-permission.ipv6-cidr - An IPv6 CIDR range that has been granted permission in a security group rule.    ip-permission.protocol - The IP protocol for the permission (tcp | udp | icmp or a protocol number).    ip-permission.to-port - The end of port range for the TCP and UDP protocols, or an ICMP code.    ip-permission.user-id - The ID of an AWS account that has been granted permission.    owner-id - The AWS account ID of the owner of the security group.    tag-key - The key of a tag assigned to the security group.    tag-value - The value of a tag assigned to the security group.    vpc-id - The ID of the VPC specified when the security group was created.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// [EC2-Classic and default VPC only] One or more security group names. You can specify either the security group name or the security group ID. For security groups in a nondefault VPC, use the group-name filter to describe security groups by name. Default: Describes all your security groups.
-        public var groupNames: [String]? = nil
-
-        public init() {}
+        public let groupNames: [String]?
 
         public init(groupIds: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil, groupNames: [String]? = nil) {
             self.groupIds = groupIds
@@ -6488,16 +6186,14 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let groupIds = dictionary["GroupIds"] as? [String] {
-                self.groupIds = groupIds
-            }
+            self.groupIds = dictionary["GroupIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let groupNames = dictionary["GroupNames"] as? [String] {
-                self.groupNames = groupNames
-            }
+            self.groupNames = dictionary["GroupNames"] as? [String]
         }
     }
 
@@ -6505,35 +6201,33 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Encrypted Amazon EBS snapshots are copied asynchronously. If a snapshot copy operation fails (for example, if the proper AWS Key Management Service (AWS KMS) permissions are not obtained) this field displays error state details to help you diagnose why the error occurred. This parameter is only returned by the DescribeSnapshots API operation.
-        public var stateMessage: String? = nil
+        public let stateMessage: String?
         /// The snapshot state.
-        public var state: String? = nil
+        public let state: String?
         /// The ID of the volume that was used to create the snapshot. Snapshots created by the CopySnapshot action have an arbitrary volume ID that should not be used for any purpose.
-        public var volumeId: String? = nil
+        public let volumeId: String?
         /// Indicates whether the snapshot is encrypted.
-        public var encrypted: Bool? = nil
+        public let encrypted: Bool?
         /// Any tags assigned to the snapshot.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The AWS account ID of the EBS snapshot owner.
-        public var ownerId: String? = nil
+        public let ownerId: String?
         /// The description for the snapshot.
-        public var description: String? = nil
+        public let description: String?
         /// The time stamp when the snapshot was initiated.
-        public var startTime: Date? = nil
+        public let startTime: Date?
         /// The data encryption key identifier for the snapshot. This value is a unique identifier that corresponds to the data encryption key that was used to encrypt the original volume or snapshot copy. Because data encryption keys are inherited by volumes created from snapshots, and vice versa, if snapshots share the same data encryption key identifier, then they belong to the same volume/snapshot lineage. This parameter is only returned by the DescribeSnapshots API operation.
-        public var dataEncryptionKeyId: String? = nil
+        public let dataEncryptionKeyId: String?
         /// The progress of the snapshot, as a percentage.
-        public var progress: String? = nil
+        public let progress: String?
         /// The ID of the snapshot. Each snapshot receives a unique identifier when it is created.
-        public var snapshotId: String? = nil
+        public let snapshotId: String?
         /// The size of the volume, in GiB.
-        public var volumeSize: Int32? = nil
+        public let volumeSize: Int32?
         ///  Value from an Amazon-maintained list (amazon | aws-marketplace | microsoft) of snapshot owners. Not to be confused with the user-configured AWS account alias, which is set from the IAM console. 
-        public var ownerAlias: String? = nil
+        public let ownerAlias: String?
         /// The full ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) that was used to protect the volume encryption key for the parent volume.
-        public var kmsKeyId: String? = nil
-
-        public init() {}
+        public let kmsKeyId: String?
 
         public init(stateMessage: String? = nil, state: String? = nil, volumeId: String? = nil, encrypted: Bool? = nil, tags: [Tag]? = nil, ownerId: String? = nil, description: String? = nil, startTime: Date? = nil, dataEncryptionKeyId: String? = nil, progress: String? = nil, snapshotId: String? = nil, volumeSize: Int32? = nil, ownerAlias: String? = nil, kmsKeyId: String? = nil) {
             self.stateMessage = stateMessage
@@ -6559,6 +6253,8 @@ extension Ec2 {
             self.encrypted = dictionary["Encrypted"] as? Bool
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.ownerId = dictionary["OwnerId"] as? String
             self.description = dictionary["Description"] as? String
@@ -6576,13 +6272,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// One or more filters.    cidr - The IPv4 CIDR block of the VPC. The CIDR block you specify must exactly match the VPC's CIDR block for information to be returned for the VPC. Must contain the slash followed by one or two digits (for example, /28).    dhcp-options-id - The ID of a set of DHCP options.    ipv6-cidr-block-association.ipv6-cidr-block - An IPv6 CIDR block associated with the VPC.    ipv6-cidr-block-association.association-id - The association ID for an IPv6 CIDR block associated with the VPC.    ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the VPC.    isDefault - Indicates whether the VPC is the default VPC.    state - The state of the VPC (pending | available).    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-id - The ID of the VPC.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// One or more VPC IDs. Default: Describes all your VPCs.
-        public var vpcIds: [String]? = nil
-
-        public init() {}
+        public let vpcIds: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, vpcIds: [String]? = nil) {
             self.dryRun = dryRun
@@ -6594,10 +6288,10 @@ extension Ec2 {
             self.dryRun = dictionary["DryRun"] as? Bool
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
-            if let vpcIds = dictionary["VpcIds"] as? [String] {
-                self.vpcIds = vpcIds
-            }
+            self.vpcIds = dictionary["VpcIds"] as? [String]
         }
     }
 
@@ -6605,9 +6299,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the ID format for the resource.
-        public var statuses: [IdFormat]? = nil
-
-        public init() {}
+        public let statuses: [IdFormat]?
 
         public init(statuses: [IdFormat]? = nil) {
             self.statuses = statuses
@@ -6616,6 +6308,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let statuses = dictionary["Statuses"] as? [[String: Any]] {
                 self.statuses = try statuses.map({ try IdFormat(dictionary: $0) })
+            } else { 
+                self.statuses = nil
             }
         }
     }
@@ -6624,33 +6318,31 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The billing product codes.
-        public var billingProducts: [String]? = nil
+        public let billingProducts: [String]?
         /// One or more block device mapping entries.
-        public var blockDeviceMappings: [BlockDeviceMapping]? = nil
+        public let blockDeviceMappings: [BlockDeviceMapping]?
         /// Set to simple to enable enhanced networking with the Intel 82599 Virtual Function interface for the AMI and any instances that you launch from the AMI. There is no way to disable sriovNetSupport at this time. This option is supported only for HVM AMIs. Specifying this option with a PV AMI can make instances launched from the AMI unreachable.
-        public var sriovNetSupport: String? = nil
+        public let sriovNetSupport: String?
         /// The name of the root device (for example, /dev/sda1, or /dev/xvda).
-        public var rootDeviceName: String? = nil
+        public let rootDeviceName: String?
         /// The full path to your AMI manifest in Amazon S3 storage.
-        public var imageLocation: String? = nil
+        public let imageLocation: String?
         /// The ID of the kernel.
-        public var kernelId: String? = nil
+        public let kernelId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// A description for your AMI.
-        public var description: String? = nil
+        public let description: String?
         /// A name for your AMI. Constraints: 3-128 alphanumeric characters, parentheses (()), square brackets ([]), spaces ( ), periods (.), slashes (/), dashes (-), single quotes ('), at-signs (@), or underscores(_)
-        public var name: String = ""
+        public let name: String
         /// The architecture of the AMI. Default: For Amazon EBS-backed AMIs, i386. For instance store-backed AMIs, the architecture specified in the manifest file.
-        public var architecture: String? = nil
+        public let architecture: String?
         /// Set to true to enable enhanced networking with ENA for the AMI and any instances that you launch from the AMI. This option is supported only for HVM AMIs. Specifying this option with a PV AMI can make instances launched from the AMI unreachable.
-        public var enaSupport: Bool? = nil
+        public let enaSupport: Bool?
         /// The type of virtualization. Default: paravirtual 
-        public var virtualizationType: String? = nil
+        public let virtualizationType: String?
         /// The ID of the RAM disk.
-        public var ramdiskId: String? = nil
-
-        public init() {}
+        public let ramdiskId: String?
 
         public init(billingProducts: [String]? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, sriovNetSupport: String? = nil, rootDeviceName: String? = nil, imageLocation: String? = nil, kernelId: String? = nil, dryRun: Bool? = nil, description: String? = nil, name: String, architecture: String? = nil, enaSupport: Bool? = nil, virtualizationType: String? = nil, ramdiskId: String? = nil) {
             self.billingProducts = billingProducts
@@ -6669,11 +6361,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let billingProducts = dictionary["BillingProducts"] as? [String] {
-                self.billingProducts = billingProducts
-            }
+            self.billingProducts = dictionary["BillingProducts"] as? [String]
             if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
                 self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            } else { 
+                self.blockDeviceMappings = nil
             }
             self.sriovNetSupport = dictionary["SriovNetSupport"] as? String
             self.rootDeviceName = dictionary["RootDeviceName"] as? String
@@ -6694,17 +6386,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more Elastic IP addresses.
-        public var publicIps: [String]? = nil
+        public let publicIps: [String]?
         /// One or more filters.    moving-status - The status of the Elastic IP address (MovingToVpc | RestoringToClassic).  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The token to use to retrieve the next page of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to return for the request in a single page. The remaining results of the initial request can be seen by sending another request with the returned NextToken value. This value can be between 5 and 1000; if MaxResults is given a value outside of this range, an error is returned. Default: If no value is provided, the default is 1000.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(publicIps: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.publicIps = publicIps
@@ -6715,11 +6405,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let publicIps = dictionary["PublicIps"] as? [String] {
-                self.publicIps = publicIps
-            }
+            self.publicIps = dictionary["PublicIps"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
             self.nextToken = dictionary["NextToken"] as? String
@@ -6731,9 +6421,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The monitoring information.
-        public var instanceMonitorings: [InstanceMonitoring]? = nil
-
-        public init() {}
+        public let instanceMonitorings: [InstanceMonitoring]?
 
         public init(instanceMonitorings: [InstanceMonitoring]? = nil) {
             self.instanceMonitorings = instanceMonitorings
@@ -6742,6 +6430,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let instanceMonitorings = dictionary["InstanceMonitorings"] as? [[String: Any]] {
                 self.instanceMonitorings = try instanceMonitorings.map({ try InstanceMonitoring(dictionary: $0) })
+            } else { 
+                self.instanceMonitorings = nil
             }
         }
     }
@@ -6750,11 +6440,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IPv6 addresses assigned to the network interface.
-        public var assignedIpv6Addresses: [String]? = nil
+        public let assignedIpv6Addresses: [String]?
         /// The ID of the network interface.
-        public var networkInterfaceId: String? = nil
-
-        public init() {}
+        public let networkInterfaceId: String?
 
         public init(assignedIpv6Addresses: [String]? = nil, networkInterfaceId: String? = nil) {
             self.assignedIpv6Addresses = assignedIpv6Addresses
@@ -6762,9 +6450,7 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let assignedIpv6Addresses = dictionary["AssignedIpv6Addresses"] as? [String] {
-                self.assignedIpv6Addresses = assignedIpv6Addresses
-            }
+            self.assignedIpv6Addresses = dictionary["AssignedIpv6Addresses"] as? [String]
             self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
         }
     }
@@ -6773,15 +6459,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether to allow an IP address that is already assigned to another network interface or instance to be reassigned to the specified network interface.
-        public var allowReassignment: Bool? = nil
+        public let allowReassignment: Bool?
         /// The ID of the network interface.
-        public var networkInterfaceId: String = ""
+        public let networkInterfaceId: String
         /// The number of secondary IP addresses to assign to the network interface. You can't specify this parameter when also specifying private IP addresses.
-        public var secondaryPrivateIpAddressCount: Int32? = nil
+        public let secondaryPrivateIpAddressCount: Int32?
         /// One or more IP addresses to be assigned as a secondary private IP address to the network interface. You can't specify this parameter when also specifying a number of secondary IP addresses. If you don't specify an IP address, Amazon EC2 automatically selects an IP address within the subnet range.
-        public var privateIpAddresses: [String]? = nil
-
-        public init() {}
+        public let privateIpAddresses: [String]?
 
         public init(allowReassignment: Bool? = nil, networkInterfaceId: String, secondaryPrivateIpAddressCount: Int32? = nil, privateIpAddresses: [String]? = nil) {
             self.allowReassignment = allowReassignment
@@ -6795,9 +6479,7 @@ extension Ec2 {
             guard let networkInterfaceId = dictionary["NetworkInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("NetworkInterfaceId") }
             self.networkInterfaceId = networkInterfaceId
             self.secondaryPrivateIpAddressCount = dictionary["SecondaryPrivateIpAddressCount"] as? Int32
-            if let privateIpAddresses = dictionary["PrivateIpAddresses"] as? [String] {
-                self.privateIpAddresses = privateIpAddresses
-            }
+            self.privateIpAddresses = dictionary["PrivateIpAddresses"] as? [String]
         }
     }
 
@@ -6805,57 +6487,55 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// If you set this parameter to true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. To change this attribute to false after launch, use ModifyInstanceAttribute. Alternatively, if you set InstanceInitiatedShutdownBehavior to terminate, you can terminate the instance by running the shutdown command from the instance. Default: false 
-        public var disableApiTermination: Bool? = nil
+        public let disableApiTermination: Bool?
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency. Constraints: Maximum 64 ASCII characters
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// Indicates whether the instance is optimized for EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS-optimized instance. Default: false 
-        public var ebsOptimized: Bool? = nil
+        public let ebsOptimized: Bool?
         /// The ID of the kernel.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see  PV-GRUB in the Amazon Elastic Compute Cloud User Guide. 
-        public var kernelId: String? = nil
+        public let kernelId: String?
         /// [EC2-VPC] A number of IPv6 addresses to associate with the primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet. You cannot specify this option and the option to assign specific IPv6 addresses in the same request. You can specify this option if you've specified a minimum number of instances to launch.
-        public var ipv6AddressCount: Int32? = nil
+        public let ipv6AddressCount: Int32?
         /// The instance type. For more information, see Instance Types in the Amazon Elastic Compute Cloud User Guide. Default: m1.small 
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// [EC2-VPC] The primary IPv4 address. You must specify a value from the IPv4 address range of the subnet. Only one private IP address can be designated as primary. You can't specify this option if you've specified the option to designate a private IP address as the primary IP address in a network interface specification. You cannot specify this option if you're launching more than one instance in the request.
-        public var privateIpAddress: String? = nil
+        public let privateIpAddress: String?
         /// The name of the key pair. You can create a key pair using CreateKeyPair or ImportKeyPair.  If you do not specify a key pair, you can't connect to the instance unless you choose an AMI that is configured to allow users another way to log in. 
-        public var keyName: String? = nil
+        public let keyName: String?
         /// The IAM instance profile.
-        public var iamInstanceProfile: IamInstanceProfileSpecification? = nil
+        public let iamInstanceProfile: IamInstanceProfileSpecification?
         /// Indicates whether an instance stops or terminates when you initiate shutdown from the instance (using the operating system command for system shutdown). Default: stop 
-        public var instanceInitiatedShutdownBehavior: String? = nil
+        public let instanceInitiatedShutdownBehavior: String?
         /// [EC2-VPC] Specify one or more IPv6 addresses from the range of the subnet to associate with the primary network interface. You cannot specify this option and the option to assign a number of IPv6 addresses in the same request. You cannot specify this option if you've specified a minimum number of instances to launch.
-        public var ipv6Addresses: [InstanceIpv6Address]? = nil
+        public let ipv6Addresses: [InstanceIpv6Address]?
         /// The minimum number of instances to launch. If you specify a minimum that is more instances than Amazon EC2 can launch in the target Availability Zone, Amazon EC2 launches no instances. Constraints: Between 1 and the maximum number you're allowed for the specified instance type. For more information about the default limits, and how to request an increase, see How many instances can I run in Amazon EC2 in the Amazon EC2 General FAQ.
-        public var minCount: Int32 = 0
+        public let minCount: Int32
         /// The ID of the RAM disk.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see  PV-GRUB in the Amazon Elastic Compute Cloud User Guide. 
-        public var ramdiskId: String? = nil
+        public let ramdiskId: String?
         /// The block device mapping.  Supplying both a snapshot ID and an encryption value as arguments for block-device mapping results in an error. This is because only blank volumes can be encrypted on start, and these are not created from a snapshot. If a snapshot is the basis for the volume, it contains data by definition and its encryption status cannot be changed using this action. 
-        public var blockDeviceMappings: [BlockDeviceMapping]? = nil
+        public let blockDeviceMappings: [BlockDeviceMapping]?
         /// [EC2-VPC] The ID of the subnet to launch the instance into.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// The user data to make available to the instance. For more information, see Running Commands on Your Linux Instance at Launch (Linux) and Adding User Data (Windows). If you are using an AWS SDK or command line tool, Base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide Base64-encoded text.
-        public var userData: String? = nil
+        public let userData: String?
         /// One or more security group IDs. You can create a security group using CreateSecurityGroup. Default: Amazon EC2 uses the default security group.
-        public var securityGroupIds: [String]? = nil
+        public let securityGroupIds: [String]?
         /// The monitoring for the instance.
-        public var monitoring: RunInstancesMonitoringEnabled? = nil
+        public let monitoring: RunInstancesMonitoringEnabled?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// [EC2-Classic, default VPC] One or more security group names. For a nondefault VPC, you must use security group IDs instead. Default: Amazon EC2 uses the default security group.
-        public var securityGroups: [String]? = nil
+        public let securityGroups: [String]?
         /// The maximum number of instances to launch. If you specify more instances than Amazon EC2 can launch in the target Availability Zone, Amazon EC2 launches the largest possible number of instances above MinCount. Constraints: Between 1 and the maximum number you're allowed for the specified instance type. For more information about the default limits, and how to request an increase, see How many instances can I run in Amazon EC2 in the Amazon EC2 FAQ.
-        public var maxCount: Int32 = 0
+        public let maxCount: Int32
         /// Reserved.
-        public var additionalInfo: String? = nil
+        public let additionalInfo: String?
         /// The placement for the instance.
-        public var placement: Placement? = nil
+        public let placement: Placement?
         /// One or more network interfaces.
-        public var networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil
+        public let networkInterfaces: [InstanceNetworkInterfaceSpecification]?
         /// The ID of the AMI, which you can get by calling DescribeImages.
-        public var imageId: String = ""
-
-        public init() {}
+        public let imageId: String
 
         public init(disableApiTermination: Bool? = nil, clientToken: String? = nil, ebsOptimized: Bool? = nil, kernelId: String? = nil, ipv6AddressCount: Int32? = nil, instanceType: String? = nil, privateIpAddress: String? = nil, keyName: String? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, instanceInitiatedShutdownBehavior: String? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, minCount: Int32, ramdiskId: String? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, subnetId: String? = nil, userData: String? = nil, securityGroupIds: [String]? = nil, monitoring: RunInstancesMonitoringEnabled? = nil, dryRun: Bool? = nil, securityGroups: [String]? = nil, maxCount: Int32, additionalInfo: String? = nil, placement: Placement? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, imageId: String) {
             self.disableApiTermination = disableApiTermination
@@ -6894,33 +6574,35 @@ extension Ec2 {
             self.instanceType = dictionary["InstanceType"] as? String
             self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
             self.keyName = dictionary["KeyName"] as? String
-            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.IamInstanceProfileSpecification(dictionary: iamInstanceProfile) }
+            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.IamInstanceProfileSpecification(dictionary: iamInstanceProfile) } else { self.iamInstanceProfile = nil }
             self.instanceInitiatedShutdownBehavior = dictionary["InstanceInitiatedShutdownBehavior"] as? String
             if let ipv6Addresses = dictionary["Ipv6Addresses"] as? [[String: Any]] {
                 self.ipv6Addresses = try ipv6Addresses.map({ try InstanceIpv6Address(dictionary: $0) })
+            } else { 
+                self.ipv6Addresses = nil
             }
             guard let minCount = dictionary["MinCount"] as? Int32 else { throw InitializableError.missingRequiredParam("MinCount") }
             self.minCount = minCount
             self.ramdiskId = dictionary["RamdiskId"] as? String
             if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
                 self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            } else { 
+                self.blockDeviceMappings = nil
             }
             self.subnetId = dictionary["SubnetId"] as? String
             self.userData = dictionary["UserData"] as? String
-            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String] {
-                self.securityGroupIds = securityGroupIds
-            }
-            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.RunInstancesMonitoringEnabled(dictionary: monitoring) }
+            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
+            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.RunInstancesMonitoringEnabled(dictionary: monitoring) } else { self.monitoring = nil }
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let securityGroups = dictionary["SecurityGroups"] as? [String] {
-                self.securityGroups = securityGroups
-            }
+            self.securityGroups = dictionary["SecurityGroups"] as? [String]
             guard let maxCount = dictionary["MaxCount"] as? Int32 else { throw InitializableError.missingRequiredParam("MaxCount") }
             self.maxCount = maxCount
             self.additionalInfo = dictionary["AdditionalInfo"] as? String
-            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.Placement(dictionary: placement) }
+            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.Placement(dictionary: placement) } else { self.placement = nil }
             if let networkInterfaces = dictionary["NetworkInterfaces"] as? [[String: Any]] {
                 self.networkInterfaces = try networkInterfaces.map({ try InstanceNetworkInterfaceSpecification(dictionary: $0) })
+            } else { 
+                self.networkInterfaces = nil
             }
             guard let imageId = dictionary["ImageId"] as? String else { throw InitializableError.missingRequiredParam("ImageId") }
             self.imageId = imageId
@@ -6931,43 +6613,41 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Availability Zone in which the bid is launched.
-        public var launchedAvailabilityZone: String? = nil
+        public let launchedAvailabilityZone: String?
         /// The ID of the Spot instance request.
-        public var spotInstanceRequestId: String? = nil
+        public let spotInstanceRequestId: String?
         /// The state of the Spot instance request. Spot bid status information can help you track your Spot instance requests. For more information, see Spot Bid Status in the Amazon Elastic Compute Cloud User Guide.
-        public var state: String? = nil
+        public let state: String?
         /// The maximum hourly price (bid) for the Spot instance launched to fulfill the request.
-        public var spotPrice: String? = nil
+        public let spotPrice: String?
         /// Any tags assigned to the resource.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The end date of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). If this is a one-time request, it remains active until all instances launch, the request is canceled, or this date is reached. If the request is persistent, it remains active until it is canceled or this date is reached.
-        public var validUntil: Date? = nil
+        public let validUntil: Date?
         /// The fault codes for the Spot instance request, if any.
-        public var fault: SpotInstanceStateFault? = nil
+        public let fault: SpotInstanceStateFault?
         /// The product description associated with the Spot instance.
-        public var productDescription: String? = nil
+        public let productDescription: String?
         /// The Availability Zone group. If you specify the same Availability Zone group for all Spot instance requests, all Spot instances are launched in the same Availability Zone.
-        public var availabilityZoneGroup: String? = nil
+        public let availabilityZoneGroup: String?
         /// The status code and status message describing the Spot instance request.
-        public var status: SpotInstanceStatus? = nil
+        public let status: SpotInstanceStatus?
         /// The start date of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). The request becomes active at this date and time.
-        public var validFrom: Date? = nil
+        public let validFrom: Date?
         /// The instance ID, if an instance has been launched to fulfill the Spot instance request.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// If you specified a duration and your Spot instance request was fulfilled, this is the fixed hourly price in effect for the Spot instance while it runs.
-        public var actualBlockHourlyPrice: String? = nil
+        public let actualBlockHourlyPrice: String?
         /// The duration for the Spot instance, in minutes.
-        public var blockDurationMinutes: Int32? = nil
+        public let blockDurationMinutes: Int32?
         /// Additional information for launching instances.
-        public var launchSpecification: LaunchSpecification? = nil
+        public let launchSpecification: LaunchSpecification?
         /// The Spot instance request type.
-        public var type: String? = nil
+        public let type: String?
         /// The instance launch group. Launch groups are Spot instances that launch together and terminate together.
-        public var launchGroup: String? = nil
+        public let launchGroup: String?
         /// The date and time when the Spot instance request was created, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public var createTime: Date? = nil
-
-        public init() {}
+        public let createTime: Date?
 
         public init(launchedAvailabilityZone: String? = nil, spotInstanceRequestId: String? = nil, state: String? = nil, spotPrice: String? = nil, tags: [Tag]? = nil, validUntil: Date? = nil, fault: SpotInstanceStateFault? = nil, productDescription: String? = nil, availabilityZoneGroup: String? = nil, status: SpotInstanceStatus? = nil, validFrom: Date? = nil, instanceId: String? = nil, actualBlockHourlyPrice: String? = nil, blockDurationMinutes: Int32? = nil, launchSpecification: LaunchSpecification? = nil, type: String? = nil, launchGroup: String? = nil, createTime: Date? = nil) {
             self.launchedAvailabilityZone = launchedAvailabilityZone
@@ -6997,17 +6677,19 @@ extension Ec2 {
             self.spotPrice = dictionary["SpotPrice"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.validUntil = dictionary["ValidUntil"] as? Date
-            if let fault = dictionary["Fault"] as? [String: Any] { self.fault = try Ec2.SpotInstanceStateFault(dictionary: fault) }
+            if let fault = dictionary["Fault"] as? [String: Any] { self.fault = try Ec2.SpotInstanceStateFault(dictionary: fault) } else { self.fault = nil }
             self.productDescription = dictionary["ProductDescription"] as? String
             self.availabilityZoneGroup = dictionary["AvailabilityZoneGroup"] as? String
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Ec2.SpotInstanceStatus(dictionary: status) }
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Ec2.SpotInstanceStatus(dictionary: status) } else { self.status = nil }
             self.validFrom = dictionary["ValidFrom"] as? Date
             self.instanceId = dictionary["InstanceId"] as? String
             self.actualBlockHourlyPrice = dictionary["ActualBlockHourlyPrice"] as? String
             self.blockDurationMinutes = dictionary["BlockDurationMinutes"] as? Int32
-            if let launchSpecification = dictionary["LaunchSpecification"] as? [String: Any] { self.launchSpecification = try Ec2.LaunchSpecification(dictionary: launchSpecification) }
+            if let launchSpecification = dictionary["LaunchSpecification"] as? [String: Any] { self.launchSpecification = try Ec2.LaunchSpecification(dictionary: launchSpecification) } else { self.launchSpecification = nil }
             self.type = dictionary["Type"] as? String
             self.launchGroup = dictionary["LaunchGroup"] as? String
             self.createTime = dictionary["CreateTime"] as? Date
@@ -7018,11 +6700,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more instance IDs.
-        public var instanceIds: [String] = []
+        public let instanceIds: [String]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(instanceIds: [String], dryRun: Bool? = nil) {
             self.instanceIds = instanceIds
@@ -7040,11 +6720,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the VPC peering connection.
-        public var code: String? = nil
+        public let code: String?
         /// A message that provides more information about the status, if applicable.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
@@ -7061,37 +6739,35 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The platform (Linux/UNIX or Windows).
-        public var platform: String? = nil
+        public let platform: String?
         /// The time that the previous schedule ended or will end.
-        public var previousSlotEndTime: Date? = nil
+        public let previousSlotEndTime: Date?
         /// The total number of hours for a single instance for the entire term.
-        public var totalScheduledInstanceHours: Int32? = nil
+        public let totalScheduledInstanceHours: Int32?
         /// The date when the Scheduled Instance was purchased.
-        public var createDate: Date? = nil
+        public let createDate: Date?
         /// The hourly price for a single instance.
-        public var hourlyPrice: String? = nil
+        public let hourlyPrice: String?
         /// The instance type.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The number of hours in the schedule.
-        public var slotDurationInHours: Int32? = nil
+        public let slotDurationInHours: Int32?
         /// The Scheduled Instance ID.
-        public var scheduledInstanceId: String? = nil
+        public let scheduledInstanceId: String?
         /// The Availability Zone.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The start date for the Scheduled Instance.
-        public var termStartDate: Date? = nil
+        public let termStartDate: Date?
         /// The end date for the Scheduled Instance.
-        public var termEndDate: Date? = nil
+        public let termEndDate: Date?
         /// The time for the next schedule to start.
-        public var nextSlotStartTime: Date? = nil
+        public let nextSlotStartTime: Date?
         /// The number of instances.
-        public var instanceCount: Int32? = nil
+        public let instanceCount: Int32?
         /// The network platform (EC2-Classic or EC2-VPC).
-        public var networkPlatform: String? = nil
+        public let networkPlatform: String?
         /// The schedule recurrence.
-        public var recurrence: ScheduledInstanceRecurrence? = nil
-
-        public init() {}
+        public let recurrence: ScheduledInstanceRecurrence?
 
         public init(platform: String? = nil, previousSlotEndTime: Date? = nil, totalScheduledInstanceHours: Int32? = nil, createDate: Date? = nil, hourlyPrice: String? = nil, instanceType: String? = nil, slotDurationInHours: Int32? = nil, scheduledInstanceId: String? = nil, availabilityZone: String? = nil, termStartDate: Date? = nil, termEndDate: Date? = nil, nextSlotStartTime: Date? = nil, instanceCount: Int32? = nil, networkPlatform: String? = nil, recurrence: ScheduledInstanceRecurrence? = nil) {
             self.platform = platform
@@ -7126,7 +6802,7 @@ extension Ec2 {
             self.nextSlotStartTime = dictionary["NextSlotStartTime"] as? Date
             self.instanceCount = dictionary["InstanceCount"] as? Int32
             self.networkPlatform = dictionary["NetworkPlatform"] as? String
-            if let recurrence = dictionary["Recurrence"] as? [String: Any] { self.recurrence = try Ec2.ScheduledInstanceRecurrence(dictionary: recurrence) }
+            if let recurrence = dictionary["Recurrence"] as? [String: Any] { self.recurrence = try Ec2.ScheduledInstanceRecurrence(dictionary: recurrence) } else { self.recurrence = nil }
         }
     }
 
@@ -7134,13 +6810,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The ID of the Spot fleet request.
-        public var spotFleetRequestId: String = ""
+        public let spotFleetRequestId: String
         /// The running instances. Note that this list is refreshed periodically and might be out of date.
-        public var activeInstances: [ActiveInstance] = []
-
-        public init() {}
+        public let activeInstances: [ActiveInstance]
 
         public init(nextToken: String? = nil, spotFleetRequestId: String, activeInstances: [ActiveInstance]) {
             self.nextToken = nextToken
@@ -7161,11 +6835,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of product code.
-        public var productCodeType: String? = nil
+        public let productCodeType: String?
         /// The product code.
-        public var productCodeId: String? = nil
-
-        public init() {}
+        public let productCodeId: String?
 
         public init(productCodeType: String? = nil, productCodeId: String? = nil) {
             self.productCodeType = productCodeType
@@ -7182,15 +6854,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The event code.
-        public var code: String? = nil
+        public let code: String?
         /// The earliest scheduled start time for the event.
-        public var notBefore: Date? = nil
+        public let notBefore: Date?
         /// The latest scheduled end time for the event.
-        public var notAfter: Date? = nil
+        public let notAfter: Date?
         /// A description of the event. After a scheduled event is completed, it can still be described for up to a week. If the event has been completed, this description starts with the following text: [Completed].
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(code: String? = nil, notBefore: Date? = nil, notAfter: Date? = nil, description: String? = nil) {
             self.code = code
@@ -7211,13 +6881,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of product codes.
-        public var productCodes: [ProductCode]? = nil
+        public let productCodes: [ProductCode]?
         /// The ID of the volume.
-        public var volumeId: String? = nil
+        public let volumeId: String?
         /// The state of autoEnableIO attribute.
-        public var autoEnableIO: AttributeBooleanValue? = nil
-
-        public init() {}
+        public let autoEnableIO: AttributeBooleanValue?
 
         public init(productCodes: [ProductCode]? = nil, volumeId: String? = nil, autoEnableIO: AttributeBooleanValue? = nil) {
             self.productCodes = productCodes
@@ -7228,9 +6896,11 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let productCodes = dictionary["ProductCodes"] as? [[String: Any]] {
                 self.productCodes = try productCodes.map({ try ProductCode(dictionary: $0) })
+            } else { 
+                self.productCodes = nil
             }
             self.volumeId = dictionary["VolumeId"] as? String
-            if let autoEnableIO = dictionary["AutoEnableIO"] as? [String: Any] { self.autoEnableIO = try Ec2.AttributeBooleanValue(dictionary: autoEnableIO) }
+            if let autoEnableIO = dictionary["AutoEnableIO"] as? [String: Any] { self.autoEnableIO = try Ec2.AttributeBooleanValue(dictionary: autoEnableIO) } else { self.autoEnableIO = nil }
         }
     }
 
@@ -7238,11 +6908,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the network interface.
-        public var networkInterfaceId: String = ""
+        public let networkInterfaceId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(networkInterfaceId: String, dryRun: Bool? = nil) {
             self.networkInterfaceId = networkInterfaceId
@@ -7260,17 +6928,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon S3 bucket where the Spot instance data feed is located.
-        public var bucket: String? = nil
+        public let bucket: String?
         /// The AWS account ID of the account.
-        public var ownerId: String? = nil
+        public let ownerId: String?
         /// The state of the Spot instance data feed subscription.
-        public var state: String? = nil
+        public let state: String?
         /// The fault codes for the Spot instance request, if any.
-        public var fault: SpotInstanceStateFault? = nil
+        public let fault: SpotInstanceStateFault?
         /// The prefix that is prepended to data feed files.
-        public var prefix: String? = nil
-
-        public init() {}
+        public let prefix: String?
 
         public init(bucket: String? = nil, ownerId: String? = nil, state: String? = nil, fault: SpotInstanceStateFault? = nil, prefix: String? = nil) {
             self.bucket = bucket
@@ -7284,7 +6950,7 @@ extension Ec2 {
             self.bucket = dictionary["Bucket"] as? String
             self.ownerId = dictionary["OwnerId"] as? String
             self.state = dictionary["State"] as? String
-            if let fault = dictionary["Fault"] as? [String: Any] { self.fault = try Ec2.SpotInstanceStateFault(dictionary: fault) }
+            if let fault = dictionary["Fault"] as? [String: Any] { self.fault = try Ec2.SpotInstanceStateFault(dictionary: fault) } else { self.fault = nil }
             self.prefix = dictionary["Prefix"] as? String
         }
     }
@@ -7293,27 +6959,25 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the disk containers.
-        public var diskContainers: [ImageDiskContainer]? = nil
+        public let diskContainers: [ImageDiskContainer]?
         /// The operating system of the virtual machine. Valid values: Windows | Linux 
-        public var platform: String? = nil
+        public let platform: String?
         /// The token to enable idempotency for VM import requests.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// The license type to be used for the Amazon Machine Image (AMI) after importing.  Note: You may only use BYOL if you have existing licenses with rights to use these licenses in a third party cloud like AWS. For more information, see Prerequisites in the VM Import/Export User Guide. Valid values: AWS | BYOL 
-        public var licenseType: String? = nil
+        public let licenseType: String?
         /// The target hypervisor platform. Valid values: xen 
-        public var hypervisor: String? = nil
+        public let hypervisor: String?
         /// The architecture of the virtual machine. Valid values: i386 | x86_64 
-        public var architecture: String? = nil
+        public let architecture: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The name of the role to use when not using the default role, 'vmimport'.
-        public var roleName: String? = nil
+        public let roleName: String?
         /// The client-specific data.
-        public var clientData: ClientData? = nil
+        public let clientData: ClientData?
         /// A description string for the import image task.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(diskContainers: [ImageDiskContainer]? = nil, platform: String? = nil, clientToken: String? = nil, licenseType: String? = nil, hypervisor: String? = nil, architecture: String? = nil, dryRun: Bool? = nil, roleName: String? = nil, clientData: ClientData? = nil, description: String? = nil) {
             self.diskContainers = diskContainers
@@ -7331,6 +6995,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let diskContainers = dictionary["DiskContainers"] as? [[String: Any]] {
                 self.diskContainers = try diskContainers.map({ try ImageDiskContainer(dictionary: $0) })
+            } else { 
+                self.diskContainers = nil
             }
             self.platform = dictionary["Platform"] as? String
             self.clientToken = dictionary["ClientToken"] as? String
@@ -7339,7 +7005,7 @@ extension Ec2 {
             self.architecture = dictionary["Architecture"] as? String
             self.dryRun = dictionary["DryRun"] as? Bool
             self.roleName = dictionary["RoleName"] as? String
-            if let clientData = dictionary["ClientData"] as? [String: Any] { self.clientData = try Ec2.ClientData(dictionary: clientData) }
+            if let clientData = dictionary["ClientData"] as? [String: Any] { self.clientData = try Ec2.ClientData(dictionary: clientData) } else { self.clientData = nil }
             self.description = dictionary["Description"] as? String
         }
     }
@@ -7348,21 +7014,19 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the import of this particular disk image.
-        public var status: String = ""
+        public let status: String
         /// The number of bytes converted so far.
-        public var bytesConverted: Int64 = 0
+        public let bytesConverted: Int64
         /// The volume.
-        public var volume: DiskImageVolumeDescription = DiskImageVolumeDescription()
+        public let volume: DiskImageVolumeDescription
         /// The image.
-        public var image: DiskImageDescription = DiskImageDescription()
+        public let image: DiskImageDescription
         /// The status information or errors related to the disk image.
-        public var statusMessage: String? = nil
+        public let statusMessage: String?
         /// The Availability Zone where the resulting instance will reside.
-        public var availabilityZone: String = ""
+        public let availabilityZone: String
         /// A description of the task.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(status: String, bytesConverted: Int64, volume: DiskImageVolumeDescription, image: DiskImageDescription, statusMessage: String? = nil, availabilityZone: String, description: String? = nil) {
             self.status = status
@@ -7394,11 +7058,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the resource.
-        public var resourceId: String? = nil
+        public let resourceId: String?
         /// Information about the error.
-        public var error: UnsuccessfulItemError = UnsuccessfulItemError()
-
-        public init() {}
+        public let error: UnsuccessfulItemError
 
         public init(resourceId: String? = nil, error: UnsuccessfulItemError) {
             self.resourceId = resourceId
@@ -7416,11 +7078,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Information about one or more IAM instance profile associations.
-        public var iamInstanceProfileAssociations: [IamInstanceProfileAssociation]? = nil
-
-        public init() {}
+        public let iamInstanceProfileAssociations: [IamInstanceProfileAssociation]?
 
         public init(nextToken: String? = nil, iamInstanceProfileAssociations: [IamInstanceProfileAssociation]? = nil) {
             self.nextToken = nextToken
@@ -7431,6 +7091,8 @@ extension Ec2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let iamInstanceProfileAssociations = dictionary["IamInstanceProfileAssociations"] as? [[String: Any]] {
                 self.iamInstanceProfileAssociations = try iamInstanceProfileAssociations.map({ try IamInstanceProfileAssociation(dictionary: $0) })
+            } else { 
+                self.iamInstanceProfileAssociations = nil
             }
         }
     }
@@ -7439,9 +7101,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Is true if the request succeeds, and an error otherwise.
-        public var `return`: Bool? = nil
-
-        public init() {}
+        public let `return`: Bool?
 
         public init(return: Bool? = nil) {
             self.`return` = `return`
@@ -7456,31 +7116,29 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The volume type. This can be gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.
-        public var volumeType: String? = nil
+        public let volumeType: String?
         /// The volume state.
-        public var state: String? = nil
+        public let state: String?
         /// The ID of the volume.
-        public var volumeId: String? = nil
+        public let volumeId: String?
         /// Any tags assigned to the volume.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The snapshot from which the volume was created, if applicable.
-        public var snapshotId: String? = nil
+        public let snapshotId: String?
         /// The size of the volume, in GiBs.
-        public var size: Int32? = nil
+        public let size: Int32?
         /// Indicates whether the volume will be encrypted.
-        public var encrypted: Bool? = nil
+        public let encrypted: Bool?
         /// The time stamp when volume creation was initiated.
-        public var createTime: Date? = nil
+        public let createTime: Date?
         /// The number of I/O operations per second (IOPS) that the volume supports. For Provisioned IOPS SSD volumes, this represents the number of IOPS that are provisioned for the volume. For General Purpose SSD volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. For more information on General Purpose SSD baseline performance, I/O credits, and bursting, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. Constraint: Range is 100-20000 IOPS for io1 volumes and 100-10000 IOPS for gp2 volumes. Condition: This parameter is required for requests to create io1 volumes; it is not used in requests to create gp2, st1, sc1, or standard volumes.
-        public var iops: Int32? = nil
+        public let iops: Int32?
         /// The Availability Zone for the volume.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// Information about the volume attachments.
-        public var attachments: [VolumeAttachment]? = nil
+        public let attachments: [VolumeAttachment]?
         /// The full ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) that was used to protect the volume encryption key for the volume.
-        public var kmsKeyId: String? = nil
-
-        public init() {}
+        public let kmsKeyId: String?
 
         public init(volumeType: String? = nil, state: String? = nil, volumeId: String? = nil, tags: [Tag]? = nil, snapshotId: String? = nil, size: Int32? = nil, encrypted: Bool? = nil, createTime: Date? = nil, iops: Int32? = nil, availabilityZone: String? = nil, attachments: [VolumeAttachment]? = nil, kmsKeyId: String? = nil) {
             self.volumeType = volumeType
@@ -7503,6 +7161,8 @@ extension Ec2 {
             self.volumeId = dictionary["VolumeId"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.snapshotId = dictionary["SnapshotId"] as? String
             self.size = dictionary["Size"] as? Int32
@@ -7512,6 +7172,8 @@ extension Ec2 {
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
             if let attachments = dictionary["Attachments"] as? [[String: Any]] {
                 self.attachments = try attachments.map({ try VolumeAttachment(dictionary: $0) })
+            } else { 
+                self.attachments = nil
             }
             self.kmsKeyId = dictionary["KmsKeyId"] as? String
         }
@@ -7521,17 +7183,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The currency in which the totalUpfrontPrice, LimitPrice, and totalHourlyPrice amounts are specified. At this time, the only supported currency is USD.
-        public var currencyCode: String? = nil
+        public let currencyCode: String?
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see How to Ensure Idempotency in the Amazon Elastic Compute Cloud User Guide.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// The specified limit is checked against the total upfront cost of the reservation (calculated as the offering's upfront cost multiplied by the host count). If the total upfront cost is greater than the specified price limit, the request will fail. This is used to ensure that the purchase does not exceed the expected upfront cost of the purchase. At this time, the only supported currency is USD. For example, to indicate a limit price of USD 100, specify 100.00.
-        public var limitPrice: String? = nil
+        public let limitPrice: String?
         /// The ID of the offering.
-        public var offeringId: String = ""
+        public let offeringId: String
         /// The ID/s of the Dedicated Host/s that the reservation will be associated with.
-        public var hostIdSet: [String] = []
-
-        public init() {}
+        public let hostIdSet: [String]
 
         public init(currencyCode: String? = nil, clientToken: String? = nil, limitPrice: String? = nil, offeringId: String, hostIdSet: [String]) {
             self.currencyCode = currencyCode
@@ -7556,11 +7216,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of a CIDR block.
-        public var state: String? = nil
+        public let state: String?
         /// A message about the status of the CIDR block, if applicable.
-        public var statusMessage: String? = nil
-
-        public init() {}
+        public let statusMessage: String?
 
         public init(state: String? = nil, statusMessage: String? = nil) {
             self.state = state
@@ -7577,37 +7235,35 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The block device mapping of the instance.
-        public var blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil
+        public let blockDeviceMappings: [InstanceBlockDeviceMapping]?
         /// If the value is true, you can't terminate the instance through the Amazon EC2 console, CLI, or API; otherwise, you can.
-        public var disableApiTermination: AttributeBooleanValue? = nil
+        public let disableApiTermination: AttributeBooleanValue?
         /// The user data.
-        public var userData: AttributeValue? = nil
+        public let userData: AttributeValue?
         /// Indicates whether enhanced networking with the Intel 82599 Virtual Function interface is enabled.
-        public var sriovNetSupport: AttributeValue? = nil
+        public let sriovNetSupport: AttributeValue?
         /// The name of the root device (for example, /dev/sda1 or /dev/xvda).
-        public var rootDeviceName: AttributeValue? = nil
+        public let rootDeviceName: AttributeValue?
         /// Indicates whether the instance is optimized for EBS I/O.
-        public var ebsOptimized: AttributeBooleanValue? = nil
+        public let ebsOptimized: AttributeBooleanValue?
         /// Indicates whether source/destination checking is enabled. A value of true means checking is enabled, and false means checking is disabled. This value must be false for a NAT instance to perform NAT.
-        public var sourceDestCheck: AttributeBooleanValue? = nil
+        public let sourceDestCheck: AttributeBooleanValue?
         /// The kernel ID.
-        public var kernelId: AttributeValue? = nil
+        public let kernelId: AttributeValue?
         /// The instance type.
-        public var instanceType: AttributeValue? = nil
+        public let instanceType: AttributeValue?
         /// A list of product codes.
-        public var productCodes: [ProductCode]? = nil
+        public let productCodes: [ProductCode]?
         /// The ID of the instance.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// Indicates whether enhanced networking with ENA is enabled.
-        public var enaSupport: AttributeBooleanValue? = nil
+        public let enaSupport: AttributeBooleanValue?
         /// Indicates whether an instance stops or terminates when you initiate shutdown from the instance (using the operating system command for system shutdown).
-        public var instanceInitiatedShutdownBehavior: AttributeValue? = nil
+        public let instanceInitiatedShutdownBehavior: AttributeValue?
         /// The RAM disk ID.
-        public var ramdiskId: AttributeValue? = nil
+        public let ramdiskId: AttributeValue?
         /// The security groups associated with the instance.
-        public var groups: [GroupIdentifier]? = nil
-
-        public init() {}
+        public let groups: [GroupIdentifier]?
 
         public init(blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, disableApiTermination: AttributeBooleanValue? = nil, userData: AttributeValue? = nil, sriovNetSupport: AttributeValue? = nil, rootDeviceName: AttributeValue? = nil, ebsOptimized: AttributeBooleanValue? = nil, sourceDestCheck: AttributeBooleanValue? = nil, kernelId: AttributeValue? = nil, instanceType: AttributeValue? = nil, productCodes: [ProductCode]? = nil, instanceId: String? = nil, enaSupport: AttributeBooleanValue? = nil, instanceInitiatedShutdownBehavior: AttributeValue? = nil, ramdiskId: AttributeValue? = nil, groups: [GroupIdentifier]? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
@@ -7630,24 +7286,30 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
                 self.blockDeviceMappings = try blockDeviceMappings.map({ try InstanceBlockDeviceMapping(dictionary: $0) })
+            } else { 
+                self.blockDeviceMappings = nil
             }
-            if let disableApiTermination = dictionary["DisableApiTermination"] as? [String: Any] { self.disableApiTermination = try Ec2.AttributeBooleanValue(dictionary: disableApiTermination) }
-            if let userData = dictionary["UserData"] as? [String: Any] { self.userData = try Ec2.AttributeValue(dictionary: userData) }
-            if let sriovNetSupport = dictionary["SriovNetSupport"] as? [String: Any] { self.sriovNetSupport = try Ec2.AttributeValue(dictionary: sriovNetSupport) }
-            if let rootDeviceName = dictionary["RootDeviceName"] as? [String: Any] { self.rootDeviceName = try Ec2.AttributeValue(dictionary: rootDeviceName) }
-            if let ebsOptimized = dictionary["EbsOptimized"] as? [String: Any] { self.ebsOptimized = try Ec2.AttributeBooleanValue(dictionary: ebsOptimized) }
-            if let sourceDestCheck = dictionary["SourceDestCheck"] as? [String: Any] { self.sourceDestCheck = try Ec2.AttributeBooleanValue(dictionary: sourceDestCheck) }
-            if let kernelId = dictionary["KernelId"] as? [String: Any] { self.kernelId = try Ec2.AttributeValue(dictionary: kernelId) }
-            if let instanceType = dictionary["InstanceType"] as? [String: Any] { self.instanceType = try Ec2.AttributeValue(dictionary: instanceType) }
+            if let disableApiTermination = dictionary["DisableApiTermination"] as? [String: Any] { self.disableApiTermination = try Ec2.AttributeBooleanValue(dictionary: disableApiTermination) } else { self.disableApiTermination = nil }
+            if let userData = dictionary["UserData"] as? [String: Any] { self.userData = try Ec2.AttributeValue(dictionary: userData) } else { self.userData = nil }
+            if let sriovNetSupport = dictionary["SriovNetSupport"] as? [String: Any] { self.sriovNetSupport = try Ec2.AttributeValue(dictionary: sriovNetSupport) } else { self.sriovNetSupport = nil }
+            if let rootDeviceName = dictionary["RootDeviceName"] as? [String: Any] { self.rootDeviceName = try Ec2.AttributeValue(dictionary: rootDeviceName) } else { self.rootDeviceName = nil }
+            if let ebsOptimized = dictionary["EbsOptimized"] as? [String: Any] { self.ebsOptimized = try Ec2.AttributeBooleanValue(dictionary: ebsOptimized) } else { self.ebsOptimized = nil }
+            if let sourceDestCheck = dictionary["SourceDestCheck"] as? [String: Any] { self.sourceDestCheck = try Ec2.AttributeBooleanValue(dictionary: sourceDestCheck) } else { self.sourceDestCheck = nil }
+            if let kernelId = dictionary["KernelId"] as? [String: Any] { self.kernelId = try Ec2.AttributeValue(dictionary: kernelId) } else { self.kernelId = nil }
+            if let instanceType = dictionary["InstanceType"] as? [String: Any] { self.instanceType = try Ec2.AttributeValue(dictionary: instanceType) } else { self.instanceType = nil }
             if let productCodes = dictionary["ProductCodes"] as? [[String: Any]] {
                 self.productCodes = try productCodes.map({ try ProductCode(dictionary: $0) })
+            } else { 
+                self.productCodes = nil
             }
             self.instanceId = dictionary["InstanceId"] as? String
-            if let enaSupport = dictionary["EnaSupport"] as? [String: Any] { self.enaSupport = try Ec2.AttributeBooleanValue(dictionary: enaSupport) }
-            if let instanceInitiatedShutdownBehavior = dictionary["InstanceInitiatedShutdownBehavior"] as? [String: Any] { self.instanceInitiatedShutdownBehavior = try Ec2.AttributeValue(dictionary: instanceInitiatedShutdownBehavior) }
-            if let ramdiskId = dictionary["RamdiskId"] as? [String: Any] { self.ramdiskId = try Ec2.AttributeValue(dictionary: ramdiskId) }
+            if let enaSupport = dictionary["EnaSupport"] as? [String: Any] { self.enaSupport = try Ec2.AttributeBooleanValue(dictionary: enaSupport) } else { self.enaSupport = nil }
+            if let instanceInitiatedShutdownBehavior = dictionary["InstanceInitiatedShutdownBehavior"] as? [String: Any] { self.instanceInitiatedShutdownBehavior = try Ec2.AttributeValue(dictionary: instanceInitiatedShutdownBehavior) } else { self.instanceInitiatedShutdownBehavior = nil }
+            if let ramdiskId = dictionary["RamdiskId"] as? [String: Any] { self.ramdiskId = try Ec2.AttributeValue(dictionary: ramdiskId) } else { self.ramdiskId = nil }
             if let groups = dictionary["Groups"] as? [[String: Any]] {
                 self.groups = try groups.map({ try GroupIdentifier(dictionary: $0) })
+            } else { 
+                self.groups = nil
             }
         }
     }
@@ -7656,9 +7318,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the conversion tasks.
-        public var conversionTasks: [ConversionTask]? = nil
-
-        public init() {}
+        public let conversionTasks: [ConversionTask]?
 
         public init(conversionTasks: [ConversionTask]? = nil) {
             self.conversionTasks = conversionTasks
@@ -7667,6 +7327,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let conversionTasks = dictionary["ConversionTasks"] as? [[String: Any]] {
                 self.conversionTasks = try conversionTasks.map({ try ConversionTask(dictionary: $0) })
+            } else { 
+                self.conversionTasks = nil
             }
         }
     }
@@ -7675,21 +7337,19 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The account ID to modify for the snapshot.
-        public var userIds: [String]? = nil
+        public let userIds: [String]?
         /// The ID of the snapshot.
-        public var snapshotId: String = ""
+        public let snapshotId: String
         /// A JSON representation of the snapshot attribute modification.
-        public var createVolumePermission: CreateVolumePermissionModifications? = nil
+        public let createVolumePermission: CreateVolumePermissionModifications?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The snapshot attribute to modify.  Only volume creation permissions may be modified at the customer level. 
-        public var attribute: String? = nil
+        public let attribute: String?
         /// The type of operation to perform to the attribute.
-        public var operationType: String? = nil
+        public let operationType: String?
         /// The group to modify for the snapshot.
-        public var groupNames: [String]? = nil
-
-        public init() {}
+        public let groupNames: [String]?
 
         public init(userIds: [String]? = nil, snapshotId: String, createVolumePermission: CreateVolumePermissionModifications? = nil, dryRun: Bool? = nil, attribute: String? = nil, operationType: String? = nil, groupNames: [String]? = nil) {
             self.userIds = userIds
@@ -7702,18 +7362,14 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let userIds = dictionary["UserIds"] as? [String] {
-                self.userIds = userIds
-            }
+            self.userIds = dictionary["UserIds"] as? [String]
             guard let snapshotId = dictionary["SnapshotId"] as? String else { throw InitializableError.missingRequiredParam("SnapshotId") }
             self.snapshotId = snapshotId
-            if let createVolumePermission = dictionary["CreateVolumePermission"] as? [String: Any] { self.createVolumePermission = try Ec2.CreateVolumePermissionModifications(dictionary: createVolumePermission) }
+            if let createVolumePermission = dictionary["CreateVolumePermission"] as? [String: Any] { self.createVolumePermission = try Ec2.CreateVolumePermissionModifications(dictionary: createVolumePermission) } else { self.createVolumePermission = nil }
             self.dryRun = dictionary["DryRun"] as? Bool
             self.attribute = dictionary["Attribute"] as? String
             self.operationType = dictionary["OperationType"] as? String
-            if let groupNames = dictionary["GroupNames"] as? [String] {
-                self.groupNames = groupNames
-            }
+            self.groupNames = dictionary["GroupNames"] as? [String]
         }
     }
 
@@ -7721,9 +7377,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
-        public var `return`: Bool? = nil
-
-        public init() {}
+        public let `return`: Bool?
 
         public init(return: Bool? = nil) {
             self.`return` = `return`
@@ -7738,13 +7392,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The size of the fleet.
-        public var targetCapacity: Int32? = nil
+        public let targetCapacity: Int32?
         /// The ID of the Spot fleet request.
-        public var spotFleetRequestId: String = ""
+        public let spotFleetRequestId: String
         /// Indicates whether running Spot instances should be terminated if the target capacity of the Spot fleet request is decreased below the current size of the Spot fleet.
-        public var excessCapacityTerminationPolicy: String? = nil
-
-        public init() {}
+        public let excessCapacityTerminationPolicy: String?
 
         public init(targetCapacity: Int32? = nil, spotFleetRequestId: String, excessCapacityTerminationPolicy: String? = nil) {
             self.targetCapacity = targetCapacity
@@ -7764,33 +7416,31 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The upfront price of the reservation.
-        public var upfrontPrice: String? = nil
+        public let upfrontPrice: String?
         /// The state of the reservation.
-        public var state: String? = nil
+        public let state: String?
         /// The payment option selected for this reservation.
-        public var paymentOption: String? = nil
+        public let paymentOption: String?
         /// The ID of the reservation. This remains the same regardless of which Dedicated Hosts are associated with it.
-        public var offeringId: String? = nil
+        public let offeringId: String?
         /// The number of Dedicated Hosts the reservation is associated with.
-        public var count: Int32? = nil
+        public let count: Int32?
         /// The ID of the reservation that specifies the associated Dedicated Hosts.
-        public var hostReservationId: String? = nil
+        public let hostReservationId: String?
         /// The hourly price of the reservation.
-        public var hourlyPrice: String? = nil
+        public let hourlyPrice: String?
         /// The instance family of the Dedicated Host Reservation. The instance family on the Dedicated Host must be the same in order for it to benefit from the reservation.
-        public var instanceFamily: String? = nil
+        public let instanceFamily: String?
         /// The date and time that the reservation started.
-        public var start: Date? = nil
+        public let start: Date?
         /// The date and time that the reservation ends.
-        public var end: Date? = nil
+        public let end: Date?
         /// The IDs of the Dedicated Hosts associated with the reservation.
-        public var hostIdSet: [String]? = nil
+        public let hostIdSet: [String]?
         /// The currency in which the upfrontPrice and hourlyPrice amounts are specified. At this time, the only supported currency is USD.
-        public var currencyCode: String? = nil
+        public let currencyCode: String?
         /// The length of the reservation's term, specified in seconds. Can be 31536000 (1 year) | 94608000 (3 years).
-        public var duration: Int32? = nil
-
-        public init() {}
+        public let duration: Int32?
 
         public init(upfrontPrice: String? = nil, state: String? = nil, paymentOption: String? = nil, offeringId: String? = nil, count: Int32? = nil, hostReservationId: String? = nil, hourlyPrice: String? = nil, instanceFamily: String? = nil, start: Date? = nil, end: Date? = nil, hostIdSet: [String]? = nil, currencyCode: String? = nil, duration: Int32? = nil) {
             self.upfrontPrice = upfrontPrice
@@ -7819,9 +7469,7 @@ extension Ec2 {
             self.instanceFamily = dictionary["InstanceFamily"] as? String
             self.start = dictionary["Start"] as? Date
             self.end = dictionary["End"] as? Date
-            if let hostIdSet = dictionary["HostIdSet"] as? [String] {
-                self.hostIdSet = hostIdSet
-            }
+            self.hostIdSet = dictionary["HostIdSet"] as? [String]
             self.currencyCode = dictionary["CurrencyCode"] as? String
             self.duration = dictionary["Duration"] as? Int32
         }
@@ -7831,9 +7479,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the Standard Reserved Instance listing.
-        public var reservedInstancesListings: [ReservedInstancesListing]? = nil
-
-        public init() {}
+        public let reservedInstancesListings: [ReservedInstancesListing]?
 
         public init(reservedInstancesListings: [ReservedInstancesListing]? = nil) {
             self.reservedInstancesListings = reservedInstancesListings
@@ -7842,6 +7488,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let reservedInstancesListings = dictionary["ReservedInstancesListings"] as? [[String: Any]] {
                 self.reservedInstancesListings = try reservedInstancesListings.map({ try ReservedInstancesListing(dictionary: $0) })
+            } else { 
+                self.reservedInstancesListings = nil
             }
         }
     }
@@ -7850,15 +7498,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more filters.    instance-type - The instance type size that the Dedicated Host is configured to support.    auto-placement - Whether auto-placement is enabled or disabled (on | off).    host-reservation-id - The ID of the reservation assigned to this host.    client-token - The idempotency token you provided when you launched the instance    state- The allocation state of the Dedicated Host (available | under-assessment | permanent-failure | released | released-permanent-failure).    availability-zone - The Availability Zone of the host.  
-        public var filter: [Filter]? = nil
+        public let filter: [Filter]?
         /// The IDs of the Dedicated Hosts. The IDs are used for targeted instance launches.
-        public var hostIds: [String]? = nil
+        public let hostIds: [String]?
         /// The token to retrieve the next page of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned nextToken value. This value can be between 5 and 500; if maxResults is given a larger value than 500, you will receive an error. You cannot specify this parameter and the host IDs parameter in the same request.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(filter: [Filter]? = nil, hostIds: [String]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.filter = filter
@@ -7870,10 +7516,10 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let filter = dictionary["Filter"] as? [[String: Any]] {
                 self.filter = try filter.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filter = nil
             }
-            if let hostIds = dictionary["HostIds"] as? [String] {
-                self.hostIds = hostIds
-            }
+            self.hostIds = dictionary["HostIds"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -7883,11 +7529,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Set to vpc to allocate the address for use with instances in a VPC. Default: The address is for use with instances in EC2-Classic.
-        public var domain: String? = nil
+        public let domain: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(domain: String? = nil, dryRun: Bool? = nil) {
             self.domain = domain
@@ -7904,13 +7548,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// One or more filters.    bundle-id - The ID of the bundle task.    error-code - If the task failed, the error code returned.    error-message - If the task failed, the error message returned.    instance-id - The ID of the instance.    progress - The level of task completion, as a percentage (for example, 20%).    s3-bucket - The Amazon S3 bucket to store the AMI.    s3-prefix - The beginning of the AMI name.    start-time - The time the task started (for example, 2013-09-15T17:15:20.000Z).    state - The state of the task (pending | waiting-for-shutdown | bundling | storing | cancelling | complete | failed).    update-time - The time of the most recent update for the task.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// One or more bundle task IDs. Default: Describes all your bundle tasks.
-        public var bundleIds: [String]? = nil
-
-        public init() {}
+        public let bundleIds: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, bundleIds: [String]? = nil) {
             self.dryRun = dryRun
@@ -7922,10 +7564,10 @@ extension Ec2 {
             self.dryRun = dictionary["DryRun"] as? Bool
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
-            if let bundleIds = dictionary["BundleIds"] as? [String] {
-                self.bundleIds = bundleIds
-            }
+            self.bundleIds = dictionary["BundleIds"] as? [String]
         }
     }
 
@@ -7933,18 +7575,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the newly launched instances.
-        public var instanceIdSet: [String]? = nil
-
-        public init() {}
+        public let instanceIdSet: [String]?
 
         public init(instanceIdSet: [String]? = nil) {
             self.instanceIdSet = instanceIdSet
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let instanceIdSet = dictionary["InstanceIdSet"] as? [String] {
-                self.instanceIdSet = instanceIdSet
-            }
+            self.instanceIdSet = dictionary["InstanceIdSet"] as? [String]
         }
     }
 
@@ -7952,11 +7590,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of supported AWS services.
-        public var serviceNames: [String]? = nil
+        public let serviceNames: [String]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(serviceNames: [String]? = nil, nextToken: String? = nil) {
             self.serviceNames = serviceNames
@@ -7964,9 +7600,7 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let serviceNames = dictionary["ServiceNames"] as? [String] {
-                self.serviceNames = serviceNames
-            }
+            self.serviceNames = dictionary["ServiceNames"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
         }
     }
@@ -7975,11 +7609,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// Information about the IPv6 CIDR block association.
-        public var ipv6CidrBlockAssociation: VpcIpv6CidrBlockAssociation? = nil
-
-        public init() {}
+        public let ipv6CidrBlockAssociation: VpcIpv6CidrBlockAssociation?
 
         public init(vpcId: String? = nil, ipv6CidrBlockAssociation: VpcIpv6CidrBlockAssociation? = nil) {
             self.vpcId = vpcId
@@ -7988,7 +7620,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.vpcId = dictionary["VpcId"] as? String
-            if let ipv6CidrBlockAssociation = dictionary["Ipv6CidrBlockAssociation"] as? [String: Any] { self.ipv6CidrBlockAssociation = try Ec2.VpcIpv6CidrBlockAssociation(dictionary: ipv6CidrBlockAssociation) }
+            if let ipv6CidrBlockAssociation = dictionary["Ipv6CidrBlockAssociation"] as? [String: Any] { self.ipv6CidrBlockAssociation = try Ec2.VpcIpv6CidrBlockAssociation(dictionary: ipv6CidrBlockAssociation) } else { self.ipv6CidrBlockAssociation = nil }
         }
     }
 
@@ -7996,9 +7628,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user data. If you are using an AWS SDK or command line tool, Base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide Base64-encoded text.
-        public var data: String? = nil
-
-        public init() {}
+        public let data: String?
 
         public init(data: String? = nil) {
             self.data = data
@@ -8013,21 +7643,19 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// [EC2-VPC] The primary or secondary private IP address to associate with the Elastic IP address. If no private IP address is specified, the Elastic IP address is associated with the primary private IP address.
-        public var privateIpAddress: String? = nil
+        public let privateIpAddress: String?
         /// [EC2-VPC] The ID of the network interface. If the instance has more than one network interface, you must specify a network interface ID.
-        public var networkInterfaceId: String? = nil
+        public let networkInterfaceId: String?
         /// The ID of the instance. This is required for EC2-Classic. For EC2-VPC, you can specify either the instance ID or the network interface ID, but not both. The operation fails if you specify an instance ID unless exactly one network interface is attached.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// [EC2-VPC] The allocation ID. This is required for EC2-VPC.
-        public var allocationId: String? = nil
+        public let allocationId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The Elastic IP address. This is required for EC2-Classic.
-        public var publicIp: String? = nil
+        public let publicIp: String?
         /// [EC2-VPC] For a VPC in an EC2-Classic account, specify true to allow an Elastic IP address that is already associated with an instance or network interface to be reassociated with the specified instance or network interface. Otherwise, the operation fails. In a VPC in an EC2-VPC-only account, reassociation is automatic, therefore you can specify false to ensure the operation fails if the Elastic IP address is already associated with another resource.
-        public var allowReassociation: Bool? = nil
-
-        public init() {}
+        public let allowReassociation: Bool?
 
         public init(privateIpAddress: String? = nil, networkInterfaceId: String? = nil, instanceId: String? = nil, allocationId: String? = nil, dryRun: Bool? = nil, publicIp: String? = nil, allowReassociation: Bool? = nil) {
             self.privateIpAddress = privateIpAddress
@@ -8054,9 +7682,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The association ID for the CIDR block.
-        public var associationId: String = ""
-
-        public init() {}
+        public let associationId: String
 
         public init(associationId: String) {
             self.associationId = associationId
@@ -8072,11 +7698,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the egress-only Internet gateway.
-        public var egressOnlyInternetGatewayId: String = ""
+        public let egressOnlyInternetGatewayId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(egressOnlyInternetGatewayId: String, dryRun: Bool? = nil) {
             self.egressOnlyInternetGatewayId = egressOnlyInternetGatewayId
@@ -8094,25 +7718,23 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS account number for a destination security group. To authorize outbound access to a destination security group, we recommend that you use a set of IP permissions instead.
-        public var sourceSecurityGroupOwnerId: String? = nil
+        public let sourceSecurityGroupOwnerId: String?
         /// A set of IP permissions. You can't specify a destination security group and a CIDR IP address range.
-        public var ipPermissions: [IpPermission]? = nil
+        public let ipPermissions: [IpPermission]?
         /// The CIDR IPv4 address range. We recommend that you specify the CIDR range in a set of IP permissions instead.
-        public var cidrIp: String? = nil
+        public let cidrIp: String?
         /// The name of a destination security group. To authorize outbound access to a destination security group, we recommend that you use a set of IP permissions instead.
-        public var sourceSecurityGroupName: String? = nil
+        public let sourceSecurityGroupName: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The start of port range for the TCP and UDP protocols, or an ICMP type number. We recommend that you specify the port range in a set of IP permissions instead.
-        public var fromPort: Int32? = nil
+        public let fromPort: Int32?
         /// The IP protocol name or number. We recommend that you specify the protocol in a set of IP permissions instead.
-        public var ipProtocol: String? = nil
+        public let ipProtocol: String?
         /// The end of port range for the TCP and UDP protocols, or an ICMP type number. We recommend that you specify the port range in a set of IP permissions instead.
-        public var toPort: Int32? = nil
+        public let toPort: Int32?
         /// The ID of the security group.
-        public var groupId: String = ""
-
-        public init() {}
+        public let groupId: String
 
         public init(sourceSecurityGroupOwnerId: String? = nil, ipPermissions: [IpPermission]? = nil, cidrIp: String? = nil, sourceSecurityGroupName: String? = nil, dryRun: Bool? = nil, fromPort: Int32? = nil, ipProtocol: String? = nil, toPort: Int32? = nil, groupId: String) {
             self.sourceSecurityGroupOwnerId = sourceSecurityGroupOwnerId
@@ -8130,6 +7752,8 @@ extension Ec2 {
             self.sourceSecurityGroupOwnerId = dictionary["SourceSecurityGroupOwnerId"] as? String
             if let ipPermissions = dictionary["IpPermissions"] as? [[String: Any]] {
                 self.ipPermissions = try ipPermissions.map({ try IpPermission(dictionary: $0) })
+            } else { 
+                self.ipPermissions = nil
             }
             self.cidrIp = dictionary["CidrIp"] as? String
             self.sourceSecurityGroupName = dictionary["SourceSecurityGroupName"] as? String
@@ -8146,25 +7770,23 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the flow log group.
-        public var logGroupName: String? = nil
+        public let logGroupName: String?
         /// The status of the flow log (ACTIVE).
-        public var flowLogStatus: String? = nil
+        public let flowLogStatus: String?
         /// The flow log ID.
-        public var flowLogId: String? = nil
+        public let flowLogId: String?
         /// The date and time the flow log was created.
-        public var creationTime: Date? = nil
+        public let creationTime: Date?
         /// The type of traffic captured for the flow log.
-        public var trafficType: String? = nil
+        public let trafficType: String?
         /// The ARN of the IAM role that posts logs to CloudWatch Logs.
-        public var deliverLogsPermissionArn: String? = nil
+        public let deliverLogsPermissionArn: String?
         /// The ID of the resource on which the flow log was created.
-        public var resourceId: String? = nil
+        public let resourceId: String?
         /// The status of the logs delivery (SUCCESS | FAILED).
-        public var deliverLogsStatus: String? = nil
+        public let deliverLogsStatus: String?
         /// Information about the error that occurred. Rate limited indicates that CloudWatch logs throttling has been applied for one or more network interfaces, or that you've reached the limit on the number of CloudWatch Logs log groups that you can create. Access error indicates that the IAM role associated with the flow log does not have sufficient permissions to publish to CloudWatch Logs. Unknown error indicates an internal error.
-        public var deliverLogsErrorMessage: String? = nil
-
-        public init() {}
+        public let deliverLogsErrorMessage: String?
 
         public init(logGroupName: String? = nil, flowLogStatus: String? = nil, flowLogId: String? = nil, creationTime: Date? = nil, trafficType: String? = nil, deliverLogsPermissionArn: String? = nil, resourceId: String? = nil, deliverLogsStatus: String? = nil, deliverLogsErrorMessage: String? = nil) {
             self.logGroupName = logGroupName
@@ -8195,11 +7817,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// Information about the endpoint.
-        public var vpcEndpoint: VpcEndpoint? = nil
-
-        public init() {}
+        public let vpcEndpoint: VpcEndpoint?
 
         public init(clientToken: String? = nil, vpcEndpoint: VpcEndpoint? = nil) {
             self.clientToken = clientToken
@@ -8208,7 +7828,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.clientToken = dictionary["ClientToken"] as? String
-            if let vpcEndpoint = dictionary["VpcEndpoint"] as? [String: Any] { self.vpcEndpoint = try Ec2.VpcEndpoint(dictionary: vpcEndpoint) }
+            if let vpcEndpoint = dictionary["VpcEndpoint"] as? [String: Any] { self.vpcEndpoint = try Ec2.VpcEndpoint(dictionary: vpcEndpoint) } else { self.vpcEndpoint = nil }
         }
     }
 
@@ -8216,9 +7836,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the network interface attachment.
-        public var attachmentId: String? = nil
-
-        public init() {}
+        public let attachmentId: String?
 
         public init(attachmentId: String? = nil) {
             self.attachmentId = attachmentId
@@ -8233,11 +7851,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Information about the endpoints.
-        public var vpcEndpoints: [VpcEndpoint]? = nil
-
-        public init() {}
+        public let vpcEndpoints: [VpcEndpoint]?
 
         public init(nextToken: String? = nil, vpcEndpoints: [VpcEndpoint]? = nil) {
             self.nextToken = nextToken
@@ -8248,6 +7864,8 @@ extension Ec2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let vpcEndpoints = dictionary["VpcEndpoints"] as? [[String: Any]] {
                 self.vpcEndpoints = try vpcEndpoints.map({ try VpcEndpoint(dictionary: $0) })
+            } else { 
+                self.vpcEndpoints = nil
             }
         }
     }
@@ -8256,11 +7874,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A unique name for the key pair. Constraints: Up to 255 ASCII characters
-        public var keyName: String = ""
+        public let keyName: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(keyName: String, dryRun: Bool? = nil) {
             self.keyName = keyName
@@ -8278,19 +7894,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the stale inbound rules in the security group.
-        public var staleIpPermissions: [StaleIpPermission]? = nil
+        public let staleIpPermissions: [StaleIpPermission]?
         /// Information about the stale outbound rules in the security group.
-        public var staleIpPermissionsEgress: [StaleIpPermission]? = nil
+        public let staleIpPermissionsEgress: [StaleIpPermission]?
         /// The name of the security group.
-        public var groupName: String? = nil
+        public let groupName: String?
         /// The ID of the VPC for the security group.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The ID of the security group.
-        public var groupId: String = ""
+        public let groupId: String
         /// The description of the security group.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(staleIpPermissions: [StaleIpPermission]? = nil, staleIpPermissionsEgress: [StaleIpPermission]? = nil, groupName: String? = nil, vpcId: String? = nil, groupId: String, description: String? = nil) {
             self.staleIpPermissions = staleIpPermissions
@@ -8304,9 +7918,13 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let staleIpPermissions = dictionary["StaleIpPermissions"] as? [[String: Any]] {
                 self.staleIpPermissions = try staleIpPermissions.map({ try StaleIpPermission(dictionary: $0) })
+            } else { 
+                self.staleIpPermissions = nil
             }
             if let staleIpPermissionsEgress = dictionary["StaleIpPermissionsEgress"] as? [[String: Any]] {
                 self.staleIpPermissionsEgress = try staleIpPermissionsEgress.map({ try StaleIpPermission(dictionary: $0) })
+            } else { 
+                self.staleIpPermissionsEgress = nil
             }
             self.groupName = dictionary["GroupName"] as? String
             self.vpcId = dictionary["VpcId"] as? String
@@ -8320,11 +7938,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS account ID of the instance owner. This is only present if the product code is attached to the instance.
-        public var ownerId: String? = nil
+        public let ownerId: String?
         /// The return value of the request. Returns true if the specified product code is owned by the requester and associated with the specified instance.
-        public var `return`: Bool? = nil
-
-        public init() {}
+        public let `return`: Bool?
 
         public init(ownerId: String? = nil, return: Bool? = nil) {
             self.ownerId = ownerId
@@ -8341,13 +7957,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A unique name for the key pair.
-        public var keyName: String = ""
+        public let keyName: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The public key. For API calls, the text must be base64-encoded. For command line tools, base64 encoding is performed for you.
-        public var publicKeyMaterial: Data = Data()
-
-        public init() {}
+        public let publicKeyMaterial: Data
 
         public init(keyName: String, dryRun: Bool? = nil, publicKeyMaterial: Data) {
             self.keyName = keyName
@@ -8368,9 +7982,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
-        public var enabled: Bool = false
-
-        public init() {}
+        public let enabled: Bool
 
         public init(enabled: Bool) {
             self.enabled = enabled
@@ -8386,13 +7998,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time the data was last updated.
-        public var timestamp: Date? = nil
+        public let timestamp: Date?
         /// The password of the instance.
-        public var passwordData: String? = nil
+        public let passwordData: String?
         /// The ID of the Windows instance.
-        public var instanceId: String? = nil
-
-        public init() {}
+        public let instanceId: String?
 
         public init(timestamp: Date? = nil, passwordData: String? = nil, instanceId: String? = nil) {
             self.timestamp = timestamp
@@ -8411,13 +8021,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date in UTC at which you are permanently switched over to using longer IDs. If a deadline is not yet available for this resource type, this field is not returned.
-        public var deadline: Date? = nil
+        public let deadline: Date?
         /// The type of resource.
-        public var resource: String? = nil
+        public let resource: String?
         /// Indicates whether longer IDs (17-character IDs) are enabled for the resource.
-        public var useLongIds: Bool? = nil
-
-        public init() {}
+        public let useLongIds: Bool?
 
         public init(deadline: Date? = nil, resource: String? = nil, useLongIds: Bool? = nil) {
             self.deadline = deadline
@@ -8436,17 +8044,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more filters.    group-id - The ID of a VPC security group that's associated with the instance.    instance-id - The ID of the instance.    tag:key=value - The key/value combination of a tag assigned to the resource.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-id - The ID of the VPC that the instance is linked to.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// One or more instance IDs. Must be instances linked to a VPC through ClassicLink.
-        public var instanceIds: [String]? = nil
+        public let instanceIds: [String]?
         /// The token to retrieve the next page of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to return for the request in a single page. The remaining results of the initial request can be seen by sending another request with the returned NextToken value. This value can be between 5 and 1000; if MaxResults is given a value larger than 1000, only 1000 results are returned. You cannot specify this parameter and the instance IDs parameter in the same request. Constraint: If the value is greater than 1000, we return only 1000 items.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(filters: [Filter]? = nil, dryRun: Bool? = nil, instanceIds: [String]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.filters = filters
@@ -8459,11 +8065,11 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let instanceIds = dictionary["InstanceIds"] as? [String] {
-                self.instanceIds = instanceIds
-            }
+            self.instanceIds = dictionary["InstanceIds"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -8473,17 +8079,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Unique, case-sensitive identifier that ensures the idempotency of the request. For more information, see Ensuring Idempotency.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The launch specification. You must match the instance type, Availability Zone, network, and platform of the schedule that you purchased.
-        public var launchSpecification: ScheduledInstancesLaunchSpecification = ScheduledInstancesLaunchSpecification()
+        public let launchSpecification: ScheduledInstancesLaunchSpecification
         /// The number of instances. Default: 1
-        public var instanceCount: Int32? = nil
+        public let instanceCount: Int32?
         /// The Scheduled Instance ID.
-        public var scheduledInstanceId: String = ""
-
-        public init() {}
+        public let scheduledInstanceId: String
 
         public init(clientToken: String? = nil, dryRun: Bool? = nil, launchSpecification: ScheduledInstancesLaunchSpecification, instanceCount: Int32? = nil, scheduledInstanceId: String) {
             self.clientToken = clientToken
@@ -8508,15 +8112,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Suppresses the specified device included in the block device mapping of the AMI.
-        public var noDevice: String? = nil
+        public let noDevice: String?
         /// The virtual device name (ephemeralN). Instance store volumes are numbered starting from 0. An instance type with 2 available instance store volumes can specify mappings for ephemeral0 and ephemeral1.The number of available instance store volumes depends on the instance type. After you connect to the instance, you must mount the volume. Constraints: For M3 instances, you must specify instance store volumes in the block device mapping for the instance. When you launch an M3 instance, we ignore any instance store volumes specified in the block device mapping for the AMI.
-        public var virtualName: String? = nil
+        public let virtualName: String?
         /// The device name exposed to the instance (for example, /dev/sdh or xvdh).
-        public var deviceName: String? = nil
+        public let deviceName: String?
         /// Parameters used to automatically set up EBS volumes when the instance is launched.
-        public var ebs: EbsBlockDevice? = nil
-
-        public init() {}
+        public let ebs: EbsBlockDevice?
 
         public init(noDevice: String? = nil, virtualName: String? = nil, deviceName: String? = nil, ebs: EbsBlockDevice? = nil) {
             self.noDevice = noDevice
@@ -8529,7 +8131,7 @@ extension Ec2 {
             self.noDevice = dictionary["NoDevice"] as? String
             self.virtualName = dictionary["VirtualName"] as? String
             self.deviceName = dictionary["DeviceName"] as? String
-            if let ebs = dictionary["Ebs"] as? [String: Any] { self.ebs = try Ec2.EbsBlockDevice(dictionary: ebs) }
+            if let ebs = dictionary["Ebs"] as? [String: Any] { self.ebs = try Ec2.EbsBlockDevice(dictionary: ebs) } else { self.ebs = nil }
         }
     }
 
@@ -8537,11 +8139,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IAM instance profile.
-        public var iamInstanceProfile: IamInstanceProfileSpecification = IamInstanceProfileSpecification()
+        public let iamInstanceProfile: IamInstanceProfileSpecification
         /// The ID of the existing IAM instance profile association.
-        public var associationId: String = ""
-
-        public init() {}
+        public let associationId: String
 
         public init(iamInstanceProfile: IamInstanceProfileSpecification, associationId: String) {
             self.iamInstanceProfile = iamInstanceProfile
@@ -8560,9 +8160,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IPv6 address.
-        public var ipv6Address: String? = nil
-
-        public init() {}
+        public let ipv6Address: String?
 
         public init(ipv6Address: String? = nil) {
             self.ipv6Address = ipv6Address
@@ -8577,19 +8175,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The starting date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public var startTime: Date = Date()
+        public let startTime: Date
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The type of events to describe. By default, all events are described.
-        public var eventType: String? = nil
+        public let eventType: String?
         /// The token for the next set of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The ID of the Spot fleet request.
-        public var spotFleetRequestId: String = ""
+        public let spotFleetRequestId: String
         /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(startTime: Date, dryRun: Bool? = nil, eventType: String? = nil, nextToken: String? = nil, spotFleetRequestId: String, maxResults: Int32? = nil) {
             self.startTime = startTime
@@ -8616,33 +8212,31 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The platform (Linux/UNIX or Windows).
-        public var platform: String? = nil
+        public let platform: String?
         /// The total number of hours for a single instance for the entire term.
-        public var totalScheduledInstanceHours: Int32? = nil
+        public let totalScheduledInstanceHours: Int32?
         /// The minimum term. The only possible value is 365 days.
-        public var minTermDurationInDays: Int32? = nil
+        public let minTermDurationInDays: Int32?
         /// The maximum term. The only possible value is 365 days.
-        public var maxTermDurationInDays: Int32? = nil
+        public let maxTermDurationInDays: Int32?
         /// The hourly price for a single instance.
-        public var hourlyPrice: String? = nil
+        public let hourlyPrice: String?
         /// The instance type. You can specify one of the C3, C4, M4, or R3 instance types.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The number of hours in the schedule.
-        public var slotDurationInHours: Int32? = nil
+        public let slotDurationInHours: Int32?
         /// The Availability Zone.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The number of available instances.
-        public var availableInstanceCount: Int32? = nil
+        public let availableInstanceCount: Int32?
         /// The time period for the first schedule to start.
-        public var firstSlotStartTime: Date? = nil
+        public let firstSlotStartTime: Date?
         /// The network platform (EC2-Classic or EC2-VPC).
-        public var networkPlatform: String? = nil
+        public let networkPlatform: String?
         /// The purchase token. This token expires in two hours.
-        public var purchaseToken: String? = nil
+        public let purchaseToken: String?
         /// The schedule recurrence.
-        public var recurrence: ScheduledInstanceRecurrence? = nil
-
-        public init() {}
+        public let recurrence: ScheduledInstanceRecurrence?
 
         public init(platform: String? = nil, totalScheduledInstanceHours: Int32? = nil, minTermDurationInDays: Int32? = nil, maxTermDurationInDays: Int32? = nil, hourlyPrice: String? = nil, instanceType: String? = nil, slotDurationInHours: Int32? = nil, availabilityZone: String? = nil, availableInstanceCount: Int32? = nil, firstSlotStartTime: Date? = nil, networkPlatform: String? = nil, purchaseToken: String? = nil, recurrence: ScheduledInstanceRecurrence? = nil) {
             self.platform = platform
@@ -8673,7 +8267,7 @@ extension Ec2 {
             self.firstSlotStartTime = dictionary["FirstSlotStartTime"] as? Date
             self.networkPlatform = dictionary["NetworkPlatform"] as? String
             self.purchaseToken = dictionary["PurchaseToken"] as? String
-            if let recurrence = dictionary["Recurrence"] as? [String: Any] { self.recurrence = try Ec2.ScheduledInstanceRecurrence(dictionary: recurrence) }
+            if let recurrence = dictionary["Recurrence"] as? [String: Any] { self.recurrence = try Ec2.ScheduledInstanceRecurrence(dictionary: recurrence) } else { self.recurrence = nil }
         }
     }
 
@@ -8681,9 +8275,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The size of the volume, in GiB.
-        public var size: Int64 = 0
-
-        public init() {}
+        public let size: Int64
 
         public init(size: Int64) {
             self.size = size
@@ -8699,9 +8291,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the Dedicated Hosts you want to release.
-        public var hostIds: [String] = []
-
-        public init() {}
+        public let hostIds: [String]
 
         public init(hostIds: [String]) {
             self.hostIds = hostIds
@@ -8717,13 +8307,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of instance status.
-        public var name: String? = nil
+        public let name: String?
         /// The status.
-        public var status: String? = nil
+        public let status: String?
         /// The time when a status check failed. For an instance that was launched and impaired, this is the time when the instance was launched.
-        public var impairedSince: Date? = nil
-
-        public init() {}
+        public let impairedSince: Date?
 
         public init(name: String? = nil, status: String? = nil, impairedSince: Date? = nil) {
             self.name = name
@@ -8742,13 +8330,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// One or more instance IDs.
-        public var instanceIds: [String] = []
+        public let instanceIds: [String]
         /// Reserved.
-        public var additionalInfo: String? = nil
-
-        public init() {}
+        public let additionalInfo: String?
 
         public init(dryRun: Bool? = nil, instanceIds: [String], additionalInfo: String? = nil) {
             self.dryRun = dryRun
@@ -8768,11 +8354,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The earliest date and time, in UTC, for the Scheduled Instance to start.
-        public var earliestTime: Date? = nil
+        public let earliestTime: Date?
         /// The latest date and time, in UTC, for the Scheduled Instance to start.
-        public var latestTime: Date? = nil
-
-        public init() {}
+        public let latestTime: Date?
 
         public init(earliestTime: Date? = nil, latestTime: Date? = nil) {
             self.earliestTime = earliestTime
@@ -8789,9 +8373,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
-        public var `return`: Bool? = nil
-
-        public init() {}
+        public let `return`: Bool?
 
         public init(return: Bool? = nil) {
             self.`return` = `return`
@@ -8806,9 +8388,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the Reserved Instance listing.
-        public var reservedInstancesListings: [ReservedInstancesListing]? = nil
-
-        public init() {}
+        public let reservedInstancesListings: [ReservedInstancesListing]?
 
         public init(reservedInstancesListings: [ReservedInstancesListing]? = nil) {
             self.reservedInstancesListings = reservedInstancesListings
@@ -8817,6 +8397,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let reservedInstancesListings = dictionary["ReservedInstancesListings"] as? [[String: Any]] {
                 self.reservedInstancesListings = try reservedInstancesListings.map({ try ReservedInstancesListing(dictionary: $0) })
+            } else { 
+                self.reservedInstancesListings = nil
             }
         }
     }
@@ -8825,15 +8407,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The purchase information of the Dedicated Host Reservation and the Dedicated Hosts associated with it.
-        public var purchase: [Purchase]? = nil
+        public let purchase: [Purchase]?
         /// The potential total upfront price. This is billed immediately.
-        public var totalUpfrontPrice: String? = nil
+        public let totalUpfrontPrice: String?
         /// The currency in which the totalUpfrontPrice and totalHourlyPrice amounts are specified. At this time, the only supported currency is USD.
-        public var currencyCode: String? = nil
+        public let currencyCode: String?
         /// The potential total hourly price of the reservation per hour.
-        public var totalHourlyPrice: String? = nil
-
-        public init() {}
+        public let totalHourlyPrice: String?
 
         public init(purchase: [Purchase]? = nil, totalUpfrontPrice: String? = nil, currencyCode: String? = nil, totalHourlyPrice: String? = nil) {
             self.purchase = purchase
@@ -8845,6 +8425,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let purchase = dictionary["Purchase"] as? [[String: Any]] {
                 self.purchase = try purchase.map({ try Purchase(dictionary: $0) })
+            } else { 
+                self.purchase = nil
             }
             self.totalUpfrontPrice = dictionary["TotalUpfrontPrice"] as? String
             self.currencyCode = dictionary["CurrencyCode"] as? String
@@ -8856,19 +8438,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the instance to export.
-        public var instanceExportDetails: InstanceExportDetails? = nil
+        public let instanceExportDetails: InstanceExportDetails?
         /// The ID of the export task.
-        public var exportTaskId: String? = nil
+        public let exportTaskId: String?
         /// Information about the export task.
-        public var exportToS3Task: ExportToS3Task? = nil
+        public let exportToS3Task: ExportToS3Task?
         /// The state of the export task.
-        public var state: String? = nil
+        public let state: String?
         /// The status message related to the export task.
-        public var statusMessage: String? = nil
+        public let statusMessage: String?
         /// A description of the resource being exported.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(instanceExportDetails: InstanceExportDetails? = nil, exportTaskId: String? = nil, exportToS3Task: ExportToS3Task? = nil, state: String? = nil, statusMessage: String? = nil, description: String? = nil) {
             self.instanceExportDetails = instanceExportDetails
@@ -8880,9 +8460,9 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let instanceExportDetails = dictionary["InstanceExportDetails"] as? [String: Any] { self.instanceExportDetails = try Ec2.InstanceExportDetails(dictionary: instanceExportDetails) }
+            if let instanceExportDetails = dictionary["InstanceExportDetails"] as? [String: Any] { self.instanceExportDetails = try Ec2.InstanceExportDetails(dictionary: instanceExportDetails) } else { self.instanceExportDetails = nil }
             self.exportTaskId = dictionary["ExportTaskId"] as? String
-            if let exportToS3Task = dictionary["ExportToS3Task"] as? [String: Any] { self.exportToS3Task = try Ec2.ExportToS3Task(dictionary: exportToS3Task) }
+            if let exportToS3Task = dictionary["ExportToS3Task"] as? [String: Any] { self.exportToS3Task = try Ec2.ExportToS3Task(dictionary: exportToS3Task) } else { self.exportToS3Task = nil }
             self.state = dictionary["State"] as? String
             self.statusMessage = dictionary["StatusMessage"] as? String
             self.description = dictionary["Description"] as? String
@@ -8893,13 +8473,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon S3 bucket in which to store the Spot instance data feed.
-        public var bucket: String = ""
+        public let bucket: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// A prefix for the data feed file names.
-        public var prefix: String? = nil
-
-        public init() {}
+        public let prefix: String?
 
         public init(bucket: String, dryRun: Bool? = nil, prefix: String? = nil) {
             self.bucket = bucket
@@ -8919,19 +8497,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time period for the first schedule to start.
-        public var slotStartTimeRange: SlotStartTimeRangeRequest? = nil
+        public let slotStartTimeRange: SlotStartTimeRangeRequest?
         /// The maximum number of results to return in a single call. This value can be between 5 and 300. The default value is 100. To retrieve the remaining results, make another call with the returned NextToken value.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// One or more filters.    availability-zone - The Availability Zone (for example, us-west-2a).    instance-type - The instance type (for example, c4.large).    network-platform - The network platform (EC2-Classic or EC2-VPC).    platform - The platform (Linux/UNIX or Windows).  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The token for the next set of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// One or more Scheduled Instance IDs.
-        public var scheduledInstanceIds: [String]? = nil
-
-        public init() {}
+        public let scheduledInstanceIds: [String]?
 
         public init(slotStartTimeRange: SlotStartTimeRangeRequest? = nil, maxResults: Int32? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil, nextToken: String? = nil, scheduledInstanceIds: [String]? = nil) {
             self.slotStartTimeRange = slotStartTimeRange
@@ -8943,16 +8519,16 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let slotStartTimeRange = dictionary["SlotStartTimeRange"] as? [String: Any] { self.slotStartTimeRange = try Ec2.SlotStartTimeRangeRequest(dictionary: slotStartTimeRange) }
+            if let slotStartTimeRange = dictionary["SlotStartTimeRange"] as? [String: Any] { self.slotStartTimeRange = try Ec2.SlotStartTimeRangeRequest(dictionary: slotStartTimeRange) } else { self.slotStartTimeRange = nil }
             self.maxResults = dictionary["MaxResults"] as? Int32
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
             self.nextToken = dictionary["NextToken"] as? String
-            if let scheduledInstanceIds = dictionary["ScheduledInstanceIds"] as? [String] {
-                self.scheduledInstanceIds = scheduledInstanceIds
-            }
+            self.scheduledInstanceIds = dictionary["ScheduledInstanceIds"] as? [String]
         }
     }
 
@@ -8960,11 +8536,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the subnet.
-        public var subnetId: String = ""
+        public let subnetId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(subnetId: String, dryRun: Bool? = nil) {
             self.subnetId = subnetId
@@ -8982,11 +8556,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether the volume is deleted on instance termination.
-        public var deleteOnTermination: Bool? = nil
+        public let deleteOnTermination: Bool?
         /// The ID of the EBS volume.
-        public var volumeId: String? = nil
-
-        public init() {}
+        public let volumeId: String?
 
         public init(deleteOnTermination: Bool? = nil, volumeId: String? = nil) {
             self.deleteOnTermination = deleteOnTermination
@@ -9003,21 +8575,19 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device index of the network interface attachment on the instance.
-        public var deviceIndex: Int32? = nil
+        public let deviceIndex: Int32?
         /// The attachment state.
-        public var status: String? = nil
+        public let status: String?
         /// The ID of the instance.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The timestamp indicating when the attachment initiated.
-        public var attachTime: Date? = nil
+        public let attachTime: Date?
         /// Indicates whether the network interface is deleted when the instance is terminated.
-        public var deleteOnTermination: Bool? = nil
+        public let deleteOnTermination: Bool?
         /// The ID of the network interface attachment.
-        public var attachmentId: String? = nil
+        public let attachmentId: String?
         /// The AWS account ID of the owner of the instance.
-        public var instanceOwnerId: String? = nil
-
-        public init() {}
+        public let instanceOwnerId: String?
 
         public init(deviceIndex: Int32? = nil, status: String? = nil, instanceId: String? = nil, attachTime: Date? = nil, deleteOnTermination: Bool? = nil, attachmentId: String? = nil, instanceOwnerId: String? = nil) {
             self.deviceIndex = deviceIndex
@@ -9044,11 +8614,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// All available prefix lists.
-        public var prefixLists: [PrefixList]? = nil
-
-        public init() {}
+        public let prefixLists: [PrefixList]?
 
         public init(nextToken: String? = nil, prefixLists: [PrefixList]? = nil) {
             self.nextToken = nextToken
@@ -9059,6 +8627,8 @@ extension Ec2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let prefixLists = dictionary["PrefixLists"] as? [[String: Any]] {
                 self.prefixLists = try prefixLists.map({ try PrefixList(dictionary: $0) })
+            } else { 
+                self.prefixLists = nil
             }
         }
     }
@@ -9067,13 +8637,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the new route table to associate with the subnet.
-        public var routeTableId: String = ""
+        public let routeTableId: String
         /// The association ID.
-        public var associationId: String = ""
-
-        public init() {}
+        public let associationId: String
 
         public init(dryRun: Bool? = nil, routeTableId: String, associationId: String) {
             self.dryRun = dryRun
@@ -9094,11 +8662,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The system instance health or application instance health.
-        public var details: [InstanceStatusDetails]? = nil
+        public let details: [InstanceStatusDetails]?
         /// The status.
-        public var status: String? = nil
-
-        public init() {}
+        public let status: String?
 
         public init(details: [InstanceStatusDetails]? = nil, status: String? = nil) {
             self.details = details
@@ -9108,6 +8674,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let details = dictionary["Details"] as? [[String: Any]] {
                 self.details = try details.map({ try InstanceStatusDetails(dictionary: $0) })
+            } else { 
+                self.details = nil
             }
             self.status = dictionary["Status"] as? String
         }
@@ -9117,11 +8685,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The error code.
-        public var code: String = ""
+        public let code: String
         /// The error message accompanying the error code.
-        public var message: String = ""
-
-        public init() {}
+        public let message: String
 
         public init(code: String, message: String) {
             self.code = code
@@ -9140,11 +8706,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The move status for the IP address.
-        public var status: String? = nil
+        public let status: String?
         /// The Elastic IP address.
-        public var publicIp: String? = nil
-
-        public init() {}
+        public let publicIp: String?
 
         public init(status: String? = nil, publicIp: String? = nil) {
             self.status = status
@@ -9161,9 +8725,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the new AMI.
-        public var imageId: String? = nil
-
-        public init() {}
+        public let imageId: String?
 
         public init(imageId: String? = nil) {
             self.imageId = imageId
@@ -9178,9 +8740,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the VPCs with the referencing security groups.
-        public var securityGroupReferenceSet: [SecurityGroupReference]? = nil
-
-        public init() {}
+        public let securityGroupReferenceSet: [SecurityGroupReference]?
 
         public init(securityGroupReferenceSet: [SecurityGroupReference]? = nil) {
             self.securityGroupReferenceSet = securityGroupReferenceSet
@@ -9189,6 +8749,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let securityGroupReferenceSet = dictionary["SecurityGroupReferenceSet"] as? [[String: Any]] {
                 self.securityGroupReferenceSet = try securityGroupReferenceSet.map({ try SecurityGroupReference(dictionary: $0) })
+            } else { 
+                self.securityGroupReferenceSet = nil
             }
         }
     }
@@ -9197,11 +8759,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS account ID.
-        public var userId: String? = nil
+        public let userId: String?
         /// The name of the group.
-        public var group: String? = nil
-
-        public init() {}
+        public let group: String?
 
         public init(userId: String? = nil, group: String? = nil) {
             self.userId = userId
@@ -9218,29 +8778,27 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The license type of the virtual machine.
-        public var licenseType: String? = nil
+        public let licenseType: String?
         /// A brief status of the task.
-        public var status: String? = nil
+        public let status: String?
         /// The operating system of the virtual machine.
-        public var platform: String? = nil
+        public let platform: String?
         /// The progress of the task.
-        public var progress: String? = nil
+        public let progress: String?
         /// The target hypervisor of the import task.
-        public var hypervisor: String? = nil
+        public let hypervisor: String?
         /// The architecture of the virtual machine.
-        public var architecture: String? = nil
+        public let architecture: String?
         /// The ID of the Amazon Machine Image (AMI) created by the import task.
-        public var imageId: String? = nil
+        public let imageId: String?
         /// The task ID of the import image task.
-        public var importTaskId: String? = nil
+        public let importTaskId: String?
         /// A detailed status message of the import task.
-        public var statusMessage: String? = nil
+        public let statusMessage: String?
         /// Information about the snapshots.
-        public var snapshotDetails: [SnapshotDetail]? = nil
+        public let snapshotDetails: [SnapshotDetail]?
         /// A description of the import task.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(licenseType: String? = nil, status: String? = nil, platform: String? = nil, progress: String? = nil, hypervisor: String? = nil, architecture: String? = nil, imageId: String? = nil, importTaskId: String? = nil, statusMessage: String? = nil, snapshotDetails: [SnapshotDetail]? = nil, description: String? = nil) {
             self.licenseType = licenseType
@@ -9268,6 +8826,8 @@ extension Ec2 {
             self.statusMessage = dictionary["StatusMessage"] as? String
             if let snapshotDetails = dictionary["SnapshotDetails"] as? [[String: Any]] {
                 self.snapshotDetails = try snapshotDetails.map({ try SnapshotDetail(dictionary: $0) })
+            } else { 
+                self.snapshotDetails = nil
             }
             self.description = dictionary["Description"] as? String
         }
@@ -9277,9 +8837,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the VPC peering connections.
-        public var vpcPeeringConnections: [VpcPeeringConnection]? = nil
-
-        public init() {}
+        public let vpcPeeringConnections: [VpcPeeringConnection]?
 
         public init(vpcPeeringConnections: [VpcPeeringConnection]? = nil) {
             self.vpcPeeringConnections = vpcPeeringConnections
@@ -9288,6 +8846,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let vpcPeeringConnections = dictionary["VpcPeeringConnections"] as? [[String: Any]] {
                 self.vpcPeeringConnections = try vpcPeeringConnections.map({ try VpcPeeringConnection(dictionary: $0) })
+            } else { 
+                self.vpcPeeringConnections = nil
             }
         }
     }
@@ -9296,13 +8856,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The disk image format.
-        public var format: String = ""
+        public let format: String
         /// A presigned URL for the import manifest stored in Amazon S3 and presented here as an Amazon S3 presigned URL. For information about creating a presigned URL for an Amazon S3 object, read the "Query String Request Authentication Alternative" section of the Authenticating REST Requests topic in the Amazon Simple Storage Service Developer Guide. For information about the import manifest referenced by this API action, see VM Import Manifest.
-        public var importManifestUrl: String = ""
+        public let importManifestUrl: String
         /// The size of the disk image, in GiB.
-        public var bytes: Int64 = 0
-
-        public init() {}
+        public let bytes: Int64
 
         public init(format: String, importManifestUrl: String, bytes: Int64) {
             self.format = format
@@ -9324,13 +8882,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the prefix.
-        public var prefixListId: String? = nil
+        public let prefixListId: String?
         /// The IP address range of the AWS service.
-        public var cidrs: [String]? = nil
+        public let cidrs: [String]?
         /// The name of the prefix.
-        public var prefixListName: String? = nil
-
-        public init() {}
+        public let prefixListName: String?
 
         public init(prefixListId: String? = nil, cidrs: [String]? = nil, prefixListName: String? = nil) {
             self.prefixListId = prefixListId
@@ -9340,9 +8896,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.prefixListId = dictionary["PrefixListId"] as? String
-            if let cidrs = dictionary["Cidrs"] as? [String] {
-                self.cidrs = cidrs
-            }
+            self.cidrs = dictionary["Cidrs"] as? [String]
             self.prefixListName = dictionary["PrefixListName"] as? String
         }
     }
@@ -9351,11 +8905,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of resource: instance | reservation | snapshot | volume 
-        public var resource: String = ""
+        public let resource: String
         /// Indicate whether the resource should use longer IDs (17-character IDs).
-        public var useLongIds: Bool = false
-
-        public init() {}
+        public let useLongIds: Bool
 
         public init(resource: String, useLongIds: Bool) {
             self.resource = resource
@@ -9374,15 +8926,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more filters.    key - The tag key.    resource-id - The resource ID.    resource-type - The resource type (customer-gateway | dhcp-options | image | instance | internet-gateway | network-acl | network-interface | reserved-instances | route-table | security-group | snapshot | spot-instances-request | subnet | volume | vpc | vpn-connection | vpn-gateway).    value - The tag value.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The token to retrieve the next page of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to return in a single call. This value can be between 5 and 1000. To retrieve the remaining results, make another call with the returned NextToken value.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(filters: [Filter]? = nil, dryRun: Bool? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.filters = filters
@@ -9394,6 +8944,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
             self.nextToken = dictionary["NextToken"] as? String
@@ -9405,23 +8957,21 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time this task started.
-        public var startTime: Date? = nil
+        public let startTime: Date?
         /// If the task fails, a description of the error.
-        public var bundleTaskError: BundleTaskError? = nil
+        public let bundleTaskError: BundleTaskError?
         /// The level of task completion, as a percent (for example, 20%).
-        public var progress: String? = nil
+        public let progress: String?
         /// The ID of the instance associated with this bundle task.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The state of the task.
-        public var state: String? = nil
+        public let state: String?
         /// The time of the most recent update for the task.
-        public var updateTime: Date? = nil
+        public let updateTime: Date?
         /// The Amazon S3 storage locations.
-        public var storage: Storage? = nil
+        public let storage: Storage?
         /// The ID of the bundle task.
-        public var bundleId: String? = nil
-
-        public init() {}
+        public let bundleId: String?
 
         public init(startTime: Date? = nil, bundleTaskError: BundleTaskError? = nil, progress: String? = nil, instanceId: String? = nil, state: String? = nil, updateTime: Date? = nil, storage: Storage? = nil, bundleId: String? = nil) {
             self.startTime = startTime
@@ -9436,12 +8986,12 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.startTime = dictionary["StartTime"] as? Date
-            if let bundleTaskError = dictionary["BundleTaskError"] as? [String: Any] { self.bundleTaskError = try Ec2.BundleTaskError(dictionary: bundleTaskError) }
+            if let bundleTaskError = dictionary["BundleTaskError"] as? [String: Any] { self.bundleTaskError = try Ec2.BundleTaskError(dictionary: bundleTaskError) } else { self.bundleTaskError = nil }
             self.progress = dictionary["Progress"] as? String
             self.instanceId = dictionary["InstanceId"] as? String
             self.state = dictionary["State"] as? String
             self.updateTime = dictionary["UpdateTime"] as? Date
-            if let storage = dictionary["Storage"] as? [String: Any] { self.storage = try Ec2.Storage(dictionary: storage) }
+            if let storage = dictionary["Storage"] as? [String: Any] { self.storage = try Ec2.Storage(dictionary: storage) } else { self.storage = nil }
             self.bundleId = dictionary["BundleId"] as? String
         }
     }
@@ -9450,13 +9000,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the attachment.
-        public var attachmentId: String = ""
+        public let attachmentId: String
         /// Specifies whether to force a detachment.
-        public var force: Bool? = nil
-
-        public init() {}
+        public let force: Bool?
 
         public init(dryRun: Bool? = nil, attachmentId: String, force: Bool? = nil) {
             self.dryRun = dryRun
@@ -9476,9 +9024,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more regions.
-        public var regions: [Region]? = nil
-
-        public init() {}
+        public let regions: [Region]?
 
         public init(regions: [Region]? = nil) {
             self.regions = regions
@@ -9487,6 +9033,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let regions = dictionary["Regions"] as? [[String: Any]] {
                 self.regions = try regions.map({ try Region(dictionary: $0) })
+            } else { 
+                self.regions = nil
             }
         }
     }
@@ -9495,11 +9043,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the instance.
-        public var instanceId: String = ""
+        public let instanceId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(instanceId: String, dryRun: Bool? = nil) {
             self.instanceId = instanceId
@@ -9517,17 +9063,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether the VPN connection requires static routes. If you are creating a VPN connection for a device that does not support BGP, you must specify true. Default: false 
-        public var options: VpnConnectionOptionsSpecification? = nil
+        public let options: VpnConnectionOptionsSpecification?
         /// The ID of the customer gateway.
-        public var customerGatewayId: String = ""
+        public let customerGatewayId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The type of VPN connection (ipsec.1).
-        public var type: String = ""
+        public let type: String
         /// The ID of the virtual private gateway.
-        public var vpnGatewayId: String = ""
-
-        public init() {}
+        public let vpnGatewayId: String
 
         public init(options: VpnConnectionOptionsSpecification? = nil, customerGatewayId: String, dryRun: Bool? = nil, type: String, vpnGatewayId: String) {
             self.options = options
@@ -9538,7 +9082,7 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let options = dictionary["Options"] as? [String: Any] { self.options = try Ec2.VpnConnectionOptionsSpecification(dictionary: options) }
+            if let options = dictionary["Options"] as? [String: Any] { self.options = try Ec2.VpnConnectionOptionsSpecification(dictionary: options) } else { self.options = nil }
             guard let customerGatewayId = dictionary["CustomerGatewayId"] as? String else { throw InitializableError.missingRequiredParam("CustomerGatewayId") }
             self.customerGatewayId = customerGatewayId
             self.dryRun = dictionary["DryRun"] as? Bool
@@ -9553,11 +9097,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The historical Spot prices.
-        public var spotPriceHistory: [SpotPrice]? = nil
-
-        public init() {}
+        public let spotPriceHistory: [SpotPrice]?
 
         public init(nextToken: String? = nil, spotPriceHistory: [SpotPrice]? = nil) {
             self.nextToken = nextToken
@@ -9568,6 +9110,8 @@ extension Ec2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let spotPriceHistory = dictionary["SpotPriceHistory"] as? [[String: Any]] {
                 self.spotPriceHistory = try spotPriceHistory.map({ try SpotPrice(dictionary: $0) })
+            } else { 
+                self.spotPriceHistory = nil
             }
         }
     }
@@ -9576,9 +9120,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the security group.
-        public var groupId: String? = nil
-
-        public init() {}
+        public let groupId: String?
 
         public init(groupId: String? = nil) {
             self.groupId = groupId
@@ -9593,11 +9135,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Unique, case-sensitive identifier to ensure the idempotency of the request. Only returned if a client token was provided in the request.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// Information about the NAT gateway.
-        public var natGateway: NatGateway? = nil
-
-        public init() {}
+        public let natGateway: NatGateway?
 
         public init(clientToken: String? = nil, natGateway: NatGateway? = nil) {
             self.clientToken = clientToken
@@ -9606,7 +9146,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.clientToken = dictionary["ClientToken"] as? String
-            if let natGateway = dictionary["NatGateway"] as? [String: Any] { self.natGateway = try Ec2.NatGateway(dictionary: natGateway) }
+            if let natGateway = dictionary["NatGateway"] as? [String: Any] { self.natGateway = try Ec2.NatGateway(dictionary: natGateway) } else { self.natGateway = nil }
         }
     }
 
@@ -9614,13 +9154,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Availability Zone. [Spot fleet only] To specify multiple Availability Zones, separate them using commas; for example, "us-west-2a, us-west-2b".
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for Spot instances.
-        public var tenancy: String? = nil
+        public let tenancy: String?
         /// The name of the placement group (for cluster instances).
-        public var groupName: String? = nil
-
-        public init() {}
+        public let groupName: String?
 
         public init(availabilityZone: String? = nil, tenancy: String? = nil, groupName: String? = nil) {
             self.availabilityZone = availabilityZone
@@ -9639,83 +9177,81 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The idempotency token you provided when you launched the instance, if applicable.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// The root device name (for example, /dev/sda1 or /dev/xvda).
-        public var rootDeviceName: String? = nil
+        public let rootDeviceName: String?
         /// Indicates whether the instance is optimized for EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS Optimized instance.
-        public var ebsOptimized: Bool? = nil
+        public let ebsOptimized: Bool?
         /// Specifies whether to enable an instance launched in a VPC to perform NAT. This controls whether source/destination checking is enabled on the instance. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the instance to perform NAT. For more information, see NAT Instances in the Amazon Virtual Private Cloud User Guide.
-        public var sourceDestCheck: Bool? = nil
+        public let sourceDestCheck: Bool?
         /// The kernel associated with this instance, if applicable.
-        public var kernelId: String? = nil
+        public let kernelId: String?
         /// (IPv4 only) The private DNS hostname name assigned to the instance. This DNS hostname can only be used inside the Amazon EC2 network. This name is not available until the instance enters the running state.  [EC2-VPC] The Amazon-provided DNS server will resolve Amazon-provided private DNS hostnames if you've enabled DNS resolution and DNS hostnames in your VPC. If you are not using the Amazon-provided DNS server in your VPC, your custom domain name servers must resolve the hostname as appropriate.
-        public var privateDnsName: String? = nil
+        public let privateDnsName: String?
         /// The instance type.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The private IPv4 address assigned to the instance.
-        public var privateIpAddress: String? = nil
+        public let privateIpAddress: String?
         /// The product codes attached to this instance, if applicable.
-        public var productCodes: [ProductCode]? = nil
+        public let productCodes: [ProductCode]?
         /// The name of the key pair, if this instance was launched with an associated key pair.
-        public var keyName: String? = nil
+        public let keyName: String?
         /// The ID of the instance.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The IAM instance profile associated with the instance, if applicable.
-        public var iamInstanceProfile: IamInstanceProfile? = nil
+        public let iamInstanceProfile: IamInstanceProfile?
         /// (IPv4 only) The public DNS name assigned to the instance. This name is not available until the instance enters the running state. For EC2-VPC, this name is only available if you've enabled DNS hostnames for your VPC.
-        public var publicDnsName: String? = nil
+        public let publicDnsName: String?
         /// [EC2-VPC] The ID of the VPC in which the instance is running.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The root device type used by the AMI. The AMI can use an EBS volume or an instance store volume.
-        public var rootDeviceType: String? = nil
+        public let rootDeviceType: String?
         /// The RAM disk associated with this instance, if applicable.
-        public var ramdiskId: String? = nil
+        public let ramdiskId: String?
         /// Indicates whether this is a Spot instance or a Scheduled Instance.
-        public var instanceLifecycle: String? = nil
+        public let instanceLifecycle: String?
         /// Any block device mapping entries for the instance.
-        public var blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil
+        public let blockDeviceMappings: [InstanceBlockDeviceMapping]?
         /// [EC2-VPC] The ID of the subnet in which the instance is running.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// Specifies whether enhanced networking with the Intel 82599 Virtual Function interface is enabled.
-        public var sriovNetSupport: String? = nil
+        public let sriovNetSupport: String?
         /// The value is Windows for Windows instances; otherwise blank.
-        public var platform: String? = nil
+        public let platform: String?
         /// If the request is a Spot instance request, the ID of the request.
-        public var spotInstanceRequestId: String? = nil
+        public let spotInstanceRequestId: String?
         /// Any tags assigned to the instance.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The time the instance was launched.
-        public var launchTime: Date? = nil
+        public let launchTime: Date?
         /// The current state of the instance.
-        public var state: InstanceState? = nil
+        public let state: InstanceState?
         /// The public IPv4 address assigned to the instance, if applicable.
-        public var publicIpAddress: String? = nil
+        public let publicIpAddress: String?
         /// The monitoring for the instance.
-        public var monitoring: Monitoring? = nil
+        public let monitoring: Monitoring?
         /// The reason for the most recent state transition. This might be an empty string.
-        public var stateTransitionReason: String? = nil
+        public let stateTransitionReason: String?
         /// The reason for the most recent state transition.
-        public var stateReason: StateReason? = nil
+        public let stateReason: StateReason?
         /// One or more security groups for the instance.
-        public var securityGroups: [GroupIdentifier]? = nil
+        public let securityGroups: [GroupIdentifier]?
         /// The hypervisor type of the instance.
-        public var hypervisor: String? = nil
+        public let hypervisor: String?
         /// The architecture of the image.
-        public var architecture: String? = nil
+        public let architecture: String?
         /// The ID of the AMI used to launch the instance.
-        public var imageId: String? = nil
+        public let imageId: String?
         /// Specifies whether enhanced networking with ENA is enabled.
-        public var enaSupport: Bool? = nil
+        public let enaSupport: Bool?
         /// [EC2-VPC] One or more network interfaces for the instance.
-        public var networkInterfaces: [InstanceNetworkInterface]? = nil
+        public let networkInterfaces: [InstanceNetworkInterface]?
         /// The AMI launch index, which can be used to find this instance in the launch group.
-        public var amiLaunchIndex: Int32? = nil
+        public let amiLaunchIndex: Int32?
         /// The location where the instance launched, if applicable.
-        public var placement: Placement? = nil
+        public let placement: Placement?
         /// The virtualization type of the instance.
-        public var virtualizationType: String? = nil
-
-        public init() {}
+        public let virtualizationType: String?
 
         public init(clientToken: String? = nil, rootDeviceName: String? = nil, ebsOptimized: Bool? = nil, sourceDestCheck: Bool? = nil, kernelId: String? = nil, privateDnsName: String? = nil, instanceType: String? = nil, privateIpAddress: String? = nil, productCodes: [ProductCode]? = nil, keyName: String? = nil, instanceId: String? = nil, iamInstanceProfile: IamInstanceProfile? = nil, publicDnsName: String? = nil, vpcId: String? = nil, rootDeviceType: String? = nil, ramdiskId: String? = nil, instanceLifecycle: String? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, subnetId: String? = nil, sriovNetSupport: String? = nil, platform: String? = nil, spotInstanceRequestId: String? = nil, tags: [Tag]? = nil, launchTime: Date? = nil, state: InstanceState? = nil, publicIpAddress: String? = nil, monitoring: Monitoring? = nil, stateTransitionReason: String? = nil, stateReason: StateReason? = nil, securityGroups: [GroupIdentifier]? = nil, hypervisor: String? = nil, architecture: String? = nil, imageId: String? = nil, enaSupport: Bool? = nil, networkInterfaces: [InstanceNetworkInterface]? = nil, amiLaunchIndex: Int32? = nil, placement: Placement? = nil, virtualizationType: String? = nil) {
             self.clientToken = clientToken
@@ -9769,10 +9305,12 @@ extension Ec2 {
             self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
             if let productCodes = dictionary["ProductCodes"] as? [[String: Any]] {
                 self.productCodes = try productCodes.map({ try ProductCode(dictionary: $0) })
+            } else { 
+                self.productCodes = nil
             }
             self.keyName = dictionary["KeyName"] as? String
             self.instanceId = dictionary["InstanceId"] as? String
-            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.IamInstanceProfile(dictionary: iamInstanceProfile) }
+            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.IamInstanceProfile(dictionary: iamInstanceProfile) } else { self.iamInstanceProfile = nil }
             self.publicDnsName = dictionary["PublicDnsName"] as? String
             self.vpcId = dictionary["VpcId"] as? String
             self.rootDeviceType = dictionary["RootDeviceType"] as? String
@@ -9780,6 +9318,8 @@ extension Ec2 {
             self.instanceLifecycle = dictionary["InstanceLifecycle"] as? String
             if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
                 self.blockDeviceMappings = try blockDeviceMappings.map({ try InstanceBlockDeviceMapping(dictionary: $0) })
+            } else { 
+                self.blockDeviceMappings = nil
             }
             self.subnetId = dictionary["SubnetId"] as? String
             self.sriovNetSupport = dictionary["SriovNetSupport"] as? String
@@ -9787,15 +9327,19 @@ extension Ec2 {
             self.spotInstanceRequestId = dictionary["SpotInstanceRequestId"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.launchTime = dictionary["LaunchTime"] as? Date
-            if let state = dictionary["State"] as? [String: Any] { self.state = try Ec2.InstanceState(dictionary: state) }
+            if let state = dictionary["State"] as? [String: Any] { self.state = try Ec2.InstanceState(dictionary: state) } else { self.state = nil }
             self.publicIpAddress = dictionary["PublicIpAddress"] as? String
-            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.Monitoring(dictionary: monitoring) }
+            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.Monitoring(dictionary: monitoring) } else { self.monitoring = nil }
             self.stateTransitionReason = dictionary["StateTransitionReason"] as? String
-            if let stateReason = dictionary["StateReason"] as? [String: Any] { self.stateReason = try Ec2.StateReason(dictionary: stateReason) }
+            if let stateReason = dictionary["StateReason"] as? [String: Any] { self.stateReason = try Ec2.StateReason(dictionary: stateReason) } else { self.stateReason = nil }
             if let securityGroups = dictionary["SecurityGroups"] as? [[String: Any]] {
                 self.securityGroups = try securityGroups.map({ try GroupIdentifier(dictionary: $0) })
+            } else { 
+                self.securityGroups = nil
             }
             self.hypervisor = dictionary["Hypervisor"] as? String
             self.architecture = dictionary["Architecture"] as? String
@@ -9803,9 +9347,11 @@ extension Ec2 {
             self.enaSupport = dictionary["EnaSupport"] as? Bool
             if let networkInterfaces = dictionary["NetworkInterfaces"] as? [[String: Any]] {
                 self.networkInterfaces = try networkInterfaces.map({ try InstanceNetworkInterface(dictionary: $0) })
+            } else { 
+                self.networkInterfaces = nil
             }
             self.amiLaunchIndex = dictionary["AmiLaunchIndex"] as? Int32
-            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.Placement(dictionary: placement) }
+            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.Placement(dictionary: placement) } else { self.placement = nil }
             self.virtualizationType = dictionary["VirtualizationType"] as? String
         }
     }
@@ -9814,15 +9360,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device name to expose to the instance (for example, /dev/sdh or xvdh).
-        public var device: String = ""
+        public let device: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the instance.
-        public var instanceId: String = ""
+        public let instanceId: String
         /// The ID of the EBS volume. The volume and instance must be within the same Availability Zone.
-        public var volumeId: String = ""
-
-        public init() {}
+        public let volumeId: String
 
         public init(device: String, dryRun: Bool? = nil, instanceId: String, volumeId: String) {
             self.device = device
@@ -9846,9 +9390,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
-        public var `return`: Bool? = nil
-
-        public init() {}
+        public let `return`: Bool?
 
         public init(return: Bool? = nil) {
             self.`return` = `return`
@@ -9863,11 +9405,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the VPC peering connection.
-        public var vpcPeeringConnectionId: String? = nil
-
-        public init() {}
+        public let vpcPeeringConnectionId: String?
 
         public init(dryRun: Bool? = nil, vpcPeeringConnectionId: String? = nil) {
             self.dryRun = dryRun
@@ -9884,15 +9424,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more filters.    deliver-log-status - The status of the logs delivery (SUCCESS | FAILED).    flow-log-id - The ID of the flow log.    log-group-name - The name of the log group.    resource-id - The ID of the VPC, subnet, or network interface.    traffic-type - The type of traffic (ACCEPT | REJECT | ALL)  
-        public var filter: [Filter]? = nil
+        public let filter: [Filter]?
         /// One or more flow log IDs.
-        public var flowLogIds: [String]? = nil
+        public let flowLogIds: [String]?
         /// The token to retrieve the next page of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned NextToken value. This value can be between 5 and 1000; if MaxResults is given a value larger than 1000, only 1000 results are returned. You cannot specify this parameter and the flow log IDs parameter in the same request.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(filter: [Filter]? = nil, flowLogIds: [String]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.filter = filter
@@ -9904,10 +9442,10 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let filter = dictionary["Filter"] as? [[String: Any]] {
                 self.filter = try filter.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filter = nil
             }
-            if let flowLogIds = dictionary["FlowLogIds"] as? [String] {
-                self.flowLogIds = flowLogIds
-            }
+            self.flowLogIds = dictionary["FlowLogIds"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -9917,11 +9455,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The instance type size (for example, m3.medium) of the running instance.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// the IDs of instances that are running on the Dedicated Host.
-        public var instanceId: String? = nil
-
-        public init() {}
+        public let instanceId: String?
 
         public init(instanceType: String? = nil, instanceId: String? = nil) {
             self.instanceType = instanceType
@@ -9938,16 +9474,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Spot instance data feed subscription.
-        public var spotDatafeedSubscription: SpotDatafeedSubscription? = nil
-
-        public init() {}
+        public let spotDatafeedSubscription: SpotDatafeedSubscription?
 
         public init(spotDatafeedSubscription: SpotDatafeedSubscription? = nil) {
             self.spotDatafeedSubscription = spotDatafeedSubscription
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let spotDatafeedSubscription = dictionary["SpotDatafeedSubscription"] as? [String: Any] { self.spotDatafeedSubscription = try Ec2.SpotDatafeedSubscription(dictionary: spotDatafeedSubscription) }
+            if let spotDatafeedSubscription = dictionary["SpotDatafeedSubscription"] as? [String: Any] { self.spotDatafeedSubscription = try Ec2.SpotDatafeedSubscription(dictionary: spotDatafeedSubscription) } else { self.spotDatafeedSubscription = nil }
         }
     }
 
@@ -9955,9 +9489,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Enables monitoring for the instance. Default: false 
-        public var enabled: Bool? = nil
-
-        public init() {}
+        public let enabled: Bool?
 
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
@@ -9972,16 +9504,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// An Amazon S3 storage location.
-        public var s3: S3Storage? = nil
-
-        public init() {}
+        public let s3: S3Storage?
 
         public init(s3: S3Storage? = nil) {
             self.s3 = s3
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let s3 = dictionary["S3"] as? [String: Any] { self.s3 = try Ec2.S3Storage(dictionary: s3) }
+            if let s3 = dictionary["S3"] as? [String: Any] { self.s3 = try Ec2.S3Storage(dictionary: s3) } else { self.s3 = nil }
         }
     }
 
@@ -9989,29 +9519,27 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// [EC2-VPC] An available IP address from the IP address range of the subnet.
-        public var privateIpAddress: String? = nil
+        public let privateIpAddress: String?
         /// [EC2-VPC] The ID of the subnet in which to launch the instance.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// The user data to make available to the instance. If you are using an AWS SDK or command line tool, Base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide Base64-encoded text.
-        public var userData: UserData? = nil
+        public let userData: UserData?
         /// One or more security group IDs.
-        public var groupIds: [String]? = nil
+        public let groupIds: [String]?
         /// The architecture of the instance.
-        public var architecture: String? = nil
+        public let architecture: String?
         /// Reserved.
-        public var additionalInfo: String? = nil
+        public let additionalInfo: String?
         /// Indicates whether an instance stops or terminates when you initiate shutdown from the instance (using the operating system command for system shutdown).
-        public var instanceInitiatedShutdownBehavior: String? = nil
+        public let instanceInitiatedShutdownBehavior: String?
         /// The placement information for the instance.
-        public var placement: Placement? = nil
+        public let placement: Placement?
         /// Indicates whether monitoring is enabled.
-        public var monitoring: Bool? = nil
+        public let monitoring: Bool?
         /// The instance type. For more information about the instance types that you can import, see Instance Types in the VM Import/Export User Guide.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// One or more security group names.
-        public var groupNames: [String]? = nil
-
-        public init() {}
+        public let groupNames: [String]?
 
         public init(privateIpAddress: String? = nil, subnetId: String? = nil, userData: UserData? = nil, groupIds: [String]? = nil, architecture: String? = nil, additionalInfo: String? = nil, instanceInitiatedShutdownBehavior: String? = nil, placement: Placement? = nil, monitoring: Bool? = nil, instanceType: String? = nil, groupNames: [String]? = nil) {
             self.privateIpAddress = privateIpAddress
@@ -10030,19 +9558,15 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
             self.subnetId = dictionary["SubnetId"] as? String
-            if let userData = dictionary["UserData"] as? [String: Any] { self.userData = try Ec2.UserData(dictionary: userData) }
-            if let groupIds = dictionary["GroupIds"] as? [String] {
-                self.groupIds = groupIds
-            }
+            if let userData = dictionary["UserData"] as? [String: Any] { self.userData = try Ec2.UserData(dictionary: userData) } else { self.userData = nil }
+            self.groupIds = dictionary["GroupIds"] as? [String]
             self.architecture = dictionary["Architecture"] as? String
             self.additionalInfo = dictionary["AdditionalInfo"] as? String
             self.instanceInitiatedShutdownBehavior = dictionary["InstanceInitiatedShutdownBehavior"] as? String
-            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.Placement(dictionary: placement) }
+            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.Placement(dictionary: placement) } else { self.placement = nil }
             self.monitoring = dictionary["Monitoring"] as? Bool
             self.instanceType = dictionary["InstanceType"] as? String
-            if let groupNames = dictionary["GroupNames"] as? [String] {
-                self.groupNames = groupNames
-            }
+            self.groupNames = dictionary["GroupNames"] as? [String]
         }
     }
 
@@ -10050,13 +9574,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description for the status code.
-        public var message: String? = nil
+        public let message: String?
         /// The status code. For a list of status codes, see Spot Bid Status Codes in the Amazon Elastic Compute Cloud User Guide.
-        public var code: String? = nil
+        public let code: String?
         /// The date and time of the most recent status update, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public var updateTime: Date? = nil
-
-        public init() {}
+        public let updateTime: Date?
 
         public init(message: String? = nil, code: String? = nil, updateTime: Date? = nil) {
             self.message = message
@@ -10075,9 +9597,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IPv6 address.
-        public var ipv6Address: String? = nil
-
-        public init() {}
+        public let ipv6Address: String?
 
         public init(ipv6Address: String? = nil) {
             self.ipv6Address = ipv6Address
@@ -10092,19 +9612,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more prefix list IDs for an AWS service. Not applicable for stale security group rules.
-        public var prefixListIds: [String]? = nil
+        public let prefixListIds: [String]?
         /// One or more security group pairs. Returns the ID of the referenced security group and VPC, and the ID and status of the VPC peering connection.
-        public var userIdGroupPairs: [UserIdGroupPair]? = nil
+        public let userIdGroupPairs: [UserIdGroupPair]?
         /// One or more IP ranges. Not applicable for stale security group rules.
-        public var ipRanges: [String]? = nil
+        public let ipRanges: [String]?
         /// The start of the port range for the TCP and UDP protocols, or an ICMP type number. A value of -1 indicates all ICMP types. 
-        public var fromPort: Int32? = nil
+        public let fromPort: Int32?
         /// The end of the port range for the TCP and UDP protocols, or an ICMP type number. A value of -1 indicates all ICMP types. 
-        public var toPort: Int32? = nil
+        public let toPort: Int32?
         /// The IP protocol name (for tcp, udp, and icmp) or number (see Protocol Numbers).
-        public var ipProtocol: String? = nil
-
-        public init() {}
+        public let ipProtocol: String?
 
         public init(prefixListIds: [String]? = nil, userIdGroupPairs: [UserIdGroupPair]? = nil, ipRanges: [String]? = nil, fromPort: Int32? = nil, toPort: Int32? = nil, ipProtocol: String? = nil) {
             self.prefixListIds = prefixListIds
@@ -10116,15 +9634,13 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let prefixListIds = dictionary["PrefixListIds"] as? [String] {
-                self.prefixListIds = prefixListIds
-            }
+            self.prefixListIds = dictionary["PrefixListIds"] as? [String]
             if let userIdGroupPairs = dictionary["UserIdGroupPairs"] as? [[String: Any]] {
                 self.userIdGroupPairs = try userIdGroupPairs.map({ try UserIdGroupPair(dictionary: $0) })
+            } else { 
+                self.userIdGroupPairs = nil
             }
-            if let ipRanges = dictionary["IpRanges"] as? [String] {
-                self.ipRanges = ipRanges
-            }
+            self.ipRanges = dictionary["IpRanges"] as? [String]
             self.fromPort = dictionary["FromPort"] as? Int32
             self.toPort = dictionary["ToPort"] as? Int32
             self.ipProtocol = dictionary["IpProtocol"] as? String
@@ -10135,11 +9651,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the instance profile.
-        public var arn: String? = nil
+        public let arn: String?
         /// The ID of the instance profile.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
@@ -10156,9 +9670,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more security groups.
-        public var securityGroups: [SecurityGroup]? = nil
-
-        public init() {}
+        public let securityGroups: [SecurityGroup]?
 
         public init(securityGroups: [SecurityGroup]? = nil) {
             self.securityGroups = securityGroups
@@ -10167,6 +9679,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let securityGroups = dictionary["SecurityGroups"] as? [[String: Any]] {
                 self.securityGroups = try securityGroups.map({ try SecurityGroup(dictionary: $0) })
+            } else { 
+                self.securityGroups = nil
             }
         }
     }
@@ -10175,23 +9689,21 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The upfront price of the reservation.
-        public var upfrontPrice: String? = nil
+        public let upfrontPrice: String?
         /// The IDs of the Dedicated Hosts associated with the reservation.
-        public var hostIdSet: [String]? = nil
+        public let hostIdSet: [String]?
         /// The payment option for the reservation.
-        public var paymentOption: String? = nil
+        public let paymentOption: String?
         /// The hourly price of the reservation per hour.
-        public var hourlyPrice: String? = nil
+        public let hourlyPrice: String?
         /// The currency in which the UpfrontPrice and HourlyPrice amounts are specified. At this time, the only supported currency is USD.
-        public var currencyCode: String? = nil
+        public let currencyCode: String?
         /// The ID of the reservation.
-        public var hostReservationId: String? = nil
+        public let hostReservationId: String?
         /// The duration of the reservation's term in seconds.
-        public var duration: Int32? = nil
+        public let duration: Int32?
         /// The instance family on the Dedicated Host that the reservation can be associated with.
-        public var instanceFamily: String? = nil
-
-        public init() {}
+        public let instanceFamily: String?
 
         public init(upfrontPrice: String? = nil, hostIdSet: [String]? = nil, paymentOption: String? = nil, hourlyPrice: String? = nil, currencyCode: String? = nil, hostReservationId: String? = nil, duration: Int32? = nil, instanceFamily: String? = nil) {
             self.upfrontPrice = upfrontPrice
@@ -10206,9 +9718,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.upfrontPrice = dictionary["UpfrontPrice"] as? String
-            if let hostIdSet = dictionary["HostIdSet"] as? [String] {
-                self.hostIdSet = hostIdSet
-            }
+            self.hostIdSet = dictionary["HostIdSet"] as? [String]
             self.paymentOption = dictionary["PaymentOption"] as? String
             self.hourlyPrice = dictionary["HourlyPrice"] as? String
             self.currencyCode = dictionary["CurrencyCode"] as? String
@@ -10222,11 +9732,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The configuration for the Spot fleet request.
-        public var spotFleetRequestConfig: SpotFleetRequestConfigData = SpotFleetRequestConfigData()
+        public let spotFleetRequestConfig: SpotFleetRequestConfigData
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(spotFleetRequestConfig: SpotFleetRequestConfigData, dryRun: Bool? = nil) {
             self.spotFleetRequestConfig = spotFleetRequestConfig
@@ -10244,37 +9752,35 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The recurring charge tag assigned to the resource.
-        public var recurringCharges: [RecurringCharge]? = nil
+        public let recurringCharges: [RecurringCharge]?
         /// The usage price of the Reserved Instance, per hour.
-        public var usagePrice: Float? = nil
+        public let usagePrice: Float?
         /// The tenancy of the instance.
-        public var instanceTenancy: String? = nil
+        public let instanceTenancy: String?
         /// The pricing details of the Reserved Instance offering.
-        public var pricingDetails: [PricingDetail]? = nil
+        public let pricingDetails: [PricingDetail]?
         /// The instance type on which the Reserved Instance can be used.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The Reserved Instance offering type.
-        public var offeringType: String? = nil
+        public let offeringType: String?
         /// The Reserved Instance product platform description.
-        public var productDescription: String? = nil
+        public let productDescription: String?
         /// Indicates whether the offering is available through the Reserved Instance Marketplace (resale) or AWS. If it's a Reserved Instance Marketplace offering, this is true.
-        public var marketplace: Bool? = nil
+        public let marketplace: Bool?
         /// The Availability Zone in which the Reserved Instance can be used.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// If convertible it can be exchanged for Reserved Instances of the same or higher monetary value, with different configurations. If standard, it is not possible to perform an exchange.
-        public var offeringClass: String? = nil
+        public let offeringClass: String?
         /// The currency of the Reserved Instance offering you are purchasing. It's specified using ISO 4217 standard currency codes. At this time, the only supported currency is USD.
-        public var currencyCode: String? = nil
+        public let currencyCode: String?
         /// The ID of the Reserved Instance offering. This is the offering ID used in GetReservedInstancesExchangeQuote to confirm that an exchange can be made.
-        public var reservedInstancesOfferingId: String? = nil
+        public let reservedInstancesOfferingId: String?
         /// The duration of the Reserved Instance, in seconds.
-        public var duration: Int64? = nil
+        public let duration: Int64?
         /// Whether the Reserved Instance is applied to instances in a region or an Availability Zone.
-        public var scope: String? = nil
+        public let scope: String?
         /// The purchase price of the Reserved Instance.
-        public var fixedPrice: Float? = nil
-
-        public init() {}
+        public let fixedPrice: Float?
 
         public init(recurringCharges: [RecurringCharge]? = nil, usagePrice: Float? = nil, instanceTenancy: String? = nil, pricingDetails: [PricingDetail]? = nil, instanceType: String? = nil, offeringType: String? = nil, productDescription: String? = nil, marketplace: Bool? = nil, availabilityZone: String? = nil, offeringClass: String? = nil, currencyCode: String? = nil, reservedInstancesOfferingId: String? = nil, duration: Int64? = nil, scope: String? = nil, fixedPrice: Float? = nil) {
             self.recurringCharges = recurringCharges
@@ -10297,11 +9803,15 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let recurringCharges = dictionary["RecurringCharges"] as? [[String: Any]] {
                 self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
+            } else { 
+                self.recurringCharges = nil
             }
             self.usagePrice = dictionary["UsagePrice"] as? Float
             self.instanceTenancy = dictionary["InstanceTenancy"] as? String
             if let pricingDetails = dictionary["PricingDetails"] as? [[String: Any]] {
                 self.pricingDetails = try pricingDetails.map({ try PricingDetail(dictionary: $0) })
+            } else { 
+                self.pricingDetails = nil
             }
             self.instanceType = dictionary["InstanceType"] as? String
             self.offeringType = dictionary["OfferingType"] as? String
@@ -10321,11 +9831,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The states of the listed Reserved Instances.
-        public var state: String? = nil
+        public let state: String?
         /// The number of listed Reserved Instances in the state specified by the state.
-        public var instanceCount: Int32? = nil
-
-        public init() {}
+        public let instanceCount: Int32?
 
         public init(state: String? = nil, instanceCount: Int32? = nil) {
             self.state = state
@@ -10342,13 +9850,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// One or more network interface IDs. Default: Describes all your network interfaces.
-        public var networkInterfaceIds: [String]? = nil
+        public let networkInterfaceIds: [String]?
         /// One or more filters.    addresses.private-ip-address - The private IPv4 addresses associated with the network interface.    addresses.primary - Whether the private IPv4 address is the primary IP address associated with the network interface.     addresses.association.public-ip - The association ID returned when the network interface was associated with the Elastic IP address (IPv4).    addresses.association.owner-id - The owner ID of the addresses associated with the network interface.    association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    association.public-dns-name - The public DNS name for the network interface (IPv4).    attachment.attachment-id - The ID of the interface attachment.    attachment.attach.time - The time that the network interface was attached to an instance.    attachment.delete-on-termination - Indicates whether the attachment is deleted when an instance is terminated.    attachment.device-index - The device index to which the network interface is attached.    attachment.instance-id - The ID of the instance to which the network interface is attached.    attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    attachment.nat-gateway-id - The ID of the NAT gateway to which the network interface is attached.    attachment.status - The status of the attachment (attaching | attached | detaching | detached).    availability-zone - The Availability Zone of the network interface.    description - The description of the network interface.    group-id - The ID of a security group associated with the network interface.    group-name - The name of a security group associated with the network interface.    ipv6-addresses.ipv6-address - An IPv6 address associated with the network interface.    mac-address - The MAC address of the network interface.    network-interface-id - The ID of the network interface.    owner-id - The AWS account ID of the network interface owner.    private-ip-address - The private IPv4 address or addresses of the network interface.    private-dns-name - The private DNS name of the network interface (IPv4).    requester-id - The ID of the entity that launched the instance on your behalf (for example, AWS Management Console, Auto Scaling, and so on).    requester-managed - Indicates whether the network interface is being managed by an AWS service (for example, AWS Management Console, Auto Scaling, and so on).    source-desk-check - Indicates whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.     status - The status of the network interface. If the network interface is not attached to an instance, the status is available; if a network interface is attached to an instance the status is in-use.    subnet-id - The ID of the subnet for the network interface.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-id - The ID of the VPC for the network interface.  
-        public var filters: [Filter]? = nil
-
-        public init() {}
+        public let filters: [Filter]?
 
         public init(dryRun: Bool? = nil, networkInterfaceIds: [String]? = nil, filters: [Filter]? = nil) {
             self.dryRun = dryRun
@@ -10358,11 +9864,11 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let networkInterfaceIds = dictionary["NetworkInterfaceIds"] as? [String] {
-                self.networkInterfaceIds = networkInterfaceIds
-            }
+            self.networkInterfaceIds = dictionary["NetworkInterfaceIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
         }
     }
@@ -10371,16 +9877,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the network ACL.
-        public var networkAcl: NetworkAcl? = nil
-
-        public init() {}
+        public let networkAcl: NetworkAcl?
 
         public init(networkAcl: NetworkAcl? = nil) {
             self.networkAcl = networkAcl
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let networkAcl = dictionary["NetworkAcl"] as? [String: Any] { self.networkAcl = try Ec2.NetworkAcl(dictionary: networkAcl) }
+            if let networkAcl = dictionary["NetworkAcl"] as? [String: Any] { self.networkAcl = try Ec2.NetworkAcl(dictionary: networkAcl) } else { self.networkAcl = nil }
         }
     }
 
@@ -10388,11 +9892,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Parameters used to automatically set up EBS volumes when the instance is launched.
-        public var ebs: EbsInstanceBlockDevice? = nil
+        public let ebs: EbsInstanceBlockDevice?
         /// The device name exposed to the instance (for example, /dev/sdh or xvdh).
-        public var deviceName: String? = nil
-
-        public init() {}
+        public let deviceName: String?
 
         public init(ebs: EbsInstanceBlockDevice? = nil, deviceName: String? = nil) {
             self.ebs = ebs
@@ -10400,7 +9902,7 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let ebs = dictionary["Ebs"] as? [String: Any] { self.ebs = try Ec2.EbsInstanceBlockDevice(dictionary: ebs) }
+            if let ebs = dictionary["Ebs"] as? [String: Any] { self.ebs = try Ec2.EbsInstanceBlockDevice(dictionary: ebs) } else { self.ebs = nil }
             self.deviceName = dictionary["DeviceName"] as? String
         }
     }
@@ -10409,15 +9911,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The code identifying the operation, for example, enable-volume-io.
-        public var code: String? = nil
+        public let code: String?
         /// The event type associated with this operation.
-        public var eventType: String? = nil
+        public let eventType: String?
         /// The ID of the event associated with this operation.
-        public var eventId: String? = nil
+        public let eventId: String?
         /// A description of the operation.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(code: String? = nil, eventType: String? = nil, eventId: String? = nil, description: String? = nil) {
             self.code = code
@@ -10438,15 +9938,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list specifying the price of the Standard Reserved Instance for each month remaining in the Reserved Instance term.
-        public var priceSchedules: [PriceScheduleSpecification] = []
+        public let priceSchedules: [PriceScheduleSpecification]
         /// The number of instances that are a part of a Reserved Instance account to be listed in the Reserved Instance Marketplace. This number should be less than or equal to the instance count associated with the Reserved Instance ID specified in this call.
-        public var instanceCount: Int32 = 0
+        public let instanceCount: Int32
         /// The ID of the active Standard Reserved Instance.
-        public var reservedInstancesId: String = ""
+        public let reservedInstancesId: String
         /// Unique, case-sensitive identifier you provide to ensure idempotency of your listings. This helps avoid duplicate listings. For more information, see Ensuring Idempotency.
-        public var clientToken: String = ""
-
-        public init() {}
+        public let clientToken: String
 
         public init(priceSchedules: [PriceScheduleSpecification], instanceCount: Int32, reservedInstancesId: String, clientToken: String) {
             self.priceSchedules = priceSchedules
@@ -10471,9 +9969,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more route tables.
-        public var routeTables: [RouteTable]? = nil
-
-        public init() {}
+        public let routeTables: [RouteTable]?
 
         public init(routeTables: [RouteTable]? = nil) {
             self.routeTables = routeTables
@@ -10482,6 +9978,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let routeTables = dictionary["RouteTables"] as? [[String: Any]] {
                 self.routeTables = try routeTables.map({ try RouteTable(dictionary: $0) })
+            } else { 
+                self.routeTables = nil
             }
         }
     }
@@ -10490,16 +9988,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the IAM instance profile association.
-        public var iamInstanceProfileAssociation: IamInstanceProfileAssociation? = nil
-
-        public init() {}
+        public let iamInstanceProfileAssociation: IamInstanceProfileAssociation?
 
         public init(iamInstanceProfileAssociation: IamInstanceProfileAssociation? = nil) {
             self.iamInstanceProfileAssociation = iamInstanceProfileAssociation
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let iamInstanceProfileAssociation = dictionary["IamInstanceProfileAssociation"] as? [String: Any] { self.iamInstanceProfileAssociation = try Ec2.IamInstanceProfileAssociation(dictionary: iamInstanceProfileAssociation) }
+            if let iamInstanceProfileAssociation = dictionary["IamInstanceProfileAssociation"] as? [String: Any] { self.iamInstanceProfileAssociation = try Ec2.IamInstanceProfileAssociation(dictionary: iamInstanceProfileAssociation) } else { self.iamInstanceProfileAssociation = nil }
         }
     }
 
@@ -10507,13 +10003,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the set of DHCP options.
-        public var dhcpOptionsId: String? = nil
+        public let dhcpOptionsId: String?
         /// One or more DHCP options in the set.
-        public var dhcpConfigurations: [DhcpConfiguration]? = nil
+        public let dhcpConfigurations: [DhcpConfiguration]?
         /// Any tags assigned to the DHCP options set.
-        public var tags: [Tag]? = nil
-
-        public init() {}
+        public let tags: [Tag]?
 
         public init(dhcpOptionsId: String? = nil, dhcpConfigurations: [DhcpConfiguration]? = nil, tags: [Tag]? = nil) {
             self.dhcpOptionsId = dhcpOptionsId
@@ -10525,9 +10019,13 @@ extension Ec2 {
             self.dhcpOptionsId = dictionary["DhcpOptionsId"] as? String
             if let dhcpConfigurations = dictionary["DhcpConfigurations"] as? [[String: Any]] {
                 self.dhcpConfigurations = try dhcpConfigurations.map({ try DhcpConfiguration(dictionary: $0) })
+            } else { 
+                self.dhcpConfigurations = nil
             }
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
         }
     }
@@ -10536,11 +10034,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more linked EC2-Classic instances.
-        public var instances: [ClassicLinkInstance]? = nil
+        public let instances: [ClassicLinkInstance]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(instances: [ClassicLinkInstance]? = nil, nextToken: String? = nil) {
             self.instances = instances
@@ -10550,6 +10046,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let instances = dictionary["Instances"] as? [[String: Any]] {
                 self.instances = try instances.map({ try ClassicLinkInstance(dictionary: $0) })
+            } else { 
+                self.instances = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -10559,23 +10057,21 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The full ARN of the AWS Key Management Service (AWS KMS) CMK to use when encrypting the snapshots of an image during a copy operation. This parameter is only required if you want to use a non-default CMK; if this parameter is not specified, the default CMK for EBS is used. The ARN contains the arn:aws:kms namespace, followed by the region of the CMK, the AWS account ID of the CMK owner, the key namespace, and then the CMK ID. For example, arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef. The specified CMK must exist in the region that the snapshot is being copied to. If a KmsKeyId is specified, the Encrypted flag must also be set.
-        public var kmsKeyId: String? = nil
+        public let kmsKeyId: String?
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see How to Ensure Idempotency in the Amazon Elastic Compute Cloud User Guide.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// The name of the region that contains the AMI to copy.
-        public var sourceRegion: String = ""
+        public let sourceRegion: String
         /// The name of the new AMI in the destination region.
-        public var name: String = ""
+        public let name: String
         /// Specifies whether the destination snapshots of the copied image should be encrypted. The default CMK for EBS is used unless a non-default AWS Key Management Service (AWS KMS) CMK is specified with KmsKeyId. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
-        public var encrypted: Bool? = nil
+        public let encrypted: Bool?
         /// The ID of the AMI to copy.
-        public var sourceImageId: String = ""
+        public let sourceImageId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// A description for the new AMI in the destination region.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(kmsKeyId: String? = nil, clientToken: String? = nil, sourceRegion: String, name: String, encrypted: Bool? = nil, sourceImageId: String, dryRun: Bool? = nil, description: String? = nil) {
             self.kmsKeyId = kmsKeyId
@@ -10607,13 +10103,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// One or more network ACL IDs. Default: Describes all your network ACLs.
-        public var networkAclIds: [String]? = nil
+        public let networkAclIds: [String]?
         /// One or more filters.    association.association-id - The ID of an association ID for the ACL.    association.network-acl-id - The ID of the network ACL involved in the association.    association.subnet-id - The ID of the subnet involved in the association.    default - Indicates whether the ACL is the default network ACL for the VPC.    entry.cidr - The IPv4 CIDR range specified in the entry.    entry.egress - Indicates whether the entry applies to egress traffic.    entry.icmp.code - The ICMP code specified in the entry, if any.    entry.icmp.type - The ICMP type specified in the entry, if any.    entry.ipv6-cidr - The IPv6 CIDR range specified in the entry.    entry.port-range.from - The start of the port range specified in the entry.     entry.port-range.to - The end of the port range specified in the entry.     entry.protocol - The protocol specified in the entry (tcp | udp | icmp or a protocol number).    entry.rule-action - Allows or denies the matching traffic (allow | deny).    entry.rule-number - The number of an entry (in other words, rule) in the ACL's set of entries.    network-acl-id - The ID of the network ACL.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-id - The ID of the VPC for the network ACL.  
-        public var filters: [Filter]? = nil
-
-        public init() {}
+        public let filters: [Filter]?
 
         public init(dryRun: Bool? = nil, networkAclIds: [String]? = nil, filters: [Filter]? = nil) {
             self.dryRun = dryRun
@@ -10623,11 +10117,11 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let networkAclIds = dictionary["NetworkAclIds"] as? [String] {
-                self.networkAclIds = networkAclIds
-            }
+            self.networkAclIds = dictionary["NetworkAclIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
         }
     }
@@ -10636,9 +10130,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more terminated instances.
-        public var terminatingInstances: [InstanceStateChange]? = nil
-
-        public init() {}
+        public let terminatingInstances: [InstanceStateChange]?
 
         public init(terminatingInstances: [InstanceStateChange]? = nil) {
             self.terminatingInstances = terminatingInstances
@@ -10647,6 +10139,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let terminatingInstances = dictionary["TerminatingInstances"] as? [[String: Any]] {
                 self.terminatingInstances = try terminatingInstances.map({ try InstanceStateChange(dictionary: $0) })
+            } else { 
+                self.terminatingInstances = nil
             }
         }
     }
@@ -10655,23 +10149,21 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The volume type. This can be gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes. Default: standard 
-        public var volumeType: String? = nil
+        public let volumeType: String?
         /// Specifies whether the volume should be encrypted. Encrypted Amazon EBS volumes may only be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are automatically encrypted. There is no way to create an encrypted volume from an unencrypted snapshot or vice versa. If your AMI uses encrypted volumes, you can only launch it on supported instance types. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
-        public var encrypted: Bool? = nil
+        public let encrypted: Bool?
         /// The size of the volume, in GiBs. Constraints: 1-16384 for gp2, 4-16384 for io1, 500-16384 for st1, 500-16384 for sc1, and 1-1024 for standard. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size.
-        public var size: Int32? = nil
+        public let size: Int32?
         /// The snapshot from which to create the volume.
-        public var snapshotId: String? = nil
+        public let snapshotId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// Only valid for Provisioned IOPS SSD volumes. The number of I/O operations per second (IOPS) to provision for the volume, with a maximum ratio of 50 IOPS/GiB. Constraint: Range is 100 to 20000 for Provisioned IOPS SSD volumes 
-        public var iops: Int32? = nil
+        public let iops: Int32?
         /// The Availability Zone in which to create the volume. Use DescribeAvailabilityZones to list the Availability Zones that are currently available to you.
-        public var availabilityZone: String = ""
+        public let availabilityZone: String
         /// The full ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use when creating the encrypted volume. This parameter is only required if you want to use a non-default CMK; if this parameter is not specified, the default CMK for EBS is used. The ARN contains the arn:aws:kms namespace, followed by the region of the CMK, the AWS account ID of the CMK owner, the key namespace, and then the CMK ID. For example, arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef. If a KmsKeyId is specified, the Encrypted flag must also be set.
-        public var kmsKeyId: String? = nil
-
-        public init() {}
+        public let kmsKeyId: String?
 
         public init(volumeType: String? = nil, encrypted: Bool? = nil, size: Int32? = nil, snapshotId: String? = nil, dryRun: Bool? = nil, iops: Int32? = nil, availabilityZone: String, kmsKeyId: String? = nil) {
             self.volumeType = volumeType
@@ -10701,17 +10193,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more filters.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// A list of import snapshot task IDs.
-        public var importTaskIds: [String]? = nil
+        public let importTaskIds: [String]?
         /// A token that indicates the next page of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(filters: [Filter]? = nil, dryRun: Bool? = nil, importTaskIds: [String]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.filters = filters
@@ -10724,11 +10214,11 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let importTaskIds = dictionary["ImportTaskIds"] as? [String] {
-                self.importTaskIds = importTaskIds
-            }
+            self.importTaskIds = dictionary["ImportTaskIds"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -10738,11 +10228,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the subnet.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// Information about the IPv6 CIDR block association.
-        public var ipv6CidrBlockAssociation: SubnetIpv6CidrBlockAssociation? = nil
-
-        public init() {}
+        public let ipv6CidrBlockAssociation: SubnetIpv6CidrBlockAssociation?
 
         public init(subnetId: String? = nil, ipv6CidrBlockAssociation: SubnetIpv6CidrBlockAssociation? = nil) {
             self.subnetId = subnetId
@@ -10751,7 +10239,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.subnetId = dictionary["SubnetId"] as? String
-            if let ipv6CidrBlockAssociation = dictionary["Ipv6CidrBlockAssociation"] as? [String: Any] { self.ipv6CidrBlockAssociation = try Ec2.SubnetIpv6CidrBlockAssociation(dictionary: ipv6CidrBlockAssociation) }
+            if let ipv6CidrBlockAssociation = dictionary["Ipv6CidrBlockAssociation"] as? [String: Any] { self.ipv6CidrBlockAssociation = try Ec2.SubnetIpv6CidrBlockAssociation(dictionary: ipv6CidrBlockAssociation) } else { self.ipv6CidrBlockAssociation = nil }
         }
     }
 
@@ -10759,13 +10247,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// [EC2-VPC] The ID that AWS assigns to represent the allocation of the Elastic IP address for use with instances in a VPC.
-        public var allocationId: String? = nil
+        public let allocationId: String?
         /// Indicates whether this Elastic IP address is for use with instances in EC2-Classic (standard) or instances in a VPC (vpc).
-        public var domain: String? = nil
+        public let domain: String?
         /// The Elastic IP address.
-        public var publicIp: String? = nil
-
-        public init() {}
+        public let publicIp: String?
 
         public init(allocationId: String? = nil, domain: String? = nil, publicIp: String? = nil) {
             self.allocationId = allocationId
@@ -10784,31 +10270,29 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Modification start time 
-        public var startTime: Date? = nil
+        public let startTime: Date?
         /// Original IOPS rate of the volume being modified.
-        public var originalIops: Int32? = nil
+        public let originalIops: Int32?
         /// Current state of modification. Modification state is null for unmodified volumes. 
-        public var modificationState: String? = nil
+        public let modificationState: String?
         /// Original size of the volume being modified.
-        public var originalSize: Int32? = nil
+        public let originalSize: Int32?
         /// Modification progress from 0 to 100%.
-        public var progress: Int64? = nil
+        public let progress: Int64?
         /// ID of the volume being modified.
-        public var volumeId: String? = nil
+        public let volumeId: String?
         /// Modification completion or failure time.
-        public var endTime: Date? = nil
+        public let endTime: Date?
         /// Target EBS volume type of the volume being modified.
-        public var targetVolumeType: String? = nil
+        public let targetVolumeType: String?
         /// Target IOPS rate of the volume being modified.
-        public var targetIops: Int32? = nil
+        public let targetIops: Int32?
         /// Original EBS volume type of the volume being modified.
-        public var originalVolumeType: String? = nil
+        public let originalVolumeType: String?
         /// Target size of the volume being modified.
-        public var targetSize: Int32? = nil
+        public let targetSize: Int32?
         /// Generic status message on modification progress or failure.
-        public var statusMessage: String? = nil
-
-        public init() {}
+        public let statusMessage: String?
 
         public init(startTime: Date? = nil, originalIops: Int32? = nil, modificationState: String? = nil, originalSize: Int32? = nil, progress: Int64? = nil, volumeId: String? = nil, endTime: Date? = nil, targetVolumeType: String? = nil, targetIops: Int32? = nil, originalVolumeType: String? = nil, targetSize: Int32? = nil, statusMessage: String? = nil) {
             self.startTime = startTime
@@ -10845,11 +10329,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the S3 bucket where the disk image is located.
-        public var s3Bucket: String? = nil
+        public let s3Bucket: String?
         /// The file name of the disk image.
-        public var s3Key: String? = nil
-
-        public init() {}
+        public let s3Key: String?
 
         public init(s3Bucket: String? = nil, s3Key: String? = nil) {
             self.s3Bucket = s3Bucket
@@ -10866,13 +10348,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// The ID of the DHCP options set, or default to associate no DHCP options with the VPC.
-        public var dhcpOptionsId: String = ""
+        public let dhcpOptionsId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(vpcId: String, dhcpOptionsId: String, dryRun: Bool? = nil) {
             self.vpcId = vpcId
@@ -10893,13 +10373,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the EBS volume.
-        public var volumeId: String = ""
+        public let volumeId: String
         /// A description for the snapshot.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(dryRun: Bool? = nil, volumeId: String, description: String? = nil) {
             self.dryRun = dryRun
@@ -10919,9 +10397,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of resource: instance | reservation | snapshot | volume 
-        public var resource: String? = nil
-
-        public init() {}
+        public let resource: String?
 
         public init(resource: String? = nil) {
             self.resource = resource
@@ -10936,15 +10412,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more host reservation IDs.
-        public var hostReservationIdSet: [String]? = nil
+        public let hostReservationIdSet: [String]?
         /// One or more filters.    instance-family - The instance family (e.g., m4).    payment-option - The payment option (NoUpfront | PartialUpfront | AllUpfront).    state - The state of the reservation (payment-pending | payment-failed | active | retired).  
-        public var filter: [Filter]? = nil
+        public let filter: [Filter]?
         /// The token to use to retrieve the next page of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned nextToken value. This value can be between 5 and 500; if maxResults is given a larger value than 500, you will receive an error.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(hostReservationIdSet: [String]? = nil, filter: [Filter]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.hostReservationIdSet = hostReservationIdSet
@@ -10954,11 +10428,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let hostReservationIdSet = dictionary["HostReservationIdSet"] as? [String] {
-                self.hostReservationIdSet = hostReservationIdSet
-            }
+            self.hostReservationIdSet = dictionary["HostReservationIdSet"] as? [String]
             if let filter = dictionary["Filter"] as? [[String: Any]] {
                 self.filter = try filter.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filter = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
@@ -10969,11 +10443,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID/s of the Dedicated Host/s that the reservation will be associated with.
-        public var hostIdSet: [String] = []
+        public let hostIdSet: [String]
         /// The offering ID of the reservation.
-        public var offeringId: String = ""
-
-        public init() {}
+        public let offeringId: String
 
         public init(hostIdSet: [String], offeringId: String) {
             self.hostIdSet = hostIdSet
@@ -10992,15 +10464,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The instance type.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The health status of the instance. If the status of both the instance status check and the system status check is impaired, the health status of the instance is unhealthy. Otherwise, the health status is healthy.
-        public var instanceHealth: String? = nil
+        public let instanceHealth: String?
         /// The ID of the instance.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The ID of the Spot instance request.
-        public var spotInstanceRequestId: String? = nil
-
-        public init() {}
+        public let spotInstanceRequestId: String?
 
         public init(instanceType: String? = nil, instanceHealth: String? = nil, instanceId: String? = nil, spotInstanceRequestId: String? = nil) {
             self.instanceType = instanceType
@@ -11021,11 +10491,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The status for each Elastic IP address.
-        public var movingAddressStatuses: [MovingAddressStatus]? = nil
-
-        public init() {}
+        public let movingAddressStatuses: [MovingAddressStatus]?
 
         public init(nextToken: String? = nil, movingAddressStatuses: [MovingAddressStatus]? = nil) {
             self.nextToken = nextToken
@@ -11036,6 +10504,8 @@ extension Ec2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let movingAddressStatuses = dictionary["MovingAddressStatuses"] as? [[String: Any]] {
                 self.movingAddressStatuses = try movingAddressStatuses.map({ try MovingAddressStatus(dictionary: $0) })
+            } else { 
+                self.movingAddressStatuses = nil
             }
         }
     }
@@ -11044,15 +10514,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The encryption key for your S3 bucket.
-        public var s3Key: String? = nil
+        public let s3Key: String?
         /// The container format used to combine disk images with metadata (such as OVF). If absent, only the disk image is exported.
-        public var containerFormat: String? = nil
+        public let containerFormat: String?
         /// The S3 bucket for the destination image. The destination bucket must exist and grant WRITE and READ_ACP permissions to the AWS account vm-import-export@amazon.com.
-        public var s3Bucket: String? = nil
+        public let s3Bucket: String?
         /// The format for the exported image.
-        public var diskImageFormat: String? = nil
-
-        public init() {}
+        public let diskImageFormat: String?
 
         public init(s3Key: String? = nil, containerFormat: String? = nil, s3Bucket: String? = nil, diskImageFormat: String? = nil) {
             self.s3Key = s3Key
@@ -11073,11 +10541,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The current state of the attachment.
-        public var state: String? = nil
-
-        public init() {}
+        public let state: String?
 
         public init(vpcId: String? = nil, state: String? = nil) {
             self.vpcId = vpcId
@@ -11094,9 +10560,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IPv6 CIDR range. You can either specify a CIDR range or a source security group, not both. To specify a single IPv6 address, use the /128 prefix.
-        public var cidrIpv6: String? = nil
-
-        public init() {}
+        public let cidrIpv6: String?
 
         public init(cidrIpv6: String? = nil) {
             self.cidrIpv6 = cidrIpv6
@@ -11111,9 +10575,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
-        public var `return`: Bool? = nil
-
-        public init() {}
+        public let `return`: Bool?
 
         public init(return: Bool? = nil) {
             self.`return` = `return`
@@ -11128,13 +10590,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// One or more tags. The value parameter is required, but if you don't want the tag to have a value, specify the parameter with no value, and we set the value to an empty string. 
-        public var tags: [Tag] = []
+        public let tags: [Tag]
         /// The IDs of one or more resources to tag. For example, ami-1a2b3c4d.
-        public var resources: [String] = []
-
-        public init() {}
+        public let resources: [String]
 
         public init(dryRun: Bool? = nil, tags: [Tag], resources: [String]) {
             self.dryRun = dryRun
@@ -11155,21 +10615,19 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more AWS accounts IDs that can create volumes from the snapshot.
-        public var restorableByUserIds: [String]? = nil
+        public let restorableByUserIds: [String]?
         /// One or more snapshot IDs. Default: Describes snapshots for which you have launch permissions.
-        public var snapshotIds: [String]? = nil
+        public let snapshotIds: [String]?
         /// Returns the snapshots owned by the specified owner. Multiple owners can be specified.
-        public var ownerIds: [String]? = nil
+        public let ownerIds: [String]?
         /// One or more filters.    description - A description of the snapshot.    owner-alias - Value from an Amazon-maintained list (amazon | aws-marketplace | microsoft) of snapshot owners. Not to be confused with the user-configured AWS account alias, which is set from the IAM consolew.    owner-id - The ID of the AWS account that owns the snapshot.    progress - The progress of the snapshot, as a percentage (for example, 80%).    snapshot-id - The snapshot ID.    start-time - The time stamp when the snapshot was initiated.    status - The status of the snapshot (pending | completed | error).    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    volume-id - The ID of the volume the snapshot is for.    volume-size - The size of the volume, in GiB.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The NextToken value returned from a previous paginated DescribeSnapshots request where MaxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of snapshot results returned by DescribeSnapshots in paginated output. When this parameter is used, DescribeSnapshots only returns MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another DescribeSnapshots request with the returned NextToken value. This value can be between 5 and 1000; if MaxResults is given a value larger than 1000, only 1000 results are returned. If this parameter is not used, then DescribeSnapshots returns all results. You cannot specify this parameter and the snapshot IDs parameter in the same request.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(restorableByUserIds: [String]? = nil, snapshotIds: [String]? = nil, ownerIds: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.restorableByUserIds = restorableByUserIds
@@ -11182,17 +10640,13 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let restorableByUserIds = dictionary["RestorableByUserIds"] as? [String] {
-                self.restorableByUserIds = restorableByUserIds
-            }
-            if let snapshotIds = dictionary["SnapshotIds"] as? [String] {
-                self.snapshotIds = snapshotIds
-            }
-            if let ownerIds = dictionary["OwnerIds"] as? [String] {
-                self.ownerIds = ownerIds
-            }
+            self.restorableByUserIds = dictionary["RestorableByUserIds"] as? [String]
+            self.snapshotIds = dictionary["SnapshotIds"] as? [String]
+            self.ownerIds = dictionary["OwnerIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
             self.nextToken = dictionary["NextToken"] as? String
@@ -11204,9 +10658,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the Reserved Instance listing.
-        public var reservedInstancesListingId: String = ""
-
-        public init() {}
+        public let reservedInstancesListingId: String
 
         public init(reservedInstancesListingId: String) {
             self.reservedInstancesListingId = reservedInstancesListingId
@@ -11222,9 +10674,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether monitoring is enabled.
-        public var enabled: Bool? = nil
-
-        public init() {}
+        public let enabled: Bool?
 
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
@@ -11239,25 +10689,23 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A description for the network interface.
-        public var description: String? = nil
+        public let description: String?
         /// The ID of the subnet to associate with the network interface.
-        public var subnetId: String = ""
+        public let subnetId: String
         /// The primary private IPv4 address of the network interface. If you don't specify an IPv4 address, Amazon EC2 selects one for you from the subnet's IPv4 CIDR range. If you specify an IP address, you cannot indicate any IP addresses specified in privateIpAddresses as primary (only one IP address can be designated as primary).
-        public var privateIpAddress: String? = nil
+        public let privateIpAddress: String?
         /// The number of secondary private IPv4 addresses to assign to a network interface. When you specify a number of secondary IPv4 addresses, Amazon EC2 selects these IP addresses within the subnet's IPv4 CIDR range. You can't specify this option and specify more than one private IP address using privateIpAddresses. The number of IP addresses you can assign to a network interface varies by instance type. For more information, see IP Addresses Per ENI Per Instance Type in the Amazon Virtual Private Cloud User Guide.
-        public var secondaryPrivateIpAddressCount: Int32? = nil
+        public let secondaryPrivateIpAddressCount: Int32?
         /// The number of IPv6 addresses to assign to a network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't use this option if specifying specific IPv6 addresses. If your subnet has the AssignIpv6AddressOnCreation attribute set to true, you can specify 0 to override this setting.
-        public var ipv6AddressCount: Int32? = nil
+        public let ipv6AddressCount: Int32?
         /// One or more specific IPv6 addresses from the IPv6 CIDR block range of your subnet. You can't use this option if you're specifying a number of IPv6 addresses.
-        public var ipv6Addresses: [InstanceIpv6Address]? = nil
+        public let ipv6Addresses: [InstanceIpv6Address]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The IDs of one or more security groups.
-        public var groups: [String]? = nil
+        public let groups: [String]?
         /// One or more private IPv4 addresses.
-        public var privateIpAddresses: [PrivateIpAddressSpecification]? = nil
-
-        public init() {}
+        public let privateIpAddresses: [PrivateIpAddressSpecification]?
 
         public init(description: String? = nil, subnetId: String, privateIpAddress: String? = nil, secondaryPrivateIpAddressCount: Int32? = nil, ipv6AddressCount: Int32? = nil, ipv6Addresses: [InstanceIpv6Address]? = nil, dryRun: Bool? = nil, groups: [String]? = nil, privateIpAddresses: [PrivateIpAddressSpecification]? = nil) {
             self.description = description
@@ -11280,13 +10728,15 @@ extension Ec2 {
             self.ipv6AddressCount = dictionary["Ipv6AddressCount"] as? Int32
             if let ipv6Addresses = dictionary["Ipv6Addresses"] as? [[String: Any]] {
                 self.ipv6Addresses = try ipv6Addresses.map({ try InstanceIpv6Address(dictionary: $0) })
+            } else { 
+                self.ipv6Addresses = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let groups = dictionary["Groups"] as? [String] {
-                self.groups = groups
-            }
+            self.groups = dictionary["Groups"] as? [String]
             if let privateIpAddresses = dictionary["PrivateIpAddresses"] as? [[String: Any]] {
                 self.privateIpAddresses = try privateIpAddresses.map({ try PrivateIpAddressSpecification(dictionary: $0) })
+            } else { 
+                self.privateIpAddresses = nil
             }
         }
     }
@@ -11295,13 +10745,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the Reserved Instances to modify.
-        public var reservedInstancesIds: [String] = []
+        public let reservedInstancesIds: [String]
         /// The configuration settings for the Reserved Instances to modify.
-        public var targetConfigurations: [ReservedInstancesConfiguration] = []
+        public let targetConfigurations: [ReservedInstancesConfiguration]
         /// A unique, case-sensitive token you provide to ensure idempotency of your modification request. For more information, see Ensuring Idempotency.
-        public var clientToken: String? = nil
-
-        public init() {}
+        public let clientToken: String?
 
         public init(reservedInstancesIds: [String], targetConfigurations: [ReservedInstancesConfiguration], clientToken: String? = nil) {
             self.reservedInstancesIds = reservedInstancesIds
@@ -11322,11 +10770,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the Spot fleet request.
-        public var spotFleetRequestId: String = ""
+        public let spotFleetRequestId: String
         /// The error.
-        public var error: CancelSpotFleetRequestsError = CancelSpotFleetRequestsError()
-
-        public init() {}
+        public let error: CancelSpotFleetRequestsError
 
         public init(spotFleetRequestId: String, error: CancelSpotFleetRequestsError) {
             self.spotFleetRequestId = spotFleetRequestId
@@ -11345,16 +10791,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the instance export task.
-        public var exportTask: ExportTask? = nil
-
-        public init() {}
+        public let exportTask: ExportTask?
 
         public init(exportTask: ExportTask? = nil) {
             self.exportTask = exportTask
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let exportTask = dictionary["ExportTask"] as? [String: Any] { self.exportTask = try Ec2.ExportTask(dictionary: exportTask) }
+            if let exportTask = dictionary["ExportTask"] as? [String: Any] { self.exportTask = try Ec2.ExportTask(dictionary: exportTask) } else { self.exportTask = nil }
         }
     }
 
@@ -11362,17 +10806,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more volume IDs.
-        public var volumeIds: [String]? = nil
+        public let volumeIds: [String]?
         /// One or more filters.    attachment.attach-time - The time stamp when the attachment initiated.    attachment.delete-on-termination - Whether the volume is deleted on instance termination.    attachment.device - The device name that is exposed to the instance (for example, /dev/sda1).    attachment.instance-id - The ID of the instance the volume is attached to.    attachment.status - The attachment state (attaching | attached | detaching | detached).    availability-zone - The Availability Zone in which the volume was created.    create-time - The time stamp when the volume was created.    encrypted - The encryption status of the volume.    size - The size of the volume, in GiB.    snapshot-id - The snapshot from which the volume was created.    status - The status of the volume (creating | available | in-use | deleting | deleted | error).    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    volume-id - The volume ID.    volume-type - The Amazon EBS volume type. This can be gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The NextToken value returned from a previous paginated DescribeVolumes request where MaxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of volume results returned by DescribeVolumes in paginated output. When this parameter is used, DescribeVolumes only returns MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another DescribeVolumes request with the returned NextToken value. This value can be between 5 and 500; if MaxResults is given a value larger than 500, only 500 results are returned. If this parameter is not used, then DescribeVolumes returns all results. You cannot specify this parameter and the volume IDs parameter in the same request.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(volumeIds: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.volumeIds = volumeIds
@@ -11383,11 +10825,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let volumeIds = dictionary["VolumeIds"] as? [String] {
-                self.volumeIds = volumeIds
-            }
+            self.volumeIds = dictionary["VolumeIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
             self.nextToken = dictionary["NextToken"] as? String
@@ -11399,11 +10841,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the virtual private gateway.
-        public var vpnGatewayId: String = ""
-
-        public init() {}
+        public let vpnGatewayId: String
 
         public init(dryRun: Bool? = nil, vpnGatewayId: String) {
             self.dryRun = dryRun
@@ -11421,9 +10861,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of Reserved Instances.
-        public var reservedInstances: [ReservedInstances]? = nil
-
-        public init() {}
+        public let reservedInstances: [ReservedInstances]?
 
         public init(reservedInstances: [ReservedInstances]? = nil) {
             self.reservedInstances = reservedInstances
@@ -11432,6 +10870,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let reservedInstances = dictionary["ReservedInstances"] as? [[String: Any]] {
                 self.reservedInstances = try reservedInstances.map({ try ReservedInstances(dictionary: $0) })
+            } else { 
+                self.reservedInstances = nil
             }
         }
     }
@@ -11440,9 +10880,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String? = nil
-
-        public init() {}
+        public let vpcId: String?
 
         public init(vpcId: String? = nil) {
             self.vpcId = vpcId
@@ -11457,13 +10895,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the network interface.
-        public var networkInterfaceId: String = ""
+        public let networkInterfaceId: String
         /// The attribute of the network interface.
-        public var attribute: String? = nil
-
-        public init() {}
+        public let attribute: String?
 
         public init(dryRun: Bool? = nil, networkInterfaceId: String, attribute: String? = nil) {
             self.dryRun = dryRun
@@ -11483,11 +10919,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The earliest date and time, in UTC, for the Scheduled Instance to start.
-        public var earliestTime: Date = Date()
+        public let earliestTime: Date
         /// The latest date and time, in UTC, for the Scheduled Instance to start. This value must be later than or equal to the earliest date and at most three months in the future.
-        public var latestTime: Date = Date()
-
-        public init() {}
+        public let latestTime: Date
 
         public init(earliestTime: Date, latestTime: Date) {
             self.earliestTime = earliestTime
@@ -11506,11 +10940,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(vpcId: String, dryRun: Bool? = nil) {
             self.vpcId = vpcId
@@ -11528,15 +10960,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// suppress the specified device included in the block device mapping.
-        public var noDevice: String? = nil
+        public let noDevice: String?
         /// The virtual device name.
-        public var virtualName: String? = nil
+        public let virtualName: String?
         /// The device name exposed to the instance (for example, /dev/sdh or xvdh).
-        public var deviceName: String? = nil
+        public let deviceName: String?
         /// Parameters used to automatically set up EBS volumes when the instance is launched.
-        public var ebs: EbsInstanceBlockDeviceSpecification? = nil
-
-        public init() {}
+        public let ebs: EbsInstanceBlockDeviceSpecification?
 
         public init(noDevice: String? = nil, virtualName: String? = nil, deviceName: String? = nil, ebs: EbsInstanceBlockDeviceSpecification? = nil) {
             self.noDevice = noDevice
@@ -11549,7 +10979,7 @@ extension Ec2 {
             self.noDevice = dictionary["NoDevice"] as? String
             self.virtualName = dictionary["VirtualName"] as? String
             self.deviceName = dictionary["DeviceName"] as? String
-            if let ebs = dictionary["Ebs"] as? [String: Any] { self.ebs = try Ec2.EbsInstanceBlockDeviceSpecification(dictionary: ebs) }
+            if let ebs = dictionary["Ebs"] as? [String: Any] { self.ebs = try Ec2.EbsInstanceBlockDeviceSpecification(dictionary: ebs) } else { self.ebs = nil }
         }
     }
 
@@ -11557,11 +10987,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The monitoring for the instance.
-        public var monitoring: Monitoring? = nil
+        public let monitoring: Monitoring?
         /// The ID of the instance.
-        public var instanceId: String? = nil
-
-        public init() {}
+        public let instanceId: String?
 
         public init(monitoring: Monitoring? = nil, instanceId: String? = nil) {
             self.monitoring = monitoring
@@ -11569,7 +10997,7 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.Monitoring(dictionary: monitoring) }
+            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.Monitoring(dictionary: monitoring) } else { self.monitoring = nil }
             self.instanceId = dictionary["InstanceId"] as? String
         }
     }
@@ -11578,17 +11006,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more endpoint IDs.
-        public var vpcEndpointIds: [String]? = nil
+        public let vpcEndpointIds: [String]?
         /// One or more filters.    service-name: The name of the AWS service.    vpc-id: The ID of the VPC in which the endpoint resides.    vpc-endpoint-id: The ID of the endpoint.    vpc-endpoint-state: The state of the endpoint. (pending | available | deleting | deleted)  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The token for the next set of items to return. (You received this token from a prior call.)
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of items to return for this request. The request returns a token that you can specify in a subsequent call to get the next set of results. Constraint: If the value is greater than 1000, we return only 1000 items.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(vpcEndpointIds: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.vpcEndpointIds = vpcEndpointIds
@@ -11599,11 +11025,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let vpcEndpointIds = dictionary["VpcEndpointIds"] as? [String] {
-                self.vpcEndpointIds = vpcEndpointIds
-            }
+            self.vpcEndpointIds = dictionary["VpcEndpointIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
             self.nextToken = dictionary["NextToken"] as? String
@@ -11615,11 +11041,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Information about the flow logs.
-        public var flowLogs: [FlowLog]? = nil
-
-        public init() {}
+        public let flowLogs: [FlowLog]?
 
         public init(nextToken: String? = nil, flowLogs: [FlowLog]? = nil) {
             self.nextToken = nextToken
@@ -11630,6 +11054,8 @@ extension Ec2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let flowLogs = dictionary["FlowLogs"] as? [[String: Any]] {
                 self.flowLogs = try flowLogs.map({ try FlowLog(dictionary: $0) })
+            } else { 
+                self.flowLogs = nil
             }
         }
     }
@@ -11638,9 +11064,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
-        public var `return`: Bool? = nil
-
-        public init() {}
+        public let `return`: Bool?
 
         public init(return: Bool? = nil) {
             self.`return` = `return`
@@ -11655,16 +11079,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the VPN connection.
-        public var vpnConnection: VpnConnection? = nil
-
-        public init() {}
+        public let vpnConnection: VpnConnection?
 
         public init(vpnConnection: VpnConnection? = nil) {
             self.vpnConnection = vpnConnection
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let vpnConnection = dictionary["VpnConnection"] as? [String: Any] { self.vpnConnection = try Ec2.VpnConnection(dictionary: vpnConnection) }
+            if let vpnConnection = dictionary["VpnConnection"] as? [String: Any] { self.vpnConnection = try Ec2.VpnConnection(dictionary: vpnConnection) } else { self.vpnConnection = nil }
         }
     }
 
@@ -11672,9 +11094,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the virtual private gateway (VGW).
-        public var gatewayId: String? = nil
-
-        public init() {}
+        public let gatewayId: String?
 
         public init(gatewayId: String? = nil) {
             self.gatewayId = gatewayId
@@ -11689,9 +11109,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more started instances.
-        public var startingInstances: [InstanceStateChange]? = nil
-
-        public init() {}
+        public let startingInstances: [InstanceStateChange]?
 
         public init(startingInstances: [InstanceStateChange]? = nil) {
             self.startingInstances = startingInstances
@@ -11700,6 +11118,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let startingInstances = dictionary["StartingInstances"] as? [[String: Any]] {
                 self.startingInstances = try startingInstances.map({ try InstanceStateChange(dictionary: $0) })
+            } else { 
+                self.startingInstances = nil
             }
         }
     }
@@ -11708,25 +11128,23 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS account number for a destination security group. To revoke outbound access to a destination security group, we recommend that you use a set of IP permissions instead.
-        public var sourceSecurityGroupOwnerId: String? = nil
+        public let sourceSecurityGroupOwnerId: String?
         /// A set of IP permissions. You can't specify a destination security group and a CIDR IP address range.
-        public var ipPermissions: [IpPermission]? = nil
+        public let ipPermissions: [IpPermission]?
         /// The CIDR IP address range. We recommend that you specify the CIDR range in a set of IP permissions instead.
-        public var cidrIp: String? = nil
+        public let cidrIp: String?
         /// The name of a destination security group. To revoke outbound access to a destination security group, we recommend that you use a set of IP permissions instead.
-        public var sourceSecurityGroupName: String? = nil
+        public let sourceSecurityGroupName: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The start of port range for the TCP and UDP protocols, or an ICMP type number. We recommend that you specify the port range in a set of IP permissions instead.
-        public var fromPort: Int32? = nil
+        public let fromPort: Int32?
         /// The IP protocol name or number. We recommend that you specify the protocol in a set of IP permissions instead.
-        public var ipProtocol: String? = nil
+        public let ipProtocol: String?
         /// The end of port range for the TCP and UDP protocols, or an ICMP type number. We recommend that you specify the port range in a set of IP permissions instead.
-        public var toPort: Int32? = nil
+        public let toPort: Int32?
         /// The ID of the security group.
-        public var groupId: String = ""
-
-        public init() {}
+        public let groupId: String
 
         public init(sourceSecurityGroupOwnerId: String? = nil, ipPermissions: [IpPermission]? = nil, cidrIp: String? = nil, sourceSecurityGroupName: String? = nil, dryRun: Bool? = nil, fromPort: Int32? = nil, ipProtocol: String? = nil, toPort: Int32? = nil, groupId: String) {
             self.sourceSecurityGroupOwnerId = sourceSecurityGroupOwnerId
@@ -11744,6 +11162,8 @@ extension Ec2 {
             self.sourceSecurityGroupOwnerId = dictionary["SourceSecurityGroupOwnerId"] as? String
             if let ipPermissions = dictionary["IpPermissions"] as? [[String: Any]] {
                 self.ipPermissions = try ipPermissions.map({ try IpPermission(dictionary: $0) })
+            } else { 
+                self.ipPermissions = nil
             }
             self.cidrIp = dictionary["CidrIp"] as? String
             self.sourceSecurityGroupName = dictionary["SourceSecurityGroupName"] as? String
@@ -11760,11 +11180,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token to use to get the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of zero or more import image tasks that are currently active or were completed or canceled in the previous 7 days.
-        public var importImageTasks: [ImportImageTask]? = nil
-
-        public init() {}
+        public let importImageTasks: [ImportImageTask]?
 
         public init(nextToken: String? = nil, importImageTasks: [ImportImageTask]? = nil) {
             self.nextToken = nextToken
@@ -11775,6 +11193,8 @@ extension Ec2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let importImageTasks = dictionary["ImportImageTasks"] as? [[String: Any]] {
                 self.importImageTasks = try importImageTasks.map({ try ImportImageTask(dictionary: $0) })
+            } else { 
+                self.importImageTasks = nil
             }
         }
     }
@@ -11783,13 +11203,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The previous state of the instance.
-        public var previousState: InstanceState? = nil
+        public let previousState: InstanceState?
         /// The ID of the instance.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The current state of the instance.
-        public var currentState: InstanceState? = nil
-
-        public init() {}
+        public let currentState: InstanceState?
 
         public init(previousState: InstanceState? = nil, instanceId: String? = nil, currentState: InstanceState? = nil) {
             self.previousState = previousState
@@ -11798,9 +11216,9 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let previousState = dictionary["PreviousState"] as? [String: Any] { self.previousState = try Ec2.InstanceState(dictionary: previousState) }
+            if let previousState = dictionary["PreviousState"] as? [String: Any] { self.previousState = try Ec2.InstanceState(dictionary: previousState) } else { self.previousState = nil }
             self.instanceId = dictionary["InstanceId"] as? String
-            if let currentState = dictionary["CurrentState"] as? [String: Any] { self.currentState = try Ec2.InstanceState(dictionary: currentState) }
+            if let currentState = dictionary["CurrentState"] as? [String: Any] { self.currentState = try Ec2.InstanceState(dictionary: currentState) } else { self.currentState = nil }
         }
     }
 
@@ -11808,11 +11226,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the security group.
-        public var groupId: String? = nil
+        public let groupId: String?
         /// The name of the security group.
-        public var groupName: String? = nil
-
-        public init() {}
+        public let groupName: String?
 
         public init(groupId: String? = nil, groupName: String? = nil) {
             self.groupId = groupId
@@ -11829,17 +11245,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the VPC.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// The Availability Zone for the subnet. Default: AWS selects one for you. If you create more than one subnet in your VPC, we may not necessarily select a different zone for each subnet.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The IPv6 network range for the subnet, in CIDR notation. The subnet size must use a /64 prefix length.
-        public var ipv6CidrBlock: String? = nil
+        public let ipv6CidrBlock: String?
         /// The IPv4 network range for the subnet, in CIDR notation. For example, 10.0.0.0/24.
-        public var cidrBlock: String = ""
-
-        public init() {}
+        public let cidrBlock: String
 
         public init(dryRun: Bool? = nil, vpcId: String, availabilityZone: String? = nil, ipv6CidrBlock: String? = nil, cidrBlock: String) {
             self.dryRun = dryRun
@@ -11864,9 +11278,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the Reserved Instance.
-        public var reservedInstancesId: String? = nil
-
-        public init() {}
+        public let reservedInstancesId: String?
 
         public init(reservedInstancesId: String? = nil) {
             self.reservedInstancesId = reservedInstancesId
@@ -11881,13 +11293,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the network interface.
-        public var networkInterfaceId: String = ""
+        public let networkInterfaceId: String
         /// The source/destination checking attribute. Resets the value to true.
-        public var sourceDestCheck: String? = nil
-
-        public init() {}
+        public let sourceDestCheck: String?
 
         public init(dryRun: Bool? = nil, networkInterfaceId: String, sourceDestCheck: String? = nil) {
             self.dryRun = dryRun
@@ -11907,13 +11317,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more Internet gateway IDs. Default: Describes all your Internet gateways.
-        public var internetGatewayIds: [String]? = nil
+        public let internetGatewayIds: [String]?
         /// One or more filters.    attachment.state - The current state of the attachment between the gateway and the VPC (available). Present only if a VPC is attached.    attachment.vpc-id - The ID of an attached VPC.    internet-gateway-id - The ID of the Internet gateway.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(internetGatewayIds: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil) {
             self.internetGatewayIds = internetGatewayIds
@@ -11922,11 +11330,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let internetGatewayIds = dictionary["InternetGatewayIds"] as? [String] {
-                self.internetGatewayIds = internetGatewayIds
-            }
+            self.internetGatewayIds = dictionary["InternetGatewayIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
         }
@@ -11936,11 +11344,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the principal, which can be an IAM role, IAM user, or the root user.
-        public var principalArn: String = ""
+        public let principalArn: String
         /// The type of resource: instance | reservation | snapshot | volume 
-        public var resource: String? = nil
-
-        public init() {}
+        public let resource: String?
 
         public init(principalArn: String, resource: String? = nil) {
             self.principalArn = principalArn
@@ -11958,55 +11364,53 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Any block device mapping entries.
-        public var blockDeviceMappings: [BlockDeviceMapping]? = nil
+        public let blockDeviceMappings: [BlockDeviceMapping]?
         /// The value is Windows for Windows AMIs; otherwise blank.
-        public var platform: String? = nil
+        public let platform: String?
         /// The device name of the root device (for example, /dev/sda1 or /dev/xvda).
-        public var rootDeviceName: String? = nil
+        public let rootDeviceName: String?
         /// Specifies whether enhanced networking with the Intel 82599 Virtual Function interface is enabled.
-        public var sriovNetSupport: String? = nil
+        public let sriovNetSupport: String?
         /// The AWS account alias (for example, amazon, self) or the AWS account ID of the AMI owner.
-        public var imageOwnerAlias: String? = nil
+        public let imageOwnerAlias: String?
         /// Any tags assigned to the image.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The current state of the AMI. If the state is available, the image is successfully registered and can be used to launch an instance.
-        public var state: String? = nil
+        public let state: String?
         /// The kernel associated with the image, if any. Only applicable for machine images.
-        public var kernelId: String? = nil
+        public let kernelId: String?
         /// The location of the AMI.
-        public var imageLocation: String? = nil
+        public let imageLocation: String?
         /// The date and time the image was created.
-        public var creationDate: String? = nil
+        public let creationDate: String?
         /// The reason for the state change.
-        public var stateReason: StateReason? = nil
+        public let stateReason: StateReason?
         /// The AWS account ID of the image owner.
-        public var ownerId: String? = nil
+        public let ownerId: String?
         /// Indicates whether the image has public launch permissions. The value is true if this image has public launch permissions or false if it has only implicit and explicit launch permissions.
-        public var `public`: Bool? = nil
+        public let `public`: Bool?
         /// The description of the AMI that was provided during image creation.
-        public var description: String? = nil
+        public let description: String?
         /// Any product codes associated with the AMI.
-        public var productCodes: [ProductCode]? = nil
+        public let productCodes: [ProductCode]?
         /// The hypervisor type of the image.
-        public var hypervisor: String? = nil
+        public let hypervisor: String?
         /// Specifies whether enhanced networking with ENA is enabled.
-        public var enaSupport: Bool? = nil
+        public let enaSupport: Bool?
         /// The name of the AMI that was provided during image creation.
-        public var name: String? = nil
+        public let name: String?
         /// The type of root device used by the AMI. The AMI can use an EBS volume or an instance store volume.
-        public var rootDeviceType: String? = nil
+        public let rootDeviceType: String?
         /// The architecture of the image.
-        public var architecture: String? = nil
+        public let architecture: String?
         /// The ID of the AMI.
-        public var imageId: String? = nil
+        public let imageId: String?
         /// The type of image.
-        public var imageType: String? = nil
+        public let imageType: String?
         /// The RAM disk associated with the image, if any. Only applicable for machine images.
-        public var ramdiskId: String? = nil
+        public let ramdiskId: String?
         /// The type of virtualization of the AMI.
-        public var virtualizationType: String? = nil
-
-        public init() {}
+        public let virtualizationType: String?
 
         public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, platform: String? = nil, rootDeviceName: String? = nil, sriovNetSupport: String? = nil, imageOwnerAlias: String? = nil, tags: [Tag]? = nil, state: String? = nil, kernelId: String? = nil, imageLocation: String? = nil, creationDate: String? = nil, stateReason: StateReason? = nil, ownerId: String? = nil, public: Bool? = nil, description: String? = nil, productCodes: [ProductCode]? = nil, hypervisor: String? = nil, enaSupport: Bool? = nil, name: String? = nil, rootDeviceType: String? = nil, architecture: String? = nil, imageId: String? = nil, imageType: String? = nil, ramdiskId: String? = nil, virtualizationType: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
@@ -12038,6 +11442,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
                 self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            } else { 
+                self.blockDeviceMappings = nil
             }
             self.platform = dictionary["Platform"] as? String
             self.rootDeviceName = dictionary["RootDeviceName"] as? String
@@ -12045,17 +11451,21 @@ extension Ec2 {
             self.imageOwnerAlias = dictionary["ImageOwnerAlias"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.state = dictionary["State"] as? String
             self.kernelId = dictionary["KernelId"] as? String
             self.imageLocation = dictionary["ImageLocation"] as? String
             self.creationDate = dictionary["CreationDate"] as? String
-            if let stateReason = dictionary["StateReason"] as? [String: Any] { self.stateReason = try Ec2.StateReason(dictionary: stateReason) }
+            if let stateReason = dictionary["StateReason"] as? [String: Any] { self.stateReason = try Ec2.StateReason(dictionary: stateReason) } else { self.stateReason = nil }
             self.ownerId = dictionary["OwnerId"] as? String
             self.`public` = dictionary["Public"] as? Bool
             self.description = dictionary["Description"] as? String
             if let productCodes = dictionary["ProductCodes"] as? [[String: Any]] {
                 self.productCodes = try productCodes.map({ try ProductCode(dictionary: $0) })
+            } else { 
+                self.productCodes = nil
             }
             self.hypervisor = dictionary["Hypervisor"] as? String
             self.enaSupport = dictionary["EnaSupport"] as? Bool
@@ -12073,9 +11483,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether the VPN connection uses static routes only. Static routes must be used for devices that don't support BGP.
-        public var staticRoutesOnly: Bool? = nil
-
-        public init() {}
+        public let staticRoutesOnly: Bool?
 
         public init(staticRoutesOnly: Bool? = nil) {
             self.staticRoutesOnly = staticRoutesOnly
@@ -12090,17 +11498,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Filter tasks using the task-state filter and one of the following values: active, completed, deleting, deleted.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// A list of import image task IDs.
-        public var importTaskIds: [String]? = nil
+        public let importTaskIds: [String]?
         /// A token that indicates the next page of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(filters: [Filter]? = nil, dryRun: Bool? = nil, importTaskIds: [String]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.filters = filters
@@ -12113,11 +11519,11 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let importTaskIds = dictionary["ImportTaskIds"] as? [String] {
-                self.importTaskIds = importTaskIds
-            }
+            self.importTaskIds = dictionary["ImportTaskIds"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -12127,27 +11533,25 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the subnet in which the NAT gateway is located.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// The ID of the NAT gateway.
-        public var natGatewayId: String? = nil
+        public let natGatewayId: String?
         /// The date and time the NAT gateway was deleted, if applicable.
-        public var deleteTime: Date? = nil
+        public let deleteTime: Date?
         /// The ID of the VPC in which the NAT gateway is located.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The state of the NAT gateway.    pending: The NAT gateway is being created and is not ready to process traffic.    failed: The NAT gateway could not be created. Check the failureCode and failureMessage fields for the reason.    available: The NAT gateway is able to process traffic. This status remains until you delete the NAT gateway, and does not indicate the health of the NAT gateway.    deleting: The NAT gateway is in the process of being terminated and may still be processing traffic.    deleted: The NAT gateway has been terminated and is no longer processing traffic.  
-        public var state: String? = nil
+        public let state: String?
         /// If the NAT gateway could not be created, specifies the error code for the failure. (InsufficientFreeAddressesInSubnet | Gateway.NotAttached | InvalidAllocationID.NotFound | Resource.AlreadyAssociated | InternalError | InvalidSubnetID.NotFound)
-        public var failureCode: String? = nil
+        public let failureCode: String?
         /// The date and time the NAT gateway was created.
-        public var createTime: Date? = nil
+        public let createTime: Date?
         /// If the NAT gateway could not be created, specifies the error message for the failure, that corresponds to the error code.   For InsufficientFreeAddressesInSubnet: "Subnet has insufficient free addresses to create this NAT gateway"   For Gateway.NotAttached: "Network vpc-xxxxxxxx has no Internet gateway attached"   For InvalidAllocationID.NotFound: "Elastic IP address eipalloc-xxxxxxxx could not be associated with this NAT gateway"   For Resource.AlreadyAssociated: "Elastic IP address eipalloc-xxxxxxxx is already associated"   For InternalError: "Network interface eni-xxxxxxxx, created and used internally by this NAT gateway is in an invalid state. Please try again."   For InvalidSubnetID.NotFound: "The specified subnet subnet-xxxxxxxx does not exist or could not be found."  
-        public var failureMessage: String? = nil
+        public let failureMessage: String?
         /// Reserved. If you need to sustain traffic greater than the documented limits, contact us through the Support Center.
-        public var provisionedBandwidth: ProvisionedBandwidth? = nil
+        public let provisionedBandwidth: ProvisionedBandwidth?
         /// Information about the IP addresses and network interface associated with the NAT gateway.
-        public var natGatewayAddresses: [NatGatewayAddress]? = nil
-
-        public init() {}
+        public let natGatewayAddresses: [NatGatewayAddress]?
 
         public init(subnetId: String? = nil, natGatewayId: String? = nil, deleteTime: Date? = nil, vpcId: String? = nil, state: String? = nil, failureCode: String? = nil, createTime: Date? = nil, failureMessage: String? = nil, provisionedBandwidth: ProvisionedBandwidth? = nil, natGatewayAddresses: [NatGatewayAddress]? = nil) {
             self.subnetId = subnetId
@@ -12171,9 +11575,11 @@ extension Ec2 {
             self.failureCode = dictionary["FailureCode"] as? String
             self.createTime = dictionary["CreateTime"] as? Date
             self.failureMessage = dictionary["FailureMessage"] as? String
-            if let provisionedBandwidth = dictionary["ProvisionedBandwidth"] as? [String: Any] { self.provisionedBandwidth = try Ec2.ProvisionedBandwidth(dictionary: provisionedBandwidth) }
+            if let provisionedBandwidth = dictionary["ProvisionedBandwidth"] as? [String: Any] { self.provisionedBandwidth = try Ec2.ProvisionedBandwidth(dictionary: provisionedBandwidth) } else { self.provisionedBandwidth = nil }
             if let natGatewayAddresses = dictionary["NatGatewayAddresses"] as? [[String: Any]] {
                 self.natGatewayAddresses = try natGatewayAddresses.map({ try NatGatewayAddress(dictionary: $0) })
+            } else { 
+                self.natGatewayAddresses = nil
             }
         }
     }
@@ -12182,13 +11588,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The instance type size supported by the Dedicated Host.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The total number of instances that can be launched onto the Dedicated Host.
-        public var totalCapacity: Int32? = nil
+        public let totalCapacity: Int32?
         /// The number of instances that can still be launched onto the Dedicated Host.
-        public var availableCapacity: Int32? = nil
-
-        public init() {}
+        public let availableCapacity: Int32?
 
         public init(instanceType: String? = nil, totalCapacity: Int32? = nil, availableCapacity: Int32? = nil) {
             self.instanceType = instanceType
@@ -12207,11 +11611,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the network interface.
-        public var networkInterfaceId: String? = nil
+        public let networkInterfaceId: String?
         /// The IPv6 addresses that have been unassigned from the network interface.
-        public var unassignedIpv6Addresses: [String]? = nil
-
-        public init() {}
+        public let unassignedIpv6Addresses: [String]?
 
         public init(networkInterfaceId: String? = nil, unassignedIpv6Addresses: [String]? = nil) {
             self.networkInterfaceId = networkInterfaceId
@@ -12220,9 +11622,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.networkInterfaceId = dictionary["NetworkInterfaceId"] as? String
-            if let unassignedIpv6Addresses = dictionary["UnassignedIpv6Addresses"] as? [String] {
-                self.unassignedIpv6Addresses = unassignedIpv6Addresses
-            }
+            self.unassignedIpv6Addresses = dictionary["UnassignedIpv6Addresses"] as? [String]
         }
     }
 
@@ -12230,11 +11630,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// Indicates whether ClassicLink DNS support is enabled for the VPC.
-        public var classicLinkDnsSupported: Bool? = nil
-
-        public init() {}
+        public let classicLinkDnsSupported: Bool?
 
         public init(vpcId: String? = nil, classicLinkDnsSupported: Bool? = nil) {
             self.vpcId = vpcId
@@ -12251,13 +11649,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current state of the task being canceled.
-        public var previousState: String? = nil
+        public let previousState: String?
         /// The current state of the task being canceled.
-        public var state: String? = nil
+        public let state: String?
         /// The ID of the task being canceled.
-        public var importTaskId: String? = nil
-
-        public init() {}
+        public let importTaskId: String?
 
         public init(previousState: String? = nil, state: String? = nil, importTaskId: String? = nil) {
             self.previousState = previousState
@@ -12276,13 +11672,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The fixed price for the term.
-        public var price: Double? = nil
+        public let price: Double?
         /// The currency for transacting the Reserved Instance resale. At this time, the only supported currency is USD.
-        public var currencyCode: String? = nil
+        public let currencyCode: String?
         /// The number of months remaining in the reservation. For example, 2 is the second to the last month before the capacity reservation expires.
-        public var term: Int64? = nil
-
-        public init() {}
+        public let term: Int64?
 
         public init(price: Double? = nil, currencyCode: String? = nil, term: Int64? = nil) {
             self.price = price
@@ -12301,9 +11695,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the ID format for the resources.
-        public var statuses: [IdFormat]? = nil
-
-        public init() {}
+        public let statuses: [IdFormat]?
 
         public init(statuses: [IdFormat]? = nil) {
             self.statuses = statuses
@@ -12312,6 +11704,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let statuses = dictionary["Statuses"] as? [[String: Any]] {
                 self.statuses = try statuses.map({ try IdFormat(dictionary: $0) })
+            } else { 
+                self.statuses = nil
             }
         }
     }
@@ -12320,11 +11714,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPN connection.
-        public var vpnConnectionId: String = ""
+        public let vpnConnectionId: String
         /// The CIDR block associated with the local subnet of the customer network.
-        public var destinationCidrBlock: String = ""
-
-        public init() {}
+        public let destinationCidrBlock: String
 
         public init(vpnConnectionId: String, destinationCidrBlock: String) {
             self.vpnConnectionId = vpnConnectionId
@@ -12343,16 +11735,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the conversion task.
-        public var conversionTask: ConversionTask? = nil
-
-        public init() {}
+        public let conversionTask: ConversionTask?
 
         public init(conversionTask: ConversionTask? = nil) {
             self.conversionTask = conversionTask
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let conversionTask = dictionary["ConversionTask"] as? [String: Any] { self.conversionTask = try Ec2.ConversionTask(dictionary: conversionTask) }
+            if let conversionTask = dictionary["ConversionTask"] as? [String: Any] { self.conversionTask = try Ec2.ConversionTask(dictionary: conversionTask) } else { self.conversionTask = nil }
         }
     }
 
@@ -12360,27 +11750,25 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The VPN connection options.
-        public var options: VpnConnectionOptions? = nil
+        public let options: VpnConnectionOptions?
         /// The ID of the customer gateway at your end of the VPN connection.
-        public var customerGatewayId: String? = nil
+        public let customerGatewayId: String?
         /// The static routes associated with the VPN connection.
-        public var routes: [VpnStaticRoute]? = nil
+        public let routes: [VpnStaticRoute]?
         /// The ID of the VPN connection.
-        public var vpnConnectionId: String? = nil
+        public let vpnConnectionId: String?
         /// The current state of the VPN connection.
-        public var state: String? = nil
+        public let state: String?
         /// Any tags assigned to the VPN connection.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// Information about the VPN tunnel.
-        public var vgwTelemetry: [VgwTelemetry]? = nil
+        public let vgwTelemetry: [VgwTelemetry]?
         /// The configuration information for the VPN connection's customer gateway (in the native XML format). This element is always present in the CreateVpnConnection response; however, it's present in the DescribeVpnConnections response only if the VPN connection is in the pending or available state.
-        public var customerGatewayConfiguration: String? = nil
+        public let customerGatewayConfiguration: String?
         /// The type of VPN connection.
-        public var type: String? = nil
+        public let type: String?
         /// The ID of the virtual private gateway at the AWS side of the VPN connection.
-        public var vpnGatewayId: String? = nil
-
-        public init() {}
+        public let vpnGatewayId: String?
 
         public init(options: VpnConnectionOptions? = nil, customerGatewayId: String? = nil, routes: [VpnStaticRoute]? = nil, vpnConnectionId: String? = nil, state: String? = nil, tags: [Tag]? = nil, vgwTelemetry: [VgwTelemetry]? = nil, customerGatewayConfiguration: String? = nil, type: String? = nil, vpnGatewayId: String? = nil) {
             self.options = options
@@ -12396,18 +11784,24 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let options = dictionary["Options"] as? [String: Any] { self.options = try Ec2.VpnConnectionOptions(dictionary: options) }
+            if let options = dictionary["Options"] as? [String: Any] { self.options = try Ec2.VpnConnectionOptions(dictionary: options) } else { self.options = nil }
             self.customerGatewayId = dictionary["CustomerGatewayId"] as? String
             if let routes = dictionary["Routes"] as? [[String: Any]] {
                 self.routes = try routes.map({ try VpnStaticRoute(dictionary: $0) })
+            } else { 
+                self.routes = nil
             }
             self.vpnConnectionId = dictionary["VpnConnectionId"] as? String
             self.state = dictionary["State"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             if let vgwTelemetry = dictionary["VgwTelemetry"] as? [[String: Any]] {
                 self.vgwTelemetry = try vgwTelemetry.map({ try VgwTelemetry(dictionary: $0) })
+            } else { 
+                self.vgwTelemetry = nil
             }
             self.customerGatewayConfiguration = dictionary["CustomerGatewayConfiguration"] as? String
             self.type = dictionary["Type"] as? String
@@ -12419,23 +11813,21 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the AWS account that owns the network interface.
-        public var networkInterfaceOwnerId: String? = nil
+        public let networkInterfaceOwnerId: String?
         /// The ID of the network interface.
-        public var networkInterfaceId: String? = nil
+        public let networkInterfaceId: String?
         /// The ID representing the association of the address with an instance in a VPC.
-        public var associationId: String? = nil
+        public let associationId: String?
         /// The ID of the instance that the address is associated with (if any).
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The ID representing the allocation of the address for use with EC2-VPC.
-        public var allocationId: String? = nil
+        public let allocationId: String?
         /// The Elastic IP address.
-        public var publicIp: String? = nil
+        public let publicIp: String?
         /// Indicates whether this Elastic IP address is for use with instances in EC2-Classic (standard) or instances in a VPC (vpc).
-        public var domain: String? = nil
+        public let domain: String?
         /// The private IP address associated with the Elastic IP address.
-        public var privateIpAddress: String? = nil
-
-        public init() {}
+        public let privateIpAddress: String?
 
         public init(networkInterfaceOwnerId: String? = nil, networkInterfaceId: String? = nil, associationId: String? = nil, instanceId: String? = nil, allocationId: String? = nil, publicIp: String? = nil, domain: String? = nil, privateIpAddress: String? = nil) {
             self.networkInterfaceOwnerId = networkInterfaceOwnerId
@@ -12464,13 +11856,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more virtual private gateway IDs. Default: Describes all your virtual private gateways.
-        public var vpnGatewayIds: [String]? = nil
+        public let vpnGatewayIds: [String]?
         /// One or more filters.    attachment.state - The current state of the attachment between the gateway and the VPC (attaching | attached | detaching | detached).    attachment.vpc-id - The ID of an attached VPC.    availability-zone - The Availability Zone for the virtual private gateway (if applicable).    state - The state of the virtual private gateway (pending | available | deleting | deleted).    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    type - The type of virtual private gateway. Currently the only supported type is ipsec.1.    vpn-gateway-id - The ID of the virtual private gateway.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(vpnGatewayIds: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil) {
             self.vpnGatewayIds = vpnGatewayIds
@@ -12479,11 +11869,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let vpnGatewayIds = dictionary["VpnGatewayIds"] as? [String] {
-                self.vpnGatewayIds = vpnGatewayIds
-            }
+            self.vpnGatewayIds = dictionary["VpnGatewayIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
         }
@@ -12493,11 +11883,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more instance IDs. Constraints: Up to 1000 instance IDs. We recommend breaking up this request into smaller batches.
-        public var instanceIds: [String] = []
+        public let instanceIds: [String]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(instanceIds: [String], dryRun: Bool? = nil) {
             self.instanceIds = instanceIds
@@ -12515,9 +11903,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the purchased Reserved Instances.
-        public var reservedInstancesId: String? = nil
-
-        public init() {}
+        public let reservedInstancesId: String?
 
         public init(reservedInstancesId: String? = nil) {
             self.reservedInstancesId = reservedInstancesId
@@ -12532,11 +11918,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(vpcId: String, dryRun: Bool? = nil) {
             self.vpcId = vpcId
@@ -12554,9 +11938,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more VPN connections.
-        public var vpnConnections: [VpnConnection]? = nil
-
-        public init() {}
+        public let vpnConnections: [VpnConnection]?
 
         public init(vpnConnections: [VpnConnection]? = nil) {
             self.vpnConnections = vpnConnections
@@ -12565,6 +11947,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let vpnConnections = dictionary["VpnConnections"] as? [[String: Any]] {
                 self.vpnConnections = try vpnConnections.map({ try VpnConnection(dictionary: $0) })
+            } else { 
+                self.vpnConnections = nil
             }
         }
     }
@@ -12573,15 +11957,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The instance operating system.
-        public var platform: String? = nil
+        public let platform: String?
         /// One or more volumes.
-        public var volumes: [ImportInstanceVolumeDetailItem] = []
+        public let volumes: [ImportInstanceVolumeDetailItem]
         /// The ID of the instance.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// A description of the task.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(platform: String? = nil, volumes: [ImportInstanceVolumeDetailItem], instanceId: String? = nil, description: String? = nil) {
             self.platform = platform
@@ -12603,11 +11985,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The error code.
-        public var code: String? = nil
+        public let code: String?
         /// The error message.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
@@ -12624,11 +12004,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the account attribute.
-        public var attributeName: String? = nil
+        public let attributeName: String?
         /// One or more values for the account attribute.
-        public var attributeValues: [AccountAttributeValue]? = nil
-
-        public init() {}
+        public let attributeValues: [AccountAttributeValue]?
 
         public init(attributeName: String? = nil, attributeValues: [AccountAttributeValue]? = nil) {
             self.attributeName = attributeName
@@ -12639,6 +12017,8 @@ extension Ec2 {
             self.attributeName = dictionary["AttributeName"] as? String
             if let attributeValues = dictionary["AttributeValues"] as? [[String: Any]] {
                 self.attributeValues = try attributeValues.map({ try AccountAttributeValue(dictionary: $0) })
+            } else { 
+                self.attributeValues = nil
             }
         }
     }
@@ -12647,9 +12027,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID for the modification.
-        public var reservedInstancesModificationId: String? = nil
-
-        public init() {}
+        public let reservedInstancesModificationId: String?
 
         public init(reservedInstancesModificationId: String? = nil) {
             self.reservedInstancesModificationId = reservedInstancesModificationId
@@ -12664,15 +12042,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// For devices that support BGP, the customer gateway's BGP ASN. Default: 65000
-        public var bgpAsn: Int32 = 0
+        public let bgpAsn: Int32
         /// The Internet-routable IP address for the customer gateway's outside interface. The address must be static.
-        public var publicIp: String = ""
+        public let publicIp: String
         /// The type of VPN connection that this customer gateway supports (ipsec.1).
-        public var type: String = ""
+        public let type: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(bgpAsn: Int32, publicIp: String, type: String, dryRun: Bool? = nil) {
             self.bgpAsn = bgpAsn
@@ -12696,11 +12072,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// One or more Spot instance request IDs.
-        public var spotInstanceRequestIds: [String] = []
-
-        public init() {}
+        public let spotInstanceRequestIds: [String]
 
         public init(dryRun: Bool? = nil, spotInstanceRequestIds: [String]) {
             self.dryRun = dryRun
@@ -12718,11 +12092,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token to use to retrieve the next page of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Information about the egress-only Internet gateways.
-        public var egressOnlyInternetGateways: [EgressOnlyInternetGateway]? = nil
-
-        public init() {}
+        public let egressOnlyInternetGateways: [EgressOnlyInternetGateway]?
 
         public init(nextToken: String? = nil, egressOnlyInternetGateways: [EgressOnlyInternetGateway]? = nil) {
             self.nextToken = nextToken
@@ -12733,6 +12105,8 @@ extension Ec2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let egressOnlyInternetGateways = dictionary["EgressOnlyInternetGateways"] as? [[String: Any]] {
                 self.egressOnlyInternetGateways = try egressOnlyInternetGateways.map({ try EgressOnlyInternetGateway(dictionary: $0) })
+            } else { 
+                self.egressOnlyInternetGateways = nil
             }
         }
     }
@@ -12741,15 +12115,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the security group. Constraints: Up to 255 characters in length Constraints for EC2-Classic: ASCII characters Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!$*
-        public var groupName: String = ""
+        public let groupName: String
         /// [EC2-VPC] The ID of the VPC. Required for EC2-VPC.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// A description for the security group. This is informational only. Constraints: Up to 255 characters in length Constraints for EC2-Classic: ASCII characters Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!$*
-        public var description: String = ""
-
-        public init() {}
+        public let description: String
 
         public init(groupName: String, vpcId: String? = nil, dryRun: Bool? = nil, description: String) {
             self.groupName = groupName
@@ -12772,11 +12144,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The Elastic IP address.
-        public var publicIp: String = ""
-
-        public init() {}
+        public let publicIp: String
 
         public init(dryRun: Bool? = nil, publicIp: String) {
             self.dryRun = dryRun
@@ -12794,17 +12164,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The last date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). All records up to this time were retrieved. If nextToken indicates that there are more results, this value is not present.
-        public var lastEvaluatedTime: Date = Date()
+        public let lastEvaluatedTime: Date
         /// The starting date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public var startTime: Date = Date()
+        public let startTime: Date
         /// Information about the events in the history of the Spot fleet request.
-        public var historyRecords: [HistoryRecord] = []
+        public let historyRecords: [HistoryRecord]
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The ID of the Spot fleet request.
-        public var spotFleetRequestId: String = ""
-
-        public init() {}
+        public let spotFleetRequestId: String
 
         public init(lastEvaluatedTime: Date, startTime: Date, historyRecords: [HistoryRecord], nextToken: String? = nil, spotFleetRequestId: String) {
             self.lastEvaluatedTime = lastEvaluatedTime
@@ -12831,16 +12199,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the Internet gateway.
-        public var internetGateway: InternetGateway? = nil
-
-        public init() {}
+        public let internetGateway: InternetGateway?
 
         public init(internetGateway: InternetGateway? = nil) {
             self.internetGateway = internetGateway
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let internetGateway = dictionary["InternetGateway"] as? [String: Any] { self.internetGateway = try Ec2.InternetGateway(dictionary: internetGateway) }
+            if let internetGateway = dictionary["InternetGateway"] as? [String: Any] { self.internetGateway = try Ec2.InternetGateway(dictionary: internetGateway) } else { self.internetGateway = nil }
         }
     }
 
@@ -12848,13 +12214,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AMI attribute.  Note: Depending on your account privileges, the blockDeviceMapping attribute may return a Client.AuthFailure error. If this happens, use DescribeImages to get information about the block device mapping for the AMI.
-        public var attribute: String = ""
+        public let attribute: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the AMI.
-        public var imageId: String = ""
-
-        public init() {}
+        public let imageId: String
 
         public init(attribute: String, dryRun: Bool? = nil, imageId: String) {
             self.attribute = attribute
@@ -12875,27 +12239,25 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IPv4 network range to allow or deny, in CIDR notation (for example 172.16.0.0/24).
-        public var cidrBlock: String? = nil
+        public let cidrBlock: String?
         /// ICMP protocol: The ICMP or ICMPv6 type and code. Required if specifying the ICMP (1) protocol, or protocol 58 (ICMPv6) with an IPv6 CIDR block.
-        public var icmpTypeCode: IcmpTypeCode? = nil
+        public let icmpTypeCode: IcmpTypeCode?
         /// The rule number of the entry to replace.
-        public var ruleNumber: Int32 = 0
+        public let ruleNumber: Int32
         /// The IP protocol. You can specify all or -1 to mean all protocols. If you specify all, -1, or a protocol number other than tcp, udp, or icmp, traffic on all ports is allowed, regardless of any ports or ICMP types or codes you specify. If you specify protocol 58 (ICMPv6) and specify an IPv4 CIDR block, traffic for all ICMP types and codes allowed, regardless of any that you specify. If you specify protocol 58 (ICMPv6) and specify an IPv6 CIDR block, you must specify an ICMP type and code.
-        public var `protocol`: String = ""
+        public let `protocol`: String
         /// Indicates whether to allow or deny the traffic that matches the rule.
-        public var ruleAction: String = ""
+        public let ruleAction: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the ACL.
-        public var networkAclId: String = ""
+        public let networkAclId: String
         /// Indicates whether to replace the egress rule. Default: If no value is specified, we replace the ingress rule.
-        public var egress: Bool = false
+        public let egress: Bool
         /// The IPv6 network range to allow or deny, in CIDR notation (for example 2001:bd8:1234:1a00::/64).
-        public var ipv6CidrBlock: String? = nil
+        public let ipv6CidrBlock: String?
         /// TCP or UDP protocols: The range of ports the rule applies to. Required if specifying TCP (6) or UDP (17) for the protocol.
-        public var portRange: PortRange? = nil
-
-        public init() {}
+        public let portRange: PortRange?
 
         public init(cidrBlock: String? = nil, icmpTypeCode: IcmpTypeCode? = nil, ruleNumber: Int32, protocol: String, ruleAction: String, dryRun: Bool? = nil, networkAclId: String, egress: Bool, ipv6CidrBlock: String? = nil, portRange: PortRange? = nil) {
             self.cidrBlock = cidrBlock
@@ -12912,7 +12274,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.cidrBlock = dictionary["CidrBlock"] as? String
-            if let icmpTypeCode = dictionary["IcmpTypeCode"] as? [String: Any] { self.icmpTypeCode = try Ec2.IcmpTypeCode(dictionary: icmpTypeCode) }
+            if let icmpTypeCode = dictionary["IcmpTypeCode"] as? [String: Any] { self.icmpTypeCode = try Ec2.IcmpTypeCode(dictionary: icmpTypeCode) } else { self.icmpTypeCode = nil }
             guard let ruleNumber = dictionary["RuleNumber"] as? Int32 else { throw InitializableError.missingRequiredParam("RuleNumber") }
             self.ruleNumber = ruleNumber
             guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
@@ -12925,7 +12287,7 @@ extension Ec2 {
             guard let egress = dictionary["Egress"] as? Bool else { throw InitializableError.missingRequiredParam("Egress") }
             self.egress = egress
             self.ipv6CidrBlock = dictionary["Ipv6CidrBlock"] as? String
-            if let portRange = dictionary["PortRange"] as? [String: Any] { self.portRange = try Ec2.PortRange(dictionary: portRange) }
+            if let portRange = dictionary["PortRange"] as? [String: Any] { self.portRange = try Ec2.PortRange(dictionary: portRange) } else { self.portRange = nil }
         }
     }
 
@@ -12933,11 +12295,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the key pair.
-        public var keyName: String = ""
+        public let keyName: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(keyName: String, dryRun: Bool? = nil) {
             self.keyName = keyName
@@ -12955,19 +12315,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the snapshot.
-        public var snapshotId: String? = nil
+        public let snapshotId: String?
         /// Indicates whether the EBS volume is deleted on instance termination.
-        public var deleteOnTermination: Bool? = nil
+        public let deleteOnTermination: Bool?
         /// The volume type: gp2, io1, st1, sc1, or standard. Default: standard 
-        public var volumeType: String? = nil
+        public let volumeType: String?
         /// The size of the volume, in GiB. Constraints: 1-16384 for General Purpose SSD (gp2), 4-16384 for Provisioned IOPS SSD (io1), 500-16384 for Throughput Optimized HDD (st1), 500-16384 for Cold HDD (sc1), and 1-1024 for Magnetic (standard) volumes. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size.
-        public var volumeSize: Int32? = nil
+        public let volumeSize: Int32?
         /// The number of I/O operations per second (IOPS) that the volume supports. For io1, this represents the number of IOPS that are provisioned for the volume. For gp2, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. For more information about General Purpose SSD baseline performance, I/O credits, and bursting, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. Constraint: Range is 100-20000 IOPS for io1 volumes and 100-10000 IOPS for gp2 volumes. Condition: This parameter is required for requests to create io1 volumes; it is not used in requests to create gp2, st1, sc1, or standard volumes.
-        public var iops: Int32? = nil
+        public let iops: Int32?
         /// Indicates whether the EBS volume is encrypted. Encrypted Amazon EBS volumes may only be attached to instances that support Amazon EBS encryption.
-        public var encrypted: Bool? = nil
-
-        public init() {}
+        public let encrypted: Bool?
 
         public init(snapshotId: String? = nil, deleteOnTermination: Bool? = nil, volumeType: String? = nil, volumeSize: Int32? = nil, iops: Int32? = nil, encrypted: Bool? = nil) {
             self.snapshotId = snapshotId
@@ -12992,9 +12350,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the export tasks.
-        public var exportTasks: [ExportTask]? = nil
-
-        public init() {}
+        public let exportTasks: [ExportTask]?
 
         public init(exportTasks: [ExportTask]? = nil) {
             self.exportTasks = exportTasks
@@ -13003,6 +12359,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let exportTasks = dictionary["ExportTasks"] as? [[String: Any]] {
                 self.exportTasks = try exportTasks.map({ try ExportTask(dictionary: $0) })
+            } else { 
+                self.exportTasks = nil
             }
         }
     }
@@ -13011,16 +12369,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the VPC peering connection.
-        public var vpcPeeringConnection: VpcPeeringConnection? = nil
-
-        public init() {}
+        public let vpcPeeringConnection: VpcPeeringConnection?
 
         public init(vpcPeeringConnection: VpcPeeringConnection? = nil) {
             self.vpcPeeringConnection = vpcPeeringConnection
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let vpcPeeringConnection = dictionary["VpcPeeringConnection"] as? [String: Any] { self.vpcPeeringConnection = try Ec2.VpcPeeringConnection(dictionary: vpcPeeringConnection) }
+            if let vpcPeeringConnection = dictionary["VpcPeeringConnection"] as? [String: Any] { self.vpcPeeringConnection = try Ec2.VpcPeeringConnection(dictionary: vpcPeeringConnection) } else { self.vpcPeeringConnection = nil }
         }
     }
 
@@ -13028,9 +12384,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IPv4 CIDR range. You can either specify a CIDR range or a source security group, not both. To specify a single IPv4 address, use the /32 prefix.
-        public var cidrIp: String? = nil
-
-        public init() {}
+        public let cidrIp: String?
 
         public init(cidrIp: String? = nil) {
             self.cidrIp = cidrIp
@@ -13045,11 +12399,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of a DHCP option.
-        public var key: String? = nil
+        public let key: String?
         /// One or more values for the DHCP option.
-        public var values: [AttributeValue]? = nil
-
-        public init() {}
+        public let values: [AttributeValue]?
 
         public init(key: String? = nil, values: [AttributeValue]? = nil) {
             self.key = key
@@ -13060,6 +12412,8 @@ extension Ec2 {
             self.key = dictionary["Key"] as? String
             if let values = dictionary["Values"] as? [[String: Any]] {
                 self.values = try values.map({ try AttributeValue(dictionary: $0) })
+            } else { 
+                self.values = nil
             }
         }
     }
@@ -13068,13 +12422,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the conversion task.
-        public var conversionTaskId: String = ""
+        public let conversionTaskId: String
         /// The reason for canceling the conversion task.
-        public var reasonMessage: String? = nil
-
-        public init() {}
+        public let reasonMessage: String?
 
         public init(dryRun: Bool? = nil, conversionTaskId: String, reasonMessage: String? = nil) {
             self.dryRun = dryRun
@@ -13094,9 +12446,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Is true if the request succeeds, and an error otherwise.
-        public var `return`: Bool? = nil
-
-        public init() {}
+        public let `return`: Bool?
 
         public init(return: Bool? = nil) {
             self.`return` = `return`
@@ -13111,13 +12461,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The VPC attribute.
-        public var attribute: String = ""
-
-        public init() {}
+        public let attribute: String
 
         public init(vpcId: String, dryRun: Bool? = nil, attribute: String) {
             self.vpcId = vpcId
@@ -13138,25 +12486,23 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of one or more Reserved Instances.
-        public var reservedInstancesIds: [ReservedInstancesId]? = nil
+        public let reservedInstancesIds: [ReservedInstancesId]?
         /// The status of the Reserved Instances modification request.
-        public var status: String? = nil
+        public let status: String?
         /// The time for the modification to become effective.
-        public var effectiveDate: Date? = nil
+        public let effectiveDate: Date?
         /// A unique, case-sensitive key supplied by the client to ensure that the request is idempotent. For more information, see Ensuring Idempotency.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// Contains target configurations along with their corresponding new Reserved Instance IDs.
-        public var modificationResults: [ReservedInstancesModificationResult]? = nil
+        public let modificationResults: [ReservedInstancesModificationResult]?
         /// The time when the modification request was last updated.
-        public var updateDate: Date? = nil
+        public let updateDate: Date?
         /// A unique ID for the Reserved Instance modification.
-        public var reservedInstancesModificationId: String? = nil
+        public let reservedInstancesModificationId: String?
         /// The time when the modification request was created.
-        public var createDate: Date? = nil
+        public let createDate: Date?
         /// The reason for the status.
-        public var statusMessage: String? = nil
-
-        public init() {}
+        public let statusMessage: String?
 
         public init(reservedInstancesIds: [ReservedInstancesId]? = nil, status: String? = nil, effectiveDate: Date? = nil, clientToken: String? = nil, modificationResults: [ReservedInstancesModificationResult]? = nil, updateDate: Date? = nil, reservedInstancesModificationId: String? = nil, createDate: Date? = nil, statusMessage: String? = nil) {
             self.reservedInstancesIds = reservedInstancesIds
@@ -13173,12 +12519,16 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let reservedInstancesIds = dictionary["ReservedInstancesIds"] as? [[String: Any]] {
                 self.reservedInstancesIds = try reservedInstancesIds.map({ try ReservedInstancesId(dictionary: $0) })
+            } else { 
+                self.reservedInstancesIds = nil
             }
             self.status = dictionary["Status"] as? String
             self.effectiveDate = dictionary["EffectiveDate"] as? Date
             self.clientToken = dictionary["ClientToken"] as? String
             if let modificationResults = dictionary["ModificationResults"] as? [[String: Any]] {
                 self.modificationResults = try modificationResults.map({ try ReservedInstancesModificationResult(dictionary: $0) })
+            } else { 
+                self.modificationResults = nil
             }
             self.updateDate = dictionary["UpdateDate"] as? Date
             self.reservedInstancesModificationId = dictionary["ReservedInstancesModificationId"] as? String
@@ -13191,9 +12541,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more Availability Zones.
-        public var availabilityZones: [AvailabilityZone]? = nil
-
-        public init() {}
+        public let availabilityZones: [AvailabilityZone]?
 
         public init(availabilityZones: [AvailabilityZone]? = nil) {
             self.availabilityZones = availabilityZones
@@ -13202,6 +12550,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let availabilityZones = dictionary["AvailabilityZones"] as? [[String: Any]] {
                 self.availabilityZones = try availabilityZones.map({ try AvailabilityZone(dictionary: $0) })
+            } else { 
+                self.availabilityZones = nil
             }
         }
     }
@@ -13210,11 +12560,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the VPC peering connection.
-        public var vpcPeeringConnectionId: String = ""
-
-        public init() {}
+        public let vpcPeeringConnectionId: String
 
         public init(dryRun: Bool? = nil, vpcPeeringConnectionId: String) {
             self.dryRun = dryRun
@@ -13232,16 +12580,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the IAM instance profile association.
-        public var iamInstanceProfileAssociation: IamInstanceProfileAssociation? = nil
-
-        public init() {}
+        public let iamInstanceProfileAssociation: IamInstanceProfileAssociation?
 
         public init(iamInstanceProfileAssociation: IamInstanceProfileAssociation? = nil) {
             self.iamInstanceProfileAssociation = iamInstanceProfileAssociation
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let iamInstanceProfileAssociation = dictionary["IamInstanceProfileAssociation"] as? [String: Any] { self.iamInstanceProfileAssociation = try Ec2.IamInstanceProfileAssociation(dictionary: iamInstanceProfileAssociation) }
+            if let iamInstanceProfileAssociation = dictionary["IamInstanceProfileAssociation"] as? [String: Any] { self.iamInstanceProfileAssociation = try Ec2.IamInstanceProfileAssociation(dictionary: iamInstanceProfileAssociation) } else { self.iamInstanceProfileAssociation = nil }
         }
     }
 
@@ -13249,9 +12595,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the new AMI.
-        public var imageId: String? = nil
-
-        public init() {}
+        public let imageId: String?
 
         public init(imageId: String? = nil) {
             self.imageId = imageId
@@ -13266,17 +12610,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The image.
-        public var image: DiskImageDescription = DiskImageDescription()
+        public let image: DiskImageDescription
         /// The number of bytes converted so far.
-        public var bytesConverted: Int64 = 0
+        public let bytesConverted: Int64
         /// The volume.
-        public var volume: DiskImageVolumeDescription = DiskImageVolumeDescription()
+        public let volume: DiskImageVolumeDescription
         /// The Availability Zone where the resulting volume will reside.
-        public var availabilityZone: String = ""
+        public let availabilityZone: String
         /// The description you provided when starting the import volume task.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(image: DiskImageDescription, bytesConverted: Int64, volume: DiskImageVolumeDescription, availabilityZone: String, description: String? = nil) {
             self.image = image
@@ -13303,17 +12645,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The address of the Elastic IP address bound to the network interface.
-        public var publicIp: String? = nil
+        public let publicIp: String?
         /// The association ID.
-        public var associationId: String? = nil
+        public let associationId: String?
         /// The ID of the Elastic IP address owner.
-        public var ipOwnerId: String? = nil
+        public let ipOwnerId: String?
         /// The allocation ID.
-        public var allocationId: String? = nil
+        public let allocationId: String?
         /// The public DNS name.
-        public var publicDnsName: String? = nil
-
-        public init() {}
+        public let publicDnsName: String?
 
         public init(publicIp: String? = nil, associationId: String? = nil, ipOwnerId: String? = nil, allocationId: String? = nil, publicDnsName: String? = nil) {
             self.publicIp = publicIp
@@ -13336,17 +12676,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The days. For a monthly schedule, this is one or more days of the month (1-31). For a weekly schedule, this is one or more days of the week (1-7, where 1 is Sunday). You can't specify this value with a daily schedule. If the occurrence is relative to the end of the month, you can specify only a single day.
-        public var occurrenceDays: [Int32]? = nil
+        public let occurrenceDays: [Int32]?
         /// The frequency (Daily, Weekly, or Monthly).
-        public var frequency: String? = nil
+        public let frequency: String?
         /// The unit for OccurrenceDays (DayOfWeek or DayOfMonth). This value is required for a monthly schedule. You can't specify DayOfWeek with a weekly schedule. You can't specify this value with a daily schedule.
-        public var occurrenceUnit: String? = nil
+        public let occurrenceUnit: String?
         /// Indicates whether the occurrence is relative to the end of the specified week or month. You can't specify this value with a daily schedule.
-        public var occurrenceRelativeToEnd: Bool? = nil
+        public let occurrenceRelativeToEnd: Bool?
         /// The interval quantity. The interval unit depends on the value of Frequency. For example, every 2 weeks or every 2 months.
-        public var interval: Int32? = nil
-
-        public init() {}
+        public let interval: Int32?
 
         public init(occurrenceDays: [Int32]? = nil, frequency: String? = nil, occurrenceUnit: String? = nil, occurrenceRelativeToEnd: Bool? = nil, interval: Int32? = nil) {
             self.occurrenceDays = occurrenceDays
@@ -13357,9 +12695,7 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let occurrenceDays = dictionary["OccurrenceDays"] as? [Int32] {
-                self.occurrenceDays = occurrenceDays
-            }
+            self.occurrenceDays = dictionary["OccurrenceDays"] as? [Int32]
             self.frequency = dictionary["Frequency"] as? String
             self.occurrenceUnit = dictionary["OccurrenceUnit"] as? String
             self.occurrenceRelativeToEnd = dictionary["OccurrenceRelativeToEnd"] as? Bool
@@ -13371,11 +12707,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the filter. Filter names are case-sensitive.
-        public var name: String? = nil
+        public let name: String?
         /// One or more filter values. Filter values are case-sensitive.
-        public var values: [String]? = nil
-
-        public init() {}
+        public let values: [String]?
 
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
@@ -13384,9 +12718,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["Name"] as? String
-            if let values = dictionary["Values"] as? [String] {
-                self.values = values
-            }
+            self.values = dictionary["Values"] as? [String]
         }
     }
 
@@ -13394,11 +12726,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more instance IDs.
-        public var instanceIds: [String] = []
+        public let instanceIds: [String]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(instanceIds: [String], dryRun: Bool? = nil) {
             self.instanceIds = instanceIds
@@ -13416,36 +12746,34 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more block device mapping entries. Although you can specify encrypted EBS volumes in this block device mapping for your Spot Instances, these volumes are not encrypted.
-        public var blockDeviceMappings: [BlockDeviceMapping]? = nil
+        public let blockDeviceMappings: [BlockDeviceMapping]?
         /// The ID of the subnet in which to launch the instance.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// The user data to make available to the instances. If you are using an AWS SDK or command line tool, Base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide Base64-encoded text.
-        public var userData: String? = nil
+        public let userData: String?
         /// Indicates whether the instance is optimized for EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS Optimized instance. Default: false 
-        public var ebsOptimized: Bool? = nil
+        public let ebsOptimized: Bool?
         /// The ID of the kernel.
-        public var kernelId: String? = nil
-        public var monitoring: RunInstancesMonitoringEnabled? = nil
+        public let kernelId: String?
+        public let monitoring: RunInstancesMonitoringEnabled?
         /// The instance type.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// One or more security groups. When requesting instances in a VPC, you must specify the IDs of the security groups. When requesting instances in EC2-Classic, you can specify the names or the IDs of the security groups.
-        public var securityGroups: [GroupIdentifier]? = nil
+        public let securityGroups: [GroupIdentifier]?
         /// The name of the key pair.
-        public var keyName: String? = nil
+        public let keyName: String?
         /// Deprecated.
-        public var addressingType: String? = nil
+        public let addressingType: String?
         /// The IAM instance profile.
-        public var iamInstanceProfile: IamInstanceProfileSpecification? = nil
+        public let iamInstanceProfile: IamInstanceProfileSpecification?
         /// The ID of the AMI.
-        public var imageId: String? = nil
+        public let imageId: String?
         /// One or more network interfaces. If you specify a network interface, you must specify subnet IDs and security group IDs using the network interface.
-        public var networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil
+        public let networkInterfaces: [InstanceNetworkInterfaceSpecification]?
         /// The placement information for the instance.
-        public var placement: SpotPlacement? = nil
+        public let placement: SpotPlacement?
         /// The ID of the RAM disk.
-        public var ramdiskId: String? = nil
-
-        public init() {}
+        public let ramdiskId: String?
 
         public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, subnetId: String? = nil, userData: String? = nil, ebsOptimized: Bool? = nil, kernelId: String? = nil, monitoring: RunInstancesMonitoringEnabled? = nil, instanceType: String? = nil, securityGroups: [GroupIdentifier]? = nil, keyName: String? = nil, addressingType: String? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: SpotPlacement? = nil, ramdiskId: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
@@ -13468,24 +12796,30 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
                 self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            } else { 
+                self.blockDeviceMappings = nil
             }
             self.subnetId = dictionary["SubnetId"] as? String
             self.userData = dictionary["UserData"] as? String
             self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
             self.kernelId = dictionary["KernelId"] as? String
-            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.RunInstancesMonitoringEnabled(dictionary: monitoring) }
+            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.RunInstancesMonitoringEnabled(dictionary: monitoring) } else { self.monitoring = nil }
             self.instanceType = dictionary["InstanceType"] as? String
             if let securityGroups = dictionary["SecurityGroups"] as? [[String: Any]] {
                 self.securityGroups = try securityGroups.map({ try GroupIdentifier(dictionary: $0) })
+            } else { 
+                self.securityGroups = nil
             }
             self.keyName = dictionary["KeyName"] as? String
             self.addressingType = dictionary["AddressingType"] as? String
-            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.IamInstanceProfileSpecification(dictionary: iamInstanceProfile) }
+            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.IamInstanceProfileSpecification(dictionary: iamInstanceProfile) } else { self.iamInstanceProfile = nil }
             self.imageId = dictionary["ImageId"] as? String
             if let networkInterfaces = dictionary["NetworkInterfaces"] as? [[String: Any]] {
                 self.networkInterfaces = try networkInterfaces.map({ try InstanceNetworkInterfaceSpecification(dictionary: $0) })
+            } else { 
+                self.networkInterfaces = nil
             }
-            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.SpotPlacement(dictionary: placement) }
+            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.SpotPlacement(dictionary: placement) } else { self.placement = nil }
             self.ramdiskId = dictionary["RamdiskId"] as? String
         }
     }
@@ -13494,9 +12828,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more Spot instance requests.
-        public var spotInstanceRequests: [SpotInstanceRequest]? = nil
-
-        public init() {}
+        public let spotInstanceRequests: [SpotInstanceRequest]?
 
         public init(spotInstanceRequests: [SpotInstanceRequest]? = nil) {
             self.spotInstanceRequests = spotInstanceRequests
@@ -13505,6 +12837,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let spotInstanceRequests = dictionary["SpotInstanceRequests"] as? [[String: Any]] {
                 self.spotInstanceRequests = try spotInstanceRequests.map({ try SpotInstanceRequest(dictionary: $0) })
+            } else { 
+                self.spotInstanceRequests = nil
             }
         }
     }
@@ -13513,27 +12847,25 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IPv4 network range to allow or deny, in CIDR notation (for example 172.16.0.0/24).
-        public var cidrBlock: String? = nil
+        public let cidrBlock: String?
         /// ICMP protocol: The ICMP or ICMPv6 type and code. Required if specifying the ICMP protocol, or protocol 58 (ICMPv6) with an IPv6 CIDR block.
-        public var icmpTypeCode: IcmpTypeCode? = nil
+        public let icmpTypeCode: IcmpTypeCode?
         /// The rule number for the entry (for example, 100). ACL entries are processed in ascending order by rule number. Constraints: Positive integer from 1 to 32766. The range 32767 to 65535 is reserved for internal use.
-        public var ruleNumber: Int32 = 0
+        public let ruleNumber: Int32
         /// The protocol. A value of -1 or all means all protocols. If you specify all, -1, or a protocol number other than tcp, udp, or icmp, traffic on all ports is allowed, regardless of any ports or ICMP types or codes you specify. If you specify protocol 58 (ICMPv6) and specify an IPv4 CIDR block, traffic for all ICMP types and codes allowed, regardless of any that you specify. If you specify protocol 58 (ICMPv6) and specify an IPv6 CIDR block, you must specify an ICMP type and code.
-        public var `protocol`: String = ""
+        public let `protocol`: String
         /// Indicates whether to allow or deny the traffic that matches the rule.
-        public var ruleAction: String = ""
+        public let ruleAction: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the network ACL.
-        public var networkAclId: String = ""
+        public let networkAclId: String
         /// Indicates whether this is an egress rule (rule is applied to traffic leaving the subnet).
-        public var egress: Bool = false
+        public let egress: Bool
         /// The IPv6 network range to allow or deny, in CIDR notation (for example 2001:db8:1234:1a00::/64).
-        public var ipv6CidrBlock: String? = nil
+        public let ipv6CidrBlock: String?
         /// TCP or UDP protocols: The range of ports the rule applies to.
-        public var portRange: PortRange? = nil
-
-        public init() {}
+        public let portRange: PortRange?
 
         public init(cidrBlock: String? = nil, icmpTypeCode: IcmpTypeCode? = nil, ruleNumber: Int32, protocol: String, ruleAction: String, dryRun: Bool? = nil, networkAclId: String, egress: Bool, ipv6CidrBlock: String? = nil, portRange: PortRange? = nil) {
             self.cidrBlock = cidrBlock
@@ -13550,7 +12882,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.cidrBlock = dictionary["CidrBlock"] as? String
-            if let icmpTypeCode = dictionary["IcmpTypeCode"] as? [String: Any] { self.icmpTypeCode = try Ec2.IcmpTypeCode(dictionary: icmpTypeCode) }
+            if let icmpTypeCode = dictionary["IcmpTypeCode"] as? [String: Any] { self.icmpTypeCode = try Ec2.IcmpTypeCode(dictionary: icmpTypeCode) } else { self.icmpTypeCode = nil }
             guard let ruleNumber = dictionary["RuleNumber"] as? Int32 else { throw InitializableError.missingRequiredParam("RuleNumber") }
             self.ruleNumber = ruleNumber
             guard let `protocol` = dictionary["Protocol"] as? String else { throw InitializableError.missingRequiredParam("Protocol") }
@@ -13563,7 +12895,7 @@ extension Ec2 {
             guard let egress = dictionary["Egress"] as? Bool else { throw InitializableError.missingRequiredParam("Egress") }
             self.egress = egress
             self.ipv6CidrBlock = dictionary["Ipv6CidrBlock"] as? String
-            if let portRange = dictionary["PortRange"] as? [String: Any] { self.portRange = try Ec2.PortRange(dictionary: portRange) }
+            if let portRange = dictionary["PortRange"] as? [String: Any] { self.portRange = try Ec2.PortRange(dictionary: portRange) } else { self.portRange = nil }
         }
     }
 
@@ -13571,16 +12903,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the bundle task.
-        public var bundleTask: BundleTask? = nil
-
-        public init() {}
+        public let bundleTask: BundleTask?
 
         public init(bundleTask: BundleTask? = nil) {
             self.bundleTask = bundleTask
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let bundleTask = dictionary["BundleTask"] as? [String: Any] { self.bundleTask = try Ec2.BundleTask(dictionary: bundleTask) }
+            if let bundleTask = dictionary["BundleTask"] as? [String: Any] { self.bundleTask = try Ec2.BundleTask(dictionary: bundleTask) } else { self.bundleTask = nil }
         }
     }
 
@@ -13588,19 +12918,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the requester VPC.
-        public var requesterVpcInfo: VpcPeeringConnectionVpcInfo? = nil
+        public let requesterVpcInfo: VpcPeeringConnectionVpcInfo?
         /// Information about the accepter VPC. CIDR block information is not returned when creating a VPC peering connection, or when describing a VPC peering connection that's in the initiating-request or pending-acceptance state.
-        public var accepterVpcInfo: VpcPeeringConnectionVpcInfo? = nil
+        public let accepterVpcInfo: VpcPeeringConnectionVpcInfo?
         /// The status of the VPC peering connection.
-        public var status: VpcPeeringConnectionStateReason? = nil
+        public let status: VpcPeeringConnectionStateReason?
         /// The time that an unaccepted VPC peering connection will expire.
-        public var expirationTime: Date? = nil
+        public let expirationTime: Date?
         /// Any tags assigned to the resource.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The ID of the VPC peering connection.
-        public var vpcPeeringConnectionId: String? = nil
-
-        public init() {}
+        public let vpcPeeringConnectionId: String?
 
         public init(requesterVpcInfo: VpcPeeringConnectionVpcInfo? = nil, accepterVpcInfo: VpcPeeringConnectionVpcInfo? = nil, status: VpcPeeringConnectionStateReason? = nil, expirationTime: Date? = nil, tags: [Tag]? = nil, vpcPeeringConnectionId: String? = nil) {
             self.requesterVpcInfo = requesterVpcInfo
@@ -13612,12 +12940,14 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let requesterVpcInfo = dictionary["RequesterVpcInfo"] as? [String: Any] { self.requesterVpcInfo = try Ec2.VpcPeeringConnectionVpcInfo(dictionary: requesterVpcInfo) }
-            if let accepterVpcInfo = dictionary["AccepterVpcInfo"] as? [String: Any] { self.accepterVpcInfo = try Ec2.VpcPeeringConnectionVpcInfo(dictionary: accepterVpcInfo) }
-            if let status = dictionary["Status"] as? [String: Any] { self.status = try Ec2.VpcPeeringConnectionStateReason(dictionary: status) }
+            if let requesterVpcInfo = dictionary["RequesterVpcInfo"] as? [String: Any] { self.requesterVpcInfo = try Ec2.VpcPeeringConnectionVpcInfo(dictionary: requesterVpcInfo) } else { self.requesterVpcInfo = nil }
+            if let accepterVpcInfo = dictionary["AccepterVpcInfo"] as? [String: Any] { self.accepterVpcInfo = try Ec2.VpcPeeringConnectionVpcInfo(dictionary: accepterVpcInfo) } else { self.accepterVpcInfo = nil }
+            if let status = dictionary["Status"] as? [String: Any] { self.status = try Ec2.VpcPeeringConnectionStateReason(dictionary: status) } else { self.status = nil }
             self.expirationTime = dictionary["ExpirationTime"] as? Date
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.vpcPeeringConnectionId = dictionary["VpcPeeringConnectionId"] as? String
         }
@@ -13627,9 +12957,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the newly registered AMI.
-        public var imageId: String? = nil
-
-        public init() {}
+        public let imageId: String?
 
         public init(imageId: String? = nil) {
             self.imageId = imageId
@@ -13644,15 +12972,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A user-defined comment about the disk upload.
-        public var comment: String? = nil
+        public let comment: String?
         /// The time that the disk upload starts.
-        public var uploadStart: Date? = nil
+        public let uploadStart: Date?
         /// The time that the disk upload ends.
-        public var uploadEnd: Date? = nil
+        public let uploadEnd: Date?
         /// The size of the uploaded disk image, in GiB.
-        public var uploadSize: Double? = nil
-
-        public init() {}
+        public let uploadSize: Double?
 
         public init(comment: String? = nil, uploadStart: Date? = nil, uploadEnd: Date? = nil, uploadSize: Double? = nil) {
             self.comment = comment
@@ -13673,9 +12999,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
-        public var `return`: Bool? = nil
-
-        public init() {}
+        public let `return`: Bool?
 
         public init(return: Bool? = nil) {
             self.`return` = `return`
@@ -13690,15 +13014,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The disk image format.
-        public var format: String = ""
+        public let format: String
         /// The checksum computed for the disk image.
-        public var checksum: String? = nil
+        public let checksum: String?
         /// The size of the disk image, in GiB.
-        public var size: Int64 = 0
+        public let size: Int64
         /// A presigned URL for the import manifest stored in Amazon S3. For information about creating a presigned URL for an Amazon S3 object, read the "Query String Request Authentication Alternative" section of the Authenticating REST Requests topic in the Amazon Simple Storage Service Developer Guide. For information about the import manifest referenced by this API action, see VM Import Manifest.
-        public var importManifestUrl: String = ""
-
-        public init() {}
+        public let importManifestUrl: String
 
         public init(format: String, checksum: String? = nil, size: Int64, importManifestUrl: String) {
             self.format = format
@@ -13722,16 +13044,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the subnet.
-        public var subnet: Subnet? = nil
-
-        public init() {}
+        public let subnet: Subnet?
 
         public init(subnet: Subnet? = nil) {
             self.subnet = subnet
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let subnet = dictionary["Subnet"] as? [String: Any] { self.subnet = try Ec2.Subnet(dictionary: subnet) }
+            if let subnet = dictionary["Subnet"] as? [String: Any] { self.subnet = try Ec2.Subnet(dictionary: subnet) } else { self.subnet = nil }
         }
     }
 
@@ -13739,13 +13059,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time the output was last updated.
-        public var timestamp: Date? = nil
+        public let timestamp: Date?
         /// The ID of the instance.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The console output, Base64-encoded. If using a command line tool, the tool decodes the output for you.
-        public var output: String? = nil
-
-        public init() {}
+        public let output: String?
 
         public init(timestamp: Date? = nil, instanceId: String? = nil, output: String? = nil) {
             self.timestamp = timestamp
@@ -13764,11 +13082,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The association ID representing the current association between the route table and subnet.
-        public var associationId: String = ""
-
-        public init() {}
+        public let associationId: String
 
         public init(dryRun: Bool? = nil, associationId: String) {
             self.dryRun = dryRun
@@ -13786,13 +13102,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of IPv6 addresses to assign to the network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't use this option if specifying specific IPv6 addresses.
-        public var ipv6AddressCount: Int32? = nil
+        public let ipv6AddressCount: Int32?
         /// One or more specific IPv6 addresses to be assigned to the network interface. You can't use this option if you're specifying a number of IPv6 addresses.
-        public var ipv6Addresses: [String]? = nil
+        public let ipv6Addresses: [String]?
         /// The ID of the network interface.
-        public var networkInterfaceId: String = ""
-
-        public init() {}
+        public let networkInterfaceId: String
 
         public init(ipv6AddressCount: Int32? = nil, ipv6Addresses: [String]? = nil, networkInterfaceId: String) {
             self.ipv6AddressCount = ipv6AddressCount
@@ -13802,9 +13116,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.ipv6AddressCount = dictionary["Ipv6AddressCount"] as? Int32
-            if let ipv6Addresses = dictionary["Ipv6Addresses"] as? [String] {
-                self.ipv6Addresses = ipv6Addresses
-            }
+            self.ipv6Addresses = dictionary["Ipv6Addresses"] as? [String]
             guard let networkInterfaceId = dictionary["NetworkInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("NetworkInterfaceId") }
             self.networkInterfaceId = networkInterfaceId
         }
@@ -13814,11 +13126,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token to use to get the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of zero or more import snapshot tasks that are currently active or were completed or canceled in the previous 7 days.
-        public var importSnapshotTasks: [ImportSnapshotTask]? = nil
-
-        public init() {}
+        public let importSnapshotTasks: [ImportSnapshotTask]?
 
         public init(nextToken: String? = nil, importSnapshotTasks: [ImportSnapshotTask]? = nil) {
             self.nextToken = nextToken
@@ -13829,6 +13139,8 @@ extension Ec2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let importSnapshotTasks = dictionary["ImportSnapshotTasks"] as? [[String: Any]] {
                 self.importSnapshotTasks = try importSnapshotTasks.map({ try ImportSnapshotTask(dictionary: $0) })
+            } else { 
+                self.importSnapshotTasks = nil
             }
         }
     }
@@ -13837,11 +13149,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The details of the volume status.
-        public var details: [VolumeStatusDetails]? = nil
+        public let details: [VolumeStatusDetails]?
         /// The status of the volume.
-        public var status: String? = nil
-
-        public init() {}
+        public let status: String?
 
         public init(details: [VolumeStatusDetails]? = nil, status: String? = nil) {
             self.details = details
@@ -13851,6 +13161,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let details = dictionary["Details"] as? [[String: Any]] {
                 self.details = try details.map({ try VolumeStatusDetails(dictionary: $0) })
+            } else { 
+                self.details = nil
             }
             self.status = dictionary["Status"] as? String
         }
@@ -13860,9 +13172,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String? = nil
-
-        public init() {}
+        public let vpcId: String?
 
         public init(vpcId: String? = nil) {
             self.vpcId = vpcId
@@ -13877,9 +13187,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more subnets.
-        public var subnets: [Subnet]? = nil
-
-        public init() {}
+        public let subnets: [Subnet]?
 
         public init(subnets: [Subnet]? = nil) {
             self.subnets = subnets
@@ -13888,6 +13196,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let subnets = dictionary["Subnets"] as? [[String: Any]] {
                 self.subnets = try subnets.map({ try Subnet(dictionary: $0) })
+            } else { 
+                self.subnets = nil
             }
         }
     }
@@ -13896,9 +13206,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
-        public var `return`: Bool? = nil
-
-        public init() {}
+        public let `return`: Bool?
 
         public init(return: Bool? = nil) {
             self.`return` = `return`
@@ -13913,11 +13221,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The S3 bucket from which the disk image was created.
-        public var s3Bucket: String? = nil
+        public let s3Bucket: String?
         /// The file name of the disk image.
-        public var s3Key: String? = nil
-
-        public init() {}
+        public let s3Key: String?
 
         public init(s3Bucket: String? = nil, s3Key: String? = nil) {
             self.s3Bucket = s3Bucket
@@ -13934,9 +13240,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the Spot fleet request.
-        public var spotFleetRequestId: String = ""
-
-        public init() {}
+        public let spotFleetRequestId: String
 
         public init(spotFleetRequestId: String) {
             self.spotFleetRequestId = spotFleetRequestId
@@ -13952,9 +13256,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the endpoints that were not successfully deleted.
-        public var unsuccessful: [UnsuccessfulItem]? = nil
-
-        public init() {}
+        public let unsuccessful: [UnsuccessfulItem]?
 
         public init(unsuccessful: [UnsuccessfulItem]? = nil) {
             self.unsuccessful = unsuccessful
@@ -13963,6 +13265,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let unsuccessful = dictionary["Unsuccessful"] as? [[String: Any]] {
                 self.unsuccessful = try unsuccessful.map({ try UnsuccessfulItem(dictionary: $0) })
+            } else { 
+                self.unsuccessful = nil
             }
         }
     }
@@ -13971,15 +13275,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned NextToken value. This value can be between 5 and 1000; if MaxResults is given a value larger than 1000, only 1000 results are returned.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The token to retrieve the next page of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// One or more egress-only Internet gateway IDs.
-        public var egressOnlyInternetGatewayIds: [String]? = nil
-
-        public init() {}
+        public let egressOnlyInternetGatewayIds: [String]?
 
         public init(maxResults: Int32? = nil, dryRun: Bool? = nil, nextToken: String? = nil, egressOnlyInternetGatewayIds: [String]? = nil) {
             self.maxResults = maxResults
@@ -13992,9 +13294,7 @@ extension Ec2 {
             self.maxResults = dictionary["MaxResults"] as? Int32
             self.dryRun = dictionary["DryRun"] as? Bool
             self.nextToken = dictionary["NextToken"] as? String
-            if let egressOnlyInternetGatewayIds = dictionary["EgressOnlyInternetGatewayIds"] as? [String] {
-                self.egressOnlyInternetGatewayIds = egressOnlyInternetGatewayIds
-            }
+            self.egressOnlyInternetGatewayIds = dictionary["EgressOnlyInternetGatewayIds"] as? [String]
         }
     }
 
@@ -14002,13 +13302,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// The ID of the Internet gateway.
-        public var internetGatewayId: String = ""
+        public let internetGatewayId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(vpcId: String, internetGatewayId: String, dryRun: Bool? = nil) {
             self.vpcId = vpcId
@@ -14029,9 +13327,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the new snapshot.
-        public var snapshotId: String? = nil
-
-        public init() {}
+        public let snapshotId: String?
 
         public init(snapshotId: String? = nil) {
             self.snapshotId = snapshotId
@@ -14046,13 +13342,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the state of the CIDR block.
-        public var ipv6CidrBlockState: VpcCidrBlockState? = nil
+        public let ipv6CidrBlockState: VpcCidrBlockState?
         /// The IPv6 CIDR block.
-        public var ipv6CidrBlock: String? = nil
+        public let ipv6CidrBlock: String?
         /// The association ID for the IPv6 CIDR block.
-        public var associationId: String? = nil
-
-        public init() {}
+        public let associationId: String?
 
         public init(ipv6CidrBlockState: VpcCidrBlockState? = nil, ipv6CidrBlock: String? = nil, associationId: String? = nil) {
             self.ipv6CidrBlockState = ipv6CidrBlockState
@@ -14061,7 +13355,7 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let ipv6CidrBlockState = dictionary["Ipv6CidrBlockState"] as? [String: Any] { self.ipv6CidrBlockState = try Ec2.VpcCidrBlockState(dictionary: ipv6CidrBlockState) }
+            if let ipv6CidrBlockState = dictionary["Ipv6CidrBlockState"] as? [String: Any] { self.ipv6CidrBlockState = try Ec2.VpcCidrBlockState(dictionary: ipv6CidrBlockState) } else { self.ipv6CidrBlockState = nil }
             self.ipv6CidrBlock = dictionary["Ipv6CidrBlock"] as? String
             self.associationId = dictionary["AssociationId"] as? String
         }
@@ -14071,11 +13365,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name.
-        public var name: String? = nil
+        public let name: String?
         /// The Amazon Resource Name (ARN).
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(name: String? = nil, arn: String? = nil) {
             self.name = name
@@ -14092,16 +13384,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the VPC peering connection.
-        public var vpcPeeringConnection: VpcPeeringConnection? = nil
-
-        public init() {}
+        public let vpcPeeringConnection: VpcPeeringConnection?
 
         public init(vpcPeeringConnection: VpcPeeringConnection? = nil) {
             self.vpcPeeringConnection = vpcPeeringConnection
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let vpcPeeringConnection = dictionary["VpcPeeringConnection"] as? [String: Any] { self.vpcPeeringConnection = try Ec2.VpcPeeringConnection(dictionary: vpcPeeringConnection) }
+            if let vpcPeeringConnection = dictionary["VpcPeeringConnection"] as? [String: Any] { self.vpcPeeringConnection = try Ec2.VpcPeeringConnection(dictionary: vpcPeeringConnection) } else { self.vpcPeeringConnection = nil }
         }
     }
 
@@ -14109,13 +13399,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A description of the import snapshot task.
-        public var description: String? = nil
+        public let description: String?
         /// Information about the import snapshot task.
-        public var snapshotTaskDetail: SnapshotTaskDetail? = nil
+        public let snapshotTaskDetail: SnapshotTaskDetail?
         /// The ID of the import snapshot task.
-        public var importTaskId: String? = nil
-
-        public init() {}
+        public let importTaskId: String?
 
         public init(description: String? = nil, snapshotTaskDetail: SnapshotTaskDetail? = nil, importTaskId: String? = nil) {
             self.description = description
@@ -14125,7 +13413,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.description = dictionary["Description"] as? String
-            if let snapshotTaskDetail = dictionary["SnapshotTaskDetail"] as? [String: Any] { self.snapshotTaskDetail = try Ec2.SnapshotTaskDetail(dictionary: snapshotTaskDetail) }
+            if let snapshotTaskDetail = dictionary["SnapshotTaskDetail"] as? [String: Any] { self.snapshotTaskDetail = try Ec2.SnapshotTaskDetail(dictionary: snapshotTaskDetail) } else { self.snapshotTaskDetail = nil }
             self.importTaskId = dictionary["ImportTaskId"] as? String
         }
     }
@@ -14134,15 +13422,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The S3 bucket for the disk image.
-        public var userBucket: UserBucket? = nil
+        public let userBucket: UserBucket?
         /// The format of the disk image being imported. Valid values: RAW | VHD | VMDK | OVA 
-        public var format: String? = nil
+        public let format: String?
         /// The URL to the Amazon S3-based disk image being imported. It can either be a https URL (https://..) or an Amazon S3 URL (s3://..).
-        public var url: String? = nil
+        public let url: String?
         /// The description of the disk image being imported.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(userBucket: UserBucket? = nil, format: String? = nil, url: String? = nil, description: String? = nil) {
             self.userBucket = userBucket
@@ -14152,7 +13438,7 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let userBucket = dictionary["UserBucket"] as? [String: Any] { self.userBucket = try Ec2.UserBucket(dictionary: userBucket) }
+            if let userBucket = dictionary["UserBucket"] as? [String: Any] { self.userBucket = try Ec2.UserBucket(dictionary: userBucket) } else { self.userBucket = nil }
             self.format = dictionary["Format"] as? String
             self.url = dictionary["Url"] as? String
             self.description = dictionary["Description"] as? String
@@ -14163,9 +13449,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the flow logs that could not be deleted successfully.
-        public var unsuccessful: [UnsuccessfulItem]? = nil
-
-        public init() {}
+        public let unsuccessful: [UnsuccessfulItem]?
 
         public init(unsuccessful: [UnsuccessfulItem]? = nil) {
             self.unsuccessful = unsuccessful
@@ -14174,6 +13458,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let unsuccessful = dictionary["Unsuccessful"] as? [[String: Any]] {
                 self.unsuccessful = try unsuccessful.map({ try UnsuccessfulItem(dictionary: $0) })
+            } else { 
+                self.unsuccessful = nil
             }
         }
     }
@@ -14182,9 +13468,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more DHCP options sets.
-        public var dhcpOptions: [DhcpOptions]? = nil
-
-        public init() {}
+        public let dhcpOptions: [DhcpOptions]?
 
         public init(dhcpOptions: [DhcpOptions]? = nil) {
             self.dhcpOptions = dhcpOptions
@@ -14193,6 +13477,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let dhcpOptions = dictionary["DhcpOptions"] as? [[String: Any]] {
                 self.dhcpOptions = try dhcpOptions.map({ try DhcpOptions(dictionary: $0) })
+            } else { 
+                self.dhcpOptions = nil
             }
         }
     }
@@ -14201,15 +13487,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the route table.
-        public var routeTableId: String = ""
+        public let routeTableId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The IPv4 CIDR range for the route. The value you specify must match the CIDR for the route exactly.
-        public var destinationCidrBlock: String? = nil
+        public let destinationCidrBlock: String?
         /// The IPv6 CIDR range for the route. The value you specify must match the CIDR for the route exactly.
-        public var destinationIpv6CidrBlock: String? = nil
-
-        public init() {}
+        public let destinationIpv6CidrBlock: String?
 
         public init(routeTableId: String, dryRun: Bool? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil) {
             self.routeTableId = routeTableId
@@ -14231,17 +13515,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time the IAM instance profile was associated with the instance.
-        public var timestamp: Date? = nil
+        public let timestamp: Date?
         /// The ID of the association.
-        public var associationId: String? = nil
+        public let associationId: String?
         /// The ID of the instance.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The state of the association.
-        public var state: String? = nil
+        public let state: String?
         /// The IAM instance profile.
-        public var iamInstanceProfile: IamInstanceProfile? = nil
-
-        public init() {}
+        public let iamInstanceProfile: IamInstanceProfile?
 
         public init(timestamp: Date? = nil, associationId: String? = nil, instanceId: String? = nil, state: String? = nil, iamInstanceProfile: IamInstanceProfile? = nil) {
             self.timestamp = timestamp
@@ -14256,7 +13538,7 @@ extension Ec2 {
             self.associationId = dictionary["AssociationId"] as? String
             self.instanceId = dictionary["InstanceId"] as? String
             self.state = dictionary["State"] as? String
-            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.IamInstanceProfile(dictionary: iamInstanceProfile) }
+            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.IamInstanceProfile(dictionary: iamInstanceProfile) } else { self.iamInstanceProfile = nil }
         }
     }
 
@@ -14264,13 +13546,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// If true, enables outbound communication from instances in a local VPC to an EC2-Classic instance that's linked to a peer VPC via ClassicLink.
-        public var allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil
+        public let allowEgressFromLocalVpcToRemoteClassicLink: Bool?
         /// If true, enables a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC.
-        public var allowDnsResolutionFromRemoteVpc: Bool? = nil
+        public let allowDnsResolutionFromRemoteVpc: Bool?
         /// If true, enables outbound communication from an EC2-Classic instance that's linked to a local VPC via ClassicLink to instances in a peer VPC.
-        public var allowEgressFromLocalClassicLinkToRemoteVpc: Bool? = nil
-
-        public init() {}
+        public let allowEgressFromLocalClassicLinkToRemoteVpc: Bool?
 
         public init(allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil, allowDnsResolutionFromRemoteVpc: Bool? = nil, allowEgressFromLocalClassicLinkToRemoteVpc: Bool? = nil) {
             self.allowEgressFromLocalVpcToRemoteClassicLink = allowEgressFromLocalVpcToRemoteClassicLink
@@ -14289,13 +13569,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the virtual private gateway.
-        public var vpnGatewayId: String = ""
-
-        public init() {}
+        public let vpnGatewayId: String
 
         public init(vpcId: String, dryRun: Bool? = nil, vpnGatewayId: String) {
             self.vpcId = vpcId
@@ -14316,15 +13594,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the subnet. A subnet ID is not returned for an implicit association.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// The ID of the route table.
-        public var routeTableId: String? = nil
+        public let routeTableId: String?
         /// The ID of the association between a route table and a subnet.
-        public var routeTableAssociationId: String? = nil
+        public let routeTableAssociationId: String?
         /// Indicates whether this is the main route table.
-        public var main: Bool? = nil
-
-        public init() {}
+        public let main: Bool?
 
         public init(subnetId: String? = nil, routeTableId: String? = nil, routeTableAssociationId: String? = nil, main: Bool? = nil) {
             self.subnetId = subnetId
@@ -14345,11 +13621,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more instance IDs.
-        public var instanceIds: [String] = []
+        public let instanceIds: [String]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(instanceIds: [String], dryRun: Bool? = nil) {
             self.instanceIds = instanceIds
@@ -14367,18 +13641,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more export task IDs.
-        public var exportTaskIds: [String]? = nil
-
-        public init() {}
+        public let exportTaskIds: [String]?
 
         public init(exportTaskIds: [String]? = nil) {
             self.exportTaskIds = exportTaskIds
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let exportTaskIds = dictionary["ExportTaskIds"] as? [String] {
-                self.exportTaskIds = exportTaskIds
-            }
+            self.exportTaskIds = dictionary["ExportTaskIds"] as? [String]
         }
     }
 
@@ -14386,11 +13656,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The price per instance.
-        public var price: Double? = nil
+        public let price: Double?
         /// The number of reservations available for the price.
-        public var count: Int32? = nil
-
-        public init() {}
+        public let count: Int32?
 
         public init(price: Double? = nil, count: Int32? = nil) {
             self.price = price
@@ -14407,11 +13675,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the instance.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The data that comprises the image.
-        public var imageData: String? = nil
-
-        public init() {}
+        public let imageData: String?
 
         public init(instanceId: String? = nil, imageData: String? = nil) {
             self.instanceId = instanceId
@@ -14428,17 +13694,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more Reserved Instance IDs. Default: Describes all your Reserved Instances, or only those otherwise specified.
-        public var reservedInstancesIds: [String]? = nil
+        public let reservedInstancesIds: [String]?
         /// One or more filters.    availability-zone - The Availability Zone where the Reserved Instance can be used.    duration - The duration of the Reserved Instance (one year or three years), in seconds (31536000 | 94608000).    end - The time when the Reserved Instance expires (for example, 2015-08-07T11:54:42.000Z).    fixed-price - The purchase price of the Reserved Instance (for example, 9800.0).    instance-type - The instance type that is covered by the reservation.    scope - The scope of the Reserved Instance (Region or Availability Zone).    product-description - The Reserved Instance product platform description. Instances that include (Amazon VPC) in the product platform description will only be displayed to EC2-Classic account holders and are for use with Amazon VPC (Linux/UNIX | Linux/UNIX (Amazon VPC) | SUSE Linux | SUSE Linux (Amazon VPC) | Red Hat Enterprise Linux | Red Hat Enterprise Linux (Amazon VPC) | Windows | Windows (Amazon VPC) | Windows with SQL Server Standard | Windows with SQL Server Standard (Amazon VPC) | Windows with SQL Server Web | Windows with SQL Server Web (Amazon VPC) | Windows with SQL Server Enterprise | Windows with SQL Server Enterprise (Amazon VPC)).    reserved-instances-id - The ID of the Reserved Instance.    start - The time at which the Reserved Instance purchase request was placed (for example, 2014-08-07T11:54:42.000Z).    state - The state of the Reserved Instance (payment-pending | active | payment-failed | retired).    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    usage-price - The usage price of the Reserved Instance, per hour (for example, 0.84).  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The Reserved Instance offering type. If you are using tools that predate the 2011-11-01 API version, you only have access to the Medium Utilization Reserved Instance offering type.
-        public var offeringType: String? = nil
+        public let offeringType: String?
         /// Describes whether the Reserved Instance is Standard or Convertible.
-        public var offeringClass: String? = nil
-
-        public init() {}
+        public let offeringClass: String?
 
         public init(reservedInstancesIds: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil, offeringType: String? = nil, offeringClass: String? = nil) {
             self.reservedInstancesIds = reservedInstancesIds
@@ -14449,11 +13713,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let reservedInstancesIds = dictionary["ReservedInstancesIds"] as? [String] {
-                self.reservedInstancesIds = reservedInstancesIds
-            }
+            self.reservedInstancesIds = dictionary["ReservedInstancesIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
             self.offeringType = dictionary["OfferingType"] as? String
@@ -14465,17 +13729,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The affinity setting for the instance on the Dedicated Host. This parameter is not supported for the ImportInstance command.
-        public var affinity: String? = nil
+        public let affinity: String?
         /// The name of the placement group the instance is in (for cluster compute instances).
-        public var groupName: String? = nil
+        public let groupName: String?
         /// The ID of the Dedicated Host on which the instance resides. This parameter is not supported for the ImportInstance command.
-        public var hostId: String? = nil
+        public let hostId: String?
         /// The Availability Zone of the instance.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for the ImportInstance command.
-        public var tenancy: String? = nil
-
-        public init() {}
+        public let tenancy: String?
 
         public init(affinity: String? = nil, groupName: String? = nil, hostId: String? = nil, availabilityZone: String? = nil, tenancy: String? = nil) {
             self.affinity = affinity
@@ -14498,11 +13760,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the stale security groups.
-        public var staleSecurityGroupSet: [StaleSecurityGroup]? = nil
+        public let staleSecurityGroupSet: [StaleSecurityGroup]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(staleSecurityGroupSet: [StaleSecurityGroup]? = nil, nextToken: String? = nil) {
             self.staleSecurityGroupSet = staleSecurityGroupSet
@@ -14512,6 +13772,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let staleSecurityGroupSet = dictionary["StaleSecurityGroupSet"] as? [[String: Any]] {
                 self.staleSecurityGroupSet = try staleSecurityGroupSet.map({ try StaleSecurityGroup(dictionary: $0) })
+            } else { 
+                self.staleSecurityGroupSet = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -14521,31 +13783,29 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The index of the device for the network interface attachment.
-        public var deviceIndex: Int32? = nil
+        public let deviceIndex: Int32?
         /// The ID of the subnet.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// The ID of the network interface.
-        public var networkInterfaceId: String? = nil
+        public let networkInterfaceId: String?
         /// The IPv4 address of the network interface within the subnet.
-        public var privateIpAddress: String? = nil
+        public let privateIpAddress: String?
         /// The private IPv4 addresses.
-        public var privateIpAddressConfigs: [ScheduledInstancesPrivateIpAddressConfig]? = nil
+        public let privateIpAddressConfigs: [ScheduledInstancesPrivateIpAddressConfig]?
         /// The number of secondary private IPv4 addresses.
-        public var secondaryPrivateIpAddressCount: Int32? = nil
+        public let secondaryPrivateIpAddressCount: Int32?
         /// The description.
-        public var description: String? = nil
+        public let description: String?
         /// The number of IPv6 addresses to assign to the network interface. The IPv6 addresses are automatically selected from the subnet range.
-        public var ipv6AddressCount: Int32? = nil
+        public let ipv6AddressCount: Int32?
         /// One or more specific IPv6 addresses from the subnet range.
-        public var ipv6Addresses: [ScheduledInstancesIpv6Address]? = nil
+        public let ipv6Addresses: [ScheduledInstancesIpv6Address]?
         /// Indicates whether to delete the interface when the instance is terminated.
-        public var deleteOnTermination: Bool? = nil
+        public let deleteOnTermination: Bool?
         /// The IDs of one or more security groups.
-        public var groups: [String]? = nil
+        public let groups: [String]?
         /// Indicates whether to assign a public IPv4 address to instances launched in a VPC. The public IPv4 address can only be assigned to a network interface for eth0, and can only be assigned to a new network interface, not an existing one. You cannot specify more than one network interface in the request. If launching into a default subnet, the default value is true.
-        public var associatePublicIpAddress: Bool? = nil
-
-        public init() {}
+        public let associatePublicIpAddress: Bool?
 
         public init(deviceIndex: Int32? = nil, subnetId: String? = nil, networkInterfaceId: String? = nil, privateIpAddress: String? = nil, privateIpAddressConfigs: [ScheduledInstancesPrivateIpAddressConfig]? = nil, secondaryPrivateIpAddressCount: Int32? = nil, description: String? = nil, ipv6AddressCount: Int32? = nil, ipv6Addresses: [ScheduledInstancesIpv6Address]? = nil, deleteOnTermination: Bool? = nil, groups: [String]? = nil, associatePublicIpAddress: Bool? = nil) {
             self.deviceIndex = deviceIndex
@@ -14569,17 +13829,19 @@ extension Ec2 {
             self.privateIpAddress = dictionary["PrivateIpAddress"] as? String
             if let privateIpAddressConfigs = dictionary["PrivateIpAddressConfigs"] as? [[String: Any]] {
                 self.privateIpAddressConfigs = try privateIpAddressConfigs.map({ try ScheduledInstancesPrivateIpAddressConfig(dictionary: $0) })
+            } else { 
+                self.privateIpAddressConfigs = nil
             }
             self.secondaryPrivateIpAddressCount = dictionary["SecondaryPrivateIpAddressCount"] as? Int32
             self.description = dictionary["Description"] as? String
             self.ipv6AddressCount = dictionary["Ipv6AddressCount"] as? Int32
             if let ipv6Addresses = dictionary["Ipv6Addresses"] as? [[String: Any]] {
                 self.ipv6Addresses = try ipv6Addresses.map({ try ScheduledInstancesIpv6Address(dictionary: $0) })
+            } else { 
+                self.ipv6Addresses = nil
             }
             self.deleteOnTermination = dictionary["DeleteOnTermination"] as? Bool
-            if let groups = dictionary["Groups"] as? [String] {
-                self.groups = groups
-            }
+            self.groups = dictionary["Groups"] as? [String]
             self.associatePublicIpAddress = dictionary["AssociatePublicIpAddress"] as? Bool
         }
     }
@@ -14588,19 +13850,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of an AWS account. For a referenced security group in another VPC, the account ID of the referenced security group is returned. [EC2-Classic] Required when adding or removing rules that reference a security group in another AWS account.
-        public var userId: String? = nil
+        public let userId: String?
         /// The status of a VPC peering connection, if applicable.
-        public var peeringStatus: String? = nil
+        public let peeringStatus: String?
         /// The ID of the VPC for the referenced security group, if applicable.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The name of the security group. In a request, use this parameter for a security group in EC2-Classic or a default VPC only. For a security group in a nondefault VPC, use the security group ID.
-        public var groupName: String? = nil
+        public let groupName: String?
         /// The ID of the security group.
-        public var groupId: String? = nil
+        public let groupId: String?
         /// The ID of the VPC peering connection, if applicable.
-        public var vpcPeeringConnectionId: String? = nil
-
-        public init() {}
+        public let vpcPeeringConnectionId: String?
 
         public init(userId: String? = nil, peeringStatus: String? = nil, vpcId: String? = nil, groupName: String? = nil, groupId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.userId = userId
@@ -14625,11 +13885,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// One or more conversion task IDs.
-        public var conversionTaskIds: [String]? = nil
-
-        public init() {}
+        public let conversionTaskIds: [String]?
 
         public init(dryRun: Bool? = nil, conversionTaskIds: [String]? = nil) {
             self.dryRun = dryRun
@@ -14638,9 +13896,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let conversionTaskIds = dictionary["ConversionTaskIds"] as? [String] {
-                self.conversionTaskIds = conversionTaskIds
-            }
+            self.conversionTaskIds = dictionary["ConversionTaskIds"] as? [String]
         }
     }
 
@@ -14648,13 +13904,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specify true to indicate that network interfaces created in the specified subnet should be assigned a public IPv4 address. This includes a network interface that's created when launching an instance into the subnet (the instance therefore receives a public IPv4 address).
-        public var mapPublicIpOnLaunch: AttributeBooleanValue? = nil
+        public let mapPublicIpOnLaunch: AttributeBooleanValue?
         /// The ID of the subnet.
-        public var subnetId: String = ""
+        public let subnetId: String
         /// Specify true to indicate that network interfaces created in the specified subnet should be assigned an IPv6 address. This includes a network interface that's created when launching an instance into the subnet (the instance therefore receives an IPv6 address).  If you enable the IPv6 addressing feature for your subnet, your network interface or instance only receives an IPv6 address if it's created using version 2016-11-15 or later of the Amazon EC2 API.
-        public var assignIpv6AddressOnCreation: AttributeBooleanValue? = nil
-
-        public init() {}
+        public let assignIpv6AddressOnCreation: AttributeBooleanValue?
 
         public init(mapPublicIpOnLaunch: AttributeBooleanValue? = nil, subnetId: String, assignIpv6AddressOnCreation: AttributeBooleanValue? = nil) {
             self.mapPublicIpOnLaunch = mapPublicIpOnLaunch
@@ -14663,10 +13917,10 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let mapPublicIpOnLaunch = dictionary["MapPublicIpOnLaunch"] as? [String: Any] { self.mapPublicIpOnLaunch = try Ec2.AttributeBooleanValue(dictionary: mapPublicIpOnLaunch) }
+            if let mapPublicIpOnLaunch = dictionary["MapPublicIpOnLaunch"] as? [String: Any] { self.mapPublicIpOnLaunch = try Ec2.AttributeBooleanValue(dictionary: mapPublicIpOnLaunch) } else { self.mapPublicIpOnLaunch = nil }
             guard let subnetId = dictionary["SubnetId"] as? String else { throw InitializableError.missingRequiredParam("SubnetId") }
             self.subnetId = subnetId
-            if let assignIpv6AddressOnCreation = dictionary["AssignIpv6AddressOnCreation"] as? [String: Any] { self.assignIpv6AddressOnCreation = try Ec2.AttributeBooleanValue(dictionary: assignIpv6AddressOnCreation) }
+            if let assignIpv6AddressOnCreation = dictionary["AssignIpv6AddressOnCreation"] as? [String: Any] { self.assignIpv6AddressOnCreation = try Ec2.AttributeBooleanValue(dictionary: assignIpv6AddressOnCreation) } else { self.assignIpv6AddressOnCreation = nil }
         }
     }
 
@@ -14674,13 +13928,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the placement group.
-        public var state: String? = nil
+        public let state: String?
         /// The placement strategy.
-        public var strategy: String? = nil
+        public let strategy: String?
         /// The name of the placement group.
-        public var groupName: String? = nil
-
-        public init() {}
+        public let groupName: String?
 
         public init(state: String? = nil, strategy: String? = nil, groupName: String? = nil) {
             self.state = state
@@ -14699,9 +13951,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// [EC2-VPC] The ID that represents the association of the Elastic IP address with an instance.
-        public var associationId: String? = nil
-
-        public init() {}
+        public let associationId: String?
 
         public init(associationId: String? = nil) {
             self.associationId = associationId
@@ -14716,17 +13966,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the requester that launched the instances on your behalf (for example, AWS Management Console or Auto Scaling).
-        public var requesterId: String? = nil
+        public let requesterId: String?
         /// One or more instances.
-        public var instances: [Instance]? = nil
+        public let instances: [Instance]?
         /// The ID of the reservation.
-        public var reservationId: String? = nil
+        public let reservationId: String?
         /// The ID of the AWS account that owns the reservation.
-        public var ownerId: String? = nil
+        public let ownerId: String?
         /// [EC2-Classic only] One or more security groups.
-        public var groups: [GroupIdentifier]? = nil
-
-        public init() {}
+        public let groups: [GroupIdentifier]?
 
         public init(requesterId: String? = nil, instances: [Instance]? = nil, reservationId: String? = nil, ownerId: String? = nil, groups: [GroupIdentifier]? = nil) {
             self.requesterId = requesterId
@@ -14740,11 +13988,15 @@ extension Ec2 {
             self.requesterId = dictionary["RequesterId"] as? String
             if let instances = dictionary["Instances"] as? [[String: Any]] {
                 self.instances = try instances.map({ try Instance(dictionary: $0) })
+            } else { 
+                self.instances = nil
             }
             self.reservationId = dictionary["ReservationId"] as? String
             self.ownerId = dictionary["OwnerId"] as? String
             if let groups = dictionary["Groups"] as? [[String: Any]] {
                 self.groups = try groups.map({ try GroupIdentifier(dictionary: $0) })
+            } else { 
+                self.groups = nil
             }
         }
     }
@@ -14753,33 +14005,31 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of units to request. You can choose to set the target capacity in terms of instances or a performance characteristic that is important to your application workload, such as vCPUs, memory, or I/O.
-        public var targetCapacity: Int32 = 0
+        public let targetCapacity: Int32
         /// A unique, case-sensitive identifier you provide to ensure idempotency of your listings. This helps avoid duplicate listings. For more information, see Ensuring Idempotency.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// Grants the Spot fleet permission to terminate Spot instances on your behalf when you cancel its Spot fleet request using CancelSpotFleetRequests or when the Spot fleet request expires, if you set terminateInstancesWithExpiration.
-        public var iamFleetRole: String = ""
+        public let iamFleetRole: String
         /// The bid price per unit hour.
-        public var spotPrice: String = ""
+        public let spotPrice: String
         /// The end date and time of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). At this point, no new Spot instance requests are placed or enabled to fulfill the request.
-        public var validUntil: Date? = nil
+        public let validUntil: Date?
         /// Indicates how to allocate the target capacity across the Spot pools specified by the Spot fleet request. The default is lowestPrice.
-        public var allocationStrategy: String? = nil
+        public let allocationStrategy: String?
         /// Indicates whether running Spot instances should be terminated if the target capacity of the Spot fleet request is decreased below the current size of the Spot fleet.
-        public var excessCapacityTerminationPolicy: String? = nil
+        public let excessCapacityTerminationPolicy: String?
         /// Information about the launch specifications for the Spot fleet request.
-        public var launchSpecifications: [SpotFleetLaunchSpecification] = []
+        public let launchSpecifications: [SpotFleetLaunchSpecification]
         /// The start date and time of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). The default is to start fulfilling the request immediately.
-        public var validFrom: Date? = nil
+        public let validFrom: Date?
         /// Indicates whether running Spot instances should be terminated when the Spot fleet request expires.
-        public var terminateInstancesWithExpiration: Bool? = nil
+        public let terminateInstancesWithExpiration: Bool?
         /// Indicates whether Spot fleet should replace unhealthy instances.
-        public var replaceUnhealthyInstances: Bool? = nil
+        public let replaceUnhealthyInstances: Bool?
         /// The number of units fulfilled by this request compared to the set target capacity.
-        public var fulfilledCapacity: Double? = nil
+        public let fulfilledCapacity: Double?
         /// The type of request. Indicates whether the fleet will only request the target capacity or also attempt to maintain it. When you request a certain target capacity, the fleet will only place the required bids. It will not attempt to replenish Spot instances if capacity is diminished, nor will it submit bids in alternative Spot pools if capacity is not available. When you want to maintain a certain target capacity, fleet will place the required bids to meet this target capacity. It will also automatically replenish any interrupted instances. Default: maintain.
-        public var type: String? = nil
-
-        public init() {}
+        public let type: String?
 
         public init(targetCapacity: Int32, clientToken: String? = nil, iamFleetRole: String, spotPrice: String, validUntil: Date? = nil, allocationStrategy: String? = nil, excessCapacityTerminationPolicy: String? = nil, launchSpecifications: [SpotFleetLaunchSpecification], validFrom: Date? = nil, terminateInstancesWithExpiration: Bool? = nil, replaceUnhealthyInstances: Bool? = nil, fulfilledCapacity: Double? = nil, type: String? = nil) {
             self.targetCapacity = targetCapacity
@@ -14822,11 +14072,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the Internet gateway.
-        public var internetGatewayId: String = ""
+        public let internetGatewayId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(internetGatewayId: String, dryRun: Bool? = nil) {
             self.internetGatewayId = internetGatewayId
@@ -14844,15 +14092,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Suppresses the specified device included in the block device mapping of the AMI.
-        public var noDevice: String? = nil
+        public let noDevice: String?
         /// The virtual device name (ephemeralN). Instance store volumes are numbered starting from 0. An instance type with two available instance store volumes can specify mappings for ephemeral0 and ephemeral1.The number of available instance store volumes depends on the instance type. After you connect to the instance, you must mount the volume. Constraints: For M3 instances, you must specify instance store volumes in the block device mapping for the instance. When you launch an M3 instance, we ignore any instance store volumes specified in the block device mapping for the AMI.
-        public var virtualName: String? = nil
+        public let virtualName: String?
         /// The device name exposed to the instance (for example, /dev/sdh or xvdh).
-        public var deviceName: String? = nil
+        public let deviceName: String?
         /// Parameters used to set up EBS volumes automatically when the instance is launched.
-        public var ebs: ScheduledInstancesEbs? = nil
-
-        public init() {}
+        public let ebs: ScheduledInstancesEbs?
 
         public init(noDevice: String? = nil, virtualName: String? = nil, deviceName: String? = nil, ebs: ScheduledInstancesEbs? = nil) {
             self.noDevice = noDevice
@@ -14865,7 +14111,7 @@ extension Ec2 {
             self.noDevice = dictionary["NoDevice"] as? String
             self.virtualName = dictionary["VirtualName"] as? String
             self.deviceName = dictionary["DeviceName"] as? String
-            if let ebs = dictionary["Ebs"] as? [String: Any] { self.ebs = try Ec2.ScheduledInstancesEbs(dictionary: ebs) }
+            if let ebs = dictionary["Ebs"] as? [String: Any] { self.ebs = try Ec2.ScheduledInstancesEbs(dictionary: ebs) } else { self.ebs = nil }
         }
     }
 
@@ -14873,11 +14119,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The reason code for the state change.
-        public var code: String? = nil
+        public let code: String?
         /// The message for the state change.    Server.InsufficientInstanceCapacity: There was insufficient instance capacity to satisfy the launch request.    Server.InternalError: An internal error occurred during instance launch, resulting in termination.    Server.ScheduledStop: The instance was stopped due to a scheduled retirement.    Server.SpotInstanceTermination: A Spot instance was terminated due to an increase in the market price.    Client.InternalError: A client error caused the instance to terminate on launch.    Client.InstanceInitiatedShutdown: The instance was shut down using the shutdown -h command from the instance.    Client.UserInitiatedShutdown: The instance was shut down using the Amazon EC2 API.    Client.VolumeLimitExceeded: The limit on the number of EBS volumes or total storage was exceeded. Decrease usage or request an increase in your limits.    Client.InvalidSnapshot.NotFound: The specified snapshot was not found.  
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
@@ -14894,13 +14138,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// One or more tags to delete. If you omit the value parameter, we delete the tag regardless of its value. If you specify this parameter with an empty string as the value, we delete the key only if its value is an empty string.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The ID of the resource. For example, ami-1a2b3c4d. You can specify more than one resource ID.
-        public var resources: [String] = []
-
-        public init() {}
+        public let resources: [String]
 
         public init(dryRun: Bool? = nil, tags: [Tag]? = nil, resources: [String]) {
             self.dryRun = dryRun
@@ -14912,6 +14154,8 @@ extension Ec2 {
             self.dryRun = dictionary["DryRun"] as? Bool
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let resources = dictionary["Resources"] as? [String] else { throw InitializableError.missingRequiredParam("Resources") }
             self.resources = resources
@@ -14922,13 +14166,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// One or more filters.    availability-zone-group - The Availability Zone group.    create-time - The time stamp when the Spot instance request was created.    fault-code - The fault code related to the request.    fault-message - The fault message related to the request.    instance-id - The ID of the instance that fulfilled the request.    launch-group - The Spot instance launch group.    launch.block-device-mapping.delete-on-termination - Indicates whether the Amazon EBS volume is deleted on instance termination.    launch.block-device-mapping.device-name - The device name for the Amazon EBS volume (for example, /dev/sdh).    launch.block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    launch.block-device-mapping.volume-size - The size of the Amazon EBS volume, in GiB.    launch.block-device-mapping.volume-type - The type of the Amazon EBS volume: gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1for Cold HDD, or standard for Magnetic.    launch.group-id - The security group for the instance.    launch.image-id - The ID of the AMI.    launch.instance-type - The type of instance (for example, m3.medium).    launch.kernel-id - The kernel ID.    launch.key-name - The name of the key pair the instance launched with.    launch.monitoring-enabled - Whether monitoring is enabled for the Spot instance.    launch.ramdisk-id - The RAM disk ID.    network-interface.network-interface-id - The ID of the network interface.    network-interface.device-index - The index of the device for the network interface attachment on the instance.    network-interface.subnet-id - The ID of the subnet for the instance.    network-interface.description - A description of the network interface.    network-interface.private-ip-address - The primary private IP address of the network interface.    network-interface.delete-on-termination - Indicates whether the network interface is deleted when the instance is terminated.    network-interface.group-id - The ID of the security group associated with the network interface.    network-interface.group-name - The name of the security group associated with the network interface.    network-interface.addresses.primary - Indicates whether the IP address is the primary private IP address.    product-description - The product description associated with the instance (Linux/UNIX | Windows).    spot-instance-request-id - The Spot instance request ID.    spot-price - The maximum hourly price for any Spot instance launched to fulfill the request.    state - The state of the Spot instance request (open | active | closed | cancelled | failed). Spot bid status information can help you track your Amazon EC2 Spot instance requests. For more information, see Spot Bid Status in the Amazon Elastic Compute Cloud User Guide.    status-code - The short code describing the most recent evaluation of your Spot instance request.    status-message - The message explaining the status of the Spot instance request.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    type - The type of Spot instance request (one-time | persistent).    launched-availability-zone - The Availability Zone in which the bid is launched.    valid-from - The start date of the request.    valid-until - The end date of the request.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// One or more Spot instance request IDs.
-        public var spotInstanceRequestIds: [String]? = nil
-
-        public init() {}
+        public let spotInstanceRequestIds: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, spotInstanceRequestIds: [String]? = nil) {
             self.dryRun = dryRun
@@ -14940,10 +14182,10 @@ extension Ec2 {
             self.dryRun = dictionary["DryRun"] as? Bool
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
-            if let spotInstanceRequestIds = dictionary["SpotInstanceRequestIds"] as? [String] {
-                self.spotInstanceRequestIds = spotInstanceRequestIds
-            }
+            self.spotInstanceRequestIds = dictionary["SpotInstanceRequestIds"] as? [String]
         }
     }
 
@@ -14951,15 +14193,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of a ClassicLink-enabled VPC.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// The ID of an EC2-Classic instance to link to the ClassicLink-enabled VPC.
-        public var instanceId: String = ""
+        public let instanceId: String
         /// The ID of one or more of the VPC's security groups. You cannot specify security groups from a different VPC.
-        public var groups: [String] = []
-
-        public init() {}
+        public let groups: [String]
 
         public init(dryRun: Bool? = nil, vpcId: String, instanceId: String, groups: [String]) {
             self.dryRun = dryRun
@@ -14983,11 +14223,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the Dedicated Hosts that were successfully released.
-        public var successful: [String]? = nil
+        public let successful: [String]?
         /// The IDs of the Dedicated Hosts that could not be released, including an error message.
-        public var unsuccessful: [UnsuccessfulItem]? = nil
-
-        public init() {}
+        public let unsuccessful: [UnsuccessfulItem]?
 
         public init(successful: [String]? = nil, unsuccessful: [UnsuccessfulItem]? = nil) {
             self.successful = successful
@@ -14995,11 +14233,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let successful = dictionary["Successful"] as? [String] {
-                self.successful = successful
-            }
+            self.successful = dictionary["Successful"] as? [String]
             if let unsuccessful = dictionary["Unsuccessful"] as? [[String: Any]] {
                 self.unsuccessful = try unsuccessful.map({ try UnsuccessfulItem(dictionary: $0) })
+            } else { 
+                self.unsuccessful = nil
             }
         }
     }
@@ -15008,15 +14246,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The image is written to a single object in the S3 bucket at the S3 key s3prefix + exportTaskId + '.' + diskImageFormat.
-        public var s3Prefix: String? = nil
+        public let s3Prefix: String?
         /// The container format used to combine disk images with metadata (such as OVF). If absent, only the disk image is exported.
-        public var containerFormat: String? = nil
+        public let containerFormat: String?
         /// The format for the exported image.
-        public var diskImageFormat: String? = nil
+        public let diskImageFormat: String?
         /// The S3 bucket for the destination image. The destination bucket must exist and grant WRITE and READ_ACP permissions to the AWS account vm-import-export@amazon.com.
-        public var s3Bucket: String? = nil
-
-        public init() {}
+        public let s3Bucket: String?
 
         public init(s3Prefix: String? = nil, containerFormat: String? = nil, diskImageFormat: String? = nil, s3Bucket: String? = nil) {
             self.s3Prefix = s3Prefix
@@ -15037,11 +14273,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The error code.
-        public var code: String = ""
+        public let code: String
         /// The description for the error code.
-        public var message: String = ""
-
-        public init() {}
+        public let message: String
 
         public init(code: String, message: String) {
             self.code = code
@@ -15060,13 +14294,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// One or more filters.    fingerprint - The fingerprint of the key pair.    key-name - The name of the key pair.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// One or more key pair names. Default: Describes all your key pairs.
-        public var keyNames: [String]? = nil
-
-        public init() {}
+        public let keyNames: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, keyNames: [String]? = nil) {
             self.dryRun = dryRun
@@ -15078,10 +14310,10 @@ extension Ec2 {
             self.dryRun = dictionary["DryRun"] as? Bool
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
-            if let keyNames = dictionary["KeyNames"] as? [String] {
-                self.keyNames = keyNames
-            }
+            self.keyNames = dictionary["KeyNames"] as? [String]
         }
     }
 
@@ -15089,11 +14321,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of Reserved Instances offerings.
-        public var reservedInstancesOfferings: [ReservedInstancesOffering]? = nil
+        public let reservedInstancesOfferings: [ReservedInstancesOffering]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(reservedInstancesOfferings: [ReservedInstancesOffering]? = nil, nextToken: String? = nil) {
             self.reservedInstancesOfferings = reservedInstancesOfferings
@@ -15103,6 +14333,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let reservedInstancesOfferings = dictionary["ReservedInstancesOfferings"] as? [[String: Any]] {
                 self.reservedInstancesOfferings = try reservedInstancesOfferings.map({ try ReservedInstancesOffering(dictionary: $0) })
+            } else { 
+                self.reservedInstancesOfferings = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -15112,13 +14344,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The CIDR block associated with the local subnet of the customer data center.
-        public var destinationCidrBlock: String? = nil
+        public let destinationCidrBlock: String?
         /// The current state of the static route.
-        public var state: String? = nil
+        public let state: String?
         /// Indicates how the routes were provided.
-        public var source: String? = nil
-
-        public init() {}
+        public let source: String?
 
         public init(destinationCidrBlock: String? = nil, state: String? = nil, source: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
@@ -15137,23 +14367,21 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A description for the EBS snapshot.
-        public var description: String? = nil
+        public let description: String?
         /// The full ARN of the AWS Key Management Service (AWS KMS) CMK to use when creating the snapshot copy. This parameter is only required if you want to use a non-default CMK; if this parameter is not specified, the default CMK for EBS is used. The ARN contains the arn:aws:kms namespace, followed by the region of the CMK, the AWS account ID of the CMK owner, the key namespace, and then the CMK ID. For example, arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef. The specified CMK must exist in the region that the snapshot is being copied to. If a KmsKeyId is specified, the Encrypted flag must also be set.
-        public var kmsKeyId: String? = nil
+        public let kmsKeyId: String?
         /// The ID of the region that contains the snapshot to be copied.
-        public var sourceRegion: String = ""
+        public let sourceRegion: String
         /// Specifies whether the destination snapshot should be encrypted. You can encrypt a copy of an unencrypted snapshot using this flag, but you cannot use it to create an unencrypted copy from an encrypted snapshot. Your default CMK for EBS is used unless a non-default AWS Key Management Service (AWS KMS) CMK is specified with KmsKeyId. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
-        public var encrypted: Bool? = nil
+        public let encrypted: Bool?
         /// The destination region to use in the PresignedUrl parameter of a snapshot copy operation. This parameter is only valid for specifying the destination region in a PresignedUrl parameter, where it is required.   CopySnapshot sends the snapshot copy to the regional endpoint that you send the HTTP request to, such as ec2.us-east-1.amazonaws.com (in the AWS CLI, this is specified with the --region parameter or the default region in your AWS configuration file). 
-        public var destinationRegion: String? = nil
+        public let destinationRegion: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The pre-signed URL that facilitates copying an encrypted snapshot. This parameter is only required when copying an encrypted snapshot with the Amazon EC2 Query API; it is available as an optional parameter in all other cases. The PresignedUrl should use the snapshot source endpoint, the CopySnapshot action, and include the SourceRegion, SourceSnapshotId, and DestinationRegion parameters. The PresignedUrl must be signed using AWS Signature Version 4. Because EBS snapshots are stored in Amazon S3, the signing algorithm for this parameter uses the same logic that is described in Authenticating Requests by Using Query Parameters (AWS Signature Version 4) in the Amazon Simple Storage Service API Reference. An invalid or improperly signed PresignedUrl will cause the copy operation to fail asynchronously, and the snapshot will move to an error state.
-        public var presignedUrl: String? = nil
+        public let presignedUrl: String?
         /// The ID of the EBS snapshot to copy.
-        public var sourceSnapshotId: String = ""
-
-        public init() {}
+        public let sourceSnapshotId: String
 
         public init(description: String? = nil, kmsKeyId: String? = nil, sourceRegion: String, encrypted: Bool? = nil, destinationRegion: String? = nil, dryRun: Bool? = nil, presignedUrl: String? = nil, sourceSnapshotId: String) {
             self.description = description
@@ -15184,9 +14412,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more placement groups.
-        public var placementGroups: [PlacementGroup]? = nil
-
-        public init() {}
+        public let placementGroups: [PlacementGroup]?
 
         public init(placementGroups: [PlacementGroup]? = nil) {
             self.placementGroups = placementGroups
@@ -15195,6 +14421,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let placementGroups = dictionary["PlacementGroups"] as? [[String: Any]] {
                 self.placementGroups = try placementGroups.map({ try PlacementGroup(dictionary: $0) })
+            } else { 
+                self.placementGroups = nil
             }
         }
     }
@@ -15203,17 +14431,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device name.
-        public var device: String? = nil
+        public let device: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the instance.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The ID of the volume.
-        public var volumeId: String = ""
+        public let volumeId: String
         /// Forces detachment if the previous detachment attempt did not occur cleanly (for example, logging into an instance, unmounting the volume, and detaching normally). This option can lead to data loss or a corrupted file system. Use this option only as a last resort to detach a volume from a failed instance. The instance won't have an opportunity to flush file system caches or file system metadata. If you use this option, you must perform file system check and repair procedures.
-        public var force: Bool? = nil
-
-        public init() {}
+        public let force: Bool?
 
         public init(device: String? = nil, dryRun: Bool? = nil, instanceId: String? = nil, volumeId: String, force: Bool? = nil) {
             self.device = device
@@ -15237,11 +14463,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the egress-only Internet gateway.
-        public var egressOnlyInternetGatewayId: String? = nil
+        public let egressOnlyInternetGatewayId: String?
         /// Information about the attachment of the egress-only Internet gateway.
-        public var attachments: [InternetGatewayAttachment]? = nil
-
-        public init() {}
+        public let attachments: [InternetGatewayAttachment]?
 
         public init(egressOnlyInternetGatewayId: String? = nil, attachments: [InternetGatewayAttachment]? = nil) {
             self.egressOnlyInternetGatewayId = egressOnlyInternetGatewayId
@@ -15252,6 +14476,8 @@ extension Ec2 {
             self.egressOnlyInternetGatewayId = dictionary["EgressOnlyInternetGatewayId"] as? String
             if let attachments = dictionary["Attachments"] as? [[String: Any]] {
                 self.attachments = try attachments.map({ try InternetGatewayAttachment(dictionary: $0) })
+            } else { 
+                self.attachments = nil
             }
         }
     }
@@ -15260,11 +14486,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the virtual private gateway.
-        public var gatewayId: String = ""
+        public let gatewayId: String
         /// The ID of the route table.
-        public var routeTableId: String = ""
-
-        public init() {}
+        public let routeTableId: String
 
         public init(gatewayId: String, routeTableId: String) {
             self.gatewayId = gatewayId
@@ -15283,13 +14507,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the Convertible Reserved Instances to exchange.
-        public var reservedInstanceIds: [String] = []
+        public let reservedInstanceIds: [String]
         /// The configuration requirements of the Convertible Reserved Instances to exchange for your current Convertible Reserved Instances.
-        public var targetConfigurations: [TargetConfigurationRequest]? = nil
+        public let targetConfigurations: [TargetConfigurationRequest]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(reservedInstanceIds: [String], targetConfigurations: [TargetConfigurationRequest]? = nil, dryRun: Bool? = nil) {
             self.reservedInstanceIds = reservedInstanceIds
@@ -15302,6 +14524,8 @@ extension Ec2 {
             self.reservedInstanceIds = reservedInstanceIds
             if let targetConfigurations = dictionary["TargetConfigurations"] as? [[String: Any]] {
                 self.targetConfigurations = try targetConfigurations.map({ try TargetConfigurationRequest(dictionary: $0) })
+            } else { 
+                self.targetConfigurations = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
         }
@@ -15311,41 +14535,39 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more block device mapping entries.
-        public var blockDeviceMappings: [BlockDeviceMapping]? = nil
+        public let blockDeviceMappings: [BlockDeviceMapping]?
         /// The ID of the subnet in which to launch the instances. To specify multiple subnets, separate them using commas; for example, "subnet-a61dafcf, subnet-65ea5f08".
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// The user data to make available to the instances. If you are using an AWS SDK or command line tool, Base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide Base64-encoded text.
-        public var userData: String? = nil
+        public let userData: String?
         /// Indicates whether the instances are optimized for EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS Optimized instance. Default: false 
-        public var ebsOptimized: Bool? = nil
+        public let ebsOptimized: Bool?
         /// The ID of the kernel.
-        public var kernelId: String? = nil
+        public let kernelId: String?
         /// The bid price per unit hour for the specified instance type. If this value is not specified, the default is the Spot bid price specified for the fleet. To determine the bid price per unit hour, divide the Spot bid price by the value of WeightedCapacity.
-        public var spotPrice: String? = nil
+        public let spotPrice: String?
         /// Enable or disable monitoring for the instances.
-        public var monitoring: SpotFleetMonitoring? = nil
+        public let monitoring: SpotFleetMonitoring?
         /// The instance type. Note that T2 and HS1 instance types are not supported.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The number of units provided by the specified instance type. These are the same units that you chose to set the target capacity in terms (instances or a performance characteristic such as vCPUs, memory, or I/O). If the target capacity divided by this value is not a whole number, we round the number of instances to the next whole number. If this value is not specified, the default is 1.
-        public var weightedCapacity: Double? = nil
+        public let weightedCapacity: Double?
         /// One or more security groups. When requesting instances in a VPC, you must specify the IDs of the security groups. When requesting instances in EC2-Classic, you can specify the names or the IDs of the security groups.
-        public var securityGroups: [GroupIdentifier]? = nil
+        public let securityGroups: [GroupIdentifier]?
         /// The name of the key pair.
-        public var keyName: String? = nil
+        public let keyName: String?
         /// Deprecated.
-        public var addressingType: String? = nil
+        public let addressingType: String?
         /// The IAM instance profile.
-        public var iamInstanceProfile: IamInstanceProfileSpecification? = nil
+        public let iamInstanceProfile: IamInstanceProfileSpecification?
         /// The ID of the AMI.
-        public var imageId: String? = nil
+        public let imageId: String?
         /// One or more network interfaces. If you specify a network interface, you must specify subnet IDs and security group IDs using the network interface.
-        public var networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil
+        public let networkInterfaces: [InstanceNetworkInterfaceSpecification]?
         /// The placement information.
-        public var placement: SpotPlacement? = nil
+        public let placement: SpotPlacement?
         /// The ID of the RAM disk.
-        public var ramdiskId: String? = nil
-
-        public init() {}
+        public let ramdiskId: String?
 
         public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, subnetId: String? = nil, userData: String? = nil, ebsOptimized: Bool? = nil, kernelId: String? = nil, spotPrice: String? = nil, monitoring: SpotFleetMonitoring? = nil, instanceType: String? = nil, weightedCapacity: Double? = nil, securityGroups: [GroupIdentifier]? = nil, keyName: String? = nil, addressingType: String? = nil, iamInstanceProfile: IamInstanceProfileSpecification? = nil, imageId: String? = nil, networkInterfaces: [InstanceNetworkInterfaceSpecification]? = nil, placement: SpotPlacement? = nil, ramdiskId: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
@@ -15370,26 +14592,32 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
                 self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            } else { 
+                self.blockDeviceMappings = nil
             }
             self.subnetId = dictionary["SubnetId"] as? String
             self.userData = dictionary["UserData"] as? String
             self.ebsOptimized = dictionary["EbsOptimized"] as? Bool
             self.kernelId = dictionary["KernelId"] as? String
             self.spotPrice = dictionary["SpotPrice"] as? String
-            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.SpotFleetMonitoring(dictionary: monitoring) }
+            if let monitoring = dictionary["Monitoring"] as? [String: Any] { self.monitoring = try Ec2.SpotFleetMonitoring(dictionary: monitoring) } else { self.monitoring = nil }
             self.instanceType = dictionary["InstanceType"] as? String
             self.weightedCapacity = dictionary["WeightedCapacity"] as? Double
             if let securityGroups = dictionary["SecurityGroups"] as? [[String: Any]] {
                 self.securityGroups = try securityGroups.map({ try GroupIdentifier(dictionary: $0) })
+            } else { 
+                self.securityGroups = nil
             }
             self.keyName = dictionary["KeyName"] as? String
             self.addressingType = dictionary["AddressingType"] as? String
-            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.IamInstanceProfileSpecification(dictionary: iamInstanceProfile) }
+            if let iamInstanceProfile = dictionary["IamInstanceProfile"] as? [String: Any] { self.iamInstanceProfile = try Ec2.IamInstanceProfileSpecification(dictionary: iamInstanceProfile) } else { self.iamInstanceProfile = nil }
             self.imageId = dictionary["ImageId"] as? String
             if let networkInterfaces = dictionary["NetworkInterfaces"] as? [[String: Any]] {
                 self.networkInterfaces = try networkInterfaces.map({ try InstanceNetworkInterfaceSpecification(dictionary: $0) })
+            } else { 
+                self.networkInterfaces = nil
             }
-            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.SpotPlacement(dictionary: placement) }
+            if let placement = dictionary["Placement"] as? [String: Any] { self.placement = try Ec2.SpotPlacement(dictionary: placement) } else { self.placement = nil }
             self.ramdiskId = dictionary["RamdiskId"] as? String
         }
     }
@@ -15398,11 +14626,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The region service endpoint.
-        public var endpoint: String? = nil
+        public let endpoint: String?
         /// The name of the region.
-        public var regionName: String? = nil
-
-        public init() {}
+        public let regionName: String?
 
         public init(endpoint: String? = nil, regionName: String? = nil) {
             self.endpoint = endpoint
@@ -15419,11 +14645,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The purchase token.
-        public var purchaseToken: String = ""
+        public let purchaseToken: String
         /// The number of instances.
-        public var instanceCount: Int32 = 0
-
-        public init() {}
+        public let instanceCount: Int32
 
         public init(purchaseToken: String, instanceCount: Int32) {
             self.purchaseToken = purchaseToken
@@ -15442,13 +14666,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// The ID of the Internet gateway.
-        public var internetGatewayId: String = ""
+        public let internetGatewayId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(vpcId: String, internetGatewayId: String, dryRun: Bool? = nil) {
             self.vpcId = vpcId
@@ -15469,11 +14691,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the ClassicLink DNS support status of the VPCs.
-        public var vpcs: [ClassicLinkDnsSupport]? = nil
+        public let vpcs: [ClassicLinkDnsSupport]?
         /// The token to use when requesting the next set of items.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(vpcs: [ClassicLinkDnsSupport]? = nil, nextToken: String? = nil) {
             self.vpcs = vpcs
@@ -15483,6 +14703,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let vpcs = dictionary["Vpcs"] as? [[String: Any]] {
                 self.vpcs = try vpcs.map({ try ClassicLinkDnsSupport(dictionary: $0) })
+            } else { 
+                self.vpcs = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -15492,9 +14714,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(dryRun: Bool? = nil) {
             self.dryRun = dryRun
@@ -15509,9 +14729,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether the VPN connection uses static routes only. Static routes must be used for devices that don't support BGP.
-        public var staticRoutesOnly: Bool? = nil
-
-        public init() {}
+        public let staticRoutesOnly: Bool?
 
         public init(staticRoutesOnly: Bool? = nil) {
             self.staticRoutesOnly = staticRoutesOnly
@@ -15526,13 +14744,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The event type.    error - Indicates an error with the Spot fleet request.    fleetRequestChange - Indicates a change in the status or configuration of the Spot fleet request.    instanceChange - Indicates that an instance was launched or terminated.  
-        public var eventType: String = ""
+        public let eventType: String
         /// The date and time of the event, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public var timestamp: Date = Date()
+        public let timestamp: Date
         /// Information about the event.
-        public var eventInformation: EventInformation = EventInformation()
-
-        public init() {}
+        public let eventInformation: EventInformation
 
         public init(eventType: String, timestamp: Date, eventInformation: EventInformation) {
             self.eventType = eventType
@@ -15554,11 +14770,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Information about the configuration of your Spot fleet.
-        public var spotFleetRequestConfigs: [SpotFleetRequestConfig] = []
-
-        public init() {}
+        public let spotFleetRequestConfigs: [SpotFleetRequestConfig]
 
         public init(nextToken: String? = nil, spotFleetRequestConfigs: [SpotFleetRequestConfig]) {
             self.nextToken = nextToken
@@ -15576,13 +14790,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether a local VPC can communicate with a ClassicLink connection in the peer VPC over the VPC peering connection.
-        public var allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil
+        public let allowEgressFromLocalVpcToRemoteClassicLink: Bool?
         /// Indicates whether a local VPC can resolve public DNS hostnames to private IP addresses when queried from instances in a peer VPC.
-        public var allowDnsResolutionFromRemoteVpc: Bool? = nil
+        public let allowDnsResolutionFromRemoteVpc: Bool?
         /// Indicates whether a local ClassicLink connection can communicate with the peer VPC over the VPC peering connection.
-        public var allowEgressFromLocalClassicLinkToRemoteVpc: Bool? = nil
-
-        public init() {}
+        public let allowEgressFromLocalClassicLinkToRemoteVpc: Bool?
 
         public init(allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil, allowDnsResolutionFromRemoteVpc: Bool? = nil, allowEgressFromLocalClassicLinkToRemoteVpc: Bool? = nil) {
             self.allowEgressFromLocalVpcToRemoteClassicLink = allowEgressFromLocalVpcToRemoteClassicLink
@@ -15601,19 +14813,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The intended state of the instance. DescribeInstanceStatus requires that an instance be in the running state.
-        public var instanceState: InstanceState? = nil
+        public let instanceState: InstanceState?
         /// Reports impaired functionality that stems from issues related to the systems that support an instance, such as hardware failures and network connectivity problems.
-        public var systemStatus: InstanceStatusSummary? = nil
+        public let systemStatus: InstanceStatusSummary?
         /// Any scheduled events associated with the instance.
-        public var events: [InstanceStatusEvent]? = nil
+        public let events: [InstanceStatusEvent]?
         /// Reports impaired functionality that stems from issues internal to the instance, such as impaired reachability.
-        public var instanceStatus: InstanceStatusSummary? = nil
+        public let instanceStatus: InstanceStatusSummary?
         /// The ID of the instance.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// The Availability Zone of the instance.
-        public var availabilityZone: String? = nil
-
-        public init() {}
+        public let availabilityZone: String?
 
         public init(instanceState: InstanceState? = nil, systemStatus: InstanceStatusSummary? = nil, events: [InstanceStatusEvent]? = nil, instanceStatus: InstanceStatusSummary? = nil, instanceId: String? = nil, availabilityZone: String? = nil) {
             self.instanceState = instanceState
@@ -15625,12 +14835,14 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let instanceState = dictionary["InstanceState"] as? [String: Any] { self.instanceState = try Ec2.InstanceState(dictionary: instanceState) }
-            if let systemStatus = dictionary["SystemStatus"] as? [String: Any] { self.systemStatus = try Ec2.InstanceStatusSummary(dictionary: systemStatus) }
+            if let instanceState = dictionary["InstanceState"] as? [String: Any] { self.instanceState = try Ec2.InstanceState(dictionary: instanceState) } else { self.instanceState = nil }
+            if let systemStatus = dictionary["SystemStatus"] as? [String: Any] { self.systemStatus = try Ec2.InstanceStatusSummary(dictionary: systemStatus) } else { self.systemStatus = nil }
             if let events = dictionary["Events"] as? [[String: Any]] {
                 self.events = try events.map({ try InstanceStatusEvent(dictionary: $0) })
+            } else { 
+                self.events = nil
             }
-            if let instanceStatus = dictionary["InstanceStatus"] as? [String: Any] { self.instanceStatus = try Ec2.InstanceStatusSummary(dictionary: instanceStatus) }
+            if let instanceStatus = dictionary["InstanceStatus"] as? [String: Any] { self.instanceStatus = try Ec2.InstanceStatusSummary(dictionary: instanceStatus) } else { self.instanceStatus = nil }
             self.instanceId = dictionary["InstanceId"] as? String
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
         }
@@ -15640,17 +14852,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the VPC peering connection options for the accepter or requester VPC.
-        public var peeringOptions: VpcPeeringConnectionOptionsDescription? = nil
+        public let peeringOptions: VpcPeeringConnectionOptionsDescription?
         /// The IPv6 CIDR block for the VPC.
-        public var ipv6CidrBlockSet: [Ipv6CidrBlock]? = nil
+        public let ipv6CidrBlockSet: [Ipv6CidrBlock]?
         /// The ID of the VPC.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The AWS account ID of the VPC owner.
-        public var ownerId: String? = nil
+        public let ownerId: String?
         /// The IPv4 CIDR block for the VPC.
-        public var cidrBlock: String? = nil
-
-        public init() {}
+        public let cidrBlock: String?
 
         public init(peeringOptions: VpcPeeringConnectionOptionsDescription? = nil, ipv6CidrBlockSet: [Ipv6CidrBlock]? = nil, vpcId: String? = nil, ownerId: String? = nil, cidrBlock: String? = nil) {
             self.peeringOptions = peeringOptions
@@ -15661,9 +14871,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let peeringOptions = dictionary["PeeringOptions"] as? [String: Any] { self.peeringOptions = try Ec2.VpcPeeringConnectionOptionsDescription(dictionary: peeringOptions) }
+            if let peeringOptions = dictionary["PeeringOptions"] as? [String: Any] { self.peeringOptions = try Ec2.VpcPeeringConnectionOptionsDescription(dictionary: peeringOptions) } else { self.peeringOptions = nil }
             if let ipv6CidrBlockSet = dictionary["Ipv6CidrBlockSet"] as? [[String: Any]] {
                 self.ipv6CidrBlockSet = try ipv6CidrBlockSet.map({ try Ipv6CidrBlock(dictionary: $0) })
+            } else { 
+                self.ipv6CidrBlockSet = nil
             }
             self.vpcId = dictionary["VpcId"] as? String
             self.ownerId = dictionary["OwnerId"] as? String
@@ -15675,25 +14887,23 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A brief status for the import snapshot task.
-        public var status: String? = nil
+        public let status: String?
         /// The percentage of completion for the import snapshot task.
-        public var progress: String? = nil
+        public let progress: String?
         /// The URL of the disk image from which the snapshot is created.
-        public var url: String? = nil
+        public let url: String?
         /// The size of the disk in the snapshot, in GiB.
-        public var diskImageSize: Double? = nil
+        public let diskImageSize: Double?
         /// The format of the disk image from which the snapshot is created.
-        public var format: String? = nil
+        public let format: String?
         /// The snapshot ID of the disk being imported.
-        public var snapshotId: String? = nil
+        public let snapshotId: String?
         /// The S3 bucket for the disk image.
-        public var userBucket: UserBucketDetails? = nil
+        public let userBucket: UserBucketDetails?
         /// A detailed status message for the import snapshot task.
-        public var statusMessage: String? = nil
+        public let statusMessage: String?
         /// The description of the snapshot.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(status: String? = nil, progress: String? = nil, url: String? = nil, diskImageSize: Double? = nil, format: String? = nil, snapshotId: String? = nil, userBucket: UserBucketDetails? = nil, statusMessage: String? = nil, description: String? = nil) {
             self.status = status
@@ -15714,7 +14924,7 @@ extension Ec2 {
             self.diskImageSize = dictionary["DiskImageSize"] as? Double
             self.format = dictionary["Format"] as? String
             self.snapshotId = dictionary["SnapshotId"] as? String
-            if let userBucket = dictionary["UserBucket"] as? [String: Any] { self.userBucket = try Ec2.UserBucketDetails(dictionary: userBucket) }
+            if let userBucket = dictionary["UserBucket"] as? [String: Any] { self.userBucket = try Ec2.UserBucketDetails(dictionary: userBucket) } else { self.userBucket = nil }
             self.statusMessage = dictionary["StatusMessage"] as? String
             self.description = dictionary["Description"] as? String
         }
@@ -15724,16 +14934,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Spot instance data feed subscription.
-        public var spotDatafeedSubscription: SpotDatafeedSubscription? = nil
-
-        public init() {}
+        public let spotDatafeedSubscription: SpotDatafeedSubscription?
 
         public init(spotDatafeedSubscription: SpotDatafeedSubscription? = nil) {
             self.spotDatafeedSubscription = spotDatafeedSubscription
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let spotDatafeedSubscription = dictionary["SpotDatafeedSubscription"] as? [String: Any] { self.spotDatafeedSubscription = try Ec2.SpotDatafeedSubscription(dictionary: spotDatafeedSubscription) }
+            if let spotDatafeedSubscription = dictionary["SpotDatafeedSubscription"] as? [String: Any] { self.spotDatafeedSubscription = try Ec2.SpotDatafeedSubscription(dictionary: spotDatafeedSubscription) } else { self.spotDatafeedSubscription = nil }
         }
     }
 
@@ -15741,9 +14949,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more Spot instance requests.
-        public var spotInstanceRequests: [SpotInstanceRequest]? = nil
-
-        public init() {}
+        public let spotInstanceRequests: [SpotInstanceRequest]?
 
         public init(spotInstanceRequests: [SpotInstanceRequest]? = nil) {
             self.spotInstanceRequests = spotInstanceRequests
@@ -15752,6 +14958,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let spotInstanceRequests = dictionary["SpotInstanceRequests"] as? [[String: Any]] {
                 self.spotInstanceRequests = try spotInstanceRequests.map({ try SpotInstanceRequest(dictionary: $0) })
+            } else { 
+                self.spotInstanceRequests = nil
             }
         }
     }
@@ -15760,15 +14968,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The VPC peering connection options for the accepter VPC.
-        public var accepterPeeringConnectionOptions: PeeringConnectionOptionsRequest? = nil
+        public let accepterPeeringConnectionOptions: PeeringConnectionOptionsRequest?
         /// The VPC peering connection options for the requester VPC.
-        public var requesterPeeringConnectionOptions: PeeringConnectionOptionsRequest? = nil
+        public let requesterPeeringConnectionOptions: PeeringConnectionOptionsRequest?
         /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the VPC peering connection.
-        public var vpcPeeringConnectionId: String = ""
-
-        public init() {}
+        public let vpcPeeringConnectionId: String
 
         public init(accepterPeeringConnectionOptions: PeeringConnectionOptionsRequest? = nil, requesterPeeringConnectionOptions: PeeringConnectionOptionsRequest? = nil, dryRun: Bool? = nil, vpcPeeringConnectionId: String) {
             self.accepterPeeringConnectionOptions = accepterPeeringConnectionOptions
@@ -15778,8 +14984,8 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let accepterPeeringConnectionOptions = dictionary["AccepterPeeringConnectionOptions"] as? [String: Any] { self.accepterPeeringConnectionOptions = try Ec2.PeeringConnectionOptionsRequest(dictionary: accepterPeeringConnectionOptions) }
-            if let requesterPeeringConnectionOptions = dictionary["RequesterPeeringConnectionOptions"] as? [String: Any] { self.requesterPeeringConnectionOptions = try Ec2.PeeringConnectionOptionsRequest(dictionary: requesterPeeringConnectionOptions) }
+            if let accepterPeeringConnectionOptions = dictionary["AccepterPeeringConnectionOptions"] as? [String: Any] { self.accepterPeeringConnectionOptions = try Ec2.PeeringConnectionOptionsRequest(dictionary: accepterPeeringConnectionOptions) } else { self.accepterPeeringConnectionOptions = nil }
+            if let requesterPeeringConnectionOptions = dictionary["RequesterPeeringConnectionOptions"] as? [String: Any] { self.requesterPeeringConnectionOptions = try Ec2.PeeringConnectionOptionsRequest(dictionary: requesterPeeringConnectionOptions) } else { self.requesterPeeringConnectionOptions = nil }
             self.dryRun = dictionary["DryRun"] as? Bool
             guard let vpcPeeringConnectionId = dictionary["VpcPeeringConnectionId"] as? String else { throw InitializableError.missingRequiredParam("VpcPeeringConnectionId") }
             self.vpcPeeringConnectionId = vpcPeeringConnectionId
@@ -15790,11 +14996,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the instance profile.
-        public var name: String? = nil
+        public let name: String?
         /// The Amazon Resource Name (ARN) of the instance profile.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(name: String? = nil, arn: String? = nil) {
             self.name = name
@@ -15811,13 +15015,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the instance.
-        public var instanceId: String = ""
+        public let instanceId: String
         /// The product code. This must be a product code that you own.
-        public var productCode: String = ""
+        public let productCode: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(instanceId: String, productCode: String, dryRun: Bool? = nil) {
             self.instanceId = instanceId
@@ -15838,11 +15040,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the virtual private gateway.
-        public var gatewayId: String = ""
+        public let gatewayId: String
         /// The ID of the route table.
-        public var routeTableId: String = ""
-
-        public init() {}
+        public let routeTableId: String
 
         public init(gatewayId: String, routeTableId: String) {
             self.gatewayId = gatewayId
@@ -15861,25 +15061,23 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date and time, up to the past 90 days, from which to start retrieving the price history data, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public var startTime: Date? = nil
+        public let startTime: Date?
         /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// Filters the results by the specified basic product descriptions.
-        public var productDescriptions: [String]? = nil
+        public let productDescriptions: [String]?
         /// The date and time, up to the current date, from which to stop retrieving the price history data, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
-        public var endTime: Date? = nil
+        public let endTime: Date?
         /// One or more filters.    availability-zone - The Availability Zone for which prices should be returned.    instance-type - The type of instance (for example, m3.medium).    product-description - The product description for the Spot price (Linux/UNIX | SUSE Linux | Windows | Linux/UNIX (Amazon VPC) | SUSE Linux (Amazon VPC) | Windows (Amazon VPC)).    spot-price - The Spot price. The value must match exactly (or use wildcards; greater than or less than comparison is not supported).    timestamp - The timestamp of the Spot price history, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). You can use wildcards (* and ?). Greater than or less than comparison is not supported.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// Filters the results by the specified Availability Zone.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The token for the next set of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Filters the results by the specified instance types. Note that T2 and HS1 instance types are not supported.
-        public var instanceTypes: [String]? = nil
-
-        public init() {}
+        public let instanceTypes: [String]?
 
         public init(startTime: Date? = nil, maxResults: Int32? = nil, productDescriptions: [String]? = nil, endTime: Date? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil, availabilityZone: String? = nil, nextToken: String? = nil, instanceTypes: [String]? = nil) {
             self.startTime = startTime
@@ -15896,19 +15094,17 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             self.startTime = dictionary["StartTime"] as? Date
             self.maxResults = dictionary["MaxResults"] as? Int32
-            if let productDescriptions = dictionary["ProductDescriptions"] as? [String] {
-                self.productDescriptions = productDescriptions
-            }
+            self.productDescriptions = dictionary["ProductDescriptions"] as? [String]
             self.endTime = dictionary["EndTime"] as? Date
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
             self.nextToken = dictionary["NextToken"] as? String
-            if let instanceTypes = dictionary["InstanceTypes"] as? [String] {
-                self.instanceTypes = instanceTypes
-            }
+            self.instanceTypes = dictionary["InstanceTypes"] as? [String]
         }
     }
 
@@ -15916,21 +15112,19 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// If the task is for importing an instance, this contains information about the import instance task.
-        public var importInstance: ImportInstanceTaskDetails? = nil
+        public let importInstance: ImportInstanceTaskDetails?
         /// The time when the task expires. If the upload isn't complete before the expiration time, we automatically cancel the task.
-        public var expirationTime: String? = nil
+        public let expirationTime: String?
         /// Any tags assigned to the task.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The state of the conversion task.
-        public var state: String = ""
+        public let state: String
         /// The ID of the conversion task.
-        public var conversionTaskId: String = ""
+        public let conversionTaskId: String
         /// The status message related to the conversion task.
-        public var statusMessage: String? = nil
+        public let statusMessage: String?
         /// If the task is for importing a volume, this contains information about the import volume task.
-        public var importVolume: ImportVolumeTaskDetails? = nil
-
-        public init() {}
+        public let importVolume: ImportVolumeTaskDetails?
 
         public init(importInstance: ImportInstanceTaskDetails? = nil, expirationTime: String? = nil, tags: [Tag]? = nil, state: String, conversionTaskId: String, statusMessage: String? = nil, importVolume: ImportVolumeTaskDetails? = nil) {
             self.importInstance = importInstance
@@ -15943,17 +15137,19 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let importInstance = dictionary["ImportInstance"] as? [String: Any] { self.importInstance = try Ec2.ImportInstanceTaskDetails(dictionary: importInstance) }
+            if let importInstance = dictionary["ImportInstance"] as? [String: Any] { self.importInstance = try Ec2.ImportInstanceTaskDetails(dictionary: importInstance) } else { self.importInstance = nil }
             self.expirationTime = dictionary["ExpirationTime"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let state = dictionary["State"] as? String else { throw InitializableError.missingRequiredParam("State") }
             self.state = state
             guard let conversionTaskId = dictionary["ConversionTaskId"] as? String else { throw InitializableError.missingRequiredParam("ConversionTaskId") }
             self.conversionTaskId = conversionTaskId
             self.statusMessage = dictionary["StatusMessage"] as? String
-            if let importVolume = dictionary["ImportVolume"] as? [String: Any] { self.importVolume = try Ec2.ImportVolumeTaskDetails(dictionary: importVolume) }
+            if let importVolume = dictionary["ImportVolume"] as? [String: Any] { self.importVolume = try Ec2.ImportVolumeTaskDetails(dictionary: importVolume) } else { self.importVolume = nil }
         }
     }
 
@@ -15961,9 +15157,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the new association.
-        public var newAssociationId: String? = nil
-
-        public init() {}
+        public let newAssociationId: String?
 
         public init(newAssociationId: String? = nil) {
             self.newAssociationId = newAssociationId
@@ -15978,16 +15172,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A VolumeModification object.
-        public var volumeModification: VolumeModification? = nil
-
-        public init() {}
+        public let volumeModification: VolumeModification?
 
         public init(volumeModification: VolumeModification? = nil) {
             self.volumeModification = volumeModification
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let volumeModification = dictionary["VolumeModification"] as? [String: Any] { self.volumeModification = try Ec2.VolumeModification(dictionary: volumeModification) }
+            if let volumeModification = dictionary["VolumeModification"] as? [String: Any] { self.volumeModification = try Ec2.VolumeModification(dictionary: volumeModification) } else { self.volumeModification = nil }
         }
     }
 
@@ -15995,13 +15187,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the key pair.
-        public var keyName: String? = nil
+        public let keyName: String?
         /// The SHA-1 digest of the DER encoded private key.
-        public var keyFingerprint: String? = nil
+        public let keyFingerprint: String?
         /// An unencrypted PEM encoded RSA private key.
-        public var keyMaterial: String? = nil
-
-        public init() {}
+        public let keyMaterial: String?
 
         public init(keyName: String? = nil, keyFingerprint: String? = nil, keyMaterial: String? = nil) {
             self.keyName = keyName
@@ -16020,9 +15210,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more virtual private gateways.
-        public var vpnGateways: [VpnGateway]? = nil
-
-        public init() {}
+        public let vpnGateways: [VpnGateway]?
 
         public init(vpnGateways: [VpnGateway]? = nil) {
             self.vpnGateways = vpnGateways
@@ -16031,6 +15219,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let vpnGateways = dictionary["VpnGateways"] as? [[String: Any]] {
                 self.vpnGateways = try vpnGateways.map({ try VpnGateway(dictionary: $0) })
+            } else { 
+                self.vpnGateways = nil
             }
         }
     }
@@ -16039,15 +15229,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The token for the next set of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The ID of the Spot fleet request.
-        public var spotFleetRequestId: String = ""
+        public let spotFleetRequestId: String
         /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(dryRun: Bool? = nil, nextToken: String? = nil, spotFleetRequestId: String, maxResults: Int32? = nil) {
             self.dryRun = dryRun
@@ -16069,11 +15257,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more endpoint IDs.
-        public var vpcEndpointIds: [String] = []
+        public let vpcEndpointIds: [String]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(vpcEndpointIds: [String], dryRun: Bool? = nil) {
             self.vpcEndpointIds = vpcEndpointIds
@@ -16091,11 +15277,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The Reserved Instance modification information.
-        public var reservedInstancesModifications: [ReservedInstancesModification]? = nil
-
-        public init() {}
+        public let reservedInstancesModifications: [ReservedInstancesModification]?
 
         public init(nextToken: String? = nil, reservedInstancesModifications: [ReservedInstancesModification]? = nil) {
             self.nextToken = nextToken
@@ -16106,6 +15290,8 @@ extension Ec2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let reservedInstancesModifications = dictionary["ReservedInstancesModifications"] as? [[String: Any]] {
                 self.reservedInstancesModifications = try reservedInstancesModifications.map({ try ReservedInstancesModification(dictionary: $0) })
+            } else { 
+                self.reservedInstancesModifications = nil
             }
         }
     }
@@ -16114,11 +15300,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IPv6 CIDR block for your subnet. The subnet must have a /64 prefix length.
-        public var ipv6CidrBlock: String = ""
+        public let ipv6CidrBlock: String
         /// The ID of your subnet.
-        public var subnetId: String = ""
-
-        public init() {}
+        public let subnetId: String
 
         public init(ipv6CidrBlock: String, subnetId: String) {
             self.ipv6CidrBlock = ipv6CidrBlock
@@ -16137,13 +15321,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of one or more DHCP options sets. Default: Describes all your DHCP options sets.
-        public var dhcpOptionsIds: [String]? = nil
+        public let dhcpOptionsIds: [String]?
         /// One or more filters.    dhcp-options-id - The ID of a set of DHCP options.    key - The key for one of the options (for example, domain-name).    value - The value for one of the options.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(dhcpOptionsIds: [String]? = nil, filters: [Filter]? = nil, dryRun: Bool? = nil) {
             self.dhcpOptionsIds = dhcpOptionsIds
@@ -16152,11 +15334,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dhcpOptionsIds = dictionary["DhcpOptionsIds"] as? [String] {
-                self.dhcpOptionsIds = dhcpOptionsIds
-            }
+            self.dhcpOptionsIds = dictionary["DhcpOptionsIds"] as? [String]
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dryRun = dictionary["DryRun"] as? Bool
         }
@@ -16166,11 +15348,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS account ID to remove from the list of launch permissions for the AMI.
-        public var remove: [LaunchPermission]? = nil
+        public let remove: [LaunchPermission]?
         /// The AWS account ID to add to the list of launch permissions for the AMI.
-        public var add: [LaunchPermission]? = nil
-
-        public init() {}
+        public let add: [LaunchPermission]?
 
         public init(remove: [LaunchPermission]? = nil, add: [LaunchPermission]? = nil) {
             self.remove = remove
@@ -16180,9 +15360,13 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let remove = dictionary["Remove"] as? [[String: Any]] {
                 self.remove = try remove.map({ try LaunchPermission(dictionary: $0) })
+            } else { 
+                self.remove = nil
             }
             if let add = dictionary["Add"] as? [[String: Any]] {
                 self.add = try add.map({ try LaunchPermission(dictionary: $0) })
+            } else { 
+                self.add = nil
             }
         }
     }
@@ -16191,11 +15375,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The host IDs of the Dedicated Hosts you want to modify.
-        public var hostIds: [String] = []
+        public let hostIds: [String]
         /// Specify whether to enable or disable auto-placement.
-        public var autoPlacement: String = ""
-
-        public init() {}
+        public let autoPlacement: String
 
         public init(hostIds: [String], autoPlacement: String) {
             self.hostIds = hostIds
@@ -16214,13 +15396,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// [EC2-VPC] The allocation ID. Required for EC2-VPC.
-        public var allocationId: String? = nil
+        public let allocationId: String?
         /// [EC2-Classic] The Elastic IP address. Required for EC2-Classic.
-        public var publicIp: String? = nil
-
-        public init() {}
+        public let publicIp: String?
 
         public init(dryRun: Bool? = nil, allocationId: String? = nil, publicIp: String? = nil) {
             self.dryRun = dryRun
@@ -16239,21 +15419,19 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date and time the VPC endpoint was created.
-        public var creationTimestamp: Date? = nil
+        public let creationTimestamp: Date?
         /// The ID of the VPC to which the endpoint is associated.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The state of the VPC endpoint.
-        public var state: String? = nil
+        public let state: String?
         /// The name of the AWS service to which the endpoint is associated.
-        public var serviceName: String? = nil
+        public let serviceName: String?
         /// The ID of the VPC endpoint.
-        public var vpcEndpointId: String? = nil
+        public let vpcEndpointId: String?
         /// The policy document associated with the endpoint.
-        public var policyDocument: String? = nil
+        public let policyDocument: String?
         /// One or more route tables associated with the endpoint.
-        public var routeTableIds: [String]? = nil
-
-        public init() {}
+        public let routeTableIds: [String]?
 
         public init(creationTimestamp: Date? = nil, vpcId: String? = nil, state: String? = nil, serviceName: String? = nil, vpcEndpointId: String? = nil, policyDocument: String? = nil, routeTableIds: [String]? = nil) {
             self.creationTimestamp = creationTimestamp
@@ -16272,9 +15450,7 @@ extension Ec2 {
             self.serviceName = dictionary["ServiceName"] as? String
             self.vpcEndpointId = dictionary["VpcEndpointId"] as? String
             self.policyDocument = dictionary["PolicyDocument"] as? String
-            if let routeTableIds = dictionary["RouteTableIds"] as? [String] {
-                self.routeTableIds = routeTableIds
-            }
+            self.routeTableIds = dictionary["RouteTableIds"] as? [String]
         }
     }
 
@@ -16282,11 +15458,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the instance.
-        public var instanceId: String = ""
+        public let instanceId: String
         /// The IAM instance profile.
-        public var iamInstanceProfile: IamInstanceProfileSpecification = IamInstanceProfileSpecification()
-
-        public init() {}
+        public let iamInstanceProfile: IamInstanceProfileSpecification
 
         public init(instanceId: String, iamInstanceProfile: IamInstanceProfileSpecification) {
             self.instanceId = instanceId
@@ -16305,11 +15479,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// Information about the IPv6 CIDR block association.
-        public var ipv6CidrBlockAssociation: VpcIpv6CidrBlockAssociation? = nil
-
-        public init() {}
+        public let ipv6CidrBlockAssociation: VpcIpv6CidrBlockAssociation?
 
         public init(vpcId: String? = nil, ipv6CidrBlockAssociation: VpcIpv6CidrBlockAssociation? = nil) {
             self.vpcId = vpcId
@@ -16318,7 +15490,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.vpcId = dictionary["VpcId"] as? String
-            if let ipv6CidrBlockAssociation = dictionary["Ipv6CidrBlockAssociation"] as? [String: Any] { self.ipv6CidrBlockAssociation = try Ec2.VpcIpv6CidrBlockAssociation(dictionary: ipv6CidrBlockAssociation) }
+            if let ipv6CidrBlockAssociation = dictionary["Ipv6CidrBlockAssociation"] as? [String: Any] { self.ipv6CidrBlockAssociation = try Ec2.VpcIpv6CidrBlockAssociation(dictionary: ipv6CidrBlockAssociation) } else { self.ipv6CidrBlockAssociation = nil }
         }
     }
 
@@ -16326,11 +15498,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the DHCP options set.
-        public var dhcpOptionsId: String = ""
+        public let dhcpOptionsId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(dhcpOptionsId: String, dryRun: Bool? = nil) {
             self.dhcpOptionsId = dhcpOptionsId
@@ -16348,11 +15518,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Details about the reservation's configuration.
-        public var hostReservationSet: [HostReservation]? = nil
+        public let hostReservationSet: [HostReservation]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(hostReservationSet: [HostReservation]? = nil, nextToken: String? = nil) {
             self.hostReservationSet = hostReservationSet
@@ -16362,6 +15530,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let hostReservationSet = dictionary["HostReservationSet"] as? [[String: Any]] {
                 self.hostReservationSet = try hostReservationSet.map({ try HostReservation(dictionary: $0) })
+            } else { 
+                self.hostReservationSet = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -16371,19 +15541,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A description for the network interface.
-        public var description: AttributeValue? = nil
+        public let description: AttributeValue?
         /// The ID of the network interface.
-        public var networkInterfaceId: String = ""
+        public let networkInterfaceId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// Information about the interface attachment. If modifying the 'delete on termination' attribute, you must specify the ID of the interface attachment.
-        public var attachment: NetworkInterfaceAttachmentChanges? = nil
+        public let attachment: NetworkInterfaceAttachmentChanges?
         /// Changes the security groups for the network interface. The new set of groups you specify replaces the current set. You must specify at least one group, even if it's just the default security group in the VPC. You must specify the ID of the security group, not the name.
-        public var groups: [String]? = nil
+        public let groups: [String]?
         /// Indicates whether source/destination checking is enabled. A value of true means checking is enabled, and false means checking is disabled. This value must be false for a NAT instance to perform NAT. For more information, see NAT Instances in the Amazon Virtual Private Cloud User Guide.
-        public var sourceDestCheck: AttributeBooleanValue? = nil
-
-        public init() {}
+        public let sourceDestCheck: AttributeBooleanValue?
 
         public init(description: AttributeValue? = nil, networkInterfaceId: String, dryRun: Bool? = nil, attachment: NetworkInterfaceAttachmentChanges? = nil, groups: [String]? = nil, sourceDestCheck: AttributeBooleanValue? = nil) {
             self.description = description
@@ -16395,15 +15563,13 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let description = dictionary["Description"] as? [String: Any] { self.description = try Ec2.AttributeValue(dictionary: description) }
+            if let description = dictionary["Description"] as? [String: Any] { self.description = try Ec2.AttributeValue(dictionary: description) } else { self.description = nil }
             guard let networkInterfaceId = dictionary["NetworkInterfaceId"] as? String else { throw InitializableError.missingRequiredParam("NetworkInterfaceId") }
             self.networkInterfaceId = networkInterfaceId
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let attachment = dictionary["Attachment"] as? [String: Any] { self.attachment = try Ec2.NetworkInterfaceAttachmentChanges(dictionary: attachment) }
-            if let groups = dictionary["Groups"] as? [String] {
-                self.groups = groups
-            }
-            if let sourceDestCheck = dictionary["SourceDestCheck"] as? [String: Any] { self.sourceDestCheck = try Ec2.AttributeBooleanValue(dictionary: sourceDestCheck) }
+            if let attachment = dictionary["Attachment"] as? [String: Any] { self.attachment = try Ec2.NetworkInterfaceAttachmentChanges(dictionary: attachment) } else { self.attachment = nil }
+            self.groups = dictionary["Groups"] as? [String]
+            if let sourceDestCheck = dictionary["SourceDestCheck"] as? [String: Any] { self.sourceDestCheck = try Ec2.AttributeBooleanValue(dictionary: sourceDestCheck) } else { self.sourceDestCheck = nil }
         }
     }
 
@@ -16411,9 +15577,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The attribute value. The valid values are true or false.
-        public var value: Bool? = nil
-
-        public init() {}
+        public let value: Bool?
 
         public init(value: Bool? = nil) {
             self.value = value
@@ -16428,13 +15592,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String = ""
+        public let vpcId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the virtual private gateway.
-        public var vpnGatewayId: String = ""
-
-        public init() {}
+        public let vpnGatewayId: String
 
         public init(vpcId: String, dryRun: Bool? = nil, vpnGatewayId: String) {
             self.vpcId = vpcId
@@ -16455,11 +15617,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request.
-        public var clientToken: String? = nil
+        public let clientToken: String?
         /// Information about the egress-only Internet gateway.
-        public var egressOnlyInternetGateway: EgressOnlyInternetGateway? = nil
-
-        public init() {}
+        public let egressOnlyInternetGateway: EgressOnlyInternetGateway?
 
         public init(clientToken: String? = nil, egressOnlyInternetGateway: EgressOnlyInternetGateway? = nil) {
             self.clientToken = clientToken
@@ -16468,7 +15628,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.clientToken = dictionary["ClientToken"] as? String
-            if let egressOnlyInternetGateway = dictionary["EgressOnlyInternetGateway"] as? [String: Any] { self.egressOnlyInternetGateway = try Ec2.EgressOnlyInternetGateway(dictionary: egressOnlyInternetGateway) }
+            if let egressOnlyInternetGateway = dictionary["EgressOnlyInternetGateway"] as? [String: Any] { self.egressOnlyInternetGateway = try Ec2.EgressOnlyInternetGateway(dictionary: egressOnlyInternetGateway) } else { self.egressOnlyInternetGateway = nil }
         }
     }
 
@@ -16476,11 +15636,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether the network interface is deleted when the instance is terminated.
-        public var deleteOnTermination: Bool? = nil
+        public let deleteOnTermination: Bool?
         /// The ID of the network interface attachment.
-        public var attachmentId: String? = nil
-
-        public init() {}
+        public let attachmentId: String?
 
         public init(deleteOnTermination: Bool? = nil, attachmentId: String? = nil) {
             self.deleteOnTermination = deleteOnTermination
@@ -16497,9 +15655,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the export task. This is the ID returned by CreateInstanceExportTask.
-        public var exportTaskId: String = ""
-
-        public init() {}
+        public let exportTaskId: String
 
         public init(exportTaskId: String) {
             self.exportTaskId = exportTaskId
@@ -16515,13 +15671,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The attribute to reset (currently you can only reset the launch permission attribute).
-        public var attribute: String = ""
+        public let attribute: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the AMI.
-        public var imageId: String = ""
-
-        public init() {}
+        public let imageId: String
 
         public init(attribute: String, dryRun: Bool? = nil, imageId: String) {
             self.attribute = attribute
@@ -16542,13 +15696,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the subnet.
-        public var subnetId: String = ""
+        public let subnetId: String
         /// The ID of the route table.
-        public var routeTableId: String = ""
+        public let routeTableId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(subnetId: String, routeTableId: String, dryRun: Bool? = nil) {
             self.subnetId = subnetId
@@ -16569,11 +15721,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether the private IPv4 address is the primary private IPv4 address. Only one IPv4 address can be designated as primary.
-        public var primary: Bool? = nil
+        public let primary: Bool?
         /// The private IPv4 addresses.
-        public var privateIpAddress: String = ""
-
-        public init() {}
+        public let privateIpAddress: String
 
         public init(primary: Bool? = nil, privateIpAddress: String) {
             self.primary = primary
@@ -16591,15 +15741,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The ID of the instance.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// A list of security groups.
-        public var groups: [GroupIdentifier]? = nil
+        public let groups: [GroupIdentifier]?
         /// Any tags assigned to the instance.
-        public var tags: [Tag]? = nil
-
-        public init() {}
+        public let tags: [Tag]?
 
         public init(vpcId: String? = nil, instanceId: String? = nil, groups: [GroupIdentifier]? = nil, tags: [Tag]? = nil) {
             self.vpcId = vpcId
@@ -16613,9 +15761,13 @@ extension Ec2 {
             self.instanceId = dictionary["InstanceId"] as? String
             if let groups = dictionary["Groups"] as? [[String: Any]] {
                 self.groups = try groups.map({ try GroupIdentifier(dictionary: $0) })
+            } else { 
+                self.groups = nil
             }
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
         }
     }
@@ -16624,13 +15776,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// One or more filters.    group-name - The name of the placement group.    state - The state of the placement group (pending | available | deleting | deleted).    strategy - The strategy of the placement group (cluster).  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// One or more placement group names. Default: Describes all your placement groups, or only those otherwise specified.
-        public var groupNames: [String]? = nil
-
-        public init() {}
+        public let groupNames: [String]?
 
         public init(dryRun: Bool? = nil, filters: [Filter]? = nil, groupNames: [String]? = nil) {
             self.dryRun = dryRun
@@ -16642,10 +15792,10 @@ extension Ec2 {
             self.dryRun = dictionary["DryRun"] as? Bool
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
-            if let groupNames = dictionary["GroupNames"] as? [String] {
-                self.groupNames = groupNames
-            }
+            self.groupNames = dictionary["GroupNames"] as? [String]
         }
     }
 
@@ -16653,13 +15803,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the current association between the original network ACL and the subnet.
-        public var associationId: String = ""
+        public let associationId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the new network ACL to associate with the subnet.
-        public var networkAclId: String = ""
-
-        public init() {}
+        public let networkAclId: String
 
         public init(associationId: String, dryRun: Bool? = nil, networkAclId: String) {
             self.associationId = associationId
@@ -16680,19 +15828,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more block device mappings.
-        public var blockDeviceMappings: [BlockDeviceMapping]? = nil
+        public let blockDeviceMappings: [BlockDeviceMapping]?
         /// A description for the new image.
-        public var description: String? = nil
+        public let description: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// By default, Amazon EC2 attempts to shut down and reboot the instance before creating the image. If the 'No Reboot' option is set, Amazon EC2 doesn't shut down the instance before creating the image. When this option is used, file system integrity on the created image can't be guaranteed.
-        public var noReboot: Bool? = nil
+        public let noReboot: Bool?
         /// A name for the new image. Constraints: 3-128 alphanumeric characters, parentheses (()), square brackets ([]), spaces ( ), periods (.), slashes (/), dashes (-), single quotes ('), at-signs (@), or underscores(_)
-        public var name: String = ""
+        public let name: String
         /// The ID of the instance.
-        public var instanceId: String = ""
-
-        public init() {}
+        public let instanceId: String
 
         public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, description: String? = nil, dryRun: Bool? = nil, noReboot: Bool? = nil, name: String, instanceId: String) {
             self.blockDeviceMappings = blockDeviceMappings
@@ -16706,6 +15852,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
                 self.blockDeviceMappings = try blockDeviceMappings.map({ try BlockDeviceMapping(dictionary: $0) })
+            } else { 
+                self.blockDeviceMappings = nil
             }
             self.description = dictionary["Description"] as? String
             self.dryRun = dictionary["DryRun"] as? Bool
@@ -16721,11 +15869,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the VPC peering connection options for the accepter VPC.
-        public var accepterPeeringConnectionOptions: PeeringConnectionOptions? = nil
+        public let accepterPeeringConnectionOptions: PeeringConnectionOptions?
         /// Information about the VPC peering connection options for the requester VPC.
-        public var requesterPeeringConnectionOptions: PeeringConnectionOptions? = nil
-
-        public init() {}
+        public let requesterPeeringConnectionOptions: PeeringConnectionOptions?
 
         public init(accepterPeeringConnectionOptions: PeeringConnectionOptions? = nil, requesterPeeringConnectionOptions: PeeringConnectionOptions? = nil) {
             self.accepterPeeringConnectionOptions = accepterPeeringConnectionOptions
@@ -16733,8 +15879,8 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let accepterPeeringConnectionOptions = dictionary["AccepterPeeringConnectionOptions"] as? [String: Any] { self.accepterPeeringConnectionOptions = try Ec2.PeeringConnectionOptions(dictionary: accepterPeeringConnectionOptions) }
-            if let requesterPeeringConnectionOptions = dictionary["RequesterPeeringConnectionOptions"] as? [String: Any] { self.requesterPeeringConnectionOptions = try Ec2.PeeringConnectionOptions(dictionary: requesterPeeringConnectionOptions) }
+            if let accepterPeeringConnectionOptions = dictionary["AccepterPeeringConnectionOptions"] as? [String: Any] { self.accepterPeeringConnectionOptions = try Ec2.PeeringConnectionOptions(dictionary: accepterPeeringConnectionOptions) } else { self.accepterPeeringConnectionOptions = nil }
+            if let requesterPeeringConnectionOptions = dictionary["RequesterPeeringConnectionOptions"] as? [String: Any] { self.requesterPeeringConnectionOptions = try Ec2.PeeringConnectionOptions(dictionary: requesterPeeringConnectionOptions) } else { self.requesterPeeringConnectionOptions = nil }
         }
     }
 
@@ -16742,13 +15888,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the VPC.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// Indicates whether DNS resolution is enabled for the VPC. If this attribute is true, the Amazon DNS server resolves DNS hostnames for your instances to their corresponding IP addresses; otherwise, it does not.
-        public var enableDnsSupport: AttributeBooleanValue? = nil
+        public let enableDnsSupport: AttributeBooleanValue?
         /// Indicates whether the instances launched in the VPC get DNS hostnames. If this attribute is true, instances in the VPC get DNS hostnames; otherwise, they do not.
-        public var enableDnsHostnames: AttributeBooleanValue? = nil
-
-        public init() {}
+        public let enableDnsHostnames: AttributeBooleanValue?
 
         public init(vpcId: String? = nil, enableDnsSupport: AttributeBooleanValue? = nil, enableDnsHostnames: AttributeBooleanValue? = nil) {
             self.vpcId = vpcId
@@ -16758,8 +15902,8 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.vpcId = dictionary["VpcId"] as? String
-            if let enableDnsSupport = dictionary["EnableDnsSupport"] as? [String: Any] { self.enableDnsSupport = try Ec2.AttributeBooleanValue(dictionary: enableDnsSupport) }
-            if let enableDnsHostnames = dictionary["EnableDnsHostnames"] as? [String: Any] { self.enableDnsHostnames = try Ec2.AttributeBooleanValue(dictionary: enableDnsHostnames) }
+            if let enableDnsSupport = dictionary["EnableDnsSupport"] as? [String: Any] { self.enableDnsSupport = try Ec2.AttributeBooleanValue(dictionary: enableDnsSupport) } else { self.enableDnsSupport = nil }
+            if let enableDnsHostnames = dictionary["EnableDnsHostnames"] as? [String: Any] { self.enableDnsHostnames = try Ec2.AttributeBooleanValue(dictionary: enableDnsHostnames) } else { self.enableDnsHostnames = nil }
         }
     }
 
@@ -16767,16 +15911,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Target EBS volume type of the volume to be modified  The API does not support modifications for volume type standard. You also cannot change the type of a volume to standard.  Default: If no type is specified, the existing type is retained. 
-        public var volumeType: String? = nil
+        public let volumeType: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// Target IOPS rate of the volume to be modified. Only valid for Provisioned IOPS SSD (io1) volumes. For more information about io1 IOPS configuration, see http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html#EBSVolumeTypes_piops. Default: If no IOPS value is specified, the existing value is retained. 
-        public var iops: Int32? = nil
-        public var volumeId: String = ""
+        public let iops: Int32?
+        public let volumeId: String
         /// Target size in GiB of the volume to be modified. Target volume size must be greater than or equal to than the existing size of the volume. For information about available EBS volume sizes, see http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html. Default: If no size is specified, the existing size is retained. 
-        public var size: Int32? = nil
-
-        public init() {}
+        public let size: Int32?
 
         public init(volumeType: String? = nil, dryRun: Bool? = nil, iops: Int32? = nil, volumeId: String, size: Int32? = nil) {
             self.volumeType = volumeType
@@ -16800,9 +15942,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more customer gateways.
-        public var customerGateways: [CustomerGateway]? = nil
-
-        public init() {}
+        public let customerGateways: [CustomerGateway]?
 
         public init(customerGateways: [CustomerGateway]? = nil) {
             self.customerGateways = customerGateways
@@ -16811,6 +15951,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let customerGateways = dictionary["CustomerGateways"] as? [[String: Any]] {
                 self.customerGateways = try customerGateways.map({ try CustomerGateway(dictionary: $0) })
+            } else { 
+                self.customerGateways = nil
             }
         }
     }
@@ -16819,39 +15961,37 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Modifies the DeleteOnTermination attribute for volumes that are currently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination, the default is true and the volume is deleted when the instance is terminated. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Updating the Block Device Mapping when Launching an Instance in the Amazon Elastic Compute Cloud User Guide.
-        public var blockDeviceMappings: [InstanceBlockDeviceMappingSpecification]? = nil
+        public let blockDeviceMappings: [InstanceBlockDeviceMappingSpecification]?
         /// If the value is true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. You cannot use this paramater for Spot Instances.
-        public var disableApiTermination: AttributeBooleanValue? = nil
+        public let disableApiTermination: AttributeBooleanValue?
         /// Changes the instance's user data to the specified value. If you are using an AWS SDK or command line tool, Base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide Base64-encoded text.
-        public var userData: BlobAttributeValue? = nil
+        public let userData: BlobAttributeValue?
         /// Set to simple to enable enhanced networking with the Intel 82599 Virtual Function interface for the instance. There is no way to disable enhanced networking with the Intel 82599 Virtual Function interface at this time. This option is supported only for HVM instances. Specifying this option with a PV instance can make it unreachable.
-        public var sriovNetSupport: AttributeValue? = nil
+        public let sriovNetSupport: AttributeValue?
         /// Specifies whether the instance is optimized for EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS Optimized instance.
-        public var ebsOptimized: AttributeBooleanValue? = nil
+        public let ebsOptimized: AttributeBooleanValue?
         /// Specifies whether source/destination checking is enabled. A value of true means that checking is enabled, and false means checking is disabled. This value must be false for a NAT instance to perform NAT.
-        public var sourceDestCheck: AttributeBooleanValue? = nil
+        public let sourceDestCheck: AttributeBooleanValue?
         /// The name of the attribute.
-        public var attribute: String? = nil
+        public let attribute: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// Changes the instance type to the specified value. For more information, see Instance Types. If the instance type is not valid, the error returned is InvalidInstanceAttributeValue.
-        public var instanceType: AttributeValue? = nil
+        public let instanceType: AttributeValue?
         /// Changes the instance's RAM disk to the specified value. We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see PV-GRUB.
-        public var ramdisk: AttributeValue? = nil
+        public let ramdisk: AttributeValue?
         /// A new value for the attribute. Use only with the kernel, ramdisk, userData, disableApiTermination, or instanceInitiatedShutdownBehavior attribute.
-        public var value: String? = nil
+        public let value: String?
         /// Changes the instance's kernel to the specified value. We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see PV-GRUB.
-        public var kernel: AttributeValue? = nil
+        public let kernel: AttributeValue?
         /// The ID of the instance.
-        public var instanceId: String = ""
+        public let instanceId: String
         /// Set to true to enable enhanced networking with ENA for the instance. This option is supported only for HVM instances. Specifying this option with a PV instance can make it unreachable.
-        public var enaSupport: AttributeBooleanValue? = nil
+        public let enaSupport: AttributeBooleanValue?
         /// Specifies whether an instance stops or terminates when you initiate shutdown from the instance (using the operating system command for system shutdown).
-        public var instanceInitiatedShutdownBehavior: AttributeValue? = nil
+        public let instanceInitiatedShutdownBehavior: AttributeValue?
         /// [EC2-VPC] Changes the security groups of the instance. You must specify at least one security group, even if it's just the default security group for the VPC. You must specify the security group ID, not the security group name.
-        public var groups: [String]? = nil
-
-        public init() {}
+        public let groups: [String]?
 
         public init(blockDeviceMappings: [InstanceBlockDeviceMappingSpecification]? = nil, disableApiTermination: AttributeBooleanValue? = nil, userData: BlobAttributeValue? = nil, sriovNetSupport: AttributeValue? = nil, ebsOptimized: AttributeBooleanValue? = nil, sourceDestCheck: AttributeBooleanValue? = nil, attribute: String? = nil, dryRun: Bool? = nil, instanceType: AttributeValue? = nil, ramdisk: AttributeValue? = nil, value: String? = nil, kernel: AttributeValue? = nil, instanceId: String, enaSupport: AttributeBooleanValue? = nil, instanceInitiatedShutdownBehavior: AttributeValue? = nil, groups: [String]? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
@@ -16875,25 +16015,25 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let blockDeviceMappings = dictionary["BlockDeviceMappings"] as? [[String: Any]] {
                 self.blockDeviceMappings = try blockDeviceMappings.map({ try InstanceBlockDeviceMappingSpecification(dictionary: $0) })
+            } else { 
+                self.blockDeviceMappings = nil
             }
-            if let disableApiTermination = dictionary["DisableApiTermination"] as? [String: Any] { self.disableApiTermination = try Ec2.AttributeBooleanValue(dictionary: disableApiTermination) }
-            if let userData = dictionary["UserData"] as? [String: Any] { self.userData = try Ec2.BlobAttributeValue(dictionary: userData) }
-            if let sriovNetSupport = dictionary["SriovNetSupport"] as? [String: Any] { self.sriovNetSupport = try Ec2.AttributeValue(dictionary: sriovNetSupport) }
-            if let ebsOptimized = dictionary["EbsOptimized"] as? [String: Any] { self.ebsOptimized = try Ec2.AttributeBooleanValue(dictionary: ebsOptimized) }
-            if let sourceDestCheck = dictionary["SourceDestCheck"] as? [String: Any] { self.sourceDestCheck = try Ec2.AttributeBooleanValue(dictionary: sourceDestCheck) }
+            if let disableApiTermination = dictionary["DisableApiTermination"] as? [String: Any] { self.disableApiTermination = try Ec2.AttributeBooleanValue(dictionary: disableApiTermination) } else { self.disableApiTermination = nil }
+            if let userData = dictionary["UserData"] as? [String: Any] { self.userData = try Ec2.BlobAttributeValue(dictionary: userData) } else { self.userData = nil }
+            if let sriovNetSupport = dictionary["SriovNetSupport"] as? [String: Any] { self.sriovNetSupport = try Ec2.AttributeValue(dictionary: sriovNetSupport) } else { self.sriovNetSupport = nil }
+            if let ebsOptimized = dictionary["EbsOptimized"] as? [String: Any] { self.ebsOptimized = try Ec2.AttributeBooleanValue(dictionary: ebsOptimized) } else { self.ebsOptimized = nil }
+            if let sourceDestCheck = dictionary["SourceDestCheck"] as? [String: Any] { self.sourceDestCheck = try Ec2.AttributeBooleanValue(dictionary: sourceDestCheck) } else { self.sourceDestCheck = nil }
             self.attribute = dictionary["Attribute"] as? String
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let instanceType = dictionary["InstanceType"] as? [String: Any] { self.instanceType = try Ec2.AttributeValue(dictionary: instanceType) }
-            if let ramdisk = dictionary["Ramdisk"] as? [String: Any] { self.ramdisk = try Ec2.AttributeValue(dictionary: ramdisk) }
+            if let instanceType = dictionary["InstanceType"] as? [String: Any] { self.instanceType = try Ec2.AttributeValue(dictionary: instanceType) } else { self.instanceType = nil }
+            if let ramdisk = dictionary["Ramdisk"] as? [String: Any] { self.ramdisk = try Ec2.AttributeValue(dictionary: ramdisk) } else { self.ramdisk = nil }
             self.value = dictionary["Value"] as? String
-            if let kernel = dictionary["Kernel"] as? [String: Any] { self.kernel = try Ec2.AttributeValue(dictionary: kernel) }
+            if let kernel = dictionary["Kernel"] as? [String: Any] { self.kernel = try Ec2.AttributeValue(dictionary: kernel) } else { self.kernel = nil }
             guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
             self.instanceId = instanceId
-            if let enaSupport = dictionary["EnaSupport"] as? [String: Any] { self.enaSupport = try Ec2.AttributeBooleanValue(dictionary: enaSupport) }
-            if let instanceInitiatedShutdownBehavior = dictionary["InstanceInitiatedShutdownBehavior"] as? [String: Any] { self.instanceInitiatedShutdownBehavior = try Ec2.AttributeValue(dictionary: instanceInitiatedShutdownBehavior) }
-            if let groups = dictionary["Groups"] as? [String] {
-                self.groups = groups
-            }
+            if let enaSupport = dictionary["EnaSupport"] as? [String: Any] { self.enaSupport = try Ec2.AttributeBooleanValue(dictionary: enaSupport) } else { self.enaSupport = nil }
+            if let instanceInitiatedShutdownBehavior = dictionary["InstanceInitiatedShutdownBehavior"] as? [String: Any] { self.instanceInitiatedShutdownBehavior = try Ec2.AttributeValue(dictionary: instanceInitiatedShutdownBehavior) } else { self.instanceInitiatedShutdownBehavior = nil }
+            self.groups = dictionary["Groups"] as? [String]
         }
     }
 
@@ -16901,17 +16041,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The frequency (Daily, Weekly, or Monthly).
-        public var frequency: String? = nil
+        public let frequency: String?
         /// The unit for occurrenceDaySet (DayOfWeek or DayOfMonth).
-        public var occurrenceUnit: String? = nil
+        public let occurrenceUnit: String?
         /// Indicates whether the occurrence is relative to the end of the specified week or month.
-        public var occurrenceRelativeToEnd: Bool? = nil
+        public let occurrenceRelativeToEnd: Bool?
         /// The interval quantity. The interval unit depends on the value of frequency. For example, every 2 weeks or every 2 months.
-        public var interval: Int32? = nil
+        public let interval: Int32?
         /// The days. For a monthly schedule, this is one or more days of the month (1-31). For a weekly schedule, this is one or more days of the week (1-7, where 1 is Sunday).
-        public var occurrenceDaySet: [Int32]? = nil
-
-        public init() {}
+        public let occurrenceDaySet: [Int32]?
 
         public init(frequency: String? = nil, occurrenceUnit: String? = nil, occurrenceRelativeToEnd: Bool? = nil, interval: Int32? = nil, occurrenceDaySet: [Int32]? = nil) {
             self.frequency = frequency
@@ -16926,9 +16064,7 @@ extension Ec2 {
             self.occurrenceUnit = dictionary["OccurrenceUnit"] as? String
             self.occurrenceRelativeToEnd = dictionary["OccurrenceRelativeToEnd"] as? Bool
             self.interval = dictionary["Interval"] as? Int32
-            if let occurrenceDaySet = dictionary["OccurrenceDaySet"] as? [Int32] {
-                self.occurrenceDaySet = occurrenceDaySet
-            }
+            self.occurrenceDaySet = dictionary["OccurrenceDaySet"] as? [Int32]
         }
     }
 
@@ -16936,16 +16072,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the virtual private gateway.
-        public var vpnGateway: VpnGateway? = nil
-
-        public init() {}
+        public let vpnGateway: VpnGateway?
 
         public init(vpnGateway: VpnGateway? = nil) {
             self.vpnGateway = vpnGateway
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let vpnGateway = dictionary["VpnGateway"] as? [String: Any] { self.vpnGateway = try Ec2.VpnGateway(dictionary: vpnGateway) }
+            if let vpnGateway = dictionary["VpnGateway"] as? [String: Any] { self.vpnGateway = try Ec2.VpnGateway(dictionary: vpnGateway) } else { self.vpnGateway = nil }
         }
     }
 
@@ -16953,27 +16087,25 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A brief status of the snapshot creation.
-        public var status: String? = nil
+        public let status: String?
         /// The percentage of progress for the task.
-        public var progress: String? = nil
+        public let progress: String?
         /// The URL used to access the disk image.
-        public var url: String? = nil
+        public let url: String?
         /// The size of the disk in the snapshot, in GiB.
-        public var diskImageSize: Double? = nil
+        public let diskImageSize: Double?
         /// The format of the disk image from which the snapshot is created.
-        public var format: String? = nil
+        public let format: String?
         /// The snapshot ID of the disk being imported.
-        public var snapshotId: String? = nil
+        public let snapshotId: String?
         /// The S3 bucket for the disk image.
-        public var userBucket: UserBucketDetails? = nil
+        public let userBucket: UserBucketDetails?
         /// A detailed status message for the snapshot creation.
-        public var statusMessage: String? = nil
+        public let statusMessage: String?
         /// The block device mapping for the snapshot.
-        public var deviceName: String? = nil
+        public let deviceName: String?
         /// A description for the snapshot.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(status: String? = nil, progress: String? = nil, url: String? = nil, diskImageSize: Double? = nil, format: String? = nil, snapshotId: String? = nil, userBucket: UserBucketDetails? = nil, statusMessage: String? = nil, deviceName: String? = nil, description: String? = nil) {
             self.status = status
@@ -16995,7 +16127,7 @@ extension Ec2 {
             self.diskImageSize = dictionary["DiskImageSize"] as? Double
             self.format = dictionary["Format"] as? String
             self.snapshotId = dictionary["SnapshotId"] as? String
-            if let userBucket = dictionary["UserBucket"] as? [String: Any] { self.userBucket = try Ec2.UserBucketDetails(dictionary: userBucket) }
+            if let userBucket = dictionary["UserBucket"] as? [String: Any] { self.userBucket = try Ec2.UserBucketDetails(dictionary: userBucket) } else { self.userBucket = nil }
             self.statusMessage = dictionary["StatusMessage"] as? String
             self.deviceName = dictionary["DeviceName"] as? String
             self.description = dictionary["Description"] as? String
@@ -17006,13 +16138,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more VPC IDs.
-        public var vpcIds: [String]? = nil
+        public let vpcIds: [String]?
         /// The token for the next set of items to return. (You received this token from a prior call.)
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of items to return for this request. The request returns a token that you can specify in a subsequent call to get the next set of results.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(vpcIds: [String]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.vpcIds = vpcIds
@@ -17021,9 +16151,7 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let vpcIds = dictionary["VpcIds"] as? [String] {
-                self.vpcIds = vpcIds
-            }
+            self.vpcIds = dictionary["VpcIds"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -17033,9 +16161,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the NAT gateway.
-        public var natGatewayId: String? = nil
-
-        public init() {}
+        public let natGatewayId: String?
 
         public init(natGatewayId: String? = nil) {
             self.natGatewayId = natGatewayId
@@ -17050,15 +16176,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The index of the device for the network interface attachment.
-        public var deviceIndex: Int32 = 0
+        public let deviceIndex: Int32
         /// The ID of the network interface.
-        public var networkInterfaceId: String = ""
+        public let networkInterfaceId: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The ID of the instance.
-        public var instanceId: String = ""
-
-        public init() {}
+        public let instanceId: String
 
         public init(deviceIndex: Int32, networkInterfaceId: String, dryRun: Bool? = nil, instanceId: String) {
             self.deviceIndex = deviceIndex
@@ -17082,21 +16206,19 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more security group and AWS account ID pairs.
-        public var userIdGroupPairs: [UserIdGroupPair]? = nil
+        public let userIdGroupPairs: [UserIdGroupPair]?
         /// One or more IPv4 ranges.
-        public var ipRanges: [IpRange]? = nil
+        public let ipRanges: [IpRange]?
         /// [EC2-VPC only] One or more IPv6 ranges.
-        public var ipv6Ranges: [Ipv6Range]? = nil
+        public let ipv6Ranges: [Ipv6Range]?
         /// (Valid for AuthorizeSecurityGroupEgress, RevokeSecurityGroupEgress and DescribeSecurityGroups only) One or more prefix list IDs for an AWS service. In an AuthorizeSecurityGroupEgress request, this is the AWS service that you want to access through a VPC endpoint from instances associated with the security group.
-        public var prefixListIds: [PrefixListId]? = nil
+        public let prefixListIds: [PrefixListId]?
         /// The end of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code. A value of -1 indicates all ICMP/ICMPv6 codes for the specified ICMP type.
-        public var toPort: Int32? = nil
+        public let toPort: Int32?
         /// The IP protocol name (tcp, udp, icmp) or number (see Protocol Numbers).  [EC2-VPC only] Use -1 to specify all protocols. When authorizing security group rules, specifying -1 or a protocol number other than tcp, udp, icmp, or 58 (ICMPv6) allows traffic on all ports, regardless of any port range you specify. For tcp, udp, and icmp, you must specify a port range. For 58 (ICMPv6), you can optionally specify a port range; if you don't, traffic for all types and codes is allowed when authorizing rules. 
-        public var ipProtocol: String? = nil
+        public let ipProtocol: String?
         /// The start of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type number. A value of -1 indicates all ICMP/ICMPv6 types.
-        public var fromPort: Int32? = nil
-
-        public init() {}
+        public let fromPort: Int32?
 
         public init(userIdGroupPairs: [UserIdGroupPair]? = nil, ipRanges: [IpRange]? = nil, ipv6Ranges: [Ipv6Range]? = nil, prefixListIds: [PrefixListId]? = nil, toPort: Int32? = nil, ipProtocol: String? = nil, fromPort: Int32? = nil) {
             self.userIdGroupPairs = userIdGroupPairs
@@ -17111,15 +16233,23 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let userIdGroupPairs = dictionary["UserIdGroupPairs"] as? [[String: Any]] {
                 self.userIdGroupPairs = try userIdGroupPairs.map({ try UserIdGroupPair(dictionary: $0) })
+            } else { 
+                self.userIdGroupPairs = nil
             }
             if let ipRanges = dictionary["IpRanges"] as? [[String: Any]] {
                 self.ipRanges = try ipRanges.map({ try IpRange(dictionary: $0) })
+            } else { 
+                self.ipRanges = nil
             }
             if let ipv6Ranges = dictionary["Ipv6Ranges"] as? [[String: Any]] {
                 self.ipv6Ranges = try ipv6Ranges.map({ try Ipv6Range(dictionary: $0) })
+            } else { 
+                self.ipv6Ranges = nil
             }
             if let prefixListIds = dictionary["PrefixListIds"] as? [[String: Any]] {
                 self.prefixListIds = try prefixListIds.map({ try PrefixListId(dictionary: $0) })
+            } else { 
+                self.prefixListIds = nil
             }
             self.toPort = dictionary["ToPort"] as? Int32
             self.ipProtocol = dictionary["IpProtocol"] as? String
@@ -17131,17 +16261,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the VPN tunnel.
-        public var status: String? = nil
+        public let status: String?
         /// The date and time of the last change in status.
-        public var lastStatusChange: Date? = nil
+        public let lastStatusChange: Date?
         /// The Internet-routable IP address of the virtual private gateway's outside interface.
-        public var outsideIpAddress: String? = nil
+        public let outsideIpAddress: String?
         /// If an error occurs, a description of the error.
-        public var statusMessage: String? = nil
+        public let statusMessage: String?
         /// The number of accepted routes.
-        public var acceptedRouteCount: Int32? = nil
-
-        public init() {}
+        public let acceptedRouteCount: Int32?
 
         public init(status: String? = nil, lastStatusChange: Date? = nil, outsideIpAddress: String? = nil, statusMessage: String? = nil, acceptedRouteCount: Int32? = nil) {
             self.status = status
@@ -17164,9 +16292,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the new association.
-        public var newAssociationId: String? = nil
-
-        public init() {}
+        public let newAssociationId: String?
 
         public init(newAssociationId: String? = nil) {
             self.newAssociationId = newAssociationId
@@ -17181,11 +16307,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The size of the volume, in GiB.
-        public var size: Int64? = nil
+        public let size: Int64?
         /// The volume identifier.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(size: Int64? = nil, id: String) {
             self.size = size
@@ -17203,9 +16327,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The attribute value. Note that the value is case-sensitive.
-        public var value: String? = nil
-
-        public init() {}
+        public let value: String?
 
         public init(value: String? = nil) {
             self.value = value
@@ -17220,16 +16342,14 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the conversion task.
-        public var conversionTask: ConversionTask? = nil
-
-        public init() {}
+        public let conversionTask: ConversionTask?
 
         public init(conversionTask: ConversionTask? = nil) {
             self.conversionTask = conversionTask
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let conversionTask = dictionary["ConversionTask"] as? [String: Any] { self.conversionTask = try Ec2.ConversionTask(dictionary: conversionTask) }
+            if let conversionTask = dictionary["ConversionTask"] as? [String: Any] { self.conversionTask = try Ec2.ConversionTask(dictionary: conversionTask) } else { self.conversionTask = nil }
         }
     }
 
@@ -17237,11 +16357,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A DHCP configuration option.
-        public var dhcpConfigurations: [NewDhcpConfiguration] = []
+        public let dhcpConfigurations: [NewDhcpConfiguration]
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
-
-        public init() {}
+        public let dryRun: Bool?
 
         public init(dhcpConfigurations: [NewDhcpConfiguration], dryRun: Bool? = nil) {
             self.dhcpConfigurations = dhcpConfigurations
@@ -17259,13 +16377,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the principal, which can be an IAM user, IAM role, or the root user. Specify all to modify the ID format for all IAM users, IAM roles, and the root user of the account.
-        public var principalArn: String = ""
+        public let principalArn: String
         /// The type of resource: instance | reservation | snapshot | volume 
-        public var resource: String = ""
+        public let resource: String
         /// Indicates whether the resource should use longer IDs (17-character IDs)
-        public var useLongIds: Bool = false
-
-        public init() {}
+        public let useLongIds: Bool
 
         public init(principalArn: String, resource: String, useLongIds: Bool) {
             self.principalArn = principalArn
@@ -17287,17 +16403,15 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the Spot fleet request.
-        public var spotFleetRequestState: String = ""
+        public let spotFleetRequestState: String
         /// The creation date and time of the request.
-        public var createTime: Date = Date()
+        public let createTime: Date
         /// The progress of the Spot fleet request. If there is an error, the status is error. After all bids are placed, the status is pending_fulfillment. If the size of the fleet is equal to or greater than its target capacity, the status is fulfilled. If the size of the fleet is decreased, the status is pending_termination while Spot instances are terminating.
-        public var activityStatus: String? = nil
+        public let activityStatus: String?
         /// Information about the configuration of the Spot fleet request.
-        public var spotFleetRequestConfig: SpotFleetRequestConfigData = SpotFleetRequestConfigData()
+        public let spotFleetRequestConfig: SpotFleetRequestConfigData
         /// The ID of the Spot fleet request.
-        public var spotFleetRequestId: String = ""
-
-        public init() {}
+        public let spotFleetRequestId: String
 
         public init(spotFleetRequestState: String, createTime: Date, activityStatus: String? = nil, spotFleetRequestConfig: SpotFleetRequestConfigData, spotFleetRequestId: String) {
             self.spotFleetRequestState = spotFleetRequestState
@@ -17324,11 +16438,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the Dedicated Hosts that were successfully modified.
-        public var successful: [String]? = nil
+        public let successful: [String]?
         /// The IDs of the Dedicated Hosts that could not be modified. Check whether the setting you requested can be used.
-        public var unsuccessful: [UnsuccessfulItem]? = nil
-
-        public init() {}
+        public let unsuccessful: [UnsuccessfulItem]?
 
         public init(successful: [String]? = nil, unsuccessful: [UnsuccessfulItem]? = nil) {
             self.successful = successful
@@ -17336,11 +16448,11 @@ extension Ec2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let successful = dictionary["Successful"] as? [String] {
-                self.successful = successful
-            }
+            self.successful = dictionary["Successful"] as? [String]
             if let unsuccessful = dictionary["Unsuccessful"] as? [[String: Any]] {
                 self.unsuccessful = try unsuccessful.map({ try UnsuccessfulItem(dictionary: $0) })
+            } else { 
+                self.unsuccessful = nil
             }
         }
     }
@@ -17349,13 +16461,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// [EC2-Classic] The Elastic IP address. Required for EC2-Classic.
-        public var publicIp: String? = nil
+        public let publicIp: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// [EC2-VPC] The association ID. Required for EC2-VPC.
-        public var associationId: String? = nil
-
-        public init() {}
+        public let associationId: String?
 
         public init(publicIp: String? = nil, dryRun: Bool? = nil, associationId: String? = nil) {
             self.publicIp = publicIp
@@ -17374,19 +16484,17 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the snapshot.
-        public var snapshotId: String? = nil
+        public let snapshotId: String?
         /// Indicates whether the volume is deleted on instance termination.
-        public var deleteOnTermination: Bool? = nil
+        public let deleteOnTermination: Bool?
         /// The volume type. gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, Throughput Optimized HDD for st1, Cold HDD for sc1, or standard for Magnetic. Default: standard 
-        public var volumeType: String? = nil
+        public let volumeType: String?
         /// The size of the volume, in GiB. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size.
-        public var volumeSize: Int32? = nil
+        public let volumeSize: Int32?
         /// The number of I/O operations per second (IOPS) that the volume supports. For io1 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. For more information about gp2 baseline performance, I/O credits, and bursting, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. Constraint: Range is 100-20000 IOPS for io1 volumes and 100-10000 IOPS for gp2 volumes. Condition: This parameter is required for requests to create io1volumes; it is not used in requests to create gp2, st1, sc1, or standard volumes.
-        public var iops: Int32? = nil
+        public let iops: Int32?
         /// Indicates whether the volume is encrypted. You can attached encrypted volumes only to instances that support them.
-        public var encrypted: Bool? = nil
-
-        public init() {}
+        public let encrypted: Bool?
 
         public init(snapshotId: String? = nil, deleteOnTermination: Bool? = nil, volumeType: String? = nil, volumeSize: Int32? = nil, iops: Int32? = nil, encrypted: Bool? = nil) {
             self.snapshotId = snapshotId
@@ -17411,9 +16519,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The monitoring information.
-        public var instanceMonitorings: [InstanceMonitoring]? = nil
-
-        public init() {}
+        public let instanceMonitorings: [InstanceMonitoring]?
 
         public init(instanceMonitorings: [InstanceMonitoring]? = nil) {
             self.instanceMonitorings = instanceMonitorings
@@ -17422,6 +16528,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let instanceMonitorings = dictionary["InstanceMonitorings"] as? [[String: Any]] {
                 self.instanceMonitorings = try instanceMonitorings.map({ try InstanceMonitoring(dictionary: $0) })
+            } else { 
+                self.instanceMonitorings = nil
             }
         }
     }
@@ -17430,13 +16538,11 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Any tags assigned to the Internet gateway.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The ID of the Internet gateway.
-        public var internetGatewayId: String? = nil
+        public let internetGatewayId: String?
         /// Any VPCs attached to the Internet gateway.
-        public var attachments: [InternetGatewayAttachment]? = nil
-
-        public init() {}
+        public let attachments: [InternetGatewayAttachment]?
 
         public init(tags: [Tag]? = nil, internetGatewayId: String? = nil, attachments: [InternetGatewayAttachment]? = nil) {
             self.tags = tags
@@ -17447,10 +16553,14 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.internetGatewayId = dictionary["InternetGatewayId"] as? String
             if let attachments = dictionary["Attachments"] as? [[String: Any]] {
                 self.attachments = try attachments.map({ try InternetGatewayAttachment(dictionary: $0) })
+            } else { 
+                self.attachments = nil
             }
         }
     }
@@ -17459,11 +16569,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Removes a specific AWS account ID or group from a volume's list of create volume permissions.
-        public var remove: [CreateVolumePermission]? = nil
+        public let remove: [CreateVolumePermission]?
         /// Adds a specific AWS account ID or group to a volume's list of create volume permissions.
-        public var add: [CreateVolumePermission]? = nil
-
-        public init() {}
+        public let add: [CreateVolumePermission]?
 
         public init(remove: [CreateVolumePermission]? = nil, add: [CreateVolumePermission]? = nil) {
             self.remove = remove
@@ -17473,9 +16581,13 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let remove = dictionary["Remove"] as? [[String: Any]] {
                 self.remove = try remove.map({ try CreateVolumePermission(dictionary: $0) })
+            } else { 
+                self.remove = nil
             }
             if let add = dictionary["Add"] as? [[String: Any]] {
                 self.add = try add.map({ try CreateVolumePermission(dictionary: $0) })
+            } else { 
+                self.add = nil
             }
         }
     }
@@ -17484,15 +16596,13 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-        public var dryRun: Bool? = nil
+        public let dryRun: Bool?
         /// The IDs of the Spot fleet requests.
-        public var spotFleetRequestIds: [String]? = nil
+        public let spotFleetRequestIds: [String]?
         /// The token for the next set of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(dryRun: Bool? = nil, spotFleetRequestIds: [String]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.dryRun = dryRun
@@ -17503,9 +16613,7 @@ extension Ec2 {
 
         public init(dictionary: [String: Any]) throws {
             self.dryRun = dictionary["DryRun"] as? Bool
-            if let spotFleetRequestIds = dictionary["SpotFleetRequestIds"] as? [String] {
-                self.spotFleetRequestIds = spotFleetRequestIds
-            }
+            self.spotFleetRequestIds = dictionary["SpotFleetRequestIds"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -17515,9 +16623,7 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about one or more network interfaces.
-        public var networkInterfaces: [NetworkInterface]? = nil
-
-        public init() {}
+        public let networkInterfaces: [NetworkInterface]?
 
         public init(networkInterfaces: [NetworkInterface]? = nil) {
             self.networkInterfaces = networkInterfaces
@@ -17526,6 +16632,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let networkInterfaces = dictionary["NetworkInterfaces"] as? [[String: Any]] {
                 self.networkInterfaces = try networkInterfaces.map({ try NetworkInterface(dictionary: $0) })
+            } else { 
+                self.networkInterfaces = nil
             }
         }
     }
@@ -17534,11 +16642,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Convertible Reserved Instance offering ID.
-        public var offeringId: String = ""
+        public let offeringId: String
         /// The number of instances the Covertible Reserved Instance offering can be applied to. This parameter is reserved and cannot be specified in a request
-        public var instanceCount: Int32? = nil
-
-        public init() {}
+        public let instanceCount: Int32?
 
         public init(offeringId: String, instanceCount: Int32? = nil) {
             self.offeringId = offeringId
@@ -17556,11 +16662,9 @@ extension Ec2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more instance status descriptions.
-        public var instanceStatuses: [InstanceStatus]? = nil
+        public let instanceStatuses: [InstanceStatus]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(instanceStatuses: [InstanceStatus]? = nil, nextToken: String? = nil) {
             self.instanceStatuses = instanceStatuses
@@ -17570,6 +16674,8 @@ extension Ec2 {
         public init(dictionary: [String: Any]) throws {
             if let instanceStatuses = dictionary["InstanceStatuses"] as? [[String: Any]] {
                 self.instanceStatuses = try instanceStatuses.map({ try InstanceStatus(dictionary: $0) })
+            } else { 
+                self.instanceStatuses = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }

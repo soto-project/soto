@@ -33,24 +33,20 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The job object that represents the user import job.
-        public var userImportJob: UserImportJobType? = nil
-
-        public init() {}
+        public let userImportJob: UserImportJobType?
 
         public init(userImportJob: UserImportJobType? = nil) {
             self.userImportJob = userImportJob
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let userImportJob = dictionary["UserImportJob"] as? [String: Any] { self.userImportJob = try CognitoIdp.UserImportJobType(dictionary: userImportJob) }
+            if let userImportJob = dictionary["UserImportJob"] as? [String: Any] { self.userImportJob = try CognitoIdp.UserImportJobType(dictionary: userImportJob) } else { self.userImportJob = nil }
         }
     }
 
     public struct AdminUserGlobalSignOutResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -60,39 +56,37 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool 
-        public var userPoolTags: [String: String]? = nil
+        public let userPoolTags: [String: String]?
         /// A string representing the email verification subject.
-        public var emailVerificationSubject: String? = nil
+        public let emailVerificationSubject: String?
         /// The configuration for AdminCreateUser requests.
-        public var adminCreateUserConfig: AdminCreateUserConfigType? = nil
+        public let adminCreateUserConfig: AdminCreateUserConfigType?
         /// An array of schema attributes for the new user pool. These attributes can be standard or custom attributes.
-        public var schema: [SchemaAttributeType]? = nil
+        public let schema: [SchemaAttributeType]?
         /// The policies associated with the new user pool.
-        public var policies: UserPoolPolicyType? = nil
+        public let policies: UserPoolPolicyType?
         /// Attributes supported as an alias for this user pool. Possible values: phone_number, email, or preferred_username.
-        public var aliasAttributes: [String]? = nil
+        public let aliasAttributes: [String]?
         /// The Lambda trigger configuration information for the new user pool.
-        public var lambdaConfig: LambdaConfigType? = nil
+        public let lambdaConfig: LambdaConfigType?
         /// Specifies MFA configuration details.
-        public var mfaConfiguration: String? = nil
+        public let mfaConfiguration: String?
         /// A string used to name the user pool.
-        public var poolName: String = ""
+        public let poolName: String
         /// The email configuration.
-        public var emailConfiguration: EmailConfigurationType? = nil
+        public let emailConfiguration: EmailConfigurationType?
         /// A string representing the SMS verification message.
-        public var smsVerificationMessage: String? = nil
+        public let smsVerificationMessage: String?
         /// A string representing the email verification message.
-        public var emailVerificationMessage: String? = nil
+        public let emailVerificationMessage: String?
         /// The SMS configuration.
-        public var smsConfiguration: SmsConfigurationType? = nil
+        public let smsConfiguration: SmsConfigurationType?
         /// A string representing the SMS authentication message.
-        public var smsAuthenticationMessage: String? = nil
+        public let smsAuthenticationMessage: String?
         /// The attributes to be auto-verified. Possible values: email, phone_number.
-        public var autoVerifiedAttributes: [String]? = nil
+        public let autoVerifiedAttributes: [String]?
         /// The device configuration.
-        public var deviceConfiguration: DeviceConfigurationType? = nil
-
-        public init() {}
+        public let deviceConfiguration: DeviceConfigurationType?
 
         public init(userPoolTags: [String: String]? = nil, emailVerificationSubject: String? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, schema: [SchemaAttributeType]? = nil, policies: UserPoolPolicyType? = nil, aliasAttributes: [String]? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: String? = nil, poolName: String, emailConfiguration: EmailConfigurationType? = nil, smsVerificationMessage: String? = nil, emailVerificationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsAuthenticationMessage: String? = nil, autoVerifiedAttributes: [String]? = nil, deviceConfiguration: DeviceConfigurationType? = nil) {
             self.userPoolTags = userPoolTags
@@ -116,37 +110,35 @@ extension CognitoIdp {
         public init(dictionary: [String: Any]) throws {
             if let userPoolTags = dictionary["UserPoolTags"] as? [String: String] {
                 self.userPoolTags = userPoolTags
+            } else { 
+                self.userPoolTags = nil
             }
             self.emailVerificationSubject = dictionary["EmailVerificationSubject"] as? String
-            if let adminCreateUserConfig = dictionary["AdminCreateUserConfig"] as? [String: Any] { self.adminCreateUserConfig = try CognitoIdp.AdminCreateUserConfigType(dictionary: adminCreateUserConfig) }
+            if let adminCreateUserConfig = dictionary["AdminCreateUserConfig"] as? [String: Any] { self.adminCreateUserConfig = try CognitoIdp.AdminCreateUserConfigType(dictionary: adminCreateUserConfig) } else { self.adminCreateUserConfig = nil }
             if let schema = dictionary["Schema"] as? [[String: Any]] {
                 self.schema = try schema.map({ try SchemaAttributeType(dictionary: $0) })
+            } else { 
+                self.schema = nil
             }
-            if let policies = dictionary["Policies"] as? [String: Any] { self.policies = try CognitoIdp.UserPoolPolicyType(dictionary: policies) }
-            if let aliasAttributes = dictionary["AliasAttributes"] as? [String] {
-                self.aliasAttributes = aliasAttributes
-            }
-            if let lambdaConfig = dictionary["LambdaConfig"] as? [String: Any] { self.lambdaConfig = try CognitoIdp.LambdaConfigType(dictionary: lambdaConfig) }
+            if let policies = dictionary["Policies"] as? [String: Any] { self.policies = try CognitoIdp.UserPoolPolicyType(dictionary: policies) } else { self.policies = nil }
+            self.aliasAttributes = dictionary["AliasAttributes"] as? [String]
+            if let lambdaConfig = dictionary["LambdaConfig"] as? [String: Any] { self.lambdaConfig = try CognitoIdp.LambdaConfigType(dictionary: lambdaConfig) } else { self.lambdaConfig = nil }
             self.mfaConfiguration = dictionary["MfaConfiguration"] as? String
             guard let poolName = dictionary["PoolName"] as? String else { throw InitializableError.missingRequiredParam("PoolName") }
             self.poolName = poolName
-            if let emailConfiguration = dictionary["EmailConfiguration"] as? [String: Any] { self.emailConfiguration = try CognitoIdp.EmailConfigurationType(dictionary: emailConfiguration) }
+            if let emailConfiguration = dictionary["EmailConfiguration"] as? [String: Any] { self.emailConfiguration = try CognitoIdp.EmailConfigurationType(dictionary: emailConfiguration) } else { self.emailConfiguration = nil }
             self.smsVerificationMessage = dictionary["SmsVerificationMessage"] as? String
             self.emailVerificationMessage = dictionary["EmailVerificationMessage"] as? String
-            if let smsConfiguration = dictionary["SmsConfiguration"] as? [String: Any] { self.smsConfiguration = try CognitoIdp.SmsConfigurationType(dictionary: smsConfiguration) }
+            if let smsConfiguration = dictionary["SmsConfiguration"] as? [String: Any] { self.smsConfiguration = try CognitoIdp.SmsConfigurationType(dictionary: smsConfiguration) } else { self.smsConfiguration = nil }
             self.smsAuthenticationMessage = dictionary["SmsAuthenticationMessage"] as? String
-            if let autoVerifiedAttributes = dictionary["AutoVerifiedAttributes"] as? [String] {
-                self.autoVerifiedAttributes = autoVerifiedAttributes
-            }
-            if let deviceConfiguration = dictionary["DeviceConfiguration"] as? [String: Any] { self.deviceConfiguration = try CognitoIdp.DeviceConfigurationType(dictionary: deviceConfiguration) }
+            self.autoVerifiedAttributes = dictionary["AutoVerifiedAttributes"] as? [String]
+            if let deviceConfiguration = dictionary["DeviceConfiguration"] as? [String: Any] { self.deviceConfiguration = try CognitoIdp.DeviceConfigurationType(dictionary: deviceConfiguration) } else { self.deviceConfiguration = nil }
         }
     }
 
     public struct AddCustomAttributesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -156,11 +148,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The users returned in the request to list users.
-        public var users: [UserType]? = nil
+        public let users: [UserType]?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(users: [UserType]? = nil, nextToken: String? = nil) {
             self.users = users
@@ -170,6 +160,8 @@ extension CognitoIdp {
         public init(dictionary: [String: Any]) throws {
             if let users = dictionary["Users"] as? [[String: Any]] {
                 self.users = try users.map({ try UserType(dictionary: $0) })
+            } else { 
+                self.users = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -179,11 +171,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The minimum value of an attribute that is of the number data type.
-        public var minValue: String? = nil
+        public let minValue: String?
         /// The maximum value of an attribute that is of the number data type.
-        public var maxValue: String? = nil
-
-        public init() {}
+        public let maxValue: String?
 
         public init(minValue: String? = nil, maxValue: String? = nil) {
             self.minValue = minValue
@@ -200,13 +190,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The limit of the device request.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The pagination token for the list request.
-        public var paginationToken: String? = nil
+        public let paginationToken: String?
         /// The access tokens for the request to list devices.
-        public var accessToken: String = ""
-
-        public init() {}
+        public let accessToken: String
 
         public init(limit: Int32? = nil, paginationToken: String? = nil, accessToken: String) {
             self.limit = limit
@@ -226,9 +214,7 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pool ID for the user pool you want to delete.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(userPoolId: String) {
             self.userPoolId = userPoolId
@@ -244,16 +230,14 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The code delivery details returned by the server in response to the request to get the user attribute verification code.
-        public var codeDeliveryDetails: CodeDeliveryDetailsType? = nil
-
-        public init() {}
+        public let codeDeliveryDetails: CodeDeliveryDetailsType?
 
         public init(codeDeliveryDetails: CodeDeliveryDetailsType? = nil) {
             self.codeDeliveryDetails = codeDeliveryDetails
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let codeDeliveryDetails = dictionary["CodeDeliveryDetails"] as? [String: Any] { self.codeDeliveryDetails = try CognitoIdp.CodeDeliveryDetailsType(dictionary: codeDeliveryDetails) }
+            if let codeDeliveryDetails = dictionary["CodeDeliveryDetails"] as? [String: Any] { self.codeDeliveryDetails = try CognitoIdp.CodeDeliveryDetailsType(dictionary: codeDeliveryDetails) } else { self.codeDeliveryDetails = nil }
         }
     }
 
@@ -261,19 +245,17 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of name-value pairs representing user attributes.
-        public var userAttributes: [AttributeType]? = nil
+        public let userAttributes: [AttributeType]?
         /// The ID of the client associated with the user pool.
-        public var clientId: String = ""
+        public let clientId: String
         /// The password of the user you wish to register.
-        public var password: String = ""
+        public let password: String
         /// The validation data in the request to register a user.
-        public var validationData: [AttributeType]? = nil
+        public let validationData: [AttributeType]?
         /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-        public var secretHash: String? = nil
+        public let secretHash: String?
         /// The user name of the user you wish to register.
-        public var username: String = ""
-
-        public init() {}
+        public let username: String
 
         public init(userAttributes: [AttributeType]? = nil, clientId: String, password: String, validationData: [AttributeType]? = nil, secretHash: String? = nil, username: String) {
             self.userAttributes = userAttributes
@@ -287,6 +269,8 @@ extension CognitoIdp {
         public init(dictionary: [String: Any]) throws {
             if let userAttributes = dictionary["UserAttributes"] as? [[String: Any]] {
                 self.userAttributes = try userAttributes.map({ try AttributeType(dictionary: $0) })
+            } else { 
+                self.userAttributes = nil
             }
             guard let clientId = dictionary["ClientId"] as? String else { throw InitializableError.missingRequiredParam("ClientId") }
             self.clientId = clientId
@@ -294,6 +278,8 @@ extension CognitoIdp {
             self.password = password
             if let validationData = dictionary["ValidationData"] as? [[String: Any]] {
                 self.validationData = try validationData.map({ try AttributeType(dictionary: $0) })
+            } else { 
+                self.validationData = nil
             }
             self.secretHash = dictionary["SecretHash"] as? String
             guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
@@ -305,16 +291,14 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pool client from a server response to describe the user pool client.
-        public var userPoolClient: UserPoolClientType? = nil
-
-        public init() {}
+        public let userPoolClient: UserPoolClientType?
 
         public init(userPoolClient: UserPoolClientType? = nil) {
             self.userPoolClient = userPoolClient
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let userPoolClient = dictionary["UserPoolClient"] as? [String: Any] { self.userPoolClient = try CognitoIdp.UserPoolClientType(dictionary: userPoolClient) }
+            if let userPoolClient = dictionary["UserPoolClient"] as? [String: Any] { self.userPoolClient = try CognitoIdp.UserPoolClientType(dictionary: userPoolClient) } else { self.userPoolClient = nil }
         }
     }
 
@@ -322,17 +306,15 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the challenge.
-        public var challengeName: String = ""
+        public let challengeName: String
         /// The client ID.
-        public var clientId: String = ""
+        public let clientId: String
         /// The session.
-        public var session: String? = nil
+        public let session: String?
         /// The challenge response.
-        public var challengeResponses: [String: String]? = nil
+        public let challengeResponses: [String: String]?
         /// The ID of the Amazon Cognito user pool.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(challengeName: String, clientId: String, session: String? = nil, challengeResponses: [String: String]? = nil, userPoolId: String) {
             self.challengeName = challengeName
@@ -350,6 +332,8 @@ extension CognitoIdp {
             self.session = dictionary["Session"] as? String
             if let challengeResponses = dictionary["ChallengeResponses"] as? [String: String] {
                 self.challengeResponses = challengeResponses
+            } else { 
+                self.challengeResponses = nil
             }
             guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
             self.userPoolId = userPoolId
@@ -360,15 +344,13 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The username for the user.
-        public var username: String = ""
+        public let username: String
         /// The limit of the request to list groups.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The user pool ID for the user pool.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(username: String, limit: Int32? = nil, nextToken: String? = nil, userPoolId: String) {
             self.username = username
@@ -391,8 +373,6 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -400,8 +380,6 @@ extension CognitoIdp {
     public struct ConfirmSignUpResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -411,11 +389,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results you want the request to return when listing the user pools.
-        public var maxResults: Int32 = 0
-
-        public init() {}
+        public let maxResults: Int32
 
         public init(nextToken: String? = nil, maxResults: Int32) {
             self.nextToken = nextToken
@@ -433,17 +409,15 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// A string containing the new description of the group.
-        public var description: String? = nil
+        public let description: String?
         /// The new precedence value for the group. For more information about this parameter, see CreateGroupRequest.
-        public var precedence: Int32? = nil
+        public let precedence: Int32?
         /// The name of the group.
-        public var groupName: String = ""
+        public let groupName: String
         /// The new role ARN for the group. This is used for setting the cognito:roles and cognito:preferred_role claims in the token.
-        public var roleArn: String? = nil
+        public let roleArn: String?
         /// The user pool ID for the user pool.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(description: String? = nil, precedence: Int32? = nil, groupName: String, roleArn: String? = nil, userPoolId: String) {
             self.description = description
@@ -468,15 +442,13 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the challenge.
-        public var challengeName: String? = nil
+        public let challengeName: String?
         /// The challenge parameters.
-        public var challengeParameters: [String: String]? = nil
+        public let challengeParameters: [String: String]?
         /// The result returned by the server in response to the request to initiate authentication.
-        public var authenticationResult: AuthenticationResultType? = nil
+        public let authenticationResult: AuthenticationResultType?
         /// The session.
-        public var session: String? = nil
-
-        public init() {}
+        public let session: String?
 
         public init(challengeName: String? = nil, challengeParameters: [String: String]? = nil, authenticationResult: AuthenticationResultType? = nil, session: String? = nil) {
             self.challengeName = challengeName
@@ -489,8 +461,10 @@ extension CognitoIdp {
             self.challengeName = dictionary["ChallengeName"] as? String
             if let challengeParameters = dictionary["ChallengeParameters"] as? [String: String] {
                 self.challengeParameters = challengeParameters
+            } else { 
+                self.challengeParameters = nil
             }
-            if let authenticationResult = dictionary["AuthenticationResult"] as? [String: Any] { self.authenticationResult = try CognitoIdp.AuthenticationResultType(dictionary: authenticationResult) }
+            if let authenticationResult = dictionary["AuthenticationResult"] as? [String: Any] { self.authenticationResult = try CognitoIdp.AuthenticationResultType(dictionary: authenticationResult) } else { self.authenticationResult = nil }
             self.session = dictionary["Session"] as? String
         }
     }
@@ -499,11 +473,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of strings representing the user attribute names you wish to delete.
-        public var userAttributeNames: [String] = []
+        public let userAttributeNames: [String]
         /// The access token used in the request to delete user attributes.
-        public var accessToken: String? = nil
-
-        public init() {}
+        public let accessToken: String?
 
         public init(userAttributeNames: [String], accessToken: String? = nil) {
             self.userAttributeNames = userAttributeNames
@@ -521,11 +493,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The job ID for the user import job.
-        public var jobId: String = ""
+        public let jobId: String
         /// The user pool ID for the user pool that the users are being imported into.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(jobId: String, userPoolId: String) {
             self.jobId = jobId
@@ -544,9 +514,7 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The access token returned by the server response to get information about the user.
-        public var accessToken: String? = nil
-
-        public init() {}
+        public let accessToken: String?
 
         public init(accessToken: String? = nil) {
             self.accessToken = accessToken
@@ -561,11 +529,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the client associated with the user pool.
-        public var clientId: String = ""
+        public let clientId: String
         /// The user pool ID for the user pool where you want to delete the client.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(clientId: String, userPoolId: String) {
             self.clientId = clientId
@@ -584,13 +550,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device key.
-        public var deviceKey: String = ""
+        public let deviceKey: String
         /// The status of whether a device is remembered.
-        public var deviceRememberedStatus: String? = nil
+        public let deviceRememberedStatus: String?
         /// The access token.
-        public var accessToken: String = ""
-
-        public init() {}
+        public let accessToken: String
 
         public init(deviceKey: String, deviceRememberedStatus: String? = nil, accessToken: String) {
             self.deviceKey = deviceKey
@@ -611,13 +575,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The username for the user.
-        public var username: String = ""
+        public let username: String
         /// The group name.
-        public var groupName: String = ""
+        public let groupName: String
         /// The user pool ID for the user pool.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(username: String, groupName: String, userPoolId: String) {
             self.username = username
@@ -639,13 +601,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pool ID for the user pool where you want to delete user attributes.
-        public var userPoolId: String = ""
+        public let userPoolId: String
         /// An array of strings representing the user attribute names you wish to delete.
-        public var userAttributeNames: [String] = []
+        public let userAttributeNames: [String]
         /// The user name of the user from which you would like to delete attributes.
-        public var username: String = ""
-
-        public init() {}
+        public let username: String
 
         public init(userPoolId: String, userAttributeNames: [String], username: String) {
             self.userPoolId = userPoolId
@@ -667,13 +627,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The client name from the user pool client description.
-        public var clientName: String? = nil
+        public let clientName: String?
         /// The ID of the client associated with the user pool.
-        public var clientId: String? = nil
+        public let clientId: String?
         /// The user pool ID for the user pool where you want to describe the user pool client.
-        public var userPoolId: String? = nil
-
-        public init() {}
+        public let userPoolId: String?
 
         public init(clientName: String? = nil, clientId: String? = nil, userPoolId: String? = nil) {
             self.clientName = clientName
@@ -692,11 +650,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The salt.
-        public var salt: String? = nil
+        public let salt: String?
         /// The password verifier.
-        public var passwordVerifier: String? = nil
-
-        public init() {}
+        public let passwordVerifier: String?
 
         public init(salt: String? = nil, passwordVerifier: String? = nil) {
             self.salt = salt
@@ -713,11 +669,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that can be used to return the next set of user import jobs in the list.
-        public var paginationToken: String? = nil
+        public let paginationToken: String?
         /// The user import jobs.
-        public var userImportJobs: [UserImportJobType]? = nil
-
-        public init() {}
+        public let userImportJobs: [UserImportJobType]?
 
         public init(paginationToken: String? = nil, userImportJobs: [UserImportJobType]? = nil) {
             self.paginationToken = paginationToken
@@ -728,6 +682,8 @@ extension CognitoIdp {
             self.paginationToken = dictionary["PaginationToken"] as? String
             if let userImportJobs = dictionary["UserImportJobs"] as? [[String: Any]] {
                 self.userImportJobs = try userImportJobs.map({ try UserImportJobType(dictionary: $0) })
+            } else { 
+                self.userImportJobs = nil
             }
         }
     }
@@ -736,15 +692,13 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The challenge name.
-        public var challengeName: String? = nil
+        public let challengeName: String?
         /// The challenge parameters.
-        public var challengeParameters: [String: String]? = nil
+        public let challengeParameters: [String: String]?
         /// The result returned by the server in response to the request to respond to the authentication challenge.
-        public var authenticationResult: AuthenticationResultType? = nil
+        public let authenticationResult: AuthenticationResultType?
         /// The session.
-        public var session: String? = nil
-
-        public init() {}
+        public let session: String?
 
         public init(challengeName: String? = nil, challengeParameters: [String: String]? = nil, authenticationResult: AuthenticationResultType? = nil, session: String? = nil) {
             self.challengeName = challengeName
@@ -757,8 +711,10 @@ extension CognitoIdp {
             self.challengeName = dictionary["ChallengeName"] as? String
             if let challengeParameters = dictionary["ChallengeParameters"] as? [String: String] {
                 self.challengeParameters = challengeParameters
+            } else { 
+                self.challengeParameters = nil
             }
-            if let authenticationResult = dictionary["AuthenticationResult"] as? [String: Any] { self.authenticationResult = try CognitoIdp.AuthenticationResultType(dictionary: authenticationResult) }
+            if let authenticationResult = dictionary["AuthenticationResult"] as? [String: Any] { self.authenticationResult = try CognitoIdp.AuthenticationResultType(dictionary: authenticationResult) } else { self.authenticationResult = nil }
             self.session = dictionary["Session"] as? String
         }
     }
@@ -767,16 +723,14 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pool client that was just created.
-        public var userPoolClient: UserPoolClientType? = nil
-
-        public init() {}
+        public let userPoolClient: UserPoolClientType?
 
         public init(userPoolClient: UserPoolClientType? = nil) {
             self.userPoolClient = userPoolClient
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let userPoolClient = dictionary["UserPoolClient"] as? [String: Any] { self.userPoolClient = try CognitoIdp.UserPoolClientType(dictionary: userPoolClient) }
+            if let userPoolClient = dictionary["UserPoolClient"] as? [String: Any] { self.userPoolClient = try CognitoIdp.UserPoolClientType(dictionary: userPoolClient) } else { self.userPoolClient = nil }
         }
     }
 
@@ -784,11 +738,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The group objects for the groups.
-        public var groups: [GroupType]? = nil
-
-        public init() {}
+        public let groups: [GroupType]?
 
         public init(nextToken: String? = nil, groups: [GroupType]? = nil) {
             self.nextToken = nextToken
@@ -799,6 +751,8 @@ extension CognitoIdp {
             self.nextToken = dictionary["NextToken"] as? String
             if let groups = dictionary["Groups"] as? [[String: Any]] {
                 self.groups = try groups.map({ try GroupType(dictionary: $0) })
+            } else { 
+                self.groups = nil
             }
         }
     }
@@ -807,17 +761,15 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The client app metadata.
-        public var clientMetadata: [String: String]? = nil
+        public let clientMetadata: [String: String]?
         /// The client app ID.
-        public var clientId: String = ""
+        public let clientId: String
         /// The authentication parameters.
-        public var authParameters: [String: String]? = nil
+        public let authParameters: [String: String]?
         /// The authentication flow.
-        public var authFlow: String = ""
+        public let authFlow: String
         /// The ID of the Amazon Cognito user pool.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(clientMetadata: [String: String]? = nil, clientId: String, authParameters: [String: String]? = nil, authFlow: String, userPoolId: String) {
             self.clientMetadata = clientMetadata
@@ -830,11 +782,15 @@ extension CognitoIdp {
         public init(dictionary: [String: Any]) throws {
             if let clientMetadata = dictionary["ClientMetadata"] as? [String: String] {
                 self.clientMetadata = clientMetadata
+            } else { 
+                self.clientMetadata = nil
             }
             guard let clientId = dictionary["ClientId"] as? String else { throw InitializableError.missingRequiredParam("ClientId") }
             self.clientId = clientId
             if let authParameters = dictionary["AuthParameters"] as? [String: String] {
                 self.authParameters = authParameters
+            } else { 
+                self.authParameters = nil
             }
             guard let authFlow = dictionary["AuthFlow"] as? String else { throw InitializableError.missingRequiredParam("AuthFlow") }
             self.authFlow = authFlow
@@ -847,16 +803,14 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pool client value from the response from the server when an update user pool client request is made.
-        public var userPoolClient: UserPoolClientType? = nil
-
-        public init() {}
+        public let userPoolClient: UserPoolClientType?
 
         public init(userPoolClient: UserPoolClientType? = nil) {
             self.userPoolClient = userPoolClient
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let userPoolClient = dictionary["UserPoolClient"] as? [String: Any] { self.userPoolClient = try CognitoIdp.UserPoolClientType(dictionary: userPoolClient) }
+            if let userPoolClient = dictionary["UserPoolClient"] as? [String: Any] { self.userPoolClient = try CognitoIdp.UserPoolClientType(dictionary: userPoolClient) } else { self.userPoolClient = nil }
         }
     }
 
@@ -864,11 +818,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The job ID for the user import job.
-        public var jobId: String = ""
+        public let jobId: String
         /// The user pool ID for the user pool that the users are being imported into.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(jobId: String, userPoolId: String) {
             self.jobId = jobId
@@ -887,9 +839,7 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The access token from a request to delete a user.
-        public var accessToken: String? = nil
-
-        public init() {}
+        public let accessToken: String?
 
         public init(accessToken: String? = nil) {
             self.accessToken = accessToken
@@ -904,9 +854,7 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The access token.
-        public var accessToken: String? = nil
-
-        public init() {}
+        public let accessToken: String?
 
         public init(accessToken: String? = nil) {
             self.accessToken = accessToken
@@ -921,21 +869,19 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The client name for the user pool client you would like to create.
-        public var clientName: String = ""
+        public let clientName: String
         /// The user pool ID for the user pool where you want to create a user pool client.
-        public var userPoolId: String = ""
+        public let userPoolId: String
         /// The write attributes.
-        public var writeAttributes: [String]? = nil
+        public let writeAttributes: [String]?
         /// The validity of the refresh token, in days.
-        public var refreshTokenValidity: Int32? = nil
+        public let refreshTokenValidity: Int32?
         /// The read attributes.
-        public var readAttributes: [String]? = nil
+        public let readAttributes: [String]?
         /// The explicit authentication flows.
-        public var explicitAuthFlows: [String]? = nil
+        public let explicitAuthFlows: [String]?
         /// Boolean to specify whether you want to generate a secret for the user pool client being created.
-        public var generateSecret: Bool? = nil
-
-        public init() {}
+        public let generateSecret: Bool?
 
         public init(clientName: String, userPoolId: String, writeAttributes: [String]? = nil, refreshTokenValidity: Int32? = nil, readAttributes: [String]? = nil, explicitAuthFlows: [String]? = nil, generateSecret: Bool? = nil) {
             self.clientName = clientName
@@ -952,16 +898,10 @@ extension CognitoIdp {
             self.clientName = clientName
             guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
             self.userPoolId = userPoolId
-            if let writeAttributes = dictionary["WriteAttributes"] as? [String] {
-                self.writeAttributes = writeAttributes
-            }
+            self.writeAttributes = dictionary["WriteAttributes"] as? [String]
             self.refreshTokenValidity = dictionary["RefreshTokenValidity"] as? Int32
-            if let readAttributes = dictionary["ReadAttributes"] as? [String] {
-                self.readAttributes = readAttributes
-            }
-            if let explicitAuthFlows = dictionary["ExplicitAuthFlows"] as? [String] {
-                self.explicitAuthFlows = explicitAuthFlows
-            }
+            self.readAttributes = dictionary["ReadAttributes"] as? [String]
+            self.explicitAuthFlows = dictionary["ExplicitAuthFlows"] as? [String]
             self.generateSecret = dictionary["GenerateSecret"] as? Bool
         }
     }
@@ -970,11 +910,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the attribute.
-        public var value: String? = nil
+        public let value: String?
         /// The name of the attribute.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(value: String? = nil, name: String) {
             self.value = value
@@ -992,8 +930,6 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1002,27 +938,25 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The client name from the user pool request of the client type.
-        public var clientName: String? = nil
+        public let clientName: String?
         /// The validity of the refresh token, in days.
-        public var refreshTokenValidity: Int32? = nil
+        public let refreshTokenValidity: Int32?
         /// The writeable attributes.
-        public var writeAttributes: [String]? = nil
+        public let writeAttributes: [String]?
         /// The Read-only attributes.
-        public var readAttributes: [String]? = nil
+        public let readAttributes: [String]?
         /// The ID of the client associated with the user pool.
-        public var clientId: String? = nil
+        public let clientId: String?
         /// The creation date from the user pool request of the client type.
-        public var creationDate: Date? = nil
+        public let creationDate: Date?
         /// The last modified date from the user pool request of the client type.
-        public var lastModifiedDate: Date? = nil
+        public let lastModifiedDate: Date?
         /// The explicit authentication flows.
-        public var explicitAuthFlows: [String]? = nil
+        public let explicitAuthFlows: [String]?
         /// The client secret from the user pool request of the client type.
-        public var clientSecret: String? = nil
+        public let clientSecret: String?
         /// The user pool ID for the user pool client.
-        public var userPoolId: String? = nil
-
-        public init() {}
+        public let userPoolId: String?
 
         public init(clientName: String? = nil, refreshTokenValidity: Int32? = nil, writeAttributes: [String]? = nil, readAttributes: [String]? = nil, clientId: String? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, explicitAuthFlows: [String]? = nil, clientSecret: String? = nil, userPoolId: String? = nil) {
             self.clientName = clientName
@@ -1040,18 +974,12 @@ extension CognitoIdp {
         public init(dictionary: [String: Any]) throws {
             self.clientName = dictionary["ClientName"] as? String
             self.refreshTokenValidity = dictionary["RefreshTokenValidity"] as? Int32
-            if let writeAttributes = dictionary["WriteAttributes"] as? [String] {
-                self.writeAttributes = writeAttributes
-            }
-            if let readAttributes = dictionary["ReadAttributes"] as? [String] {
-                self.readAttributes = readAttributes
-            }
+            self.writeAttributes = dictionary["WriteAttributes"] as? [String]
+            self.readAttributes = dictionary["ReadAttributes"] as? [String]
             self.clientId = dictionary["ClientId"] as? String
             self.creationDate = dictionary["CreationDate"] as? Date
             self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
-            if let explicitAuthFlows = dictionary["ExplicitAuthFlows"] as? [String] {
-                self.explicitAuthFlows = explicitAuthFlows
-            }
+            self.explicitAuthFlows = dictionary["ExplicitAuthFlows"] as? [String]
             self.clientSecret = dictionary["ClientSecret"] as? String
             self.userPoolId = dictionary["UserPoolId"] as? String
         }
@@ -1061,13 +989,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The job name for the user import job.
-        public var jobName: String = ""
+        public let jobName: String
         /// The role ARN for the Amazon CloudWatch Logging role for the user import job.
-        public var cloudWatchLogsRoleArn: String = ""
+        public let cloudWatchLogsRoleArn: String
         /// The user pool ID for the user pool that the users are being imported into.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(jobName: String, cloudWatchLogsRoleArn: String, userPoolId: String) {
             self.jobName = jobName
@@ -1089,21 +1015,19 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the constraints for an attribute of the number type.
-        public var numberAttributeConstraints: NumberAttributeConstraintsType? = nil
+        public let numberAttributeConstraints: NumberAttributeConstraintsType?
         /// Specifies whether the attribute type is developer only.
-        public var developerOnlyAttribute: Bool? = nil
+        public let developerOnlyAttribute: Bool?
         /// A schema attribute of the name type.
-        public var name: String? = nil
+        public let name: String?
         /// The attribute data type.
-        public var attributeDataType: String? = nil
+        public let attributeDataType: String?
         /// Specifies the constraints for an attribute of the string type.
-        public var stringAttributeConstraints: StringAttributeConstraintsType? = nil
+        public let stringAttributeConstraints: StringAttributeConstraintsType?
         /// Specifies whether a user pool attribute is required. If the attribute is required and the user does not provide a value, registration or sign-in will fail.
-        public var required: Bool? = nil
+        public let required: Bool?
         /// Specifies whether the attribute can be changed once it has been created.
-        public var mutable: Bool? = nil
-
-        public init() {}
+        public let mutable: Bool?
 
         public init(numberAttributeConstraints: NumberAttributeConstraintsType? = nil, developerOnlyAttribute: Bool? = nil, name: String? = nil, attributeDataType: String? = nil, stringAttributeConstraints: StringAttributeConstraintsType? = nil, required: Bool? = nil, mutable: Bool? = nil) {
             self.numberAttributeConstraints = numberAttributeConstraints
@@ -1116,11 +1040,11 @@ extension CognitoIdp {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let numberAttributeConstraints = dictionary["NumberAttributeConstraints"] as? [String: Any] { self.numberAttributeConstraints = try CognitoIdp.NumberAttributeConstraintsType(dictionary: numberAttributeConstraints) }
+            if let numberAttributeConstraints = dictionary["NumberAttributeConstraints"] as? [String: Any] { self.numberAttributeConstraints = try CognitoIdp.NumberAttributeConstraintsType(dictionary: numberAttributeConstraints) } else { self.numberAttributeConstraints = nil }
             self.developerOnlyAttribute = dictionary["DeveloperOnlyAttribute"] as? Bool
             self.name = dictionary["Name"] as? String
             self.attributeDataType = dictionary["AttributeDataType"] as? String
-            if let stringAttributeConstraints = dictionary["StringAttributeConstraints"] as? [String: Any] { self.stringAttributeConstraints = try CognitoIdp.StringAttributeConstraintsType(dictionary: stringAttributeConstraints) }
+            if let stringAttributeConstraints = dictionary["StringAttributeConstraints"] as? [String: Any] { self.stringAttributeConstraints = try CognitoIdp.StringAttributeConstraintsType(dictionary: stringAttributeConstraints) } else { self.stringAttributeConstraints = nil }
             self.required = dictionary["Required"] as? Bool
             self.mutable = dictionary["Mutable"] as? Bool
         }
@@ -1130,17 +1054,15 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the client associated with the user pool.
-        public var clientId: String = ""
+        public let clientId: String
         /// The confirmation code sent by a user's request to retrieve a forgotten password.
-        public var confirmationCode: String = ""
+        public let confirmationCode: String
         /// The password sent by sent by a user's request to retrieve a forgotten password.
-        public var password: String = ""
+        public let password: String
         /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-        public var secretHash: String? = nil
+        public let secretHash: String?
         /// The user name of the user for whom you want to enter a code to retrieve a forgotten password.
-        public var username: String = ""
-
-        public init() {}
+        public let username: String
 
         public init(clientId: String, confirmationCode: String, password: String, secretHash: String? = nil, username: String) {
             self.clientId = clientId
@@ -1167,17 +1089,15 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// Boolean to be specified to force user confirmation irrespective of existing alias. By default set to False. If this parameter is set to True and the phone number/email used for sign up confirmation already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user being confirmed. If set to False, the API will throw an AliasExistsException error.
-        public var forceAliasCreation: Bool? = nil
+        public let forceAliasCreation: Bool?
         /// The ID of the client associated with the user pool.
-        public var clientId: String = ""
+        public let clientId: String
         /// The confirmation code sent by a user's request to confirm registration.
-        public var confirmationCode: String = ""
+        public let confirmationCode: String
         /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-        public var secretHash: String? = nil
+        public let secretHash: String?
         /// The user name of the user whose registration you wish to confirm.
-        public var username: String = ""
-
-        public init() {}
+        public let username: String
 
         public init(forceAliasCreation: Bool? = nil, clientId: String, confirmationCode: String, secretHash: String? = nil, username: String) {
             self.forceAliasCreation = forceAliasCreation
@@ -1203,21 +1123,19 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pool ID for the user pool.
-        public var userPoolId: String? = nil
+        public let userPoolId: String?
         /// The name of the group.
-        public var groupName: String? = nil
+        public let groupName: String?
         /// The date the group was last modified.
-        public var lastModifiedDate: Date? = nil
+        public let lastModifiedDate: Date?
         /// The date the group was created.
-        public var creationDate: Date? = nil
+        public let creationDate: Date?
         /// A nonnegative integer value that specifies the precedence of this group relative to the other groups that a user can belong to in the user pool. If a user belongs to two or more groups, it is the group with the highest precedence whose role ARN will be used in the cognito:roles and cognito:preferred_role claims in the user's tokens. Groups with higher Precedence values take precedence over groups with lower Precedence values or with null Precedence values. Two groups can have the same Precedence value. If this happens, neither group takes precedence over the other. If two groups with the same Precedence have the same role ARN, that role is used in the cognito:preferred_role claim in tokens for users in each group. If the two groups have different role ARNs, the cognito:preferred_role claim is not set in users' tokens. The default Precedence value is null.
-        public var precedence: Int32? = nil
+        public let precedence: Int32?
         /// The role ARN for the group.
-        public var roleArn: String? = nil
+        public let roleArn: String?
         /// A string containing the description of the group.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(userPoolId: String? = nil, groupName: String? = nil, lastModifiedDate: Date? = nil, creationDate: Date? = nil, precedence: Int32? = nil, roleArn: String? = nil, description: String? = nil) {
             self.userPoolId = userPoolId
@@ -1244,16 +1162,14 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The job object that represents the user import job.
-        public var userImportJob: UserImportJobType? = nil
-
-        public init() {}
+        public let userImportJob: UserImportJobType?
 
         public init(userImportJob: UserImportJobType? = nil) {
             self.userImportJob = userImportJob
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let userImportJob = dictionary["UserImportJob"] as? [String: Any] { self.userImportJob = try CognitoIdp.UserImportJobType(dictionary: userImportJob) }
+            if let userImportJob = dictionary["UserImportJob"] as? [String: Any] { self.userImportJob = try CognitoIdp.UserImportJobType(dictionary: userImportJob) } else { self.userImportJob = nil }
         }
     }
 
@@ -1261,11 +1177,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pool ID for the user pool where you want to enable the user.
-        public var userPoolId: String = ""
+        public let userPoolId: String
         /// The user name of the user you wish to ebable.
-        public var username: String = ""
-
-        public init() {}
+        public let username: String
 
         public init(userPoolId: String, username: String) {
             self.userPoolId = userPoolId
@@ -1284,13 +1198,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-        public var secretHash: String? = nil
+        public let secretHash: String?
         /// The ID of the client associated with the user pool.
-        public var clientId: String = ""
+        public let clientId: String
         /// The user name of the user for whom you want to enter a code to reset a forgotten password.
-        public var username: String = ""
-
-        public init() {}
+        public let username: String
 
         public init(secretHash: String? = nil, clientId: String, username: String) {
             self.secretHash = secretHash
@@ -1311,15 +1223,13 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user name.
-        public var username: String = ""
+        public let username: String
         /// The pagination token.
-        public var paginationToken: String? = nil
+        public let paginationToken: String?
         /// The limit of the devices request.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The user pool ID.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(username: String, paginationToken: String? = nil, limit: Int32? = nil, userPoolId: String) {
             self.username = username
@@ -1342,8 +1252,6 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1352,11 +1260,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The attribute name returned by the server response to get the user attribute verification code.
-        public var attributeName: String = ""
+        public let attributeName: String
         /// The access token returned by the server response to get the user attribute verification code.
-        public var accessToken: String? = nil
-
-        public init() {}
+        public let accessToken: String?
 
         public init(attributeName: String, accessToken: String? = nil) {
             self.attributeName = attributeName
@@ -1374,15 +1280,13 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the challenge.
-        public var challengeName: String? = nil
+        public let challengeName: String?
         /// The challenge parameters.
-        public var challengeParameters: [String: String]? = nil
+        public let challengeParameters: [String: String]?
         /// The result of the authentication response.
-        public var authenticationResult: AuthenticationResultType? = nil
+        public let authenticationResult: AuthenticationResultType?
         /// The session.
-        public var session: String? = nil
-
-        public init() {}
+        public let session: String?
 
         public init(challengeName: String? = nil, challengeParameters: [String: String]? = nil, authenticationResult: AuthenticationResultType? = nil, session: String? = nil) {
             self.challengeName = challengeName
@@ -1395,8 +1299,10 @@ extension CognitoIdp {
             self.challengeName = dictionary["ChallengeName"] as? String
             if let challengeParameters = dictionary["ChallengeParameters"] as? [String: String] {
                 self.challengeParameters = challengeParameters
+            } else { 
+                self.challengeParameters = nil
             }
-            if let authenticationResult = dictionary["AuthenticationResult"] as? [String: Any] { self.authenticationResult = try CognitoIdp.AuthenticationResultType(dictionary: authenticationResult) }
+            if let authenticationResult = dictionary["AuthenticationResult"] as? [String: Any] { self.authenticationResult = try CognitoIdp.AuthenticationResultType(dictionary: authenticationResult) } else { self.authenticationResult = nil }
             self.session = dictionary["Session"] as? String
         }
     }
@@ -1405,11 +1311,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pool ID for the user pool where you want to delete the user.
-        public var userPoolId: String = ""
+        public let userPoolId: String
         /// The user name of the user you wish to delete.
-        public var username: String = ""
-
-        public init() {}
+        public let username: String
 
         public init(userPoolId: String, username: String) {
             self.userPoolId = userPoolId
@@ -1428,11 +1332,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the group.
-        public var groupName: String = ""
+        public let groupName: String
         /// The user pool ID for the user pool.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(groupName: String, userPoolId: String) {
             self.groupName = groupName
@@ -1451,13 +1353,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pool ID for the user pool that the users are being imported into.
-        public var userPoolId: String = ""
+        public let userPoolId: String
         /// An identifier that was returned from the previous call to ListUserImportJobs, which can be used to return the next set of import jobs in the list.
-        public var paginationToken: String? = nil
+        public let paginationToken: String?
         /// The maximum number of import jobs you want the request to return.
-        public var maxResults: Int32 = 0
-
-        public init() {}
+        public let maxResults: Int32
 
         public init(userPoolId: String, paginationToken: String? = nil, maxResults: Int32) {
             self.userPoolId = userPoolId
@@ -1478,11 +1378,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pool ID for the user pool where you want to reset the user's password.
-        public var userPoolId: String = ""
+        public let userPoolId: String
         /// The user name of the user whose password you wish to reset.
-        public var username: String = ""
-
-        public init() {}
+        public let username: String
 
         public init(userPoolId: String, username: String) {
             self.userPoolId = userPoolId
@@ -1501,13 +1399,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The old password in the change password request.
-        public var previousPassword: String = ""
+        public let previousPassword: String
         /// The new password in the change password request.
-        public var proposedPassword: String = ""
+        public let proposedPassword: String
         /// The access token in the change password request.
-        public var accessToken: String? = nil
-
-        public init() {}
+        public let accessToken: String?
 
         public init(previousPassword: String, proposedPassword: String, accessToken: String? = nil) {
             self.previousPassword = previousPassword
@@ -1528,19 +1424,17 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The last modified date in a user pool description.
-        public var lastModifiedDate: Date? = nil
+        public let lastModifiedDate: Date?
         /// The creation date in a user pool description.
-        public var creationDate: Date? = nil
+        public let creationDate: Date?
         /// The user pool status in a user pool description.
-        public var status: String? = nil
+        public let status: String?
         /// The AWS Lambda configuration information in a user pool description.
-        public var lambdaConfig: LambdaConfigType? = nil
+        public let lambdaConfig: LambdaConfigType?
         /// The name in a user pool description.
-        public var name: String? = nil
+        public let name: String?
         /// The ID in a user pool description.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(lastModifiedDate: Date? = nil, creationDate: Date? = nil, status: String? = nil, lambdaConfig: LambdaConfigType? = nil, name: String? = nil, id: String? = nil) {
             self.lastModifiedDate = lastModifiedDate
@@ -1555,7 +1449,7 @@ extension CognitoIdp {
             self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
             self.creationDate = dictionary["CreationDate"] as? Date
             self.status = dictionary["Status"] as? String
-            if let lambdaConfig = dictionary["LambdaConfig"] as? [String: Any] { self.lambdaConfig = try CognitoIdp.LambdaConfigType(dictionary: lambdaConfig) }
+            if let lambdaConfig = dictionary["LambdaConfig"] as? [String: Any] { self.lambdaConfig = try CognitoIdp.LambdaConfigType(dictionary: lambdaConfig) } else { self.lambdaConfig = nil }
             self.name = dictionary["Name"] as? String
             self.id = dictionary["Id"] as? String
         }
@@ -1565,11 +1459,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// If true, a device is only remembered on user prompt.
-        public var deviceOnlyRememberedOnUserPrompt: Bool? = nil
+        public let deviceOnlyRememberedOnUserPrompt: Bool?
         /// Indicates whether a challenge is required on a new device. Only applicable to a new device.
-        public var challengeRequiredOnNewDevice: Bool? = nil
-
-        public init() {}
+        public let challengeRequiredOnNewDevice: Bool?
 
         public init(deviceOnlyRememberedOnUserPrompt: Bool? = nil, challengeRequiredOnNewDevice: Bool? = nil) {
             self.deviceOnlyRememberedOnUserPrompt = deviceOnlyRememberedOnUserPrompt
@@ -1586,11 +1478,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pools from the response to list users.
-        public var userPools: [UserPoolDescriptionType]? = nil
+        public let userPools: [UserPoolDescriptionType]?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(userPools: [UserPoolDescriptionType]? = nil, nextToken: String? = nil) {
             self.userPools = userPools
@@ -1600,6 +1490,8 @@ extension CognitoIdp {
         public init(dictionary: [String: Any]) throws {
             if let userPools = dictionary["UserPools"] as? [[String: Any]] {
                 self.userPools = try userPools.map({ try UserPoolDescriptionType(dictionary: $0) })
+            } else { 
+                self.userPools = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -1609,21 +1501,19 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   ARCHIVED - User is no longer active.   COMPROMISED - User is disabled due to a potential security threat.   UNKNOWN - User status is not known.  
-        public var userStatus: String? = nil
+        public let userStatus: String?
         /// Indicates that the status is enabled.
-        public var enabled: Bool? = nil
+        public let enabled: Bool?
         /// The user name of the user about whom you are receiving information.
-        public var username: String = ""
+        public let username: String
         /// The date the user was created.
-        public var userCreateDate: Date? = nil
+        public let userCreateDate: Date?
         /// Specifies the options for MFA (e.g., email or phone number).
-        public var mFAOptions: [MFAOptionType]? = nil
+        public let mFAOptions: [MFAOptionType]?
         /// The date the user was last modified.
-        public var userLastModifiedDate: Date? = nil
+        public let userLastModifiedDate: Date?
         /// An array of name-value pairs representing user attributes.
-        public var userAttributes: [AttributeType]? = nil
-
-        public init() {}
+        public let userAttributes: [AttributeType]?
 
         public init(userStatus: String? = nil, enabled: Bool? = nil, username: String, userCreateDate: Date? = nil, mFAOptions: [MFAOptionType]? = nil, userLastModifiedDate: Date? = nil, userAttributes: [AttributeType]? = nil) {
             self.userStatus = userStatus
@@ -1643,10 +1533,14 @@ extension CognitoIdp {
             self.userCreateDate = dictionary["UserCreateDate"] as? Date
             if let mFAOptions = dictionary["MFAOptions"] as? [[String: Any]] {
                 self.mFAOptions = try mFAOptions.map({ try MFAOptionType(dictionary: $0) })
+            } else { 
+                self.mFAOptions = nil
             }
             self.userLastModifiedDate = dictionary["UserLastModifiedDate"] as? Date
             if let userAttributes = dictionary["UserAttributes"] as? [[String: Any]] {
                 self.userAttributes = try userAttributes.map({ try AttributeType(dictionary: $0) })
+            } else { 
+                self.userAttributes = nil
             }
         }
     }
@@ -1655,15 +1549,13 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the group.
-        public var groupName: String = ""
+        public let groupName: String
         /// The limit of the request to list users.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The user pool ID for the user pool.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(groupName: String, limit: Int32? = nil, nextToken: String? = nil, userPoolId: String) {
             self.groupName = groupName
@@ -1686,17 +1578,15 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// A string containing the description of the group.
-        public var description: String? = nil
+        public let description: String?
         /// A nonnegative integer value that specifies the precedence of this group relative to the other groups that a user can belong to in the user pool. Zero is the highest precedence value. Groups with lower Precedence values take precedence over groups with higher or null Precedence values. If a user belongs to two or more groups, it is the group with the lowest precedence value whose role ARN will be used in the cognito:roles and cognito:preferred_role claims in the user's tokens. Two groups can have the same Precedence value. If this happens, neither group takes precedence over the other. If two groups with the same Precedence have the same role ARN, that role is used in the cognito:preferred_role claim in tokens for users in each group. If the two groups have different role ARNs, the cognito:preferred_role claim is not set in users' tokens. The default Precedence value is null.
-        public var precedence: Int32? = nil
+        public let precedence: Int32?
         /// The name of the group. Must be unique.
-        public var groupName: String = ""
+        public let groupName: String
         /// The role ARN for the group.
-        public var roleArn: String? = nil
+        public let roleArn: String?
         /// The user pool ID for the user pool.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(description: String? = nil, precedence: Int32? = nil, groupName: String, roleArn: String? = nil, userPoolId: String) {
             self.description = description
@@ -1721,13 +1611,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The message template for SMS messages.
-        public var sMSMessage: String? = nil
+        public let sMSMessage: String?
         /// The message template for email messages.
-        public var emailMessage: String? = nil
+        public let emailMessage: String?
         /// The subject line for email messages.
-        public var emailSubject: String? = nil
-
-        public init() {}
+        public let emailSubject: String?
 
         public init(sMSMessage: String? = nil, emailMessage: String? = nil, emailSubject: String? = nil) {
             self.sMSMessage = sMSMessage
@@ -1746,9 +1634,7 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether the user confirmation is necessary to confirm the device response.
-        public var userConfirmationNecessary: Bool? = nil
-
-        public init() {}
+        public let userConfirmationNecessary: Bool?
 
         public init(userConfirmationNecessary: Bool? = nil) {
             self.userConfirmationNecessary = userConfirmationNecessary
@@ -1763,16 +1649,14 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The job object that represents the user import job.
-        public var userImportJob: UserImportJobType? = nil
-
-        public init() {}
+        public let userImportJob: UserImportJobType?
 
         public init(userImportJob: UserImportJobType? = nil) {
             self.userImportJob = userImportJob
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let userImportJob = dictionary["UserImportJob"] as? [String: Any] { self.userImportJob = try CognitoIdp.UserImportJobType(dictionary: userImportJob) }
+            if let userImportJob = dictionary["UserImportJob"] as? [String: Any] { self.userImportJob = try CognitoIdp.UserImportJobType(dictionary: userImportJob) } else { self.userImportJob = nil }
         }
     }
 
@@ -1780,11 +1664,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pool ID for the user pool where you want to disable the user.
-        public var userPoolId: String = ""
+        public let userPoolId: String
         /// The user name of the user you wish to disable.
-        public var username: String = ""
-
-        public init() {}
+        public let username: String
 
         public init(userPoolId: String, username: String) {
             self.userPoolId = userPoolId
@@ -1803,11 +1685,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of name-value pairs representing user attributes.
-        public var userAttributes: [AttributeType] = []
+        public let userAttributes: [AttributeType]
         /// The access token for the request to update user attributes.
-        public var accessToken: String? = nil
-
-        public init() {}
+        public let accessToken: String?
 
         public init(userAttributes: [AttributeType], accessToken: String? = nil) {
             self.userAttributes = userAttributes
@@ -1825,11 +1705,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The attribute name of the MFA option type.
-        public var attributeName: String? = nil
+        public let attributeName: String?
         /// The delivery medium (email message or SMS message) to send the MFA code.
-        public var deliveryMedium: String? = nil
-
-        public init() {}
+        public let deliveryMedium: String?
 
         public init(attributeName: String? = nil, deliveryMedium: String? = nil) {
             self.attributeName = attributeName
@@ -1846,8 +1724,6 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1856,9 +1732,7 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pool ID for the user pool you want to describe.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(userPoolId: String) {
             self.userPoolId = userPoolId
@@ -1874,13 +1748,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of name-value pairs representing user attributes.
-        public var userAttributes: [AttributeType] = []
+        public let userAttributes: [AttributeType]
         /// Specifies the options for MFA (e.g., email or phone number).
-        public var mFAOptions: [MFAOptionType]? = nil
+        public let mFAOptions: [MFAOptionType]?
         /// The user name of the user you wish to retrieve from the get user request.
-        public var username: String = ""
-
-        public init() {}
+        public let username: String
 
         public init(userAttributes: [AttributeType], mFAOptions: [MFAOptionType]? = nil, username: String) {
             self.userAttributes = userAttributes
@@ -1893,6 +1765,8 @@ extension CognitoIdp {
             self.userAttributes = try userAttributes.map({ try AttributeType(dictionary: $0) })
             if let mFAOptions = dictionary["MFAOptions"] as? [[String: Any]] {
                 self.mFAOptions = try mFAOptions.map({ try MFAOptionType(dictionary: $0) })
+            } else { 
+                self.mFAOptions = nil
             }
             guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
             self.username = username
@@ -1903,8 +1777,6 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1913,15 +1785,13 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the challenge.
-        public var challengeName: String? = nil
+        public let challengeName: String?
         /// The challenge parameters.
-        public var challengeParameters: [String: String]? = nil
+        public let challengeParameters: [String: String]?
         /// The result returned by the server in response to the authentication request.
-        public var authenticationResult: AuthenticationResultType? = nil
+        public let authenticationResult: AuthenticationResultType?
         /// The session.
-        public var session: String? = nil
-
-        public init() {}
+        public let session: String?
 
         public init(challengeName: String? = nil, challengeParameters: [String: String]? = nil, authenticationResult: AuthenticationResultType? = nil, session: String? = nil) {
             self.challengeName = challengeName
@@ -1934,8 +1804,10 @@ extension CognitoIdp {
             self.challengeName = dictionary["ChallengeName"] as? String
             if let challengeParameters = dictionary["ChallengeParameters"] as? [String: String] {
                 self.challengeParameters = challengeParameters
+            } else { 
+                self.challengeParameters = nil
             }
-            if let authenticationResult = dictionary["AuthenticationResult"] as? [String: Any] { self.authenticationResult = try CognitoIdp.AuthenticationResultType(dictionary: authenticationResult) }
+            if let authenticationResult = dictionary["AuthenticationResult"] as? [String: Any] { self.authenticationResult = try CognitoIdp.AuthenticationResultType(dictionary: authenticationResult) } else { self.authenticationResult = nil }
             self.session = dictionary["Session"] as? String
         }
     }
@@ -1944,21 +1816,19 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The client name from the update user pool client request.
-        public var clientName: String? = nil
+        public let clientName: String?
         /// The validity of the refresh token, in days.
-        public var refreshTokenValidity: Int32? = nil
+        public let refreshTokenValidity: Int32?
         /// The writeable attributes of the user pool.
-        public var writeAttributes: [String]? = nil
+        public let writeAttributes: [String]?
         /// The read-only attributes of the user pool.
-        public var readAttributes: [String]? = nil
+        public let readAttributes: [String]?
         /// The ID of the client associated with the user pool.
-        public var clientId: String = ""
+        public let clientId: String
         /// Explicit authentication flows.
-        public var explicitAuthFlows: [String]? = nil
+        public let explicitAuthFlows: [String]?
         /// The user pool ID for the user pool where you want to update the user pool client.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(clientName: String? = nil, refreshTokenValidity: Int32? = nil, writeAttributes: [String]? = nil, readAttributes: [String]? = nil, clientId: String, explicitAuthFlows: [String]? = nil, userPoolId: String) {
             self.clientName = clientName
@@ -1973,17 +1843,11 @@ extension CognitoIdp {
         public init(dictionary: [String: Any]) throws {
             self.clientName = dictionary["ClientName"] as? String
             self.refreshTokenValidity = dictionary["RefreshTokenValidity"] as? Int32
-            if let writeAttributes = dictionary["WriteAttributes"] as? [String] {
-                self.writeAttributes = writeAttributes
-            }
-            if let readAttributes = dictionary["ReadAttributes"] as? [String] {
-                self.readAttributes = readAttributes
-            }
+            self.writeAttributes = dictionary["WriteAttributes"] as? [String]
+            self.readAttributes = dictionary["ReadAttributes"] as? [String]
             guard let clientId = dictionary["ClientId"] as? String else { throw InitializableError.missingRequiredParam("ClientId") }
             self.clientId = clientId
-            if let explicitAuthFlows = dictionary["ExplicitAuthFlows"] as? [String] {
-                self.explicitAuthFlows = explicitAuthFlows
-            }
+            self.explicitAuthFlows = dictionary["ExplicitAuthFlows"] as? [String]
             guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
             self.userPoolId = userPoolId
         }
@@ -1993,17 +1857,15 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device key.
-        public var deviceKey: String? = nil
+        public let deviceKey: String?
         /// The last modified date of the device.
-        public var deviceLastModifiedDate: Date? = nil
+        public let deviceLastModifiedDate: Date?
         /// The device attributes.
-        public var deviceAttributes: [AttributeType]? = nil
+        public let deviceAttributes: [AttributeType]?
         /// The creation date of the device.
-        public var deviceCreateDate: Date? = nil
+        public let deviceCreateDate: Date?
         /// The date in which the device was last authenticated.
-        public var deviceLastAuthenticatedDate: Date? = nil
-
-        public init() {}
+        public let deviceLastAuthenticatedDate: Date?
 
         public init(deviceKey: String? = nil, deviceLastModifiedDate: Date? = nil, deviceAttributes: [AttributeType]? = nil, deviceCreateDate: Date? = nil, deviceLastAuthenticatedDate: Date? = nil) {
             self.deviceKey = deviceKey
@@ -2018,6 +1880,8 @@ extension CognitoIdp {
             self.deviceLastModifiedDate = dictionary["DeviceLastModifiedDate"] as? Date
             if let deviceAttributes = dictionary["DeviceAttributes"] as? [[String: Any]] {
                 self.deviceAttributes = try deviceAttributes.map({ try AttributeType(dictionary: $0) })
+            } else { 
+                self.deviceAttributes = nil
             }
             self.deviceCreateDate = dictionary["DeviceCreateDate"] as? Date
             self.deviceLastAuthenticatedDate = dictionary["DeviceLastAuthenticatedDate"] as? Date
@@ -2028,8 +1892,6 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -2038,13 +1900,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user name of the user for whom you want to update user attributes.
-        public var username: String = ""
+        public let username: String
         /// An array of name-value pairs representing user attributes.
-        public var userAttributes: [AttributeType] = []
+        public let userAttributes: [AttributeType]
         /// The user pool ID for the user pool where you want to update user attributes.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(username: String, userAttributes: [AttributeType], userPoolId: String) {
             self.username = username
@@ -2066,11 +1926,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The external ID.
-        public var externalId: String? = nil
+        public let externalId: String?
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) caller.
-        public var snsCallerArn: String = ""
-
-        public init() {}
+        public let snsCallerArn: String
 
         public init(externalId: String? = nil, snsCallerArn: String) {
             self.externalId = externalId
@@ -2088,13 +1946,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the attribute in the code delivery details type.
-        public var attributeName: String? = nil
+        public let attributeName: String?
         /// The destination for the code delivery details.
-        public var destination: String? = nil
+        public let destination: String?
         /// The delivery medium (email message or phone number).
-        public var deliveryMedium: String? = nil
-
-        public init() {}
+        public let deliveryMedium: String?
 
         public init(attributeName: String? = nil, destination: String? = nil, deliveryMedium: String? = nil) {
             self.attributeName = attributeName
@@ -2113,11 +1969,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The header information for the .csv file for the user import job.
-        public var cSVHeader: [String]? = nil
+        public let cSVHeader: [String]?
         /// The user pool ID for the user pool that the users are to be imported into.
-        public var userPoolId: String? = nil
-
-        public init() {}
+        public let userPoolId: String?
 
         public init(cSVHeader: [String]? = nil, userPoolId: String? = nil) {
             self.cSVHeader = cSVHeader
@@ -2125,9 +1979,7 @@ extension CognitoIdp {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let cSVHeader = dictionary["CSVHeader"] as? [String] {
-                self.cSVHeader = cSVHeader
-            }
+            self.cSVHeader = dictionary["CSVHeader"] as? [String]
             self.userPoolId = dictionary["UserPoolId"] as? String
         }
     }
@@ -2135,8 +1987,6 @@ extension CognitoIdp {
     public struct AdminEnableUserResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -2146,11 +1996,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pool ID for which you want to confirm user registration.
-        public var userPoolId: String = ""
+        public let userPoolId: String
         /// The user name for which you want to confirm user registration.
-        public var username: String = ""
-
-        public init() {}
+        public let username: String
 
         public init(userPoolId: String, username: String) {
             self.userPoolId = userPoolId
@@ -2169,11 +2017,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device key.
-        public var deviceKey: String = ""
+        public let deviceKey: String
         /// The access token for the forgotten device request.
-        public var accessToken: String? = nil
-
-        public init() {}
+        public let accessToken: String?
 
         public init(deviceKey: String, accessToken: String? = nil) {
             self.deviceKey = deviceKey
@@ -2191,11 +2037,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The users returned in the request to list users.
-        public var users: [UserType]? = nil
+        public let users: [UserType]?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var paginationToken: String? = nil
-
-        public init() {}
+        public let paginationToken: String?
 
         public init(users: [UserType]? = nil, paginationToken: String? = nil) {
             self.users = users
@@ -2205,6 +2049,8 @@ extension CognitoIdp {
         public init(dictionary: [String: Any]) throws {
             if let users = dictionary["Users"] as? [[String: Any]] {
                 self.users = try users.map({ try UserType(dictionary: $0) })
+            } else { 
+                self.users = nil
             }
             self.paginationToken = dictionary["PaginationToken"] as? String
         }
@@ -2214,53 +2060,51 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The reason why the email configuration cannot send the messages to your users.
-        public var emailConfigurationFailure: String? = nil
+        public let emailConfigurationFailure: String?
         /// The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool 
-        public var userPoolTags: [String: String]? = nil
+        public let userPoolTags: [String: String]?
         /// The subject of the email verification message.
-        public var emailVerificationSubject: String? = nil
+        public let emailVerificationSubject: String?
         /// The configuration for AdminCreateUser requests.
-        public var adminCreateUserConfig: AdminCreateUserConfigType? = nil
+        public let adminCreateUserConfig: AdminCreateUserConfigType?
         /// A number estimating the size of the user pool.
-        public var estimatedNumberOfUsers: Int32? = nil
+        public let estimatedNumberOfUsers: Int32?
         /// Specifies the attributes that are aliased in a user pool.
-        public var aliasAttributes: [String]? = nil
+        public let aliasAttributes: [String]?
         /// A container with the schema attributes of a user pool.
-        public var schemaAttributes: [SchemaAttributeType]? = nil
+        public let schemaAttributes: [SchemaAttributeType]?
         /// The reason why the SMS configuration cannot send the message(s) to your users.
-        public var smsConfigurationFailure: String? = nil
+        public let smsConfigurationFailure: String?
         /// A container describing the AWS Lambda triggers associated with a user pool.
-        public var lambdaConfig: LambdaConfigType? = nil
+        public let lambdaConfig: LambdaConfigType?
         /// A container describing the policies associated with a user pool.
-        public var policies: UserPoolPolicyType? = nil
+        public let policies: UserPoolPolicyType?
         /// Can be one of the following values:    OFF - MFA tokens are not required and cannot be specified during user registration.    ON - MFA tokens are required for all user registrations. You can only specify required when you are initially creating a user pool.    OPTIONAL - Users have the option when registering to create an MFA token.  
-        public var mfaConfiguration: String? = nil
+        public let mfaConfiguration: String?
         /// The creation date of a user pool.
-        public var creationDate: Date? = nil
+        public let creationDate: Date?
         /// The ID of the user pool.
-        public var id: String? = nil
+        public let id: String?
         /// The status of a user pool.
-        public var status: String? = nil
+        public let status: String?
         /// The SMS configuration.
-        public var smsConfiguration: SmsConfigurationType? = nil
+        public let smsConfiguration: SmsConfigurationType?
         /// The contents of the SMS verification message.
-        public var smsVerificationMessage: String? = nil
+        public let smsVerificationMessage: String?
         /// The contents of the SMS authentication message.
-        public var smsAuthenticationMessage: String? = nil
+        public let smsAuthenticationMessage: String?
         /// The name of the user pool.
-        public var name: String? = nil
+        public let name: String?
         /// The email configuration.
-        public var emailConfiguration: EmailConfigurationType? = nil
+        public let emailConfiguration: EmailConfigurationType?
         /// The contents of the email verification message.
-        public var emailVerificationMessage: String? = nil
+        public let emailVerificationMessage: String?
         /// The last modified date of a user pool.
-        public var lastModifiedDate: Date? = nil
+        public let lastModifiedDate: Date?
         /// Specifies the attributes that are auto-verified in a user pool.
-        public var autoVerifiedAttributes: [String]? = nil
+        public let autoVerifiedAttributes: [String]?
         /// The device configuration.
-        public var deviceConfiguration: DeviceConfigurationType? = nil
-
-        public init() {}
+        public let deviceConfiguration: DeviceConfigurationType?
 
         public init(emailConfigurationFailure: String? = nil, userPoolTags: [String: String]? = nil, emailVerificationSubject: String? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, estimatedNumberOfUsers: Int32? = nil, aliasAttributes: [String]? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsConfigurationFailure: String? = nil, lambdaConfig: LambdaConfigType? = nil, policies: UserPoolPolicyType? = nil, mfaConfiguration: String? = nil, creationDate: Date? = nil, id: String? = nil, status: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, smsAuthenticationMessage: String? = nil, name: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, lastModifiedDate: Date? = nil, autoVerifiedAttributes: [String]? = nil, deviceConfiguration: DeviceConfigurationType? = nil) {
             self.emailConfigurationFailure = emailConfigurationFailure
@@ -2292,34 +2136,34 @@ extension CognitoIdp {
             self.emailConfigurationFailure = dictionary["EmailConfigurationFailure"] as? String
             if let userPoolTags = dictionary["UserPoolTags"] as? [String: String] {
                 self.userPoolTags = userPoolTags
+            } else { 
+                self.userPoolTags = nil
             }
             self.emailVerificationSubject = dictionary["EmailVerificationSubject"] as? String
-            if let adminCreateUserConfig = dictionary["AdminCreateUserConfig"] as? [String: Any] { self.adminCreateUserConfig = try CognitoIdp.AdminCreateUserConfigType(dictionary: adminCreateUserConfig) }
+            if let adminCreateUserConfig = dictionary["AdminCreateUserConfig"] as? [String: Any] { self.adminCreateUserConfig = try CognitoIdp.AdminCreateUserConfigType(dictionary: adminCreateUserConfig) } else { self.adminCreateUserConfig = nil }
             self.estimatedNumberOfUsers = dictionary["EstimatedNumberOfUsers"] as? Int32
-            if let aliasAttributes = dictionary["AliasAttributes"] as? [String] {
-                self.aliasAttributes = aliasAttributes
-            }
+            self.aliasAttributes = dictionary["AliasAttributes"] as? [String]
             if let schemaAttributes = dictionary["SchemaAttributes"] as? [[String: Any]] {
                 self.schemaAttributes = try schemaAttributes.map({ try SchemaAttributeType(dictionary: $0) })
+            } else { 
+                self.schemaAttributes = nil
             }
             self.smsConfigurationFailure = dictionary["SmsConfigurationFailure"] as? String
-            if let lambdaConfig = dictionary["LambdaConfig"] as? [String: Any] { self.lambdaConfig = try CognitoIdp.LambdaConfigType(dictionary: lambdaConfig) }
-            if let policies = dictionary["Policies"] as? [String: Any] { self.policies = try CognitoIdp.UserPoolPolicyType(dictionary: policies) }
+            if let lambdaConfig = dictionary["LambdaConfig"] as? [String: Any] { self.lambdaConfig = try CognitoIdp.LambdaConfigType(dictionary: lambdaConfig) } else { self.lambdaConfig = nil }
+            if let policies = dictionary["Policies"] as? [String: Any] { self.policies = try CognitoIdp.UserPoolPolicyType(dictionary: policies) } else { self.policies = nil }
             self.mfaConfiguration = dictionary["MfaConfiguration"] as? String
             self.creationDate = dictionary["CreationDate"] as? Date
             self.id = dictionary["Id"] as? String
             self.status = dictionary["Status"] as? String
-            if let smsConfiguration = dictionary["SmsConfiguration"] as? [String: Any] { self.smsConfiguration = try CognitoIdp.SmsConfigurationType(dictionary: smsConfiguration) }
+            if let smsConfiguration = dictionary["SmsConfiguration"] as? [String: Any] { self.smsConfiguration = try CognitoIdp.SmsConfigurationType(dictionary: smsConfiguration) } else { self.smsConfiguration = nil }
             self.smsVerificationMessage = dictionary["SmsVerificationMessage"] as? String
             self.smsAuthenticationMessage = dictionary["SmsAuthenticationMessage"] as? String
             self.name = dictionary["Name"] as? String
-            if let emailConfiguration = dictionary["EmailConfiguration"] as? [String: Any] { self.emailConfiguration = try CognitoIdp.EmailConfigurationType(dictionary: emailConfiguration) }
+            if let emailConfiguration = dictionary["EmailConfiguration"] as? [String: Any] { self.emailConfiguration = try CognitoIdp.EmailConfigurationType(dictionary: emailConfiguration) } else { self.emailConfiguration = nil }
             self.emailVerificationMessage = dictionary["EmailVerificationMessage"] as? String
             self.lastModifiedDate = dictionary["LastModifiedDate"] as? Date
-            if let autoVerifiedAttributes = dictionary["AutoVerifiedAttributes"] as? [String] {
-                self.autoVerifiedAttributes = autoVerifiedAttributes
-            }
-            if let deviceConfiguration = dictionary["DeviceConfiguration"] as? [String: Any] { self.deviceConfiguration = try CognitoIdp.DeviceConfigurationType(dictionary: deviceConfiguration) }
+            self.autoVerifiedAttributes = dictionary["AutoVerifiedAttributes"] as? [String]
+            if let deviceConfiguration = dictionary["DeviceConfiguration"] as? [String: Any] { self.deviceConfiguration = try CognitoIdp.DeviceConfigurationType(dictionary: deviceConfiguration) } else { self.deviceConfiguration = nil }
         }
     }
 
@@ -2327,11 +2171,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device key.
-        public var deviceKey: String = ""
+        public let deviceKey: String
         /// The access token.
-        public var accessToken: String? = nil
-
-        public init() {}
+        public let accessToken: String?
 
         public init(deviceKey: String, accessToken: String? = nil) {
             self.deviceKey = deviceKey
@@ -2349,11 +2191,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token for the list device response.
-        public var paginationToken: String? = nil
+        public let paginationToken: String?
         /// The devices returned in the list devices response.
-        public var devices: [DeviceType]? = nil
-
-        public init() {}
+        public let devices: [DeviceType]?
 
         public init(paginationToken: String? = nil, devices: [DeviceType]? = nil) {
             self.paginationToken = paginationToken
@@ -2364,6 +2204,8 @@ extension CognitoIdp {
             self.paginationToken = dictionary["PaginationToken"] as? String
             if let devices = dictionary["Devices"] as? [[String: Any]] {
                 self.devices = try devices.map({ try DeviceType(dictionary: $0) })
+            } else { 
+                self.devices = nil
             }
         }
     }
@@ -2372,16 +2214,14 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// A container for the user pool details.
-        public var userPool: UserPoolType? = nil
-
-        public init() {}
+        public let userPool: UserPoolType?
 
         public init(userPool: UserPoolType? = nil) {
             self.userPool = userPool
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let userPool = dictionary["UserPool"] as? [String: Any] { self.userPool = try CognitoIdp.UserPoolType(dictionary: userPool) }
+            if let userPool = dictionary["UserPool"] as? [String: Any] { self.userPool = try CognitoIdp.UserPoolType(dictionary: userPool) } else { self.userPool = nil }
         }
     }
 
@@ -2389,24 +2229,20 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The code delivery details returned by the server in response to the request to resend the confirmation code.
-        public var codeDeliveryDetails: CodeDeliveryDetailsType? = nil
-
-        public init() {}
+        public let codeDeliveryDetails: CodeDeliveryDetailsType?
 
         public init(codeDeliveryDetails: CodeDeliveryDetailsType? = nil) {
             self.codeDeliveryDetails = codeDeliveryDetails
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let codeDeliveryDetails = dictionary["CodeDeliveryDetails"] as? [String: Any] { self.codeDeliveryDetails = try CognitoIdp.CodeDeliveryDetailsType(dictionary: codeDeliveryDetails) }
+            if let codeDeliveryDetails = dictionary["CodeDeliveryDetails"] as? [String: Any] { self.codeDeliveryDetails = try CognitoIdp.CodeDeliveryDetailsType(dictionary: codeDeliveryDetails) } else { self.codeDeliveryDetails = nil }
         }
     }
 
     public struct AdminConfirmSignUpResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -2416,16 +2252,14 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The job object that represents the user import job.
-        public var userImportJob: UserImportJobType? = nil
-
-        public init() {}
+        public let userImportJob: UserImportJobType?
 
         public init(userImportJob: UserImportJobType? = nil) {
             self.userImportJob = userImportJob
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let userImportJob = dictionary["UserImportJob"] as? [String: Any] { self.userImportJob = try CognitoIdp.UserImportJobType(dictionary: userImportJob) }
+            if let userImportJob = dictionary["UserImportJob"] as? [String: Any] { self.userImportJob = try CognitoIdp.UserImportJobType(dictionary: userImportJob) } else { self.userImportJob = nil }
         }
     }
 
@@ -2433,15 +2267,13 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the challenge.
-        public var challengeName: String = ""
+        public let challengeName: String
         /// The client ID.
-        public var clientId: String = ""
+        public let clientId: String
         /// The session.
-        public var session: String? = nil
+        public let session: String?
         /// The responses to the authentication challenge.
-        public var challengeResponses: [String: String]? = nil
-
-        public init() {}
+        public let challengeResponses: [String: String]?
 
         public init(challengeName: String, clientId: String, session: String? = nil, challengeResponses: [String: String]? = nil) {
             self.challengeName = challengeName
@@ -2458,6 +2290,8 @@ extension CognitoIdp {
             self.session = dictionary["Session"] as? String
             if let challengeResponses = dictionary["ChallengeResponses"] as? [String: String] {
                 self.challengeResponses = challengeResponses
+            } else { 
+                self.challengeResponses = nil
             }
         }
     }
@@ -2465,8 +2299,6 @@ extension CognitoIdp {
     public struct UpdateUserPoolResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -2476,35 +2308,33 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool 
-        public var userPoolTags: [String: String]? = nil
+        public let userPoolTags: [String: String]?
         /// The subject of the email verfication message.
-        public var emailVerificationSubject: String? = nil
+        public let emailVerificationSubject: String?
         /// The configuration for AdminCreateUser requests.
-        public var adminCreateUserConfig: AdminCreateUserConfigType? = nil
+        public let adminCreateUserConfig: AdminCreateUserConfigType?
         /// A container with the policies you wish to update in a user pool.
-        public var policies: UserPoolPolicyType? = nil
+        public let policies: UserPoolPolicyType?
         /// The AWS Lambda configuration information from the request to update the user pool.
-        public var lambdaConfig: LambdaConfigType? = nil
+        public let lambdaConfig: LambdaConfigType?
         /// Can be one of the following values:    OFF - MFA tokens are not required and cannot be specified during user registration.    ON - MFA tokens are required for all user registrations. You can only specify required when you are initially creating a user pool.    OPTIONAL - Users have the option when registering to create an MFA token.  
-        public var mfaConfiguration: String? = nil
+        public let mfaConfiguration: String?
         /// The user pool ID for the user pool you want to update.
-        public var userPoolId: String = ""
+        public let userPoolId: String
         /// Email configuration.
-        public var emailConfiguration: EmailConfigurationType? = nil
+        public let emailConfiguration: EmailConfigurationType?
         /// A container with information about the SMS verification message.
-        public var smsVerificationMessage: String? = nil
+        public let smsVerificationMessage: String?
         /// The contents of the SMS authentication message.
-        public var smsAuthenticationMessage: String? = nil
+        public let smsAuthenticationMessage: String?
         /// The contents of the email verification message.
-        public var emailVerificationMessage: String? = nil
+        public let emailVerificationMessage: String?
         /// SMS configuration.
-        public var smsConfiguration: SmsConfigurationType? = nil
+        public let smsConfiguration: SmsConfigurationType?
         /// The attributes that are automatically verified when the Amazon Cognito service makes a request to update user pools.
-        public var autoVerifiedAttributes: [String]? = nil
+        public let autoVerifiedAttributes: [String]?
         /// Device configuration.
-        public var deviceConfiguration: DeviceConfigurationType? = nil
-
-        public init() {}
+        public let deviceConfiguration: DeviceConfigurationType?
 
         public init(userPoolTags: [String: String]? = nil, emailVerificationSubject: String? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, policies: UserPoolPolicyType? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: String? = nil, userPoolId: String, emailConfiguration: EmailConfigurationType? = nil, smsVerificationMessage: String? = nil, smsAuthenticationMessage: String? = nil, emailVerificationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, autoVerifiedAttributes: [String]? = nil, deviceConfiguration: DeviceConfigurationType? = nil) {
             self.userPoolTags = userPoolTags
@@ -2526,23 +2356,23 @@ extension CognitoIdp {
         public init(dictionary: [String: Any]) throws {
             if let userPoolTags = dictionary["UserPoolTags"] as? [String: String] {
                 self.userPoolTags = userPoolTags
+            } else { 
+                self.userPoolTags = nil
             }
             self.emailVerificationSubject = dictionary["EmailVerificationSubject"] as? String
-            if let adminCreateUserConfig = dictionary["AdminCreateUserConfig"] as? [String: Any] { self.adminCreateUserConfig = try CognitoIdp.AdminCreateUserConfigType(dictionary: adminCreateUserConfig) }
-            if let policies = dictionary["Policies"] as? [String: Any] { self.policies = try CognitoIdp.UserPoolPolicyType(dictionary: policies) }
-            if let lambdaConfig = dictionary["LambdaConfig"] as? [String: Any] { self.lambdaConfig = try CognitoIdp.LambdaConfigType(dictionary: lambdaConfig) }
+            if let adminCreateUserConfig = dictionary["AdminCreateUserConfig"] as? [String: Any] { self.adminCreateUserConfig = try CognitoIdp.AdminCreateUserConfigType(dictionary: adminCreateUserConfig) } else { self.adminCreateUserConfig = nil }
+            if let policies = dictionary["Policies"] as? [String: Any] { self.policies = try CognitoIdp.UserPoolPolicyType(dictionary: policies) } else { self.policies = nil }
+            if let lambdaConfig = dictionary["LambdaConfig"] as? [String: Any] { self.lambdaConfig = try CognitoIdp.LambdaConfigType(dictionary: lambdaConfig) } else { self.lambdaConfig = nil }
             self.mfaConfiguration = dictionary["MfaConfiguration"] as? String
             guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
             self.userPoolId = userPoolId
-            if let emailConfiguration = dictionary["EmailConfiguration"] as? [String: Any] { self.emailConfiguration = try CognitoIdp.EmailConfigurationType(dictionary: emailConfiguration) }
+            if let emailConfiguration = dictionary["EmailConfiguration"] as? [String: Any] { self.emailConfiguration = try CognitoIdp.EmailConfigurationType(dictionary: emailConfiguration) } else { self.emailConfiguration = nil }
             self.smsVerificationMessage = dictionary["SmsVerificationMessage"] as? String
             self.smsAuthenticationMessage = dictionary["SmsAuthenticationMessage"] as? String
             self.emailVerificationMessage = dictionary["EmailVerificationMessage"] as? String
-            if let smsConfiguration = dictionary["SmsConfiguration"] as? [String: Any] { self.smsConfiguration = try CognitoIdp.SmsConfigurationType(dictionary: smsConfiguration) }
-            if let autoVerifiedAttributes = dictionary["AutoVerifiedAttributes"] as? [String] {
-                self.autoVerifiedAttributes = autoVerifiedAttributes
-            }
-            if let deviceConfiguration = dictionary["DeviceConfiguration"] as? [String: Any] { self.deviceConfiguration = try CognitoIdp.DeviceConfigurationType(dictionary: deviceConfiguration) }
+            if let smsConfiguration = dictionary["SmsConfiguration"] as? [String: Any] { self.smsConfiguration = try CognitoIdp.SmsConfigurationType(dictionary: smsConfiguration) } else { self.smsConfiguration = nil }
+            self.autoVerifiedAttributes = dictionary["AutoVerifiedAttributes"] as? [String]
+            if let deviceConfiguration = dictionary["DeviceConfiguration"] as? [String: Any] { self.deviceConfiguration = try CognitoIdp.DeviceConfigurationType(dictionary: deviceConfiguration) } else { self.deviceConfiguration = nil }
         }
     }
 
@@ -2550,23 +2380,21 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// A post-authentication AWS Lambda trigger.
-        public var postAuthentication: String? = nil
+        public let postAuthentication: String?
         /// A custom Message AWS Lambda trigger.
-        public var customMessage: String? = nil
+        public let customMessage: String?
         /// A pre-registration AWS Lambda trigger.
-        public var preSignUp: String? = nil
+        public let preSignUp: String?
         /// Verifies the authentication challenge response.
-        public var verifyAuthChallengeResponse: String? = nil
+        public let verifyAuthChallengeResponse: String?
         /// Defines the authentication challenge.
-        public var defineAuthChallenge: String? = nil
+        public let defineAuthChallenge: String?
         /// Creates an authentication challenge.
-        public var createAuthChallenge: String? = nil
+        public let createAuthChallenge: String?
         /// A pre-authentication AWS Lambda trigger.
-        public var preAuthentication: String? = nil
+        public let preAuthentication: String?
         /// A post-confirmation AWS Lambda trigger.
-        public var postConfirmation: String? = nil
-
-        public init() {}
+        public let postConfirmation: String?
 
         public init(postAuthentication: String? = nil, customMessage: String? = nil, preSignUp: String? = nil, verifyAuthChallengeResponse: String? = nil, defineAuthChallenge: String? = nil, createAuthChallenge: String? = nil, preAuthentication: String? = nil, postConfirmation: String? = nil) {
             self.postAuthentication = postAuthentication
@@ -2595,13 +2423,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The limit of the request to list groups.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The user pool ID for the user pool.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(limit: Int32? = nil, nextToken: String? = nil, userPoolId: String) {
             self.limit = limit
@@ -2621,11 +2447,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the options for MFA (e.g., email or phone number).
-        public var mFAOptions: [MFAOptionType] = []
+        public let mFAOptions: [MFAOptionType]
         /// The access token for the set user settings request.
-        public var accessToken: String = ""
-
-        public init() {}
+        public let accessToken: String
 
         public init(mFAOptions: [MFAOptionType], accessToken: String) {
             self.mFAOptions = mFAOptions
@@ -2644,11 +2468,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pool ID for the user pool where you want to get information about the user.
-        public var userPoolId: String = ""
+        public let userPoolId: String
         /// The user name of the user you wish to retrieve.
-        public var username: String = ""
-
-        public init() {}
+        public let username: String
 
         public init(userPoolId: String, username: String) {
             self.userPoolId = userPoolId
@@ -2667,16 +2489,14 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The group object for the group.
-        public var group: GroupType? = nil
-
-        public init() {}
+        public let group: GroupType?
 
         public init(group: GroupType? = nil) {
             self.group = group
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let group = dictionary["Group"] as? [String: Any] { self.group = try CognitoIdp.GroupType(dictionary: group) }
+            if let group = dictionary["Group"] as? [String: Any] { self.group = try CognitoIdp.GroupType(dictionary: group) } else { self.group = nil }
         }
     }
 
@@ -2684,19 +2504,17 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The expiration period of the authentication result.
-        public var expiresIn: Int32? = nil
+        public let expiresIn: Int32?
         /// The new device metadata from an authentication result.
-        public var newDeviceMetadata: NewDeviceMetadataType? = nil
+        public let newDeviceMetadata: NewDeviceMetadataType?
         /// The ID token of the authentication result.
-        public var idToken: String? = nil
+        public let idToken: String?
         /// The token type of the authentication result.
-        public var tokenType: String? = nil
+        public let tokenType: String?
         /// The refresh token of the authentication result.
-        public var refreshToken: String? = nil
+        public let refreshToken: String?
         /// The access token of the authentication result.
-        public var accessToken: String? = nil
-
-        public init() {}
+        public let accessToken: String?
 
         public init(expiresIn: Int32? = nil, newDeviceMetadata: NewDeviceMetadataType? = nil, idToken: String? = nil, tokenType: String? = nil, refreshToken: String? = nil, accessToken: String? = nil) {
             self.expiresIn = expiresIn
@@ -2709,7 +2527,7 @@ extension CognitoIdp {
 
         public init(dictionary: [String: Any]) throws {
             self.expiresIn = dictionary["ExpiresIn"] as? Int32
-            if let newDeviceMetadata = dictionary["NewDeviceMetadata"] as? [String: Any] { self.newDeviceMetadata = try CognitoIdp.NewDeviceMetadataType(dictionary: newDeviceMetadata) }
+            if let newDeviceMetadata = dictionary["NewDeviceMetadata"] as? [String: Any] { self.newDeviceMetadata = try CognitoIdp.NewDeviceMetadataType(dictionary: newDeviceMetadata) } else { self.newDeviceMetadata = nil }
             self.idToken = dictionary["IdToken"] as? String
             self.tokenType = dictionary["TokenType"] as? String
             self.refreshToken = dictionary["RefreshToken"] as? String
@@ -2721,13 +2539,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// Set to True if only the administrator is allowed to create user profiles. Set to False if users can sign themselves up via an app.
-        public var allowAdminCreateUserOnly: Bool? = nil
+        public let allowAdminCreateUserOnly: Bool?
         /// The user account expiration limit, in days, after which the account is no longer usable. To reset the account after that time limit, you must call AdminCreateUser again, specifying "RESEND" for the MessageAction parameter. The default value for this paameter is 7.
-        public var unusedAccountValidityDays: Int32? = nil
+        public let unusedAccountValidityDays: Int32?
         /// The message template to be used for the welcome message to new users.
-        public var inviteMessageTemplate: MessageTemplateType? = nil
-
-        public init() {}
+        public let inviteMessageTemplate: MessageTemplateType?
 
         public init(allowAdminCreateUserOnly: Bool? = nil, unusedAccountValidityDays: Int32? = nil, inviteMessageTemplate: MessageTemplateType? = nil) {
             self.allowAdminCreateUserOnly = allowAdminCreateUserOnly
@@ -2738,7 +2554,7 @@ extension CognitoIdp {
         public init(dictionary: [String: Any]) throws {
             self.allowAdminCreateUserOnly = dictionary["AllowAdminCreateUserOnly"] as? Bool
             self.unusedAccountValidityDays = dictionary["UnusedAccountValidityDays"] as? Int32
-            if let inviteMessageTemplate = dictionary["InviteMessageTemplate"] as? [String: Any] { self.inviteMessageTemplate = try CognitoIdp.MessageTemplateType(dictionary: inviteMessageTemplate) }
+            if let inviteMessageTemplate = dictionary["InviteMessageTemplate"] as? [String: Any] { self.inviteMessageTemplate = try CognitoIdp.MessageTemplateType(dictionary: inviteMessageTemplate) } else { self.inviteMessageTemplate = nil }
         }
     }
 
@@ -2746,11 +2562,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The minimum length of an attribute value of the string type.
-        public var minLength: String? = nil
+        public let minLength: String?
         /// The maximum length of an attribute value of the string type.
-        public var maxLength: String? = nil
-
-        public init() {}
+        public let maxLength: String?
 
         public init(minLength: String? = nil, maxLength: String? = nil) {
             self.minLength = minLength
@@ -2767,16 +2581,14 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// A container with information about the user pool password policy.
-        public var passwordPolicy: PasswordPolicyType? = nil
-
-        public init() {}
+        public let passwordPolicy: PasswordPolicyType?
 
         public init(passwordPolicy: PasswordPolicyType? = nil) {
             self.passwordPolicy = passwordPolicy
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let passwordPolicy = dictionary["PasswordPolicy"] as? [String: Any] { self.passwordPolicy = try CognitoIdp.PasswordPolicyType(dictionary: passwordPolicy) }
+            if let passwordPolicy = dictionary["PasswordPolicy"] as? [String: Any] { self.passwordPolicy = try CognitoIdp.PasswordPolicyType(dictionary: passwordPolicy) } else { self.passwordPolicy = nil }
         }
     }
 
@@ -2784,16 +2596,14 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The code delivery details returned by the server in response to the request to reset a password.
-        public var codeDeliveryDetails: CodeDeliveryDetailsType? = nil
-
-        public init() {}
+        public let codeDeliveryDetails: CodeDeliveryDetailsType?
 
         public init(codeDeliveryDetails: CodeDeliveryDetailsType? = nil) {
             self.codeDeliveryDetails = codeDeliveryDetails
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let codeDeliveryDetails = dictionary["CodeDeliveryDetails"] as? [String: Any] { self.codeDeliveryDetails = try CognitoIdp.CodeDeliveryDetailsType(dictionary: codeDeliveryDetails) }
+            if let codeDeliveryDetails = dictionary["CodeDeliveryDetails"] as? [String: Any] { self.codeDeliveryDetails = try CognitoIdp.CodeDeliveryDetailsType(dictionary: codeDeliveryDetails) } else { self.codeDeliveryDetails = nil }
         }
     }
 
@@ -2801,24 +2611,20 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The group object for the group.
-        public var group: GroupType? = nil
-
-        public init() {}
+        public let group: GroupType?
 
         public init(group: GroupType? = nil) {
             self.group = group
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let group = dictionary["Group"] as? [String: Any] { self.group = try CognitoIdp.GroupType(dictionary: group) }
+            if let group = dictionary["Group"] as? [String: Any] { self.group = try CognitoIdp.GroupType(dictionary: group) } else { self.group = nil }
         }
     }
 
     public struct GlobalSignOutResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -2828,11 +2634,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device group key.
-        public var deviceGroupKey: String? = nil
+        public let deviceGroupKey: String?
         /// The device key.
-        public var deviceKey: String? = nil
-
-        public init() {}
+        public let deviceKey: String?
 
         public init(deviceGroupKey: String? = nil, deviceKey: String? = nil) {
             self.deviceGroupKey = deviceGroupKey
@@ -2849,11 +2653,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the client associated with the user pool.
-        public var clientId: String = ""
+        public let clientId: String
         /// The user pool ID for the user pool you want to describe.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(clientId: String, userPoolId: String) {
             self.clientId = clientId
@@ -2872,11 +2674,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The code delivery details returned by the server response to the user registration request.
-        public var codeDeliveryDetails: CodeDeliveryDetailsType? = nil
+        public let codeDeliveryDetails: CodeDeliveryDetailsType?
         /// A response from the server indicating that a user registration has been confirmed.
-        public var userConfirmed: Bool? = nil
-
-        public init() {}
+        public let userConfirmed: Bool?
 
         public init(codeDeliveryDetails: CodeDeliveryDetailsType? = nil, userConfirmed: Bool? = nil) {
             self.codeDeliveryDetails = codeDeliveryDetails
@@ -2884,7 +2684,7 @@ extension CognitoIdp {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let codeDeliveryDetails = dictionary["CodeDeliveryDetails"] as? [String: Any] { self.codeDeliveryDetails = try CognitoIdp.CodeDeliveryDetailsType(dictionary: codeDeliveryDetails) }
+            if let codeDeliveryDetails = dictionary["CodeDeliveryDetails"] as? [String: Any] { self.codeDeliveryDetails = try CognitoIdp.CodeDeliveryDetailsType(dictionary: codeDeliveryDetails) } else { self.codeDeliveryDetails = nil }
             self.userConfirmed = dictionary["UserConfirmed"] as? Bool
         }
     }
@@ -2893,24 +2693,20 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The group object for the group.
-        public var group: GroupType? = nil
-
-        public init() {}
+        public let group: GroupType?
 
         public init(group: GroupType? = nil) {
             self.group = group
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let group = dictionary["Group"] as? [String: Any] { self.group = try CognitoIdp.GroupType(dictionary: group) }
+            if let group = dictionary["Group"] as? [String: Any] { self.group = try CognitoIdp.GroupType(dictionary: group) } else { self.group = nil }
         }
     }
 
     public struct AdminResetUserPasswordResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -2920,13 +2716,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pool ID for the user pool where you want to set the user's settings, such as MFA options.
-        public var userPoolId: String = ""
+        public let userPoolId: String
         /// Specifies the options for MFA (e.g., email or phone number).
-        public var mFAOptions: [MFAOptionType] = []
+        public let mFAOptions: [MFAOptionType]
         /// The user name of the user for whom you wish to set user settings.
-        public var username: String = ""
-
-        public init() {}
+        public let username: String
 
         public init(userPoolId: String, mFAOptions: [MFAOptionType], username: String) {
             self.userPoolId = userPoolId
@@ -2948,8 +2742,6 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -2957,8 +2749,6 @@ extension CognitoIdp {
     public struct AdminDeleteUserAttributesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -2968,11 +2758,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The job ID for the user import job.
-        public var jobId: String = ""
+        public let jobId: String
         /// The user pool ID for the user pool that the users are being imported into.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(jobId: String, userPoolId: String) {
             self.jobId = jobId
@@ -2991,9 +2779,7 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pool ID for the user pool that the users are to be imported into.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(userPoolId: String) {
             self.userPoolId = userPoolId
@@ -3009,13 +2795,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-        public var secretHash: String? = nil
+        public let secretHash: String?
         /// The ID of the client associated with the user pool.
-        public var clientId: String = ""
+        public let clientId: String
         /// The user name of the user to whom you wish to resend a confirmation code.
-        public var username: String = ""
-
-        public init() {}
+        public let username: String
 
         public init(secretHash: String? = nil, clientId: String, username: String) {
             self.secretHash = secretHash
@@ -3036,16 +2820,14 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The container of metadata returned by the server to describe the pool.
-        public var userPool: UserPoolType? = nil
-
-        public init() {}
+        public let userPool: UserPoolType?
 
         public init(userPool: UserPoolType? = nil) {
             self.userPool = userPool
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let userPool = dictionary["UserPool"] as? [String: Any] { self.userPool = try CognitoIdp.UserPoolType(dictionary: userPool) }
+            if let userPool = dictionary["UserPool"] as? [String: Any] { self.userPool = try CognitoIdp.UserPoolType(dictionary: userPool) } else { self.userPool = nil }
         }
     }
 
@@ -3053,11 +2835,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of custom attributes, such as Mutable and Name.
-        public var customAttributes: [SchemaAttributeType] = []
+        public let customAttributes: [SchemaAttributeType]
         /// The user pool ID for the user pool where you want to add custom attributes.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(customAttributes: [SchemaAttributeType], userPoolId: String) {
             self.customAttributes = customAttributes
@@ -3076,9 +2856,7 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The code delivery details list from the server for the request to update user attributes.
-        public var codeDeliveryDetailsList: [CodeDeliveryDetailsType]? = nil
-
-        public init() {}
+        public let codeDeliveryDetailsList: [CodeDeliveryDetailsType]?
 
         public init(codeDeliveryDetailsList: [CodeDeliveryDetailsType]? = nil) {
             self.codeDeliveryDetailsList = codeDeliveryDetailsList
@@ -3087,6 +2865,8 @@ extension CognitoIdp {
         public init(dictionary: [String: Any]) throws {
             if let codeDeliveryDetailsList = dictionary["CodeDeliveryDetailsList"] as? [[String: Any]] {
                 self.codeDeliveryDetailsList = try codeDeliveryDetailsList.map({ try CodeDeliveryDetailsType(dictionary: $0) })
+            } else { 
+                self.codeDeliveryDetailsList = nil
             }
         }
     }
@@ -3095,33 +2875,31 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date when the user imoprt job was completed.
-        public var completionDate: Date? = nil
+        public let completionDate: Date?
         /// The message returned when the user import job is completed.
-        public var completionMessage: String? = nil
+        public let completionMessage: String?
         /// The number of users that could not be imported.
-        public var failedUsers: Int64? = nil
+        public let failedUsers: Int64?
         /// The number of users that were skipped.
-        public var skippedUsers: Int64? = nil
+        public let skippedUsers: Int64?
         /// The date when the user import job was created.
-        public var creationDate: Date? = nil
+        public let creationDate: Date?
         /// The job ID for the user import job.
-        public var jobId: String? = nil
+        public let jobId: String?
         /// The user pool ID for the user pool that the users are being imported into.
-        public var userPoolId: String? = nil
+        public let userPoolId: String?
         /// The status of the user import job. One of the following:   Created - The job was created but not started.   Pending - A transition state. You have started the job, but it has not begun importing users yet.   InProgress - The job has started, and users are being imported.   Stopping - You have stopped the job, but the job has not stopped importing users yet.   Stopped - You have stopped the job, and the job has stopped importing users.   Succeeded - The job has completed successfully.   Failed - The job has stopped due to an error.   Expired - You created a job, but did not start the job within 24-48 hours. All data associated with the job was deleted, and the job cannot be started.  
-        public var status: String? = nil
+        public let status: String?
         /// The pre-signed URL to be used to upload the .csv file.
-        public var preSignedUrl: String? = nil
+        public let preSignedUrl: String?
         /// The date when the user import job was started.
-        public var startDate: Date? = nil
+        public let startDate: Date?
         /// The role ARN for the Amazon CloudWatch Logging role for the user import job. For more information, see "Creating the CloudWatch Logs IAM Role" in the Amazon Cognito Developer Guide.
-        public var cloudWatchLogsRoleArn: String? = nil
+        public let cloudWatchLogsRoleArn: String?
         /// The job name for the user import job.
-        public var jobName: String? = nil
+        public let jobName: String?
         /// The number of users that were successfully imported.
-        public var importedUsers: Int64? = nil
-
-        public init() {}
+        public let importedUsers: Int64?
 
         public init(completionDate: Date? = nil, completionMessage: String? = nil, failedUsers: Int64? = nil, skippedUsers: Int64? = nil, creationDate: Date? = nil, jobId: String? = nil, userPoolId: String? = nil, status: String? = nil, preSignedUrl: String? = nil, startDate: Date? = nil, cloudWatchLogsRoleArn: String? = nil, jobName: String? = nil, importedUsers: Int64? = nil) {
             self.completionDate = completionDate
@@ -3160,8 +2938,6 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -3169,8 +2945,6 @@ extension CognitoIdp {
     public struct DeleteUserAttributesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -3180,15 +2954,13 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device key.
-        public var deviceKey: String = ""
+        public let deviceKey: String
         /// The configuration of the device secret verifier.
-        public var deviceSecretVerifierConfig: DeviceSecretVerifierConfigType? = nil
+        public let deviceSecretVerifierConfig: DeviceSecretVerifierConfigType?
         /// The device name.
-        public var deviceName: String? = nil
+        public let deviceName: String?
         /// The access token.
-        public var accessToken: String = ""
-
-        public init() {}
+        public let accessToken: String
 
         public init(deviceKey: String, deviceSecretVerifierConfig: DeviceSecretVerifierConfigType? = nil, deviceName: String? = nil, accessToken: String) {
             self.deviceKey = deviceKey
@@ -3200,7 +2972,7 @@ extension CognitoIdp {
         public init(dictionary: [String: Any]) throws {
             guard let deviceKey = dictionary["DeviceKey"] as? String else { throw InitializableError.missingRequiredParam("DeviceKey") }
             self.deviceKey = deviceKey
-            if let deviceSecretVerifierConfig = dictionary["DeviceSecretVerifierConfig"] as? [String: Any] { self.deviceSecretVerifierConfig = try CognitoIdp.DeviceSecretVerifierConfigType(dictionary: deviceSecretVerifierConfig) }
+            if let deviceSecretVerifierConfig = dictionary["DeviceSecretVerifierConfig"] as? [String: Any] { self.deviceSecretVerifierConfig = try CognitoIdp.DeviceSecretVerifierConfigType(dictionary: deviceSecretVerifierConfig) } else { self.deviceSecretVerifierConfig = nil }
             self.deviceName = dictionary["DeviceName"] as? String
             guard let accessToken = dictionary["AccessToken"] as? String else { throw InitializableError.missingRequiredParam("AccessToken") }
             self.accessToken = accessToken
@@ -3211,23 +2983,21 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// This parameter is only used if the phone_number_verified or email_verified attribute is set to True. Otherwise, it is ignored. If this parameter is set to True and the phone number or email address specified in the UserAttributes parameter already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user. The previous user will no longer be able to log in using that alias. If this parameter is set to False, the API throws an AliasExistsException error if the alias already exists. The default value is False.
-        public var forceAliasCreation: Bool? = nil
+        public let forceAliasCreation: Bool?
         /// The user pool ID for the user pool where the user will be created.
-        public var userPoolId: String = ""
+        public let userPoolId: String
         /// Specify "EMAIL" if email will be used to send the welcome message. Specify "SMS" if the phone number will be used. The default value is "SMS". More than one value can be specified.
-        public var desiredDeliveryMediums: [String]? = nil
+        public let desiredDeliveryMediums: [String]?
         /// Set to "RESEND" to resend the invitation message to a user that already exists and reset the expiration limit on the user's account. Set to "SUPPRESS" to suppress sending the message. Only one value can be specified.
-        public var messageAction: String? = nil
+        public let messageAction: String?
         /// The user's validation data. This is an array of name-value pairs that contain user attributes and attribute values that you can use for custom validation, such as restricting the types of user accounts that can be registered. For example, you might choose to allow or disallow user sign-up based on the user's domain. To configure custom validation, you must create a Pre Sign-up Lambda trigger for the user pool as described in the Amazon Cognito Developer Guide. The Lambda trigger receives the validation data and uses it in the validation process. The user's validation data is not persisted.
-        public var validationData: [AttributeType]? = nil
+        public let validationData: [AttributeType]?
         /// The username for the user. Must be unique within the user pool. Must be a UTF-8 string between 1 and 128 characters. After the user is created, the username cannot be changed.
-        public var username: String = ""
+        public let username: String
         /// The user's temporary password. This password must conform to the password policy that you specified when you created the user pool. The temporary password is valid only once. To complete the Admin Create User flow, the user must enter the temporary password in the sign-in page along with a new password to be used in all future sign-ins. This parameter is not required. If you do not specify a value, Amazon Cognito generates one for you. The temporary password can only be used until the user account expiration limit that you specified when you created the user pool. To reset the account after that time limit, you must call AdminCreateUser again, specifying "RESEND" for the MessageAction parameter.
-        public var temporaryPassword: String? = nil
+        public let temporaryPassword: String?
         /// An array of name-value pairs that contain user attributes and attribute values to be set for the user to be created. You can create a user without specifying any attributes other than Username. However, any attributes that you specify as required (in CreateUserPool or in the Attributes tab of the console) must be supplied either by you (in your call to AdminCreateUser) or by the user (when he or she signs up in response to your welcome message). To send a message inviting the user to sign up, you must specify the user's email address or phone number. This can be done in your call to AdminCreateUser or in the Users tab of the Amazon Cognito console for managing your user pools. In your call to AdminCreateUser, you can set the email_verified attribute to True, and you can set the phone_number_verified attribute to True. (You cannot do this by calling other operations such as AdminUpdateUserAttributes.)    email: The email address of the user to whom the message that contains the code and username will be sent. Required if the email_verified attribute is set to True, or if "EMAIL" is specified in the DesiredDeliveryMediums parameter.    phone_number: The phone number of the user to whom the message that contains the code and username will be sent. Required if the phone_number_verified attribute is set to True, or if "SMS" is specified in the DesiredDeliveryMediums parameter.  
-        public var userAttributes: [AttributeType]? = nil
-
-        public init() {}
+        public let userAttributes: [AttributeType]?
 
         public init(forceAliasCreation: Bool? = nil, userPoolId: String, desiredDeliveryMediums: [String]? = nil, messageAction: String? = nil, validationData: [AttributeType]? = nil, username: String, temporaryPassword: String? = nil, userAttributes: [AttributeType]? = nil) {
             self.forceAliasCreation = forceAliasCreation
@@ -3244,18 +3014,20 @@ extension CognitoIdp {
             self.forceAliasCreation = dictionary["ForceAliasCreation"] as? Bool
             guard let userPoolId = dictionary["UserPoolId"] as? String else { throw InitializableError.missingRequiredParam("UserPoolId") }
             self.userPoolId = userPoolId
-            if let desiredDeliveryMediums = dictionary["DesiredDeliveryMediums"] as? [String] {
-                self.desiredDeliveryMediums = desiredDeliveryMediums
-            }
+            self.desiredDeliveryMediums = dictionary["DesiredDeliveryMediums"] as? [String]
             self.messageAction = dictionary["MessageAction"] as? String
             if let validationData = dictionary["ValidationData"] as? [[String: Any]] {
                 self.validationData = try validationData.map({ try AttributeType(dictionary: $0) })
+            } else { 
+                self.validationData = nil
             }
             guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
             self.username = username
             self.temporaryPassword = dictionary["TemporaryPassword"] as? String
             if let userAttributes = dictionary["UserAttributes"] as? [[String: Any]] {
                 self.userAttributes = try userAttributes.map({ try AttributeType(dictionary: $0) })
+            } else { 
+                self.userAttributes = nil
             }
         }
     }
@@ -3264,11 +3036,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The groups that the user belongs to.
-        public var groups: [GroupType]? = nil
-
-        public init() {}
+        public let groups: [GroupType]?
 
         public init(nextToken: String? = nil, groups: [GroupType]? = nil) {
             self.nextToken = nextToken
@@ -3279,6 +3049,8 @@ extension CognitoIdp {
             self.nextToken = dictionary["NextToken"] as? String
             if let groups = dictionary["Groups"] as? [[String: Any]] {
                 self.groups = try groups.map({ try GroupType(dictionary: $0) })
+            } else { 
+                self.groups = nil
             }
         }
     }
@@ -3287,11 +3059,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token.
-        public var paginationToken: String? = nil
+        public let paginationToken: String?
         /// The devices in the list of devices response.
-        public var devices: [DeviceType]? = nil
-
-        public init() {}
+        public let devices: [DeviceType]?
 
         public init(paginationToken: String? = nil, devices: [DeviceType]? = nil) {
             self.paginationToken = paginationToken
@@ -3302,6 +3072,8 @@ extension CognitoIdp {
             self.paginationToken = dictionary["PaginationToken"] as? String
             if let devices = dictionary["Devices"] as? [[String: Any]] {
                 self.devices = try devices.map({ try DeviceType(dictionary: $0) })
+            } else { 
+                self.devices = nil
             }
         }
     }
@@ -3310,17 +3082,15 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The minimum length of the password policy that you have set. Cannot be less than 6.
-        public var minimumLength: Int32? = nil
+        public let minimumLength: Int32?
         /// In the password policy that you have set, refers to whether you have required users to use at least one lowercase letter in their password.
-        public var requireLowercase: Bool? = nil
+        public let requireLowercase: Bool?
         /// In the password policy that you have set, refers to whether you have required users to use at least one symbol in their password.
-        public var requireSymbols: Bool? = nil
+        public let requireSymbols: Bool?
         /// In the password policy that you have set, refers to whether you have required users to use at least one uppercase letter in their password.
-        public var requireUppercase: Bool? = nil
+        public let requireUppercase: Bool?
         /// In the password policy that you have set, refers to whether you have required users to use at least one number in their password.
-        public var requireNumbers: Bool? = nil
-
-        public init() {}
+        public let requireNumbers: Bool?
 
         public init(minimumLength: Int32? = nil, requireLowercase: Bool? = nil, requireSymbols: Bool? = nil, requireUppercase: Bool? = nil, requireNumbers: Bool? = nil) {
             self.minimumLength = minimumLength
@@ -3343,21 +3113,19 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   ARCHIVED - User is no longer active.   COMPROMISED - User is disabled due to a potential security threat.   UNKNOWN - User status is not known.  
-        public var userStatus: String? = nil
+        public let userStatus: String?
         /// Specifies whether the user is enabled.
-        public var enabled: Bool? = nil
+        public let enabled: Bool?
         /// The user name of the user you wish to describe.
-        public var username: String? = nil
+        public let username: String?
         /// The creation date of the user.
-        public var userCreateDate: Date? = nil
+        public let userCreateDate: Date?
         /// A container with information about the user type attributes.
-        public var attributes: [AttributeType]? = nil
+        public let attributes: [AttributeType]?
         /// The last modified date of the user.
-        public var userLastModifiedDate: Date? = nil
+        public let userLastModifiedDate: Date?
         /// The MFA options for the user.
-        public var mFAOptions: [MFAOptionType]? = nil
-
-        public init() {}
+        public let mFAOptions: [MFAOptionType]?
 
         public init(userStatus: String? = nil, enabled: Bool? = nil, username: String? = nil, userCreateDate: Date? = nil, attributes: [AttributeType]? = nil, userLastModifiedDate: Date? = nil, mFAOptions: [MFAOptionType]? = nil) {
             self.userStatus = userStatus
@@ -3376,10 +3144,14 @@ extension CognitoIdp {
             self.userCreateDate = dictionary["UserCreateDate"] as? Date
             if let attributes = dictionary["Attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try AttributeType(dictionary: $0) })
+            } else { 
+                self.attributes = nil
             }
             self.userLastModifiedDate = dictionary["UserLastModifiedDate"] as? Date
             if let mFAOptions = dictionary["MFAOptions"] as? [[String: Any]] {
                 self.mFAOptions = try mFAOptions.map({ try MFAOptionType(dictionary: $0) })
+            } else { 
+                self.mFAOptions = nil
             }
         }
     }
@@ -3388,17 +3160,15 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The attributes to get from the request to list users.
-        public var attributesToGet: [String]? = nil
+        public let attributesToGet: [String]?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var paginationToken: String? = nil
+        public let paginationToken: String?
         /// The limit of the request to list users.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The filter for the list users request.
-        public var filter: String? = nil
+        public let filter: String?
         /// The user pool ID for which you want to list users.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(attributesToGet: [String]? = nil, paginationToken: String? = nil, limit: Int32? = nil, filter: String? = nil, userPoolId: String) {
             self.attributesToGet = attributesToGet
@@ -3409,9 +3179,7 @@ extension CognitoIdp {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let attributesToGet = dictionary["AttributesToGet"] as? [String] {
-                self.attributesToGet = attributesToGet
-            }
+            self.attributesToGet = dictionary["AttributesToGet"] as? [String]
             self.paginationToken = dictionary["PaginationToken"] as? String
             self.limit = dictionary["Limit"] as? Int32
             self.filter = dictionary["Filter"] as? String
@@ -3424,9 +3192,7 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device.
-        public var device: DeviceType = DeviceType()
-
-        public init() {}
+        public let device: DeviceType
 
         public init(device: DeviceType) {
             self.device = device
@@ -3442,9 +3208,7 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device.
-        public var device: DeviceType = DeviceType()
-
-        public init() {}
+        public let device: DeviceType
 
         public init(device: DeviceType) {
             self.device = device
@@ -3460,15 +3224,13 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device key.
-        public var deviceKey: String = ""
+        public let deviceKey: String
         /// The status indicating whether a device has been remembered or not.
-        public var deviceRememberedStatus: String? = nil
+        public let deviceRememberedStatus: String?
         /// The user pool ID&gt;
-        public var userPoolId: String = ""
+        public let userPoolId: String
         /// The user name.
-        public var username: String = ""
-
-        public init() {}
+        public let username: String
 
         public init(deviceKey: String, deviceRememberedStatus: String? = nil, userPoolId: String, username: String) {
             self.deviceKey = deviceKey
@@ -3492,13 +3254,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The attribute name in the request to verify user attributes.
-        public var attributeName: String = ""
+        public let attributeName: String
         /// The verification code in the request to verify user attributes.
-        public var code: String = ""
+        public let code: String
         /// Represents the access token of the request to verify user attributes.
-        public var accessToken: String? = nil
-
-        public init() {}
+        public let accessToken: String?
 
         public init(attributeName: String, code: String, accessToken: String? = nil) {
             self.attributeName = attributeName
@@ -3519,8 +3279,6 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -3529,13 +3287,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device key.
-        public var deviceKey: String = ""
+        public let deviceKey: String
         /// The user pool ID.
-        public var userPoolId: String = ""
+        public let userPoolId: String
         /// The user name.
-        public var username: String = ""
-
-        public init() {}
+        public let username: String
 
         public init(deviceKey: String, userPoolId: String, username: String) {
             self.deviceKey = deviceKey
@@ -3557,13 +3313,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device key.
-        public var deviceKey: String = ""
+        public let deviceKey: String
         /// The user name.
-        public var username: String = ""
+        public let username: String
         /// The user pool ID.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(deviceKey: String, username: String, userPoolId: String) {
             self.deviceKey = deviceKey
@@ -3585,15 +3339,13 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The client app's metadata.
-        public var clientMetadata: [String: String]? = nil
+        public let clientMetadata: [String: String]?
         /// The client ID.
-        public var clientId: String = ""
+        public let clientId: String
         /// The authentication parameters.
-        public var authParameters: [String: String]? = nil
+        public let authParameters: [String: String]?
         /// The authentication flow.
-        public var authFlow: String = ""
-
-        public init() {}
+        public let authFlow: String
 
         public init(clientMetadata: [String: String]? = nil, clientId: String, authParameters: [String: String]? = nil, authFlow: String) {
             self.clientMetadata = clientMetadata
@@ -3605,11 +3357,15 @@ extension CognitoIdp {
         public init(dictionary: [String: Any]) throws {
             if let clientMetadata = dictionary["ClientMetadata"] as? [String: String] {
                 self.clientMetadata = clientMetadata
+            } else { 
+                self.clientMetadata = nil
             }
             guard let clientId = dictionary["ClientId"] as? String else { throw InitializableError.missingRequiredParam("ClientId") }
             self.clientId = clientId
             if let authParameters = dictionary["AuthParameters"] as? [String: String] {
                 self.authParameters = authParameters
+            } else { 
+                self.authParameters = nil
             }
             guard let authFlow = dictionary["AuthFlow"] as? String else { throw InitializableError.missingRequiredParam("AuthFlow") }
             self.authFlow = authFlow
@@ -3620,13 +3376,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pool ID for the user pool where you want to list user pool clients.
-        public var userPoolId: String = ""
+        public let userPoolId: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results you want the request to return when listing the user pool clients.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(userPoolId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.userPoolId = userPoolId
@@ -3646,13 +3400,11 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The username for the user.
-        public var username: String = ""
+        public let username: String
         /// The group name.
-        public var groupName: String = ""
+        public let groupName: String
         /// The user pool ID for the user pool.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(username: String, groupName: String, userPoolId: String) {
             self.username = username
@@ -3674,11 +3426,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The REPLY-TO email address.
-        public var replyToEmailAddress: String? = nil
+        public let replyToEmailAddress: String?
         /// The Amazon Resource Name (ARN) of the email source.
-        public var sourceArn: String? = nil
-
-        public init() {}
+        public let sourceArn: String?
 
         public init(replyToEmailAddress: String? = nil, sourceArn: String? = nil) {
             self.replyToEmailAddress = replyToEmailAddress
@@ -3695,11 +3445,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user pool ID.
-        public var userPoolId: String = ""
+        public let userPoolId: String
         /// The user name.
-        public var username: String = ""
-
-        public init() {}
+        public let username: String
 
         public init(userPoolId: String, username: String) {
             self.userPoolId = userPoolId
@@ -3718,16 +3466,14 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user returned in the request to create a new user.
-        public var user: UserType? = nil
-
-        public init() {}
+        public let user: UserType?
 
         public init(user: UserType? = nil) {
             self.user = user
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let user = dictionary["User"] as? [String: Any] { self.user = try CognitoIdp.UserType(dictionary: user) }
+            if let user = dictionary["User"] as? [String: Any] { self.user = try CognitoIdp.UserType(dictionary: user) } else { self.user = nil }
         }
     }
 
@@ -3735,11 +3481,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The user pool clients in the response that lists user pool clients.
-        public var userPoolClients: [UserPoolClientDescription]? = nil
-
-        public init() {}
+        public let userPoolClients: [UserPoolClientDescription]?
 
         public init(nextToken: String? = nil, userPoolClients: [UserPoolClientDescription]? = nil) {
             self.nextToken = nextToken
@@ -3750,6 +3494,8 @@ extension CognitoIdp {
             self.nextToken = dictionary["NextToken"] as? String
             if let userPoolClients = dictionary["UserPoolClients"] as? [[String: Any]] {
                 self.userPoolClients = try userPoolClients.map({ try UserPoolClientDescription(dictionary: $0) })
+            } else { 
+                self.userPoolClients = nil
             }
         }
     }
@@ -3758,11 +3504,9 @@ extension CognitoIdp {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the group.
-        public var groupName: String = ""
+        public let groupName: String
         /// The user pool ID for the user pool.
-        public var userPoolId: String = ""
-
-        public init() {}
+        public let userPoolId: String
 
         public init(groupName: String, userPoolId: String) {
             self.groupName = groupName

@@ -33,48 +33,46 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The amount of time, in seconds, after the Worker submits an assignment for the HIT that the results are automatically approved by Amazon Mechanical Turk. This is the amount of time the Requester has to reject an assignment submitted by a Worker before the assignment is auto-approved and the Worker is paid. 
-        public var autoApprovalDelayInSeconds: Int64? = nil
+        public let autoApprovalDelayInSeconds: Int64?
         ///  The ID of the HIT Layout of this HIT.
-        public var hITLayoutId: String? = nil
+        public let hITLayoutId: String?
         ///  The number of assignments for this HIT that have been approved or rejected.
-        public var numberOfAssignmentsCompleted: Int32? = nil
+        public let numberOfAssignmentsCompleted: Int32?
         ///  The number of assignments for this HIT that are available for Workers to accept.
-        public var numberOfAssignmentsAvailable: Int32? = nil
+        public let numberOfAssignmentsAvailable: Int32?
         ///  The title of the HIT.
-        public var title: String? = nil
+        public let title: String?
         ///  The length of time, in seconds, that a Worker has to complete the HIT after accepting it.
-        public var assignmentDurationInSeconds: Int64? = nil
+        public let assignmentDurationInSeconds: Int64?
         ///  The date and time the HIT was created.
-        public var creationTime: Date? = nil
+        public let creationTime: Date?
         ///  The ID of the HIT Group of this HIT.
-        public var hITGroupId: String? = nil
-        public var reward: String? = nil
+        public let hITGroupId: String?
+        public let reward: String?
         ///  Indicates the review status of the HIT. Valid Values are NotReviewed | MarkedForReview | ReviewedAppropriate | ReviewedInappropriate.
-        public var hITReviewStatus: String? = nil
+        public let hITReviewStatus: String?
         /// The ID of the HIT type of this HIT
-        public var hITTypeId: String? = nil
+        public let hITTypeId: String?
         ///  A general description of the HIT.
-        public var description: String? = nil
+        public let description: String?
         /// The number of times the HIT can be accepted and completed before the HIT becomes unavailable. 
-        public var maxAssignments: Int32? = nil
+        public let maxAssignments: Int32?
         ///  A unique identifier for the HIT.
-        public var hITId: String? = nil
+        public let hITId: String?
         /// The status of the HIT and its assignments. Valid Values are Assignable | Unassignable | Reviewable | Reviewing | Disposed. 
-        public var hITStatus: String? = nil
+        public let hITStatus: String?
         /// The date and time the HIT expires.
-        public var expiration: Date? = nil
+        public let expiration: Date?
         ///  A condition that a Worker's Qualifications must meet in order to accept the HIT. A HIT can have between zero and ten Qualification requirements. All requirements must be met by a Worker's Qualifications for the Worker to accept the HIT.
-        public var qualificationRequirements: [QualificationRequirement]? = nil
+        public let qualificationRequirements: [QualificationRequirement]?
         ///  One or more words or phrases that describe the HIT, separated by commas. Search terms similar to the keywords of a HIT are more likely to have the HIT in the search results.
-        public var keywords: String? = nil
+        public let keywords: String?
         ///  The data the Worker completing the HIT uses produce the results. This is either either a QuestionForm, HTMLQuestion or an ExternalQuestion data structure.
-        public var question: String? = nil
+        public let question: String?
         ///  An arbitrary data field the Requester who created the HIT can use. This field is visible only to the creator of the HIT.
-        public var requesterAnnotation: String? = nil
+        public let requesterAnnotation: String?
         ///  The number of assignments for this HIT that are being previewed or have been accepted by Workers, but have not yet been submitted, returned, or abandoned.
-        public var numberOfAssignmentsPending: Int32? = nil
-
-        public init() {}
+        public let numberOfAssignmentsPending: Int32?
 
         public init(autoApprovalDelayInSeconds: Int64? = nil, hITLayoutId: String? = nil, numberOfAssignmentsCompleted: Int32? = nil, numberOfAssignmentsAvailable: Int32? = nil, title: String? = nil, assignmentDurationInSeconds: Int64? = nil, creationTime: Date? = nil, hITGroupId: String? = nil, reward: String? = nil, hITReviewStatus: String? = nil, hITTypeId: String? = nil, description: String? = nil, maxAssignments: Int32? = nil, hITId: String? = nil, hITStatus: String? = nil, expiration: Date? = nil, qualificationRequirements: [QualificationRequirement]? = nil, keywords: String? = nil, question: String? = nil, requesterAnnotation: String? = nil, numberOfAssignmentsPending: Int32? = nil) {
             self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
@@ -119,6 +117,8 @@ extension MturkRequester {
             self.expiration = dictionary["Expiration"] as? Date
             if let qualificationRequirements = dictionary["QualificationRequirements"] as? [[String: Any]] {
                 self.qualificationRequirements = try qualificationRequirements.map({ try QualificationRequirement(dictionary: $0) })
+            } else { 
+                self.qualificationRequirements = nil
             }
             self.keywords = dictionary["Keywords"] as? String
             self.question = dictionary["Question"] as? String
@@ -131,9 +131,7 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the QualificationType to dispose.
-        public var qualificationTypeId: String = ""
-
-        public init() {}
+        public let qualificationTypeId: String
 
         public init(qualificationTypeId: String) {
             self.qualificationTypeId = qualificationTypeId
@@ -149,14 +147,12 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the HIT.
-        public var hITId: String = ""
+        public let hITId: String
         /// Pagination token
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The status of the assignments to return: Submitted | Approved | Rejected
-        public var assignmentStatuses: [String]? = nil
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let assignmentStatuses: [String]?
+        public let maxResults: Int32?
 
         public init(hITId: String, nextToken: String? = nil, assignmentStatuses: [String]? = nil, maxResults: Int32? = nil) {
             self.hITId = hITId
@@ -169,9 +165,7 @@ extension MturkRequester {
             guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
             self.hITId = hITId
             self.nextToken = dictionary["NextToken"] as? String
-            if let assignmentStatuses = dictionary["AssignmentStatuses"] as? [String] {
-                self.assignmentStatuses = assignmentStatuses
-            }
+            self.assignmentStatuses = dictionary["AssignmentStatuses"] as? [String]
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
     }
@@ -179,8 +173,6 @@ extension MturkRequester {
     public struct DeleteHITResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -190,8 +182,6 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -200,13 +190,11 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The subject line of the email message to send. Can include up to 200 characters.
-        public var subject: String = ""
+        public let subject: String
         /// The text of the email message to send. Can include up to 4,096 characters
-        public var messageText: String = ""
+        public let messageText: String
         /// A list of Worker IDs you wish to notify. You can notify upto 100 Workers at a time.
-        public var workerIds: [String] = []
-
-        public init() {}
+        public let workerIds: [String]
 
         public init(subject: String, messageText: String, workerIds: [String]) {
             self.subject = subject
@@ -228,9 +216,7 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The ID of the newly registered HIT type.
-        public var hITTypeId: String? = nil
-
-        public init() {}
+        public let hITTypeId: String?
 
         public init(hITTypeId: String? = nil) {
             self.hITTypeId = hITTypeId
@@ -245,12 +231,10 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The collection of Assignment data structures returned by this call.
-        public var assignments: [Assignment]? = nil
-        public var nextToken: String? = nil
+        public let assignments: [Assignment]?
+        public let nextToken: String?
         ///  The number of assignments on the page in the filtered results list, equivalent to the number of assignments returned by this call.
-        public var numResults: Int32? = nil
-
-        public init() {}
+        public let numResults: Int32?
 
         public init(assignments: [Assignment]? = nil, nextToken: String? = nil, numResults: Int32? = nil) {
             self.assignments = assignments
@@ -261,6 +245,8 @@ extension MturkRequester {
         public init(dictionary: [String: Any]) throws {
             if let assignments = dictionary["Assignments"] as? [[String: Any]] {
                 self.assignments = try assignments.map({ try Assignment(dictionary: $0) })
+            } else { 
+                self.assignments = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
             self.numResults = dictionary["NumResults"] as? Int32
@@ -271,16 +257,14 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Specifies that only Qualification types that the Requester created are returned. If false, the operation returns all Qualification types. 
-        public var mustBeOwnedByCaller: Bool? = nil
+        public let mustBeOwnedByCaller: Bool?
         /// Specifies that only Qualification types that a user can request through the Amazon Mechanical Turk web site, such as by taking a Qualification test, are returned as results of the search. Some Qualification types, such as those assigned automatically by the system, cannot be requested directly by users. If false, all Qualification types, including those managed by the system, are considered. Valid values are True | False. 
-        public var mustBeRequestable: Bool = false
+        public let mustBeRequestable: Bool
         ///  A text query against all of the searchable attributes of Qualification types. 
-        public var query: String? = nil
-        public var nextToken: String? = nil
+        public let query: String?
+        public let nextToken: String?
         ///  The maximum number of results to return in a single call. 
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(mustBeOwnedByCaller: Bool? = nil, mustBeRequestable: Bool, query: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.mustBeOwnedByCaller = mustBeOwnedByCaller
@@ -303,13 +287,11 @@ extension MturkRequester {
     public struct ListQualificationRequestsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The ID of the QualificationType.
-        public var qualificationTypeId: String? = nil
+        public let qualificationTypeId: String?
         ///  The maximum number of results to return in a single call. 
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, qualificationTypeId: String? = nil, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -328,12 +310,10 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The list of HIT elements returned by the query.
-        public var hITs: [HIT]? = nil
-        public var nextToken: String? = nil
+        public let hITs: [HIT]?
+        public let nextToken: String?
         ///  The number of HITs on this page in the filtered results list, equivalent to the number of HITs being returned by this call. 
-        public var numResults: Int32? = nil
-
-        public init() {}
+        public let numResults: Int32?
 
         public init(hITs: [HIT]? = nil, nextToken: String? = nil, numResults: Int32? = nil) {
             self.hITs = hITs
@@ -344,6 +324,8 @@ extension MturkRequester {
         public init(dictionary: [String: Any]) throws {
             if let hITs = dictionary["HITs"] as? [[String: Any]] {
                 self.hITs = try hITs.map({ try HIT(dictionary: $0) })
+            } else { 
+                self.hITs = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
             self.numResults = dictionary["NumResults"] as? Int32
@@ -354,9 +336,7 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A temporary URL for the file that the Worker uploaded for the answer. 
-        public var fileUploadURL: String? = nil
-
-        public init() {}
+        public let fileUploadURL: String?
 
         public init(fileUploadURL: String? = nil) {
             self.fileUploadURL = fileUploadURL
@@ -371,11 +351,9 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value substituted for the parameter referenced in the HITLayout. 
-        public var value: String? = nil
+        public let value: String?
         ///  The name of the parameter in the HITLayout. 
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(value: String? = nil, name: String? = nil) {
             self.value = value
@@ -392,33 +370,31 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The amount of time, in seconds, given to a Worker to complete the Qualification test, beginning from the time the Worker requests the Qualification. 
-        public var testDurationInSeconds: Int64? = nil
+        public let testDurationInSeconds: Int64?
         ///  The amount of time, in seconds, Workers must wait after taking the Qualification test before they can take it again. Workers can take a Qualification test multiple times if they were not granted the Qualification from a previous attempt, or if the test offers a gradient score and they want a better score. If not specified, retries are disabled and Workers can request a Qualification only once. 
-        public var retryDelayInSeconds: Int64? = nil
+        public let retryDelayInSeconds: Int64?
         ///  The status of the Qualification type. A Qualification type's status determines if users can apply to receive a Qualification of this type, and if HITs can be created with requirements based on this type. Valid values are Active | Inactive. 
-        public var qualificationTypeStatus: String? = nil
+        public let qualificationTypeStatus: String?
         ///  The date and time the Qualification type was created. 
-        public var creationTime: Date? = nil
+        public let creationTime: Date?
         /// The answers to the Qualification test specified in the Test parameter.
-        public var answerKey: String? = nil
+        public let answerKey: String?
         ///  A long description for the Qualification type. 
-        public var description: String? = nil
+        public let description: String?
         /// Specifies that requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Valid values are True | False.
-        public var autoGranted: Bool? = nil
+        public let autoGranted: Bool?
         ///  The questions for a Qualification test associated with this Qualification type that a user can take to obtain a Qualification of this type. This parameter must be specified if AnswerKey is present. A Qualification type cannot have both a specified Test parameter and an AutoGranted value of true. 
-        public var test: String? = nil
+        public let test: String?
         ///  The name of the Qualification type. The type name is used to identify the type, and to find the type using a Qualification type search. 
-        public var name: String? = nil
+        public let name: String?
         ///  One or more words or phrases that describe theQualification type, separated by commas. The Keywords make the type easier to find using a search. 
-        public var keywords: String? = nil
+        public let keywords: String?
         ///  Specifies whether the Qualification type is one that a user can request through the Amazon Mechanical Turk web site, such as by taking a Qualification test. This value is False for Qualifications assigned automatically by the system. Valid values are True | False. 
-        public var isRequestable: Bool? = nil
+        public let isRequestable: Bool?
         ///  The Qualification integer value to use for automatically granted Qualifications, if AutoGranted is true. This is 1 by default. 
-        public var autoGrantedValue: Int32? = nil
+        public let autoGrantedValue: Int32?
         ///  A unique identifier for the Qualification type. A Qualification type is given a Qualification type ID when you call the CreateQualificationType operation. 
-        public var qualificationTypeId: String? = nil
-
-        public init() {}
+        public let qualificationTypeId: String?
 
         public init(testDurationInSeconds: Int64? = nil, retryDelayInSeconds: Int64? = nil, qualificationTypeStatus: String? = nil, creationTime: Date? = nil, answerKey: String? = nil, description: String? = nil, autoGranted: Bool? = nil, test: String? = nil, name: String? = nil, keywords: String? = nil, isRequestable: Bool? = nil, autoGrantedValue: Int32? = nil, qualificationTypeId: String? = nil) {
             self.testDurationInSeconds = testDurationInSeconds
@@ -457,11 +433,9 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The date and time at which you want the HIT to expire 
-        public var expireAt: Date? = nil
+        public let expireAt: Date?
         ///  The HIT to update. 
-        public var hITId: String = ""
-
-        public init() {}
+        public let hITId: String
 
         public init(expireAt: Date? = nil, hITId: String) {
             self.expireAt = expireAt
@@ -479,8 +453,6 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -489,8 +461,6 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -498,13 +468,11 @@ extension MturkRequester {
     public struct ListQualificationTypesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var nextToken: String? = nil
+        public let nextToken: String?
         ///  The list of QualificationType elements returned by the query. 
-        public var qualificationTypes: [QualificationType]? = nil
+        public let qualificationTypes: [QualificationType]?
         ///  The number of Qualification types on this page in the filtered results list, equivalent to the number of types this operation returns. 
-        public var numResults: Int32? = nil
-
-        public init() {}
+        public let numResults: Int32?
 
         public init(nextToken: String? = nil, qualificationTypes: [QualificationType]? = nil, numResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -516,6 +484,8 @@ extension MturkRequester {
             self.nextToken = dictionary["NextToken"] as? String
             if let qualificationTypes = dictionary["QualificationTypes"] as? [[String: Any]] {
                 self.qualificationTypes = try qualificationTypes.map({ try QualificationType(dictionary: $0) })
+            } else { 
+                self.qualificationTypes = nil
             }
             self.numResults = dictionary["NumResults"] as? Int32
         }
@@ -525,8 +495,6 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -535,11 +503,9 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// Name of the parameter from the Review policy.
-        public var parameters: [PolicyParameter]? = nil
+        public let parameters: [PolicyParameter]?
         ///  Name of a Review Policy: SimplePlurality/2011-09-01 or ScoreMyKnownAnswers/2011-09-01 
-        public var policyName: String? = nil
-
-        public init() {}
+        public let policyName: String?
 
         public init(parameters: [PolicyParameter]? = nil, policyName: String? = nil) {
             self.parameters = parameters
@@ -549,6 +515,8 @@ extension MturkRequester {
         public init(dictionary: [String: Any]) throws {
             if let parameters = dictionary["Parameters"] as? [[String: Any]] {
                 self.parameters = try parameters.map({ try PolicyParameter(dictionary: $0) })
+            } else { 
+                self.parameters = nil
             }
             self.policyName = dictionary["PolicyName"] as? String
         }
@@ -558,16 +526,14 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Contains the requested HIT data.
-        public var hIT: HIT? = nil
-
-        public init() {}
+        public let hIT: HIT?
 
         public init(hIT: HIT? = nil) {
             self.hIT = hIT
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let hIT = dictionary["HIT"] as? [String: Any] { self.hIT = try MturkRequester.HIT(dictionary: hIT) }
+            if let hIT = dictionary["HIT"] as? [String: Any] { self.hIT = try MturkRequester.HIT(dictionary: hIT) } else { self.hIT = nil }
         }
     }
 
@@ -575,13 +541,11 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A message detailing the reason the Worker could not be notified. 
-        public var notifyWorkersFailureMessage: String? = nil
+        public let notifyWorkersFailureMessage: String?
         ///  The ID of the Worker.
-        public var workerId: String? = nil
+        public let workerId: String?
         ///  Encoded value for the failure type. 
-        public var notifyWorkersFailureCode: String? = nil
-
-        public init() {}
+        public let notifyWorkersFailureCode: String?
 
         public init(notifyWorkersFailureMessage: String? = nil, workerId: String? = nil, notifyWorkersFailureCode: String? = nil) {
             self.notifyWorkersFailureMessage = notifyWorkersFailureMessage
@@ -600,8 +564,6 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -610,12 +572,10 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The list of HIT elements returned by the query.
-        public var hITs: [HIT]? = nil
-        public var nextToken: String? = nil
+        public let hITs: [HIT]?
+        public let nextToken: String?
         ///  The number of HITs on this page in the filtered results list, equivalent to the number of HITs being returned by this call. 
-        public var numResults: Int32? = nil
-
-        public init() {}
+        public let numResults: Int32?
 
         public init(hITs: [HIT]? = nil, nextToken: String? = nil, numResults: Int32? = nil) {
             self.hITs = hITs
@@ -626,6 +586,8 @@ extension MturkRequester {
         public init(dictionary: [String: Any]) throws {
             if let hITs = dictionary["HITs"] as? [[String: Any]] {
                 self.hITs = try hITs.map({ try HIT(dictionary: $0) })
+            } else { 
+                self.hITs = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
             self.numResults = dictionary["NumResults"] as? Int32
@@ -636,8 +598,6 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -646,39 +606,37 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The number of seconds after an assignment for the HIT has been submitted, after which the assignment is considered Approved automatically unless the Requester explicitly rejects it. 
-        public var autoApprovalDelayInSeconds: Int64? = nil
+        public let autoApprovalDelayInSeconds: Int64?
         ///  If the HITLayoutId is provided, any placeholder values must be filled in with values using the HITLayoutParameter structure. For more information, see HITLayout. 
-        public var hITLayoutParameters: [HITLayoutParameter]? = nil
+        public let hITLayoutParameters: [HITLayoutParameter]?
         ///  The HITLayoutId allows you to use a pre-existing HIT design with placeholder values and create an additional HIT by providing those values as HITLayoutParameters.   Constraints: Either a Question parameter or a HITLayoutId parameter must be provided. 
-        public var hITLayoutId: String? = nil
+        public let hITLayoutId: String?
         ///  The title of the HIT. A title should be short and descriptive about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT title appears in search results, and everywhere the HIT is mentioned. 
-        public var title: String = ""
+        public let title: String
         ///  The HIT-level Review Policy applies to the HIT. You can specify for Mechanical Turk to take various actions based on the policy. 
-        public var hITReviewPolicy: ReviewPolicy? = nil
+        public let hITReviewPolicy: ReviewPolicy?
         ///  The amount of time, in seconds, that a Worker has to complete the HIT after accepting it. If a Worker does not complete the assignment within the specified duration, the assignment is considered abandoned. If the HIT is still active (that is, its lifetime has not elapsed), the assignment becomes available for other users to find and accept. 
-        public var assignmentDurationInSeconds: Int64 = 0
+        public let assignmentDurationInSeconds: Int64
         ///  The amount of money the Requester will pay a Worker for successfully completing the HIT. 
-        public var reward: String = ""
+        public let reward: String
         ///  A unique identifier for this request which allows you to retry the call on error without creating duplicate HITs. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return a AWS.MechanicalTurk.HitAlreadyExists error with a message containing the HITId.    Note: It is your responsibility to ensure uniqueness of the token. The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken made after the 24 hour limit could create duplicate HITs.  
-        public var uniqueRequestToken: String? = nil
+        public let uniqueRequestToken: String?
         ///  A general description of the HIT. A description includes detailed information about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT description appears in the expanded view of search results, and in the HIT and assignment screens. A good description gives the user enough information to evaluate the HIT before accepting it. 
-        public var description: String = ""
+        public let description: String
         ///  The number of times the HIT can be accepted and completed before the HIT becomes unavailable. 
-        public var maxAssignments: Int32? = nil
+        public let maxAssignments: Int32?
         ///  A condition that a Worker's Qualifications must meet before the Worker is allowed to accept and complete the HIT. 
-        public var qualificationRequirements: [QualificationRequirement]? = nil
+        public let qualificationRequirements: [QualificationRequirement]?
         ///  One or more words or phrases that describe the HIT, separated by commas. These words are used in searches to find HITs. 
-        public var keywords: String? = nil
+        public let keywords: String?
         ///  The data the person completing the HIT uses to produce the results.   Constraints: Must be a QuestionForm data structure, an ExternalQuestion data structure, or an HTMLQuestion data structure. The XML question data must not be larger than 64 kilobytes (65,535 bytes) in size, including whitespace.  Either a Question parameter or a HITLayoutId parameter must be provided.
-        public var question: String? = nil
+        public let question: String?
         ///  An amount of time, in seconds, after which the HIT is no longer available for users to accept. After the lifetime of the HIT elapses, the HIT no longer appears in HIT searches, even if not all of the assignments for the HIT have been accepted. 
-        public var lifetimeInSeconds: Int64 = 0
+        public let lifetimeInSeconds: Int64
         ///  The Assignment-level Review Policy applies to the assignments under the HIT. You can specify for Mechanical Turk to take various actions based on the policy. 
-        public var assignmentReviewPolicy: ReviewPolicy? = nil
+        public let assignmentReviewPolicy: ReviewPolicy?
         ///  An arbitrary data field. The RequesterAnnotation parameter lets your application attach arbitrary data to the HIT for tracking purposes. For example, this parameter could be an identifier internal to the Requester's application that corresponds with the HIT.   The RequesterAnnotation parameter for a HIT is only visible to the Requester who created the HIT. It is not shown to the Worker, or any other Requester.   The RequesterAnnotation parameter may be different for each HIT you submit. It does not affect how your HITs are grouped. 
-        public var requesterAnnotation: String? = nil
-
-        public init() {}
+        public let requesterAnnotation: String?
 
         public init(autoApprovalDelayInSeconds: Int64? = nil, hITLayoutParameters: [HITLayoutParameter]? = nil, hITLayoutId: String? = nil, title: String, hITReviewPolicy: ReviewPolicy? = nil, assignmentDurationInSeconds: Int64, reward: String, uniqueRequestToken: String? = nil, description: String, maxAssignments: Int32? = nil, qualificationRequirements: [QualificationRequirement]? = nil, keywords: String? = nil, question: String? = nil, lifetimeInSeconds: Int64, assignmentReviewPolicy: ReviewPolicy? = nil, requesterAnnotation: String? = nil) {
             self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
@@ -703,11 +661,13 @@ extension MturkRequester {
             self.autoApprovalDelayInSeconds = dictionary["AutoApprovalDelayInSeconds"] as? Int64
             if let hITLayoutParameters = dictionary["HITLayoutParameters"] as? [[String: Any]] {
                 self.hITLayoutParameters = try hITLayoutParameters.map({ try HITLayoutParameter(dictionary: $0) })
+            } else { 
+                self.hITLayoutParameters = nil
             }
             self.hITLayoutId = dictionary["HITLayoutId"] as? String
             guard let title = dictionary["Title"] as? String else { throw InitializableError.missingRequiredParam("Title") }
             self.title = title
-            if let hITReviewPolicy = dictionary["HITReviewPolicy"] as? [String: Any] { self.hITReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: hITReviewPolicy) }
+            if let hITReviewPolicy = dictionary["HITReviewPolicy"] as? [String: Any] { self.hITReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: hITReviewPolicy) } else { self.hITReviewPolicy = nil }
             guard let assignmentDurationInSeconds = dictionary["AssignmentDurationInSeconds"] as? Int64 else { throw InitializableError.missingRequiredParam("AssignmentDurationInSeconds") }
             self.assignmentDurationInSeconds = assignmentDurationInSeconds
             guard let reward = dictionary["Reward"] as? String else { throw InitializableError.missingRequiredParam("Reward") }
@@ -718,12 +678,14 @@ extension MturkRequester {
             self.maxAssignments = dictionary["MaxAssignments"] as? Int32
             if let qualificationRequirements = dictionary["QualificationRequirements"] as? [[String: Any]] {
                 self.qualificationRequirements = try qualificationRequirements.map({ try QualificationRequirement(dictionary: $0) })
+            } else { 
+                self.qualificationRequirements = nil
             }
             self.keywords = dictionary["Keywords"] as? String
             self.question = dictionary["Question"] as? String
             guard let lifetimeInSeconds = dictionary["LifetimeInSeconds"] as? Int64 else { throw InitializableError.missingRequiredParam("LifetimeInSeconds") }
             self.lifetimeInSeconds = lifetimeInSeconds
-            if let assignmentReviewPolicy = dictionary["AssignmentReviewPolicy"] as? [String: Any] { self.assignmentReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: assignmentReviewPolicy) }
+            if let assignmentReviewPolicy = dictionary["AssignmentReviewPolicy"] as? [String: Any] { self.assignmentReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: assignmentReviewPolicy) } else { self.assignmentReviewPolicy = nil }
             self.requesterAnnotation = dictionary["RequesterAnnotation"] as? String
         }
     }
@@ -732,10 +694,8 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// Pagination token
-        public var nextToken: String? = nil
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let nextToken: String?
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -752,8 +712,6 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -761,8 +719,6 @@ extension MturkRequester {
     public struct RejectQualificationRequestResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -772,8 +728,6 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -782,24 +736,20 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The Qualification data structure of the Qualification assigned to a user, including the Qualification type and the value (score). 
-        public var qualification: Qualification? = nil
-
-        public init() {}
+        public let qualification: Qualification?
 
         public init(qualification: Qualification? = nil) {
             self.qualification = qualification
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let qualification = dictionary["Qualification"] as? [String: Any] { self.qualification = try MturkRequester.Qualification(dictionary: qualification) }
+            if let qualification = dictionary["Qualification"] as? [String: Any] { self.qualification = try MturkRequester.Qualification(dictionary: qualification) } else { self.qualification = nil }
         }
     }
 
     public struct UpdateNotificationSettingsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -809,11 +759,9 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The ID of the HIT to update. 
-        public var hITId: String = ""
+        public let hITId: String
         ///  Specifies how to update the HIT status. Default is False.     Setting this to false will only transition a HIT from Reviewable to Reviewing     Setting this to true will only transition a HIT from Reviewing to Reviewable   
-        public var revert: Bool? = nil
-
-        public init() {}
+        public let revert: Bool?
 
         public init(hITId: String, revert: Bool? = nil) {
             self.hITId = hITId
@@ -831,15 +779,13 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the Qualification to assign.
-        public var integerValue: Int32? = nil
+        public let integerValue: Int32?
         ///  Specifies whether to send a notification email message to the Worker saying that the qualification was assigned to the Worker. Note: this is true by default. 
-        public var sendNotification: Bool? = nil
+        public let sendNotification: Bool?
         ///  The ID of the Worker to whom the Qualification is being assigned. Worker IDs are included with submitted HIT assignments and Qualification requests. 
-        public var workerId: String = ""
+        public let workerId: String
         /// The ID of the Qualification type to use for the assigned Qualification.
-        public var qualificationTypeId: String = ""
-
-        public init() {}
+        public let qualificationTypeId: String
 
         public init(integerValue: Int32? = nil, sendNotification: Bool? = nil, workerId: String, qualificationTypeId: String) {
             self.integerValue = integerValue
@@ -862,9 +808,7 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the HIT to be deleted.
-        public var hITId: String = ""
-
-        public init() {}
+        public let hITId: String
 
         public init(hITId: String) {
             self.hITId = hITId
@@ -880,25 +824,23 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
-        public var testDurationInSeconds: Int64? = nil
+        public let testDurationInSeconds: Int64?
         /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter cannot be true.
-        public var autoGranted: Bool? = nil
+        public let autoGranted: Bool?
         /// The questions for the Qualification test a Worker must answer correctly to obtain a Qualification of this type. If this parameter is specified, TestDurationInSeconds must also be specified. Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm data structure. This parameter cannot be specified if AutoGranted is true. Constraints: None. If not specified, the Worker may request the Qualification without answering any questions.
-        public var test: String? = nil
+        public let test: String?
         /// The amount of time, in seconds, that Workers must wait after requesting a Qualification of the specified Qualification type before they can retry the Qualification request. It is not possible to disable retries for a Qualification type after it has been created with retries enabled. If you want to disable retries, you must dispose of the existing retry-enabled Qualification type using DisposeQualificationType and then create a new Qualification type with retries disabled using CreateQualificationType.
-        public var retryDelayInSeconds: Int64? = nil
+        public let retryDelayInSeconds: Int64?
         /// The new status of the Qualification type - Active | Inactive
-        public var qualificationTypeStatus: String? = nil
+        public let qualificationTypeStatus: String?
         /// The answers to the Qualification test specified in the Test parameter, in the form of an AnswerKey data structure.
-        public var answerKey: String? = nil
+        public let answerKey: String?
         /// The Qualification value to use for automatically granted Qualifications. This parameter is used only if the AutoGranted parameter is true.
-        public var autoGrantedValue: Int32? = nil
+        public let autoGrantedValue: Int32?
         /// The ID of the Qualification type to update.
-        public var qualificationTypeId: String = ""
+        public let qualificationTypeId: String
         /// The new description of the Qualification type.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(testDurationInSeconds: Int64? = nil, autoGranted: Bool? = nil, test: String? = nil, retryDelayInSeconds: Int64? = nil, qualificationTypeStatus: String? = nil, answerKey: String? = nil, autoGrantedValue: Int32? = nil, qualificationTypeId: String, description: String? = nil) {
             self.testDurationInSeconds = testDurationInSeconds
@@ -930,18 +872,16 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The value (score) of the Qualification, if the Qualification has an integer value.
-        public var integerValue: Int32? = nil
+        public let integerValue: Int32?
         ///  The status of the Qualification. Valid values are Granted | Revoked.
-        public var status: String? = nil
-        public var localeValue: Locale? = nil
+        public let status: String?
+        public let localeValue: Locale?
         ///  The date and time the Qualification was granted to the Worker. If the Worker's Qualification was revoked, and then re-granted based on a new Qualification request, GrantTime is the date and time of the last call to the AcceptQualificationRequest operation.
-        public var grantTime: Date? = nil
+        public let grantTime: Date?
         ///  The ID of the Worker who possesses the Qualification. 
-        public var workerId: String? = nil
+        public let workerId: String?
         ///  The ID of the Qualification type for the Qualification.
-        public var qualificationTypeId: String? = nil
-
-        public init() {}
+        public let qualificationTypeId: String?
 
         public init(integerValue: Int32? = nil, status: String? = nil, localeValue: Locale? = nil, grantTime: Date? = nil, workerId: String? = nil, qualificationTypeId: String? = nil) {
             self.integerValue = integerValue
@@ -955,7 +895,7 @@ extension MturkRequester {
         public init(dictionary: [String: Any]) throws {
             self.integerValue = dictionary["IntegerValue"] as? Int32
             self.status = dictionary["Status"] as? String
-            if let localeValue = dictionary["LocaleValue"] as? [String: Any] { self.localeValue = try MturkRequester.Locale(dictionary: localeValue) }
+            if let localeValue = dictionary["LocaleValue"] as? [String: Any] { self.localeValue = try MturkRequester.Locale(dictionary: localeValue) } else { self.localeValue = nil }
             self.grantTime = dictionary["GrantTime"] as? Date
             self.workerId = dictionary["WorkerId"] as? String
             self.qualificationTypeId = dictionary["QualificationTypeId"] as? String
@@ -966,8 +906,6 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -975,8 +913,6 @@ extension MturkRequester {
     public struct UpdateExpirationForHITResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -986,11 +922,9 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// A message explaining the reason for blocking the Worker. This parameter enables you to keep track of your Workers. The Worker does not see this message.
-        public var reason: String = ""
+        public let reason: String
         /// The ID of the Worker to block.
-        public var workerId: String = ""
-
-        public init() {}
+        public let workerId: String
 
         public init(reason: String, workerId: String) {
             self.reason = reason
@@ -1009,12 +943,10 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The list of HIT elements returned by the query.
-        public var hITs: [HIT]? = nil
-        public var nextToken: String? = nil
+        public let hITs: [HIT]?
+        public let nextToken: String?
         /// The number of HITs on this page in the filtered results list, equivalent to the number of HITs being returned by this call.
-        public var numResults: Int32? = nil
-
-        public init() {}
+        public let numResults: Int32?
 
         public init(hITs: [HIT]? = nil, nextToken: String? = nil, numResults: Int32? = nil) {
             self.hITs = hITs
@@ -1025,6 +957,8 @@ extension MturkRequester {
         public init(dictionary: [String: Any]) throws {
             if let hITs = dictionary["HITs"] as? [[String: Any]] {
                 self.hITs = try hITs.map({ try HIT(dictionary: $0) })
+            } else { 
+                self.hITs = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
             self.numResults = dictionary["NumResults"] as? Int32
@@ -1035,13 +969,11 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the HIT to extend.
-        public var hITId: String = ""
+        public let hITId: String
         /// The number of additional assignments to request for this HIT.
-        public var numberOfAdditionalAssignments: Int32? = nil
+        public let numberOfAdditionalAssignments: Int32?
         ///  A unique identifier for this request, which allows you to retry the call on error without extending the HIT multiple times. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the extend HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return an error with a message containing the request ID. 
-        public var uniqueRequestToken: String? = nil
-
-        public init() {}
+        public let uniqueRequestToken: String?
 
         public init(hITId: String, numberOfAdditionalAssignments: Int32? = nil, uniqueRequestToken: String? = nil) {
             self.hITId = hITId
@@ -1061,11 +993,9 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the assignment that contains the question with a FileUploadAnswer.
-        public var assignmentId: String = ""
+        public let assignmentId: String
         /// The identifier of the question with a FileUploadAnswer, as specified in the QuestionForm of the HIT.
-        public var questionIdentifier: String = ""
-
-        public init() {}
+        public let questionIdentifier: String
 
         public init(assignmentId: String, questionIdentifier: String) {
             self.assignmentId = assignmentId
@@ -1083,13 +1013,11 @@ extension MturkRequester {
     public struct ListQualificationRequestsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The Qualification request. The response includes one QualificationRequest element for each Qualification request returned by the query.
-        public var qualificationRequests: [QualificationRequest]? = nil
+        public let qualificationRequests: [QualificationRequest]?
         /// The number of Qualification requests on this page in the filtered results list, equivalent to the number of Qualification requests being returned by this call.
-        public var numResults: Int32? = nil
-
-        public init() {}
+        public let numResults: Int32?
 
         public init(nextToken: String? = nil, qualificationRequests: [QualificationRequest]? = nil, numResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -1101,6 +1029,8 @@ extension MturkRequester {
             self.nextToken = dictionary["NextToken"] as? String
             if let qualificationRequests = dictionary["QualificationRequests"] as? [[String: Any]] {
                 self.qualificationRequests = try qualificationRequests.map({ try QualificationRequest(dictionary: $0) })
+            } else { 
+                self.qualificationRequests = nil
             }
             self.numResults = dictionary["NumResults"] as? Int32
         }
@@ -1110,11 +1040,9 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A list of ReviewResults objects for each action specified in the Review Policy. 
-        public var reviewResults: [ReviewResultDetail]? = nil
+        public let reviewResults: [ReviewResultDetail]?
         ///  A list of ReviewAction objects for each action specified in the Review Policy. 
-        public var reviewActions: [ReviewActionDetail]? = nil
-
-        public init() {}
+        public let reviewActions: [ReviewActionDetail]?
 
         public init(reviewResults: [ReviewResultDetail]? = nil, reviewActions: [ReviewActionDetail]? = nil) {
             self.reviewResults = reviewResults
@@ -1124,9 +1052,13 @@ extension MturkRequester {
         public init(dictionary: [String: Any]) throws {
             if let reviewResults = dictionary["ReviewResults"] as? [[String: Any]] {
                 self.reviewResults = try reviewResults.map({ try ReviewResultDetail(dictionary: $0) })
+            } else { 
+                self.reviewResults = nil
             }
             if let reviewActions = dictionary["ReviewActions"] as? [[String: Any]] {
                 self.reviewActions = try reviewActions.map({ try ReviewActionDetail(dictionary: $0) })
+            } else { 
+                self.reviewActions = nil
             }
         }
     }
@@ -1134,8 +1066,6 @@ extension MturkRequester {
     public struct RejectAssignmentResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -1145,11 +1075,9 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The HIT associated with this assignment. The response includes one HIT element.
-        public var hIT: HIT? = nil
+        public let hIT: HIT?
         ///  The assignment. The response includes one Assignment element. 
-        public var assignment: Assignment? = nil
-
-        public init() {}
+        public let assignment: Assignment?
 
         public init(hIT: HIT? = nil, assignment: Assignment? = nil) {
             self.hIT = hIT
@@ -1157,8 +1085,8 @@ extension MturkRequester {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let hIT = dictionary["HIT"] as? [String: Any] { self.hIT = try MturkRequester.HIT(dictionary: hIT) }
-            if let assignment = dictionary["Assignment"] as? [String: Any] { self.assignment = try MturkRequester.Assignment(dictionary: assignment) }
+            if let hIT = dictionary["HIT"] as? [String: Any] { self.hIT = try MturkRequester.HIT(dictionary: hIT) } else { self.hIT = nil }
+            if let assignment = dictionary["Assignment"] as? [String: Any] { self.assignment = try MturkRequester.Assignment(dictionary: assignment) } else { self.assignment = nil }
         }
     }
 
@@ -1166,17 +1094,15 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The ID of the Qualification type for the requirement.
-        public var qualificationTypeId: String = ""
+        public let qualificationTypeId: String
         ///  The integer value to compare against the Qualification's value. IntegerValue must not be present if Comparator is Exists or DoesNotExist. IntegerValue can only be used if the Qualification type has an integer value; it cannot be used with the Worker_Locale QualificationType ID. When performing a set comparison by using the In or the NotIn comparator, you can use up to 15 IntegerValue elements in a QualificationRequirement data structure. 
-        public var integerValues: [Int32]? = nil
+        public let integerValues: [Int32]?
         ///  If true, the question data for the HIT will not be shown when a Worker whose Qualifications do not meet this requirement tries to preview the HIT. That is, a Worker's Qualifications must meet all of the requirements for which RequiredToPreview is true in order to preview the HIT. If a Worker meets all of the requirements where RequiredToPreview is true (or if there are no such requirements), but does not meet all of the requirements for the HIT, the Worker will be allowed to preview the HIT's question data, but will not be allowed to accept and complete the HIT. The default is false. 
-        public var requiredToPreview: Bool? = nil
+        public let requiredToPreview: Bool?
         /// The kind of comparison to make against a Qualification's value. You can compare a Qualification's value to an IntegerValue to see if it is LessThan, LessThanOrEqualTo, GreaterThan, GreaterThanOrEqualTo, EqualTo, or NotEqualTo the IntegerValue. You can compare it to a LocaleValue to see if it is EqualTo, or NotEqualTo the LocaleValue. You can check to see if the value is In or NotIn a set of IntegerValue or LocaleValue values. Lastly, a Qualification requirement can also test if a Qualification Exists or DoesNotExist in the user's profile, regardless of its value. 
-        public var comparator: String = ""
+        public let comparator: String
         ///  The locale value to compare against the Qualification's value. The local value must be a valid ISO 3166 country code or supports ISO 3166-2 subdivisions. LocaleValue can only be used with a Worker_Locale QualificationType ID. LocaleValue can only be used with the EqualTo, NotEqualTo, In, and NotIn comparators. You must only use a single LocaleValue element when using the EqualTo or NotEqualTo comparators. When performing a set comparison by using the In or the NotIn comparator, you can use up to 30 LocaleValue elements in a QualificationRequirement data structure. 
-        public var localeValues: [Locale]? = nil
-
-        public init() {}
+        public let localeValues: [Locale]?
 
         public init(qualificationTypeId: String, integerValues: [Int32]? = nil, requiredToPreview: Bool? = nil, comparator: String, localeValues: [Locale]? = nil) {
             self.qualificationTypeId = qualificationTypeId
@@ -1189,14 +1115,14 @@ extension MturkRequester {
         public init(dictionary: [String: Any]) throws {
             guard let qualificationTypeId = dictionary["QualificationTypeId"] as? String else { throw InitializableError.missingRequiredParam("QualificationTypeId") }
             self.qualificationTypeId = qualificationTypeId
-            if let integerValues = dictionary["IntegerValues"] as? [Int32] {
-                self.integerValues = integerValues
-            }
+            self.integerValues = dictionary["IntegerValues"] as? [Int32]
             self.requiredToPreview = dictionary["RequiredToPreview"] as? Bool
             guard let comparator = dictionary["Comparator"] as? String else { throw InitializableError.missingRequiredParam("Comparator") }
             self.comparator = comparator
             if let localeValues = dictionary["LocaleValues"] as? [[String: Any]] {
                 self.localeValues = try localeValues.map({ try Locale(dictionary: $0) })
+            } else { 
+                self.localeValues = nil
             }
         }
     }
@@ -1204,8 +1130,6 @@ extension MturkRequester {
     public struct GetAccountBalanceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -1215,11 +1139,9 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The country of the locale. Must be a valid ISO 3166 country code. For example, the code US refers to the United States of America. 
-        public var country: String = ""
+        public let country: String
         /// The state or subdivision of the locale. A valid ISO 3166-2 subdivision code. For example, the code WA refers to the state of Washington.
-        public var subdivision: String? = nil
-
-        public init() {}
+        public let subdivision: String?
 
         public init(country: String, subdivision: String? = nil) {
             self.country = country
@@ -1237,11 +1159,9 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A message explaining the reason the Worker was blocked. 
-        public var reason: String? = nil
+        public let reason: String?
         ///  The ID of the Worker who accepted the HIT.
-        public var workerId: String? = nil
-
-        public init() {}
+        public let workerId: String?
 
         public init(reason: String? = nil, workerId: String? = nil) {
             self.reason = reason
@@ -1258,12 +1178,10 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The list of Qualification elements returned by this call. 
-        public var qualifications: [Qualification]? = nil
-        public var nextToken: String? = nil
+        public let qualifications: [Qualification]?
+        public let nextToken: String?
         ///  The number of Qualifications on this page in the filtered results list, equivalent to the number of Qualifications being returned by this call.
-        public var numResults: Int32? = nil
-
-        public init() {}
+        public let numResults: Int32?
 
         public init(qualifications: [Qualification]? = nil, nextToken: String? = nil, numResults: Int32? = nil) {
             self.qualifications = qualifications
@@ -1274,6 +1192,8 @@ extension MturkRequester {
         public init(dictionary: [String: Any]) throws {
             if let qualifications = dictionary["Qualifications"] as? [[String: Any]] {
                 self.qualifications = try qualifications.map({ try Qualification(dictionary: $0) })
+            } else { 
+                self.qualifications = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
             self.numResults = dictionary["NumResults"] as? Int32
@@ -1284,11 +1204,9 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The QuestionID from the HIT that is used to identify which question requires Mechanical Turk to score as part of the ScoreMyKnownAnswers/2011-09-01 Review Policy. 
-        public var key: String? = nil
+        public let key: String?
         ///  The list of answers to the question specified in the MapEntry Key element. The Worker must match all values in order for the answer to be scored correctly. 
-        public var values: [String]? = nil
-
-        public init() {}
+        public let values: [String]?
 
         public init(key: String? = nil, values: [String]? = nil) {
             self.key = key
@@ -1297,9 +1215,7 @@ extension MturkRequester {
 
         public init(dictionary: [String: Any]) throws {
             self.key = dictionary["Key"] as? String
-            if let values = dictionary["Values"] as? [String] {
-                self.values = values
-            }
+            self.values = dictionary["Values"] as? [String]
         }
     }
 
@@ -1307,16 +1223,14 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Contains the newly created HIT data. For a description of the HIT data structure as it appears in responses, see the HIT Data Structure documentation. 
-        public var hIT: HIT? = nil
-
-        public init() {}
+        public let hIT: HIT?
 
         public init(hIT: HIT? = nil) {
             self.hIT = hIT
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let hIT = dictionary["HIT"] as? [String: Any] { self.hIT = try MturkRequester.HIT(dictionary: hIT) }
+            if let hIT = dictionary["HIT"] as? [String: Any] { self.hIT = try MturkRequester.HIT(dictionary: hIT) } else { self.hIT = nil }
         }
     }
 
@@ -1324,9 +1238,7 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the HIT to be retrieved.
-        public var hITId: String = ""
-
-        public init() {}
+        public let hITId: String
 
         public init(hITId: String) {
             self.hITId = hITId
@@ -1342,15 +1254,13 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The status of the Qualifications to return. Can be Granted | Revoked. 
-        public var status: String? = nil
+        public let status: String?
         /// Pagination Token
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The ID of the Qualification type of the Qualifications to return.
-        public var qualificationTypeId: String = ""
+        public let qualificationTypeId: String
         ///  Limit the number of results returned. 
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(status: String? = nil, nextToken: String? = nil, qualificationTypeId: String, maxResults: Int32? = nil) {
             self.status = status
@@ -1372,27 +1282,25 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
-        public var testDurationInSeconds: Int64? = nil
+        public let testDurationInSeconds: Int64?
         /// Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test. Constraints: If the Test parameter is specified, this parameter cannot be true.
-        public var autoGranted: Bool? = nil
+        public let autoGranted: Bool?
         ///  The questions for the Qualification test a Worker must answer correctly to obtain a Qualification of this type. If this parameter is specified, TestDurationInSeconds must also be specified.  Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm data structure. This parameter cannot be specified if AutoGranted is true. Constraints: None. If not specified, the Worker may request the Qualification without answering any questions.
-        public var test: String? = nil
+        public let test: String?
         /// The number of seconds that a Worker must wait after requesting a Qualification of the Qualification type before the worker can retry the Qualification request. Constraints: None. If not specified, retries are disabled and Workers can request a Qualification of this type only once, even if the Worker has not been granted the Qualification. It is not possible to disable retries for a Qualification type after it has been created with retries enabled. If you want to disable retries, you must delete existing retry-enabled Qualification type and then create a new Qualification type with retries disabled.
-        public var retryDelayInSeconds: Int64? = nil
+        public let retryDelayInSeconds: Int64?
         ///  The name you give to the Qualification type. The type name is used to represent the Qualification to Workers, and to find the type using a Qualification type search. It must be unique across all of your Qualification types.
-        public var name: String = ""
+        public let name: String
         /// One or more words or phrases that describe the Qualification type, separated by commas. The keywords of a type make the type easier to find during a search.
-        public var keywords: String? = nil
+        public let keywords: String?
         /// The initial status of the Qualification type. Constraints: Valid values are: Active | Inactive
-        public var qualificationTypeStatus: String = ""
+        public let qualificationTypeStatus: String
         /// The answers to the Qualification test specified in the Test parameter, in the form of an AnswerKey data structure. Constraints: Must not be longer than 65535 bytes. Constraints: None. If not specified, you must process Qualification requests manually.
-        public var answerKey: String? = nil
+        public let answerKey: String?
         /// The Qualification value to use for automatically granted Qualifications. This parameter is used only if the AutoGranted parameter is true.
-        public var autoGrantedValue: Int32? = nil
+        public let autoGrantedValue: Int32?
         /// A long description for the Qualification type. On the Amazon Mechanical Turk website, the long description is displayed when a Worker examines a Qualification type.
-        public var description: String = ""
-
-        public init() {}
+        public let description: String
 
         public init(testDurationInSeconds: Int64? = nil, autoGranted: Bool? = nil, test: String? = nil, retryDelayInSeconds: Int64? = nil, name: String, keywords: String? = nil, qualificationTypeStatus: String, answerKey: String? = nil, autoGrantedValue: Int32? = nil, description: String) {
             self.testDurationInSeconds = testDurationInSeconds
@@ -1428,8 +1336,6 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1438,13 +1344,11 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// Pagination Token
-        public var nextToken: String? = nil
+        public let nextToken: String?
         ///  The ID of the Qualification type to use when querying HITs. 
-        public var qualificationTypeId: String = ""
+        public let qualificationTypeId: String
         ///  Limit the number of results returned. 
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, qualificationTypeId: String, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -1464,11 +1368,9 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// A text message explaining why the request was rejected, to be shown to the Worker who made the request.
-        public var reason: String? = nil
+        public let reason: String?
         ///  The ID of the Qualification request, as returned by the ListQualificationRequests operation. 
-        public var qualificationRequestId: String = ""
-
-        public init() {}
+        public let qualificationRequestId: String
 
         public init(reason: String? = nil, qualificationRequestId: String) {
             self.reason = reason
@@ -1486,21 +1388,19 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The number of seconds after an assignment for the HIT has been submitted, after which the assignment is considered Approved automatically unless the Requester explicitly rejects it. 
-        public var autoApprovalDelayInSeconds: Int64? = nil
+        public let autoApprovalDelayInSeconds: Int64?
         ///  A condition that a Worker's Qualifications must meet before the Worker is allowed to accept and complete the HIT. 
-        public var qualificationRequirements: [QualificationRequirement]? = nil
+        public let qualificationRequirements: [QualificationRequirement]?
         ///  The amount of time, in seconds, that a Worker has to complete the HIT after accepting it. If a Worker does not complete the assignment within the specified duration, the assignment is considered abandoned. If the HIT is still active (that is, its lifetime has not elapsed), the assignment becomes available for other users to find and accept. 
-        public var assignmentDurationInSeconds: Int64 = 0
+        public let assignmentDurationInSeconds: Int64
         ///  The title of the HIT. A title should be short and descriptive about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT title appears in search results, and everywhere the HIT is mentioned. 
-        public var title: String = ""
+        public let title: String
         ///  The amount of money the Requester will pay a Worker for successfully completing the HIT. 
-        public var reward: String = ""
+        public let reward: String
         ///  One or more words or phrases that describe the HIT, separated by commas. These words are used in searches to find HITs. 
-        public var keywords: String? = nil
+        public let keywords: String?
         ///  A general description of the HIT. A description includes detailed information about the kind of task the HIT contains. On the Amazon Mechanical Turk web site, the HIT description appears in the expanded view of search results, and in the HIT and assignment screens. A good description gives the user enough information to evaluate the HIT before accepting it. 
-        public var description: String = ""
-
-        public init() {}
+        public let description: String
 
         public init(autoApprovalDelayInSeconds: Int64? = nil, qualificationRequirements: [QualificationRequirement]? = nil, assignmentDurationInSeconds: Int64, title: String, reward: String, keywords: String? = nil, description: String) {
             self.autoApprovalDelayInSeconds = autoApprovalDelayInSeconds
@@ -1516,6 +1416,8 @@ extension MturkRequester {
             self.autoApprovalDelayInSeconds = dictionary["AutoApprovalDelayInSeconds"] as? Int64
             if let qualificationRequirements = dictionary["QualificationRequirements"] as? [[String: Any]] {
                 self.qualificationRequirements = try qualificationRequirements.map({ try QualificationRequirement(dictionary: $0) })
+            } else { 
+                self.qualificationRequirements = nil
             }
             guard let assignmentDurationInSeconds = dictionary["AssignmentDurationInSeconds"] as? Int64 else { throw InitializableError.missingRequiredParam("AssignmentDurationInSeconds") }
             self.assignmentDurationInSeconds = assignmentDurationInSeconds
@@ -1533,31 +1435,29 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  If results have been submitted, AutoApprovalTime is the date and time the results of the assignment results are considered Approved automatically if they have not already been explicitly approved or rejected by the Requester. This value is derived from the auto-approval delay specified by the Requester in the HIT. This value is omitted from the assignment if the Worker has not yet submitted results.
-        public var autoApprovalTime: Date? = nil
+        public let autoApprovalTime: Date?
         ///  If the Worker has submitted results, SubmitTime is the date and time the assignment was submitted. This value is omitted from the assignment if the Worker has not yet submitted results.
-        public var submitTime: Date? = nil
+        public let submitTime: Date?
         ///  The ID of the HIT.
-        public var hITId: String? = nil
+        public let hITId: String?
         ///  The date and time of the deadline for the assignment. This value is derived from the deadline specification for the HIT and the date and time the Worker accepted the HIT.
-        public var deadline: Date? = nil
+        public let deadline: Date?
         ///  The status of the assignment.
-        public var assignmentStatus: String? = nil
+        public let assignmentStatus: String?
         ///  If the Worker has submitted results and the Requester has approved the results, ApprovalTime is the date and time the Requester approved the results. This value is omitted from the assignment if the Requester has not yet approved the results.
-        public var approvalTime: Date? = nil
+        public let approvalTime: Date?
         ///  The feedback string included with the call to the ApproveAssignment operation or the RejectAssignment operation, if the Requester approved or rejected the assignment and specified feedback.
-        public var requesterFeedback: String? = nil
+        public let requesterFeedback: String?
         ///  The date and time the Worker accepted the assignment.
-        public var acceptTime: Date? = nil
+        public let acceptTime: Date?
         ///  If the Worker has submitted results and the Requester has rejected the results, RejectionTime is the date and time the Requester rejected the results.
-        public var rejectionTime: Date? = nil
+        public let rejectionTime: Date?
         ///  A unique identifier for the assignment.
-        public var assignmentId: String? = nil
+        public let assignmentId: String?
         ///  The ID of the Worker who accepted the HIT.
-        public var workerId: String? = nil
+        public let workerId: String?
         ///  The Worker's answers submitted for the HIT contained in a QuestionFormAnswers document, if the Worker provides an answer. If the Worker does not provide any answers, Answer may contain a QuestionFormAnswers document, or Answer may be empty.
-        public var answer: String? = nil
-
-        public init() {}
+        public let answer: String?
 
         public init(autoApprovalTime: Date? = nil, submitTime: Date? = nil, hITId: String? = nil, deadline: Date? = nil, assignmentStatus: String? = nil, approvalTime: Date? = nil, requesterFeedback: String? = nil, acceptTime: Date? = nil, rejectionTime: Date? = nil, assignmentId: String? = nil, workerId: String? = nil, answer: String? = nil) {
             self.autoApprovalTime = autoApprovalTime
@@ -1594,17 +1494,15 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the assignment for which this bonus is paid.
-        public var assignmentId: String = ""
+        public let assignmentId: String
         /// A unique identifier for this request, which allows you to retry the call on error without granting multiple bonuses. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the bonus already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return an error with a message containing the request ID.
-        public var uniqueRequestToken: String? = nil
+        public let uniqueRequestToken: String?
         /// A message that explains the reason for the bonus payment. The Worker receiving the bonus can see this message.
-        public var reason: String? = nil
+        public let reason: String?
         /// The ID of the Worker being paid the bonus.
-        public var workerId: String = ""
+        public let workerId: String
         ///  The Bonus amount is a US Dollar amount specified using a string (for example, "5" represents $5.00 USD and "101.42" represents $101.42 USD). Do not include currency symbols or currency codes. 
-        public var bonusAmount: String = ""
-
-        public init() {}
+        public let bonusAmount: String
 
         public init(assignmentId: String, uniqueRequestToken: String? = nil, reason: String? = nil, workerId: String, bonusAmount: String) {
             self.assignmentId = assignmentId
@@ -1630,8 +1528,6 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1640,16 +1536,14 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The created Qualification type, returned as a QualificationType data structure.
-        public var qualificationType: QualificationType? = nil
-
-        public init() {}
+        public let qualificationType: QualificationType?
 
         public init(qualificationType: QualificationType? = nil) {
             self.qualificationType = qualificationType
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let qualificationType = dictionary["QualificationType"] as? [String: Any] { self.qualificationType = try MturkRequester.QualificationType(dictionary: qualificationType) }
+            if let qualificationType = dictionary["QualificationType"] as? [String: Any] { self.qualificationType = try MturkRequester.QualificationType(dictionary: qualificationType) } else { self.qualificationType = nil }
         }
     }
 
@@ -1657,18 +1551,16 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the HIT-level Review Policy. This contains only the PolicyName element.
-        public var hITReviewPolicy: ReviewPolicy? = nil
+        public let hITReviewPolicy: ReviewPolicy?
         /// Contains both ReviewResult and ReviewAction elements for a particular HIT. 
-        public var hITReviewReport: ReviewReport? = nil
+        public let hITReviewReport: ReviewReport?
         /// The HITId of the HIT for which results have been returned.
-        public var hITId: String? = nil
+        public let hITId: String?
         ///  The name of the Assignment-level Review Policy. This contains only the PolicyName element. 
-        public var assignmentReviewPolicy: ReviewPolicy? = nil
-        public var nextToken: String? = nil
+        public let assignmentReviewPolicy: ReviewPolicy?
+        public let nextToken: String?
         ///  Contains both ReviewResult and ReviewAction elements for an Assignment. 
-        public var assignmentReviewReport: ReviewReport? = nil
-
-        public init() {}
+        public let assignmentReviewReport: ReviewReport?
 
         public init(hITReviewPolicy: ReviewPolicy? = nil, hITReviewReport: ReviewReport? = nil, hITId: String? = nil, assignmentReviewPolicy: ReviewPolicy? = nil, nextToken: String? = nil, assignmentReviewReport: ReviewReport? = nil) {
             self.hITReviewPolicy = hITReviewPolicy
@@ -1680,25 +1572,23 @@ extension MturkRequester {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let hITReviewPolicy = dictionary["HITReviewPolicy"] as? [String: Any] { self.hITReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: hITReviewPolicy) }
-            if let hITReviewReport = dictionary["HITReviewReport"] as? [String: Any] { self.hITReviewReport = try MturkRequester.ReviewReport(dictionary: hITReviewReport) }
+            if let hITReviewPolicy = dictionary["HITReviewPolicy"] as? [String: Any] { self.hITReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: hITReviewPolicy) } else { self.hITReviewPolicy = nil }
+            if let hITReviewReport = dictionary["HITReviewReport"] as? [String: Any] { self.hITReviewReport = try MturkRequester.ReviewReport(dictionary: hITReviewReport) } else { self.hITReviewReport = nil }
             self.hITId = dictionary["HITId"] as? String
-            if let assignmentReviewPolicy = dictionary["AssignmentReviewPolicy"] as? [String: Any] { self.assignmentReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: assignmentReviewPolicy) }
+            if let assignmentReviewPolicy = dictionary["AssignmentReviewPolicy"] as? [String: Any] { self.assignmentReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: assignmentReviewPolicy) } else { self.assignmentReviewPolicy = nil }
             self.nextToken = dictionary["NextToken"] as? String
-            if let assignmentReviewReport = dictionary["AssignmentReviewReport"] as? [String: Any] { self.assignmentReviewReport = try MturkRequester.ReviewReport(dictionary: assignmentReviewReport) }
+            if let assignmentReviewReport = dictionary["AssignmentReviewReport"] as? [String: Any] { self.assignmentReviewReport = try MturkRequester.ReviewReport(dictionary: assignmentReviewReport) } else { self.assignmentReviewReport = nil }
         }
     }
 
     public struct ListBonusPaymentsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A successful request to the ListBonusPayments operation returns a list of BonusPayment objects. 
-        public var bonusPayments: [BonusPayment]? = nil
+        public let bonusPayments: [BonusPayment]?
         /// The number of bonus payments on this page in the filtered results list, equivalent to the number of bonus payments being returned by this call. 
-        public var numResults: Int32? = nil
-
-        public init() {}
+        public let numResults: Int32?
 
         public init(nextToken: String? = nil, bonusPayments: [BonusPayment]? = nil, numResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -1710,6 +1600,8 @@ extension MturkRequester {
             self.nextToken = dictionary["NextToken"] as? String
             if let bonusPayments = dictionary["BonusPayments"] as? [[String: Any]] {
                 self.bonusPayments = try bonusPayments.map({ try BonusPayment(dictionary: $0) })
+            } else { 
+                self.bonusPayments = nil
             }
             self.numResults = dictionary["NumResults"] as? Int32
         }
@@ -1719,14 +1611,12 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the assignment associated with the bonus payments to retrieve. If specified, only bonus payments for the given assignment are returned. Either the HITId parameter or the AssignmentId parameter must be specified
-        public var assignmentId: String? = nil
+        public let assignmentId: String?
         /// The ID of the HIT associated with the bonus payments to retrieve. If not specified, all bonus payments for all assignments for the given HIT are returned. Either the HITId parameter or the AssignmentId parameter must be specified
-        public var hITId: String? = nil
+        public let hITId: String?
         /// Pagination token
-        public var nextToken: String? = nil
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let nextToken: String?
+        public let maxResults: Int32?
 
         public init(assignmentId: String? = nil, hITId: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.assignmentId = assignmentId
@@ -1747,16 +1637,14 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the assignment associated with this bonus payment.
-        public var assignmentId: String? = nil
+        public let assignmentId: String?
         /// The Reason text given when the bonus was granted, if any.
-        public var reason: String? = nil
+        public let reason: String?
         /// The date and time of when the bonus was granted.
-        public var grantTime: Date? = nil
+        public let grantTime: Date?
         /// The ID of the Worker to whom the bonus was paid.
-        public var workerId: String? = nil
-        public var bonusAmount: String? = nil
-
-        public init() {}
+        public let workerId: String?
+        public let bonusAmount: String?
 
         public init(assignmentId: String? = nil, reason: String? = nil, grantTime: Date? = nil, workerId: String? = nil, bonusAmount: String? = nil) {
             self.assignmentId = assignmentId
@@ -1779,16 +1667,14 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Contains the newly created HIT data. For a description of the HIT data structure as it appears in responses, see the HIT Data Structure documentation. 
-        public var hIT: HIT? = nil
-
-        public init() {}
+        public let hIT: HIT?
 
         public init(hIT: HIT? = nil) {
             self.hIT = hIT
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let hIT = dictionary["HIT"] as? [String: Any] { self.hIT = try MturkRequester.HIT(dictionary: hIT) }
+            if let hIT = dictionary["HIT"] as? [String: Any] { self.hIT = try MturkRequester.HIT(dictionary: hIT) } else { self.hIT = nil }
         }
     }
 
@@ -1796,27 +1682,25 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The number of times the HIT can be accepted and completed before the HIT becomes unavailable. 
-        public var maxAssignments: Int32? = nil
+        public let maxAssignments: Int32?
         ///  The HITLayoutId allows you to use a pre-existing HIT design with placeholder values and create an additional HIT by providing those values as HITLayoutParameters.   Constraints: Either a Question parameter or a HITLayoutId parameter must be provided. 
-        public var hITLayoutId: String? = nil
+        public let hITLayoutId: String?
         ///  If the HITLayoutId is provided, any placeholder values must be filled in with values using the HITLayoutParameter structure. For more information, see HITLayout. 
-        public var hITLayoutParameters: [HITLayoutParameter]? = nil
+        public let hITLayoutParameters: [HITLayoutParameter]?
         ///  The HIT-level Review Policy applies to the HIT. You can specify for Mechanical Turk to take various actions based on the policy. 
-        public var hITReviewPolicy: ReviewPolicy? = nil
+        public let hITReviewPolicy: ReviewPolicy?
         ///  The data the person completing the HIT uses to produce the results.   Constraints: Must be a QuestionForm data structure, an ExternalQuestion data structure, or an HTMLQuestion data structure. The XML question data must not be larger than 64 kilobytes (65,535 bytes) in size, including whitespace.  Either a Question parameter or a HITLayoutId parameter must be provided.
-        public var question: String? = nil
+        public let question: String?
         ///  An arbitrary data field. The RequesterAnnotation parameter lets your application attach arbitrary data to the HIT for tracking purposes. For example, this parameter could be an identifier internal to the Requester's application that corresponds with the HIT.   The RequesterAnnotation parameter for a HIT is only visible to the Requester who created the HIT. It is not shown to the Worker, or any other Requester.   The RequesterAnnotation parameter may be different for each HIT you submit. It does not affect how your HITs are grouped. 
-        public var requesterAnnotation: String? = nil
+        public let requesterAnnotation: String?
         ///  The Assignment-level Review Policy applies to the assignments under the HIT. You can specify for Mechanical Turk to take various actions based on the policy. 
-        public var assignmentReviewPolicy: ReviewPolicy? = nil
+        public let assignmentReviewPolicy: ReviewPolicy?
         ///  An amount of time, in seconds, after which the HIT is no longer available for users to accept. After the lifetime of the HIT elapses, the HIT no longer appears in HIT searches, even if not all of the assignments for the HIT have been accepted. 
-        public var lifetimeInSeconds: Int64 = 0
+        public let lifetimeInSeconds: Int64
         ///  A unique identifier for this request which allows you to retry the call on error without creating duplicate HITs. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return a AWS.MechanicalTurk.HitAlreadyExists error with a message containing the HITId.    Note: It is your responsibility to ensure uniqueness of the token. The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken made after the 24 hour limit could create duplicate HITs.  
-        public var uniqueRequestToken: String? = nil
+        public let uniqueRequestToken: String?
         /// The HIT type ID you want to create this HIT with.
-        public var hITTypeId: String = ""
-
-        public init() {}
+        public let hITTypeId: String
 
         public init(maxAssignments: Int32? = nil, hITLayoutId: String? = nil, hITLayoutParameters: [HITLayoutParameter]? = nil, hITReviewPolicy: ReviewPolicy? = nil, question: String? = nil, requesterAnnotation: String? = nil, assignmentReviewPolicy: ReviewPolicy? = nil, lifetimeInSeconds: Int64, uniqueRequestToken: String? = nil, hITTypeId: String) {
             self.maxAssignments = maxAssignments
@@ -1836,11 +1720,13 @@ extension MturkRequester {
             self.hITLayoutId = dictionary["HITLayoutId"] as? String
             if let hITLayoutParameters = dictionary["HITLayoutParameters"] as? [[String: Any]] {
                 self.hITLayoutParameters = try hITLayoutParameters.map({ try HITLayoutParameter(dictionary: $0) })
+            } else { 
+                self.hITLayoutParameters = nil
             }
-            if let hITReviewPolicy = dictionary["HITReviewPolicy"] as? [String: Any] { self.hITReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: hITReviewPolicy) }
+            if let hITReviewPolicy = dictionary["HITReviewPolicy"] as? [String: Any] { self.hITReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: hITReviewPolicy) } else { self.hITReviewPolicy = nil }
             self.question = dictionary["Question"] as? String
             self.requesterAnnotation = dictionary["RequesterAnnotation"] as? String
-            if let assignmentReviewPolicy = dictionary["AssignmentReviewPolicy"] as? [String: Any] { self.assignmentReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: assignmentReviewPolicy) }
+            if let assignmentReviewPolicy = dictionary["AssignmentReviewPolicy"] as? [String: Any] { self.assignmentReviewPolicy = try MturkRequester.ReviewPolicy(dictionary: assignmentReviewPolicy) } else { self.assignmentReviewPolicy = nil }
             guard let lifetimeInSeconds = dictionary["LifetimeInSeconds"] as? Int64 else { throw InitializableError.missingRequiredParam("LifetimeInSeconds") }
             self.lifetimeInSeconds = lifetimeInSeconds
             self.uniqueRequestToken = dictionary["UniqueRequestToken"] as? String
@@ -1853,23 +1739,21 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The current disposition of the action: INTENDED, SUCCEEDED, FAILED, or CANCELLED. 
-        public var status: String? = nil
+        public let status: String?
         ///  The nature of the action itself. The Review Policy is responsible for examining the HIT and Assignments, emitting results, and deciding which other actions will be necessary. 
-        public var actionName: String? = nil
+        public let actionName: String?
         /// The unique identifier for the action.
-        public var actionId: String? = nil
+        public let actionId: String?
         ///  The specific HITId or AssignmentID targeted by the action.
-        public var targetId: String? = nil
+        public let targetId: String?
         ///  The type of object in TargetId.
-        public var targetType: String? = nil
+        public let targetType: String?
         ///  A description of the outcome of the review.
-        public var result: String? = nil
+        public let result: String?
         ///  Present only when the Results have a FAILED Status.
-        public var errorCode: String? = nil
+        public let errorCode: String?
         ///  The date when the action was completed.
-        public var completeTime: Date? = nil
-
-        public init() {}
+        public let completeTime: Date?
 
         public init(status: String? = nil, actionName: String? = nil, actionId: String? = nil, targetId: String? = nil, targetType: String? = nil, result: String? = nil, errorCode: String? = nil, completeTime: Date? = nil) {
             self.status = status
@@ -1898,11 +1782,9 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the new HIT type.
-        public var hITTypeId: String = ""
+        public let hITTypeId: String
         /// The HIT to update.
-        public var hITId: String = ""
-
-        public init() {}
+        public let hITId: String
 
         public init(hITTypeId: String, hITId: String) {
             self.hITTypeId = hITTypeId
@@ -1921,8 +1803,6 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1931,19 +1811,17 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date and time the Qualification request had a status of Submitted. This is either the time the Worker submitted answers for a Qualification test, or the time the Worker requested the Qualification if the Qualification type does not have a test. 
-        public var submitTime: Date? = nil
+        public let submitTime: Date?
         ///  The ID of the Worker requesting the Qualification.
-        public var workerId: String? = nil
+        public let workerId: String?
         ///  The Worker's answers for the Qualification type's test contained in a QuestionFormAnswers document, if the type has a test and the Worker has submitted answers. If the Worker does not provide any answers, Answer may be empty. 
-        public var answer: String? = nil
+        public let answer: String?
         ///  The contents of the Qualification test that was presented to the Worker, if the type has a test and the Worker has submitted answers. This value is identical to the QuestionForm associated with the Qualification type at the time the Worker requests the Qualification.
-        public var test: String? = nil
+        public let test: String?
         ///  The ID of the Qualification type the Worker is requesting, as returned by the CreateQualificationType operation. 
-        public var qualificationTypeId: String? = nil
+        public let qualificationTypeId: String?
         /// The ID of the Qualification request, a unique identifier generated when the request was submitted. 
-        public var qualificationRequestId: String? = nil
-
-        public init() {}
+        public let qualificationRequestId: String?
 
         public init(submitTime: Date? = nil, workerId: String? = nil, answer: String? = nil, test: String? = nil, qualificationTypeId: String? = nil, qualificationRequestId: String? = nil) {
             self.submitTime = submitTime
@@ -1968,13 +1846,11 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// A text message that explains why the Qualification was revoked. The user who had the Qualification sees this message.
-        public var reason: String? = nil
+        public let reason: String?
         /// The ID of the Worker who possesses the Qualification to be revoked.
-        public var workerId: String = ""
+        public let workerId: String
         /// The ID of the Qualification type of the Qualification to be revoked.
-        public var qualificationTypeId: String = ""
-
-        public init() {}
+        public let qualificationTypeId: String
 
         public init(reason: String? = nil, workerId: String, qualificationTypeId: String) {
             self.reason = reason
@@ -1995,16 +1871,14 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Contains a QualificationType data structure.
-        public var qualificationType: QualificationType? = nil
-
-        public init() {}
+        public let qualificationType: QualificationType?
 
         public init(qualificationType: QualificationType? = nil) {
             self.qualificationType = qualificationType
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let qualificationType = dictionary["QualificationType"] as? [String: Any] { self.qualificationType = try MturkRequester.QualificationType(dictionary: qualificationType) }
+            if let qualificationType = dictionary["QualificationType"] as? [String: Any] { self.qualificationType = try MturkRequester.QualificationType(dictionary: qualificationType) } else { self.qualificationType = nil }
         }
     }
 
@@ -2012,19 +1886,17 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Key identifies the particular piece of reviewed information. 
-        public var key: String? = nil
+        public let key: String?
         ///  The type of the object from the SubjectId field.
-        public var subjectType: String? = nil
+        public let subjectType: String?
         /// The HITID or AssignmentId about which this result was taken. Note that HIT-level Review Policies will often emit results about both the HIT itself and its Assignments, while Assignment-level review policies generally only emit results about the Assignment itself. 
-        public var subjectId: String? = nil
+        public let subjectId: String?
         ///  A unique identifier of the Review action result. 
-        public var actionId: String? = nil
+        public let actionId: String?
         ///  The values of Key provided by the review policies you have selected. 
-        public var value: String? = nil
+        public let value: String?
         ///  Specifies the QuestionId the result is describing. Depending on whether the TargetType is a HIT or Assignment this results could specify multiple values. If TargetType is HIT and QuestionId is absent, then the result describes results of the HIT, including the HIT agreement score. If ObjectType is Assignment and QuestionId is absent, then the result describes the Worker's performance on the HIT. 
-        public var questionId: String? = nil
-
-        public init() {}
+        public let questionId: String?
 
         public init(key: String? = nil, subjectType: String? = nil, subjectId: String? = nil, actionId: String? = nil, value: String? = nil, questionId: String? = nil) {
             self.key = key
@@ -2049,9 +1921,7 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the Assignment to be retrieved.
-        public var assignmentId: String = ""
-
-        public init() {}
+        public let assignmentId: String
 
         public init(assignmentId: String) {
             self.assignmentId = assignmentId
@@ -2067,10 +1937,8 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// Pagination token
-        public var nextToken: String? = nil
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let nextToken: String?
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -2087,9 +1955,7 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  When MTurk sends notifications to the list of Workers, it returns back any failures it encounters in this list of NotifyWorkersFailureStatus objects. 
-        public var notifyWorkersFailureStatuses: [NotifyWorkersFailureStatus]? = nil
-
-        public init() {}
+        public let notifyWorkersFailureStatuses: [NotifyWorkersFailureStatus]?
 
         public init(notifyWorkersFailureStatuses: [NotifyWorkersFailureStatus]? = nil) {
             self.notifyWorkersFailureStatuses = notifyWorkersFailureStatuses
@@ -2098,6 +1964,8 @@ extension MturkRequester {
         public init(dictionary: [String: Any]) throws {
             if let notifyWorkersFailureStatuses = dictionary["NotifyWorkersFailureStatuses"] as? [[String: Any]] {
                 self.notifyWorkersFailureStatuses = try notifyWorkersFailureStatuses.map({ try NotifyWorkersFailureStatus(dictionary: $0) })
+            } else { 
+                self.notifyWorkersFailureStatuses = nil
             }
         }
     }
@@ -2106,16 +1974,14 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The returned Qualification Type
-        public var qualificationType: QualificationType? = nil
-
-        public init() {}
+        public let qualificationType: QualificationType?
 
         public init(qualificationType: QualificationType? = nil) {
             self.qualificationType = qualificationType
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let qualificationType = dictionary["QualificationType"] as? [String: Any] { self.qualificationType = try MturkRequester.QualificationType(dictionary: qualificationType) }
+            if let qualificationType = dictionary["QualificationType"] as? [String: Any] { self.qualificationType = try MturkRequester.QualificationType(dictionary: qualificationType) } else { self.qualificationType = nil }
         }
     }
 
@@ -2123,13 +1989,11 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  List of ParameterMapEntry objects. 
-        public var mapEntries: [ParameterMapEntry]? = nil
+        public let mapEntries: [ParameterMapEntry]?
         ///  Name of the parameter from the list of Review Polices. 
-        public var key: String? = nil
+        public let key: String?
         ///  The list of values of the Parameter
-        public var values: [String]? = nil
-
-        public init() {}
+        public let values: [String]?
 
         public init(mapEntries: [ParameterMapEntry]? = nil, key: String? = nil, values: [String]? = nil) {
             self.mapEntries = mapEntries
@@ -2140,11 +2004,11 @@ extension MturkRequester {
         public init(dictionary: [String: Any]) throws {
             if let mapEntries = dictionary["MapEntries"] as? [[String: Any]] {
                 self.mapEntries = try mapEntries.map({ try ParameterMapEntry(dictionary: $0) })
+            } else { 
+                self.mapEntries = nil
             }
             self.key = dictionary["Key"] as? String
-            if let values = dictionary["Values"] as? [String] {
-                self.values = values
-            }
+            self.values = dictionary["Values"] as? [String]
         }
     }
 
@@ -2152,11 +2016,9 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// A message that explains the reason for unblocking the Worker. The Worker does not see this message.
-        public var reason: String? = nil
+        public let reason: String?
         /// The ID of the Worker to unblock.
-        public var workerId: String = ""
-
-        public init() {}
+        public let workerId: String
 
         public init(reason: String? = nil, workerId: String) {
             self.reason = reason
@@ -2174,11 +2036,9 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A message for the Worker, which the Worker can see in the Status section of the web site. 
-        public var requesterFeedback: String? = nil
+        public let requesterFeedback: String?
         ///  The ID of the assignment. The assignment must correspond to a HIT created by the Requester. 
-        public var assignmentId: String = ""
-
-        public init() {}
+        public let assignmentId: String
 
         public init(requesterFeedback: String? = nil, assignmentId: String) {
             self.requesterFeedback = requesterFeedback
@@ -2196,11 +2056,9 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The value of the Qualification. You can omit this value if you are using the presence or absence of the Qualification as the basis for a HIT requirement. 
-        public var integerValue: Int32? = nil
+        public let integerValue: Int32?
         /// The ID of the Qualification request, as returned by the GetQualificationRequests operation.
-        public var qualificationRequestId: String = ""
-
-        public init() {}
+        public let qualificationRequestId: String
 
         public init(integerValue: Int32? = nil, qualificationRequestId: String) {
             self.integerValue = integerValue
@@ -2218,15 +2076,13 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Can be either Reviewable or Reviewing. Reviewable is the default value. 
-        public var status: String? = nil
+        public let status: String?
         ///  The ID of the HIT type of the HITs to consider for the query. If not specified, all HITs for the Reviewer are considered 
-        public var hITTypeId: String? = nil
+        public let hITTypeId: String?
         /// Pagination Token
-        public var nextToken: String? = nil
+        public let nextToken: String?
         ///  Limit the number of results returned. 
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(status: String? = nil, hITTypeId: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.status = status
@@ -2247,11 +2103,9 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The notification specification to test. This value is identical to the value you would provide to the UpdateNotificationSettings operation when you establish the notification specification for a HIT type. 
-        public var notification: NotificationSpecification = NotificationSpecification()
+        public let notification: NotificationSpecification
         ///  The event to simulate to test the notification specification. This event is included in the test message even if the notification specification does not include the event type. The notification specification does not filter out the test event. 
-        public var testEventType: String = ""
-
-        public init() {}
+        public let testEventType: String
 
         public init(notification: NotificationSpecification, testEventType: String) {
             self.notification = notification
@@ -2270,13 +2124,11 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A message for the Worker, which the Worker can see in the Status section of the web site. 
-        public var requesterFeedback: String? = nil
+        public let requesterFeedback: String?
         ///  The ID of the assignment. The assignment must correspond to a HIT created by the Requester. 
-        public var assignmentId: String = ""
+        public let assignmentId: String
         ///  A flag indicating that an assignment should be approved even if it was previously rejected. Defaults to False. 
-        public var overrideRejection: Bool? = nil
-
-        public init() {}
+        public let overrideRejection: Bool?
 
         public init(requesterFeedback: String? = nil, assignmentId: String, overrideRejection: Bool? = nil) {
             self.requesterFeedback = requesterFeedback
@@ -2295,10 +2147,8 @@ extension MturkRequester {
     public struct GetAccountBalanceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var onHoldBalance: String? = nil
-        public var availableBalance: String? = nil
-
-        public init() {}
+        public let onHoldBalance: String?
+        public let availableBalance: String?
 
         public init(onHoldBalance: String? = nil, availableBalance: String? = nil) {
             self.onHoldBalance = onHoldBalance
@@ -2315,11 +2165,9 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the QualificationType.
-        public var qualificationTypeId: String = ""
+        public let qualificationTypeId: String
         /// The ID of the Worker whose Qualification is being updated.
-        public var workerId: String = ""
-
-        public init() {}
+        public let workerId: String
 
         public init(qualificationTypeId: String, workerId: String) {
             self.qualificationTypeId = qualificationTypeId
@@ -2337,13 +2185,11 @@ extension MturkRequester {
     public struct ListWorkerBlocksResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var nextToken: String? = nil
+        public let nextToken: String?
         ///  The number of assignments on the page in the filtered results list, equivalent to the number of assignments returned by this call.
-        public var numResults: Int32? = nil
+        public let numResults: Int32?
         ///  The list of WorkerBlocks, containing the collection of Worker IDs and reasons for blocking.
-        public var workerBlocks: [WorkerBlock]? = nil
-
-        public init() {}
+        public let workerBlocks: [WorkerBlock]?
 
         public init(nextToken: String? = nil, numResults: Int32? = nil, workerBlocks: [WorkerBlock]? = nil) {
             self.nextToken = nextToken
@@ -2356,6 +2202,8 @@ extension MturkRequester {
             self.numResults = dictionary["NumResults"] as? Int32
             if let workerBlocks = dictionary["WorkerBlocks"] as? [[String: Any]] {
                 self.workerBlocks = try workerBlocks.map({ try WorkerBlock(dictionary: $0) })
+            } else { 
+                self.workerBlocks = nil
             }
         }
     }
@@ -2364,13 +2212,11 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The notification specification for the HIT type. 
-        public var notification: NotificationSpecification? = nil
+        public let notification: NotificationSpecification?
         ///  The ID of the HIT type whose notification specification is being updated. 
-        public var hITTypeId: String = ""
+        public let hITTypeId: String
         ///  Specifies whether notifications are sent for HITs of this HIT type, according to the notification specification. You must specify either the Notification parameter or the Active parameter for the call to UpdateNotificationSettings to succeed. 
-        public var active: Bool? = nil
-
-        public init() {}
+        public let active: Bool?
 
         public init(notification: NotificationSpecification? = nil, hITTypeId: String, active: Bool? = nil) {
             self.notification = notification
@@ -2379,7 +2225,7 @@ extension MturkRequester {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try MturkRequester.NotificationSpecification(dictionary: notification) }
+            if let notification = dictionary["Notification"] as? [String: Any] { self.notification = try MturkRequester.NotificationSpecification(dictionary: notification) } else { self.notification = nil }
             guard let hITTypeId = dictionary["HITTypeId"] as? String else { throw InitializableError.missingRequiredParam("HITTypeId") }
             self.hITTypeId = hITTypeId
             self.active = dictionary["Active"] as? Bool
@@ -2390,9 +2236,7 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the QualificationType.
-        public var qualificationTypeId: String = ""
-
-        public init() {}
+        public let qualificationTypeId: String
 
         public init(qualificationTypeId: String) {
             self.qualificationTypeId = qualificationTypeId
@@ -2408,15 +2252,13 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The list of events that should cause notifications to be sent. Valid Values: AssignmentAccepted | AssignmentAbandoned | AssignmentReturned | AssignmentSubmitted | AssignmentRejected | AssignmentApproved | HITCreated | HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping event is only valid for the SendTestEventNotification operation. 
-        public var eventTypes: [String]? = nil
+        public let eventTypes: [String]?
         ///  The destination for notification messages. or email notifications (if Transport is Email), this is an email address. For Amazon Simple Queue Service (Amazon SQS) notifications (if Transport is SQS), this is the URL for your Amazon SQS queue. 
-        public var destination: String = ""
+        public let destination: String
         ///  The method Amazon Mechanical Turk uses to send the notification. Valid Values: Email | SQS. 
-        public var transport: String = ""
+        public let transport: String
         /// The version of the Notification API to use. Valid value is 2006-05-05.
-        public var version: String? = nil
-
-        public init() {}
+        public let version: String?
 
         public init(eventTypes: [String]? = nil, destination: String, transport: String, version: String? = nil) {
             self.eventTypes = eventTypes
@@ -2426,9 +2268,7 @@ extension MturkRequester {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let eventTypes = dictionary["EventTypes"] as? [String] {
-                self.eventTypes = eventTypes
-            }
+            self.eventTypes = dictionary["EventTypes"] as? [String]
             guard let destination = dictionary["Destination"] as? String else { throw InitializableError.missingRequiredParam("Destination") }
             self.destination = destination
             guard let transport = dictionary["Transport"] as? String else { throw InitializableError.missingRequiredParam("Transport") }
@@ -2441,19 +2281,17 @@ extension MturkRequester {
         /// The key for the payload
         public static let payload: String? = nil
         /// Pagination token
-        public var nextToken: String? = nil
+        public let nextToken: String?
         ///  The Policy Level(s) to retrieve review results for - HIT or Assignment. If omitted, the default behavior is to retrieve all data for both policy levels. For a list of all the described policies, see Review Policies. 
-        public var policyLevels: [String]? = nil
+        public let policyLevels: [String]?
         /// The unique identifier of the HIT to retrieve review results for.
-        public var hITId: String = ""
+        public let hITId: String
         ///  Specify if the operation should retrieve a list of the results computed by the Review Policies. 
-        public var retrieveResults: Bool? = nil
+        public let retrieveResults: Bool?
         ///  Specify if the operation should retrieve a list of the actions taken executing the Review Policies and their outcomes. 
-        public var retrieveActions: Bool? = nil
+        public let retrieveActions: Bool?
         /// Limit the number of results returned.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, policyLevels: [String]? = nil, hITId: String, retrieveResults: Bool? = nil, retrieveActions: Bool? = nil, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -2466,9 +2304,7 @@ extension MturkRequester {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["NextToken"] as? String
-            if let policyLevels = dictionary["PolicyLevels"] as? [String] {
-                self.policyLevels = policyLevels
-            }
+            self.policyLevels = dictionary["PolicyLevels"] as? [String]
             guard let hITId = dictionary["HITId"] as? String else { throw InitializableError.missingRequiredParam("HITId") }
             self.hITId = hITId
             self.retrieveResults = dictionary["RetrieveResults"] as? Bool

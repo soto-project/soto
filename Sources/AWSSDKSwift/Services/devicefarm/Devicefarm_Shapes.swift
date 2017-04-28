@@ -33,8 +33,6 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -43,11 +41,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the project.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(nextToken: String? = nil, arn: String? = nil) {
             self.nextToken = nextToken
@@ -64,31 +60,29 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
-        public var uplinkJitterMs: Int64? = nil
+        public let uplinkJitterMs: Int64?
         /// The name of the network profile.
-        public var name: String? = nil
+        public let name: String?
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
-        public var downlinkJitterMs: Int64? = nil
+        public let downlinkJitterMs: Int64?
         /// Delay time for all packets to destination in milliseconds as an integer from 0 to 2000.
-        public var downlinkDelayMs: Int64? = nil
+        public let downlinkDelayMs: Int64?
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
-        public var uplinkLossPercent: Int32? = nil
+        public let uplinkLossPercent: Int32?
         /// Proportion of received packets that fail to arrive from 0 to 100 percent.
-        public var downlinkLossPercent: Int32? = nil
+        public let downlinkLossPercent: Int32?
         /// The description of the network profile.
-        public var description: String? = nil
+        public let description: String?
         /// Delay time for all packets to destination in milliseconds as an integer from 0 to 2000.
-        public var uplinkDelayMs: Int64? = nil
+        public let uplinkDelayMs: Int64?
         /// The data throughput rate in bits per second, as an integer from 0 to 104857600.
-        public var uplinkBandwidthBits: Int64? = nil
+        public let uplinkBandwidthBits: Int64?
         /// The type of network profile. Valid values are listed below.
-        public var type: String? = nil
+        public let type: String?
         /// The data throughput rate in bits per second, as an integer from 0 to 104857600.
-        public var downlinkBandwidthBits: Int64? = nil
+        public let downlinkBandwidthBits: Int64?
         /// The Amazon Resource Name (ARN) of the network profile.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(uplinkJitterMs: Int64? = nil, name: String? = nil, downlinkJitterMs: Int64? = nil, downlinkDelayMs: Int64? = nil, uplinkLossPercent: Int32? = nil, downlinkLossPercent: Int32? = nil, description: String? = nil, uplinkDelayMs: Int64? = nil, uplinkBandwidthBits: Int64? = nil, type: String? = nil, downlinkBandwidthBits: Int64? = nil, arn: String? = nil) {
             self.uplinkJitterMs = uplinkJitterMs
@@ -125,16 +119,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// A test condition that is evaluated.
-        public var test: Test? = nil
-
-        public init() {}
+        public let test: Test?
 
         public init(test: Test? = nil) {
             self.test = test
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let test = dictionary["test"] as? [String: Any] { self.test = try Devicefarm.Test(dictionary: test) }
+            if let test = dictionary["test"] as? [String: Any] { self.test = try Devicefarm.Test(dictionary: test) } else { self.test = nil }
         }
     }
 
@@ -142,13 +134,11 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The rule's stringified attribute. For example, specify the value as "\"abc\"". Allowed values include:   ARN: The ARN.   FORM_FACTOR: The form factor (for example, phone or tablet).   MANUFACTURER: The manufacturer.   PLATFORM: The platform (for example, Android or iOS).  
-        public var attribute: String? = nil
+        public let attribute: String?
         /// The rule's operator.   EQUALS: The equals operator.   GREATER_THAN: The greater-than operator.   IN: The in operator.   LESS_THAN: The less-than operator.   NOT_IN: The not-in operator.  
-        public var `operator`: String? = nil
+        public let `operator`: String?
         /// The rule's value.
-        public var value: String? = nil
-
-        public init() {}
+        public let value: String?
 
         public init(attribute: String? = nil, operator: String? = nil, value: String? = nil) {
             self.attribute = attribute
@@ -167,11 +157,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The tests' ARNs.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(nextToken: String? = nil, arn: String) {
             self.nextToken = nextToken
@@ -189,9 +177,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns the billing method for purposes of configuring a remote access session.
-        public var billingMethod: String? = nil
-
-        public init() {}
+        public let billingMethod: String?
 
         public init(billingMethod: String? = nil) {
             self.billingMethod = billingMethod
@@ -206,16 +192,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An app or a set of one or more tests to upload or that have been uploaded.
-        public var upload: Upload? = nil
-
-        public init() {}
+        public let upload: Upload?
 
         public init(upload: Upload? = nil) {
             self.upload = upload
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let upload = dictionary["upload"] as? [String: Any] { self.upload = try Devicefarm.Upload(dictionary: upload) }
+            if let upload = dictionary["upload"] as? [String: Any] { self.upload = try Devicefarm.Upload(dictionary: upload) } else { self.upload = nil }
         }
     }
 
@@ -223,11 +207,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the suites.
-        public var suites: [Suite]? = nil
+        public let suites: [Suite]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(suites: [Suite]? = nil, nextToken: String? = nil) {
             self.suites = suites
@@ -237,6 +219,8 @@ extension Devicefarm {
         public init(dictionary: [String: Any]) throws {
             if let suites = dictionary["suites"] as? [[String: Any]] {
                 self.suites = try suites.map({ try Suite(dictionary: $0) })
+            } else { 
+                self.suites = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -246,11 +230,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A container representing the metadata from the service about each remote access session you are requesting.
-        public var remoteAccessSessions: [RemoteAccessSession]? = nil
-
-        public init() {}
+        public let remoteAccessSessions: [RemoteAccessSession]?
 
         public init(nextToken: String? = nil, remoteAccessSessions: [RemoteAccessSession]? = nil) {
             self.nextToken = nextToken
@@ -261,6 +243,8 @@ extension Devicefarm {
             self.nextToken = dictionary["nextToken"] as? String
             if let remoteAccessSessions = dictionary["remoteAccessSessions"] as? [[String: Any]] {
                 self.remoteAccessSessions = try remoteAccessSessions.map({ try RemoteAccessSession(dictionary: $0) })
+            } else { 
+                self.remoteAccessSessions = nil
             }
         }
     }
@@ -269,31 +253,29 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
-        public var uplinkJitterMs: Int64? = nil
+        public let uplinkJitterMs: Int64?
         /// The name of the network profile about which you are returning information.
-        public var name: String? = nil
+        public let name: String?
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
-        public var downlinkJitterMs: Int64? = nil
+        public let downlinkJitterMs: Int64?
         /// Delay time for all packets to destination in milliseconds as an integer from 0 to 2000.
-        public var downlinkDelayMs: Int64? = nil
+        public let downlinkDelayMs: Int64?
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
-        public var uplinkLossPercent: Int32? = nil
+        public let uplinkLossPercent: Int32?
         /// Proportion of received packets that fail to arrive from 0 to 100 percent.
-        public var downlinkLossPercent: Int32? = nil
+        public let downlinkLossPercent: Int32?
         /// The descriptoin of the network profile about which you are returning information.
-        public var description: String? = nil
+        public let description: String?
         /// Delay time for all packets to destination in milliseconds as an integer from 0 to 2000.
-        public var uplinkDelayMs: Int64? = nil
+        public let uplinkDelayMs: Int64?
         /// The data throughput rate in bits per second, as an integer from 0 to 104857600.
-        public var uplinkBandwidthBits: Int64? = nil
+        public let uplinkBandwidthBits: Int64?
         /// The type of network profile you wish to return information about. Valid values are listed below.
-        public var type: String? = nil
+        public let type: String?
         /// The data throughput rate in bits per second, as an integer from 0 to 104857600.
-        public var downlinkBandwidthBits: Int64? = nil
+        public let downlinkBandwidthBits: Int64?
         /// The Amazon Resource Name (ARN) of the project that you wish to update network profile settings.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(uplinkJitterMs: Int64? = nil, name: String? = nil, downlinkJitterMs: Int64? = nil, downlinkDelayMs: Int64? = nil, uplinkLossPercent: Int32? = nil, downlinkLossPercent: Int32? = nil, description: String? = nil, uplinkDelayMs: Int64? = nil, uplinkBandwidthBits: Int64? = nil, type: String? = nil, downlinkBandwidthBits: Int64? = nil, arn: String) {
             self.uplinkJitterMs = uplinkJitterMs
@@ -331,16 +313,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An object containing information about the requested device pool.
-        public var devicePool: DevicePool? = nil
-
-        public init() {}
+        public let devicePool: DevicePool?
 
         public init(devicePool: DevicePool? = nil) {
             self.devicePool = devicePool
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let devicePool = dictionary["devicePool"] as? [String: Any] { self.devicePool = try Devicefarm.DevicePool(dictionary: devicePool) }
+            if let devicePool = dictionary["devicePool"] as? [String: Any] { self.devicePool = try Devicefarm.DevicePool(dictionary: devicePool) } else { self.devicePool = nil }
         }
     }
 
@@ -348,17 +328,15 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device pool's description.
-        public var description: String? = nil
+        public let description: String?
         /// The device pool's name.
-        public var name: String? = nil
+        public let name: String?
         /// The device pool's type. Allowed values include:   CURATED: A device pool that is created and managed by AWS Device Farm.   PRIVATE: A device pool that is created and managed by the device pool developer.  
-        public var type: String? = nil
+        public let type: String?
         /// Information about the device pool's rules.
-        public var rules: [Rule]? = nil
+        public let rules: [Rule]?
         /// The device pool's ARN.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(description: String? = nil, name: String? = nil, type: String? = nil, rules: [Rule]? = nil, arn: String? = nil) {
             self.description = description
@@ -374,6 +352,8 @@ extension Devicefarm {
             self.type = dictionary["type"] as? String
             if let rules = dictionary["rules"] as? [[String: Any]] {
                 self.rules = try rules.map({ try Rule(dictionary: $0) })
+            } else { 
+                self.rules = nil
             }
             self.arn = dictionary["arn"] as? String
         }
@@ -383,16 +363,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The newly created project.
-        public var project: Project? = nil
-
-        public init() {}
+        public let project: Project?
 
         public init(project: Project? = nil) {
             self.project = project
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let project = dictionary["project"] as? [String: Any] { self.project = try Devicefarm.Project(dictionary: project) }
+            if let project = dictionary["project"] as? [String: Any] { self.project = try Devicefarm.Project(dictionary: project) } else { self.project = nil }
         }
     }
 
@@ -400,16 +378,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Represents the offering transaction for the purchase result.
-        public var offeringTransaction: OfferingTransaction? = nil
-
-        public init() {}
+        public let offeringTransaction: OfferingTransaction?
 
         public init(offeringTransaction: OfferingTransaction? = nil) {
             self.offeringTransaction = offeringTransaction
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let offeringTransaction = dictionary["offeringTransaction"] as? [String: Any] { self.offeringTransaction = try Devicefarm.OfferingTransaction(dictionary: offeringTransaction) }
+            if let offeringTransaction = dictionary["offeringTransaction"] as? [String: Any] { self.offeringTransaction = try Devicefarm.OfferingTransaction(dictionary: offeringTransaction) } else { self.offeringTransaction = nil }
         }
     }
 
@@ -417,9 +393,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of minutes a test run will execute before it times out.
-        public var jobTimeoutMinutes: Int32? = nil
-
-        public init() {}
+        public let jobTimeoutMinutes: Int32?
 
         public init(jobTimeoutMinutes: Int32? = nil) {
             self.jobTimeoutMinutes = jobTimeoutMinutes
@@ -434,11 +408,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The currency code of a monetary amount. For example, USD means "U.S. dollars."
-        public var currencyCode: String? = nil
+        public let currencyCode: String?
         /// The numerical amount of an offering or transaction.
-        public var amount: Double? = nil
-
-        public init() {}
+        public let amount: Double?
 
         public init(currencyCode: String? = nil, amount: Double? = nil) {
             self.currencyCode = currencyCode
@@ -455,31 +427,29 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
-        public var uplinkJitterMs: Int64? = nil
+        public let uplinkJitterMs: Int64?
         /// The name you wish to specify for the new network profile.
-        public var name: String = ""
+        public let name: String
         /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
-        public var downlinkJitterMs: Int64? = nil
+        public let downlinkJitterMs: Int64?
         /// Delay time for all packets to destination in milliseconds as an integer from 0 to 2000.
-        public var downlinkDelayMs: Int64? = nil
+        public let downlinkDelayMs: Int64?
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
-        public var uplinkLossPercent: Int32? = nil
+        public let uplinkLossPercent: Int32?
         /// Proportion of received packets that fail to arrive from 0 to 100 percent.
-        public var downlinkLossPercent: Int32? = nil
+        public let downlinkLossPercent: Int32?
         /// The description of the network profile.
-        public var description: String? = nil
+        public let description: String?
         /// Delay time for all packets to destination in milliseconds as an integer from 0 to 2000.
-        public var uplinkDelayMs: Int64? = nil
+        public let uplinkDelayMs: Int64?
         /// The data throughput rate in bits per second, as an integer from 0 to 104857600.
-        public var uplinkBandwidthBits: Int64? = nil
+        public let uplinkBandwidthBits: Int64?
         /// The type of network profile you wish to create. Valid values are listed below.
-        public var type: String? = nil
+        public let type: String?
         /// The data throughput rate in bits per second, as an integer from 0 to 104857600.
-        public var downlinkBandwidthBits: Int64? = nil
+        public let downlinkBandwidthBits: Int64?
         /// The Amazon Resource Name (ARN) of the project for which you want to create a network profile.
-        public var projectArn: String = ""
-
-        public init() {}
+        public let projectArn: String
 
         public init(uplinkJitterMs: Int64? = nil, name: String, downlinkJitterMs: Int64? = nil, downlinkDelayMs: Int64? = nil, uplinkLossPercent: Int32? = nil, downlinkLossPercent: Int32? = nil, description: String? = nil, uplinkDelayMs: Int64? = nil, uplinkBandwidthBits: Int64? = nil, type: String? = nil, downlinkBandwidthBits: Int64? = nil, projectArn: String) {
             self.uplinkJitterMs = uplinkJitterMs
@@ -518,9 +488,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device pool's ARN.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(arn: String) {
             self.arn = arn
@@ -536,31 +504,29 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The billing method of the remote access session. Possible values include METERED or UNMETERED. For more information about metered devices, see AWS Device Farm terminology."
-        public var billingMethod: String? = nil
+        public let billingMethod: String?
         /// The status of the remote access session. Can be any of the following:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
-        public var status: String? = nil
+        public let status: String?
         /// The name of the remote access session.
-        public var name: String? = nil
+        public let name: String?
         /// The endpoint for the remote access sesssion.
-        public var endpoint: String? = nil
+        public let endpoint: String?
         /// The date and time the remote access session was created.
-        public var created: Date? = nil
+        public let created: Date?
         /// The date and time the remote access session was started.
-        public var started: Date? = nil
+        public let started: Date?
         /// The date and time the remote access session was stopped.
-        public var stopped: Date? = nil
+        public let stopped: Date?
         /// The number of minutes a device is used in a remote access sesssion (including setup and teardown minutes).
-        public var deviceMinutes: DeviceMinutes? = nil
+        public let deviceMinutes: DeviceMinutes?
         /// A message about the remote access session.
-        public var message: String? = nil
+        public let message: String?
         /// The device (phone or tablet) used in the remote access session.
-        public var device: Device? = nil
+        public let device: Device?
         /// The result of the remote access session. Can be any of the following:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
-        public var result: String? = nil
+        public let result: String?
         /// The Amazon Resource Name (ARN) of the remote access session.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(billingMethod: String? = nil, status: String? = nil, name: String? = nil, endpoint: String? = nil, created: Date? = nil, started: Date? = nil, stopped: Date? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, device: Device? = nil, result: String? = nil, arn: String? = nil) {
             self.billingMethod = billingMethod
@@ -585,9 +551,9 @@ extension Devicefarm {
             self.created = dictionary["created"] as? Date
             self.started = dictionary["started"] as? Date
             self.stopped = dictionary["stopped"] as? Date
-            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) }
+            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) } else { self.deviceMinutes = nil }
             self.message = dictionary["message"] as? String
-            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) }
+            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) } else { self.device = nil }
             self.result = dictionary["result"] as? String
             self.arn = dictionary["arn"] as? String
         }
@@ -597,11 +563,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The frequency in which charges will recur.
-        public var frequency: String? = nil
+        public let frequency: String?
         /// The cost of the recurring charge.
-        public var cost: MonetaryAmount? = nil
-
-        public init() {}
+        public let cost: MonetaryAmount?
 
         public init(frequency: String? = nil, cost: MonetaryAmount? = nil) {
             self.frequency = frequency
@@ -610,7 +574,7 @@ extension Devicefarm {
 
         public init(dictionary: [String: Any]) throws {
             self.frequency = dictionary["frequency"] as? String
-            if let cost = dictionary["cost"] as? [String: Any] { self.cost = try Devicefarm.MonetaryAmount(dictionary: cost) }
+            if let cost = dictionary["cost"] as? [String: Any] { self.cost = try Devicefarm.MonetaryAmount(dictionary: cost) } else { self.cost = nil }
         }
     }
 
@@ -618,29 +582,27 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The suite's status. Allowed values include:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
-        public var status: String? = nil
+        public let status: String?
         /// The suite's name.
-        public var name: String? = nil
+        public let name: String?
         /// When the suite was created.
-        public var created: Date? = nil
+        public let created: Date?
         /// The suite's start time.
-        public var started: Date? = nil
+        public let started: Date?
         /// Represents the total (metered or unmetered) minutes used by the test suite.
-        public var deviceMinutes: DeviceMinutes? = nil
+        public let deviceMinutes: DeviceMinutes?
         /// The suite's stop time.
-        public var stopped: Date? = nil
+        public let stopped: Date?
         /// A message about the suite's result.
-        public var message: String? = nil
+        public let message: String?
         /// The suite's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
-        public var type: String? = nil
+        public let type: String?
         /// The suite's result. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
-        public var result: String? = nil
+        public let result: String?
         /// The suite's result counters.
-        public var counters: Counters? = nil
+        public let counters: Counters?
         /// The suite's ARN.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(status: String? = nil, name: String? = nil, created: Date? = nil, started: Date? = nil, deviceMinutes: DeviceMinutes? = nil, stopped: Date? = nil, message: String? = nil, type: String? = nil, result: String? = nil, counters: Counters? = nil, arn: String? = nil) {
             self.status = status
@@ -661,12 +623,12 @@ extension Devicefarm {
             self.name = dictionary["name"] as? String
             self.created = dictionary["created"] as? Date
             self.started = dictionary["started"] as? Date
-            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) }
+            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) } else { self.deviceMinutes = nil }
             self.stopped = dictionary["stopped"] as? Date
             self.message = dictionary["message"] as? String
             self.type = dictionary["type"] as? String
             self.result = dictionary["result"] as? String
-            if let counters = dictionary["counters"] as? [String: Any] { self.counters = try Devicefarm.Counters(dictionary: counters) }
+            if let counters = dictionary["counters"] as? [String: Any] { self.counters = try Devicefarm.Counters(dictionary: counters) } else { self.counters = nil }
             self.arn = dictionary["arn"] as? String
         }
     }
@@ -675,9 +637,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Represents the Amazon Resource Name (ARN) of the Device Farm upload you wish to delete.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(arn: String) {
             self.arn = arn
@@ -693,11 +653,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The unique problems' ARNs.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(nextToken: String? = nil, arn: String) {
             self.nextToken = nextToken
@@ -715,8 +673,6 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -725,11 +681,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The problem detail's name.
-        public var name: String? = nil
+        public let name: String?
         /// The problem detail's ARN.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(name: String? = nil, arn: String? = nil) {
             self.name = name
@@ -746,21 +700,19 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the extra data for the run. The extra data is a .zip file that AWS Device Farm will extract to external data for Android or the app's sandbox for iOS.
-        public var extraDataPackageArn: String? = nil
+        public let extraDataPackageArn: String?
         /// Information about the location that is used for the run.
-        public var location: Location? = nil
+        public let location: Location?
         /// Reserved for internal use.
-        public var networkProfileArn: String? = nil
+        public let networkProfileArn: String?
         /// A list of auxiliary apps for the run.
-        public var auxiliaryApps: [String]? = nil
+        public let auxiliaryApps: [String]?
         /// Information about the radio states for the run.
-        public var radios: Radios? = nil
+        public let radios: Radios?
         /// Information about the locale that is used for the run.
-        public var locale: String? = nil
+        public let locale: String?
         /// Specifies the billing method for a test run: metered or unmetered. If the parameter is not specified, the default value is metered.
-        public var billingMethod: String? = nil
-
-        public init() {}
+        public let billingMethod: String?
 
         public init(extraDataPackageArn: String? = nil, location: Location? = nil, networkProfileArn: String? = nil, auxiliaryApps: [String]? = nil, radios: Radios? = nil, locale: String? = nil, billingMethod: String? = nil) {
             self.extraDataPackageArn = extraDataPackageArn
@@ -774,12 +726,10 @@ extension Devicefarm {
 
         public init(dictionary: [String: Any]) throws {
             self.extraDataPackageArn = dictionary["extraDataPackageArn"] as? String
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Devicefarm.Location(dictionary: location) }
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Devicefarm.Location(dictionary: location) } else { self.location = nil }
             self.networkProfileArn = dictionary["networkProfileArn"] as? String
-            if let auxiliaryApps = dictionary["auxiliaryApps"] as? [String] {
-                self.auxiliaryApps = auxiliaryApps
-            }
-            if let radios = dictionary["radios"] as? [String: Any] { self.radios = try Devicefarm.Radios(dictionary: radios) }
+            self.auxiliaryApps = dictionary["auxiliaryApps"] as? [String]
+            if let radios = dictionary["radios"] as? [String: Any] { self.radios = try Devicefarm.Radios(dictionary: radios) } else { self.radios = nil }
             self.locale = dictionary["locale"] as? String
             self.billingMethod = dictionary["billingMethod"] as? String
         }
@@ -789,16 +739,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An object containing information about the requested job.
-        public var job: Job? = nil
-
-        public init() {}
+        public let job: Job?
 
         public init(job: Job? = nil) {
             self.job = job
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let job = dictionary["job"] as? [String: Any] { self.job = try Devicefarm.Job(dictionary: job) }
+            if let job = dictionary["job"] as? [String: Any] { self.job = try Devicefarm.Job(dictionary: job) } else { self.job = nil }
         }
     }
 
@@ -806,11 +754,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A value representing the list offering results.
-        public var offerings: [Offering]? = nil
-
-        public init() {}
+        public let offerings: [Offering]?
 
         public init(nextToken: String? = nil, offerings: [Offering]? = nil) {
             self.nextToken = nextToken
@@ -821,6 +767,8 @@ extension Devicefarm {
             self.nextToken = dictionary["nextToken"] as? String
             if let offerings = dictionary["offerings"] as? [[String: Any]] {
                 self.offerings = try offerings.map({ try Offering(dictionary: $0) })
+            } else { 
+                self.offerings = nil
             }
         }
     }
@@ -829,16 +777,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The run that was stopped.
-        public var run: Run? = nil
-
-        public init() {}
+        public let run: Run?
 
         public init(run: Run? = nil) {
             self.run = run
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let run = dictionary["run"] as? [String: Any] { self.run = try Devicefarm.Run(dictionary: run) }
+            if let run = dictionary["run"] as? [String: Any] { self.run = try Devicefarm.Run(dictionary: run) } else { self.run = nil }
         }
     }
 
@@ -846,21 +792,19 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the project for the run to be scheduled.
-        public var projectArn: String = ""
+        public let projectArn: String
         /// The name for the run to be scheduled.
-        public var name: String? = nil
+        public let name: String?
         /// Specifies configuration information about a test run, such as the execution timeout (in minutes).
-        public var executionConfiguration: ExecutionConfiguration? = nil
+        public let executionConfiguration: ExecutionConfiguration?
         /// Information about the test for the run to be scheduled.
-        public var test: ScheduleRunTest = ScheduleRunTest()
+        public let test: ScheduleRunTest
         /// The ARN of the app to schedule a run.
-        public var appArn: String? = nil
+        public let appArn: String?
         /// The ARN of the device pool for the run to be scheduled.
-        public var devicePoolArn: String = ""
+        public let devicePoolArn: String
         /// Information about the settings for the run to be scheduled.
-        public var configuration: ScheduleRunConfiguration? = nil
-
-        public init() {}
+        public let configuration: ScheduleRunConfiguration?
 
         public init(projectArn: String, name: String? = nil, executionConfiguration: ExecutionConfiguration? = nil, test: ScheduleRunTest, appArn: String? = nil, devicePoolArn: String, configuration: ScheduleRunConfiguration? = nil) {
             self.projectArn = projectArn
@@ -876,13 +820,13 @@ extension Devicefarm {
             guard let projectArn = dictionary["projectArn"] as? String else { throw InitializableError.missingRequiredParam("projectArn") }
             self.projectArn = projectArn
             self.name = dictionary["name"] as? String
-            if let executionConfiguration = dictionary["executionConfiguration"] as? [String: Any] { self.executionConfiguration = try Devicefarm.ExecutionConfiguration(dictionary: executionConfiguration) }
+            if let executionConfiguration = dictionary["executionConfiguration"] as? [String: Any] { self.executionConfiguration = try Devicefarm.ExecutionConfiguration(dictionary: executionConfiguration) } else { self.executionConfiguration = nil }
             guard let test = dictionary["test"] as? [String: Any] else { throw InitializableError.missingRequiredParam("test") }
             self.test = try Devicefarm.ScheduleRunTest(dictionary: test)
             self.appArn = dictionary["appArn"] as? String
             guard let devicePoolArn = dictionary["devicePoolArn"] as? String else { throw InitializableError.missingRequiredParam("devicePoolArn") }
             self.devicePoolArn = devicePoolArn
-            if let configuration = dictionary["configuration"] as? [String: Any] { self.configuration = try Devicefarm.ScheduleRunConfiguration(dictionary: configuration) }
+            if let configuration = dictionary["configuration"] as? [String: Any] { self.configuration = try Devicefarm.ScheduleRunConfiguration(dictionary: configuration) } else { self.configuration = nil }
         }
     }
 
@@ -890,17 +834,15 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The artifact's name.
-        public var name: String? = nil
+        public let name: String?
         /// The artifact's type. Allowed values include the following:   UNKNOWN: An unknown type.   SCREENSHOT: The screenshot type.   DEVICE_LOG: The device log type.   MESSAGE_LOG: The message log type.   RESULT_LOG: The result log type.   SERVICE_LOG: The service log type.   WEBKIT_LOG: The web kit log type.   INSTRUMENTATION_OUTPUT: The instrumentation type.   EXERCISER_MONKEY_OUTPUT: For Android, the artifact (log) generated by an Android fuzz test.   CALABASH_JSON_OUTPUT: The Calabash JSON output type.   CALABASH_PRETTY_OUTPUT: The Calabash pretty output type.   CALABASH_STANDARD_OUTPUT: The Calabash standard output type.   CALABASH_JAVA_XML_OUTPUT: The Calabash Java XML output type.   AUTOMATION_OUTPUT: The automation output type.   APPIUM_SERVER_OUTPUT: The Appium server output type.   APPIUM_JAVA_OUTPUT: The Appium Java output type.   APPIUM_JAVA_XML_OUTPUT: The Appium Java XML output type.   APPIUM_PYTHON_OUTPUT: The Appium Python output type.   APPIUM_PYTHON_XML_OUTPUT: The Appium Python XML output type.   EXPLORER_EVENT_LOG: The Explorer event log output type.   EXPLORER_SUMMARY_LOG: The Explorer summary log output type.   APPLICATION_CRASH_REPORT: The application crash report output type.   XCTEST_LOG: The XCode test output type.  
-        public var type: String? = nil
+        public let type: String?
         /// The artifact's file extension.
-        public var `extension`: String? = nil
+        public let `extension`: String?
         /// The pre-signed Amazon S3 URL that can be used with a corresponding GET request to download the artifact's file.
-        public var url: String? = nil
+        public let url: String?
         /// The artifact's ARN.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(name: String? = nil, type: String? = nil, extension: String? = nil, url: String? = nil, arn: String? = nil) {
             self.name = name
@@ -923,16 +865,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The network profile that is returned by the create network profile request.
-        public var networkProfile: NetworkProfile? = nil
-
-        public init() {}
+        public let networkProfile: NetworkProfile?
 
         public init(networkProfile: NetworkProfile? = nil) {
             self.networkProfile = networkProfile
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let networkProfile = dictionary["networkProfile"] as? [String: Any] { self.networkProfile = try Devicefarm.NetworkProfile(dictionary: networkProfile) }
+            if let networkProfile = dictionary["networkProfile"] as? [String: Any] { self.networkProfile = try Devicefarm.NetworkProfile(dictionary: networkProfile) } else { self.networkProfile = nil }
         }
     }
 
@@ -940,9 +880,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the network profile you want to delete.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(arn: String) {
             self.arn = arn
@@ -958,15 +896,13 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The project's name.
-        public var name: String? = nil
+        public let name: String?
         /// When the project was created.
-        public var created: Date? = nil
+        public let created: Date?
         /// The default number of minutes (at the project level) a test run will execute before it times out. Default value is 60 minutes.
-        public var defaultJobTimeoutMinutes: Int32? = nil
+        public let defaultJobTimeoutMinutes: Int32?
         /// The project's ARN.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(name: String? = nil, created: Date? = nil, defaultJobTimeoutMinutes: Int32? = nil, arn: String? = nil) {
             self.name = name
@@ -987,16 +923,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the scheduled run.
-        public var run: Run? = nil
-
-        public init() {}
+        public let run: Run?
 
         public init(run: Run? = nil) {
             self.run = run
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let run = dictionary["run"] as? [String: Any] { self.run = try Devicefarm.Run(dictionary: run) }
+            if let run = dictionary["run"] as? [String: Any] { self.run = try Devicefarm.Run(dictionary: run) } else { self.run = nil }
         }
     }
 
@@ -1004,9 +938,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The run's ARN.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(arn: String) {
             self.arn = arn
@@ -1022,11 +954,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of the available network profiles.
-        public var networkProfiles: [NetworkProfile]? = nil
+        public let networkProfiles: [NetworkProfile]?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(networkProfiles: [NetworkProfile]? = nil, nextToken: String? = nil) {
             self.networkProfiles = networkProfiles
@@ -1036,6 +966,8 @@ extension Devicefarm {
         public init(dictionary: [String: Any]) throws {
             if let networkProfiles = dictionary["networkProfiles"] as? [[String: Any]] {
                 self.networkProfiles = try networkProfiles.map({ try NetworkProfile(dictionary: $0) })
+            } else { 
+                self.networkProfiles = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -1045,11 +977,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the project for which you want to list samples.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(nextToken: String? = nil, arn: String) {
             self.nextToken = nextToken
@@ -1067,11 +997,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The project's name.
-        public var name: String = ""
+        public let name: String
         /// Sets the execution timeout value (in minutes) for a project. All test runs in this project will use the specified execution timeout value unless overridden when scheduling a run.
-        public var defaultJobTimeoutMinutes: Int32? = nil
-
-        public init() {}
+        public let defaultJobTimeoutMinutes: Int32?
 
         public init(name: String, defaultJobTimeoutMinutes: Int32? = nil) {
             self.name = name
@@ -1089,16 +1017,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// A container that lists detailed information about the remote access session.
-        public var remoteAccessSession: RemoteAccessSession? = nil
-
-        public init() {}
+        public let remoteAccessSession: RemoteAccessSession?
 
         public init(remoteAccessSession: RemoteAccessSession? = nil) {
             self.remoteAccessSession = remoteAccessSession
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let remoteAccessSession = dictionary["remoteAccessSession"] as? [String: Any] { self.remoteAccessSession = try Devicefarm.RemoteAccessSession(dictionary: remoteAccessSession) }
+            if let remoteAccessSession = dictionary["remoteAccessSession"] as? [String: Any] { self.remoteAccessSession = try Devicefarm.RemoteAccessSession(dictionary: remoteAccessSession) } else { self.remoteAccessSession = nil }
         }
     }
 
@@ -1106,16 +1032,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device pool you just updated.
-        public var devicePool: DevicePool? = nil
-
-        public init() {}
+        public let devicePool: DevicePool?
 
         public init(devicePool: DevicePool? = nil) {
             self.devicePool = devicePool
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let devicePool = dictionary["devicePool"] as? [String: Any] { self.devicePool = try Devicefarm.DevicePool(dictionary: devicePool) }
+            if let devicePool = dictionary["devicePool"] as? [String: Any] { self.devicePool = try Devicefarm.DevicePool(dictionary: devicePool) } else { self.devicePool = nil }
         }
     }
 
@@ -1123,11 +1047,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the offering.
-        public var offeringId: String? = nil
+        public let offeringId: String?
         /// The number of device slots you wish to purchase in an offering request.
-        public var quantity: Int32? = nil
-
-        public init() {}
+        public let quantity: Int32?
 
         public init(offeringId: String? = nil, quantity: Int32? = nil) {
             self.offeringId = offeringId
@@ -1144,9 +1066,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the remote access session you wish to stop.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(arn: String) {
             self.arn = arn
@@ -1162,16 +1082,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The newly created upload.
-        public var upload: Upload? = nil
-
-        public init() {}
+        public let upload: Upload?
 
         public init(upload: Upload? = nil) {
             self.upload = upload
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let upload = dictionary["upload"] as? [String: Any] { self.upload = try Devicefarm.Upload(dictionary: upload) }
+            if let upload = dictionary["upload"] as? [String: Any] { self.upload = try Devicefarm.Upload(dictionary: upload) } else { self.upload = nil }
         }
     }
 
@@ -1179,11 +1097,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the problems.
-        public var problems: [Problem]? = nil
+        public let problems: [Problem]?
         /// A message about the unique problems' result.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(problems: [Problem]? = nil, message: String? = nil) {
             self.problems = problems
@@ -1193,6 +1109,8 @@ extension Devicefarm {
         public init(dictionary: [String: Any]) throws {
             if let problems = dictionary["problems"] as? [[String: Any]] {
                 self.problems = try problems.map({ try Problem(dictionary: $0) })
+            } else { 
+                self.problems = nil
             }
             self.message = dictionary["message"] as? String
         }
@@ -1202,16 +1120,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of the available network profiles.
-        public var networkProfile: NetworkProfile? = nil
-
-        public init() {}
+        public let networkProfile: NetworkProfile?
 
         public init(networkProfile: NetworkProfile? = nil) {
             self.networkProfile = networkProfile
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let networkProfile = dictionary["networkProfile"] as? [String: Any] { self.networkProfile = try Devicefarm.NetworkProfile(dictionary: networkProfile) }
+            if let networkProfile = dictionary["networkProfile"] as? [String: Any] { self.networkProfile = try Devicefarm.NetworkProfile(dictionary: networkProfile) } else { self.networkProfile = nil }
         }
     }
 
@@ -1219,13 +1135,11 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of network profile you wish to return information about. Valid values are listed below.
-        public var type: String? = nil
+        public let type: String?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the project for which you want to list network profiles.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(type: String? = nil, nextToken: String? = nil, arn: String) {
             self.type = type
@@ -1245,9 +1159,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The job's ARN.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(arn: String) {
             self.arn = arn
@@ -1263,11 +1175,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Information about the runs.
-        public var runs: [Run]? = nil
-
-        public init() {}
+        public let runs: [Run]?
 
         public init(nextToken: String? = nil, runs: [Run]? = nil) {
             self.nextToken = nextToken
@@ -1278,6 +1188,8 @@ extension Devicefarm {
             self.nextToken = dictionary["nextToken"] as? String
             if let runs = dictionary["runs"] as? [[String: Any]] {
                 self.runs = try runs.map({ try Run(dictionary: $0) })
+            } else { 
+                self.runs = nil
             }
         }
     }
@@ -1286,11 +1198,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the tests.
-        public var tests: [Test]? = nil
+        public let tests: [Test]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(tests: [Test]? = nil, nextToken: String? = nil) {
             self.tests = tests
@@ -1300,6 +1210,8 @@ extension Devicefarm {
         public init(dictionary: [String: Any]) throws {
             if let tests = dictionary["tests"] as? [[String: Any]] {
                 self.tests = try tests.map({ try Test(dictionary: $0) })
+            } else { 
+                self.tests = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -1309,8 +1221,6 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1319,15 +1229,13 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The transaction ID of the offering transaction.
-        public var transactionId: String? = nil
+        public let transactionId: String?
         /// The cost of an offering transaction.
-        public var cost: MonetaryAmount? = nil
+        public let cost: MonetaryAmount?
         /// The date on which an offering transaction was created.
-        public var createdOn: Date? = nil
+        public let createdOn: Date?
         /// The status of an offering transaction.
-        public var offeringStatus: OfferingStatus? = nil
-
-        public init() {}
+        public let offeringStatus: OfferingStatus?
 
         public init(transactionId: String? = nil, cost: MonetaryAmount? = nil, createdOn: Date? = nil, offeringStatus: OfferingStatus? = nil) {
             self.transactionId = transactionId
@@ -1338,9 +1246,9 @@ extension Devicefarm {
 
         public init(dictionary: [String: Any]) throws {
             self.transactionId = dictionary["transactionId"] as? String
-            if let cost = dictionary["cost"] as? [String: Any] { self.cost = try Devicefarm.MonetaryAmount(dictionary: cost) }
+            if let cost = dictionary["cost"] as? [String: Any] { self.cost = try Devicefarm.MonetaryAmount(dictionary: cost) } else { self.cost = nil }
             self.createdOn = dictionary["createdOn"] as? Date
-            if let offeringStatus = dictionary["offeringStatus"] as? [String: Any] { self.offeringStatus = try Devicefarm.OfferingStatus(dictionary: offeringStatus) }
+            if let offeringStatus = dictionary["offeringStatus"] as? [String: Any] { self.offeringStatus = try Devicefarm.OfferingStatus(dictionary: offeringStatus) } else { self.offeringStatus = nil }
         }
     }
 
@@ -1348,11 +1256,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the devices.
-        public var devices: [Device]? = nil
+        public let devices: [Device]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(devices: [Device]? = nil, nextToken: String? = nil) {
             self.devices = devices
@@ -1362,6 +1268,8 @@ extension Devicefarm {
         public init(dictionary: [String: Any]) throws {
             if let devices = dictionary["devices"] as? [[String: Any]] {
                 self.devices = try devices.map({ try Device(dictionary: $0) })
+            } else { 
+                self.devices = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -1371,11 +1279,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the uploads.
-        public var uploads: [Upload]? = nil
+        public let uploads: [Upload]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(uploads: [Upload]? = nil, nextToken: String? = nil) {
             self.uploads = uploads
@@ -1385,6 +1291,8 @@ extension Devicefarm {
         public init(dictionary: [String: Any]) throws {
             if let uploads = dictionary["uploads"] as? [[String: Any]] {
                 self.uploads = try uploads.map({ try Upload(dictionary: $0) })
+            } else { 
+                self.uploads = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -1394,17 +1302,15 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// A string describing the offering.
-        public var description: String? = nil
+        public let description: String?
         /// Specifies whether there are recurring charges for the offering.
-        public var recurringCharges: [RecurringCharge]? = nil
+        public let recurringCharges: [RecurringCharge]?
         /// The ID that corresponds to a device offering.
-        public var id: String? = nil
+        public let id: String?
         /// The type of offering (e.g., "RECURRING") for a device.
-        public var type: String? = nil
+        public let type: String?
         /// The platform of the device (e.g., ANDROID or IOS).
-        public var platform: String? = nil
-
-        public init() {}
+        public let platform: String?
 
         public init(description: String? = nil, recurringCharges: [RecurringCharge]? = nil, id: String? = nil, type: String? = nil, platform: String? = nil) {
             self.description = description
@@ -1418,6 +1324,8 @@ extension Devicefarm {
             self.description = dictionary["description"] as? String
             if let recurringCharges = dictionary["recurringCharges"] as? [[String: Any]] {
                 self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
+            } else { 
+                self.recurringCharges = nil
             }
             self.id = dictionary["id"] as? String
             self.type = dictionary["type"] as? String
@@ -1429,16 +1337,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// A collection of one or more tests.
-        public var suite: Suite? = nil
-
-        public init() {}
+        public let suite: Suite?
 
         public init(suite: Suite? = nil) {
             self.suite = suite
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let suite = dictionary["suite"] as? [String: Any] { self.suite = try Devicefarm.Suite(dictionary: suite) }
+            if let suite = dictionary["suite"] as? [String: Any] { self.suite = try Devicefarm.Suite(dictionary: suite) } else { self.suite = nil }
         }
     }
 
@@ -1446,9 +1352,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The suite's ARN.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(arn: String) {
             self.arn = arn
@@ -1464,9 +1368,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The upload's ARN.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(arn: String) {
             self.arn = arn
@@ -1482,29 +1384,27 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The test's status. Allowed values include:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
-        public var status: String? = nil
+        public let status: String?
         /// The test's name.
-        public var name: String? = nil
+        public let name: String?
         /// When the test was created.
-        public var created: Date? = nil
+        public let created: Date?
         /// The test's start time.
-        public var started: Date? = nil
+        public let started: Date?
         /// Represents the total (metered or unmetered) minutes used by the test.
-        public var deviceMinutes: DeviceMinutes? = nil
+        public let deviceMinutes: DeviceMinutes?
         /// The test's stop time.
-        public var stopped: Date? = nil
+        public let stopped: Date?
         /// A message about the test's result.
-        public var message: String? = nil
+        public let message: String?
         /// The test's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
-        public var type: String? = nil
+        public let type: String?
         /// The test's result. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
-        public var result: String? = nil
+        public let result: String?
         /// The test's result counters.
-        public var counters: Counters? = nil
+        public let counters: Counters?
         /// The test's ARN.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(status: String? = nil, name: String? = nil, created: Date? = nil, started: Date? = nil, deviceMinutes: DeviceMinutes? = nil, stopped: Date? = nil, message: String? = nil, type: String? = nil, result: String? = nil, counters: Counters? = nil, arn: String? = nil) {
             self.status = status
@@ -1525,12 +1425,12 @@ extension Devicefarm {
             self.name = dictionary["name"] as? String
             self.created = dictionary["created"] as? Date
             self.started = dictionary["started"] as? Date
-            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) }
+            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) } else { self.deviceMinutes = nil }
             self.stopped = dictionary["stopped"] as? Date
             self.message = dictionary["message"] as? String
             self.type = dictionary["type"] as? String
             self.result = dictionary["result"] as? String
-            if let counters = dictionary["counters"] as? [String: Any] { self.counters = try Devicefarm.Counters(dictionary: counters) }
+            if let counters = dictionary["counters"] as? [String: Any] { self.counters = try Devicefarm.Counters(dictionary: counters) } else { self.counters = nil }
             self.arn = dictionary["arn"] as? String
         }
     }
@@ -1539,9 +1439,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the sesssion for which you want to delete remote access.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(arn: String) {
             self.arn = arn
@@ -1557,13 +1455,11 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// When specified, gets the offering status for the next period.
-        public var nextPeriod: [String: OfferingStatus]? = nil
+        public let nextPeriod: [String: OfferingStatus]?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// When specified, gets the offering status for the current period.
-        public var current: [String: OfferingStatus]? = nil
-
-        public init() {}
+        public let current: [String: OfferingStatus]?
 
         public init(nextPeriod: [String: OfferingStatus]? = nil, nextToken: String? = nil, current: [String: OfferingStatus]? = nil) {
             self.nextPeriod = nextPeriod
@@ -1579,6 +1475,8 @@ extension Devicefarm {
                     nextPeriodDict[key] = try OfferingStatus(dictionary: offeringStatusDict)
                 }
                 self.nextPeriod = nextPeriodDict
+            } else { 
+                self.nextPeriod = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
             if let current = dictionary["current"] as? [String: Any] {
@@ -1588,6 +1486,8 @@ extension Devicefarm {
                     currentDict[key] = try OfferingStatus(dictionary: offeringStatusDict)
                 }
                 self.current = currentDict
+            } else { 
+                self.current = nil
             }
         }
     }
@@ -1596,9 +1496,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
@@ -1613,11 +1511,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of incompatibility. Allowed values include:   ARN: The ARN.   FORM_FACTOR: The form factor (for example, phone or tablet).   MANUFACTURER: The manufacturer.   PLATFORM: The platform (for example, Android or iOS).  
-        public var type: String? = nil
+        public let type: String?
         /// A message about the incompatibility.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(type: String? = nil, message: String? = nil) {
             self.type = type
@@ -1634,15 +1530,13 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The upload's file name. The name should not contain the '/' character. If uploading an iOS app, the file name needs to end with the .ipa extension. If uploading an Android app, the file name needs to end with the .apk extension. For all others, the file name must end with the .zip file extension.
-        public var name: String = ""
+        public let name: String
         /// The upload's content type (for example, "application/octet-stream").
-        public var contentType: String? = nil
+        public let contentType: String?
         /// The upload's upload type. Must be one of the following values:   ANDROID_APP: An Android upload.   IOS_APP: An iOS upload.   WEB_APP: A web appliction upload.   EXTERNAL_DATA: An external data upload.   APPIUM_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.   APPIUM_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.   APPIUM_PYTHON_TEST_PACKAGE: An Appium Python test package upload.   APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.   APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.   APPIUM_WEB_PYTHON_TEST_PACKAGE: An Appium Python test package upload.   CALABASH_TEST_PACKAGE: A Calabash test package upload.   INSTRUMENTATION_TEST_PACKAGE: An instrumentation upload.   UIAUTOMATION_TEST_PACKAGE: A uiautomation test package upload.   UIAUTOMATOR_TEST_PACKAGE: A uiautomator test package upload.   XCTEST_TEST_PACKAGE: An XCode test package upload.   XCTEST_UI_TEST_PACKAGE: An XCode UI test package upload.    Note If you call CreateUpload with WEB_APP specified, AWS Device Farm throws an ArgumentException error.
-        public var type: String = ""
+        public let type: String
         /// The ARN of the project for the upload.
-        public var projectArn: String = ""
-
-        public init() {}
+        public let projectArn: String
 
         public init(name: String, contentType: String? = nil, type: String, projectArn: String) {
             self.name = name
@@ -1666,16 +1560,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The project you wish to update.
-        public var project: Project? = nil
-
-        public init() {}
+        public let project: Project?
 
         public init(project: Project? = nil) {
             self.project = project
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let project = dictionary["project"] as? [String: Any] { self.project = try Devicefarm.Project(dictionary: project) }
+            if let project = dictionary["project"] as? [String: Any] { self.project = try Devicefarm.Project(dictionary: project) } else { self.project = nil }
         }
     }
 
@@ -1683,15 +1575,13 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The test's filter.
-        public var filter: String? = nil
+        public let filter: String?
         /// The test's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
-        public var type: String = ""
+        public let type: String
         /// The ARN of the uploaded test that will be run.
-        public var testPackageArn: String? = nil
+        public let testPackageArn: String?
         /// The test's parameters, such as test framework parameters and fixture settings.
-        public var parameters: [String: String]? = nil
-
-        public init() {}
+        public let parameters: [String: String]?
 
         public init(filter: String? = nil, type: String, testPackageArn: String? = nil, parameters: [String: String]? = nil) {
             self.filter = filter
@@ -1707,6 +1597,8 @@ extension Devicefarm {
             self.testPackageArn = dictionary["testPackageArn"] as? String
             if let parameters = dictionary["parameters"] as? [String: String] {
                 self.parameters = parameters
+            } else { 
+                self.parameters = nil
             }
         }
     }
@@ -1714,8 +1606,6 @@ extension Devicefarm {
     public struct DeleteDevicePoolResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -1725,11 +1615,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the project for which you want to list uploads.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(nextToken: String? = nil, arn: String) {
             self.nextToken = nextToken
@@ -1747,16 +1635,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// A container that describes the remote access session when the request to create a remote access session is sent.
-        public var remoteAccessSession: RemoteAccessSession? = nil
-
-        public init() {}
+        public let remoteAccessSession: RemoteAccessSession?
 
         public init(remoteAccessSession: RemoteAccessSession? = nil) {
             self.remoteAccessSession = remoteAccessSession
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let remoteAccessSession = dictionary["remoteAccessSession"] as? [String: Any] { self.remoteAccessSession = try Devicefarm.RemoteAccessSession(dictionary: remoteAccessSession) }
+            if let remoteAccessSession = dictionary["remoteAccessSession"] as? [String: Any] { self.remoteAccessSession = try Devicefarm.RemoteAccessSession(dictionary: remoteAccessSession) } else { self.remoteAccessSession = nil }
         }
     }
 
@@ -1764,9 +1650,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device type's ARN.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(arn: String) {
             self.arn = arn
@@ -1782,15 +1666,13 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// True if Wi-Fi is enabled at the beginning of the test; otherwise, false.
-        public var wifi: Bool? = nil
+        public let wifi: Bool?
         /// True if Bluetooth is enabled at the beginning of the test; otherwise, false.
-        public var bluetooth: Bool? = nil
+        public let bluetooth: Bool?
         /// True if NFC is enabled at the beginning of the test; otherwise, false.
-        public var nfc: Bool? = nil
+        public let nfc: Bool?
         /// True if GPS is enabled at the beginning of the test; otherwise, false.
-        public var gps: Bool? = nil
-
-        public init() {}
+        public let gps: Bool?
 
         public init(wifi: Bool? = nil, bluetooth: Bool? = nil, nfc: Bool? = nil, gps: Bool? = nil) {
             self.wifi = wifi
@@ -1811,16 +1693,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The run you wish to get results from.
-        public var run: Run? = nil
-
-        public init() {}
+        public let run: Run?
 
         public init(run: Run? = nil) {
             self.run = run
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let run = dictionary["run"] as? [String: Any] { self.run = try Devicefarm.Run(dictionary: run) }
+            if let run = dictionary["run"] as? [String: Any] { self.run = try Devicefarm.Run(dictionary: run) } else { self.run = nil }
         }
     }
 
@@ -1828,16 +1708,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Represents the status of the offering transaction for the renewal.
-        public var offeringTransaction: OfferingTransaction? = nil
-
-        public init() {}
+        public let offeringTransaction: OfferingTransaction?
 
         public init(offeringTransaction: OfferingTransaction? = nil) {
             self.offeringTransaction = offeringTransaction
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let offeringTransaction = dictionary["offeringTransaction"] as? [String: Any] { self.offeringTransaction = try Devicefarm.OfferingTransaction(dictionary: offeringTransaction) }
+            if let offeringTransaction = dictionary["offeringTransaction"] as? [String: Any] { self.offeringTransaction = try Devicefarm.OfferingTransaction(dictionary: offeringTransaction) } else { self.offeringTransaction = nil }
         }
     }
 
@@ -1845,9 +1723,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Represents the Amazon Resource Name (ARN) of the Device Farm device pool you wish to delete.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(arn: String) {
             self.arn = arn
@@ -1863,15 +1739,13 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the remote access session that you wish to create.
-        public var name: String? = nil
+        public let name: String?
         /// The Amazon Resource Name (ARN) of the device for which you want to create a remote access session.
-        public var deviceArn: String = ""
+        public let deviceArn: String
         /// The Amazon Resource Name (ARN) of the project for which you want to create a remote access session.
-        public var projectArn: String = ""
+        public let projectArn: String
         /// The configuration information for the remote access session request.
-        public var configuration: CreateRemoteAccessSessionConfiguration? = nil
-
-        public init() {}
+        public let configuration: CreateRemoteAccessSessionConfiguration?
 
         public init(name: String? = nil, deviceArn: String, projectArn: String, configuration: CreateRemoteAccessSessionConfiguration? = nil) {
             self.name = name
@@ -1886,7 +1760,7 @@ extension Devicefarm {
             self.deviceArn = deviceArn
             guard let projectArn = dictionary["projectArn"] as? String else { throw InitializableError.missingRequiredParam("projectArn") }
             self.projectArn = projectArn
-            if let configuration = dictionary["configuration"] as? [String: Any] { self.configuration = try Devicefarm.CreateRemoteAccessSessionConfiguration(dictionary: configuration) }
+            if let configuration = dictionary["configuration"] as? [String: Any] { self.configuration = try Devicefarm.CreateRemoteAccessSessionConfiguration(dictionary: configuration) } else { self.configuration = nil }
         }
     }
 
@@ -1894,11 +1768,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Information about the jobs.
-        public var jobs: [Job]? = nil
-
-        public init() {}
+        public let jobs: [Job]?
 
         public init(nextToken: String? = nil, jobs: [Job]? = nil) {
             self.nextToken = nextToken
@@ -1909,6 +1781,8 @@ extension Devicefarm {
             self.nextToken = dictionary["nextToken"] as? String
             if let jobs = dictionary["jobs"] as? [[String: Any]] {
                 self.jobs = try jobs.map({ try Job(dictionary: $0) })
+            } else { 
+                self.jobs = nil
             }
         }
     }
@@ -1917,11 +1791,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the samples.
-        public var samples: [Sample]? = nil
+        public let samples: [Sample]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(samples: [Sample]? = nil, nextToken: String? = nil) {
             self.samples = samples
@@ -1931,6 +1803,8 @@ extension Devicefarm {
         public init(dictionary: [String: Any]) throws {
             if let samples = dictionary["samples"] as? [[String: Any]] {
                 self.samples = try samples.map({ try Sample(dictionary: $0) })
+            } else { 
+                self.samples = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -1940,15 +1814,13 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device pool's description.
-        public var description: String? = nil
+        public let description: String?
         /// The device pool's name.
-        public var name: String = ""
+        public let name: String
         /// The device pool's rules.
-        public var rules: [Rule] = []
+        public let rules: [Rule]
         /// The ARN of the project for the device pool.
-        public var projectArn: String = ""
-
-        public init() {}
+        public let projectArn: String
 
         public init(description: String? = nil, name: String, rules: [Rule], projectArn: String) {
             self.description = description
@@ -1972,11 +1844,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Information about the projects.
-        public var projects: [Project]? = nil
-
-        public init() {}
+        public let projects: [Project]?
 
         public init(nextToken: String? = nil, projects: [Project]? = nil) {
             self.nextToken = nextToken
@@ -1987,6 +1857,8 @@ extension Devicefarm {
             self.nextToken = dictionary["nextToken"] as? String
             if let projects = dictionary["projects"] as? [[String: Any]] {
                 self.projects = try projects.map({ try Project(dictionary: $0) })
+            } else { 
+                self.projects = nil
             }
         }
     }
@@ -1995,15 +1867,13 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of available devices in the offering.
-        public var quantity: Int32? = nil
+        public let quantity: Int32?
         /// The type specified for the offering status.
-        public var type: String? = nil
+        public let type: String?
         /// The date on which the offering is effective.
-        public var effectiveOn: Date? = nil
+        public let effectiveOn: Date?
         /// Represents the metadata of an offering status.
-        public var offering: Offering? = nil
-
-        public init() {}
+        public let offering: Offering?
 
         public init(quantity: Int32? = nil, type: String? = nil, effectiveOn: Date? = nil, offering: Offering? = nil) {
             self.quantity = quantity
@@ -2016,7 +1886,7 @@ extension Devicefarm {
             self.quantity = dictionary["quantity"] as? Int32
             self.type = dictionary["type"] as? String
             self.effectiveOn = dictionary["effectiveOn"] as? Date
-            if let offering = dictionary["offering"] as? [String: Any] { self.offering = try Devicefarm.Offering(dictionary: offering) }
+            if let offering = dictionary["offering"] as? [String: Any] { self.offering = try Devicefarm.Offering(dictionary: offering) } else { self.offering = nil }
         }
     }
 
@@ -2024,13 +1894,11 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device pools' type. Allowed values include:   CURATED: A device pool that is created and managed by AWS Device Farm.   PRIVATE: A device pool that is created and managed by the device pool developer.  
-        public var type: String? = nil
+        public let type: String?
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The project ARN.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(type: String? = nil, nextToken: String? = nil, arn: String) {
             self.type = type
@@ -2050,11 +1918,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The jobs' ARNs.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(nextToken: String? = nil, arn: String) {
             self.nextToken = nextToken
@@ -2072,39 +1938,37 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The run's name.
-        public var name: String? = nil
+        public let name: String?
         /// The run's platform. Allowed values include:   ANDROID: The Android platform.   IOS: The iOS platform.  
-        public var platform: String? = nil
+        public let platform: String?
         /// The run's type. Must be one of the following values:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
-        public var type: String? = nil
+        public let type: String?
         /// The run's result. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
-        public var result: String? = nil
+        public let result: String?
         /// The run's ARN.
-        public var arn: String? = nil
+        public let arn: String?
         /// The run's status. Allowed values include:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
-        public var status: String? = nil
+        public let status: String?
         /// The total number of completed jobs.
-        public var completedJobs: Int32? = nil
+        public let completedJobs: Int32?
         /// When the run was created.
-        public var created: Date? = nil
+        public let created: Date?
         /// The run's start time.
-        public var started: Date? = nil
+        public let started: Date?
         /// The total number of jobs for the run.
-        public var totalJobs: Int32? = nil
+        public let totalJobs: Int32?
         /// The run's stop time.
-        public var stopped: Date? = nil
+        public let stopped: Date?
         /// Represents the total (metered or unmetered) minutes used by the test run.
-        public var deviceMinutes: DeviceMinutes? = nil
+        public let deviceMinutes: DeviceMinutes?
         /// A message about the run's result.
-        public var message: String? = nil
+        public let message: String?
         /// The network profile being used for a test run.
-        public var networkProfile: NetworkProfile? = nil
+        public let networkProfile: NetworkProfile?
         /// The run's result counters.
-        public var counters: Counters? = nil
+        public let counters: Counters?
         /// Specifies the billing method for a test run: metered or unmetered. If the parameter is not specified, the default value is metered.
-        public var billingMethod: String? = nil
-
-        public init() {}
+        public let billingMethod: String?
 
         public init(name: String? = nil, platform: String? = nil, type: String? = nil, result: String? = nil, arn: String? = nil, status: String? = nil, completedJobs: Int32? = nil, created: Date? = nil, started: Date? = nil, totalJobs: Int32? = nil, stopped: Date? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, networkProfile: NetworkProfile? = nil, counters: Counters? = nil, billingMethod: String? = nil) {
             self.name = name
@@ -2137,10 +2001,10 @@ extension Devicefarm {
             self.started = dictionary["started"] as? Date
             self.totalJobs = dictionary["totalJobs"] as? Int32
             self.stopped = dictionary["stopped"] as? Date
-            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) }
+            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) } else { self.deviceMinutes = nil }
             self.message = dictionary["message"] as? String
-            if let networkProfile = dictionary["networkProfile"] as? [String: Any] { self.networkProfile = try Devicefarm.NetworkProfile(dictionary: networkProfile) }
-            if let counters = dictionary["counters"] as? [String: Any] { self.counters = try Devicefarm.Counters(dictionary: counters) }
+            if let networkProfile = dictionary["networkProfile"] as? [String: Any] { self.networkProfile = try Devicefarm.NetworkProfile(dictionary: networkProfile) } else { self.networkProfile = nil }
+            if let counters = dictionary["counters"] as? [String: Any] { self.counters = try Devicefarm.Counters(dictionary: counters) } else { self.counters = nil }
             self.billingMethod = dictionary["billingMethod"] as? String
         }
     }
@@ -2149,13 +2013,11 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device (phone or tablet) that you wish to return information about.
-        public var device: Device? = nil
+        public let device: Device?
         /// Whether the result was compatible with the device pool.
-        public var compatible: Bool? = nil
+        public let compatible: Bool?
         /// Information about the compatibility.
-        public var incompatibilityMessages: [IncompatibilityMessage]? = nil
-
-        public init() {}
+        public let incompatibilityMessages: [IncompatibilityMessage]?
 
         public init(device: Device? = nil, compatible: Bool? = nil, incompatibilityMessages: [IncompatibilityMessage]? = nil) {
             self.device = device
@@ -2164,10 +2026,12 @@ extension Devicefarm {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) }
+            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) } else { self.device = nil }
             self.compatible = dictionary["compatible"] as? Bool
             if let incompatibilityMessages = dictionary["incompatibilityMessages"] as? [[String: Any]] {
                 self.incompatibilityMessages = try incompatibilityMessages.map({ try IncompatibilityMessage(dictionary: $0) })
+            } else { 
+                self.incompatibilityMessages = nil
             }
         }
     }
@@ -2176,25 +2040,23 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The upload's metadata. For example, for Android, this contains information that is parsed from the manifest and is displayed in the AWS Device Farm console after the associated app is uploaded.
-        public var metadata: String? = nil
+        public let metadata: String?
         /// The upload's status. Must be one of the following values:   FAILED: A failed status.   INITIALIZED: An initialized status.   PROCESSING: A processing status.   SUCCEEDED: A succeeded status.  
-        public var status: String? = nil
+        public let status: String?
         /// The upload's content type (for example, "application/octet-stream").
-        public var contentType: String? = nil
+        public let contentType: String?
         /// The upload's file name.
-        public var name: String? = nil
+        public let name: String?
         /// When the upload was created.
-        public var created: Date? = nil
+        public let created: Date?
         /// A message about the upload's result.
-        public var message: String? = nil
+        public let message: String?
         /// The upload's type. Must be one of the following values:   ANDROID_APP: An Android upload.   IOS_APP: An iOS upload.   WEB_APP: A web appliction upload.   EXTERNAL_DATA: An external data upload.   APPIUM_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.   APPIUM_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.   APPIUM_PYTHON_TEST_PACKAGE: An Appium Python test package upload.   APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE: An Appium Java JUnit test package upload.   APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE: An Appium Java TestNG test package upload.   APPIUM_WEB_PYTHON_TEST_PACKAGE: An Appium Python test package upload.   CALABASH_TEST_PACKAGE: A Calabash test package upload.   INSTRUMENTATION_TEST_PACKAGE: An instrumentation upload.   UIAUTOMATION_TEST_PACKAGE: A uiautomation test package upload.   UIAUTOMATOR_TEST_PACKAGE: A uiautomator test package upload.   XCTEST_TEST_PACKAGE: An XCode test package upload.   XCTEST_UI_TEST_PACKAGE: An XCode UI test package upload.  
-        public var type: String? = nil
+        public let type: String?
         /// The pre-signed Amazon S3 URL that was used to store a file through a corresponding PUT request.
-        public var url: String? = nil
+        public let url: String?
         /// The upload's ARN.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(metadata: String? = nil, status: String? = nil, contentType: String? = nil, name: String? = nil, created: Date? = nil, message: String? = nil, type: String? = nil, url: String? = nil, arn: String? = nil) {
             self.metadata = metadata
@@ -2225,9 +2087,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
@@ -2242,8 +2102,6 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -2251,8 +2109,6 @@ extension Devicefarm {
     public struct DeleteProjectResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -2262,11 +2118,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the device pools.
-        public var devicePools: [DevicePool]? = nil
+        public let devicePools: [DevicePool]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(devicePools: [DevicePool]? = nil, nextToken: String? = nil) {
             self.devicePools = devicePools
@@ -2276,6 +2130,8 @@ extension Devicefarm {
         public init(dictionary: [String: Any]) throws {
             if let devicePools = dictionary["devicePools"] as? [[String: Any]] {
                 self.devicePools = try devicePools.map({ try DevicePool(dictionary: $0) })
+            } else { 
+                self.devicePools = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -2285,11 +2141,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The audit log of subscriptions you have purchased and modified through AWS Device Farm.
-        public var offeringTransactions: [OfferingTransaction]? = nil
-
-        public init() {}
+        public let offeringTransactions: [OfferingTransaction]?
 
         public init(nextToken: String? = nil, offeringTransactions: [OfferingTransaction]? = nil) {
             self.nextToken = nextToken
@@ -2300,6 +2154,8 @@ extension Devicefarm {
             self.nextToken = dictionary["nextToken"] as? String
             if let offeringTransactions = dictionary["offeringTransactions"] as? [[String: Any]] {
                 self.offeringTransactions = try offeringTransactions.map({ try OfferingTransaction(dictionary: $0) })
+            } else { 
+                self.offeringTransactions = nil
             }
         }
     }
@@ -2308,11 +2164,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The suites' ARNs.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(nextToken: String? = nil, arn: String) {
             self.nextToken = nextToken
@@ -2330,13 +2184,11 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The CPU's frequency.
-        public var frequency: String? = nil
+        public let frequency: String?
         /// The CPU's architecture, for example x86 or ARM.
-        public var architecture: String? = nil
+        public let architecture: String?
         /// The clock speed of the device's CPU, expressed in hertz (Hz). For example, a 1.2 GHz CPU is expressed as 1200000000.
-        public var clock: Double? = nil
-
-        public init() {}
+        public let clock: Double?
 
         public init(frequency: String? = nil, architecture: String? = nil, clock: Double? = nil) {
             self.frequency = frequency
@@ -2355,16 +2207,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An app to upload or that has been uploaded.
-        public var appUpload: Upload? = nil
-
-        public init() {}
+        public let appUpload: Upload?
 
         public init(appUpload: Upload? = nil) {
             self.appUpload = appUpload
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let appUpload = dictionary["appUpload"] as? [String: Any] { self.appUpload = try Devicefarm.Upload(dictionary: appUpload) }
+            if let appUpload = dictionary["appUpload"] as? [String: Any] { self.appUpload = try Devicefarm.Upload(dictionary: appUpload) } else { self.appUpload = nil }
         }
     }
 
@@ -2372,9 +2222,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the network profile you want to return information about.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(arn: String) {
             self.arn = arn
@@ -2390,21 +2238,19 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of warned entities.
-        public var warned: Int32? = nil
+        public let warned: Int32?
         /// The number of errored entities.
-        public var errored: Int32? = nil
+        public let errored: Int32?
         /// The number of failed entities.
-        public var failed: Int32? = nil
+        public let failed: Int32?
         /// The number of skipped entities.
-        public var skipped: Int32? = nil
+        public let skipped: Int32?
         /// The number of passed entities.
-        public var passed: Int32? = nil
+        public let passed: Int32?
         /// The number of stopped entities.
-        public var stopped: Int32? = nil
+        public let stopped: Int32?
         /// The total number of entities.
-        public var total: Int32? = nil
-
-        public init() {}
+        public let total: Int32?
 
         public init(warned: Int32? = nil, errored: Int32? = nil, failed: Int32? = nil, skipped: Int32? = nil, passed: Int32? = nil, stopped: Int32? = nil, total: Int32? = nil) {
             self.warned = warned
@@ -2431,8 +2277,6 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -2441,13 +2285,11 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// When specified, represents the total minutes used by the resource to run tests.
-        public var total: Double? = nil
+        public let total: Double?
         /// When specified, represents only the sum of metered minutes used by the resource to run tests.
-        public var metered: Double? = nil
+        public let metered: Double?
         /// When specified, represents only the sum of unmetered minutes used by the resource to run tests.
-        public var unmetered: Double? = nil
-
-        public init() {}
+        public let unmetered: Double?
 
         public init(total: Double? = nil, metered: Double? = nil, unmetered: Double? = nil) {
             self.total = total
@@ -2466,11 +2308,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the remote access session about which you are requesting information.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(nextToken: String? = nil, arn: String) {
             self.nextToken = nextToken
@@ -2488,13 +2328,11 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The artifacts' type. Allowed values include:   FILE: The artifacts are files.   LOG: The artifacts are logs.   SCREENSHOT: The artifacts are screenshots.  
-        public var type: String = ""
+        public let type: String
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The Run, Job, Suite, or Test ARN.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(type: String, nextToken: String? = nil, arn: String) {
             self.type = type
@@ -2515,9 +2353,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The test's ARN.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(arn: String) {
             self.arn = arn
@@ -2533,16 +2369,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An object containing information about the requested device.
-        public var device: Device? = nil
-
-        public init() {}
+        public let device: Device?
 
         public init(device: Device? = nil) {
             self.device = device
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) }
+            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) } else { self.device = nil }
         }
     }
 
@@ -2550,9 +2384,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Represents the Amazon Resource Name (ARN) of the Device Farm project you wish to delete.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(arn: String) {
             self.arn = arn
@@ -2568,9 +2400,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Represents the Amazon Resource Name (ARN) of the Device Farm run you wish to stop.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(arn: String) {
             self.arn = arn
@@ -2586,11 +2416,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the unique problems. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
-        public var uniqueProblems: [String: [UniqueProblem]]? = nil
+        public let uniqueProblems: [String: [UniqueProblem]]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(uniqueProblems: [String: [UniqueProblem]]? = nil, nextToken: String? = nil) {
             self.uniqueProblems = uniqueProblems
@@ -2606,6 +2434,8 @@ extension Devicefarm {
                     uniqueProblemsDict[key] = uniqueProblemList
                 }
                 self.uniqueProblems = uniqueProblemsDict
+            } else { 
+                self.uniqueProblems = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -2615,21 +2445,19 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the associated test.
-        public var test: ProblemDetail? = nil
+        public let test: ProblemDetail?
         /// Information about the associated suite.
-        public var suite: ProblemDetail? = nil
+        public let suite: ProblemDetail?
         /// Information about the associated job.
-        public var job: ProblemDetail? = nil
+        public let job: ProblemDetail?
         /// A message about the problem's result.
-        public var message: String? = nil
+        public let message: String?
         /// Information about the associated device.
-        public var device: Device? = nil
+        public let device: Device?
         /// Information about the associated run.
-        public var run: ProblemDetail? = nil
+        public let run: ProblemDetail?
         /// The problem's result. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
-        public var result: String? = nil
-
-        public init() {}
+        public let result: String?
 
         public init(test: ProblemDetail? = nil, suite: ProblemDetail? = nil, job: ProblemDetail? = nil, message: String? = nil, device: Device? = nil, run: ProblemDetail? = nil, result: String? = nil) {
             self.test = test
@@ -2642,12 +2470,12 @@ extension Devicefarm {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let test = dictionary["test"] as? [String: Any] { self.test = try Devicefarm.ProblemDetail(dictionary: test) }
-            if let suite = dictionary["suite"] as? [String: Any] { self.suite = try Devicefarm.ProblemDetail(dictionary: suite) }
-            if let job = dictionary["job"] as? [String: Any] { self.job = try Devicefarm.ProblemDetail(dictionary: job) }
+            if let test = dictionary["test"] as? [String: Any] { self.test = try Devicefarm.ProblemDetail(dictionary: test) } else { self.test = nil }
+            if let suite = dictionary["suite"] as? [String: Any] { self.suite = try Devicefarm.ProblemDetail(dictionary: suite) } else { self.suite = nil }
+            if let job = dictionary["job"] as? [String: Any] { self.job = try Devicefarm.ProblemDetail(dictionary: job) } else { self.job = nil }
             self.message = dictionary["message"] as? String
-            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) }
-            if let run = dictionary["run"] as? [String: Any] { self.run = try Devicefarm.ProblemDetail(dictionary: run) }
+            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) } else { self.device = nil }
+            if let run = dictionary["run"] as? [String: Any] { self.run = try Devicefarm.ProblemDetail(dictionary: run) } else { self.run = nil }
             self.result = dictionary["result"] as? String
         }
     }
@@ -2656,13 +2484,11 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The sample's type. Must be one of the following values:   CPU: A CPU sample type. This is expressed as the app processing CPU time (including child processes) as reported by process, as a percentage.   MEMORY: A memory usage sample type. This is expressed as the total proportional set size of an app process, in kilobytes.   NATIVE_AVG_DRAWTIME   NATIVE_FPS   NATIVE_FRAMES   NATIVE_MAX_DRAWTIME   NATIVE_MIN_DRAWTIME   OPENGL_AVG_DRAWTIME   OPENGL_FPS   OPENGL_FRAMES   OPENGL_MAX_DRAWTIME   OPENGL_MIN_DRAWTIME   RX   RX_RATE: The total number of bytes per second (TCP and UDP) that are sent, by app process.   THREADS: A threads sample type. This is expressed as the total number of threads per app process.   TX   TX_RATE: The total number of bytes per second (TCP and UDP) that are received, by app process.  
-        public var type: String? = nil
+        public let type: String?
         /// The pre-signed Amazon S3 URL that can be used with a corresponding GET request to download the sample's file.
-        public var url: String? = nil
+        public let url: String?
         /// The sample's ARN.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(type: String? = nil, url: String? = nil, arn: String? = nil) {
             self.type = type
@@ -2681,9 +2507,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) for the run you wish to delete.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(arn: String) {
             self.arn = arn
@@ -2699,16 +2523,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The newly created device pool.
-        public var devicePool: DevicePool? = nil
-
-        public init() {}
+        public let devicePool: DevicePool?
 
         public init(devicePool: DevicePool? = nil) {
             self.devicePool = devicePool
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let devicePool = dictionary["devicePool"] as? [String: Any] { self.devicePool = try Devicefarm.DevicePool(dictionary: devicePool) }
+            if let devicePool = dictionary["devicePool"] as? [String: Any] { self.devicePool = try Devicefarm.DevicePool(dictionary: devicePool) } else { self.devicePool = nil }
         }
     }
 
@@ -2716,15 +2538,13 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// A description of the device pool you wish to update.
-        public var description: String? = nil
+        public let description: String?
         /// A string representing the name of the device pool you wish to update.
-        public var name: String? = nil
+        public let name: String?
         /// Represents the rules you wish to modify for the device pool. Updating rules is optional; however, if you choose to update rules for your request, the update will replace the existing rules.
-        public var rules: [Rule]? = nil
+        public let rules: [Rule]?
         /// The Amazon Resourc Name (ARN) of the Device Farm device pool you wish to update.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(description: String? = nil, name: String? = nil, rules: [Rule]? = nil, arn: String) {
             self.description = description
@@ -2738,6 +2558,8 @@ extension Devicefarm {
             self.name = dictionary["name"] as? String
             if let rules = dictionary["rules"] as? [[String: Any]] {
                 self.rules = try rules.map({ try Rule(dictionary: $0) })
+            } else { 
+                self.rules = nil
             }
             guard let arn = dictionary["arn"] as? String else { throw InitializableError.missingRequiredParam("arn") }
             self.arn = arn
@@ -2748,9 +2570,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
@@ -2765,17 +2585,15 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS account number specified in the AccountSettings container.
-        public var awsAccountNumber: String? = nil
+        public let awsAccountNumber: String?
         /// Returns the unmetered devices you have purchased or want to purchase.
-        public var unmeteredDevices: [String: Int32]? = nil
+        public let unmeteredDevices: [String: Int32]?
         /// The default number of minutes (at the account level) a test run will execute before it times out. Default value is 60 minutes.
-        public var defaultJobTimeoutMinutes: Int32? = nil
+        public let defaultJobTimeoutMinutes: Int32?
         /// The maximum number of minutes a test run will execute before it times out.
-        public var maxJobTimeoutMinutes: Int32? = nil
+        public let maxJobTimeoutMinutes: Int32?
         /// Returns the unmetered remote access devices you have purchased or want to purchase.
-        public var unmeteredRemoteAccessDevices: [String: Int32]? = nil
-
-        public init() {}
+        public let unmeteredRemoteAccessDevices: [String: Int32]?
 
         public init(awsAccountNumber: String? = nil, unmeteredDevices: [String: Int32]? = nil, defaultJobTimeoutMinutes: Int32? = nil, maxJobTimeoutMinutes: Int32? = nil, unmeteredRemoteAccessDevices: [String: Int32]? = nil) {
             self.awsAccountNumber = awsAccountNumber
@@ -2789,11 +2607,15 @@ extension Devicefarm {
             self.awsAccountNumber = dictionary["awsAccountNumber"] as? String
             if let unmeteredDevices = dictionary["unmeteredDevices"] as? [String: Int32] {
                 self.unmeteredDevices = unmeteredDevices
+            } else { 
+                self.unmeteredDevices = nil
             }
             self.defaultJobTimeoutMinutes = dictionary["defaultJobTimeoutMinutes"] as? Int32
             self.maxJobTimeoutMinutes = dictionary["maxJobTimeoutMinutes"] as? Int32
             if let unmeteredRemoteAccessDevices = dictionary["unmeteredRemoteAccessDevices"] as? [String: Int32] {
                 self.unmeteredRemoteAccessDevices = unmeteredRemoteAccessDevices
+            } else { 
+                self.unmeteredRemoteAccessDevices = nil
             }
         }
     }
@@ -2802,16 +2624,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// A container representing the metadata from the service about the remote access session you are stopping.
-        public var remoteAccessSession: RemoteAccessSession? = nil
-
-        public init() {}
+        public let remoteAccessSession: RemoteAccessSession?
 
         public init(remoteAccessSession: RemoteAccessSession? = nil) {
             self.remoteAccessSession = remoteAccessSession
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let remoteAccessSession = dictionary["remoteAccessSession"] as? [String: Any] { self.remoteAccessSession = try Devicefarm.RemoteAccessSession(dictionary: remoteAccessSession) }
+            if let remoteAccessSession = dictionary["remoteAccessSession"] as? [String: Any] { self.remoteAccessSession = try Devicefarm.RemoteAccessSession(dictionary: remoteAccessSession) } else { self.remoteAccessSession = nil }
         }
     }
 
@@ -2819,11 +2639,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the artifacts.
-        public var artifacts: [Artifact]? = nil
+        public let artifacts: [Artifact]?
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned, which can be used in a subsequent call to this operation to return the next set of items in the list.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(artifacts: [Artifact]? = nil, nextToken: String? = nil) {
             self.artifacts = artifacts
@@ -2833,6 +2651,8 @@ extension Devicefarm {
         public init(dictionary: [String: Any]) throws {
             if let artifacts = dictionary["artifacts"] as? [[String: Any]] {
                 self.artifacts = try artifacts.map({ try Artifact(dictionary: $0) })
+            } else { 
+                self.artifacts = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -2842,16 +2662,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The network profile.
-        public var networkProfile: NetworkProfile? = nil
-
-        public init() {}
+        public let networkProfile: NetworkProfile?
 
         public init(networkProfile: NetworkProfile? = nil) {
             self.networkProfile = networkProfile
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let networkProfile = dictionary["networkProfile"] as? [String: Any] { self.networkProfile = try Devicefarm.NetworkProfile(dictionary: networkProfile) }
+            if let networkProfile = dictionary["networkProfile"] as? [String: Any] { self.networkProfile = try Devicefarm.NetworkProfile(dictionary: networkProfile) } else { self.networkProfile = nil }
         }
     }
 
@@ -2859,11 +2677,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The longitude.
-        public var longitude: Double = 0
+        public let longitude: Double
         /// The latitude.
-        public var latitude: Double = 0
-
-        public init() {}
+        public let latitude: Double
 
         public init(longitude: Double, latitude: Double) {
             self.longitude = longitude
@@ -2882,16 +2698,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The account settings.
-        public var accountSettings: AccountSettings? = nil
-
-        public init() {}
+        public let accountSettings: AccountSettings?
 
         public init(accountSettings: AccountSettings? = nil) {
             self.accountSettings = accountSettings
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let accountSettings = dictionary["accountSettings"] as? [String: Any] { self.accountSettings = try Devicefarm.AccountSettings(dictionary: accountSettings) }
+            if let accountSettings = dictionary["accountSettings"] as? [String: Any] { self.accountSettings = try Devicefarm.AccountSettings(dictionary: accountSettings) } else { self.accountSettings = nil }
         }
     }
 
@@ -2899,13 +2713,11 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the app that is associated with the specified device pool.
-        public var appArn: String? = nil
+        public let appArn: String?
         /// The device pool's ARN.
-        public var devicePoolArn: String = ""
+        public let devicePoolArn: String
         /// The test type for the specified device pool. Allowed values include the following:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
-        public var testType: String? = nil
-
-        public init() {}
+        public let testType: String?
 
         public init(appArn: String? = nil, devicePoolArn: String, testType: String? = nil) {
             self.appArn = appArn
@@ -2925,11 +2737,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The screen resolution's height, expressed in pixels.
-        public var height: Int32? = nil
+        public let height: Int32?
         /// The screen resolution's width, expressed in pixels.
-        public var width: Int32? = nil
-
-        public init() {}
+        public let width: Int32?
 
         public init(height: Int32? = nil, width: Int32? = nil) {
             self.height = height
@@ -2946,11 +2756,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of a request to renew an offering.
-        public var offeringId: String? = nil
+        public let offeringId: String?
         /// The quantity requested in an offering renewal.
-        public var quantity: Int32? = nil
-
-        public init() {}
+        public let quantity: Int32?
 
         public init(offeringId: String? = nil, quantity: Int32? = nil) {
             self.offeringId = offeringId
@@ -2967,41 +2775,39 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device's display name.
-        public var name: String? = nil
+        public let name: String?
         /// Information about the device's CPU.
-        public var cpu: CPU? = nil
+        public let cpu: CPU?
         /// The device's platform. Allowed values include:   ANDROID: The Android platform.   IOS: The iOS platform.  
-        public var platform: String? = nil
+        public let platform: String?
         /// The device's heap size, expressed in bytes.
-        public var heapSize: Int64? = nil
+        public let heapSize: Int64?
         /// The device's model name.
-        public var model: String? = nil
+        public let model: String?
         /// The device's radio.
-        public var radio: String? = nil
+        public let radio: String?
         /// The device's ARN.
-        public var arn: String? = nil
+        public let arn: String?
         /// The device's total memory size, expressed in bytes.
-        public var memory: Int64? = nil
+        public let memory: Int64?
         /// The resolution of the device.
-        public var resolution: Resolution? = nil
+        public let resolution: Resolution?
         /// The device's operating system type.
-        public var os: String? = nil
+        public let os: String?
         /// The device's image name.
-        public var image: String? = nil
+        public let image: String?
         /// Specifies whether remote access has been enabled for the specified device.
-        public var remoteAccessEnabled: Bool? = nil
+        public let remoteAccessEnabled: Bool?
         /// The device's form factor. Allowed values include:   PHONE: The phone form factor.   TABLET: The tablet form factor.  
-        public var formFactor: String? = nil
+        public let formFactor: String?
         /// The type of fleet to which this device belongs. Possible values for fleet type are PRIVATE and PUBLIC.
-        public var fleetType: String? = nil
+        public let fleetType: String?
         /// The name of the fleet to which this device belongs.
-        public var fleetName: String? = nil
+        public let fleetName: String?
         /// The device's manufacturer name.
-        public var manufacturer: String? = nil
+        public let manufacturer: String?
         /// The device's carrier.
-        public var carrier: String? = nil
-
-        public init() {}
+        public let carrier: String?
 
         public init(name: String? = nil, cpu: CPU? = nil, platform: String? = nil, heapSize: Int64? = nil, model: String? = nil, radio: String? = nil, arn: String? = nil, memory: Int64? = nil, resolution: Resolution? = nil, os: String? = nil, image: String? = nil, remoteAccessEnabled: Bool? = nil, formFactor: String? = nil, fleetType: String? = nil, fleetName: String? = nil, manufacturer: String? = nil, carrier: String? = nil) {
             self.name = name
@@ -3025,14 +2831,14 @@ extension Devicefarm {
 
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["name"] as? String
-            if let cpu = dictionary["cpu"] as? [String: Any] { self.cpu = try Devicefarm.CPU(dictionary: cpu) }
+            if let cpu = dictionary["cpu"] as? [String: Any] { self.cpu = try Devicefarm.CPU(dictionary: cpu) } else { self.cpu = nil }
             self.platform = dictionary["platform"] as? String
             self.heapSize = dictionary["heapSize"] as? Int64
             self.model = dictionary["model"] as? String
             self.radio = dictionary["radio"] as? String
             self.arn = dictionary["arn"] as? String
             self.memory = dictionary["memory"] as? Int64
-            if let resolution = dictionary["resolution"] as? [String: Any] { self.resolution = try Devicefarm.Resolution(dictionary: resolution) }
+            if let resolution = dictionary["resolution"] as? [String: Any] { self.resolution = try Devicefarm.Resolution(dictionary: resolution) } else { self.resolution = nil }
             self.os = dictionary["os"] as? String
             self.image = dictionary["image"] as? String
             self.remoteAccessEnabled = dictionary["remoteAccessEnabled"] as? Bool
@@ -3048,11 +2854,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the project for which you want to list runs.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(nextToken: String? = nil, arn: String) {
             self.nextToken = nextToken
@@ -3070,31 +2874,29 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device (phone or tablet).
-        public var device: Device? = nil
+        public let device: Device?
         /// The job's status. Allowed values include:   PENDING: A pending status.   PENDING_CONCURRENCY: A pending concurrency status.   PENDING_DEVICE: A pending device status.   PROCESSING: A processing status.   SCHEDULING: A scheduling status.   PREPARING: A preparing status.   RUNNING: A running status.   COMPLETED: A completed status.   STOPPING: A stopping status.  
-        public var status: String? = nil
+        public let status: String?
         /// The job's name.
-        public var name: String? = nil
+        public let name: String?
         /// When the job was created.
-        public var created: Date? = nil
+        public let created: Date?
         /// The job's start time.
-        public var started: Date? = nil
+        public let started: Date?
         /// The job's stop time.
-        public var stopped: Date? = nil
+        public let stopped: Date?
         /// Represents the total (metered or unmetered) minutes used by the job.
-        public var deviceMinutes: DeviceMinutes? = nil
+        public let deviceMinutes: DeviceMinutes?
         /// A message about the job's result.
-        public var message: String? = nil
+        public let message: String?
         /// The job's type. Allowed values include the following:   BUILTIN_FUZZ: The built-in fuzz type.   BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT: The Appium Java JUnit type.   APPIUM_JAVA_TESTNG: The Appium Java TestNG type.   APPIUM_PYTHON: The Appium Python type.   APPIUM_WEB_JAVA_JUNIT: The Appium Java JUnit type for Web apps.   APPIUM_WEB_JAVA_TESTNG: The Appium Java TestNG type for Web apps.   APPIUM_WEB_PYTHON: The Appium Python type for Web apps.   CALABASH: The Calabash type.   INSTRUMENTATION: The Instrumentation type.   UIAUTOMATION: The uiautomation type.   UIAUTOMATOR: The uiautomator type.   XCTEST: The XCode test type.   XCTEST_UI: The XCode UI test type.  
-        public var type: String? = nil
+        public let type: String?
         /// The job's result. Allowed values include:   PENDING: A pending condition.   PASSED: A passing condition.   WARNED: A warning condition.   FAILED: A failed condition.   SKIPPED: A skipped condition.   ERRORED: An error condition.   STOPPED: A stopped condition.  
-        public var result: String? = nil
+        public let result: String?
         /// The job's result counters.
-        public var counters: Counters? = nil
+        public let counters: Counters?
         /// The job's ARN.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(device: Device? = nil, status: String? = nil, name: String? = nil, created: Date? = nil, started: Date? = nil, stopped: Date? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, type: String? = nil, result: String? = nil, counters: Counters? = nil, arn: String? = nil) {
             self.device = device
@@ -3112,17 +2914,17 @@ extension Devicefarm {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) }
+            if let device = dictionary["device"] as? [String: Any] { self.device = try Devicefarm.Device(dictionary: device) } else { self.device = nil }
             self.status = dictionary["status"] as? String
             self.name = dictionary["name"] as? String
             self.created = dictionary["created"] as? Date
             self.started = dictionary["started"] as? Date
             self.stopped = dictionary["stopped"] as? Date
-            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) }
+            if let deviceMinutes = dictionary["deviceMinutes"] as? [String: Any] { self.deviceMinutes = try Devicefarm.DeviceMinutes(dictionary: deviceMinutes) } else { self.deviceMinutes = nil }
             self.message = dictionary["message"] as? String
             self.type = dictionary["type"] as? String
             self.result = dictionary["result"] as? String
-            if let counters = dictionary["counters"] as? [String: Any] { self.counters = try Devicefarm.Counters(dictionary: counters) }
+            if let counters = dictionary["counters"] as? [String: Any] { self.counters = try Devicefarm.Counters(dictionary: counters) } else { self.counters = nil }
             self.arn = dictionary["arn"] as? String
         }
     }
@@ -3131,9 +2933,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The project's ARN.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(arn: String) {
             self.arn = arn
@@ -3149,11 +2949,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Optional. If no Amazon Resource Name (ARN) is specified, then AWS Device Farm returns a list of all projects for the AWS account. You can also specify a project ARN.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(nextToken: String? = nil, arn: String? = nil) {
             self.nextToken = nextToken
@@ -3170,13 +2968,11 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// A string representing the new name of the project that you are updating.
-        public var name: String? = nil
+        public let name: String?
         /// The number of minutes a test run in the project will execute before it times out.
-        public var defaultJobTimeoutMinutes: Int32? = nil
+        public let defaultJobTimeoutMinutes: Int32?
         /// The Amazon Resource Name (ARN) of the project whose name you wish to update.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(name: String? = nil, defaultJobTimeoutMinutes: Int32? = nil, arn: String) {
             self.name = name
@@ -3196,11 +2992,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the app about which you are requesting information.
-        public var appArn: String = ""
+        public let appArn: String
         /// The Amazon Resource Name (ARN) of the remote access session about which you are requesting information.
-        public var remoteAccessSessionArn: String = ""
-
-        public init() {}
+        public let remoteAccessSessionArn: String
 
         public init(appArn: String, remoteAccessSessionArn: String) {
             self.appArn = appArn
@@ -3219,11 +3013,9 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about incompatible devices.
-        public var incompatibleDevices: [DevicePoolCompatibilityResult]? = nil
+        public let incompatibleDevices: [DevicePoolCompatibilityResult]?
         /// Information about compatible devices.
-        public var compatibleDevices: [DevicePoolCompatibilityResult]? = nil
-
-        public init() {}
+        public let compatibleDevices: [DevicePoolCompatibilityResult]?
 
         public init(incompatibleDevices: [DevicePoolCompatibilityResult]? = nil, compatibleDevices: [DevicePoolCompatibilityResult]? = nil) {
             self.incompatibleDevices = incompatibleDevices
@@ -3233,9 +3025,13 @@ extension Devicefarm {
         public init(dictionary: [String: Any]) throws {
             if let incompatibleDevices = dictionary["incompatibleDevices"] as? [[String: Any]] {
                 self.incompatibleDevices = try incompatibleDevices.map({ try DevicePoolCompatibilityResult(dictionary: $0) })
+            } else { 
+                self.incompatibleDevices = nil
             }
             if let compatibleDevices = dictionary["compatibleDevices"] as? [[String: Any]] {
                 self.compatibleDevices = try compatibleDevices.map({ try DevicePoolCompatibilityResult(dictionary: $0) })
+            } else { 
+                self.compatibleDevices = nil
             }
         }
     }
@@ -3244,9 +3040,7 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the remote access session about which you want to get session information.
-        public var arn: String = ""
-
-        public init() {}
+        public let arn: String
 
         public init(arn: String) {
             self.arn = arn
@@ -3262,16 +3056,14 @@ extension Devicefarm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The project you wish to get information about.
-        public var project: Project? = nil
-
-        public init() {}
+        public let project: Project?
 
         public init(project: Project? = nil) {
             self.project = project
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let project = dictionary["project"] as? [String: Any] { self.project = try Devicefarm.Project(dictionary: project) }
+            if let project = dictionary["project"] as? [String: Any] { self.project = try Devicefarm.Project(dictionary: project) } else { self.project = nil }
         }
     }
 

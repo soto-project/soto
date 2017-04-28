@@ -33,17 +33,15 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The descriptive name for the alarm.
-        public var alarmName: String? = nil
+        public let alarmName: String?
         /// The time stamp for the alarm history item.
-        public var timestamp: Date? = nil
+        public let timestamp: Date?
         /// Data about the alarm, in JSON format.
-        public var historyData: String? = nil
+        public let historyData: String?
         /// A summary of the alarm history, in text format.
-        public var historySummary: String? = nil
+        public let historySummary: String?
         /// The type of alarm history item.
-        public var historyItemType: String? = nil
-
-        public init() {}
+        public let historyItemType: String?
 
         public init(alarmName: String? = nil, timestamp: Date? = nil, historyData: String? = nil, historySummary: String? = nil, historyItemType: String? = nil) {
             self.alarmName = alarmName
@@ -66,9 +64,7 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The names of the alarms.
-        public var alarmNames: [String] = []
-
-        public init() {}
+        public let alarmNames: [String]
 
         public init(alarmNames: [String]) {
             self.alarmNames = alarmNames
@@ -84,19 +80,17 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the metric.
-        public var metricName: String = ""
+        public let metricName: String
         /// The unit of the metric.
-        public var unit: String? = nil
+        public let unit: String?
         /// The dimensions associated with the metric.
-        public var dimensions: [Dimension]? = nil
+        public let dimensions: [Dimension]?
         /// The time the metric data was received, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        public var timestamp: Date? = nil
+        public let timestamp: Date?
         /// The value for the metric. Although the parameter accepts numbers of type Double, Amazon CloudWatch rejects values that are either too small or too large. Values must be in the range of 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2). In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
-        public var value: Double? = nil
+        public let value: Double?
         /// The statistical values for the metric.
-        public var statisticValues: StatisticSet? = nil
-
-        public init() {}
+        public let statisticValues: StatisticSet?
 
         public init(metricName: String, unit: String? = nil, dimensions: [Dimension]? = nil, timestamp: Date? = nil, value: Double? = nil, statisticValues: StatisticSet? = nil) {
             self.metricName = metricName
@@ -113,10 +107,12 @@ extension Monitoring {
             self.unit = dictionary["Unit"] as? String
             if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
                 self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
+            } else { 
+                self.dimensions = nil
             }
             self.timestamp = dictionary["Timestamp"] as? Date
             self.value = dictionary["Value"] as? Double
-            if let statisticValues = dictionary["StatisticValues"] as? [String: Any] { self.statisticValues = try Monitoring.StatisticSet(dictionary: statisticValues) }
+            if let statisticValues = dictionary["StatisticValues"] as? [String: Any] { self.statisticValues = try Monitoring.StatisticSet(dictionary: statisticValues) } else { self.statisticValues = nil }
         }
     }
 
@@ -124,11 +120,9 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The information for the specified alarms.
-        public var metricAlarms: [MetricAlarm]? = nil
+        public let metricAlarms: [MetricAlarm]?
         /// The token that marks the start of the next batch of returned results.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(metricAlarms: [MetricAlarm]? = nil, nextToken: String? = nil) {
             self.metricAlarms = metricAlarms
@@ -138,6 +132,8 @@ extension Monitoring {
         public init(dictionary: [String: Any]) throws {
             if let metricAlarms = dictionary["MetricAlarms"] as? [[String: Any]] {
                 self.metricAlarms = try metricAlarms.map({ try MetricAlarm(dictionary: $0) })
+            } else { 
+                self.metricAlarms = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -147,15 +143,13 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of samples used for the statistic set.
-        public var sampleCount: Double = 0
+        public let sampleCount: Double
         /// The minimum value of the sample set.
-        public var minimum: Double = 0
+        public let minimum: Double
         /// The sum of values for the sample set.
-        public var sum: Double = 0
+        public let sum: Double
         /// The maximum value of the sample set.
-        public var maximum: Double = 0
-
-        public init() {}
+        public let maximum: Double
 
         public init(sampleCount: Double, minimum: Double, sum: Double, maximum: Double) {
             self.sampleCount = sampleCount
@@ -180,9 +174,7 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The names of the alarms.
-        public var alarmNames: [String] = []
-
-        public init() {}
+        public let alarmNames: [String]
 
         public init(alarmNames: [String]) {
             self.alarmNames = alarmNames
@@ -198,23 +190,21 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of metric values that contributed to the aggregate value of this data point.
-        public var sampleCount: Double? = nil
+        public let sampleCount: Double?
         /// The time stamp used for the data point.
-        public var timestamp: Date? = nil
+        public let timestamp: Date?
         /// The sum of the metric values for the data point.
-        public var sum: Double? = nil
+        public let sum: Double?
         /// The standard unit for the data point.
-        public var unit: String? = nil
+        public let unit: String?
         /// The percentile statistic for the data point.
-        public var extendedStatistics: [String: Double]? = nil
+        public let extendedStatistics: [String: Double]?
         /// The minimum metric value for the data point.
-        public var minimum: Double? = nil
+        public let minimum: Double?
         /// The maximum metric value for the data point.
-        public var maximum: Double? = nil
+        public let maximum: Double?
         /// The average of the metric values that correspond to the data point.
-        public var average: Double? = nil
-
-        public init() {}
+        public let average: Double?
 
         public init(sampleCount: Double? = nil, timestamp: Date? = nil, sum: Double? = nil, unit: String? = nil, extendedStatistics: [String: Double]? = nil, minimum: Double? = nil, maximum: Double? = nil, average: Double? = nil) {
             self.sampleCount = sampleCount
@@ -234,6 +224,8 @@ extension Monitoring {
             self.unit = dictionary["Unit"] as? String
             if let extendedStatistics = dictionary["ExtendedStatistics"] as? [String: Double] {
                 self.extendedStatistics = extendedStatistics
+            } else { 
+                self.extendedStatistics = nil
             }
             self.minimum = dictionary["Minimum"] as? Double
             self.maximum = dictionary["Maximum"] as? Double
@@ -245,39 +237,37 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name for the metric associated with the alarm.
-        public var metricName: String = ""
+        public let metricName: String
         /// The value against which the specified statistic is compared.
-        public var threshold: Double = 0
+        public let threshold: Double
         /// The period, in seconds, over which the specified statistic is applied.
-        public var period: Int32 = 0
+        public let period: Int32
         /// The percentile statistic for the metric associated with the alarm. Specify a value between p0.0 and p100.
-        public var extendedStatistic: String? = nil
+        public let extendedStatistic: String?
         /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover Valid Values (for use with IAM roles): arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Reboot/1.0
-        public var alarmActions: [String]? = nil
+        public let alarmActions: [String]?
         /// The statistic for the metric associated with the alarm, other than percentile. For percentile statistics, use ExtendedStatistic.
-        public var statistic: String? = nil
+        public let statistic: String?
         /// The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately. If you specify a unit, you must use a unit that is appropriate for the metric. Otherwise, the Amazon CloudWatch alarm can get stuck in the INSUFFICIENT DATA state. 
-        public var unit: String? = nil
+        public let unit: String?
         /// Indicates whether actions should be executed during any changes to the alarm state.
-        public var actionsEnabled: Bool? = nil
+        public let actionsEnabled: Bool?
         /// The namespace for the metric associated with the alarm.
-        public var namespace: String = ""
+        public let namespace: String
         /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover Valid Values (for use with IAM roles): arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Reboot/1.0
-        public var insufficientDataActions: [String]? = nil
+        public let insufficientDataActions: [String]?
         /// The name for the alarm. This name must be unique within the AWS account.
-        public var alarmName: String = ""
+        public let alarmName: String
         /// The number of periods over which data is compared to the specified threshold.
-        public var evaluationPeriods: Int32 = 0
+        public let evaluationPeriods: Int32
         ///  The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand.
-        public var comparisonOperator: String = ""
+        public let comparisonOperator: String
         /// The dimensions for the metric associated with the alarm.
-        public var dimensions: [Dimension]? = nil
+        public let dimensions: [Dimension]?
         /// The description for the alarm.
-        public var alarmDescription: String? = nil
+        public let alarmDescription: String?
         /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover Valid Values (for use with IAM roles): arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:us-east-1:{customer-account}:action/actions/AWS_EC2.InstanceId.Reboot/1.0
-        public var oKActions: [String]? = nil
-
-        public init() {}
+        public let oKActions: [String]?
 
         public init(metricName: String, threshold: Double, period: Int32, extendedStatistic: String? = nil, alarmActions: [String]? = nil, statistic: String? = nil, unit: String? = nil, actionsEnabled: Bool? = nil, namespace: String, insufficientDataActions: [String]? = nil, alarmName: String, evaluationPeriods: Int32, comparisonOperator: String, dimensions: [Dimension]? = nil, alarmDescription: String? = nil, oKActions: [String]? = nil) {
             self.metricName = metricName
@@ -306,17 +296,13 @@ extension Monitoring {
             guard let period = dictionary["Period"] as? Int32 else { throw InitializableError.missingRequiredParam("Period") }
             self.period = period
             self.extendedStatistic = dictionary["ExtendedStatistic"] as? String
-            if let alarmActions = dictionary["AlarmActions"] as? [String] {
-                self.alarmActions = alarmActions
-            }
+            self.alarmActions = dictionary["AlarmActions"] as? [String]
             self.statistic = dictionary["Statistic"] as? String
             self.unit = dictionary["Unit"] as? String
             self.actionsEnabled = dictionary["ActionsEnabled"] as? Bool
             guard let namespace = dictionary["Namespace"] as? String else { throw InitializableError.missingRequiredParam("Namespace") }
             self.namespace = namespace
-            if let insufficientDataActions = dictionary["InsufficientDataActions"] as? [String] {
-                self.insufficientDataActions = insufficientDataActions
-            }
+            self.insufficientDataActions = dictionary["InsufficientDataActions"] as? [String]
             guard let alarmName = dictionary["AlarmName"] as? String else { throw InitializableError.missingRequiredParam("AlarmName") }
             self.alarmName = alarmName
             guard let evaluationPeriods = dictionary["EvaluationPeriods"] as? Int32 else { throw InitializableError.missingRequiredParam("EvaluationPeriods") }
@@ -325,11 +311,11 @@ extension Monitoring {
             self.comparisonOperator = comparisonOperator
             if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
                 self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
+            } else { 
+                self.dimensions = nil
             }
             self.alarmDescription = dictionary["AlarmDescription"] as? String
-            if let oKActions = dictionary["OKActions"] as? [String] {
-                self.oKActions = oKActions
-            }
+            self.oKActions = dictionary["OKActions"] as? [String]
         }
     }
 
@@ -337,19 +323,17 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the alarm.
-        public var alarmName: String? = nil
+        public let alarmName: String?
         /// The maximum number of alarm history records to retrieve.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// The starting date to retrieve alarm history.
-        public var startDate: Date? = nil
+        public let startDate: Date?
         /// The type of alarm histories to retrieve.
-        public var historyItemType: String? = nil
+        public let historyItemType: String?
         /// The token returned by a previous call to indicate that there is more data available.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The ending date to retrieve alarm history.
-        public var endDate: Date? = nil
-
-        public init() {}
+        public let endDate: Date?
 
         public init(alarmName: String? = nil, maxRecords: Int32? = nil, startDate: Date? = nil, historyItemType: String? = nil, nextToken: String? = nil, endDate: Date? = nil) {
             self.alarmName = alarmName
@@ -374,21 +358,19 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the metric.
-        public var metricName: String = ""
+        public let metricName: String
         /// The period, in seconds, over which the statistic is applied.
-        public var period: Int32? = nil
+        public let period: Int32?
         /// The percentile statistic for the metric. Specify a value between p0.0 and p100.
-        public var extendedStatistic: String? = nil
+        public let extendedStatistic: String?
         /// The statistic for the metric, other than percentiles. For percentile statistics, use ExtendedStatistics.
-        public var statistic: String? = nil
+        public let statistic: String?
         /// The unit for the metric.
-        public var unit: String? = nil
+        public let unit: String?
         /// The dimensions associated with the metric. If the metric has any associated dimensions, you must specify them in order for the call to succeed.
-        public var dimensions: [Dimension]? = nil
+        public let dimensions: [Dimension]?
         /// The namespace of the metric.
-        public var namespace: String = ""
-
-        public init() {}
+        public let namespace: String
 
         public init(metricName: String, period: Int32? = nil, extendedStatistic: String? = nil, statistic: String? = nil, unit: String? = nil, dimensions: [Dimension]? = nil, namespace: String) {
             self.metricName = metricName
@@ -409,6 +391,8 @@ extension Monitoring {
             self.unit = dictionary["Unit"] as? String
             if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
                 self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
+            } else { 
+                self.dimensions = nil
             }
             guard let namespace = dictionary["Namespace"] as? String else { throw InitializableError.missingRequiredParam("Namespace") }
             self.namespace = namespace
@@ -419,19 +403,17 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of alarm descriptions to retrieve.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// The alarm name prefix. You cannot specify AlarmNames if this parameter is specified.
-        public var alarmNamePrefix: String? = nil
+        public let alarmNamePrefix: String?
         /// The action name prefix.
-        public var actionPrefix: String? = nil
+        public let actionPrefix: String?
         /// The names of the alarms.
-        public var alarmNames: [String]? = nil
+        public let alarmNames: [String]?
         /// The token returned by a previous call to indicate that there is more data available.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The state value to be used in matching alarms.
-        public var stateValue: String? = nil
-
-        public init() {}
+        public let stateValue: String?
 
         public init(maxRecords: Int32? = nil, alarmNamePrefix: String? = nil, actionPrefix: String? = nil, alarmNames: [String]? = nil, nextToken: String? = nil, stateValue: String? = nil) {
             self.maxRecords = maxRecords
@@ -446,9 +428,7 @@ extension Monitoring {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             self.alarmNamePrefix = dictionary["AlarmNamePrefix"] as? String
             self.actionPrefix = dictionary["ActionPrefix"] as? String
-            if let alarmNames = dictionary["AlarmNames"] as? [String] {
-                self.alarmNames = alarmNames
-            }
+            self.alarmNames = dictionary["AlarmNames"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
             self.stateValue = dictionary["StateValue"] as? String
         }
@@ -458,11 +438,9 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token that marks the start of the next batch of returned results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The metrics.
-        public var metrics: [Metric]? = nil
-
-        public init() {}
+        public let metrics: [Metric]?
 
         public init(nextToken: String? = nil, metrics: [Metric]? = nil) {
             self.nextToken = nextToken
@@ -473,6 +451,8 @@ extension Monitoring {
             self.nextToken = dictionary["NextToken"] as? String
             if let metrics = dictionary["Metrics"] as? [[String: Any]] {
                 self.metrics = try metrics.map({ try Metric(dictionary: $0) })
+            } else { 
+                self.metrics = nil
             }
         }
     }
@@ -481,51 +461,49 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the metric associated with the alarm.
-        public var metricName: String? = nil
+        public let metricName: String?
         /// The value to compare with the specified statistic.
-        public var threshold: Double? = nil
+        public let threshold: Double?
         /// The period, in seconds, over which the statistic is applied.
-        public var period: Int32? = nil
+        public let period: Int32?
         /// The percentile statistic for the metric associated with the alarm. Specify a value between p0.0 and p100.
-        public var extendedStatistic: String? = nil
+        public let extendedStatistic: String?
         /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-        public var alarmActions: [String]? = nil
+        public let alarmActions: [String]?
         /// The statistic for the metric associated with the alarm, other than percentile. For percentile statistics, use ExtendedStatistic.
-        public var statistic: String? = nil
+        public let statistic: String?
         /// Indicates whether actions should be executed during any changes to the alarm state.
-        public var actionsEnabled: Bool? = nil
+        public let actionsEnabled: Bool?
         /// The time stamp of the last update to the alarm state.
-        public var stateUpdatedTimestamp: Date? = nil
+        public let stateUpdatedTimestamp: Date?
         /// The unit of the metric associated with the alarm.
-        public var unit: String? = nil
+        public let unit: String?
         /// An explanation for the alarm state, in JSON format.
-        public var stateReasonData: String? = nil
+        public let stateReasonData: String?
         /// An explanation for the alarm state, in text format.
-        public var stateReason: String? = nil
+        public let stateReason: String?
         /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-        public var insufficientDataActions: [String]? = nil
+        public let insufficientDataActions: [String]?
         /// The namespace of the metric associated with the alarm.
-        public var namespace: String? = nil
+        public let namespace: String?
         /// The state value for the alarm.
-        public var stateValue: String? = nil
+        public let stateValue: String?
         /// The name of the alarm.
-        public var alarmName: String? = nil
+        public let alarmName: String?
         /// The time stamp of the last update to the alarm configuration.
-        public var alarmConfigurationUpdatedTimestamp: Date? = nil
+        public let alarmConfigurationUpdatedTimestamp: Date?
         /// The Amazon Resource Name (ARN) of the alarm.
-        public var alarmArn: String? = nil
+        public let alarmArn: String?
         /// The number of periods over which data is compared to the specified threshold.
-        public var evaluationPeriods: Int32? = nil
+        public let evaluationPeriods: Int32?
         /// The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand.
-        public var comparisonOperator: String? = nil
+        public let comparisonOperator: String?
         /// The dimensions for the metric associated with the alarm.
-        public var dimensions: [Dimension]? = nil
+        public let dimensions: [Dimension]?
         /// The description of the alarm.
-        public var alarmDescription: String? = nil
+        public let alarmDescription: String?
         /// The actions to execute when this alarm transitions to the OK state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-        public var oKActions: [String]? = nil
-
-        public init() {}
+        public let oKActions: [String]?
 
         public init(metricName: String? = nil, threshold: Double? = nil, period: Int32? = nil, extendedStatistic: String? = nil, alarmActions: [String]? = nil, statistic: String? = nil, actionsEnabled: Bool? = nil, stateUpdatedTimestamp: Date? = nil, unit: String? = nil, stateReasonData: String? = nil, stateReason: String? = nil, insufficientDataActions: [String]? = nil, namespace: String? = nil, stateValue: String? = nil, alarmName: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmArn: String? = nil, evaluationPeriods: Int32? = nil, comparisonOperator: String? = nil, dimensions: [Dimension]? = nil, alarmDescription: String? = nil, oKActions: [String]? = nil) {
             self.metricName = metricName
@@ -557,18 +535,14 @@ extension Monitoring {
             self.threshold = dictionary["Threshold"] as? Double
             self.period = dictionary["Period"] as? Int32
             self.extendedStatistic = dictionary["ExtendedStatistic"] as? String
-            if let alarmActions = dictionary["AlarmActions"] as? [String] {
-                self.alarmActions = alarmActions
-            }
+            self.alarmActions = dictionary["AlarmActions"] as? [String]
             self.statistic = dictionary["Statistic"] as? String
             self.actionsEnabled = dictionary["ActionsEnabled"] as? Bool
             self.stateUpdatedTimestamp = dictionary["StateUpdatedTimestamp"] as? Date
             self.unit = dictionary["Unit"] as? String
             self.stateReasonData = dictionary["StateReasonData"] as? String
             self.stateReason = dictionary["StateReason"] as? String
-            if let insufficientDataActions = dictionary["InsufficientDataActions"] as? [String] {
-                self.insufficientDataActions = insufficientDataActions
-            }
+            self.insufficientDataActions = dictionary["InsufficientDataActions"] as? [String]
             self.namespace = dictionary["Namespace"] as? String
             self.stateValue = dictionary["StateValue"] as? String
             self.alarmName = dictionary["AlarmName"] as? String
@@ -578,11 +552,11 @@ extension Monitoring {
             self.comparisonOperator = dictionary["ComparisonOperator"] as? String
             if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
                 self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
+            } else { 
+                self.dimensions = nil
             }
             self.alarmDescription = dictionary["AlarmDescription"] as? String
-            if let oKActions = dictionary["OKActions"] as? [String] {
-                self.oKActions = oKActions
-            }
+            self.oKActions = dictionary["OKActions"] as? [String]
         }
     }
 
@@ -590,13 +564,11 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the metric.
-        public var metricName: String? = nil
+        public let metricName: String?
         /// The dimensions for the metric.
-        public var dimensions: [Dimension]? = nil
+        public let dimensions: [Dimension]?
         /// The namespace of the metric.
-        public var namespace: String? = nil
-
-        public init() {}
+        public let namespace: String?
 
         public init(metricName: String? = nil, dimensions: [Dimension]? = nil, namespace: String? = nil) {
             self.metricName = metricName
@@ -608,6 +580,8 @@ extension Monitoring {
             self.metricName = dictionary["MetricName"] as? String
             if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
                 self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
+            } else { 
+                self.dimensions = nil
             }
             self.namespace = dictionary["Namespace"] as? String
         }
@@ -617,15 +591,13 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The namespace to filter against.
-        public var namespace: String? = nil
+        public let namespace: String?
         /// The name of the metric to filter against.
-        public var metricName: String? = nil
+        public let metricName: String?
         /// The dimensions to filter against.
-        public var dimensions: [DimensionFilter]? = nil
+        public let dimensions: [DimensionFilter]?
         /// The token returned by a previous call to indicate that there is more data available.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(namespace: String? = nil, metricName: String? = nil, dimensions: [DimensionFilter]? = nil, nextToken: String? = nil) {
             self.namespace = namespace
@@ -639,6 +611,8 @@ extension Monitoring {
             self.metricName = dictionary["MetricName"] as? String
             if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
                 self.dimensions = try dimensions.map({ try DimensionFilter(dictionary: $0) })
+            } else { 
+                self.dimensions = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -648,9 +622,7 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The alarms to be deleted.
-        public var alarmNames: [String] = []
-
-        public init() {}
+        public let alarmNames: [String]
 
         public init(alarmNames: [String]) {
             self.alarmNames = alarmNames
@@ -666,11 +638,9 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The namespace for the metric data. You cannot specify a namespace that begins with "AWS/". Namespaces that begin with "AWS/" are reserved for use by Amazon Web Services products.
-        public var namespace: String = ""
+        public let namespace: String
         /// The data for the metric.
-        public var metricData: [MetricDatum] = []
-
-        public init() {}
+        public let metricData: [MetricDatum]
 
         public init(namespace: String, metricData: [MetricDatum]) {
             self.namespace = namespace
@@ -689,25 +659,23 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time stamp that determines the first data point to return. Note that start times are evaluated relative to the time that CloudWatch receives the request. The value specified is inclusive; results include data points with the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-03T23:00:00Z). CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.   Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.   Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.  
-        public var startTime: Date = Date()
+        public let startTime: Date
         /// The name of the metric, with or without spaces.
-        public var metricName: String = ""
+        public let metricName: String
         /// The granularity, in seconds, of the returned data points. A period can be as short as one minute (60 seconds) and must be a multiple of 60. The default value is 60. If the StartTime parameter specifies a time stamp that is greater than 15 days ago, you must specify the period as follows or no data points in that time range is returned:   Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).   Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).  
-        public var period: Int32 = 0
+        public let period: Int32
         /// The time stamp that determines the last data point to return. The value specified is exclusive; results will include data points up to the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-10T23:00:00Z).
-        public var endTime: Date = Date()
+        public let endTime: Date
         /// The percentile statistics. Specify values between p0.0 and p100.
-        public var extendedStatistics: [String]? = nil
+        public let extendedStatistics: [String]?
         /// The dimensions. CloudWatch treats each unique combination of dimensions as a separate metric. You can't retrieve statistics using combinations of dimensions that were not specially published. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch User Guide.
-        public var dimensions: [Dimension]? = nil
+        public let dimensions: [Dimension]?
         /// The unit for a given metric. Metrics may be reported in multiple units. Not supplying a unit results in all units being returned. If the metric only ever reports one unit, specifying a unit has no effect.
-        public var unit: String? = nil
+        public let unit: String?
         /// The metric statistics, other than percentile. For percentile statistics, use ExtendedStatistic.
-        public var statistics: [String]? = nil
+        public let statistics: [String]?
         /// The namespace of the metric, with or without spaces.
-        public var namespace: String = ""
-
-        public init() {}
+        public let namespace: String
 
         public init(startTime: Date, metricName: String, period: Int32, endTime: Date, extendedStatistics: [String]? = nil, dimensions: [Dimension]? = nil, unit: String? = nil, statistics: [String]? = nil, namespace: String) {
             self.startTime = startTime
@@ -730,16 +698,14 @@ extension Monitoring {
             self.period = period
             guard let endTime = dictionary["EndTime"] as? Date else { throw InitializableError.missingRequiredParam("EndTime") }
             self.endTime = endTime
-            if let extendedStatistics = dictionary["ExtendedStatistics"] as? [String] {
-                self.extendedStatistics = extendedStatistics
-            }
+            self.extendedStatistics = dictionary["ExtendedStatistics"] as? [String]
             if let dimensions = dictionary["Dimensions"] as? [[String: Any]] {
                 self.dimensions = try dimensions.map({ try Dimension(dictionary: $0) })
+            } else { 
+                self.dimensions = nil
             }
             self.unit = dictionary["Unit"] as? String
-            if let statistics = dictionary["Statistics"] as? [String] {
-                self.statistics = statistics
-            }
+            self.statistics = dictionary["Statistics"] as? [String]
             guard let namespace = dictionary["Namespace"] as? String else { throw InitializableError.missingRequiredParam("Namespace") }
             self.namespace = namespace
         }
@@ -749,11 +715,9 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value representing the dimension measurement.
-        public var value: String = ""
+        public let value: String
         /// The name of the dimension.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(value: String, name: String) {
             self.value = value
@@ -772,11 +736,9 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// A label for the specified metric.
-        public var label: String? = nil
+        public let label: String?
         /// The data points for the specified metric.
-        public var datapoints: [Datapoint]? = nil
-
-        public init() {}
+        public let datapoints: [Datapoint]?
 
         public init(label: String? = nil, datapoints: [Datapoint]? = nil) {
             self.label = label
@@ -787,6 +749,8 @@ extension Monitoring {
             self.label = dictionary["Label"] as? String
             if let datapoints = dictionary["Datapoints"] as? [[String: Any]] {
                 self.datapoints = try datapoints.map({ try Datapoint(dictionary: $0) })
+            } else { 
+                self.datapoints = nil
             }
         }
     }
@@ -795,11 +759,9 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token that marks the start of the next batch of returned results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The alarm histories, in JSON format.
-        public var alarmHistoryItems: [AlarmHistoryItem]? = nil
-
-        public init() {}
+        public let alarmHistoryItems: [AlarmHistoryItem]?
 
         public init(nextToken: String? = nil, alarmHistoryItems: [AlarmHistoryItem]? = nil) {
             self.nextToken = nextToken
@@ -810,6 +772,8 @@ extension Monitoring {
             self.nextToken = dictionary["NextToken"] as? String
             if let alarmHistoryItems = dictionary["AlarmHistoryItems"] as? [[String: Any]] {
                 self.alarmHistoryItems = try alarmHistoryItems.map({ try AlarmHistoryItem(dictionary: $0) })
+            } else { 
+                self.alarmHistoryItems = nil
             }
         }
     }
@@ -818,15 +782,13 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name for the alarm. This name must be unique within the AWS account. The maximum length is 255 characters.
-        public var alarmName: String = ""
+        public let alarmName: String
         /// The reason that this alarm is set to this specific state, in JSON format.
-        public var stateReasonData: String? = nil
+        public let stateReasonData: String?
         /// The reason that this alarm is set to this specific state, in text format.
-        public var stateReason: String = ""
+        public let stateReason: String
         /// The value of the state.
-        public var stateValue: String = ""
-
-        public init() {}
+        public let stateValue: String
 
         public init(alarmName: String, stateReasonData: String? = nil, stateReason: String, stateValue: String) {
             self.alarmName = alarmName
@@ -850,9 +812,7 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The information for each alarm with the specified metric.
-        public var metricAlarms: [MetricAlarm]? = nil
-
-        public init() {}
+        public let metricAlarms: [MetricAlarm]?
 
         public init(metricAlarms: [MetricAlarm]? = nil) {
             self.metricAlarms = metricAlarms
@@ -861,6 +821,8 @@ extension Monitoring {
         public init(dictionary: [String: Any]) throws {
             if let metricAlarms = dictionary["MetricAlarms"] as? [[String: Any]] {
                 self.metricAlarms = try metricAlarms.map({ try MetricAlarm(dictionary: $0) })
+            } else { 
+                self.metricAlarms = nil
             }
         }
     }
@@ -869,11 +831,9 @@ extension Monitoring {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the dimension to be matched.
-        public var value: String? = nil
+        public let value: String?
         /// The dimension name to be matched.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(value: String? = nil, name: String) {
             self.value = value

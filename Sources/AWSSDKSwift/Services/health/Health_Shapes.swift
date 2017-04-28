@@ -33,9 +33,7 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of entities that are affected by each of the specified events.
-        public var entityAggregates: [EntityAggregate]? = nil
-
-        public init() {}
+        public let entityAggregates: [EntityAggregate]?
 
         public init(entityAggregates: [EntityAggregate]? = nil) {
             self.entityAggregates = entityAggregates
@@ -44,6 +42,8 @@ extension Health {
         public init(dictionary: [String: Any]) throws {
             if let entityAggregates = dictionary["entityAggregates"] as? [[String: Any]] {
                 self.entityAggregates = try entityAggregates.map({ try EntityAggregate(dictionary: $0) })
+            } else { 
+                self.entityAggregates = nil
             }
         }
     }
@@ -52,21 +52,19 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// The most recent time that the entity was updated.
-        public var lastUpdatedTime: Date? = nil
+        public let lastUpdatedTime: Date?
         /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, and UNKNOWN.
-        public var statusCode: String? = nil
+        public let statusCode: String?
         /// The unique identifier for the entity. Format: arn:aws:health:entity-region:aws-account:entity/entity-id . Example: arn:aws:health:us-east-1:111222333444:entity/AVh5GGT7ul1arKr1sE1K 
-        public var entityArn: String? = nil
+        public let entityArn: String?
         /// A map of entity tags attached to the affected entity.
-        public var tags: [String: String]? = nil
+        public let tags: [String: String]?
         /// The 12-digit AWS account number that contains the affected entity.
-        public var awsAccountId: String? = nil
+        public let awsAccountId: String?
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
-        public var eventArn: String? = nil
+        public let eventArn: String?
         /// The ID of the affected entity.
-        public var entityValue: String? = nil
-
-        public init() {}
+        public let entityValue: String?
 
         public init(lastUpdatedTime: Date? = nil, statusCode: String? = nil, entityArn: String? = nil, tags: [String: String]? = nil, awsAccountId: String? = nil, eventArn: String? = nil, entityValue: String? = nil) {
             self.lastUpdatedTime = lastUpdatedTime
@@ -84,6 +82,8 @@ extension Health {
             self.entityArn = dictionary["entityArn"] as? String
             if let tags = dictionary["tags"] as? [String: String] {
                 self.tags = tags
+            } else { 
+                self.tags = nil
             }
             self.awsAccountId = dictionary["awsAccountId"] as? String
             self.eventArn = dictionary["eventArn"] as? String
@@ -95,13 +95,11 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
-        public var eventArn: String? = nil
+        public let eventArn: String?
         /// A message that describes the error.
-        public var errorMessage: String? = nil
+        public let errorMessage: String?
         /// The name of the error.
-        public var errorName: String? = nil
-
-        public init() {}
+        public let errorName: String?
 
         public init(eventArn: String? = nil, errorMessage: String? = nil, errorName: String? = nil) {
             self.eventArn = eventArn
@@ -120,13 +118,11 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
-        public var eventTypeCategories: [String]? = nil
+        public let eventTypeCategories: [String]?
         /// The AWS services associated with the event. For example, EC2, RDS.
-        public var services: [String]? = nil
+        public let services: [String]?
         /// A list of event type codes.
-        public var eventTypeCodes: [String]? = nil
-
-        public init() {}
+        public let eventTypeCodes: [String]?
 
         public init(eventTypeCategories: [String]? = nil, services: [String]? = nil, eventTypeCodes: [String]? = nil) {
             self.eventTypeCategories = eventTypeCategories
@@ -135,15 +131,9 @@ extension Health {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let eventTypeCategories = dictionary["eventTypeCategories"] as? [String] {
-                self.eventTypeCategories = eventTypeCategories
-            }
-            if let services = dictionary["services"] as? [String] {
-                self.services = services
-            }
-            if let eventTypeCodes = dictionary["eventTypeCodes"] as? [String] {
-                self.eventTypeCodes = eventTypeCodes
-            }
+            self.eventTypeCategories = dictionary["eventTypeCategories"] as? [String]
+            self.services = dictionary["services"] as? [String]
+            self.eventTypeCodes = dictionary["eventTypeCodes"] as? [String]
         }
     }
 
@@ -151,11 +141,9 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// The entities that match the filter criteria.
-        public var entities: [AffectedEntity]? = nil
+        public let entities: [AffectedEntity]?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(entities: [AffectedEntity]? = nil, nextToken: String? = nil) {
             self.entities = entities
@@ -165,6 +153,8 @@ extension Health {
         public init(dictionary: [String: Any]) throws {
             if let entities = dictionary["entities"] as? [[String: Any]] {
                 self.entities = try entities.map({ try AffectedEntity(dictionary: $0) })
+            } else { 
+                self.entities = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -174,27 +164,25 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS service that is affected by the event. For example, EC2, RDS.
-        public var service: String? = nil
+        public let service: String?
         /// The AWS Availability Zone of the event. For example, us-east-1a.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The most recent date and time that the event was updated.
-        public var lastUpdatedTime: Date? = nil
+        public let lastUpdatedTime: Date?
         /// The most recent status of the event. Possible values are open, closed, and upcoming.
-        public var statusCode: String? = nil
+        public let statusCode: String?
         /// The 
-        public var eventTypeCategory: String? = nil
+        public let eventTypeCategory: String?
         /// The AWS region name of the event.
-        public var region: String? = nil
+        public let region: String?
         /// The date and time that the event ended.
-        public var endTime: Date? = nil
+        public let endTime: Date?
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
-        public var eventTypeCode: String? = nil
+        public let eventTypeCode: String?
         /// The date and time that the event began.
-        public var startTime: Date? = nil
+        public let startTime: Date?
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(service: String? = nil, availabilityZone: String? = nil, lastUpdatedTime: Date? = nil, statusCode: String? = nil, eventTypeCategory: String? = nil, region: String? = nil, endTime: Date? = nil, eventTypeCode: String? = nil, startTime: Date? = nil, arn: String? = nil) {
             self.service = service
@@ -227,11 +215,9 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// Error messages for any events that could not be retrieved.
-        public var failedSet: [EventDetailsErrorItem]? = nil
+        public let failedSet: [EventDetailsErrorItem]?
         /// Information about the events that could be retrieved.
-        public var successfulSet: [EventDetails]? = nil
-
-        public init() {}
+        public let successfulSet: [EventDetails]?
 
         public init(failedSet: [EventDetailsErrorItem]? = nil, successfulSet: [EventDetails]? = nil) {
             self.failedSet = failedSet
@@ -241,9 +227,13 @@ extension Health {
         public init(dictionary: [String: Any]) throws {
             if let failedSet = dictionary["failedSet"] as? [[String: Any]] {
                 self.failedSet = try failedSet.map({ try EventDetailsErrorItem(dictionary: $0) })
+            } else { 
+                self.failedSet = nil
             }
             if let successfulSet = dictionary["successfulSet"] as? [[String: Any]] {
                 self.successfulSet = try successfulSet.map({ try EventDetails(dictionary: $0) })
+            } else { 
+                self.successfulSet = nil
             }
         }
     }
@@ -252,11 +242,9 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
-        public var eventArns: [String] = []
+        public let eventArns: [String]
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-        public var locale: String? = nil
-
-        public init() {}
+        public let locale: String?
 
         public init(eventArns: [String], locale: String? = nil) {
             self.eventArns = eventArns
@@ -274,9 +262,7 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// The most recent description of the event.
-        public var latestDescription: String? = nil
-
-        public init() {}
+        public let latestDescription: String?
 
         public init(latestDescription: String? = nil) {
             self.latestDescription = latestDescription
@@ -291,11 +277,9 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of events in each category that meet the optional filter criteria.
-        public var eventAggregates: [EventAggregate]? = nil
+        public let eventAggregates: [EventAggregate]?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(eventAggregates: [EventAggregate]? = nil, nextToken: String? = nil) {
             self.eventAggregates = eventAggregates
@@ -305,6 +289,8 @@ extension Health {
         public init(dictionary: [String: Any]) throws {
             if let eventAggregates = dictionary["eventAggregates"] as? [[String: Any]] {
                 self.eventAggregates = try eventAggregates.map({ try EventAggregate(dictionary: $0) })
+            } else { 
+                self.eventAggregates = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -314,15 +300,13 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Values to narrow the results returned.
-        public var filter: EventFilter? = nil
+        public let filter: EventFilter?
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// The only currently supported value is eventTypeCategory.
-        public var aggregateField: String = ""
-
-        public init() {}
+        public let aggregateField: String
 
         public init(nextToken: String? = nil, filter: EventFilter? = nil, maxResults: Int32? = nil, aggregateField: String) {
             self.nextToken = nextToken
@@ -333,7 +317,7 @@ extension Health {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["nextToken"] as? String
-            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Health.EventFilter(dictionary: filter) }
+            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Health.EventFilter(dictionary: filter) } else { self.filter = nil }
             self.maxResults = dictionary["maxResults"] as? Int32
             guard let aggregateField = dictionary["aggregateField"] as? String else { throw InitializableError.missingRequiredParam("aggregateField") }
             self.aggregateField = aggregateField
@@ -344,33 +328,31 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
-        public var eventTypeCategories: [String]? = nil
+        public let eventTypeCategories: [String]?
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
-        public var eventArns: [String]? = nil
+        public let eventArns: [String]?
         /// A list of event status codes.
-        public var eventStatusCodes: [String]? = nil
+        public let eventStatusCodes: [String]?
         /// A list of dates and times that the event was last updated.
-        public var lastUpdatedTimes: [DateTimeRange]? = nil
+        public let lastUpdatedTimes: [DateTimeRange]?
         /// A map of entity tags attached to the affected entity.
-        public var tags: [[String: String]]? = nil
+        public let tags: [[String: String]]?
         /// A list of unique identifiers for event types. For example, "AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED" 
-        public var eventTypeCodes: [String]? = nil
+        public let eventTypeCodes: [String]?
         /// A list of entity ARNs (unique identifiers).
-        public var entityArns: [String]? = nil
+        public let entityArns: [String]?
         /// A list of entity identifiers, such as EC2 instance IDs (i-34ab692e) or EBS volumes (vol-426ab23e).
-        public var entityValues: [String]? = nil
+        public let entityValues: [String]?
         /// A list of AWS availability zones.
-        public var availabilityZones: [String]? = nil
+        public let availabilityZones: [String]?
         /// The AWS services associated with the event. For example, EC2, RDS.
-        public var services: [String]? = nil
+        public let services: [String]?
         /// A list of dates and times that the event ended.
-        public var endTimes: [DateTimeRange]? = nil
+        public let endTimes: [DateTimeRange]?
         /// A list of AWS regions.
-        public var regions: [String]? = nil
+        public let regions: [String]?
         /// A list of dates and times that the event began.
-        public var startTimes: [DateTimeRange]? = nil
-
-        public init() {}
+        public let startTimes: [DateTimeRange]?
 
         public init(eventTypeCategories: [String]? = nil, eventArns: [String]? = nil, eventStatusCodes: [String]? = nil, lastUpdatedTimes: [DateTimeRange]? = nil, tags: [[String: String]]? = nil, eventTypeCodes: [String]? = nil, entityArns: [String]? = nil, entityValues: [String]? = nil, availabilityZones: [String]? = nil, services: [String]? = nil, endTimes: [DateTimeRange]? = nil, regions: [String]? = nil, startTimes: [DateTimeRange]? = nil) {
             self.eventTypeCategories = eventTypeCategories
@@ -389,44 +371,30 @@ extension Health {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let eventTypeCategories = dictionary["eventTypeCategories"] as? [String] {
-                self.eventTypeCategories = eventTypeCategories
-            }
-            if let eventArns = dictionary["eventArns"] as? [String] {
-                self.eventArns = eventArns
-            }
-            if let eventStatusCodes = dictionary["eventStatusCodes"] as? [String] {
-                self.eventStatusCodes = eventStatusCodes
-            }
+            self.eventTypeCategories = dictionary["eventTypeCategories"] as? [String]
+            self.eventArns = dictionary["eventArns"] as? [String]
+            self.eventStatusCodes = dictionary["eventStatusCodes"] as? [String]
             if let lastUpdatedTimes = dictionary["lastUpdatedTimes"] as? [[String: Any]] {
                 self.lastUpdatedTimes = try lastUpdatedTimes.map({ try DateTimeRange(dictionary: $0) })
+            } else { 
+                self.lastUpdatedTimes = nil
             }
-            if let tags = dictionary["tags"] as? [[String: String]] {
-                self.tags = tags
-            }
-            if let eventTypeCodes = dictionary["eventTypeCodes"] as? [String] {
-                self.eventTypeCodes = eventTypeCodes
-            }
-            if let entityArns = dictionary["entityArns"] as? [String] {
-                self.entityArns = entityArns
-            }
-            if let entityValues = dictionary["entityValues"] as? [String] {
-                self.entityValues = entityValues
-            }
-            if let availabilityZones = dictionary["availabilityZones"] as? [String] {
-                self.availabilityZones = availabilityZones
-            }
-            if let services = dictionary["services"] as? [String] {
-                self.services = services
-            }
+            self.tags = dictionary["tags"] as? [[String: String]]
+            self.eventTypeCodes = dictionary["eventTypeCodes"] as? [String]
+            self.entityArns = dictionary["entityArns"] as? [String]
+            self.entityValues = dictionary["entityValues"] as? [String]
+            self.availabilityZones = dictionary["availabilityZones"] as? [String]
+            self.services = dictionary["services"] as? [String]
             if let endTimes = dictionary["endTimes"] as? [[String: Any]] {
                 self.endTimes = try endTimes.map({ try DateTimeRange(dictionary: $0) })
+            } else { 
+                self.endTimes = nil
             }
-            if let regions = dictionary["regions"] as? [String] {
-                self.regions = regions
-            }
+            self.regions = dictionary["regions"] as? [String]
             if let startTimes = dictionary["startTimes"] as? [[String: Any]] {
                 self.startTimes = try startTimes.map({ try DateTimeRange(dictionary: $0) })
+            } else { 
+                self.startTimes = nil
             }
         }
     }
@@ -435,11 +403,9 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of events of the associated issue type.
-        public var count: Int32? = nil
+        public let count: Int32?
         /// The issue type for the associated count.
-        public var aggregateValue: String? = nil
-
-        public init() {}
+        public let aggregateValue: String?
 
         public init(count: Int32? = nil, aggregateValue: String? = nil) {
             self.count = count
@@ -456,11 +422,9 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
-        public var eventArn: String? = nil
+        public let eventArn: String?
         /// The number entities that match the criteria for the specified events.
-        public var count: Int32? = nil
-
-        public init() {}
+        public let count: Int32?
 
         public init(eventArn: String? = nil, count: Int32? = nil) {
             self.eventArn = eventArn
@@ -477,13 +441,11 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS service that is affected by the event. For example, EC2, RDS.
-        public var service: String? = nil
+        public let service: String?
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
-        public var category: String? = nil
+        public let category: String?
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
-        public var code: String? = nil
-
-        public init() {}
+        public let code: String?
 
         public init(service: String? = nil, category: String? = nil, code: String? = nil) {
             self.service = service
@@ -502,18 +464,14 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
-        public var eventArns: [String]? = nil
-
-        public init() {}
+        public let eventArns: [String]?
 
         public init(eventArns: [String]? = nil) {
             self.eventArns = eventArns
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let eventArns = dictionary["eventArns"] as? [String] {
-                self.eventArns = eventArns
-            }
+            self.eventArns = dictionary["eventArns"] as? [String]
         }
     }
 
@@ -521,11 +479,9 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of event types that match the filter criteria. Event types have a category (issue, accountNotification, or scheduledChange), a service (for example, EC2, RDS, DATAPIPELINE, BILLING), and a code (in the format AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT).
-        public var eventTypes: [EventType]? = nil
+        public let eventTypes: [EventType]?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(eventTypes: [EventType]? = nil, nextToken: String? = nil) {
             self.eventTypes = eventTypes
@@ -535,6 +491,8 @@ extension Health {
         public init(dictionary: [String: Any]) throws {
             if let eventTypes = dictionary["eventTypes"] as? [[String: Any]] {
                 self.eventTypes = try eventTypes.map({ try EventType(dictionary: $0) })
+            } else { 
+                self.eventTypes = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -544,13 +502,11 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// Additional metadata about the event.
-        public var eventMetadata: [String: String]? = nil
+        public let eventMetadata: [String: String]?
         /// Summary information about the event.
-        public var event: Event? = nil
+        public let event: Event?
         /// The most recent description of the event.
-        public var eventDescription: EventDescription? = nil
-
-        public init() {}
+        public let eventDescription: EventDescription?
 
         public init(eventMetadata: [String: String]? = nil, event: Event? = nil, eventDescription: EventDescription? = nil) {
             self.eventMetadata = eventMetadata
@@ -561,9 +517,11 @@ extension Health {
         public init(dictionary: [String: Any]) throws {
             if let eventMetadata = dictionary["eventMetadata"] as? [String: String] {
                 self.eventMetadata = eventMetadata
+            } else { 
+                self.eventMetadata = nil
             }
-            if let event = dictionary["event"] as? [String: Any] { self.event = try Health.Event(dictionary: event) }
-            if let eventDescription = dictionary["eventDescription"] as? [String: Any] { self.eventDescription = try Health.EventDescription(dictionary: eventDescription) }
+            if let event = dictionary["event"] as? [String: Any] { self.event = try Health.Event(dictionary: event) } else { self.event = nil }
+            if let eventDescription = dictionary["eventDescription"] as? [String: Any] { self.eventDescription = try Health.EventDescription(dictionary: eventDescription) } else { self.eventDescription = nil }
         }
     }
 
@@ -571,15 +529,13 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// Values to narrow the results returned. At least one event ARN is required. 
-        public var filter: EntityFilter = EntityFilter()
+        public let filter: EntityFilter
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-        public var locale: String? = nil
-
-        public init() {}
+        public let locale: String?
 
         public init(maxResults: Int32? = nil, filter: EntityFilter, nextToken: String? = nil, locale: String? = nil) {
             self.maxResults = maxResults
@@ -601,15 +557,13 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// Values to narrow the results returned.
-        public var filter: EventFilter? = nil
+        public let filter: EventFilter?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-        public var locale: String? = nil
-
-        public init() {}
+        public let locale: String?
 
         public init(maxResults: Int32? = nil, filter: EventFilter? = nil, nextToken: String? = nil, locale: String? = nil) {
             self.maxResults = maxResults
@@ -620,7 +574,7 @@ extension Health {
 
         public init(dictionary: [String: Any]) throws {
             self.maxResults = dictionary["maxResults"] as? Int32
-            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Health.EventFilter(dictionary: filter) }
+            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Health.EventFilter(dictionary: filter) } else { self.filter = nil }
             self.nextToken = dictionary["nextToken"] as? String
             self.locale = dictionary["locale"] as? String
         }
@@ -630,11 +584,9 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ending date and time of a time range.
-        public var to: Date? = nil
+        public let to: Date?
         /// The starting date and time of a time range.
-        public var from: Date? = nil
-
-        public init() {}
+        public let from: Date?
 
         public init(to: Date? = nil, from: Date? = nil) {
             self.to = to
@@ -651,19 +603,17 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
-        public var eventArns: [String] = []
+        public let eventArns: [String]
         /// A list of the most recent dates and times that the entity was updated.
-        public var lastUpdatedTimes: [DateTimeRange]? = nil
+        public let lastUpdatedTimes: [DateTimeRange]?
         /// A list of entity status codes (IMPAIRED, UNIMPAIRED, or UNKNOWN).
-        public var statusCodes: [String]? = nil
+        public let statusCodes: [String]?
         /// A map of entity tags attached to the affected entity.
-        public var tags: [[String: String]]? = nil
+        public let tags: [[String: String]]?
         /// A list of entity ARNs (unique identifiers).
-        public var entityArns: [String]? = nil
+        public let entityArns: [String]?
         /// A list of IDs for affected entities.
-        public var entityValues: [String]? = nil
-
-        public init() {}
+        public let entityValues: [String]?
 
         public init(eventArns: [String], lastUpdatedTimes: [DateTimeRange]? = nil, statusCodes: [String]? = nil, tags: [[String: String]]? = nil, entityArns: [String]? = nil, entityValues: [String]? = nil) {
             self.eventArns = eventArns
@@ -679,19 +629,13 @@ extension Health {
             self.eventArns = eventArns
             if let lastUpdatedTimes = dictionary["lastUpdatedTimes"] as? [[String: Any]] {
                 self.lastUpdatedTimes = try lastUpdatedTimes.map({ try DateTimeRange(dictionary: $0) })
+            } else { 
+                self.lastUpdatedTimes = nil
             }
-            if let statusCodes = dictionary["statusCodes"] as? [String] {
-                self.statusCodes = statusCodes
-            }
-            if let tags = dictionary["tags"] as? [[String: String]] {
-                self.tags = tags
-            }
-            if let entityArns = dictionary["entityArns"] as? [String] {
-                self.entityArns = entityArns
-            }
-            if let entityValues = dictionary["entityValues"] as? [String] {
-                self.entityValues = entityValues
-            }
+            self.statusCodes = dictionary["statusCodes"] as? [String]
+            self.tags = dictionary["tags"] as? [[String: String]]
+            self.entityArns = dictionary["entityArns"] as? [String]
+            self.entityValues = dictionary["entityValues"] as? [String]
         }
     }
 
@@ -699,15 +643,13 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// Values to narrow the results returned.
-        public var filter: EventTypeFilter? = nil
+        public let filter: EventTypeFilter?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
-        public var locale: String? = nil
-
-        public init() {}
+        public let locale: String?
 
         public init(maxResults: Int32? = nil, filter: EventTypeFilter? = nil, nextToken: String? = nil, locale: String? = nil) {
             self.maxResults = maxResults
@@ -718,7 +660,7 @@ extension Health {
 
         public init(dictionary: [String: Any]) throws {
             self.maxResults = dictionary["maxResults"] as? Int32
-            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Health.EventTypeFilter(dictionary: filter) }
+            if let filter = dictionary["filter"] as? [String: Any] { self.filter = try Health.EventTypeFilter(dictionary: filter) } else { self.filter = nil }
             self.nextToken = dictionary["nextToken"] as? String
             self.locale = dictionary["locale"] as? String
         }
@@ -728,11 +670,9 @@ extension Health {
         /// The key for the payload
         public static let payload: String? = nil
         /// The events that match the specified filter criteria.
-        public var events: [Event]? = nil
+        public let events: [Event]?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(events: [Event]? = nil, nextToken: String? = nil) {
             self.events = events
@@ -742,6 +682,8 @@ extension Health {
         public init(dictionary: [String: Any]) throws {
             if let events = dictionary["events"] as? [[String: Any]] {
                 self.events = try events.map({ try Event(dictionary: $0) })
+            } else { 
+                self.events = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }

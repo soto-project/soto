@@ -33,13 +33,11 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The revision of the job definition.
-        public var revision: Int32 = 0
+        public let revision: Int32
         /// The Amazon Resource Name (ARN) of the job definition. 
-        public var jobDefinitionArn: String = ""
+        public let jobDefinitionArn: String
         /// The name of the job definition. 
-        public var jobDefinitionName: String = ""
-
-        public init() {}
+        public let jobDefinitionName: String
 
         public init(revision: Int32, jobDefinitionArn: String, jobDefinitionName: String) {
             self.revision = revision
@@ -61,11 +59,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Job IDs to be terminated. Up to 100 jobs can be specified.
-        public var jobId: String = ""
+        public let jobId: String
         /// A message to attach to the job that explains the reason for cancelling it. This message is returned by future DescribeJobs operations on the job. This message is also recorded in the AWS Batch activity logs. 
-        public var reason: String = ""
-
-        public init() {}
+        public let reason: String
 
         public init(jobId: String, reason: String) {
             self.jobId = jobId
@@ -84,11 +80,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the job.
-        public var jobId: String = ""
+        public let jobId: String
         /// The name of the job.
-        public var jobName: String = ""
-
-        public init() {}
+        public let jobName: String
 
         public init(jobId: String, jobName: String) {
             self.jobId = jobId
@@ -107,8 +101,6 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -117,21 +109,19 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Describes the ability of the queue to accept new jobs.
-        public var state: String = ""
+        public let state: String
         /// The status of the job queue (for example, CREATING or VALID).
-        public var status: String? = nil
+        public let status: String?
         /// The compute environments that are attached to the job queue and the order in which job placement is preferred. Compute environments are selected for job placement in ascending order.
-        public var computeEnvironmentOrder: [ComputeEnvironmentOrder] = []
+        public let computeEnvironmentOrder: [ComputeEnvironmentOrder]
         /// The Amazon Resource Name (ARN) of the job queue.
-        public var jobQueueArn: String = ""
+        public let jobQueueArn: String
         /// A short, human-readable string to provide additional details about the current status of the job queue.
-        public var statusReason: String? = nil
+        public let statusReason: String?
         /// The name of the job queue.
-        public var jobQueueName: String = ""
+        public let jobQueueName: String
         /// The priority of the job queue. 
-        public var priority: Int32 = 0
-
-        public init() {}
+        public let priority: Int32
 
         public init(state: String, status: String? = nil, computeEnvironmentOrder: [ComputeEnvironmentOrder], jobQueueArn: String, statusReason: String? = nil, jobQueueName: String, priority: Int32) {
             self.state = state
@@ -163,11 +153,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the job. 
-        public var jobName: String = ""
+        public let jobName: String
         /// The unique identifier for the job.
-        public var jobId: String = ""
-
-        public init() {}
+        public let jobId: String
 
         public init(jobName: String, jobId: String) {
             self.jobName = jobName
@@ -186,31 +174,29 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user name to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run.
-        public var user: String? = nil
+        public let user: String?
         /// When this parameter is true, the container is given read-only access to its root file system. This parameter maps to ReadonlyRootfs in the Create a container section of the Docker Remote API and the --read-only option to docker run.
-        public var readonlyRootFilesystem: Bool? = nil
+        public let readonlyRootFilesystem: Bool?
         /// The mount points for data volumes in your container. This parameter maps to Volumes in the Create a container section of the Docker Remote API and the --volume option to docker run.
-        public var mountPoints: [MountPoint]? = nil
+        public let mountPoints: [MountPoint]?
         /// The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with  repository-url/image:tag . Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the Create a container section of the Docker Remote API and the IMAGE parameter of docker run.   Images in Amazon ECR repositories use the full registry and repository URI (for example, 012345678910.dkr.ecr.&lt;region-name&gt;.amazonaws.com/&lt;repository-name&gt;).    Images in official repositories on Docker Hub use a single name (for example, ubuntu or mongo).   Images in other repositories on Docker Hub are qualified with an organization name (for example, amazon/amazon-ecs-agent).   Images in other online repositories are qualified further by a domain name (for example, quay.io/assemblyline/ubuntu).  
-        public var image: String = ""
+        public let image: String
         /// A list of data volumes used in a job.
-        public var volumes: [Volume]? = nil
+        public let volumes: [Volume]?
         /// The number of vCPUs reserved for the container. This parameter maps to CpuShares in the Create a container section of the Docker Remote API and the --cpu-shares option to docker run. Each vCPU is equivalent to 1,024 CPU shares.
-        public var vcpus: Int32 = 0
+        public let vcpus: Int32
         /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user). This parameter maps to Privileged in the Create a container section of the Docker Remote API and the --privileged option to docker run.
-        public var privileged: Bool? = nil
+        public let privileged: Bool?
         /// The environment variables to pass to a container. This parameter maps to Env in the Create a container section of the Docker Remote API and the --env option to docker run.  We do not recommend using plain text environment variables for sensitive information, such as credential data. 
-        public var environment: [KeyValuePair]? = nil
+        public let environment: [KeyValuePair]?
         /// The command that is passed to the container. This parameter maps to Cmd in the Create a container section of the Docker Remote API and the COMMAND parameter to docker run. For more information, see https://docs.docker.com/engine/reference/builder/#cmd.
-        public var command: [String]? = nil
+        public let command: [String]?
         /// The Amazon Resource Name (ARN) of the IAM role that the container can assume for AWS permissions.
-        public var jobRoleArn: String? = nil
+        public let jobRoleArn: String?
         /// A list of ulimits to set in the container. This parameter maps to Ulimits in the Create a container section of the Docker Remote API and the --ulimit option to docker run.
-        public var ulimits: [Ulimit]? = nil
+        public let ulimits: [Ulimit]?
         /// The hard limit (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run.
-        public var memory: Int32 = 0
-
-        public init() {}
+        public let memory: Int32
 
         public init(user: String? = nil, readonlyRootFilesystem: Bool? = nil, mountPoints: [MountPoint]? = nil, image: String, volumes: [Volume]? = nil, vcpus: Int32, privileged: Bool? = nil, environment: [KeyValuePair]? = nil, command: [String]? = nil, jobRoleArn: String? = nil, ulimits: [Ulimit]? = nil, memory: Int32) {
             self.user = user
@@ -232,24 +218,30 @@ extension Batch {
             self.readonlyRootFilesystem = dictionary["readonlyRootFilesystem"] as? Bool
             if let mountPoints = dictionary["mountPoints"] as? [[String: Any]] {
                 self.mountPoints = try mountPoints.map({ try MountPoint(dictionary: $0) })
+            } else { 
+                self.mountPoints = nil
             }
             guard let image = dictionary["image"] as? String else { throw InitializableError.missingRequiredParam("image") }
             self.image = image
             if let volumes = dictionary["volumes"] as? [[String: Any]] {
                 self.volumes = try volumes.map({ try Volume(dictionary: $0) })
+            } else { 
+                self.volumes = nil
             }
             guard let vcpus = dictionary["vcpus"] as? Int32 else { throw InitializableError.missingRequiredParam("vcpus") }
             self.vcpus = vcpus
             self.privileged = dictionary["privileged"] as? Bool
             if let environment = dictionary["environment"] as? [[String: Any]] {
                 self.environment = try environment.map({ try KeyValuePair(dictionary: $0) })
+            } else { 
+                self.environment = nil
             }
-            if let command = dictionary["command"] as? [String] {
-                self.command = command
-            }
+            self.command = dictionary["command"] as? [String]
             self.jobRoleArn = dictionary["jobRoleArn"] as? String
             if let ulimits = dictionary["ulimits"] as? [[String: Any]] {
                 self.ulimits = try ulimits.map({ try Ulimit(dictionary: $0) })
+            } else { 
+                self.ulimits = nil
             }
             guard let memory = dictionary["memory"] as? Int32 else { throw InitializableError.missingRequiredParam("memory") }
             self.memory = memory
@@ -260,31 +252,29 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The EC2 key pair that is used for instances launched in the compute environment.
-        public var ec2KeyPair: String? = nil
+        public let ec2KeyPair: String?
         /// The minimum percentage that a Spot Instance price must be when compared with the On-Demand price for that instance type before instances are launched. For example, if your bid percentage is 20%, then the Spot price must be below 20% of the current On-Demand price for that EC2 instance.
-        public var bidPercentage: Int32? = nil
+        public let bidPercentage: Int32?
         /// The VPC subnets into which the compute resources are launched. 
-        public var subnets: [String] = []
+        public let subnets: [String]
         /// The Amazon Resource Name (ARN) of the Amazon EC2 Spot Fleet IAM role applied to a SPOT compute environment.
-        public var spotIamFleetRole: String? = nil
+        public let spotIamFleetRole: String?
         /// The instances types that may launched.
-        public var instanceTypes: [String] = []
+        public let instanceTypes: [String]
         /// The maximum number of EC2 vCPUs that an environment can reach. 
-        public var maxvCpus: Int32 = 0
+        public let maxvCpus: Int32
         /// The EC2 security group that is associated with instances launched in the compute environment. 
-        public var securityGroupIds: [String] = []
+        public let securityGroupIds: [String]
         /// The Amazon ECS instance role applied to Amazon EC2 instances in a compute environment.
-        public var instanceRole: String = ""
+        public let instanceRole: String
         /// Key-value pair tags to be applied to resources that are launched in the compute environment. 
-        public var tags: [String: String]? = nil
+        public let tags: [String: String]?
         /// The minimum number of EC2 vCPUs that an environment should maintain. 
-        public var minvCpus: Int32 = 0
+        public let minvCpus: Int32
         /// The type of compute environment.
-        public var type: String = ""
+        public let type: String
         /// The desired number of EC2 vCPUS in the compute environment. 
-        public var desiredvCpus: Int32? = nil
-
-        public init() {}
+        public let desiredvCpus: Int32?
 
         public init(ec2KeyPair: String? = nil, bidPercentage: Int32? = nil, subnets: [String], spotIamFleetRole: String? = nil, instanceTypes: [String], maxvCpus: Int32, securityGroupIds: [String], instanceRole: String, tags: [String: String]? = nil, minvCpus: Int32, type: String, desiredvCpus: Int32? = nil) {
             self.ec2KeyPair = ec2KeyPair
@@ -317,6 +307,8 @@ extension Batch {
             self.instanceRole = instanceRole
             if let tags = dictionary["tags"] as? [String: String] {
                 self.tags = tags
+            } else { 
+                self.tags = nil
             }
             guard let minvCpus = dictionary["minvCpus"] as? Int32 else { throw InitializableError.missingRequiredParam("minvCpus") }
             self.minvCpus = minvCpus
@@ -330,25 +322,23 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the compute environment. The valid values are ENABLED or DISABLED. An ENABLED state indicates that you can register instances with the compute environment and that the associated instances can accept jobs. 
-        public var state: String? = nil
+        public let state: String?
         /// The current status of the compute environment (for example, CREATING or VALID).
-        public var status: String? = nil
+        public let status: String?
         /// The Amazon Resource Name (ARN) of the compute environment. 
-        public var computeEnvironmentArn: String = ""
+        public let computeEnvironmentArn: String
         /// The name of the compute environment. 
-        public var computeEnvironmentName: String = ""
+        public let computeEnvironmentName: String
         /// A short, human-readable string to provide additional details about the current status of the compute environment.
-        public var statusReason: String? = nil
+        public let statusReason: String?
         /// The Amazon Resource Name (ARN) of the underlying Amazon ECS cluster used by the compute environment. 
-        public var ecsClusterArn: String = ""
+        public let ecsClusterArn: String
         /// The compute resources defined for the compute environment. 
-        public var computeResources: ComputeResource? = nil
+        public let computeResources: ComputeResource?
         /// The type of the compute environment.
-        public var type: String? = nil
+        public let type: String?
         /// The service role associated with the compute environment that allows AWS Batch to make calls to AWS API operations on your behalf.
-        public var serviceRole: String? = nil
-
-        public init() {}
+        public let serviceRole: String?
 
         public init(state: String? = nil, status: String? = nil, computeEnvironmentArn: String, computeEnvironmentName: String, statusReason: String? = nil, ecsClusterArn: String, computeResources: ComputeResource? = nil, type: String? = nil, serviceRole: String? = nil) {
             self.state = state
@@ -372,7 +362,7 @@ extension Batch {
             self.statusReason = dictionary["statusReason"] as? String
             guard let ecsClusterArn = dictionary["ecsClusterArn"] as? String else { throw InitializableError.missingRequiredParam("ecsClusterArn") }
             self.ecsClusterArn = ecsClusterArn
-            if let computeResources = dictionary["computeResources"] as? [String: Any] { self.computeResources = try Batch.ComputeResource(dictionary: computeResources) }
+            if let computeResources = dictionary["computeResources"] as? [String: Any] { self.computeResources = try Batch.ComputeResource(dictionary: computeResources) } else { self.computeResources = nil }
             self.type = dictionary["type"] as? String
             self.serviceRole = dictionary["serviceRole"] as? String
         }
@@ -382,8 +372,6 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -392,11 +380,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of compute environment.
-        public var computeEnvironmentName: String? = nil
+        public let computeEnvironmentName: String?
         /// The Amazon Resource Name (ARN) of the compute environment. 
-        public var computeEnvironmentArn: String? = nil
-
-        public init() {}
+        public let computeEnvironmentArn: String?
 
         public init(computeEnvironmentName: String? = nil, computeEnvironmentArn: String? = nil) {
             self.computeEnvironmentName = computeEnvironmentName
@@ -413,15 +399,13 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Describes the queue's ability to accept new jobs.
-        public var state: String? = nil
+        public let state: String?
         /// The name or the Amazon Resource Name (ARN) of the job queue.
-        public var jobQueue: String = ""
+        public let jobQueue: String
         /// Details the set of compute environments mapped to a job queue and their order relative to each other. This is one of the parameters used by the job scheduler to determine which compute environment should execute a given job. 
-        public var computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil
+        public let computeEnvironmentOrder: [ComputeEnvironmentOrder]?
         /// The priority of the job queue. Job queues with a higher priority (or a lower integer value for the priority parameter) are evaluated first when associated with same compute environment. Priority is determined in ascending order, for example, a job queue with a priority value of 1 is given scheduling preference over a job queue with a priority value of 10.
-        public var priority: Int32? = nil
-
-        public init() {}
+        public let priority: Int32?
 
         public init(state: String? = nil, jobQueue: String, computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, priority: Int32? = nil) {
             self.state = state
@@ -436,6 +420,8 @@ extension Batch {
             self.jobQueue = jobQueue
             if let computeEnvironmentOrder = dictionary["computeEnvironmentOrder"] as? [[String: Any]] {
                 self.computeEnvironmentOrder = try computeEnvironmentOrder.map({ try ComputeEnvironmentOrder(dictionary: $0) })
+            } else { 
+                self.computeEnvironmentOrder = nil
             }
             self.priority = dictionary["priority"] as? Int32
         }
@@ -445,17 +431,15 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the compute environment. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues.
-        public var state: String? = nil
+        public let state: String?
         /// The type of the compute environment. 
-        public var type: String = ""
+        public let type: String
         /// The full Amazon Resource Name (ARN) of the IAM role that allows AWS Batch to make calls to other AWS services on your behalf. 
-        public var serviceRole: String = ""
+        public let serviceRole: String
         /// The name for your compute environment. Up to 128 letters (uppercase and lowercase), numbers, and underscores are allowed.
-        public var computeEnvironmentName: String = ""
+        public let computeEnvironmentName: String
         /// Details of the compute resources managed by the compute environment. This parameter is required for managed compute environments.
-        public var computeResources: ComputeResource? = nil
-
-        public init() {}
+        public let computeResources: ComputeResource?
 
         public init(state: String? = nil, type: String, serviceRole: String, computeEnvironmentName: String, computeResources: ComputeResource? = nil) {
             self.state = state
@@ -473,15 +457,13 @@ extension Batch {
             self.serviceRole = serviceRole
             guard let computeEnvironmentName = dictionary["computeEnvironmentName"] as? String else { throw InitializableError.missingRequiredParam("computeEnvironmentName") }
             self.computeEnvironmentName = computeEnvironmentName
-            if let computeResources = dictionary["computeResources"] as? [String: Any] { self.computeResources = try Batch.ComputeResource(dictionary: computeResources) }
+            if let computeResources = dictionary["computeResources"] as? [String: Any] { self.computeResources = try Batch.ComputeResource(dictionary: computeResources) } else { self.computeResources = nil }
         }
     }
 
     public struct TerminateJobResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -491,13 +473,11 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of up to 100 compute environment names or full Amazon Resource Name (ARN) entries. 
-        public var computeEnvironments: [String]? = nil
+        public let computeEnvironments: [String]?
         /// The maximum number of cluster results returned by DescribeComputeEnvironments in paginated output. When this parameter is used, DescribeComputeEnvironments only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeComputeEnvironments request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeComputeEnvironments returns up to 100 results and a nextToken value if applicable.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// The nextToken value returned from a previous paginated DescribeComputeEnvironments request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(computeEnvironments: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.computeEnvironments = computeEnvironments
@@ -506,9 +486,7 @@ extension Batch {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let computeEnvironments = dictionary["computeEnvironments"] as? [String] {
-                self.computeEnvironments = computeEnvironments
-            }
+            self.computeEnvironments = dictionary["computeEnvironments"] as? [String]
             self.maxResults = dictionary["maxResults"] as? Int32
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -518,9 +496,7 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name or Amazon Resource Name (ARN) of the compute environment to delete. 
-        public var computeEnvironment: String = ""
-
-        public init() {}
+        public let computeEnvironment: String
 
         public init(computeEnvironment: String) {
             self.computeEnvironment = computeEnvironment
@@ -536,11 +512,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of compute environments.
-        public var computeEnvironments: [ComputeEnvironmentDetail]? = nil
+        public let computeEnvironments: [ComputeEnvironmentDetail]?
         /// The nextToken value to include in a future DescribeComputeEnvironments request. When the results of a DescribeJobDefinitions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(computeEnvironments: [ComputeEnvironmentDetail]? = nil, nextToken: String? = nil) {
             self.computeEnvironments = computeEnvironments
@@ -550,6 +524,8 @@ extension Batch {
         public init(dictionary: [String: Any]) throws {
             if let computeEnvironments = dictionary["computeEnvironments"] as? [[String: Any]] {
                 self.computeEnvironments = try computeEnvironments.map({ try ComputeEnvironmentDetail(dictionary: $0) })
+            } else { 
+                self.computeEnvironments = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -559,9 +535,7 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name and revision (name:revision) or full Amazon Resource Name (ARN) of the job definition to deregister. 
-        public var jobDefinition: String = ""
-
-        public init() {}
+        public let jobDefinition: String
 
         public init(jobDefinition: String) {
             self.jobDefinition = jobDefinition
@@ -577,8 +551,6 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -587,37 +559,35 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// A short (255 max characters) human-readable string to provide additional details about a running or stopped container.
-        public var reason: String? = nil
+        public let reason: String?
         /// When this parameter is true, the container is given read-only access to its root file system.
-        public var readonlyRootFilesystem: Bool? = nil
+        public let readonlyRootFilesystem: Bool?
         /// The mount points for data volumes in your container.
-        public var mountPoints: [MountPoint]? = nil
+        public let mountPoints: [MountPoint]?
         /// The user name to use inside the container.
-        public var user: String? = nil
+        public let user: String?
         /// The number of VCPUs allocated for the job. 
-        public var vcpus: Int32? = nil
+        public let vcpus: Int32?
         /// A list of ulimit values to set in the container.
-        public var ulimits: [Ulimit]? = nil
+        public let ulimits: [Ulimit]?
         /// The number of MiB of memory reserved for the job.
-        public var memory: Int32? = nil
+        public let memory: Int32?
         /// The environment variables to pass to a container.
-        public var environment: [KeyValuePair]? = nil
+        public let environment: [KeyValuePair]?
         /// The Amazon Resource Name (ARN) of the container instance on which the container is running.
-        public var containerInstanceArn: String? = nil
+        public let containerInstanceArn: String?
         /// The image used to start the container.
-        public var image: String? = nil
+        public let image: String?
         /// A list of volumes associated with the job.
-        public var volumes: [Volume]? = nil
+        public let volumes: [Volume]?
         /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user).
-        public var privileged: Bool? = nil
+        public let privileged: Bool?
         /// The exit code to return upon completion.
-        public var exitCode: Int32? = nil
+        public let exitCode: Int32?
         /// The command that is passed to the container. 
-        public var command: [String]? = nil
+        public let command: [String]?
         /// The Amazon Resource Name (ARN) associated with the job upon execution. 
-        public var jobRoleArn: String? = nil
-
-        public init() {}
+        public let jobRoleArn: String?
 
         public init(reason: String? = nil, readonlyRootFilesystem: Bool? = nil, mountPoints: [MountPoint]? = nil, user: String? = nil, vcpus: Int32? = nil, ulimits: [Ulimit]? = nil, memory: Int32? = nil, environment: [KeyValuePair]? = nil, containerInstanceArn: String? = nil, image: String? = nil, volumes: [Volume]? = nil, privileged: Bool? = nil, exitCode: Int32? = nil, command: [String]? = nil, jobRoleArn: String? = nil) {
             self.reason = reason
@@ -642,26 +612,32 @@ extension Batch {
             self.readonlyRootFilesystem = dictionary["readonlyRootFilesystem"] as? Bool
             if let mountPoints = dictionary["mountPoints"] as? [[String: Any]] {
                 self.mountPoints = try mountPoints.map({ try MountPoint(dictionary: $0) })
+            } else { 
+                self.mountPoints = nil
             }
             self.user = dictionary["user"] as? String
             self.vcpus = dictionary["vcpus"] as? Int32
             if let ulimits = dictionary["ulimits"] as? [[String: Any]] {
                 self.ulimits = try ulimits.map({ try Ulimit(dictionary: $0) })
+            } else { 
+                self.ulimits = nil
             }
             self.memory = dictionary["memory"] as? Int32
             if let environment = dictionary["environment"] as? [[String: Any]] {
                 self.environment = try environment.map({ try KeyValuePair(dictionary: $0) })
+            } else { 
+                self.environment = nil
             }
             self.containerInstanceArn = dictionary["containerInstanceArn"] as? String
             self.image = dictionary["image"] as? String
             if let volumes = dictionary["volumes"] as? [[String: Any]] {
                 self.volumes = try volumes.map({ try Volume(dictionary: $0) })
+            } else { 
+                self.volumes = nil
             }
             self.privileged = dictionary["privileged"] as? Bool
             self.exitCode = dictionary["exitCode"] as? Int32
-            if let command = dictionary["command"] as? [String] {
-                self.command = command
-            }
+            self.command = dictionary["command"] as? [String]
             self.jobRoleArn = dictionary["jobRoleArn"] as? String
         }
     }
@@ -670,13 +646,11 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the volume to mount.
-        public var sourceVolume: String? = nil
+        public let sourceVolume: String?
         /// If this value is true, the container has read-only access to the volume; otherwise, the container can write to the volume. The default value is false.
-        public var readOnly: Bool? = nil
+        public let readOnly: Bool?
         /// The path on the container at which to mount the host volume.
-        public var containerPath: String? = nil
-
-        public init() {}
+        public let containerPath: String?
 
         public init(sourceVolume: String? = nil, readOnly: Bool? = nil, containerPath: String? = nil) {
             self.sourceVolume = sourceVolume
@@ -695,15 +669,13 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues.
-        public var state: String? = nil
+        public let state: String?
         /// The name or full Amazon Resource Name (ARN) of the compute environment to update.
-        public var computeEnvironment: String = ""
+        public let computeEnvironment: String
         /// Details of the compute resources managed by the compute environment. Required for a managed compute environment.
-        public var computeResources: ComputeResourceUpdate? = nil
+        public let computeResources: ComputeResourceUpdate?
         /// The name or full Amazon Resource Name (ARN) of the IAM role that allows AWS Batch to make calls to ECS, Auto Scaling, and EC2 on your behalf.
-        public var serviceRole: String? = nil
-
-        public init() {}
+        public let serviceRole: String?
 
         public init(state: String? = nil, computeEnvironment: String, computeResources: ComputeResourceUpdate? = nil, serviceRole: String? = nil) {
             self.state = state
@@ -716,7 +688,7 @@ extension Batch {
             self.state = dictionary["state"] as? String
             guard let computeEnvironment = dictionary["computeEnvironment"] as? String else { throw InitializableError.missingRequiredParam("computeEnvironment") }
             self.computeEnvironment = computeEnvironment
-            if let computeResources = dictionary["computeResources"] as? [String: Any] { self.computeResources = try Batch.ComputeResourceUpdate(dictionary: computeResources) }
+            if let computeResources = dictionary["computeResources"] as? [String: Any] { self.computeResources = try Batch.ComputeResourceUpdate(dictionary: computeResources) } else { self.computeResources = nil }
             self.serviceRole = dictionary["serviceRole"] as? String
         }
     }
@@ -725,11 +697,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the job queue.
-        public var jobQueueName: String = ""
+        public let jobQueueName: String
         /// The Amazon Resource Name (ARN) of the job queue.
-        public var jobQueueArn: String = ""
-
-        public init() {}
+        public let jobQueueArn: String
 
         public init(jobQueueName: String, jobQueueArn: String) {
             self.jobQueueName = jobQueueName
@@ -748,9 +718,7 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If the host parameter contains a sourcePath file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the sourcePath value does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported.
-        public var sourcePath: String? = nil
-
-        public init() {}
+        public let sourcePath: String?
 
         public init(sourcePath: String? = nil) {
             self.sourcePath = sourcePath
@@ -765,9 +733,7 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// A space-separated list of up to 100 job IDs.
-        public var jobs: [String] = []
-
-        public init() {}
+        public let jobs: [String]
 
         public init(jobs: [String]) {
             self.jobs = jobs
@@ -783,15 +749,13 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of vCPUs to reserve for the container. This value overrides the value set in the job definition.
-        public var vcpus: Int32? = nil
+        public let vcpus: Int32?
         /// The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can override the existing environment variables from the Docker image or the job definition.
-        public var environment: [KeyValuePair]? = nil
+        public let environment: [KeyValuePair]?
         /// The command to send to the container that overrides the default command from the Docker image or the job definition.
-        public var command: [String]? = nil
+        public let command: [String]?
         /// The number of MiB of memory reserved for the job. This value overrides the value set in the job definition.
-        public var memory: Int32? = nil
-
-        public init() {}
+        public let memory: Int32?
 
         public init(vcpus: Int32? = nil, environment: [KeyValuePair]? = nil, command: [String]? = nil, memory: Int32? = nil) {
             self.vcpus = vcpus
@@ -804,10 +768,10 @@ extension Batch {
             self.vcpus = dictionary["vcpus"] as? Int32
             if let environment = dictionary["environment"] as? [[String: Any]] {
                 self.environment = try environment.map({ try KeyValuePair(dictionary: $0) })
+            } else { 
+                self.environment = nil
             }
-            if let command = dictionary["command"] as? [String] {
-                self.command = command
-            }
+            self.command = dictionary["command"] as? [String]
             self.memory = dictionary["memory"] as? Int32
         }
     }
@@ -816,31 +780,29 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the job queue with which the job is associated.
-        public var jobQueue: String = ""
+        public let jobQueue: String
         /// The current status for the job.
-        public var status: String = ""
+        public let status: String
         /// The name of the job.
-        public var jobName: String = ""
+        public let jobName: String
         /// The Unix timestamp for when the job was created (when the task entered the PENDING state). 
-        public var createdAt: Int64? = nil
+        public let createdAt: Int64?
         /// The Unix timestamp for when the job was stopped (when the task transitioned from the RUNNING state to the STOPPED state).
-        public var stoppedAt: Int64? = nil
+        public let stoppedAt: Int64?
         /// Additional parameters passed to the job that replace parameter substitution placeholders or override any corresponding parameter defaults from the job definition. 
-        public var parameters: [String: String]? = nil
+        public let parameters: [String: String]?
         /// The Unix timestamp for when the job was started (when the task transitioned from the PENDING state to the RUNNING state). 
-        public var startedAt: Int64 = 0
+        public let startedAt: Int64
         /// An object representing the details of the container that is associated with the job.
-        public var container: ContainerDetail? = nil
+        public let container: ContainerDetail?
         /// A short, human-readable string to provide additional details about the current status of the job. 
-        public var statusReason: String? = nil
+        public let statusReason: String?
         /// The job definition that is used by this job.
-        public var jobDefinition: String = ""
+        public let jobDefinition: String
         /// A list of job names or IDs on which this job depends.
-        public var dependsOn: [JobDependency]? = nil
+        public let dependsOn: [JobDependency]?
         /// The ID for the job.
-        public var jobId: String = ""
-
-        public init() {}
+        public let jobId: String
 
         public init(jobQueue: String, status: String, jobName: String, createdAt: Int64? = nil, stoppedAt: Int64? = nil, parameters: [String: String]? = nil, startedAt: Int64, container: ContainerDetail? = nil, statusReason: String? = nil, jobDefinition: String, dependsOn: [JobDependency]? = nil, jobId: String) {
             self.jobQueue = jobQueue
@@ -868,15 +830,19 @@ extension Batch {
             self.stoppedAt = dictionary["stoppedAt"] as? Int64
             if let parameters = dictionary["parameters"] as? [String: String] {
                 self.parameters = parameters
+            } else { 
+                self.parameters = nil
             }
             guard let startedAt = dictionary["startedAt"] as? Int64 else { throw InitializableError.missingRequiredParam("startedAt") }
             self.startedAt = startedAt
-            if let container = dictionary["container"] as? [String: Any] { self.container = try Batch.ContainerDetail(dictionary: container) }
+            if let container = dictionary["container"] as? [String: Any] { self.container = try Batch.ContainerDetail(dictionary: container) } else { self.container = nil }
             self.statusReason = dictionary["statusReason"] as? String
             guard let jobDefinition = dictionary["jobDefinition"] as? String else { throw InitializableError.missingRequiredParam("jobDefinition") }
             self.jobDefinition = jobDefinition
             if let dependsOn = dictionary["dependsOn"] as? [[String: Any]] {
                 self.dependsOn = try dependsOn.map({ try JobDependency(dictionary: $0) })
+            } else { 
+                self.dependsOn = nil
             }
             guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
             self.jobId = jobId
@@ -887,19 +853,17 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The job queue into which the job will be submitted. You can specify either the name or the Amazon Resource Name (ARN) of the queue. 
-        public var jobQueue: String = ""
+        public let jobQueue: String
         /// The name of the job.
-        public var jobName: String = ""
+        public let jobName: String
         /// The job definition used by this job. This value can be either a name:revision or the Amazon Resource Name (ARN) for the job definition.
-        public var jobDefinition: String = ""
+        public let jobDefinition: String
         /// A list of job names or IDs on which this job depends. A job can depend upon a maximum of 100 jobs. 
-        public var dependsOn: [JobDependency]? = nil
+        public let dependsOn: [JobDependency]?
         /// A list of container overrides in JSON format that specify the name of a container in the specified job definition and the overrides it should receive. You can override the default command for a container (that is specified in the job definition or the Docker image) with a command override. You can also override existing environment variables (that are specified in the job definition or Docker image) on a container or add new environment variables to it with an environment override.
-        public var containerOverrides: ContainerOverrides? = nil
+        public let containerOverrides: ContainerOverrides?
         /// Additional parameters passed to the job that replace parameter substitution placeholders that are set in the job definition. Parameters are specified as a key and value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
-        public var parameters: [String: String]? = nil
-
-        public init() {}
+        public let parameters: [String: String]?
 
         public init(jobQueue: String, jobName: String, jobDefinition: String, dependsOn: [JobDependency]? = nil, containerOverrides: ContainerOverrides? = nil, parameters: [String: String]? = nil) {
             self.jobQueue = jobQueue
@@ -919,10 +883,14 @@ extension Batch {
             self.jobDefinition = jobDefinition
             if let dependsOn = dictionary["dependsOn"] as? [[String: Any]] {
                 self.dependsOn = try dependsOn.map({ try JobDependency(dictionary: $0) })
+            } else { 
+                self.dependsOn = nil
             }
-            if let containerOverrides = dictionary["containerOverrides"] as? [String: Any] { self.containerOverrides = try Batch.ContainerOverrides(dictionary: containerOverrides) }
+            if let containerOverrides = dictionary["containerOverrides"] as? [String: Any] { self.containerOverrides = try Batch.ContainerOverrides(dictionary: containerOverrides) } else { self.containerOverrides = nil }
             if let parameters = dictionary["parameters"] as? [String: String] {
                 self.parameters = parameters
+            } else { 
+                self.parameters = nil
             }
         }
     }
@@ -931,9 +899,7 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of jobs. 
-        public var jobs: [JobDetail]? = nil
-
-        public init() {}
+        public let jobs: [JobDetail]?
 
         public init(jobs: [JobDetail]? = nil) {
             self.jobs = jobs
@@ -942,6 +908,8 @@ extension Batch {
         public init(dictionary: [String: Any]) throws {
             if let jobs = dictionary["jobs"] as? [[String: Any]] {
                 self.jobs = try jobs.map({ try JobDetail(dictionary: $0) })
+            } else { 
+                self.jobs = nil
             }
         }
     }
@@ -949,8 +917,6 @@ extension Batch {
     public struct DeleteComputeEnvironmentResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -960,11 +926,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The nextToken value to include in a future ListJobs request. When the results of a ListJobs request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of job summaries that match the request.
-        public var jobSummaryList: [JobSummary] = []
-
-        public init() {}
+        public let jobSummaryList: [JobSummary]
 
         public init(nextToken: String? = nil, jobSummaryList: [JobSummary]) {
             self.nextToken = nextToken
@@ -982,17 +946,15 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the job definition to describe.
-        public var jobDefinitionName: String? = nil
+        public let jobDefinitionName: String?
         /// The status with which to filter job definitions.
-        public var status: String? = nil
+        public let status: String?
         /// The maximum number of results returned by DescribeJobDefinitions in paginated output. When this parameter is used, DescribeJobDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeJobDefinitions request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeJobDefinitions returns up to 100 results and a nextToken value if applicable.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// The nextToken value returned from a previous paginated DescribeJobDefinitions request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A space-separated list of up to 100 job definition names or full Amazon Resource Name (ARN) entries.
-        public var jobDefinitions: [String]? = nil
-
-        public init() {}
+        public let jobDefinitions: [String]?
 
         public init(jobDefinitionName: String? = nil, status: String? = nil, maxResults: Int32? = nil, nextToken: String? = nil, jobDefinitions: [String]? = nil) {
             self.jobDefinitionName = jobDefinitionName
@@ -1007,9 +969,7 @@ extension Batch {
             self.status = dictionary["status"] as? String
             self.maxResults = dictionary["maxResults"] as? Int32
             self.nextToken = dictionary["nextToken"] as? String
-            if let jobDefinitions = dictionary["jobDefinitions"] as? [String] {
-                self.jobDefinitions = jobDefinitions
-            }
+            self.jobDefinitions = dictionary["jobDefinitions"] as? [String]
         }
     }
 
@@ -1017,15 +977,13 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the job definition to register. 
-        public var jobDefinitionName: String = ""
+        public let jobDefinitionName: String
         /// The type of job definition.
-        public var type: String = ""
+        public let type: String
         /// An object with various properties specific for container-based jobs. This parameter is required if the type parameter is container.
-        public var containerProperties: ContainerProperties? = nil
+        public let containerProperties: ContainerProperties?
         /// Default parameter substitution placeholders to set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
-        public var parameters: [String: String]? = nil
-
-        public init() {}
+        public let parameters: [String: String]?
 
         public init(jobDefinitionName: String, type: String, containerProperties: ContainerProperties? = nil, parameters: [String: String]? = nil) {
             self.jobDefinitionName = jobDefinitionName
@@ -1039,9 +997,11 @@ extension Batch {
             self.jobDefinitionName = jobDefinitionName
             guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
             self.type = type
-            if let containerProperties = dictionary["containerProperties"] as? [String: Any] { self.containerProperties = try Batch.ContainerProperties(dictionary: containerProperties) }
+            if let containerProperties = dictionary["containerProperties"] as? [String: Any] { self.containerProperties = try Batch.ContainerProperties(dictionary: containerProperties) } else { self.containerProperties = nil }
             if let parameters = dictionary["parameters"] as? [String: String] {
                 self.parameters = parameters
+            } else { 
+                self.parameters = nil
             }
         }
     }
@@ -1050,15 +1010,13 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name or full Amazon Resource Name (ARN) of the job queue with which to list jobs.
-        public var jobQueue: String = ""
+        public let jobQueue: String
         /// The nextToken value returned from a previous paginated ListJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results returned by ListJobs in paginated output. When this parameter is used, ListJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListJobs returns up to 100 results and a nextToken value if applicable.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// The job status with which to filter jobs in the specified queue.
-        public var jobStatus: String? = nil
-
-        public init() {}
+        public let jobStatus: String?
 
         public init(jobQueue: String, nextToken: String? = nil, maxResults: Int32? = nil, jobStatus: String? = nil) {
             self.jobQueue = jobQueue
@@ -1080,13 +1038,11 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of up to 100 queue names or full queue Amazon Resource Name (ARN) entries.
-        public var jobQueues: [String]? = nil
+        public let jobQueues: [String]?
         /// The maximum number of results returned by DescribeJobQueues in paginated output. When this parameter is used, DescribeJobQueues only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeJobQueues request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeJobQueues returns up to 100 results and a nextToken value if applicable.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// The nextToken value returned from a previous paginated DescribeJobQueues request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(jobQueues: [String]? = nil, maxResults: Int32? = nil, nextToken: String? = nil) {
             self.jobQueues = jobQueues
@@ -1095,9 +1051,7 @@ extension Batch {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let jobQueues = dictionary["jobQueues"] as? [String] {
-                self.jobQueues = jobQueues
-            }
+            self.jobQueues = dictionary["jobQueues"] as? [String]
             self.maxResults = dictionary["maxResults"] as? Int32
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -1107,11 +1061,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of job queues. 
-        public var jobQueues: [JobQueueDetail]? = nil
+        public let jobQueues: [JobQueueDetail]?
         /// The nextToken value to include in a future DescribeJobQueues request. When the results of a DescribeJobQueues request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(jobQueues: [JobQueueDetail]? = nil, nextToken: String? = nil) {
             self.jobQueues = jobQueues
@@ -1121,6 +1073,8 @@ extension Batch {
         public init(dictionary: [String: Any]) throws {
             if let jobQueues = dictionary["jobQueues"] as? [[String: Any]] {
                 self.jobQueues = try jobQueues.map({ try JobQueueDetail(dictionary: $0) })
+            } else { 
+                self.jobQueues = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -1130,11 +1084,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The nextToken value to include in a future DescribeJobDefinitions request. When the results of a DescribeJobDefinitions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The list of job definitions. 
-        public var jobDefinitions: [JobDefinition]? = nil
-
-        public init() {}
+        public let jobDefinitions: [JobDefinition]?
 
         public init(nextToken: String? = nil, jobDefinitions: [JobDefinition]? = nil) {
             self.nextToken = nextToken
@@ -1145,6 +1097,8 @@ extension Batch {
             self.nextToken = dictionary["nextToken"] as? String
             if let jobDefinitions = dictionary["jobDefinitions"] as? [[String: Any]] {
                 self.jobDefinitions = try jobDefinitions.map({ try JobDefinition(dictionary: $0) })
+            } else { 
+                self.jobDefinitions = nil
             }
         }
     }
@@ -1153,9 +1107,7 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The short name or full Amazon Resource Name (ARN) of the queue to delete. 
-        public var jobQueue: String = ""
-
-        public init() {}
+        public let jobQueue: String
 
         public init(jobQueue: String) {
             self.jobQueue = jobQueue
@@ -1171,21 +1123,19 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The revision of the job definition.
-        public var revision: Int32 = 0
+        public let revision: Int32
         /// The status of the job definition.
-        public var status: String? = nil
+        public let status: String?
         /// The name of the job definition. 
-        public var jobDefinitionName: String = ""
+        public let jobDefinitionName: String
         /// Default parameters or parameter substitution placeholders that are set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
-        public var parameters: [String: String]? = nil
+        public let parameters: [String: String]?
         /// The Amazon Resource Name (ARN) for the job definition. 
-        public var jobDefinitionArn: String = ""
+        public let jobDefinitionArn: String
         /// The type of job definition.
-        public var type: String = ""
+        public let type: String
         /// An object with various properties specific to container-based jobs. 
-        public var containerProperties: ContainerProperties? = nil
-
-        public init() {}
+        public let containerProperties: ContainerProperties?
 
         public init(revision: Int32, status: String? = nil, jobDefinitionName: String, parameters: [String: String]? = nil, jobDefinitionArn: String, type: String, containerProperties: ContainerProperties? = nil) {
             self.revision = revision
@@ -1205,12 +1155,14 @@ extension Batch {
             self.jobDefinitionName = jobDefinitionName
             if let parameters = dictionary["parameters"] as? [String: String] {
                 self.parameters = parameters
+            } else { 
+                self.parameters = nil
             }
             guard let jobDefinitionArn = dictionary["jobDefinitionArn"] as? String else { throw InitializableError.missingRequiredParam("jobDefinitionArn") }
             self.jobDefinitionArn = jobDefinitionArn
             guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
             self.type = type
-            if let containerProperties = dictionary["containerProperties"] as? [String: Any] { self.containerProperties = try Batch.ContainerProperties(dictionary: containerProperties) }
+            if let containerProperties = dictionary["containerProperties"] as? [String: Any] { self.containerProperties = try Batch.ContainerProperties(dictionary: containerProperties) } else { self.containerProperties = nil }
         }
     }
 
@@ -1218,11 +1170,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the key value pair. For environment variables, this is the name of the environment variable.
-        public var name: String? = nil
+        public let name: String?
         /// The value of the key value pair. For environment variables, this is the value of the environment variable.
-        public var value: String? = nil
-
-        public init() {}
+        public let value: String?
 
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
@@ -1239,15 +1189,13 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the job queue. If the job queue state is ENABLED, it is able to accept jobs.
-        public var state: String? = nil
+        public let state: String?
         /// The set of compute environments mapped to a job queue and their order relative to each other. The job scheduler uses this parameter to determine which compute environment should execute a given job. Compute environments must be in the VALID state before you can associate them with a job queue. You can associate up to 3 compute environments with a job queue.
-        public var computeEnvironmentOrder: [ComputeEnvironmentOrder] = []
+        public let computeEnvironmentOrder: [ComputeEnvironmentOrder]
         /// The priority of the job queue. Job queues with a higher priority (or a lower integer value for the priority parameter) are evaluated first when associated with same compute environment. Priority is determined in ascending order, for example, a job queue with a priority value of 1 is given scheduling preference over a job queue with a priority value of 10.
-        public var priority: Int32 = 0
+        public let priority: Int32
         /// The name of the job queue.
-        public var jobQueueName: String = ""
-
-        public init() {}
+        public let jobQueueName: String
 
         public init(state: String? = nil, computeEnvironmentOrder: [ComputeEnvironmentOrder], priority: Int32, jobQueueName: String) {
             self.state = state
@@ -1271,11 +1219,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of up to 100 job IDs to cancel.
-        public var jobId: String = ""
+        public let jobId: String
         /// A message to attach to the job that explains the reason for cancelling it. This message is returned by future DescribeJobs operations on the job. This message is also recorded in the AWS Batch activity logs. 
-        public var reason: String = ""
-
-        public init() {}
+        public let reason: String
 
         public init(jobId: String, reason: String) {
             self.jobId = jobId
@@ -1294,11 +1240,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the compute environment.
-        public var computeEnvironmentName: String? = nil
+        public let computeEnvironmentName: String?
         /// The Amazon Resource Name (ARN) of the compute environment. 
-        public var computeEnvironmentArn: String? = nil
-
-        public init() {}
+        public let computeEnvironmentArn: String?
 
         public init(computeEnvironmentName: String? = nil, computeEnvironmentArn: String? = nil) {
             self.computeEnvironmentName = computeEnvironmentName
@@ -1315,11 +1259,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the job queue.
-        public var jobQueueName: String? = nil
+        public let jobQueueName: String?
         /// The Amazon Resource Name (ARN) of the job queue.
-        public var jobQueueArn: String? = nil
-
-        public init() {}
+        public let jobQueueArn: String?
 
         public init(jobQueueName: String? = nil, jobQueueArn: String? = nil) {
             self.jobQueueName = jobQueueName
@@ -1336,11 +1278,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints.
-        public var name: String? = nil
+        public let name: String?
         /// The contents of the host parameter determine whether your data volume persists on the host container instance and where it is stored. If the host parameter is empty, then the Docker daemon assigns a host path for your data volume, but the data is not guaranteed to persist after the containers associated with it stop running.
-        public var host: Host? = nil
-
-        public init() {}
+        public let host: Host?
 
         public init(name: String? = nil, host: Host? = nil) {
             self.name = name
@@ -1349,7 +1289,7 @@ extension Batch {
 
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["name"] as? String
-            if let host = dictionary["host"] as? [String: Any] { self.host = try Batch.Host(dictionary: host) }
+            if let host = dictionary["host"] as? [String: Any] { self.host = try Batch.Host(dictionary: host) } else { self.host = nil }
         }
     }
 
@@ -1357,13 +1297,11 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of EC2 vCPUs that an environment can reach.
-        public var maxvCpus: Int32? = nil
+        public let maxvCpus: Int32?
         /// The minimum number of EC2 vCPUs that an environment should maintain.
-        public var minvCpus: Int32? = nil
+        public let minvCpus: Int32?
         /// The desired number of EC2 vCPUS in the compute environment.
-        public var desiredvCpus: Int32? = nil
-
-        public init() {}
+        public let desiredvCpus: Int32?
 
         public init(maxvCpus: Int32? = nil, minvCpus: Int32? = nil, desiredvCpus: Int32? = nil) {
             self.maxvCpus = maxvCpus
@@ -1382,9 +1320,7 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The job ID of the AWS Batch job associated with this dependency.
-        public var jobId: String? = nil
-
-        public init() {}
+        public let jobId: String?
 
         public init(jobId: String? = nil) {
             self.jobId = jobId
@@ -1399,13 +1335,11 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The soft limit for the ulimit type.
-        public var softLimit: Int32 = 0
+        public let softLimit: Int32
         /// The type of the ulimit.
-        public var name: String = ""
+        public let name: String
         /// The hard limit for the ulimit type.
-        public var hardLimit: Int32 = 0
-
-        public init() {}
+        public let hardLimit: Int32
 
         public init(softLimit: Int32, name: String, hardLimit: Int32) {
             self.softLimit = softLimit
@@ -1427,11 +1361,9 @@ extension Batch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the compute environment.
-        public var computeEnvironment: String = ""
+        public let computeEnvironment: String
         /// The order of the compute environment.
-        public var order: Int32 = 0
-
-        public init() {}
+        public let order: Int32
 
         public init(computeEnvironment: String, order: Int32) {
             self.computeEnvironment = computeEnvironment

@@ -33,11 +33,9 @@ extension Polly {
         /// The key for the payload
         public static let payload: String? = nil
         /// Lexicon content in string format. The content of a lexicon must be in PLS format.
-        public var content: String? = nil
+        public let content: String?
         /// Name of the lexicon.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(content: String? = nil, name: String? = nil) {
             self.content = content
@@ -57,11 +55,9 @@ extension Polly {
             return ["LanguageCode": "LanguageCode", "NextToken": "NextToken"]
         }
         ///  The language identification tag (ISO 639 code for the language name-ISO 3166 country code) for filtering the list of voices returned. If you don't specify this optional parameter, all available voices are returned. 
-        public var languageCode: String? = nil
+        public let languageCode: String?
         /// An opaque pagination token returned from the previous DescribeVoices operation. If present, this indicates where to continue the listing.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(languageCode: String? = nil, nextToken: String? = nil) {
             self.languageCode = languageCode
@@ -81,13 +77,11 @@ extension Polly {
             return ["Content-Type": "ContentType", "x-amzn-RequestCharacters": "RequestCharacters"]
         }
         ///  Specifies the type audio stream. This should reflect the OutputFormat parameter in your request.     If you request mp3 as the OutputFormat, the ContentType returned is audio/mpeg.     If you request ogg_vorbis as the OutputFormat, the ContentType returned is audio/ogg.     If you request pcm as the OutputFormat, the ContentType returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.     
-        public var contentType: String? = nil
+        public let contentType: String?
         ///  Stream containing the synthesized speech. 
-        public var audioStream: Data? = nil
+        public let audioStream: Data?
         /// Number of characters synthesized.
-        public var requestCharacters: Int32? = nil
-
-        public init() {}
+        public let requestCharacters: Int32?
 
         public init(contentType: String? = nil, audioStream: Data? = nil, requestCharacters: Int32? = nil) {
             self.contentType = contentType
@@ -109,11 +103,9 @@ extension Polly {
             return ["LexiconName": "Name"]
         }
         /// Content of the PLS lexicon as string data.
-        public var content: String = ""
+        public let content: String
         /// Name of the lexicon. The name must follow the regular express format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric string up to 20 characters long. 
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(content: String, name: String) {
             self.content = content
@@ -132,11 +124,9 @@ extension Polly {
         /// The key for the payload
         public static let payload: String? = nil
         /// Lexicon object that provides name and the string content of the lexicon. 
-        public var lexicon: Lexicon? = nil
+        public let lexicon: Lexicon?
         /// Metadata of the lexicon, including phonetic alphabetic used, language code, lexicon ARN, number of lexemes defined in the lexicon, and size of lexicon in bytes.
-        public var lexiconAttributes: LexiconAttributes? = nil
-
-        public init() {}
+        public let lexiconAttributes: LexiconAttributes?
 
         public init(lexicon: Lexicon? = nil, lexiconAttributes: LexiconAttributes? = nil) {
             self.lexicon = lexicon
@@ -144,8 +134,8 @@ extension Polly {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let lexicon = dictionary["Lexicon"] as? [String: Any] { self.lexicon = try Polly.Lexicon(dictionary: lexicon) }
-            if let lexiconAttributes = dictionary["LexiconAttributes"] as? [String: Any] { self.lexiconAttributes = try Polly.LexiconAttributes(dictionary: lexiconAttributes) }
+            if let lexicon = dictionary["Lexicon"] as? [String: Any] { self.lexicon = try Polly.Lexicon(dictionary: lexicon) } else { self.lexicon = nil }
+            if let lexiconAttributes = dictionary["LexiconAttributes"] as? [String: Any] { self.lexiconAttributes = try Polly.LexiconAttributes(dictionary: lexiconAttributes) } else { self.lexiconAttributes = nil }
         }
     }
 
@@ -153,11 +143,9 @@ extension Polly {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token to use in the next request to continue the listing of lexicons. NextToken is returned only if the response is truncated.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of lexicon names and attributes.
-        public var lexicons: [LexiconDescription]? = nil
-
-        public init() {}
+        public let lexicons: [LexiconDescription]?
 
         public init(nextToken: String? = nil, lexicons: [LexiconDescription]? = nil) {
             self.nextToken = nextToken
@@ -168,6 +156,8 @@ extension Polly {
             self.nextToken = dictionary["NextToken"] as? String
             if let lexicons = dictionary["Lexicons"] as? [[String: Any]] {
                 self.lexicons = try lexicons.map({ try LexiconDescription(dictionary: $0) })
+            } else { 
+                self.lexicons = nil
             }
         }
     }
@@ -179,9 +169,7 @@ extension Polly {
             return ["LexiconName": "Name"]
         }
         /// Name of the lexicon.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -197,8 +185,6 @@ extension Polly {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -207,19 +193,17 @@ extension Polly {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The audio format in which the resulting stream will be encoded. 
-        public var outputFormat: String = ""
+        public let outputFormat: String
         ///  Voice ID to use for the synthesis. You can get a list of available voice IDs by calling the DescribeVoices operation. 
-        public var voiceId: String = ""
+        public let voiceId: String
         /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. For information about storing lexicons, see PutLexicon.
-        public var lexiconNames: [String]? = nil
+        public let lexiconNames: [String]?
         ///  Specifies whether the input text is plain text or SSML. The default value is plain text. For more information, see Using SSML.
-        public var textType: String? = nil
+        public let textType: String?
         ///  Input text to synthesize. If you specify ssml as the TextType, follow the SSML format for the input text. 
-        public var text: String = ""
+        public let text: String
         ///  The audio frequency specified in Hz.  The valid values for mp3 and ogg_vorbis are "8000", "16000", and "22050". The default value is "22050".   Valid values for pcm are "8000" and "16000" The default value is "16000". 
-        public var sampleRate: String? = nil
-
-        public init() {}
+        public let sampleRate: String?
 
         public init(outputFormat: String, voiceId: String, lexiconNames: [String]? = nil, textType: String? = nil, text: String, sampleRate: String? = nil) {
             self.outputFormat = outputFormat
@@ -235,9 +219,7 @@ extension Polly {
             self.outputFormat = outputFormat
             guard let voiceId = dictionary["VoiceId"] as? String else { throw InitializableError.missingRequiredParam("VoiceId") }
             self.voiceId = voiceId
-            if let lexiconNames = dictionary["LexiconNames"] as? [String] {
-                self.lexiconNames = lexiconNames
-            }
+            self.lexiconNames = dictionary["LexiconNames"] as? [String]
             self.textType = dictionary["TextType"] as? String
             guard let text = dictionary["Text"] as? String else { throw InitializableError.missingRequiredParam("Text") }
             self.text = text
@@ -249,11 +231,9 @@ extension Polly {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of voices with their properties.
-        public var voices: [Voice]? = nil
+        public let voices: [Voice]?
         /// The pagination token to use in the next request to continue the listing of voices. NextToken is returned only if the response is truncated.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(voices: [Voice]? = nil, nextToken: String? = nil) {
             self.voices = voices
@@ -263,6 +243,8 @@ extension Polly {
         public init(dictionary: [String: Any]) throws {
             if let voices = dictionary["Voices"] as? [[String: Any]] {
                 self.voices = try voices.map({ try Voice(dictionary: $0) })
+            } else { 
+                self.voices = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -275,9 +257,7 @@ extension Polly {
             return ["NextToken": "NextToken"]
         }
         /// An opaque pagination token returned from previous ListLexicons operation. If present, indicates where to continue the list of lexicons.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
@@ -292,19 +272,17 @@ extension Polly {
         /// The key for the payload
         public static let payload: String? = nil
         /// Amazon Resource Name (ARN) of the lexicon.
-        public var lexiconArn: String? = nil
+        public let lexiconArn: String?
         /// Date lexicon was last modified (a timestamp value).
-        public var lastModified: Date? = nil
+        public let lastModified: Date?
         /// Number of lexemes in the lexicon.
-        public var lexemesCount: Int32? = nil
+        public let lexemesCount: Int32?
         /// Language code that the lexicon applies to. A lexicon with a language code such as "en" would be applied to all English languages (en-GB, en-US, en-AUS, en-WLS, and so on.
-        public var languageCode: String? = nil
+        public let languageCode: String?
         /// Phonetic alphabet used in the lexicon. Valid values are ipa and x-sampa.
-        public var alphabet: String? = nil
+        public let alphabet: String?
         /// Total size of the lexicon, in characters.
-        public var size: Int32? = nil
-
-        public init() {}
+        public let size: Int32?
 
         public init(lexiconArn: String? = nil, lastModified: Date? = nil, lexemesCount: Int32? = nil, languageCode: String? = nil, alphabet: String? = nil, size: Int32? = nil) {
             self.lexiconArn = lexiconArn
@@ -329,11 +307,9 @@ extension Polly {
         /// The key for the payload
         public static let payload: String? = nil
         /// Name of the lexicon.
-        public var name: String? = nil
+        public let name: String?
         /// Provides lexicon metadata.
-        public var attributes: LexiconAttributes? = nil
-
-        public init() {}
+        public let attributes: LexiconAttributes?
 
         public init(name: String? = nil, attributes: LexiconAttributes? = nil) {
             self.name = name
@@ -342,15 +318,13 @@ extension Polly {
 
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["Name"] as? String
-            if let attributes = dictionary["Attributes"] as? [String: Any] { self.attributes = try Polly.LexiconAttributes(dictionary: attributes) }
+            if let attributes = dictionary["Attributes"] as? [String: Any] { self.attributes = try Polly.LexiconAttributes(dictionary: attributes) } else { self.attributes = nil }
         }
     }
 
     public struct PutLexiconOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -363,9 +337,7 @@ extension Polly {
             return ["LexiconName": "Name"]
         }
         /// The name of the lexicon to delete. Must be an existing lexicon in the region.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -381,17 +353,15 @@ extension Polly {
         /// The key for the payload
         public static let payload: String? = nil
         /// Human readable name of the language in English.
-        public var languageName: String? = nil
+        public let languageName: String?
         /// Language code of the voice.
-        public var languageCode: String? = nil
+        public let languageCode: String?
         /// Name of the voice (for example, Salli, Kendra, etc.). This provides a human readable voice name that you might display in your application.
-        public var name: String? = nil
+        public let name: String?
         /// Gender of the voice.
-        public var gender: String? = nil
+        public let gender: String?
         /// Amazon Polly assigned voice ID. This is the ID that you specify when calling the SynthesizeSpeech operation.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(languageName: String? = nil, languageCode: String? = nil, name: String? = nil, gender: String? = nil, id: String? = nil) {
             self.languageName = languageName

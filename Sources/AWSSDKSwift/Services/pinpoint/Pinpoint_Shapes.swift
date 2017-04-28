@@ -33,9 +33,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of items to update. Maximum 100 items
-        public var item: [EndpointBatchItem]? = nil
-
-        public init() {}
+        public let item: [EndpointBatchItem]?
 
         public init(item: [EndpointBatchItem]? = nil) {
             self.item = item
@@ -44,6 +42,8 @@ extension Pinpoint {
         public init(dictionary: [String: Any]) throws {
             if let item = dictionary["Item"] as? [[String: Any]] {
                 self.item = try item.map({ try EndpointBatchItem(dictionary: $0) })
+            } else { 
+                self.item = nil
             }
         }
     }
@@ -51,9 +51,7 @@ extension Pinpoint {
     public struct UpdateEndpointsBatchResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "MessageBody"
-        public var messageBody: MessageBody = MessageBody()
-
-        public init() {}
+        public let messageBody: MessageBody
 
         public init(messageBody: MessageBody) {
             self.messageBody = messageBody
@@ -74,12 +72,10 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["campaign-id": "CampaignId", "application-id": "ApplicationId"]
         }
-        public var pageSize: String? = nil
-        public var campaignId: String = ""
-        public var applicationId: String = ""
-        public var token: String? = nil
-
-        public init() {}
+        public let pageSize: String?
+        public let campaignId: String
+        public let applicationId: String
+        public let token: String?
 
         public init(pageSize: String? = nil, campaignId: String, applicationId: String, token: String? = nil) {
             self.pageSize = pageSize
@@ -102,26 +98,24 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The endpoint status. Can be either ACTIVE or INACTIVE. Will be set to INACTIVE if a delivery fails. Will be set to ACTIVE if the address is updated.
-        public var endpointStatus: String? = nil
+        public let endpointStatus: String?
         /// Indicates whether a user has opted out of receiving messages with one of the following values:  ALL – User receives all messages. NONE – User receives no messages.
-        public var optOut: String? = nil
-        public var metrics: [String: Double]? = nil
+        public let optOut: String?
+        public let metrics: [String: Double]?
         /// The last time the endpoint was updated. Provided in ISO 8601 format.
-        public var effectiveDate: String? = nil
+        public let effectiveDate: String?
         /// The address or token of the endpoint.
-        public var address: String? = nil
+        public let address: String?
         /// The endpoint location attributes.
-        public var location: EndpointLocation? = nil
+        public let location: EndpointLocation?
         /// The endpoint demographic attributes.
-        public var demographic: EndpointDemographic? = nil
-        public var attributes: [String: [String]]? = nil
+        public let demographic: EndpointDemographic?
+        public let attributes: [String: [String]]?
         /// The unique ID for the most recent request to update the endpoint.
-        public var requestId: String? = nil
+        public let requestId: String?
         /// Custom user-specific attributes that your app reports to Amazon Pinpoint.
-        public var user: EndpointUser? = nil
-        public var channelType: String? = nil
-
-        public init() {}
+        public let user: EndpointUser?
+        public let channelType: String?
 
         public init(endpointStatus: String? = nil, optOut: String? = nil, metrics: [String: Double]? = nil, effectiveDate: String? = nil, address: String? = nil, location: EndpointLocation? = nil, demographic: EndpointDemographic? = nil, attributes: [String: [String]]? = nil, requestId: String? = nil, user: EndpointUser? = nil, channelType: String? = nil) {
             self.endpointStatus = endpointStatus
@@ -142,11 +136,13 @@ extension Pinpoint {
             self.optOut = dictionary["OptOut"] as? String
             if let metrics = dictionary["Metrics"] as? [String: Double] {
                 self.metrics = metrics
+            } else { 
+                self.metrics = nil
             }
             self.effectiveDate = dictionary["EffectiveDate"] as? String
             self.address = dictionary["Address"] as? String
-            if let location = dictionary["Location"] as? [String: Any] { self.location = try Pinpoint.EndpointLocation(dictionary: location) }
-            if let demographic = dictionary["Demographic"] as? [String: Any] { self.demographic = try Pinpoint.EndpointDemographic(dictionary: demographic) }
+            if let location = dictionary["Location"] as? [String: Any] { self.location = try Pinpoint.EndpointLocation(dictionary: location) } else { self.location = nil }
+            if let demographic = dictionary["Demographic"] as? [String: Any] { self.demographic = try Pinpoint.EndpointDemographic(dictionary: demographic) } else { self.demographic = nil }
             if let attributes = dictionary["Attributes"] as? [String: Any] {
                 var attributesDict: [String: [String]] = [:]
                 for (key, value) in attributes {
@@ -154,9 +150,11 @@ extension Pinpoint {
                     attributesDict[key] = listOfString
                 }
                 self.attributes = attributesDict
+            } else { 
+                self.attributes = nil
             }
             self.requestId = dictionary["RequestId"] as? String
-            if let user = dictionary["User"] as? [String: Any] { self.user = try Pinpoint.EndpointUser(dictionary: user) }
+            if let user = dictionary["User"] as? [String: Any] { self.user = try Pinpoint.EndpointUser(dictionary: user) } else { self.user = nil }
             self.channelType = dictionary["ChannelType"] as? String
         }
     }
@@ -164,9 +162,7 @@ extension Pinpoint {
     public struct UpdateApplicationSettingsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "ApplicationSettingsResource"
-        public var applicationSettingsResource: ApplicationSettingsResource = ApplicationSettingsResource()
-
-        public init() {}
+        public let applicationSettingsResource: ApplicationSettingsResource
 
         public init(applicationSettingsResource: ApplicationSettingsResource) {
             self.applicationSettingsResource = applicationSettingsResource
@@ -184,9 +180,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public var applicationId: String = ""
-
-        public init() {}
+        public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
@@ -202,9 +196,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// Platform credential API key from Google.
-        public var apiKey: String? = nil
-
-        public init() {}
+        public let apiKey: String?
 
         public init(apiKey: String? = nil) {
             self.apiKey = apiKey
@@ -221,10 +213,8 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public var applicationId: String = ""
-        public var writeCampaignRequest: WriteCampaignRequest = WriteCampaignRequest()
-
-        public init() {}
+        public let applicationId: String
+        public let writeCampaignRequest: WriteCampaignRequest
 
         public init(applicationId: String, writeCampaignRequest: WriteCampaignRequest) {
             self.applicationId = applicationId
@@ -245,10 +235,8 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId", "segment-id": "SegmentId"]
         }
-        public var segmentId: String = ""
-        public var applicationId: String = ""
-
-        public init() {}
+        public let segmentId: String
+        public let applicationId: String
 
         public init(segmentId: String, applicationId: String) {
             self.segmentId = segmentId
@@ -267,11 +255,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The default end time for quiet time in ISO 8601 format.
-        public var end: String? = nil
+        public let end: String?
         /// The default start time for quiet time in ISO 8601 format.
-        public var start: String? = nil
-
-        public init() {}
+        public let start: String?
 
         public init(end: String? = nil, start: String? = nil) {
             self.end = end
@@ -290,9 +276,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public var applicationId: String = ""
-
-        public init() {}
+        public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
@@ -310,10 +294,8 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["campaign-id": "CampaignId", "application-id": "ApplicationId"]
         }
-        public var campaignId: String = ""
-        public var applicationId: String = ""
-
-        public init() {}
+        public let campaignId: String
+        public let applicationId: String
 
         public init(campaignId: String, applicationId: String) {
             self.campaignId = campaignId
@@ -331,9 +313,7 @@ extension Pinpoint {
     public struct DeleteGcmChannelResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "GCMChannelResponse"
-        public var gCMChannelResponse: GCMChannelResponse = GCMChannelResponse()
-
-        public init() {}
+        public let gCMChannelResponse: GCMChannelResponse
 
         public init(gCMChannelResponse: GCMChannelResponse) {
             self.gCMChannelResponse = gCMChannelResponse
@@ -354,11 +334,9 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public var pageSize: String? = nil
-        public var applicationId: String = ""
-        public var token: String? = nil
-
-        public init() {}
+        public let pageSize: String?
+        public let applicationId: String
+        public let token: String?
 
         public init(pageSize: String? = nil, applicationId: String, token: String? = nil) {
             self.pageSize = pageSize
@@ -377,9 +355,7 @@ extension Pinpoint {
     public struct GetImportJobResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "ImportJobResponse"
-        public var importJobResponse: ImportJobResponse = ImportJobResponse()
-
-        public init() {}
+        public let importJobResponse: ImportJobResponse
 
         public init(importJobResponse: ImportJobResponse) {
             self.importJobResponse = importJobResponse
@@ -397,10 +373,8 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public var applicationId: String = ""
-        public var writeSegmentRequest: WriteSegmentRequest = WriteSegmentRequest()
-
-        public init() {}
+        public let applicationId: String
+        public let writeSegmentRequest: WriteSegmentRequest
 
         public init(applicationId: String, writeSegmentRequest: WriteSegmentRequest) {
             self.applicationId = applicationId
@@ -424,12 +398,10 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["segment-id": "SegmentId", "application-id": "ApplicationId"]
         }
-        public var pageSize: String? = nil
-        public var token: String? = nil
-        public var applicationId: String = ""
-        public var segmentId: String = ""
-
-        public init() {}
+        public let pageSize: String?
+        public let token: String?
+        public let applicationId: String
+        public let segmentId: String
 
         public init(pageSize: String? = nil, token: String? = nil, applicationId: String, segmentId: String) {
             self.pageSize = pageSize
@@ -451,25 +423,23 @@ extension Pinpoint {
     public struct Message: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var action: String? = nil
+        public let action: String?
         /// The URL to open in the user's mobile browser. Used if the value for Action is URL.
-        public var url: String? = nil
+        public let url: String?
         /// The URL that points to the media resource, for example a .mp4 or .gif file.
-        public var mediaUrl: String? = nil
+        public let mediaUrl: String?
         /// The message title that displays above the message on the user's device.
-        public var title: String? = nil
+        public let title: String?
         /// The URL that points to an image used in the push notification.
-        public var imageUrl: String? = nil
+        public let imageUrl: String?
         /// Indicates if the message should display on the users device.  Silent pushes can be used for Remote Configuration and Phone Home use cases. 
-        public var silentPush: Bool? = nil
+        public let silentPush: Bool?
         /// The JSON payload used for a silent push.
-        public var jsonBody: String? = nil
+        public let jsonBody: String?
         /// The message body. Can include up to 140 characters.
-        public var body: String? = nil
+        public let body: String?
         /// The URL that points to the icon image for the push notification icon, for example, the app icon.
-        public var imageIconUrl: String? = nil
-
-        public init() {}
+        public let imageIconUrl: String?
 
         public init(action: String? = nil, url: String? = nil, mediaUrl: String? = nil, title: String? = nil, imageUrl: String? = nil, silentPush: Bool? = nil, jsonBody: String? = nil, body: String? = nil, imageIconUrl: String? = nil) {
             self.action = action
@@ -502,9 +472,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public var applicationId: String = ""
-
-        public init() {}
+        public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
@@ -522,11 +490,9 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["segment-id": "SegmentId", "version": "Version", "application-id": "ApplicationId"]
         }
-        public var applicationId: String = ""
-        public var segmentId: String = ""
-        public var version: String = ""
-
-        public init() {}
+        public let applicationId: String
+        public let segmentId: String
+        public let version: String
 
         public init(applicationId: String, segmentId: String, version: String) {
             self.applicationId = applicationId
@@ -548,16 +514,14 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The country filter according to ISO 3166-1 Alpha-2 codes.
-        public var country: SetDimension? = nil
-
-        public init() {}
+        public let country: SetDimension?
 
         public init(country: SetDimension? = nil) {
             self.country = country
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let country = dictionary["Country"] as? [String: Any] { self.country = try Pinpoint.SetDimension(dictionary: country) }
+            if let country = dictionary["Country"] as? [String: Any] { self.country = try Pinpoint.SetDimension(dictionary: country) } else { self.country = nil }
         }
     }
 
@@ -565,31 +529,29 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The custom name of a variation of the campaign used for A/B testing.
-        public var treatmentName: String? = nil
+        public let treatmentName: String?
         /// The version of the segment to which the campaign sends messages.
-        public var segmentVersion: Int32? = nil
+        public let segmentVersion: Int32?
         /// Treatments that are defined in addition to the default treatment.
-        public var additionalTreatments: [WriteTreatmentResource]? = nil
+        public let additionalTreatments: [WriteTreatmentResource]?
         /// The custom name of the campaign.
-        public var name: String? = nil
+        public let name: String?
         /// A custom description for the treatment.
-        public var treatmentDescription: String? = nil
+        public let treatmentDescription: String?
         /// The allocated percentage of end users who will not receive messages from this campaign.
-        public var holdoutPercent: Int32? = nil
+        public let holdoutPercent: Int32?
         /// The campaign limits settings.
-        public var limits: CampaignLimits? = nil
+        public let limits: CampaignLimits?
         /// The campaign schedule.
-        public var schedule: Schedule? = nil
+        public let schedule: Schedule?
         /// The message configuration settings.
-        public var messageConfiguration: MessageConfiguration? = nil
+        public let messageConfiguration: MessageConfiguration?
         /// The ID of the segment to which the campaign sends messages.
-        public var segmentId: String? = nil
+        public let segmentId: String?
         /// Indicates whether the campaign is paused. A paused campaign does not send messages unless you resume it by setting IsPaused to false.
-        public var isPaused: Bool? = nil
+        public let isPaused: Bool?
         /// A description of the campaign.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(treatmentName: String? = nil, segmentVersion: Int32? = nil, additionalTreatments: [WriteTreatmentResource]? = nil, name: String? = nil, treatmentDescription: String? = nil, holdoutPercent: Int32? = nil, limits: CampaignLimits? = nil, schedule: Schedule? = nil, messageConfiguration: MessageConfiguration? = nil, segmentId: String? = nil, isPaused: Bool? = nil, description: String? = nil) {
             self.treatmentName = treatmentName
@@ -611,13 +573,15 @@ extension Pinpoint {
             self.segmentVersion = dictionary["SegmentVersion"] as? Int32
             if let additionalTreatments = dictionary["AdditionalTreatments"] as? [[String: Any]] {
                 self.additionalTreatments = try additionalTreatments.map({ try WriteTreatmentResource(dictionary: $0) })
+            } else { 
+                self.additionalTreatments = nil
             }
             self.name = dictionary["Name"] as? String
             self.treatmentDescription = dictionary["TreatmentDescription"] as? String
             self.holdoutPercent = dictionary["HoldoutPercent"] as? Int32
-            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Pinpoint.CampaignLimits(dictionary: limits) }
-            if let schedule = dictionary["Schedule"] as? [String: Any] { self.schedule = try Pinpoint.Schedule(dictionary: schedule) }
-            if let messageConfiguration = dictionary["MessageConfiguration"] as? [String: Any] { self.messageConfiguration = try Pinpoint.MessageConfiguration(dictionary: messageConfiguration) }
+            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Pinpoint.CampaignLimits(dictionary: limits) } else { self.limits = nil }
+            if let schedule = dictionary["Schedule"] as? [String: Any] { self.schedule = try Pinpoint.Schedule(dictionary: schedule) } else { self.schedule = nil }
+            if let messageConfiguration = dictionary["MessageConfiguration"] as? [String: Any] { self.messageConfiguration = try Pinpoint.MessageConfiguration(dictionary: messageConfiguration) } else { self.messageConfiguration = nil }
             self.segmentId = dictionary["SegmentId"] as? String
             self.isPaused = dictionary["IsPaused"] as? Bool
             self.description = dictionary["Description"] as? String
@@ -630,10 +594,8 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public var writeApplicationSettingsRequest: WriteApplicationSettingsRequest = WriteApplicationSettingsRequest()
-        public var applicationId: String = ""
-
-        public init() {}
+        public let writeApplicationSettingsRequest: WriteApplicationSettingsRequest
+        public let applicationId: String
 
         public init(writeApplicationSettingsRequest: WriteApplicationSettingsRequest, applicationId: String) {
             self.writeApplicationSettingsRequest = writeApplicationSettingsRequest
@@ -652,17 +614,15 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The campaign schedule.
-        public var schedule: Schedule? = nil
+        public let schedule: Schedule?
         /// A custom description for the treatment.
-        public var treatmentDescription: String? = nil
+        public let treatmentDescription: String?
         /// The message configuration settings.
-        public var messageConfiguration: MessageConfiguration? = nil
+        public let messageConfiguration: MessageConfiguration?
         /// The allocated percentage of users for this treatment.
-        public var sizePercent: Int32? = nil
+        public let sizePercent: Int32?
         /// The custom name of a variation of the campaign used for A/B testing.
-        public var treatmentName: String? = nil
-
-        public init() {}
+        public let treatmentName: String?
 
         public init(schedule: Schedule? = nil, treatmentDescription: String? = nil, messageConfiguration: MessageConfiguration? = nil, sizePercent: Int32? = nil, treatmentName: String? = nil) {
             self.schedule = schedule
@@ -673,9 +633,9 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let schedule = dictionary["Schedule"] as? [String: Any] { self.schedule = try Pinpoint.Schedule(dictionary: schedule) }
+            if let schedule = dictionary["Schedule"] as? [String: Any] { self.schedule = try Pinpoint.Schedule(dictionary: schedule) } else { self.schedule = nil }
             self.treatmentDescription = dictionary["TreatmentDescription"] as? String
-            if let messageConfiguration = dictionary["MessageConfiguration"] as? [String: Any] { self.messageConfiguration = try Pinpoint.MessageConfiguration(dictionary: messageConfiguration) }
+            if let messageConfiguration = dictionary["MessageConfiguration"] as? [String: Any] { self.messageConfiguration = try Pinpoint.MessageConfiguration(dictionary: messageConfiguration) } else { self.messageConfiguration = nil }
             self.sizePercent = dictionary["SizePercent"] as? Int32
             self.treatmentName = dictionary["TreatmentName"] as? String
         }
@@ -685,21 +645,19 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The custom name of a variation of the campaign used for A/B testing.
-        public var treatmentName: String? = nil
+        public let treatmentName: String?
         /// A custom description for the treatment.
-        public var treatmentDescription: String? = nil
+        public let treatmentDescription: String?
         /// The allocated percentage of users for this treatment.
-        public var sizePercent: Int32? = nil
+        public let sizePercent: Int32?
         /// The treatment status.
-        public var state: CampaignState? = nil
+        public let state: CampaignState?
         /// The campaign schedule.
-        public var schedule: Schedule? = nil
+        public let schedule: Schedule?
         /// The message configuration settings.
-        public var messageConfiguration: MessageConfiguration? = nil
+        public let messageConfiguration: MessageConfiguration?
         /// The unique treatment ID.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(treatmentName: String? = nil, treatmentDescription: String? = nil, sizePercent: Int32? = nil, state: CampaignState? = nil, schedule: Schedule? = nil, messageConfiguration: MessageConfiguration? = nil, id: String? = nil) {
             self.treatmentName = treatmentName
@@ -715,9 +673,9 @@ extension Pinpoint {
             self.treatmentName = dictionary["TreatmentName"] as? String
             self.treatmentDescription = dictionary["TreatmentDescription"] as? String
             self.sizePercent = dictionary["SizePercent"] as? Int32
-            if let state = dictionary["State"] as? [String: Any] { self.state = try Pinpoint.CampaignState(dictionary: state) }
-            if let schedule = dictionary["Schedule"] as? [String: Any] { self.schedule = try Pinpoint.Schedule(dictionary: schedule) }
-            if let messageConfiguration = dictionary["MessageConfiguration"] as? [String: Any] { self.messageConfiguration = try Pinpoint.MessageConfiguration(dictionary: messageConfiguration) }
+            if let state = dictionary["State"] as? [String: Any] { self.state = try Pinpoint.CampaignState(dictionary: state) } else { self.state = nil }
+            if let schedule = dictionary["Schedule"] as? [String: Any] { self.schedule = try Pinpoint.Schedule(dictionary: schedule) } else { self.schedule = nil }
+            if let messageConfiguration = dictionary["MessageConfiguration"] as? [String: Any] { self.messageConfiguration = try Pinpoint.MessageConfiguration(dictionary: messageConfiguration) } else { self.messageConfiguration = nil }
             self.id = dictionary["Id"] as? String
         }
     }
@@ -726,36 +684,34 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// Custom user-specific attributes that your app reports to Amazon Pinpoint.
-        public var user: EndpointUser? = nil
+        public let user: EndpointUser?
         /// The ShardId of endpoint
-        public var shardId: String? = nil
+        public let shardId: String?
         /// Indicates whether a user has opted out of receiving messages with one of the following values:  ALL – User receives all messages. NONE – User receives no messages.
-        public var optOut: String? = nil
-        public var metrics: [String: Double]? = nil
+        public let optOut: String?
+        public let metrics: [String: Double]?
         /// The last time the endpoint was created. Provided in ISO 8601 format.
-        public var creationDate: String? = nil
+        public let creationDate: String?
         /// A number from 0 - 99 that represents the cohort the endpoint is assigned to. Endpoints are grouped into cohorts randomly, and each cohort contains approximately 1 percent of the endpoints for an app. Amazon Pinpoint assigns cohorts to the holdout or treatment allocations for a campaign.
-        public var cohortId: String? = nil
+        public let cohortId: String?
         /// The unique ID that you assigned to the endpoint. The ID should be a globally unique identifier (GUID) to ensure that it is unique compared to all other endpoints for the application.
-        public var id: String? = nil
+        public let id: String?
         /// The last time the endpoint was updated. Provided in ISO 8601 format.
-        public var effectiveDate: String? = nil
+        public let effectiveDate: String?
         /// The endpoint location attributes.
-        public var location: EndpointLocation? = nil
+        public let location: EndpointLocation?
         /// The address or token of the endpoint.
-        public var address: String? = nil
+        public let address: String?
         /// The endpoint demographic attributes.
-        public var demographic: EndpointDemographic? = nil
-        public var attributes: [String: [String]]? = nil
+        public let demographic: EndpointDemographic?
+        public let attributes: [String: [String]]?
         /// The ID of the application associated with the endpoint.
-        public var applicationId: String? = nil
+        public let applicationId: String?
         /// The unique ID for the most recent request to update the endpoint.
-        public var requestId: String? = nil
-        public var channelType: String? = nil
+        public let requestId: String?
+        public let channelType: String?
         /// The endpoint status. Can be either ACTIVE or INACTIVE. Will be set to INACTIVE if a delivery fails. Will be set to ACTIVE if the address is updated.
-        public var endpointStatus: String? = nil
-
-        public init() {}
+        public let endpointStatus: String?
 
         public init(user: EndpointUser? = nil, shardId: String? = nil, optOut: String? = nil, metrics: [String: Double]? = nil, creationDate: String? = nil, cohortId: String? = nil, id: String? = nil, effectiveDate: String? = nil, location: EndpointLocation? = nil, address: String? = nil, demographic: EndpointDemographic? = nil, attributes: [String: [String]]? = nil, applicationId: String? = nil, requestId: String? = nil, channelType: String? = nil, endpointStatus: String? = nil) {
             self.user = user
@@ -777,19 +733,21 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let user = dictionary["User"] as? [String: Any] { self.user = try Pinpoint.EndpointUser(dictionary: user) }
+            if let user = dictionary["User"] as? [String: Any] { self.user = try Pinpoint.EndpointUser(dictionary: user) } else { self.user = nil }
             self.shardId = dictionary["ShardId"] as? String
             self.optOut = dictionary["OptOut"] as? String
             if let metrics = dictionary["Metrics"] as? [String: Double] {
                 self.metrics = metrics
+            } else { 
+                self.metrics = nil
             }
             self.creationDate = dictionary["CreationDate"] as? String
             self.cohortId = dictionary["CohortId"] as? String
             self.id = dictionary["Id"] as? String
             self.effectiveDate = dictionary["EffectiveDate"] as? String
-            if let location = dictionary["Location"] as? [String: Any] { self.location = try Pinpoint.EndpointLocation(dictionary: location) }
+            if let location = dictionary["Location"] as? [String: Any] { self.location = try Pinpoint.EndpointLocation(dictionary: location) } else { self.location = nil }
             self.address = dictionary["Address"] as? String
-            if let demographic = dictionary["Demographic"] as? [String: Any] { self.demographic = try Pinpoint.EndpointDemographic(dictionary: demographic) }
+            if let demographic = dictionary["Demographic"] as? [String: Any] { self.demographic = try Pinpoint.EndpointDemographic(dictionary: demographic) } else { self.demographic = nil }
             if let attributes = dictionary["Attributes"] as? [String: Any] {
                 var attributesDict: [String: [String]] = [:]
                 for (key, value) in attributes {
@@ -797,6 +755,8 @@ extension Pinpoint {
                     attributesDict[key] = listOfString
                 }
                 self.attributes = attributesDict
+            } else { 
+                self.attributes = nil
             }
             self.applicationId = dictionary["ApplicationId"] as? String
             self.requestId = dictionary["RequestId"] as? String
@@ -811,10 +771,8 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["job-id": "JobId", "application-id": "ApplicationId"]
         }
-        public var jobId: String = ""
-        public var applicationId: String = ""
-
-        public init() {}
+        public let jobId: String
+        public let applicationId: String
 
         public init(jobId: String, applicationId: String) {
             self.jobId = jobId
@@ -833,45 +791,43 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The campaign limits settings.
-        public var limits: CampaignLimits? = nil
+        public let limits: CampaignLimits?
         /// The custom name of a variation of the campaign used for A/B testing.
-        public var treatmentName: String? = nil
+        public let treatmentName: String?
         /// The version of the segment to which the campaign sends messages.
-        public var segmentVersion: Int32? = nil
+        public let segmentVersion: Int32?
         /// The campaign status.  An A/B test campaign will have a status of COMPLETED only when all treatments have a status of COMPLETED.
-        public var state: CampaignState? = nil
+        public let state: CampaignState?
         /// The date the campaign was created in ISO 8601 format.
-        public var creationDate: String? = nil
+        public let creationDate: String?
         /// The campaign schedule.
-        public var schedule: Schedule? = nil
+        public let schedule: Schedule?
         /// The message configuration settings.
-        public var messageConfiguration: MessageConfiguration? = nil
+        public let messageConfiguration: MessageConfiguration?
         /// The ID of the segment to which the campaign sends messages.
-        public var segmentId: String? = nil
+        public let segmentId: String?
         /// The unique campaign ID.
-        public var id: String? = nil
+        public let id: String?
         /// A description of the campaign.
-        public var description: String? = nil
+        public let description: String?
         /// A custom description for the treatment.
-        public var treatmentDescription: String? = nil
+        public let treatmentDescription: String?
         /// Treatments that are defined in addition to the default treatment.
-        public var additionalTreatments: [TreatmentResource]? = nil
+        public let additionalTreatments: [TreatmentResource]?
         /// The custom name of the campaign.
-        public var name: String? = nil
+        public let name: String?
         /// The allocated percentage of end users who will not receive messages from this campaign.
-        public var holdoutPercent: Int32? = nil
+        public let holdoutPercent: Int32?
         /// The campaign version number.
-        public var version: Int32? = nil
+        public let version: Int32?
         /// The date the campaign was last updated in ISO 8601 format.	
-        public var lastModifiedDate: String? = nil
+        public let lastModifiedDate: String?
         /// The ID of the application to which the campaign applies.
-        public var applicationId: String? = nil
+        public let applicationId: String?
         /// Indicates whether the campaign is paused. A paused campaign does not send messages unless you resume it by setting IsPaused to false.
-        public var isPaused: Bool? = nil
+        public let isPaused: Bool?
         /// The status of the campaign's default treatment. Only present for A/B test campaigns.
-        public var defaultState: CampaignState? = nil
-
-        public init() {}
+        public let defaultState: CampaignState?
 
         public init(limits: CampaignLimits? = nil, treatmentName: String? = nil, segmentVersion: Int32? = nil, state: CampaignState? = nil, creationDate: String? = nil, schedule: Schedule? = nil, messageConfiguration: MessageConfiguration? = nil, segmentId: String? = nil, id: String? = nil, description: String? = nil, treatmentDescription: String? = nil, additionalTreatments: [TreatmentResource]? = nil, name: String? = nil, holdoutPercent: Int32? = nil, version: Int32? = nil, lastModifiedDate: String? = nil, applicationId: String? = nil, isPaused: Bool? = nil, defaultState: CampaignState? = nil) {
             self.limits = limits
@@ -896,19 +852,21 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Pinpoint.CampaignLimits(dictionary: limits) }
+            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Pinpoint.CampaignLimits(dictionary: limits) } else { self.limits = nil }
             self.treatmentName = dictionary["TreatmentName"] as? String
             self.segmentVersion = dictionary["SegmentVersion"] as? Int32
-            if let state = dictionary["State"] as? [String: Any] { self.state = try Pinpoint.CampaignState(dictionary: state) }
+            if let state = dictionary["State"] as? [String: Any] { self.state = try Pinpoint.CampaignState(dictionary: state) } else { self.state = nil }
             self.creationDate = dictionary["CreationDate"] as? String
-            if let schedule = dictionary["Schedule"] as? [String: Any] { self.schedule = try Pinpoint.Schedule(dictionary: schedule) }
-            if let messageConfiguration = dictionary["MessageConfiguration"] as? [String: Any] { self.messageConfiguration = try Pinpoint.MessageConfiguration(dictionary: messageConfiguration) }
+            if let schedule = dictionary["Schedule"] as? [String: Any] { self.schedule = try Pinpoint.Schedule(dictionary: schedule) } else { self.schedule = nil }
+            if let messageConfiguration = dictionary["MessageConfiguration"] as? [String: Any] { self.messageConfiguration = try Pinpoint.MessageConfiguration(dictionary: messageConfiguration) } else { self.messageConfiguration = nil }
             self.segmentId = dictionary["SegmentId"] as? String
             self.id = dictionary["Id"] as? String
             self.description = dictionary["Description"] as? String
             self.treatmentDescription = dictionary["TreatmentDescription"] as? String
             if let additionalTreatments = dictionary["AdditionalTreatments"] as? [[String: Any]] {
                 self.additionalTreatments = try additionalTreatments.map({ try TreatmentResource(dictionary: $0) })
+            } else { 
+                self.additionalTreatments = nil
             }
             self.name = dictionary["Name"] as? String
             self.holdoutPercent = dictionary["HoldoutPercent"] as? Int32
@@ -916,7 +874,7 @@ extension Pinpoint {
             self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
             self.applicationId = dictionary["ApplicationId"] as? String
             self.isPaused = dictionary["IsPaused"] as? Bool
-            if let defaultState = dictionary["DefaultState"] as? [String: Any] { self.defaultState = try Pinpoint.CampaignState(dictionary: defaultState) }
+            if let defaultState = dictionary["DefaultState"] as? [String: Any] { self.defaultState = try Pinpoint.CampaignState(dictionary: defaultState) } else { self.defaultState = nil }
         }
     }
 
@@ -924,11 +882,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The default campaign limits for the app. These limits apply to each campaign for the app, unless the campaign overrides the default with limits of its own.
-        public var limits: CampaignLimits? = nil
+        public let limits: CampaignLimits?
         /// The default quiet time for the app. Each campaign for this app sends no messages during this time unless the campaign overrides the default with a quiet time of its own.
-        public var quietTime: QuietTime? = nil
-
-        public init() {}
+        public let quietTime: QuietTime?
 
         public init(limits: CampaignLimits? = nil, quietTime: QuietTime? = nil) {
             self.limits = limits
@@ -936,8 +892,8 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Pinpoint.CampaignLimits(dictionary: limits) }
-            if let quietTime = dictionary["QuietTime"] as? [String: Any] { self.quietTime = try Pinpoint.QuietTime(dictionary: quietTime) }
+            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Pinpoint.CampaignLimits(dictionary: limits) } else { self.limits = nil }
+            if let quietTime = dictionary["QuietTime"] as? [String: Any] { self.quietTime = try Pinpoint.QuietTime(dictionary: quietTime) } else { self.quietTime = nil }
         }
     }
 
@@ -947,10 +903,8 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["campaign-id": "CampaignId", "application-id": "ApplicationId"]
         }
-        public var campaignId: String = ""
-        public var applicationId: String = ""
-
-        public init() {}
+        public let campaignId: String
+        public let applicationId: String
 
         public init(campaignId: String, applicationId: String) {
             self.campaignId = campaignId
@@ -971,11 +925,9 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId", "endpoint-id": "EndpointId"]
         }
-        public var endpointRequest: EndpointRequest = EndpointRequest()
-        public var endpointId: String = ""
-        public var applicationId: String = ""
-
-        public init() {}
+        public let endpointRequest: EndpointRequest
+        public let endpointId: String
+        public let applicationId: String
 
         public init(endpointRequest: EndpointRequest, endpointId: String, applicationId: String) {
             self.endpointRequest = endpointRequest
@@ -996,9 +948,7 @@ extension Pinpoint {
     public struct GetSegmentImportJobsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "ImportJobsResponse"
-        public var importJobsResponse: ImportJobsResponse = ImportJobsResponse()
-
-        public init() {}
+        public let importJobsResponse: ImportJobsResponse
 
         public init(importJobsResponse: ImportJobsResponse) {
             self.importJobsResponse = importJobsResponse
@@ -1013,9 +963,7 @@ extension Pinpoint {
     public struct UpdateGcmChannelResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "GCMChannelResponse"
-        public var gCMChannelResponse: GCMChannelResponse = GCMChannelResponse()
-
-        public init() {}
+        public let gCMChannelResponse: GCMChannelResponse
 
         public init(gCMChannelResponse: GCMChannelResponse) {
             self.gCMChannelResponse = gCMChannelResponse
@@ -1030,28 +978,26 @@ extension Pinpoint {
     public struct EndpointBatchItem: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var channelType: String? = nil
+        public let channelType: String?
         /// Custom user-specific attributes that your app reports to Amazon Pinpoint.
-        public var user: EndpointUser? = nil
+        public let user: EndpointUser?
         /// The last time the endpoint was updated. Provided in ISO 8601 format.
-        public var effectiveDate: String? = nil
+        public let effectiveDate: String?
         /// Indicates whether a user has opted out of receiving messages with one of the following values:  ALL – User receives all messages. NONE – User receives no messages.
-        public var optOut: String? = nil
-        public var metrics: [String: Double]? = nil
+        public let optOut: String?
+        public let metrics: [String: Double]?
         /// The endpoint location attributes.
-        public var location: EndpointLocation? = nil
+        public let location: EndpointLocation?
         /// The address or token of the endpoint.
-        public var address: String? = nil
+        public let address: String?
         /// The endpoint demographic attributes.
-        public var demographic: EndpointDemographic? = nil
-        public var attributes: [String: [String]]? = nil
+        public let demographic: EndpointDemographic?
+        public let attributes: [String: [String]]?
         /// The unique ID for the most recent request to update the endpoint.
-        public var requestId: String? = nil
+        public let requestId: String?
         /// The endpoint status. Can be either ACTIVE or INACTIVE. Will be set to INACTIVE if a delivery fails. Will be set to ACTIVE if the address is updated.
-        public var endpointStatus: String? = nil
-        public var id: String? = nil
-
-        public init() {}
+        public let endpointStatus: String?
+        public let id: String?
 
         public init(channelType: String? = nil, user: EndpointUser? = nil, effectiveDate: String? = nil, optOut: String? = nil, metrics: [String: Double]? = nil, location: EndpointLocation? = nil, address: String? = nil, demographic: EndpointDemographic? = nil, attributes: [String: [String]]? = nil, requestId: String? = nil, endpointStatus: String? = nil, id: String? = nil) {
             self.channelType = channelType
@@ -1070,15 +1016,17 @@ extension Pinpoint {
 
         public init(dictionary: [String: Any]) throws {
             self.channelType = dictionary["ChannelType"] as? String
-            if let user = dictionary["User"] as? [String: Any] { self.user = try Pinpoint.EndpointUser(dictionary: user) }
+            if let user = dictionary["User"] as? [String: Any] { self.user = try Pinpoint.EndpointUser(dictionary: user) } else { self.user = nil }
             self.effectiveDate = dictionary["EffectiveDate"] as? String
             self.optOut = dictionary["OptOut"] as? String
             if let metrics = dictionary["Metrics"] as? [String: Double] {
                 self.metrics = metrics
+            } else { 
+                self.metrics = nil
             }
-            if let location = dictionary["Location"] as? [String: Any] { self.location = try Pinpoint.EndpointLocation(dictionary: location) }
+            if let location = dictionary["Location"] as? [String: Any] { self.location = try Pinpoint.EndpointLocation(dictionary: location) } else { self.location = nil }
             self.address = dictionary["Address"] as? String
-            if let demographic = dictionary["Demographic"] as? [String: Any] { self.demographic = try Pinpoint.EndpointDemographic(dictionary: demographic) }
+            if let demographic = dictionary["Demographic"] as? [String: Any] { self.demographic = try Pinpoint.EndpointDemographic(dictionary: demographic) } else { self.demographic = nil }
             if let attributes = dictionary["Attributes"] as? [String: Any] {
                 var attributesDict: [String: [String]] = [:]
                 for (key, value) in attributes {
@@ -1086,6 +1034,8 @@ extension Pinpoint {
                     attributesDict[key] = listOfString
                 }
                 self.attributes = attributesDict
+            } else { 
+                self.attributes = nil
             }
             self.requestId = dictionary["RequestId"] as? String
             self.endpointStatus = dictionary["EndpointStatus"] as? String
@@ -1097,11 +1047,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of campaigns.
-        public var item: [CampaignResponse]? = nil
+        public let item: [CampaignResponse]?
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(item: [CampaignResponse]? = nil, nextToken: String? = nil) {
             self.item = item
@@ -1111,6 +1059,8 @@ extension Pinpoint {
         public init(dictionary: [String: Any]) throws {
             if let item = dictionary["Item"] as? [[String: Any]] {
                 self.item = try item.map({ try CampaignResponse(dictionary: $0) })
+            } else { 
+                self.item = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -1119,24 +1069,22 @@ extension Pinpoint {
     public struct GCMChannelResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var id: String? = nil
+        public let id: String?
         /// The platform type. Will be GCM
-        public var platform: String? = nil
+        public let platform: String?
         /// Version of channel
-        public var version: Int32? = nil
+        public let version: Int32?
         /// Last date this was updated
-        public var lastModifiedDate: String? = nil
+        public let lastModifiedDate: String?
         /// The GCM API key from Google.
-        public var credential: String? = nil
-        public var applicationId: String? = nil
+        public let credential: String?
+        public let applicationId: String?
         /// When was this segment created
-        public var creationDate: String? = nil
+        public let creationDate: String?
         /// Is this channel archived
-        public var isArchived: Bool? = nil
+        public let isArchived: Bool?
         /// Who last updated this entry
-        public var lastModifiedBy: String? = nil
-
-        public init() {}
+        public let lastModifiedBy: String?
 
         public init(id: String? = nil, platform: String? = nil, version: Int32? = nil, lastModifiedDate: String? = nil, credential: String? = nil, applicationId: String? = nil, creationDate: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil) {
             self.id = id
@@ -1167,9 +1115,7 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of campaign activities
-        public var item: [ActivityResponse]? = nil
-
-        public init() {}
+        public let item: [ActivityResponse]?
 
         public init(item: [ActivityResponse]? = nil) {
             self.item = item
@@ -1178,6 +1124,8 @@ extension Pinpoint {
         public init(dictionary: [String: Any]) throws {
             if let item = dictionary["Item"] as? [[String: Any]] {
                 self.item = try item.map({ try ActivityResponse(dictionary: $0) })
+            } else { 
+                self.item = nil
             }
         }
     }
@@ -1185,9 +1133,7 @@ extension Pinpoint {
     public struct GetEndpointResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "EndpointResponse"
-        public var endpointResponse: EndpointResponse = EndpointResponse()
-
-        public init() {}
+        public let endpointResponse: EndpointResponse
 
         public init(endpointResponse: EndpointResponse) {
             self.endpointResponse = endpointResponse
@@ -1203,19 +1149,17 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The longitude of the endpoint location. Rounded to one decimal (Roughly corresponding to a mile).
-        public var longitude: Double? = nil
+        public let longitude: Double?
         /// Country according to ISO 3166-1 Alpha-2 codes. For example, US.
-        public var country: String? = nil
+        public let country: String?
         /// The postal code or zip code of the endpoint.
-        public var postalCode: String? = nil
+        public let postalCode: String?
         /// The city where the endpoint is located.
-        public var city: String? = nil
+        public let city: String?
         /// The latitude of the endpoint location. Rounded to one decimal (Roughly corresponding to a mile).
-        public var latitude: Double? = nil
+        public let latitude: Double?
         /// The region of the endpoint location. For example, corresponds to a state in US.
-        public var region: String? = nil
-
-        public init() {}
+        public let region: String?
 
         public init(longitude: Double? = nil, country: String? = nil, postalCode: String? = nil, city: String? = nil, latitude: Double? = nil, region: String? = nil) {
             self.longitude = longitude
@@ -1242,9 +1186,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public var applicationId: String = ""
-
-        public init() {}
+        public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
@@ -1259,10 +1201,8 @@ extension Pinpoint {
     public struct RecencyDimension: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var duration: String? = nil
-        public var recencyType: String? = nil
-
-        public init() {}
+        public let duration: String?
+        public let recencyType: String?
 
         public init(duration: String? = nil, recencyType: String? = nil) {
             self.duration = duration
@@ -1279,18 +1219,16 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The scheduled time that the campaign begins in ISO 8601 format.
-        public var startTime: String? = nil
+        public let startTime: String?
         /// The scheduled time that the campaign ends in ISO 8601 format.
-        public var endTime: String? = nil
-        public var frequency: String? = nil
+        public let endTime: String?
+        public let frequency: String?
         /// The time during which the campaign sends no messages.
-        public var quietTime: QuietTime? = nil
+        public let quietTime: QuietTime?
         /// Indicates whether the campaign schedule takes effect according to each user's local time.
-        public var isLocalTime: Bool? = nil
+        public let isLocalTime: Bool?
         /// The starting UTC offset for the schedule if the value for isLocalTime is true  Valid values:  UTC UTC+01 UTC+02 UTC+03 UTC+03:30 UTC+04 UTC+04:30 UTC+05 UTC+05:30 UTC+05:45 UTC+06 UTC+06:30 UTC+07 UTC+08 UTC+09 UTC+09:30 UTC+10 UTC+10:30 UTC+11 UTC+12 UTC+13 UTC-02 UTC-03 UTC-04 UTC-05 UTC-06 UTC-07 UTC-08 UTC-09 UTC-10 UTC-11
-        public var timezone: String? = nil
-
-        public init() {}
+        public let timezone: String?
 
         public init(startTime: String? = nil, endTime: String? = nil, frequency: String? = nil, quietTime: QuietTime? = nil, isLocalTime: Bool? = nil, timezone: String? = nil) {
             self.startTime = startTime
@@ -1305,7 +1243,7 @@ extension Pinpoint {
             self.startTime = dictionary["StartTime"] as? String
             self.endTime = dictionary["EndTime"] as? String
             self.frequency = dictionary["Frequency"] as? String
-            if let quietTime = dictionary["QuietTime"] as? [String: Any] { self.quietTime = try Pinpoint.QuietTime(dictionary: quietTime) }
+            if let quietTime = dictionary["QuietTime"] as? [String: Any] { self.quietTime = try Pinpoint.QuietTime(dictionary: quietTime) } else { self.quietTime = nil }
             self.isLocalTime = dictionary["IsLocalTime"] as? Bool
             self.timezone = dictionary["Timezone"] as? String
         }
@@ -1314,9 +1252,7 @@ extension Pinpoint {
     public struct GetApnsChannelResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "APNSChannelResponse"
-        public var aPNSChannelResponse: APNSChannelResponse = APNSChannelResponse()
-
-        public init() {}
+        public let aPNSChannelResponse: APNSChannelResponse
 
         public init(aPNSChannelResponse: APNSChannelResponse) {
             self.aPNSChannelResponse = aPNSChannelResponse
@@ -1332,16 +1268,14 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// A unique, custom ID assigned to the IAM role that restricts who can assume the role.
-        public var externalId: String? = nil
-        public var format: String? = nil
+        public let externalId: String?
+        public let format: String?
         /// The Amazon Resource Name (ARN) of an IAM role that grants Amazon Pinpoint access to the endpoints in Amazon S3.
-        public var roleArn: String? = nil
+        public let roleArn: String?
         /// A URL that points to the Amazon S3 location from which the endpoints for this segment were imported.
-        public var s3Url: String? = nil
+        public let s3Url: String?
         /// The number of endpoints that were successfully imported to create this segment.
-        public var size: Int32? = nil
-
-        public init() {}
+        public let size: Int32?
 
         public init(externalId: String? = nil, format: String? = nil, roleArn: String? = nil, s3Url: String? = nil, size: Int32? = nil) {
             self.externalId = externalId
@@ -1364,22 +1298,20 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// A URL that points to the location within an Amazon S3 bucket that contains the endpoints to import. The location can be a folder or a single file. The URL should follow this format: s3://bucket-name/folder-name/file-name  Amazon Pinpoint will import endpoints from this location and any subfolders it contains.
-        public var s3Url: String? = nil
+        public let s3Url: String?
         /// Sets whether the endpoints create a segment when they are imported.
-        public var defineSegment: Bool? = nil
-        public var format: String? = nil
+        public let defineSegment: Bool?
+        public let format: String?
         /// A unique, custom ID assigned to the IAM role that restricts who can assume the role.	
-        public var externalId: String? = nil
+        public let externalId: String?
         /// Sets whether the endpoints are registered with Amazon Pinpoint when they are imported.
-        public var registerEndpoints: Bool? = nil
+        public let registerEndpoints: Bool?
         /// A custom name for the segment created by the import job. Use if DefineSegment is true.
-        public var segmentName: String? = nil
+        public let segmentName: String?
         /// The Amazon Resource Name (ARN) of an IAM role that grants Amazon Pinpoint access to the Amazon S3 location that contains the endpoints to import.
-        public var roleArn: String? = nil
+        public let roleArn: String?
         /// The ID of the segment to update if the import job is meant to update an existing segment.
-        public var segmentId: String? = nil
-
-        public init() {}
+        public let segmentId: String?
 
         public init(s3Url: String? = nil, defineSegment: Bool? = nil, format: String? = nil, externalId: String? = nil, registerEndpoints: Bool? = nil, segmentName: String? = nil, roleArn: String? = nil, segmentId: String? = nil) {
             self.s3Url = s3Url
@@ -1413,11 +1345,9 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public var pageSize: String? = nil
-        public var applicationId: String = ""
-        public var token: String? = nil
-
-        public init() {}
+        public let pageSize: String?
+        public let applicationId: String
+        public let token: String?
 
         public init(pageSize: String? = nil, applicationId: String, token: String? = nil) {
             self.pageSize = pageSize
@@ -1439,10 +1369,8 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public var importJobRequest: ImportJobRequest = ImportJobRequest()
-        public var applicationId: String = ""
-
-        public init() {}
+        public let importJobRequest: ImportJobRequest
+        public let applicationId: String
 
         public init(importJobRequest: ImportJobRequest, applicationId: String) {
             self.importJobRequest = importJobRequest
@@ -1461,22 +1389,20 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// A URL that points to the location within an Amazon S3 bucket that contains the endpoints to import. The location can be a folder or a single file. The URL should follow this format: s3://bucket-name/folder-name/file-name  Amazon Pinpoint will import endpoints from this location and any subfolders it contains.
-        public var s3Url: String? = nil
+        public let s3Url: String?
         /// Sets whether the endpoints create a segment when they are imported.
-        public var defineSegment: Bool? = nil
-        public var format: String? = nil
+        public let defineSegment: Bool?
+        public let format: String?
         /// A unique, custom ID assigned to the IAM role that restricts who can assume the role.	
-        public var externalId: String? = nil
+        public let externalId: String?
         /// Sets whether the endpoints are registered with Amazon Pinpoint when they are imported.
-        public var registerEndpoints: Bool? = nil
+        public let registerEndpoints: Bool?
         /// A custom name for the segment created by the import job. Use if DefineSegment is true.
-        public var segmentName: String? = nil
+        public let segmentName: String?
         /// The Amazon Resource Name (ARN) of an IAM role that grants Amazon Pinpoint access to the Amazon S3 location that contains the endpoints to import.
-        public var roleArn: String? = nil
+        public let roleArn: String?
         /// The ID of the segment to update if the import job is meant to update an existing segment.
-        public var segmentId: String? = nil
-
-        public init() {}
+        public let segmentId: String?
 
         public init(s3Url: String? = nil, defineSegment: Bool? = nil, format: String? = nil, externalId: String? = nil, registerEndpoints: Bool? = nil, segmentName: String? = nil, roleArn: String? = nil, segmentId: String? = nil) {
             self.s3Url = s3Url
@@ -1504,10 +1430,8 @@ extension Pinpoint {
     public struct SetDimension: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dimensionType: String? = nil
-        public var values: [String]? = nil
-
-        public init() {}
+        public let dimensionType: String?
+        public let values: [String]?
 
         public init(dimensionType: String? = nil, values: [String]? = nil) {
             self.dimensionType = dimensionType
@@ -1516,9 +1440,7 @@ extension Pinpoint {
 
         public init(dictionary: [String: Any]) throws {
             self.dimensionType = dictionary["DimensionType"] as? String
-            if let values = dictionary["Values"] as? [String] {
-                self.values = values
-            }
+            self.values = dictionary["Values"] as? [String]
         }
     }
 
@@ -1526,11 +1448,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The distribution certificate from Apple.
-        public var certificate: String? = nil
+        public let certificate: String?
         /// The certificate private key.
-        public var privateKey: String? = nil
-
-        public init() {}
+        public let privateKey: String?
 
         public init(certificate: String? = nil, privateKey: String? = nil) {
             self.certificate = certificate
@@ -1546,9 +1466,7 @@ extension Pinpoint {
     public struct GetCampaignVersionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CampaignResponse"
-        public var campaignResponse: CampaignResponse = CampaignResponse()
-
-        public init() {}
+        public let campaignResponse: CampaignResponse
 
         public init(campaignResponse: CampaignResponse) {
             self.campaignResponse = campaignResponse
@@ -1564,10 +1482,8 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique ID of the user.
-        public var userId: String? = nil
-        public var userAttributes: [String: [String]]? = nil
-
-        public init() {}
+        public let userId: String?
+        public let userAttributes: [String: [String]]?
 
         public init(userId: String? = nil, userAttributes: [String: [String]]? = nil) {
             self.userId = userId
@@ -1583,6 +1499,8 @@ extension Pinpoint {
                     userAttributesDict[key] = listOfString
                 }
                 self.userAttributes = userAttributesDict
+            } else { 
+                self.userAttributes = nil
             }
         }
     }
@@ -1590,10 +1508,8 @@ extension Pinpoint {
     public struct MessageBody: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var requestID: String? = nil
-        public var message: String? = nil
-
-        public init() {}
+        public let requestID: String?
+        public let message: String?
 
         public init(requestID: String? = nil, message: String? = nil) {
             self.requestID = requestID
@@ -1610,15 +1526,13 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The segment demographics attributes.
-        public var demographic: SegmentDemographics? = nil
+        public let demographic: SegmentDemographics?
         /// The segment behaviors attributes.
-        public var behavior: SegmentBehaviors? = nil
+        public let behavior: SegmentBehaviors?
         /// Custom segment attributes.
-        public var attributes: [String: AttributeDimension]? = nil
+        public let attributes: [String: AttributeDimension]?
         /// The segment location attributes. 
-        public var location: SegmentLocation? = nil
-
-        public init() {}
+        public let location: SegmentLocation?
 
         public init(demographic: SegmentDemographics? = nil, behavior: SegmentBehaviors? = nil, attributes: [String: AttributeDimension]? = nil, location: SegmentLocation? = nil) {
             self.demographic = demographic
@@ -1628,8 +1542,8 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let demographic = dictionary["Demographic"] as? [String: Any] { self.demographic = try Pinpoint.SegmentDemographics(dictionary: demographic) }
-            if let behavior = dictionary["Behavior"] as? [String: Any] { self.behavior = try Pinpoint.SegmentBehaviors(dictionary: behavior) }
+            if let demographic = dictionary["Demographic"] as? [String: Any] { self.demographic = try Pinpoint.SegmentDemographics(dictionary: demographic) } else { self.demographic = nil }
+            if let behavior = dictionary["Behavior"] as? [String: Any] { self.behavior = try Pinpoint.SegmentBehaviors(dictionary: behavior) } else { self.behavior = nil }
             if let attributes = dictionary["Attributes"] as? [String: Any] {
                 var attributesDict: [String: AttributeDimension] = [:]
                 for (key, value) in attributes {
@@ -1637,17 +1551,17 @@ extension Pinpoint {
                     attributesDict[key] = try AttributeDimension(dictionary: attributeDimensionDict)
                 }
                 self.attributes = attributesDict
+            } else { 
+                self.attributes = nil
             }
-            if let location = dictionary["Location"] as? [String: Any] { self.location = try Pinpoint.SegmentLocation(dictionary: location) }
+            if let location = dictionary["Location"] as? [String: Any] { self.location = try Pinpoint.SegmentLocation(dictionary: location) } else { self.location = nil }
         }
     }
 
     public struct GetGcmChannelResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "GCMChannelResponse"
-        public var gCMChannelResponse: GCMChannelResponse = GCMChannelResponse()
-
-        public init() {}
+        public let gCMChannelResponse: GCMChannelResponse
 
         public init(gCMChannelResponse: GCMChannelResponse) {
             self.gCMChannelResponse = gCMChannelResponse
@@ -1662,9 +1576,7 @@ extension Pinpoint {
     public struct GetSegmentVersionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "SegmentsResponse"
-        public var segmentsResponse: SegmentsResponse = SegmentsResponse()
-
-        public init() {}
+        public let segmentsResponse: SegmentsResponse
 
         public init(segmentsResponse: SegmentsResponse) {
             self.segmentsResponse = segmentsResponse
@@ -1680,15 +1592,13 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date that the settings were last updated in ISO 8601 format.
-        public var lastModifiedDate: String? = nil
+        public let lastModifiedDate: String?
         /// The default campaign limits for the app. These limits apply to each campaign for the app, unless the campaign overrides the default with limits of its own.
-        public var limits: CampaignLimits? = nil
+        public let limits: CampaignLimits?
         /// The default quiet time for the app. Each campaign for this app sends no messages during this time unless the campaign overrides the default with a quiet time of its own.
-        public var quietTime: QuietTime? = nil
+        public let quietTime: QuietTime?
         /// The unique ID for the application.
-        public var applicationId: String? = nil
-
-        public init() {}
+        public let applicationId: String?
 
         public init(lastModifiedDate: String? = nil, limits: CampaignLimits? = nil, quietTime: QuietTime? = nil, applicationId: String? = nil) {
             self.lastModifiedDate = lastModifiedDate
@@ -1699,8 +1609,8 @@ extension Pinpoint {
 
         public init(dictionary: [String: Any]) throws {
             self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
-            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Pinpoint.CampaignLimits(dictionary: limits) }
-            if let quietTime = dictionary["QuietTime"] as? [String: Any] { self.quietTime = try Pinpoint.QuietTime(dictionary: quietTime) }
+            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Pinpoint.CampaignLimits(dictionary: limits) } else { self.limits = nil }
+            if let quietTime = dictionary["QuietTime"] as? [String: Any] { self.quietTime = try Pinpoint.QuietTime(dictionary: quietTime) } else { self.quietTime = nil }
             self.applicationId = dictionary["ApplicationId"] as? String
         }
     }
@@ -1708,9 +1618,7 @@ extension Pinpoint {
     public struct UpdateEndpointResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "MessageBody"
-        public var messageBody: MessageBody = MessageBody()
-
-        public init() {}
+        public let messageBody: MessageBody
 
         public init(messageBody: MessageBody) {
             self.messageBody = messageBody
@@ -1725,9 +1633,7 @@ extension Pinpoint {
     public struct GetCampaignActivitiesResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "ActivitiesResponse"
-        public var activitiesResponse: ActivitiesResponse = ActivitiesResponse()
-
-        public init() {}
+        public let activitiesResponse: ActivitiesResponse
 
         public init(activitiesResponse: ActivitiesResponse) {
             self.activitiesResponse = activitiesResponse
@@ -1748,12 +1654,10 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["campaign-id": "CampaignId", "application-id": "ApplicationId"]
         }
-        public var pageSize: String? = nil
-        public var campaignId: String = ""
-        public var applicationId: String = ""
-        public var token: String? = nil
-
-        public init() {}
+        public let pageSize: String?
+        public let campaignId: String
+        public let applicationId: String
+        public let token: String?
 
         public init(pageSize: String? = nil, campaignId: String, applicationId: String, token: String? = nil) {
             self.pageSize = pageSize
@@ -1775,10 +1679,8 @@ extension Pinpoint {
     public struct AttributeDimension: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var attributeType: String? = nil
-        public var values: [String]? = nil
-
-        public init() {}
+        public let attributeType: String?
+        public let values: [String]?
 
         public init(attributeType: String? = nil, values: [String]? = nil) {
             self.attributeType = attributeType
@@ -1787,9 +1689,7 @@ extension Pinpoint {
 
         public init(dictionary: [String: Any]) throws {
             self.attributeType = dictionary["AttributeType"] as? String
-            if let values = dictionary["Values"] as? [String] {
-                self.values = values
-            }
+            self.values = dictionary["Values"] as? [String]
         }
     }
 
@@ -1799,10 +1699,8 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public var endpointBatchRequest: EndpointBatchRequest = EndpointBatchRequest()
-        public var applicationId: String = ""
-
-        public init() {}
+        public let endpointBatchRequest: EndpointBatchRequest
+        public let applicationId: String
 
         public init(endpointBatchRequest: EndpointBatchRequest, applicationId: String) {
             self.endpointBatchRequest = endpointBatchRequest
@@ -1820,22 +1718,20 @@ extension Pinpoint {
     public struct APNSChannelResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var id: String? = nil
+        public let id: String?
         /// The platform type. Will be APNS.
-        public var platform: String? = nil
+        public let platform: String?
         /// Version of channel
-        public var version: Int32? = nil
+        public let version: Int32?
         /// Last date this was updated
-        public var lastModifiedDate: String? = nil
+        public let lastModifiedDate: String?
         /// When was this segment created
-        public var creationDate: String? = nil
-        public var applicationId: String? = nil
+        public let creationDate: String?
+        public let applicationId: String?
         /// Is this channel archived
-        public var isArchived: Bool? = nil
+        public let isArchived: Bool?
         /// Who last updated this entry
-        public var lastModifiedBy: String? = nil
-
-        public init() {}
+        public let lastModifiedBy: String?
 
         public init(id: String? = nil, platform: String? = nil, version: Int32? = nil, lastModifiedDate: String? = nil, creationDate: String? = nil, applicationId: String? = nil, isArchived: Bool? = nil, lastModifiedBy: String? = nil) {
             self.id = id
@@ -1864,11 +1760,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of segments.
-        public var item: [SegmentResponse]? = nil
+        public let item: [SegmentResponse]?
         /// An identifier used to retrieve the next page of results. The token is null if no additional pages exist.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(item: [SegmentResponse]? = nil, nextToken: String? = nil) {
             self.item = item
@@ -1878,6 +1772,8 @@ extension Pinpoint {
         public init(dictionary: [String: Any]) throws {
             if let item = dictionary["Item"] as? [[String: Any]] {
                 self.item = try item.map({ try SegmentResponse(dictionary: $0) })
+            } else { 
+                self.item = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -1887,24 +1783,22 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique segment ID.
-        public var id: String? = nil
+        public let id: String?
         /// The name of segment
-        public var name: String? = nil
+        public let name: String?
         /// The segment version number.
-        public var version: Int32? = nil
+        public let version: Int32?
         /// The segment dimensions attributes.
-        public var dimensions: SegmentDimensions? = nil
+        public let dimensions: SegmentDimensions?
         /// The date the segment was created in ISO 8601 format.
-        public var creationDate: String? = nil
+        public let creationDate: String?
         /// The ID of the application to which the segment applies.
-        public var applicationId: String? = nil
+        public let applicationId: String?
         /// The date the segment was last updated in ISO 8601 format.
-        public var lastModifiedDate: String? = nil
+        public let lastModifiedDate: String?
         /// The import job settings.
-        public var importDefinition: SegmentImportResource? = nil
-        public var segmentType: String? = nil
-
-        public init() {}
+        public let importDefinition: SegmentImportResource?
+        public let segmentType: String?
 
         public init(id: String? = nil, name: String? = nil, version: Int32? = nil, dimensions: SegmentDimensions? = nil, creationDate: String? = nil, applicationId: String? = nil, lastModifiedDate: String? = nil, importDefinition: SegmentImportResource? = nil, segmentType: String? = nil) {
             self.id = id
@@ -1922,11 +1816,11 @@ extension Pinpoint {
             self.id = dictionary["Id"] as? String
             self.name = dictionary["Name"] as? String
             self.version = dictionary["Version"] as? Int32
-            if let dimensions = dictionary["Dimensions"] as? [String: Any] { self.dimensions = try Pinpoint.SegmentDimensions(dictionary: dimensions) }
+            if let dimensions = dictionary["Dimensions"] as? [String: Any] { self.dimensions = try Pinpoint.SegmentDimensions(dictionary: dimensions) } else { self.dimensions = nil }
             self.creationDate = dictionary["CreationDate"] as? String
             self.applicationId = dictionary["ApplicationId"] as? String
             self.lastModifiedDate = dictionary["LastModifiedDate"] as? String
-            if let importDefinition = dictionary["ImportDefinition"] as? [String: Any] { self.importDefinition = try Pinpoint.SegmentImportResource(dictionary: importDefinition) }
+            if let importDefinition = dictionary["ImportDefinition"] as? [String: Any] { self.importDefinition = try Pinpoint.SegmentImportResource(dictionary: importDefinition) } else { self.importDefinition = nil }
             self.segmentType = dictionary["SegmentType"] as? String
         }
     }
@@ -1935,31 +1829,29 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date the import job completed in ISO 8601 format.
-        public var completionDate: String? = nil
+        public let completionDate: String?
         /// The import job settings.
-        public var definition: ImportJobResource? = nil
+        public let definition: ImportJobResource?
         /// The number of pieces that have failed to import as of the time of the request.
-        public var failedPieces: Int32? = nil
+        public let failedPieces: Int32?
         /// The total number of pieces that must be imported to finish the job. Each piece is an approximately equal portion of the endpoints to import.
-        public var totalPieces: Int32? = nil
+        public let totalPieces: Int32?
         /// The date the import job was created in ISO 8601 format.
-        public var creationDate: String? = nil
-        public var jobStatus: String? = nil
+        public let creationDate: String?
+        public let jobStatus: String?
         /// The unique ID of the import job.
-        public var id: String? = nil
+        public let id: String?
         /// The number of endpoints that were processed by the import job.
-        public var totalProcessed: Int32? = nil
+        public let totalProcessed: Int32?
         /// The number of pieces that have successfully imported as of the time of the request.
-        public var completedPieces: Int32? = nil
+        public let completedPieces: Int32?
         /// The number of endpoints that failed to import; for example, because of syntax errors.
-        public var totalFailures: Int32? = nil
-        public var failures: [String]? = nil
+        public let totalFailures: Int32?
+        public let failures: [String]?
         /// The unique ID of the application to which the import job applies.
-        public var applicationId: String? = nil
+        public let applicationId: String?
         /// The job type. Will be Import.
-        public var type: String? = nil
-
-        public init() {}
+        public let type: String?
 
         public init(completionDate: String? = nil, definition: ImportJobResource? = nil, failedPieces: Int32? = nil, totalPieces: Int32? = nil, creationDate: String? = nil, jobStatus: String? = nil, id: String? = nil, totalProcessed: Int32? = nil, completedPieces: Int32? = nil, totalFailures: Int32? = nil, failures: [String]? = nil, applicationId: String? = nil, type: String? = nil) {
             self.completionDate = completionDate
@@ -1979,7 +1871,7 @@ extension Pinpoint {
 
         public init(dictionary: [String: Any]) throws {
             self.completionDate = dictionary["CompletionDate"] as? String
-            if let definition = dictionary["Definition"] as? [String: Any] { self.definition = try Pinpoint.ImportJobResource(dictionary: definition) }
+            if let definition = dictionary["Definition"] as? [String: Any] { self.definition = try Pinpoint.ImportJobResource(dictionary: definition) } else { self.definition = nil }
             self.failedPieces = dictionary["FailedPieces"] as? Int32
             self.totalPieces = dictionary["TotalPieces"] as? Int32
             self.creationDate = dictionary["CreationDate"] as? String
@@ -1988,9 +1880,7 @@ extension Pinpoint {
             self.totalProcessed = dictionary["TotalProcessed"] as? Int32
             self.completedPieces = dictionary["CompletedPieces"] as? Int32
             self.totalFailures = dictionary["TotalFailures"] as? Int32
-            if let failures = dictionary["Failures"] as? [String] {
-                self.failures = failures
-            }
+            self.failures = dictionary["Failures"] as? [String]
             self.applicationId = dictionary["ApplicationId"] as? String
             self.type = dictionary["Type"] as? String
         }
@@ -1999,9 +1889,7 @@ extension Pinpoint {
     public struct CreateImportJobResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "ImportJobResponse"
-        public var importJobResponse: ImportJobResponse = ImportJobResponse()
-
-        public init() {}
+        public let importJobResponse: ImportJobResponse
 
         public init(importJobResponse: ImportJobResponse) {
             self.importJobResponse = importJobResponse
@@ -2016,9 +1904,7 @@ extension Pinpoint {
     public struct GetApplicationSettingsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "ApplicationSettingsResource"
-        public var applicationSettingsResource: ApplicationSettingsResource = ApplicationSettingsResource()
-
-        public init() {}
+        public let applicationSettingsResource: ApplicationSettingsResource
 
         public init(applicationSettingsResource: ApplicationSettingsResource) {
             self.applicationSettingsResource = applicationSettingsResource
@@ -2033,9 +1919,7 @@ extension Pinpoint {
     public struct GetImportJobsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "ImportJobsResponse"
-        public var importJobsResponse: ImportJobsResponse = ImportJobsResponse()
-
-        public init() {}
+        public let importJobsResponse: ImportJobsResponse
 
         public init(importJobsResponse: ImportJobsResponse) {
             self.importJobsResponse = importJobsResponse
@@ -2050,9 +1934,7 @@ extension Pinpoint {
     public struct GetCampaignResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CampaignResponse"
-        public var campaignResponse: CampaignResponse = CampaignResponse()
-
-        public init() {}
+        public let campaignResponse: CampaignResponse
 
         public init(campaignResponse: CampaignResponse) {
             self.campaignResponse = campaignResponse
@@ -2070,11 +1952,9 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["segment-id": "SegmentId", "application-id": "ApplicationId"]
         }
-        public var applicationId: String = ""
-        public var segmentId: String = ""
-        public var writeSegmentRequest: WriteSegmentRequest = WriteSegmentRequest()
-
-        public init() {}
+        public let applicationId: String
+        public let segmentId: String
+        public let writeSegmentRequest: WriteSegmentRequest
 
         public init(applicationId: String, segmentId: String, writeSegmentRequest: WriteSegmentRequest) {
             self.applicationId = applicationId
@@ -2098,9 +1978,7 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public var applicationId: String = ""
-
-        public init() {}
+        public let applicationId: String
 
         public init(applicationId: String) {
             self.applicationId = applicationId
@@ -2115,9 +1993,7 @@ extension Pinpoint {
     public struct UpdateApnsChannelResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "APNSChannelResponse"
-        public var aPNSChannelResponse: APNSChannelResponse = APNSChannelResponse()
-
-        public init() {}
+        public let aPNSChannelResponse: APNSChannelResponse
 
         public init(aPNSChannelResponse: APNSChannelResponse) {
             self.aPNSChannelResponse = aPNSChannelResponse
@@ -2135,10 +2011,8 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public var gCMChannelRequest: GCMChannelRequest = GCMChannelRequest()
-        public var applicationId: String = ""
-
-        public init() {}
+        public let gCMChannelRequest: GCMChannelRequest
+        public let applicationId: String
 
         public init(gCMChannelRequest: GCMChannelRequest, applicationId: String) {
             self.gCMChannelRequest = gCMChannelRequest
@@ -2156,9 +2030,7 @@ extension Pinpoint {
     public struct DeleteCampaignResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CampaignResponse"
-        public var campaignResponse: CampaignResponse = CampaignResponse()
-
-        public init() {}
+        public let campaignResponse: CampaignResponse
 
         public init(campaignResponse: CampaignResponse) {
             self.campaignResponse = campaignResponse
@@ -2174,11 +2046,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of messages that the campaign can send daily.
-        public var daily: Int32? = nil
+        public let daily: Int32?
         /// The maximum total number of messages that the campaign can send.
-        public var total: Int32? = nil
-
-        public init() {}
+        public let total: Int32?
 
         public init(daily: Int32? = nil, total: Int32? = nil) {
             self.daily = daily
@@ -2195,17 +2065,15 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The device make criteria for the segment.
-        public var make: SetDimension? = nil
+        public let make: SetDimension?
         /// The device platform criteria for the segment.
-        public var platform: SetDimension? = nil
+        public let platform: SetDimension?
         /// The device type criteria for the segment.
-        public var deviceType: SetDimension? = nil
+        public let deviceType: SetDimension?
         /// The app version criteria for the segment.
-        public var appVersion: SetDimension? = nil
+        public let appVersion: SetDimension?
         /// The device model criteria for the segment.
-        public var model: SetDimension? = nil
-
-        public init() {}
+        public let model: SetDimension?
 
         public init(make: SetDimension? = nil, platform: SetDimension? = nil, deviceType: SetDimension? = nil, appVersion: SetDimension? = nil, model: SetDimension? = nil) {
             self.make = make
@@ -2216,20 +2084,18 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let make = dictionary["Make"] as? [String: Any] { self.make = try Pinpoint.SetDimension(dictionary: make) }
-            if let platform = dictionary["Platform"] as? [String: Any] { self.platform = try Pinpoint.SetDimension(dictionary: platform) }
-            if let deviceType = dictionary["DeviceType"] as? [String: Any] { self.deviceType = try Pinpoint.SetDimension(dictionary: deviceType) }
-            if let appVersion = dictionary["AppVersion"] as? [String: Any] { self.appVersion = try Pinpoint.SetDimension(dictionary: appVersion) }
-            if let model = dictionary["Model"] as? [String: Any] { self.model = try Pinpoint.SetDimension(dictionary: model) }
+            if let make = dictionary["Make"] as? [String: Any] { self.make = try Pinpoint.SetDimension(dictionary: make) } else { self.make = nil }
+            if let platform = dictionary["Platform"] as? [String: Any] { self.platform = try Pinpoint.SetDimension(dictionary: platform) } else { self.platform = nil }
+            if let deviceType = dictionary["DeviceType"] as? [String: Any] { self.deviceType = try Pinpoint.SetDimension(dictionary: deviceType) } else { self.deviceType = nil }
+            if let appVersion = dictionary["AppVersion"] as? [String: Any] { self.appVersion = try Pinpoint.SetDimension(dictionary: appVersion) } else { self.appVersion = nil }
+            if let model = dictionary["Model"] as? [String: Any] { self.model = try Pinpoint.SetDimension(dictionary: model) } else { self.model = nil }
         }
     }
 
     public struct CreateCampaignResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CampaignResponse"
-        public var campaignResponse: CampaignResponse = CampaignResponse()
-
-        public init() {}
+        public let campaignResponse: CampaignResponse
 
         public init(campaignResponse: CampaignResponse) {
             self.campaignResponse = campaignResponse
@@ -2245,29 +2111,27 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the campaign to which the activity applies.
-        public var campaignId: String? = nil
+        public let campaignId: String?
         /// The scheduled start time for the activity in ISO 8601 format.
-        public var scheduledStart: String? = nil
+        public let scheduledStart: String?
         /// The actual start time of the activity in ISO 8601 format.
-        public var start: String? = nil
+        public let start: String?
         /// The state of the activity.  Valid values: PENDING, INITIALIZING, RUNNING, PAUSED, CANCELLED, COMPLETED
-        public var state: String? = nil
+        public let state: String?
         /// The actual time the activity was marked CANCELLED or COMPLETED. Provided in ISO 8601 format.
-        public var end: String? = nil
+        public let end: String?
         /// The total number of endpoints to which the campaign attempts to deliver messages.
-        public var totalEndpointCount: Int32? = nil
+        public let totalEndpointCount: Int32?
         /// The ID of the application to which the campaign applies.
-        public var applicationId: String? = nil
+        public let applicationId: String?
         /// Indicates whether the activity succeeded.  Valid values: SUCCESS, FAIL
-        public var result: String? = nil
+        public let result: String?
         /// The total number of endpoints to which the campaign successfully delivered messages.
-        public var successfulEndpointCount: Int32? = nil
+        public let successfulEndpointCount: Int32?
         /// The ID of a variation of the campaign used for A/B testing.
-        public var treatmentId: String? = nil
+        public let treatmentId: String?
         /// The unique activity ID.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(campaignId: String? = nil, scheduledStart: String? = nil, start: String? = nil, state: String? = nil, end: String? = nil, totalEndpointCount: Int32? = nil, applicationId: String? = nil, result: String? = nil, successfulEndpointCount: Int32? = nil, treatmentId: String? = nil, id: String? = nil) {
             self.campaignId = campaignId
@@ -2301,9 +2165,7 @@ extension Pinpoint {
     public struct GetSegmentResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "SegmentResponse"
-        public var segmentResponse: SegmentResponse = SegmentResponse()
-
-        public init() {}
+        public let segmentResponse: SegmentResponse
 
         public init(segmentResponse: SegmentResponse) {
             self.segmentResponse = segmentResponse
@@ -2324,12 +2186,10 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["segment-id": "SegmentId", "application-id": "ApplicationId"]
         }
-        public var pageSize: String? = nil
-        public var token: String? = nil
-        public var applicationId: String = ""
-        public var segmentId: String = ""
-
-        public init() {}
+        public let pageSize: String?
+        public let token: String?
+        public let applicationId: String
+        public let segmentId: String
 
         public init(pageSize: String? = nil, token: String? = nil, applicationId: String, segmentId: String) {
             self.pageSize = pageSize
@@ -2354,10 +2214,8 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public var aPNSChannelRequest: APNSChannelRequest = APNSChannelRequest()
-        public var applicationId: String = ""
-
-        public init() {}
+        public let aPNSChannelRequest: APNSChannelRequest
+        public let applicationId: String
 
         public init(aPNSChannelRequest: APNSChannelRequest, applicationId: String) {
             self.aPNSChannelRequest = aPNSChannelRequest
@@ -2378,11 +2236,9 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["campaign-id": "CampaignId", "application-id": "ApplicationId"]
         }
-        public var applicationId: String = ""
-        public var campaignId: String = ""
-        public var writeCampaignRequest: WriteCampaignRequest = WriteCampaignRequest()
-
-        public init() {}
+        public let applicationId: String
+        public let campaignId: String
+        public let writeCampaignRequest: WriteCampaignRequest
 
         public init(applicationId: String, campaignId: String, writeCampaignRequest: WriteCampaignRequest) {
             self.applicationId = applicationId
@@ -2403,9 +2259,7 @@ extension Pinpoint {
     public struct CreateSegmentResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "SegmentResponse"
-        public var segmentResponse: SegmentResponse = SegmentResponse()
-
-        public init() {}
+        public let segmentResponse: SegmentResponse
 
         public init(segmentResponse: SegmentResponse) {
             self.segmentResponse = segmentResponse
@@ -2420,9 +2274,7 @@ extension Pinpoint {
     public struct DeleteSegmentResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "SegmentResponse"
-        public var segmentResponse: SegmentResponse = SegmentResponse()
-
-        public init() {}
+        public let segmentResponse: SegmentResponse
 
         public init(segmentResponse: SegmentResponse) {
             self.segmentResponse = segmentResponse
@@ -2437,9 +2289,7 @@ extension Pinpoint {
     public struct GetSegmentsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "SegmentsResponse"
-        public var segmentsResponse: SegmentsResponse = SegmentsResponse()
-
-        public init() {}
+        public let segmentsResponse: SegmentsResponse
 
         public init(segmentsResponse: SegmentsResponse) {
             self.segmentsResponse = segmentsResponse
@@ -2454,9 +2304,7 @@ extension Pinpoint {
     public struct GetCampaignVersionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CampaignsResponse"
-        public var campaignsResponse: CampaignsResponse = CampaignsResponse()
-
-        public init() {}
+        public let campaignsResponse: CampaignsResponse
 
         public init(campaignsResponse: CampaignsResponse) {
             self.campaignsResponse = campaignsResponse
@@ -2471,9 +2319,7 @@ extension Pinpoint {
     public struct GetCampaignsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CampaignsResponse"
-        public var campaignsResponse: CampaignsResponse = CampaignsResponse()
-
-        public init() {}
+        public let campaignsResponse: CampaignsResponse
 
         public init(campaignsResponse: CampaignsResponse) {
             self.campaignsResponse = campaignsResponse
@@ -2488,9 +2334,7 @@ extension Pinpoint {
     public struct GetSegmentVersionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "SegmentResponse"
-        public var segmentResponse: SegmentResponse = SegmentResponse()
-
-        public init() {}
+        public let segmentResponse: SegmentResponse
 
         public init(segmentResponse: SegmentResponse) {
             self.segmentResponse = segmentResponse
@@ -2508,10 +2352,8 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId", "endpoint-id": "EndpointId"]
         }
-        public var endpointId: String = ""
-        public var applicationId: String = ""
-
-        public init() {}
+        public let endpointId: String
+        public let applicationId: String
 
         public init(endpointId: String, applicationId: String) {
             self.endpointId = endpointId
@@ -2532,11 +2374,9 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["campaign-id": "CampaignId", "version": "Version", "application-id": "ApplicationId"]
         }
-        public var applicationId: String = ""
-        public var campaignId: String = ""
-        public var version: String = ""
-
-        public init() {}
+        public let applicationId: String
+        public let campaignId: String
+        public let version: String
 
         public init(applicationId: String, campaignId: String, version: String) {
             self.applicationId = applicationId
@@ -2557,9 +2397,7 @@ extension Pinpoint {
     public struct UpdateCampaignResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "CampaignResponse"
-        public var campaignResponse: CampaignResponse = CampaignResponse()
-
-        public init() {}
+        public let campaignResponse: CampaignResponse
 
         public init(campaignResponse: CampaignResponse) {
             self.campaignResponse = campaignResponse
@@ -2575,25 +2413,21 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The recency of use.
-        public var recency: RecencyDimension? = nil
-
-        public init() {}
+        public let recency: RecencyDimension?
 
         public init(recency: RecencyDimension? = nil) {
             self.recency = recency
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let recency = dictionary["Recency"] as? [String: Any] { self.recency = try Pinpoint.RecencyDimension(dictionary: recency) }
+            if let recency = dictionary["Recency"] as? [String: Any] { self.recency = try Pinpoint.RecencyDimension(dictionary: recency) } else { self.recency = nil }
         }
     }
 
     public struct UpdateSegmentResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "SegmentResponse"
-        public var segmentResponse: SegmentResponse = SegmentResponse()
-
-        public init() {}
+        public let segmentResponse: SegmentResponse
 
         public init(segmentResponse: SegmentResponse) {
             self.segmentResponse = segmentResponse
@@ -2608,9 +2442,7 @@ extension Pinpoint {
     public struct CampaignState: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var campaignStatus: String? = nil
-
-        public init() {}
+        public let campaignStatus: String?
 
         public init(campaignStatus: String? = nil) {
             self.campaignStatus = campaignStatus
@@ -2624,9 +2456,7 @@ extension Pinpoint {
     public struct DeleteApnsChannelResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = "APNSChannelResponse"
-        public var aPNSChannelResponse: APNSChannelResponse = APNSChannelResponse()
-
-        public init() {}
+        public let aPNSChannelResponse: APNSChannelResponse
 
         public init(aPNSChannelResponse: APNSChannelResponse) {
             self.aPNSChannelResponse = aPNSChannelResponse
@@ -2644,10 +2474,8 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId", "segment-id": "SegmentId"]
         }
-        public var segmentId: String = ""
-        public var applicationId: String = ""
-
-        public init() {}
+        public let segmentId: String
+        public let applicationId: String
 
         public init(segmentId: String, applicationId: String) {
             self.segmentId = segmentId
@@ -2666,11 +2494,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of import jobs for the application.
-        public var item: [ImportJobResponse]? = nil
+        public let item: [ImportJobResponse]?
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(item: [ImportJobResponse]? = nil, nextToken: String? = nil) {
             self.item = item
@@ -2680,6 +2506,8 @@ extension Pinpoint {
         public init(dictionary: [String: Any]) throws {
             if let item = dictionary["Item"] as? [[String: Any]] {
                 self.item = try item.map({ try ImportJobResponse(dictionary: $0) })
+            } else { 
+                self.item = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -2694,11 +2522,9 @@ extension Pinpoint {
         public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
-        public var pageSize: String? = nil
-        public var applicationId: String = ""
-        public var token: String? = nil
-
-        public init() {}
+        public let pageSize: String?
+        public let applicationId: String
+        public let token: String?
 
         public init(pageSize: String? = nil, applicationId: String, token: String? = nil) {
             self.pageSize = pageSize
@@ -2718,13 +2544,11 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The message that the campaign delivers to GCM channels. Overrides the default message.
-        public var gCMMessage: Message? = nil
+        public let gCMMessage: Message?
         /// The message that the campaign delivers to APNS channels. Overrides the default message.
-        public var aPNSMessage: Message? = nil
+        public let aPNSMessage: Message?
         /// The default message for all channels.
-        public var defaultMessage: Message? = nil
-
-        public init() {}
+        public let defaultMessage: Message?
 
         public init(gCMMessage: Message? = nil, aPNSMessage: Message? = nil, defaultMessage: Message? = nil) {
             self.gCMMessage = gCMMessage
@@ -2733,9 +2557,9 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let gCMMessage = dictionary["GCMMessage"] as? [String: Any] { self.gCMMessage = try Pinpoint.Message(dictionary: gCMMessage) }
-            if let aPNSMessage = dictionary["APNSMessage"] as? [String: Any] { self.aPNSMessage = try Pinpoint.Message(dictionary: aPNSMessage) }
-            if let defaultMessage = dictionary["DefaultMessage"] as? [String: Any] { self.defaultMessage = try Pinpoint.Message(dictionary: defaultMessage) }
+            if let gCMMessage = dictionary["GCMMessage"] as? [String: Any] { self.gCMMessage = try Pinpoint.Message(dictionary: gCMMessage) } else { self.gCMMessage = nil }
+            if let aPNSMessage = dictionary["APNSMessage"] as? [String: Any] { self.aPNSMessage = try Pinpoint.Message(dictionary: aPNSMessage) } else { self.aPNSMessage = nil }
+            if let defaultMessage = dictionary["DefaultMessage"] as? [String: Any] { self.defaultMessage = try Pinpoint.Message(dictionary: defaultMessage) } else { self.defaultMessage = nil }
         }
     }
 
@@ -2743,23 +2567,21 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The endpoint locale in the following format: The ISO 639-1 alpha-2 code, followed by an underscore, followed by an ISO 3166-1 alpha-2 value. 
-        public var locale: String? = nil
+        public let locale: String?
         /// The endpoint platform, such as ios or android.
-        public var platform: String? = nil
+        public let platform: String?
         /// The timezone of the endpoint. Specified as a tz database value, such as Americas/Los_Angeles.
-        public var timezone: String? = nil
+        public let timezone: String?
         /// The endpoint platform version.
-        public var platformVersion: String? = nil
+        public let platformVersion: String?
         /// The endpoint make, such as such as Apple or Samsung.
-        public var make: String? = nil
+        public let make: String?
         /// The version of the application associated with the endpoint.
-        public var appVersion: String? = nil
+        public let appVersion: String?
         /// The endpoint model, such as iPhone.
-        public var model: String? = nil
+        public let model: String?
         /// The endpoint model version.
-        public var modelVersion: String? = nil
-
-        public init() {}
+        public let modelVersion: String?
 
         public init(locale: String? = nil, platform: String? = nil, timezone: String? = nil, platformVersion: String? = nil, make: String? = nil, appVersion: String? = nil, model: String? = nil, modelVersion: String? = nil) {
             self.locale = locale
@@ -2788,11 +2610,9 @@ extension Pinpoint {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of segment
-        public var name: String? = nil
+        public let name: String?
         /// The segment dimensions attributes.
-        public var dimensions: SegmentDimensions? = nil
-
-        public init() {}
+        public let dimensions: SegmentDimensions?
 
         public init(name: String? = nil, dimensions: SegmentDimensions? = nil) {
             self.name = name
@@ -2801,7 +2621,7 @@ extension Pinpoint {
 
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["Name"] as? String
-            if let dimensions = dictionary["Dimensions"] as? [String: Any] { self.dimensions = try Pinpoint.SegmentDimensions(dictionary: dimensions) }
+            if let dimensions = dictionary["Dimensions"] as? [String: Any] { self.dimensions = try Pinpoint.SegmentDimensions(dictionary: dimensions) } else { self.dimensions = nil }
         }
     }
 

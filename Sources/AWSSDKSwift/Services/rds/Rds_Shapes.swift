@@ -33,17 +33,15 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// The parameter types to return. Default: All parameter types returned Valid Values: user | system | engine-default 
-        public var source: String? = nil
+        public let source: String?
         ///  An optional pagination token provided by a previous DescribeDBParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// The name of a specific DB parameter group to return details for. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBParameterGroupName: String = ""
-
-        public init() {}
+        public let dBParameterGroupName: String
 
         public init(maxRecords: Int32? = nil, filters: [Filter]? = nil, source: String? = nil, marker: String? = nil, dBParameterGroupName: String) {
             self.maxRecords = maxRecords
@@ -57,6 +55,8 @@ extension Rds {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.source = dictionary["Source"] as? String
             self.marker = dictionary["Marker"] as? String
@@ -69,11 +69,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous Events request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        public var marker: String? = nil
+        public let marker: String?
         ///  A list of Event instances. 
-        public var events: [Event]? = nil
-
-        public init() {}
+        public let events: [Event]?
 
         public init(marker: String? = nil, events: [Event]? = nil) {
             self.marker = marker
@@ -84,6 +82,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let events = dictionary["Events"] as? [[String: Any]] {
                 self.events = try events.map({ try Event(dictionary: $0) })
+            } else { 
+                self.events = nil
             }
         }
     }
@@ -91,16 +91,14 @@ extension Rds {
     public struct CreateDBSubnetGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBSubnetGroup: DBSubnetGroup? = nil
-
-        public init() {}
+        public let dBSubnetGroup: DBSubnetGroup?
 
         public init(dBSubnetGroup: DBSubnetGroup? = nil) {
             self.dBSubnetGroup = dBSubnetGroup
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBSubnetGroup = dictionary["DBSubnetGroup"] as? [String: Any] { self.dBSubnetGroup = try Rds.DBSubnetGroup(dictionary: dBSubnetGroup) }
+            if let dBSubnetGroup = dictionary["DBSubnetGroup"] as? [String: Any] { self.dBSubnetGroup = try Rds.DBSubnetGroup(dictionary: dBSubnetGroup) } else { self.dBSubnetGroup = nil }
         }
     }
 
@@ -108,13 +106,11 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of parameter names in the DB cluster parameter group to reset to the default values. You cannot use this parameter if the ResetAllParameters parameter is set to true.
-        public var parameters: [Parameter]? = nil
+        public let parameters: [Parameter]?
         /// A value that is set to true to reset all parameters in the DB cluster parameter group to their default values, and false otherwise. You cannot use this parameter if there is a list of parameter names specified for the Parameters parameter.
-        public var resetAllParameters: Bool? = nil
+        public let resetAllParameters: Bool?
         /// The name of the DB cluster parameter group to reset.
-        public var dBClusterParameterGroupName: String = ""
-
-        public init() {}
+        public let dBClusterParameterGroupName: String
 
         public init(parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil, dBClusterParameterGroupName: String) {
             self.parameters = parameters
@@ -125,6 +121,8 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             if let parameters = dictionary["Parameters"] as? [[String: Any]] {
                 self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            } else { 
+                self.parameters = nil
             }
             self.resetAllParameters = dictionary["ResetAllParameters"] as? Bool
             guard let dBClusterParameterGroupName = dictionary["DBClusterParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBClusterParameterGroupName") }
@@ -135,32 +133,28 @@ extension Rds {
     public struct DescribeEngineDefaultParametersResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var engineDefaults: EngineDefaults? = nil
-
-        public init() {}
+        public let engineDefaults: EngineDefaults?
 
         public init(engineDefaults: EngineDefaults? = nil) {
             self.engineDefaults = engineDefaults
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let engineDefaults = dictionary["EngineDefaults"] as? [String: Any] { self.engineDefaults = try Rds.EngineDefaults(dictionary: engineDefaults) }
+            if let engineDefaults = dictionary["EngineDefaults"] as? [String: Any] { self.engineDefaults = try Rds.EngineDefaults(dictionary: engineDefaults) } else { self.engineDefaults = nil }
         }
     }
 
     public struct RestoreDBClusterFromSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBCluster: DBCluster? = nil
-
-        public init() {}
+        public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) }
+            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) } else { self.dBCluster = nil }
         }
     }
 
@@ -168,9 +162,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the DB cluster Read Replica to promote. This parameter is not case-sensitive.  Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-replica1 
-        public var dBClusterIdentifier: String = ""
-
-        public init() {}
+        public let dBClusterIdentifier: String
 
         public init(dBClusterIdentifier: String) {
             self.dBClusterIdentifier = dBClusterIdentifier
@@ -186,14 +178,12 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description for the copied option group.
-        public var targetOptionGroupDescription: String = ""
+        public let targetOptionGroupDescription: String
         /// The identifier for the copied option group. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-option-group 
-        public var targetOptionGroupIdentifier: String = ""
-        public var tags: [Tag]? = nil
+        public let targetOptionGroupIdentifier: String
+        public let tags: [Tag]?
         /// The identifier or ARN for the source option group. For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).  Constraints:   Must specify a valid option group.   If the source option group is in the same region as the copy, specify a valid option group identifier, for example my-option-group, or a valid ARN.   If the source option group is in a different region than the copy, specify a valid option group ARN, for example arn:aws:rds:us-west-2:123456789012:og:special-options.  
-        public var sourceOptionGroupIdentifier: String = ""
-
-        public init() {}
+        public let sourceOptionGroupIdentifier: String
 
         public init(targetOptionGroupDescription: String, targetOptionGroupIdentifier: String, tags: [Tag]? = nil, sourceOptionGroupIdentifier: String) {
             self.targetOptionGroupDescription = targetOptionGroupDescription
@@ -209,6 +199,8 @@ extension Rds {
             self.targetOptionGroupIdentifier = targetOptionGroupIdentifier
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let sourceOptionGroupIdentifier = dictionary["SourceOptionGroupIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SourceOptionGroupIdentifier") }
             self.sourceOptionGroupIdentifier = sourceOptionGroupIdentifier
@@ -219,15 +211,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the instance identifier for this member of the DB cluster.
-        public var dBInstanceIdentifier: String? = nil
+        public let dBInstanceIdentifier: String?
         /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster. 
-        public var promotionTier: Int32? = nil
+        public let promotionTier: Int32?
         /// Value that is true if the cluster member is the primary instance for the DB cluster and false otherwise.
-        public var isClusterWriter: Bool? = nil
+        public let isClusterWriter: Bool?
         /// Specifies the status of the DB cluster parameter group for this member of the DB cluster.
-        public var dBClusterParameterGroupStatus: String? = nil
-
-        public init() {}
+        public let dBClusterParameterGroupStatus: String?
 
         public init(dBInstanceIdentifier: String? = nil, promotionTier: Int32? = nil, isClusterWriter: Bool? = nil, dBClusterParameterGroupStatus: String? = nil) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
@@ -248,33 +238,31 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether the option requires a port.
-        public var portRequired: Bool? = nil
+        public let portRequired: Bool?
         /// The options that conflict with this option.
-        public var optionsConflictsWith: [String]? = nil
+        public let optionsConflictsWith: [String]?
         /// The minimum required engine version for the option to be applied.
-        public var minimumRequiredMinorEngineVersion: String? = nil
+        public let minimumRequiredMinorEngineVersion: String?
         /// Indicates the major engine version that the option is available for.
-        public var majorEngineVersion: String? = nil
+        public let majorEngineVersion: String?
         /// Persistent options can't be removed from an option group while DB instances are associated with the option group. If you disassociate all DB instances from the option group, your can remove the persistent option from the option group.
-        public var persistent: Bool? = nil
+        public let persistent: Bool?
         /// The option settings that are available (and the default value) for each option in an option group.
-        public var optionGroupOptionSettings: [OptionGroupOptionSetting]? = nil
+        public let optionGroupOptionSettings: [OptionGroupOptionSetting]?
         /// Permanent options can never be removed from an option group. An option group containing a permanent option can't be removed from a DB instance.
-        public var permanent: Bool? = nil
+        public let permanent: Bool?
         /// The options that are prerequisites for this option.
-        public var optionsDependedOn: [String]? = nil
+        public let optionsDependedOn: [String]?
         /// The description of the option.
-        public var description: String? = nil
+        public let description: String?
         /// The versions that are available for the option.
-        public var optionGroupOptionVersions: [OptionVersion]? = nil
+        public let optionGroupOptionVersions: [OptionVersion]?
         /// The name of the option.
-        public var name: String? = nil
+        public let name: String?
         /// If the option requires a port, specifies the default port for the option.
-        public var defaultPort: Int32? = nil
+        public let defaultPort: Int32?
         /// The name of the engine that this option can be applied to.
-        public var engineName: String? = nil
-
-        public init() {}
+        public let engineName: String?
 
         public init(portRequired: Bool? = nil, optionsConflictsWith: [String]? = nil, minimumRequiredMinorEngineVersion: String? = nil, majorEngineVersion: String? = nil, persistent: Bool? = nil, optionGroupOptionSettings: [OptionGroupOptionSetting]? = nil, permanent: Bool? = nil, optionsDependedOn: [String]? = nil, description: String? = nil, optionGroupOptionVersions: [OptionVersion]? = nil, name: String? = nil, defaultPort: Int32? = nil, engineName: String? = nil) {
             self.portRequired = portRequired
@@ -294,22 +282,22 @@ extension Rds {
 
         public init(dictionary: [String: Any]) throws {
             self.portRequired = dictionary["PortRequired"] as? Bool
-            if let optionsConflictsWith = dictionary["OptionsConflictsWith"] as? [String] {
-                self.optionsConflictsWith = optionsConflictsWith
-            }
+            self.optionsConflictsWith = dictionary["OptionsConflictsWith"] as? [String]
             self.minimumRequiredMinorEngineVersion = dictionary["MinimumRequiredMinorEngineVersion"] as? String
             self.majorEngineVersion = dictionary["MajorEngineVersion"] as? String
             self.persistent = dictionary["Persistent"] as? Bool
             if let optionGroupOptionSettings = dictionary["OptionGroupOptionSettings"] as? [[String: Any]] {
                 self.optionGroupOptionSettings = try optionGroupOptionSettings.map({ try OptionGroupOptionSetting(dictionary: $0) })
+            } else { 
+                self.optionGroupOptionSettings = nil
             }
             self.permanent = dictionary["Permanent"] as? Bool
-            if let optionsDependedOn = dictionary["OptionsDependedOn"] as? [String] {
-                self.optionsDependedOn = optionsDependedOn
-            }
+            self.optionsDependedOn = dictionary["OptionsDependedOn"] as? [String]
             self.description = dictionary["Description"] as? String
             if let optionGroupOptionVersions = dictionary["OptionGroupOptionVersions"] as? [[String: Any]] {
                 self.optionGroupOptionVersions = try optionGroupOptionVersions.map({ try OptionVersion(dictionary: $0) })
+            } else { 
+                self.optionGroupOptionVersions = nil
             }
             self.name = dictionary["Name"] as? String
             self.defaultPort = dictionary["DefaultPort"] as? Int32
@@ -321,14 +309,12 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family.
-        public var dBParameterGroupFamily: String = ""
+        public let dBParameterGroupFamily: String
         /// The name of the DB cluster parameter group. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
-        public var dBClusterParameterGroupName: String = ""
-        public var tags: [Tag]? = nil
+        public let dBClusterParameterGroupName: String
+        public let tags: [Tag]?
         /// The description for the DB cluster parameter group.
-        public var description: String = ""
-
-        public init() {}
+        public let description: String
 
         public init(dBParameterGroupFamily: String, dBClusterParameterGroupName: String, tags: [Tag]? = nil, description: String) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
@@ -344,6 +330,8 @@ extension Rds {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
             self.description = description
@@ -354,11 +342,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A pagination token that can be used in a subsequent DescribeDBClusters request.
-        public var marker: String? = nil
+        public let marker: String?
         /// Contains a list of DB clusters for the user.
-        public var dBClusters: [DBCluster]? = nil
-
-        public init() {}
+        public let dBClusters: [DBCluster]?
 
         public init(marker: String? = nil, dBClusters: [DBCluster]? = nil) {
             self.marker = marker
@@ -369,6 +355,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let dBClusters = dictionary["DBClusters"] as? [[String: Any]] {
                 self.dBClusters = try dBClusters.map({ try DBCluster(dictionary: $0) })
+            } else { 
+                self.dBClusters = nil
             }
         }
     }
@@ -377,13 +365,11 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the DNS address of the DB instance.
-        public var address: String? = nil
+        public let address: String?
         /// Specifies the port that the database engine is listening on.
-        public var port: Int32? = nil
+        public let port: Int32?
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
-        public var hostedZoneId: String? = nil
-
-        public init() {}
+        public let hostedZoneId: String?
 
         public init(address: String? = nil, port: Int32? = nil, hostedZoneId: String? = nil) {
             self.address = address
@@ -402,9 +388,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the database subnet group to delete.  You cannot delete the default subnet group.  Constraints: Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        public var dBSubnetGroupName: String = ""
-
-        public init() {}
+        public let dBSubnetGroupName: String
 
         public init(dBSubnetGroupName: String) {
             self.dBSubnetGroupName = dBSubnetGroupName
@@ -420,11 +404,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// Provides a list of DB cluster snapshots for the user.
-        public var dBClusterSnapshots: [DBClusterSnapshot]? = nil
-
-        public init() {}
+        public let dBClusterSnapshots: [DBClusterSnapshot]?
 
         public init(marker: String? = nil, dBClusterSnapshots: [DBClusterSnapshot]? = nil) {
             self.marker = marker
@@ -435,6 +417,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let dBClusterSnapshots = dictionary["DBClusterSnapshots"] as? [[String: Any]] {
                 self.dBClusterSnapshots = try dBClusterSnapshots.map({ try DBClusterSnapshot(dictionary: $0) })
+            } else { 
+                self.dBClusterSnapshots = nil
             }
         }
     }
@@ -442,64 +426,56 @@ extension Rds {
     public struct ModifyDBClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBCluster: DBCluster? = nil
-
-        public init() {}
+        public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) }
+            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) } else { self.dBCluster = nil }
         }
     }
 
     public struct DescribeEngineDefaultClusterParametersResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var engineDefaults: EngineDefaults? = nil
-
-        public init() {}
+        public let engineDefaults: EngineDefaults?
 
         public init(engineDefaults: EngineDefaults? = nil) {
             self.engineDefaults = engineDefaults
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let engineDefaults = dictionary["EngineDefaults"] as? [String: Any] { self.engineDefaults = try Rds.EngineDefaults(dictionary: engineDefaults) }
+            if let engineDefaults = dictionary["EngineDefaults"] as? [String: Any] { self.engineDefaults = try Rds.EngineDefaults(dictionary: engineDefaults) } else { self.engineDefaults = nil }
         }
     }
 
     public struct PurchaseReservedDBInstancesOfferingResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var reservedDBInstance: ReservedDBInstance? = nil
-
-        public init() {}
+        public let reservedDBInstance: ReservedDBInstance?
 
         public init(reservedDBInstance: ReservedDBInstance? = nil) {
             self.reservedDBInstance = reservedDBInstance
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let reservedDBInstance = dictionary["ReservedDBInstance"] as? [String: Any] { self.reservedDBInstance = try Rds.ReservedDBInstance(dictionary: reservedDBInstance) }
+            if let reservedDBInstance = dictionary["ReservedDBInstance"] as? [String: Any] { self.reservedDBInstance = try Rds.ReservedDBInstance(dictionary: reservedDBInstance) } else { self.reservedDBInstance = nil }
         }
     }
 
     public struct FailoverDBClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBCluster: DBCluster? = nil
-
-        public init() {}
+        public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) }
+            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) } else { self.dBCluster = nil }
         }
     }
 
@@ -507,13 +483,11 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The tags to be assigned to the DB cluster snapshot.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The identifier of the DB cluster snapshot. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1-snapshot1 
-        public var dBClusterSnapshotIdentifier: String = ""
+        public let dBClusterSnapshotIdentifier: String
         /// The identifier of the DB cluster to create a snapshot for. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1 
-        public var dBClusterIdentifier: String = ""
-
-        public init() {}
+        public let dBClusterIdentifier: String
 
         public init(tags: [Tag]? = nil, dBClusterSnapshotIdentifier: String, dBClusterIdentifier: String) {
             self.tags = tags
@@ -524,6 +498,8 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let dBClusterSnapshotIdentifier = dictionary["DBClusterSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBClusterSnapshotIdentifier") }
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
@@ -536,11 +512,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBClusterSnapshotAttribute API action.
-        public var attributeName: String? = nil
+        public let attributeName: String?
         /// The value(s) for the manual DB cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual DB cluster snapshot is public and available for any AWS account to copy or restore.
-        public var attributeValues: [String]? = nil
-
-        public init() {}
+        public let attributeValues: [String]?
 
         public init(attributeName: String? = nil, attributeValues: [String]? = nil) {
             self.attributeName = attributeName
@@ -549,9 +523,7 @@ extension Rds {
 
         public init(dictionary: [String: Any]) throws {
             self.attributeName = dictionary["AttributeName"] as? String
-            if let attributeValues = dictionary["AttributeValues"] as? [String] {
-                self.attributeValues = attributeValues
-            }
+            self.attributeValues = dictionary["AttributeValues"] as? [String]
         }
     }
 
@@ -559,15 +531,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the DB instance's Active Directory Domain membership, such as joined, pending-join, failed etc).
-        public var status: String? = nil
+        public let status: String?
         /// The name of the IAM role to be used when making API calls to the Directory Service.
-        public var iAMRoleName: String? = nil
+        public let iAMRoleName: String?
         /// The fully qualified domain name of the Active Directory Domain.
-        public var fQDN: String? = nil
+        public let fQDN: String?
         /// The identifier of the Active Directory Domain.
-        public var domain: String? = nil
-
-        public init() {}
+        public let domain: String?
 
         public init(status: String? = nil, iAMRoleName: String? = nil, fQDN: String? = nil, domain: String? = nil) {
             self.status = status
@@ -587,32 +557,28 @@ extension Rds {
     public struct RebootDBInstanceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBInstance: DBInstance? = nil
-
-        public init() {}
+        public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) }
+            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) } else { self.dBInstance = nil }
         }
     }
 
     public struct ModifyOptionGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var optionGroup: OptionGroup? = nil
-
-        public init() {}
+        public let optionGroup: OptionGroup?
 
         public init(optionGroup: OptionGroup? = nil) {
             self.optionGroup = optionGroup
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let optionGroup = dictionary["OptionGroup"] as? [String: Any] { self.optionGroup = try Rds.OptionGroup(dictionary: optionGroup) }
+            if let optionGroup = dictionary["OptionGroup"] as? [String: Any] { self.optionGroup = try Rds.OptionGroup(dictionary: optionGroup) } else { self.optionGroup = nil }
         }
     }
 
@@ -620,11 +586,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-        public var value: String? = nil
+        public let value: String?
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and cannot be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-        public var key: String? = nil
-
-        public init() {}
+        public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
             self.value = value
@@ -641,11 +605,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// The Amazon RDS resource with tags to be listed. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
-        public var resourceName: String = ""
-
-        public init() {}
+        public let resourceName: String
 
         public init(filters: [Filter]? = nil, resourceName: String) {
             self.filters = filters
@@ -655,6 +617,8 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
             self.resourceName = resourceName
@@ -665,11 +629,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the instance to promote to the primary instance. You must specify the instance identifier for an Aurora Replica in the DB cluster. For example, mydbcluster-replica1.
-        public var targetDBInstanceIdentifier: String? = nil
+        public let targetDBInstanceIdentifier: String?
         /// A DB cluster identifier to force a failover for. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBClusterIdentifier: String? = nil
-
-        public init() {}
+        public let dBClusterIdentifier: String?
 
         public init(targetDBInstanceIdentifier: String? = nil, dBClusterIdentifier: String? = nil) {
             self.targetDBInstanceIdentifier = targetDBInstanceIdentifier
@@ -686,20 +648,18 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
-        public var snsTopicArn: String = ""
+        public let snsTopicArn: String
         /// The name of the subscription. Constraints: The name must be less than 255 characters.
-        public var subscriptionName: String = ""
+        public let subscriptionName: String
         /// The type of source that will be generating the events. For example, if you want to be notified of events generated by a DB instance, you would set this parameter to db-instance. if this value is not specified, all events are returned. Valid values: db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot | db-cluster-snapshot 
-        public var sourceType: String? = nil
-        public var tags: [Tag]? = nil
+        public let sourceType: String?
+        public let tags: [Tag]?
         ///  A list of event categories for a SourceType that you want to subscribe to. You can see a list of the categories for a given SourceType in the Events topic in the Amazon RDS User Guide or by using the DescribeEventCategories action. 
-        public var eventCategories: [String]? = nil
+        public let eventCategories: [String]?
         ///  A Boolean value; set to true to activate the subscription, set to false to create the subscription but not active it. 
-        public var enabled: Bool? = nil
+        public let enabled: Bool?
         /// The list of identifiers of the event sources for which events will be returned. If not specified, then all sources are included in the response. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it cannot end with a hyphen or contain two consecutive hyphens. Constraints:   If SourceIds are supplied, SourceType must also be provided.   If the source type is a DB instance, then a DBInstanceIdentifier must be supplied.   If the source type is a DB security group, a DBSecurityGroupName must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.  
-        public var sourceIds: [String]? = nil
-
-        public init() {}
+        public let sourceIds: [String]?
 
         public init(snsTopicArn: String, subscriptionName: String, sourceType: String? = nil, tags: [Tag]? = nil, eventCategories: [String]? = nil, enabled: Bool? = nil, sourceIds: [String]? = nil) {
             self.snsTopicArn = snsTopicArn
@@ -719,30 +679,26 @@ extension Rds {
             self.sourceType = dictionary["SourceType"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
-            if let eventCategories = dictionary["EventCategories"] as? [String] {
-                self.eventCategories = eventCategories
-            }
+            self.eventCategories = dictionary["EventCategories"] as? [String]
             self.enabled = dictionary["Enabled"] as? Bool
-            if let sourceIds = dictionary["SourceIds"] as? [String] {
-                self.sourceIds = sourceIds
-            }
+            self.sourceIds = dictionary["SourceIds"] as? [String]
         }
     }
 
     public struct DescribeDBSnapshotAttributesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBSnapshotAttributesResult: DBSnapshotAttributesResult? = nil
-
-        public init() {}
+        public let dBSnapshotAttributesResult: DBSnapshotAttributesResult?
 
         public init(dBSnapshotAttributesResult: DBSnapshotAttributesResult? = nil) {
             self.dBSnapshotAttributesResult = dBSnapshotAttributesResult
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBSnapshotAttributesResult = dictionary["DBSnapshotAttributesResult"] as? [String: Any] { self.dBSnapshotAttributesResult = try Rds.DBSnapshotAttributesResult(dictionary: dBSnapshotAttributesResult) }
+            if let dBSnapshotAttributesResult = dictionary["DBSnapshotAttributesResult"] as? [String: Any] { self.dBSnapshotAttributesResult = try Rds.DBSnapshotAttributesResult(dictionary: dBSnapshotAttributesResult) } else { self.dBSnapshotAttributesResult = nil }
         }
     }
 
@@ -750,18 +706,16 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// True to copy all tags from the source DB snapshot to the target DB snapshot; otherwise false. The default is false.
-        public var copyTags: Bool? = nil
+        public let copyTags: Bool?
         /// The AWS KMS key ID for an encrypted DB snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you copy an unencrypted DB snapshot and specify a value for the KmsKeyId parameter, Amazon RDS encrypts the target DB snapshot using the specified KMS encryption key.  If you copy an encrypted DB snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB snapshot is encrypted with the same KMS key as the source DB snapshot.  If you copy an encrypted snapshot to a different AWS region, then you must specify a KMS key for the destination AWS region. If you copy an encrypted DB snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId.  To copy an encrypted DB snapshot to another region, you must set KmsKeyId to the KMS key ID used to encrypt the copy of the DB snapshot in the destination region. KMS encryption keys are specific to the region that they are created in, and you cannot use encryption keys from one region in another region.
-        public var kmsKeyId: String? = nil
+        public let kmsKeyId: String?
         /// The identifier for the copied snapshot. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-db-snapshot 
-        public var targetDBSnapshotIdentifier: String = ""
-        public var tags: [Tag]? = nil
+        public let targetDBSnapshotIdentifier: String
+        public let tags: [Tag]?
         /// The identifier for the source DB snapshot. If you are copying from a shared manual DB snapshot, this must be the ARN of the shared DB snapshot. You cannot copy an encrypted, shared DB snapshot from one AWS region to another. Constraints:   Must specify a valid system snapshot in the "available" state.   If the source snapshot is in the same region as the copy, specify a valid DB snapshot identifier.   If the source snapshot is in a different region than the copy, specify a valid DB snapshot ARN. For more information, go to  Copying a DB Snapshot.   Example: rds:mydb-2012-04-02-00-01  Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805 
-        public var sourceDBSnapshotIdentifier: String = ""
+        public let sourceDBSnapshotIdentifier: String
         /// The URL that contains a Signature Version 4 signed request for the CopyDBSnapshot API action in the AWS region that contains the source DB snapshot to copy. The PreSignedUrl parameter must be used when copying an encrypted DB snapshot from another AWS region. The presigned URL must be a valid request for the CopyDBSnapshot API action that can be executed in the source region that contains the encrypted DB snapshot to be copied. The presigned URL request must contain the following parameter values:    DestinationRegion - The AWS Region that the encrypted DB snapshot will be copied to. This region is the same one where the CopyDBSnapshot action is called that contains this presigned URL.  For example, if you copy an encrypted DB snapshot from the us-west-2 region to the us-east-1 region, then you will call the CopyDBSnapshot action in the us-east-1 region and provide a presigned URL that contains a call to the CopyDBSnapshot action in the us-west-2 region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 region.    KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB snapshot in the destination region. This is the same identifier for both the CopyDBSnapshot action that is called in the destination region, and the action contained in the presigned URL.    SourceDBSnapshotIdentifier - The DB snapshot identifier for the encrypted snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you are copying an encrypted DB snapshot from the us-west-2 region, then your SourceDBSnapshotIdentifier would look like Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.
-        public var preSignedUrl: String? = nil
-
-        public init() {}
+        public let preSignedUrl: String?
 
         public init(copyTags: Bool? = nil, kmsKeyId: String? = nil, targetDBSnapshotIdentifier: String, tags: [Tag]? = nil, sourceDBSnapshotIdentifier: String, preSignedUrl: String? = nil) {
             self.copyTags = copyTags
@@ -779,6 +733,8 @@ extension Rds {
             self.targetDBSnapshotIdentifier = targetDBSnapshotIdentifier
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let sourceDBSnapshotIdentifier = dictionary["SourceDBSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SourceDBSnapshotIdentifier") }
             self.sourceDBSnapshotIdentifier = sourceDBSnapshotIdentifier
@@ -790,9 +746,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of EventCategoriesMap data types.
-        public var eventCategoriesMapList: [EventCategoriesMap]? = nil
-
-        public init() {}
+        public let eventCategoriesMapList: [EventCategoriesMap]?
 
         public init(eventCategoriesMapList: [EventCategoriesMap]? = nil) {
             self.eventCategoriesMapList = eventCategoriesMapList
@@ -801,6 +755,8 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             if let eventCategoriesMapList = dictionary["EventCategoriesMapList"] as? [[String: Any]] {
                 self.eventCategoriesMapList = try eventCategoriesMapList.map({ try EventCategoriesMap(dictionary: $0) })
+            } else { 
+                self.eventCategoriesMapList = nil
             }
         }
     }
@@ -809,11 +765,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        public var marker: String? = nil
+        public let marker: String?
         /// Provides a list of parameters for the DB cluster parameter group.
-        public var parameters: [Parameter]? = nil
-
-        public init() {}
+        public let parameters: [Parameter]?
 
         public init(marker: String? = nil, parameters: [Parameter]? = nil) {
             self.marker = marker
@@ -824,6 +778,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let parameters = dictionary["Parameters"] as? [[String: Any]] {
                 self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            } else { 
+                self.parameters = nil
             }
         }
     }
@@ -832,11 +788,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The amount of the recurring charge.
-        public var recurringChargeAmount: Double? = nil
+        public let recurringChargeAmount: Double?
         /// The frequency of the recurring charge.
-        public var recurringChargeFrequency: String? = nil
-
-        public init() {}
+        public let recurringChargeFrequency: String?
 
         public init(recurringChargeAmount: Double? = nil, recurringChargeFrequency: String? = nil) {
             self.recurringChargeAmount = recurringChargeAmount
@@ -852,16 +806,14 @@ extension Rds {
     public struct ModifyDBInstanceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBInstance: DBInstance? = nil
-
-        public init() {}
+        public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) }
+            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) } else { self.dBInstance = nil }
         }
     }
 
@@ -869,11 +821,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the DB instance's option group membership. Valid values are: in-sync, pending-apply, pending-removal, pending-maintenance-apply, pending-maintenance-removal, applying, removing, and failed. 
-        public var status: String? = nil
+        public let status: String?
         /// The name of the option group that the instance belongs to.
-        public var optionGroupName: String? = nil
-
-        public init() {}
+        public let optionGroupName: String?
 
         public init(status: String? = nil, optionGroupName: String? = nil) {
             self.status = status
@@ -890,9 +840,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the DB cluster snapshot to delete. Constraints: Must be the name of an existing DB cluster snapshot in the available state.
-        public var dBClusterSnapshotIdentifier: String = ""
-
-        public init() {}
+        public let dBClusterSnapshotIdentifier: String
 
         public init(dBClusterSnapshotIdentifier: String) {
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
@@ -907,16 +855,14 @@ extension Rds {
     public struct RestoreDBClusterToPointInTimeResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBCluster: DBCluster? = nil
-
-        public init() {}
+        public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) }
+            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) } else { self.dBCluster = nil }
         }
     }
 
@@ -924,25 +870,23 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The beginning of the time interval to retrieve events for, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
-        public var startTime: Date? = nil
+        public let startTime: Date?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous DescribeEvents request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// The event source to retrieve events for. If no value is specified, all events are returned.
-        public var sourceType: String? = nil
+        public let sourceType: String?
         /// A list of event categories that trigger notifications for a event notification subscription.
-        public var eventCategories: [String]? = nil
+        public let eventCategories: [String]?
         ///  The end of the time interval for which to retrieve events, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
-        public var endTime: Date? = nil
+        public let endTime: Date?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// The identifier of the event source for which events will be returned. If not specified, then all sources are included in the response. Constraints:   If SourceIdentifier is supplied, SourceType must also be provided.   If the source type is DBInstance, then a DBInstanceIdentifier must be supplied.   If the source type is DBSecurityGroup, a DBSecurityGroupName must be supplied.   If the source type is DBParameterGroup, a DBParameterGroupName must be supplied.   If the source type is DBSnapshot, a DBSnapshotIdentifier must be supplied.   Cannot end with a hyphen or contain two consecutive hyphens.  
-        public var sourceIdentifier: String? = nil
+        public let sourceIdentifier: String?
         /// The number of minutes to retrieve events for. Default: 60
-        public var duration: Int32? = nil
-
-        public init() {}
+        public let duration: Int32?
 
         public init(startTime: Date? = nil, maxRecords: Int32? = nil, marker: String? = nil, sourceType: String? = nil, eventCategories: [String]? = nil, endTime: Date? = nil, filters: [Filter]? = nil, sourceIdentifier: String? = nil, duration: Int32? = nil) {
             self.startTime = startTime
@@ -961,12 +905,12 @@ extension Rds {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             self.marker = dictionary["Marker"] as? String
             self.sourceType = dictionary["SourceType"] as? String
-            if let eventCategories = dictionary["EventCategories"] as? [String] {
-                self.eventCategories = eventCategories
-            }
+            self.eventCategories = dictionary["EventCategories"] as? [String]
             self.endTime = dictionary["EndTime"] as? Date
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
             self.duration = dictionary["Duration"] as? Int32
@@ -976,32 +920,28 @@ extension Rds {
     public struct CopyOptionGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var optionGroup: OptionGroup? = nil
-
-        public init() {}
+        public let optionGroup: OptionGroup?
 
         public init(optionGroup: OptionGroup? = nil) {
             self.optionGroup = optionGroup
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let optionGroup = dictionary["OptionGroup"] as? [String: Any] { self.optionGroup = try Rds.OptionGroup(dictionary: optionGroup) }
+            if let optionGroup = dictionary["OptionGroup"] as? [String: Any] { self.optionGroup = try Rds.OptionGroup(dictionary: optionGroup) } else { self.optionGroup = nil }
         }
     }
 
     public struct CreateDBInstanceReadReplicaResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBInstance: DBInstance? = nil
-
-        public init() {}
+        public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) }
+            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) } else { self.dBInstance = nil }
         }
     }
 
@@ -1009,25 +949,23 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The option settings for this option.
-        public var optionSettings: [OptionSetting]? = nil
+        public let optionSettings: [OptionSetting]?
         /// The description of the option.
-        public var optionDescription: String? = nil
+        public let optionDescription: String?
         /// The version of the option.
-        public var optionVersion: String? = nil
+        public let optionVersion: String?
         /// If the option requires access to a port, then this VPC security group allows access to the port.
-        public var vpcSecurityGroupMemberships: [VpcSecurityGroupMembership]? = nil
+        public let vpcSecurityGroupMemberships: [VpcSecurityGroupMembership]?
         /// If the option requires access to a port, then this DB security group allows access to the port.
-        public var dBSecurityGroupMemberships: [DBSecurityGroupMembership]? = nil
+        public let dBSecurityGroupMemberships: [DBSecurityGroupMembership]?
         /// Indicate if this option is persistent.
-        public var persistent: Bool? = nil
+        public let persistent: Bool?
         /// Indicate if this option is permanent.
-        public var permanent: Bool? = nil
+        public let permanent: Bool?
         /// The name of the option.
-        public var optionName: String? = nil
+        public let optionName: String?
         /// If required, the port configured for this option to use.
-        public var port: Int32? = nil
-
-        public init() {}
+        public let port: Int32?
 
         public init(optionSettings: [OptionSetting]? = nil, optionDescription: String? = nil, optionVersion: String? = nil, vpcSecurityGroupMemberships: [VpcSecurityGroupMembership]? = nil, dBSecurityGroupMemberships: [DBSecurityGroupMembership]? = nil, persistent: Bool? = nil, permanent: Bool? = nil, optionName: String? = nil, port: Int32? = nil) {
             self.optionSettings = optionSettings
@@ -1044,14 +982,20 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
                 self.optionSettings = try optionSettings.map({ try OptionSetting(dictionary: $0) })
+            } else { 
+                self.optionSettings = nil
             }
             self.optionDescription = dictionary["OptionDescription"] as? String
             self.optionVersion = dictionary["OptionVersion"] as? String
             if let vpcSecurityGroupMemberships = dictionary["VpcSecurityGroupMemberships"] as? [[String: Any]] {
                 self.vpcSecurityGroupMemberships = try vpcSecurityGroupMemberships.map({ try VpcSecurityGroupMembership(dictionary: $0) })
+            } else { 
+                self.vpcSecurityGroupMemberships = nil
             }
             if let dBSecurityGroupMemberships = dictionary["DBSecurityGroupMemberships"] as? [[String: Any]] {
                 self.dBSecurityGroupMemberships = try dBSecurityGroupMemberships.map({ try DBSecurityGroupMembership(dictionary: $0) })
+            } else { 
+                self.dBSecurityGroupMemberships = nil
             }
             self.persistent = dictionary["Persistent"] as? Bool
             self.permanent = dictionary["Permanent"] as? Bool
@@ -1064,11 +1008,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon RDS resource the tags will be removed from. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
-        public var resourceName: String = ""
+        public let resourceName: String
         /// The tag key (name) of the tag to be removed.
-        public var tagKeys: [String] = []
-
-        public init() {}
+        public let tagKeys: [String]
 
         public init(resourceName: String, tagKeys: [String]) {
             self.resourceName = resourceName
@@ -1087,23 +1029,21 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates what options are available in the option group.
-        public var options: [Option]? = nil
+        public let options: [Option]?
         /// Indicates whether this option group can be applied to both VPC and non-VPC instances. The value true indicates the option group can be applied to both VPC and non-VPC instances. 
-        public var allowsVpcAndNonVpcInstanceMemberships: Bool? = nil
+        public let allowsVpcAndNonVpcInstanceMemberships: Bool?
         /// Specifies the name of the option group.
-        public var optionGroupName: String? = nil
+        public let optionGroupName: String?
         /// The Amazon Resource Name (ARN) for the option group.
-        public var optionGroupArn: String? = nil
+        public let optionGroupArn: String?
         /// If AllowsVpcAndNonVpcInstanceMemberships is false, this field is blank. If AllowsVpcAndNonVpcInstanceMemberships is true and this field is blank, then this option group can be applied to both VPC and non-VPC instances. If this field contains a value, then this option group can only be applied to instances that are in the VPC indicated by this field. 
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// Indicates the major engine version associated with this option group.
-        public var majorEngineVersion: String? = nil
+        public let majorEngineVersion: String?
         /// Indicates the name of the engine that this option group can be applied to.
-        public var engineName: String? = nil
+        public let engineName: String?
         /// Provides a description of the option group.
-        public var optionGroupDescription: String? = nil
-
-        public init() {}
+        public let optionGroupDescription: String?
 
         public init(options: [Option]? = nil, allowsVpcAndNonVpcInstanceMemberships: Bool? = nil, optionGroupName: String? = nil, optionGroupArn: String? = nil, vpcId: String? = nil, majorEngineVersion: String? = nil, engineName: String? = nil, optionGroupDescription: String? = nil) {
             self.options = options
@@ -1119,6 +1059,8 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             if let options = dictionary["Options"] as? [[String: Any]] {
                 self.options = try options.map({ try Option(dictionary: $0) })
+            } else { 
+                self.options = nil
             }
             self.allowsVpcAndNonVpcInstanceMemberships = dictionary["AllowsVpcAndNonVpcInstanceMemberships"] as? Bool
             self.optionGroupName = dictionary["OptionGroupName"] as? String
@@ -1134,48 +1076,46 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The port number on which the database accepts connections. Default: The same port as the original DB instance Constraints: Value must be 1150-65535 
-        public var port: Int32? = nil
+        public let port: Int32?
         /// Specify the Active Directory Domain to restore the instance in.
-        public var domain: String? = nil
+        public let domain: String?
         /// The database name for the restored DB instance.  This parameter doesn't apply to the MySQL, PostgreSQL, or MariaDB engines. 
-        public var dBName: String? = nil
+        public let dBName: String?
         /// Specifies if the DB instance is a Multi-AZ deployment. Constraint: You cannot specify the AvailabilityZone parameter if the MultiAZ parameter is set to true.
-        public var multiAZ: Bool? = nil
+        public let multiAZ: Bool?
         /// The password for the given ARN from the Key Store in order to access the device.
-        public var tdeCredentialPassword: String? = nil
-        public var tags: [Tag]? = nil
+        public let tdeCredentialPassword: String?
+        public let tags: [Tag]?
         /// License model information for the restored DB instance. Default: Same as source.  Valid values: license-included | bring-your-own-license | general-public-license 
-        public var licenseModel: String? = nil
+        public let licenseModel: String?
         /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified; otherwise standard 
-        public var storageType: String? = nil
+        public let storageType: String?
         /// The ARN from the Key Store with which to associate the instance for TDE encryption.
-        public var tdeCredentialArn: String? = nil
+        public let tdeCredentialArn: String?
         /// Name of the DB instance to create from the DB snapshot. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens (1 to 15 for SQL Server)   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
-        public var dBInstanceIdentifier: String = ""
+        public let dBInstanceIdentifier: String
         /// Specifies the amount of provisioned IOPS for the DB instance, expressed in I/O operations per second. If this parameter is not specified, the IOPS value will be taken from the backup. If this parameter is set to 0, the new instance will be converted to a non-PIOPS instance, which will take additional time, though your DB instance will be available for connections before the conversion starts. Constraints: Must be an integer greater than 1000.  SQL Server  Setting the IOPS value for the SQL Server database engine is not supported.
-        public var iops: Int32? = nil
+        public let iops: Int32?
         /// The EC2 Availability Zone that the database instance will be created in. Default: A random, system-chosen Availability Zone. Constraint: You cannot specify the AvailabilityZone parameter if the MultiAZ parameter is set to true. Example: us-east-1a 
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC: true    VPC: false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be private.
-        public var publiclyAccessible: Bool? = nil
+        public let publiclyAccessible: Bool?
         /// Indicates that minor version upgrades will be applied automatically to the DB instance during the maintenance window.
-        public var autoMinorVersionUpgrade: Bool? = nil
+        public let autoMinorVersionUpgrade: Bool?
         /// The name of the option group to be used for the restored DB instance. Permanent options, such as the TDE option for Oracle Advanced Security TDE, cannot be removed from an option group, and that option group cannot be removed from a DB instance once it is associated with a DB instance
-        public var optionGroupName: String? = nil
+        public let optionGroupName: String?
         /// The DB subnet group name to use for the new instance. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        public var dBSubnetGroupName: String? = nil
+        public let dBSubnetGroupName: String?
         /// True to copy all tags from the restored DB instance to snapshots of the DB instance; otherwise false. The default is false.
-        public var copyTagsToSnapshot: Bool? = nil
+        public let copyTagsToSnapshot: Bool?
         /// The database engine to use for the new instance. Default: The same as source Constraint: Must be compatible with the engine of the source. You can restore a MariaDB 10.1 DB instance from a MySQL 5.6 snapshot.  Valid Values: MySQL | mariadb | oracle-se1 | oracle-se | oracle-ee | sqlserver-ee | sqlserver-se | sqlserver-ex | sqlserver-web | postgres | aurora 
-        public var engine: String? = nil
+        public let engine: String?
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
-        public var domainIAMRoleName: String? = nil
+        public let domainIAMRoleName: String?
         /// The identifier for the DB snapshot to restore from. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   If you are restoring from a shared manual DB snapshot, the DBSnapshotIdentifier must be the ARN of the shared DB snapshot.
-        public var dBSnapshotIdentifier: String = ""
+        public let dBSnapshotIdentifier: String
         /// The compute and memory capacity of the Amazon RDS DB instance. Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large 
-        public var dBInstanceClass: String? = nil
-
-        public init() {}
+        public let dBInstanceClass: String?
 
         public init(port: Int32? = nil, domain: String? = nil, dBName: String? = nil, multiAZ: Bool? = nil, tdeCredentialPassword: String? = nil, tags: [Tag]? = nil, licenseModel: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, dBInstanceIdentifier: String, iops: Int32? = nil, availabilityZone: String? = nil, publiclyAccessible: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, optionGroupName: String? = nil, dBSubnetGroupName: String? = nil, copyTagsToSnapshot: Bool? = nil, engine: String? = nil, domainIAMRoleName: String? = nil, dBSnapshotIdentifier: String, dBInstanceClass: String? = nil) {
             self.port = port
@@ -1209,6 +1149,8 @@ extension Rds {
             self.tdeCredentialPassword = dictionary["TdeCredentialPassword"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.licenseModel = dictionary["LicenseModel"] as? String
             self.storageType = dictionary["StorageType"] as? String
@@ -1234,11 +1176,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous OrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        public var marker: String? = nil
+        public let marker: String?
         /// An OrderableDBInstanceOption structure containing information about orderable options for the DB instance.
-        public var orderableDBInstanceOptions: [OrderableDBInstanceOption]? = nil
-
-        public init() {}
+        public let orderableDBInstanceOptions: [OrderableDBInstanceOption]?
 
         public init(marker: String? = nil, orderableDBInstanceOptions: [OrderableDBInstanceOption]? = nil) {
             self.marker = marker
@@ -1249,6 +1189,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let orderableDBInstanceOptions = dictionary["OrderableDBInstanceOptions"] as? [[String: Any]] {
                 self.orderableDBInstanceOptions = try orderableDBInstanceOptions.map({ try OrderableDBInstanceOption(dictionary: $0) })
+            } else { 
+                self.orderableDBInstanceOptions = nil
             }
         }
     }
@@ -1257,23 +1199,21 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// The ID of the DB cluster to retrieve the list of DB cluster snapshots for. This parameter cannot be used in conjunction with the DBClusterSnapshotIdentifier parameter. This parameter is not case-sensitive.  Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBClusterIdentifier: String? = nil
+        public let dBClusterIdentifier: String?
         /// An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// Set this value to true to include manual DB cluster snapshots that are public and can be copied or restored by any AWS account, otherwise set this value to false. The default is false. The default is false. You can share a manual DB cluster snapshot as public by using the ModifyDBClusterSnapshotAttribute API action.
-        public var includePublic: Bool? = nil
+        public let includePublic: Bool?
         /// The type of DB cluster snapshots to be returned. You can specify one of the following values:    automated - Return all DB cluster snapshots that have been automatically taken by Amazon RDS for my AWS account.    manual - Return all DB cluster snapshots that have been taken by my AWS account.    shared - Return all manual DB cluster snapshots that have been shared to my AWS account.    public - Return all DB cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual DB cluster snapshots are returned. You can include shared DB cluster snapshots with these results by setting the IncludeShared parameter to true. You can include public DB cluster snapshots with these results by setting the IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
-        public var snapshotType: String? = nil
+        public let snapshotType: String?
         /// Set this value to true to include shared manual DB cluster snapshots from other AWS accounts that this AWS account has been given permission to copy or restore, otherwise set this value to false. The default is false. You can give an AWS account permission to restore a manual DB cluster snapshot from another AWS account by the ModifyDBClusterSnapshotAttribute API action.
-        public var includeShared: Bool? = nil
+        public let includeShared: Bool?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// A specific DB cluster snapshot identifier to describe. This parameter cannot be used in conjunction with the DBClusterIdentifier parameter. This value is stored as a lowercase string.  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.  
-        public var dBClusterSnapshotIdentifier: String? = nil
-
-        public init() {}
+        public let dBClusterSnapshotIdentifier: String?
 
         public init(maxRecords: Int32? = nil, dBClusterIdentifier: String? = nil, marker: String? = nil, includePublic: Bool? = nil, snapshotType: String? = nil, includeShared: Bool? = nil, filters: [Filter]? = nil, dBClusterSnapshotIdentifier: String? = nil) {
             self.maxRecords = maxRecords
@@ -1295,6 +1235,8 @@ extension Rds {
             self.includeShared = dictionary["IncludeShared"] as? Bool
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dBClusterSnapshotIdentifier = dictionary["DBClusterSnapshotIdentifier"] as? String
         }
@@ -1304,43 +1246,41 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Provides the list of EC2 Availability Zones that instances in the DB cluster snapshot can be restored in.
-        public var availabilityZones: [String]? = nil
+        public let availabilityZones: [String]?
         /// Specifies the allocated storage size in gigabytes (GB).
-        public var allocatedStorage: Int32? = nil
+        public let allocatedStorage: Int32?
         /// Provides the license model information for this DB cluster snapshot.
-        public var licenseModel: String? = nil
+        public let licenseModel: String?
         /// Provides the type of the DB cluster snapshot.
-        public var snapshotType: String? = nil
+        public let snapshotType: String?
         /// The Amazon Resource Name (ARN) for the DB cluster snapshot.
-        public var dBClusterSnapshotArn: String? = nil
+        public let dBClusterSnapshotArn: String?
         /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
-        public var clusterCreateTime: Date? = nil
+        public let clusterCreateTime: Date?
         /// Specifies the status of this DB cluster snapshot.
-        public var status: String? = nil
+        public let status: String?
         /// Specifies the DB cluster identifier of the DB cluster that this DB cluster snapshot was created from.
-        public var dBClusterIdentifier: String? = nil
+        public let dBClusterIdentifier: String?
         /// Provides the version of the database engine for this DB cluster snapshot.
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         /// Provides the master username for the DB cluster snapshot.
-        public var masterUsername: String? = nil
+        public let masterUsername: String?
         /// Provides the VPC ID associated with the DB cluster snapshot.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// Specifies the name of the database engine.
-        public var engine: String? = nil
+        public let engine: String?
         /// Specifies the percentage of the estimated data that has been transferred.
-        public var percentProgress: Int32? = nil
+        public let percentProgress: Int32?
         /// Provides the time when the snapshot was taken, in Universal Coordinated Time (UTC).
-        public var snapshotCreateTime: Date? = nil
+        public let snapshotCreateTime: Date?
         /// Specifies whether the DB cluster snapshot is encrypted.
-        public var storageEncrypted: Bool? = nil
+        public let storageEncrypted: Bool?
         /// Specifies the identifier for the DB cluster snapshot.
-        public var dBClusterSnapshotIdentifier: String? = nil
+        public let dBClusterSnapshotIdentifier: String?
         /// Specifies the port that the DB cluster was listening on at the time of the snapshot.
-        public var port: Int32? = nil
+        public let port: Int32?
         /// If StorageEncrypted is true, the KMS key identifier for the encrypted DB cluster snapshot.
-        public var kmsKeyId: String? = nil
-
-        public init() {}
+        public let kmsKeyId: String?
 
         public init(availabilityZones: [String]? = nil, allocatedStorage: Int32? = nil, licenseModel: String? = nil, snapshotType: String? = nil, dBClusterSnapshotArn: String? = nil, clusterCreateTime: Date? = nil, status: String? = nil, dBClusterIdentifier: String? = nil, engineVersion: String? = nil, masterUsername: String? = nil, vpcId: String? = nil, engine: String? = nil, percentProgress: Int32? = nil, snapshotCreateTime: Date? = nil, storageEncrypted: Bool? = nil, dBClusterSnapshotIdentifier: String? = nil, port: Int32? = nil, kmsKeyId: String? = nil) {
             self.availabilityZones = availabilityZones
@@ -1364,9 +1304,7 @@ extension Rds {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
-                self.availabilityZones = availabilityZones
-            }
+            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
             self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
             self.licenseModel = dictionary["LicenseModel"] as? String
             self.snapshotType = dictionary["SnapshotType"] as? String
@@ -1390,32 +1328,28 @@ extension Rds {
     public struct PromoteReadReplicaDBClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBCluster: DBCluster? = nil
-
-        public init() {}
+        public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) }
+            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) } else { self.dBCluster = nil }
         }
     }
 
     public struct ModifyDBSubnetGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBSubnetGroup: DBSubnetGroup? = nil
-
-        public init() {}
+        public let dBSubnetGroup: DBSubnetGroup?
 
         public init(dBSubnetGroup: DBSubnetGroup? = nil) {
             self.dBSubnetGroup = dBSubnetGroup
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBSubnetGroup = dictionary["DBSubnetGroup"] as? [String: Any] { self.dBSubnetGroup = try Rds.DBSubnetGroup(dictionary: dBSubnetGroup) }
+            if let dBSubnetGroup = dictionary["DBSubnetGroup"] as? [String: Any] { self.dBSubnetGroup = try Rds.DBSubnetGroup(dictionary: dBSubnetGroup) } else { self.dBSubnetGroup = nil }
         }
     }
 
@@ -1423,9 +1357,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the RDS event notification subscription you want to delete.
-        public var subscriptionName: String = ""
-
-        public init() {}
+        public let subscriptionName: String
 
         public init(subscriptionName: String) {
             self.subscriptionName = subscriptionName
@@ -1441,9 +1373,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The DBSnapshot identifier. Constraints: Must be the name of an existing DB snapshot in the available state.
-        public var dBSnapshotIdentifier: String = ""
-
-        public init() {}
+        public let dBSnapshotIdentifier: String
 
         public init(dBSnapshotIdentifier: String) {
             self.dBSnapshotIdentifier = dBSnapshotIdentifier
@@ -1459,15 +1389,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Status of the DB instance. For a StatusType of read replica, the values can be replicating, error, stopped, or terminated.
-        public var status: String? = nil
+        public let status: String?
         /// Details of the error if there is an error for the instance. If the instance is not in an error state, this value is blank.
-        public var message: String? = nil
+        public let message: String?
         /// This value is currently "read replication."
-        public var statusType: String? = nil
+        public let statusType: String?
         /// Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
-        public var normal: Bool? = nil
-
-        public init() {}
+        public let normal: Bool?
 
         public init(status: String? = nil, message: String? = nil, statusType: String? = nil, normal: Bool? = nil) {
             self.status = status
@@ -1488,11 +1416,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// A list of reserved DB instance offerings.
-        public var reservedDBInstancesOfferings: [ReservedDBInstancesOffering]? = nil
-
-        public init() {}
+        public let reservedDBInstancesOfferings: [ReservedDBInstancesOffering]?
 
         public init(marker: String? = nil, reservedDBInstancesOfferings: [ReservedDBInstancesOffering]? = nil) {
             self.marker = marker
@@ -1503,6 +1429,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let reservedDBInstancesOfferings = dictionary["ReservedDBInstancesOfferings"] as? [[String: Any]] {
                 self.reservedDBInstancesOfferings = try reservedDBInstancesOfferings.map({ try ReservedDBInstancesOffering(dictionary: $0) })
+            } else { 
+                self.reservedDBInstancesOfferings = nil
             }
         }
     }
@@ -1511,12 +1439,10 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the identifier of the subnet.
-        public var subnetIdentifier: String? = nil
-        public var subnetAvailabilityZone: AvailabilityZone? = nil
+        public let subnetIdentifier: String?
+        public let subnetAvailabilityZone: AvailabilityZone?
         /// Specifies the status of the subnet.
-        public var subnetStatus: String? = nil
-
-        public init() {}
+        public let subnetStatus: String?
 
         public init(subnetIdentifier: String? = nil, subnetAvailabilityZone: AvailabilityZone? = nil, subnetStatus: String? = nil) {
             self.subnetIdentifier = subnetIdentifier
@@ -1526,7 +1452,7 @@ extension Rds {
 
         public init(dictionary: [String: Any]) throws {
             self.subnetIdentifier = dictionary["SubnetIdentifier"] as? String
-            if let subnetAvailabilityZone = dictionary["SubnetAvailabilityZone"] as? [String: Any] { self.subnetAvailabilityZone = try Rds.AvailabilityZone(dictionary: subnetAvailabilityZone) }
+            if let subnetAvailabilityZone = dictionary["SubnetAvailabilityZone"] as? [String: Any] { self.subnetAvailabilityZone = try Rds.AvailabilityZone(dictionary: subnetAvailabilityZone) } else { self.subnetAvailabilityZone = nil }
             self.subnetStatus = dictionary["SubnetStatus"] as? String
         }
     }
@@ -1535,15 +1461,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Provides the status of the EC2 security group. Status can be "authorizing", "authorized", "revoking", and "revoked".
-        public var status: String? = nil
+        public let status: String?
         /// Specifies the id of the EC2 security group.
-        public var eC2SecurityGroupId: String? = nil
+        public let eC2SecurityGroupId: String?
         ///  Specifies the AWS ID of the owner of the EC2 security group specified in the EC2SecurityGroupName field. 
-        public var eC2SecurityGroupOwnerId: String? = nil
+        public let eC2SecurityGroupOwnerId: String?
         /// Specifies the name of the EC2 security group.
-        public var eC2SecurityGroupName: String? = nil
-
-        public init() {}
+        public let eC2SecurityGroupName: String?
 
         public init(status: String? = nil, eC2SecurityGroupId: String? = nil, eC2SecurityGroupOwnerId: String? = nil, eC2SecurityGroupName: String? = nil) {
             self.status = status
@@ -1564,27 +1488,25 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the value of the parameter.
-        public var parameterValue: String? = nil
+        public let parameterValue: String?
         /// Specifies the valid range of values for the parameter.
-        public var allowedValues: String? = nil
+        public let allowedValues: String?
         /// Specifies the valid data type for the parameter.
-        public var dataType: String? = nil
+        public let dataType: String?
         /// Specifies the name of the parameter.
-        public var parameterName: String? = nil
+        public let parameterName: String?
         /// Specifies the engine specific parameters type.
-        public var applyType: String? = nil
+        public let applyType: String?
         /// Indicates the source of the parameter value.
-        public var source: String? = nil
+        public let source: String?
         ///  Indicates whether (true) or not (false) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed. 
-        public var isModifiable: Bool? = nil
+        public let isModifiable: Bool?
         /// The earliest engine version to which the parameter can apply.
-        public var minimumEngineVersion: String? = nil
+        public let minimumEngineVersion: String?
         /// Indicates when to apply parameter updates.
-        public var applyMethod: String? = nil
+        public let applyMethod: String?
         /// Provides a description of the parameter.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(parameterValue: String? = nil, allowedValues: String? = nil, dataType: String? = nil, parameterName: String? = nil, applyType: String? = nil, source: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, applyMethod: String? = nil, description: String? = nil) {
             self.parameterValue = parameterValue
@@ -1617,13 +1539,11 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; subsequent arguments are optional. A maximum of 20 parameters can be modified in a single request.  MySQL  Valid Values (for Apply method): immediate | pending-reboot  You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when DB instance reboots.  MariaDB  Valid Values (for Apply method): immediate | pending-reboot  You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when DB instance reboots.  Oracle  Valid Values (for Apply method): pending-reboot 
-        public var parameters: [Parameter]? = nil
+        public let parameters: [Parameter]?
         /// The name of the DB parameter group. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBParameterGroupName: String = ""
+        public let dBParameterGroupName: String
         ///  Specifies whether (true) or not (false) to reset all parameters in the DB parameter group to default values.  Default: true 
-        public var resetAllParameters: Bool? = nil
-
-        public init() {}
+        public let resetAllParameters: Bool?
 
         public init(parameters: [Parameter]? = nil, dBParameterGroupName: String, resetAllParameters: Bool? = nil) {
             self.parameters = parameters
@@ -1634,6 +1554,8 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             if let parameters = dictionary["Parameters"] as? [[String: Any]] {
                 self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            } else { 
+                self.parameters = nil
             }
             guard let dBParameterGroupName = dictionary["DBParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBParameterGroupName") }
             self.dBParameterGroupName = dBParameterGroupName
@@ -1645,15 +1567,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the DB cluster parameter group family to return engine parameter information for.
-        public var dBParameterGroupFamily: String = ""
+        public let dBParameterGroupFamily: String
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeEngineDefaultClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
-
-        public init() {}
+        public let marker: String?
 
         public init(dBParameterGroupFamily: String, maxRecords: Int32? = nil, filters: [Filter]? = nil, marker: String? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
@@ -1668,6 +1588,8 @@ extension Rds {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.marker = dictionary["Marker"] as? String
         }
@@ -1677,25 +1599,23 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The version number of the database engine.
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         ///  A list of the character sets supported by this engine for the CharacterSetName parameter of the CreateDBInstance action. 
-        public var supportedCharacterSets: [CharacterSet]? = nil
+        public let supportedCharacterSets: [CharacterSet]?
         ///  The default character set for new instances of this engine version, if the CharacterSetName parameter of the CreateDBInstance API is not specified. 
-        public var defaultCharacterSet: CharacterSet? = nil
+        public let defaultCharacterSet: CharacterSet?
         /// The name of the database engine.
-        public var engine: String? = nil
+        public let engine: String?
         /// A list of the time zones supported by this engine for the Timezone parameter of the CreateDBInstance action. 
-        public var supportedTimezones: [Timezone]? = nil
+        public let supportedTimezones: [Timezone]?
         /// The name of the DB parameter group family for the database engine.
-        public var dBParameterGroupFamily: String? = nil
+        public let dBParameterGroupFamily: String?
         /// A list of engine versions that this database engine version can be upgraded to.
-        public var validUpgradeTarget: [UpgradeTarget]? = nil
+        public let validUpgradeTarget: [UpgradeTarget]?
         /// The description of the database engine.
-        public var dBEngineDescription: String? = nil
+        public let dBEngineDescription: String?
         /// The description of the database engine version.
-        public var dBEngineVersionDescription: String? = nil
-
-        public init() {}
+        public let dBEngineVersionDescription: String?
 
         public init(engineVersion: String? = nil, supportedCharacterSets: [CharacterSet]? = nil, defaultCharacterSet: CharacterSet? = nil, engine: String? = nil, supportedTimezones: [Timezone]? = nil, dBParameterGroupFamily: String? = nil, validUpgradeTarget: [UpgradeTarget]? = nil, dBEngineDescription: String? = nil, dBEngineVersionDescription: String? = nil) {
             self.engineVersion = engineVersion
@@ -1713,15 +1633,21 @@ extension Rds {
             self.engineVersion = dictionary["EngineVersion"] as? String
             if let supportedCharacterSets = dictionary["SupportedCharacterSets"] as? [[String: Any]] {
                 self.supportedCharacterSets = try supportedCharacterSets.map({ try CharacterSet(dictionary: $0) })
+            } else { 
+                self.supportedCharacterSets = nil
             }
-            if let defaultCharacterSet = dictionary["DefaultCharacterSet"] as? [String: Any] { self.defaultCharacterSet = try Rds.CharacterSet(dictionary: defaultCharacterSet) }
+            if let defaultCharacterSet = dictionary["DefaultCharacterSet"] as? [String: Any] { self.defaultCharacterSet = try Rds.CharacterSet(dictionary: defaultCharacterSet) } else { self.defaultCharacterSet = nil }
             self.engine = dictionary["Engine"] as? String
             if let supportedTimezones = dictionary["SupportedTimezones"] as? [[String: Any]] {
                 self.supportedTimezones = try supportedTimezones.map({ try Timezone(dictionary: $0) })
+            } else { 
+                self.supportedTimezones = nil
             }
             self.dBParameterGroupFamily = dictionary["DBParameterGroupFamily"] as? String
             if let validUpgradeTarget = dictionary["ValidUpgradeTarget"] as? [[String: Any]] {
                 self.validUpgradeTarget = try validUpgradeTarget.map({ try UpgradeTarget(dictionary: $0) })
+            } else { 
+                self.validUpgradeTarget = nil
             }
             self.dBEngineDescription = dictionary["DBEngineDescription"] as? String
             self.dBEngineVersionDescription = dictionary["DBEngineVersionDescription"] as? String
@@ -1732,21 +1658,19 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBInstanceIdentifier: String = ""
+        public let dBInstanceIdentifier: String
         /// Filters the available log files for files larger than the specified size.
-        public var fileSize: Int64? = nil
+        public let fileSize: Int64?
         /// The pagination token provided in the previous request. If this parameter is specified the response includes only records beyond the marker, up to MaxRecords.
-        public var marker: String? = nil
+        public let marker: String?
         /// Filters the available log files for files written since the specified date, in POSIX timestamp format with milliseconds.
-        public var fileLastWritten: Int64? = nil
+        public let fileLastWritten: Int64?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// Filters the available log files for log file names that contain the specified string.
-        public var filenameContains: String? = nil
-
-        public init() {}
+        public let filenameContains: String?
 
         public init(maxRecords: Int32? = nil, dBInstanceIdentifier: String, fileSize: Int64? = nil, marker: String? = nil, fileLastWritten: Int64? = nil, filters: [Filter]? = nil, filenameContains: String? = nil) {
             self.maxRecords = maxRecords
@@ -1767,6 +1691,8 @@ extension Rds {
             self.fileLastWritten = dictionary["FileLastWritten"] as? Int64
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.filenameContains = dictionary["FilenameContains"] as? String
         }
@@ -1776,13 +1702,11 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum allowed value for the quota.
-        public var max: Int64? = nil
+        public let max: Int64?
         /// The amount currently used toward the quota maximum.
-        public var used: Int64? = nil
+        public let used: Int64?
         /// The name of the Amazon RDS quota for this AWS account.
-        public var accountQuotaName: String? = nil
-
-        public init() {}
+        public let accountQuotaName: String?
 
         public init(max: Int64? = nil, used: Int64? = nil, accountQuotaName: String? = nil) {
             self.max = max
@@ -1801,25 +1725,23 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so that the following results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// The database engine version to return. Example: 5.1.49 
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// Indicates that only the default version of the specified engine or engine and major version combination is returned.
-        public var defaultOnly: Bool? = nil
+        public let defaultOnly: Bool?
         /// If this parameter is specified and the requested engine supports the TimeZone parameter for CreateDBInstance, the response includes a list of supported time zones for each engine version. 
-        public var listSupportedTimezones: Bool? = nil
+        public let listSupportedTimezones: Bool?
         /// The database engine to return.
-        public var engine: String? = nil
+        public let engine: String?
         /// The name of a specific DB parameter group family to return details for. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBParameterGroupFamily: String? = nil
+        public let dBParameterGroupFamily: String?
         /// Not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// If this parameter is specified and the requested engine supports the CharacterSetName parameter for CreateDBInstance, the response includes a list of supported character sets for each engine version. 
-        public var listSupportedCharacterSets: Bool? = nil
-
-        public init() {}
+        public let listSupportedCharacterSets: Bool?
 
         public init(maxRecords: Int32? = nil, engineVersion: String? = nil, marker: String? = nil, defaultOnly: Bool? = nil, listSupportedTimezones: Bool? = nil, engine: String? = nil, dBParameterGroupFamily: String? = nil, filters: [Filter]? = nil, listSupportedCharacterSets: Bool? = nil) {
             self.maxRecords = maxRecords
@@ -1843,6 +1765,8 @@ extension Rds {
             self.dBParameterGroupFamily = dictionary["DBParameterGroupFamily"] as? String
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.listSupportedCharacterSets = dictionary["ListSupportedCharacterSets"] as? Bool
         }
@@ -1852,11 +1776,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A pagination token that can be used in a subsequent DescribeDBLogFiles request.
-        public var marker: String? = nil
+        public let marker: String?
         /// The DB log files returned.
-        public var describeDBLogFiles: [DescribeDBLogFilesDetails]? = nil
-
-        public init() {}
+        public let describeDBLogFiles: [DescribeDBLogFilesDetails]?
 
         public init(marker: String? = nil, describeDBLogFiles: [DescribeDBLogFilesDetails]? = nil) {
             self.marker = marker
@@ -1867,6 +1789,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let describeDBLogFiles = dictionary["DescribeDBLogFiles"] as? [[String: Any]] {
                 self.describeDBLogFiles = try describeDBLogFiles.map({ try DescribeDBLogFilesDetails(dictionary: $0) })
+            } else { 
+                self.describeDBLogFiles = nil
             }
         }
     }
@@ -1875,15 +1799,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of a resource to return pending maintenance actions for.
-        public var resourceIdentifier: String? = nil
+        public let resourceIdentifier: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include pending maintenance actions for the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance ARNs. The results list will only include pending maintenance actions for the DB instances identified by these ARNs.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords. 
-        public var marker: String? = nil
-
-        public init() {}
+        public let marker: String?
 
         public init(resourceIdentifier: String? = nil, maxRecords: Int32? = nil, filters: [Filter]? = nil, marker: String? = nil) {
             self.resourceIdentifier = resourceIdentifier
@@ -1897,6 +1819,8 @@ extension Rds {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.marker = dictionary["Marker"] as? String
         }
@@ -1906,19 +1830,17 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the source type for this event.
-        public var sourceType: String? = nil
+        public let sourceType: String?
         /// Provides the text of this event.
-        public var message: String? = nil
+        public let message: String?
         /// Provides the identifier for the source of the event.
-        public var sourceIdentifier: String? = nil
+        public let sourceIdentifier: String?
         /// Specifies the date and time of the event.
-        public var date: Date? = nil
+        public let date: Date?
         /// Specifies the category for the event.
-        public var eventCategories: [String]? = nil
+        public let eventCategories: [String]?
         /// The Amazon Resource Name (ARN) for the event.
-        public var sourceArn: String? = nil
-
-        public init() {}
+        public let sourceArn: String?
 
         public init(sourceType: String? = nil, message: String? = nil, sourceIdentifier: String? = nil, date: Date? = nil, eventCategories: [String]? = nil, sourceArn: String? = nil) {
             self.sourceType = sourceType
@@ -1934,9 +1856,7 @@ extension Rds {
             self.message = dictionary["Message"] as? String
             self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
             self.date = dictionary["Date"] as? Date
-            if let eventCategories = dictionary["EventCategories"] as? [String] {
-                self.eventCategories = eventCategories
-            }
+            self.eventCategories = dictionary["EventCategories"] as? [String]
             self.sourceArn = dictionary["SourceArn"] as? String
         }
     }
@@ -1945,9 +1865,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier for the DB cluster snapshot to describe the attributes for.
-        public var dBClusterSnapshotIdentifier: String = ""
-
-        public init() {}
+        public let dBClusterSnapshotIdentifier: String
 
         public init(dBClusterSnapshotIdentifier: String) {
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
@@ -1963,21 +1881,19 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Provides the description of the DB security group.
-        public var dBSecurityGroupDescription: String? = nil
+        public let dBSecurityGroupDescription: String?
         ///  Contains a list of EC2SecurityGroup elements. 
-        public var eC2SecurityGroups: [EC2SecurityGroup]? = nil
+        public let eC2SecurityGroups: [EC2SecurityGroup]?
         /// The Amazon Resource Name (ARN) for the DB security group.
-        public var dBSecurityGroupArn: String? = nil
+        public let dBSecurityGroupArn: String?
         /// Provides the VpcId of the DB security group.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         ///  Contains a list of IPRange elements. 
-        public var iPRanges: [IPRange]? = nil
+        public let iPRanges: [IPRange]?
         /// Provides the AWS ID of the owner of a specific DB security group.
-        public var ownerId: String? = nil
+        public let ownerId: String?
         /// Specifies the name of the DB security group.
-        public var dBSecurityGroupName: String? = nil
-
-        public init() {}
+        public let dBSecurityGroupName: String?
 
         public init(dBSecurityGroupDescription: String? = nil, eC2SecurityGroups: [EC2SecurityGroup]? = nil, dBSecurityGroupArn: String? = nil, vpcId: String? = nil, iPRanges: [IPRange]? = nil, ownerId: String? = nil, dBSecurityGroupName: String? = nil) {
             self.dBSecurityGroupDescription = dBSecurityGroupDescription
@@ -1993,11 +1909,15 @@ extension Rds {
             self.dBSecurityGroupDescription = dictionary["DBSecurityGroupDescription"] as? String
             if let eC2SecurityGroups = dictionary["EC2SecurityGroups"] as? [[String: Any]] {
                 self.eC2SecurityGroups = try eC2SecurityGroups.map({ try EC2SecurityGroup(dictionary: $0) })
+            } else { 
+                self.eC2SecurityGroups = nil
             }
             self.dBSecurityGroupArn = dictionary["DBSecurityGroupArn"] as? String
             self.vpcId = dictionary["VpcId"] as? String
             if let iPRanges = dictionary["IPRanges"] as? [[String: Any]] {
                 self.iPRanges = try iPRanges.map({ try IPRange(dictionary: $0) })
+            } else { 
+                self.iPRanges = nil
             }
             self.ownerId = dictionary["OwnerId"] as? String
             self.dBSecurityGroupName = dictionary["DBSecurityGroupName"] as? String
@@ -2008,15 +1928,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// The name of the RDS event notification subscription you want to describe.
-        public var subscriptionName: String? = nil
+        public let subscriptionName: String?
         ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        public var marker: String? = nil
-
-        public init() {}
+        public let marker: String?
 
         public init(maxRecords: Int32? = nil, filters: [Filter]? = nil, subscriptionName: String? = nil, marker: String? = nil) {
             self.maxRecords = maxRecords
@@ -2029,6 +1947,8 @@ extension Rds {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.subscriptionName = dictionary["SubscriptionName"] as? String
             self.marker = dictionary["Marker"] as? String
@@ -2039,13 +1959,11 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of days to retain automated backups. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Default: 1 Constraints:   Must be a value from 0 to 8  
-        public var backupRetentionPeriod: Int32? = nil
+        public let backupRetentionPeriod: Int32?
         ///  The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter.   Default: A 30-minute window selected at random from an 8-hour block of time per region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Times should be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
-        public var preferredBackupWindow: String? = nil
+        public let preferredBackupWindow: String?
         /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must be the identifier for an existing Read Replica DB instance   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: mydbinstance 
-        public var dBInstanceIdentifier: String = ""
-
-        public init() {}
+        public let dBInstanceIdentifier: String
 
         public init(backupRetentionPeriod: Int32? = nil, preferredBackupWindow: String? = nil, dBInstanceIdentifier: String) {
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -2065,11 +1983,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The source type that the returned categories belong to
-        public var sourceType: String? = nil
+        public let sourceType: String?
         /// The event categories for the specified source type
-        public var eventCategories: [String]? = nil
-
-        public init() {}
+        public let eventCategories: [String]?
 
         public init(sourceType: String? = nil, eventCategories: [String]? = nil) {
             self.sourceType = sourceType
@@ -2078,9 +1994,7 @@ extension Rds {
 
         public init(dictionary: [String: Any]) throws {
             self.sourceType = dictionary["SourceType"] as? String
-            if let eventCategories = dictionary["EventCategories"] as? [String] {
-                self.eventCategories = eventCategories
-            }
+            self.eventCategories = dictionary["EventCategories"] as? [String]
         }
     }
 
@@ -2088,15 +2002,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeDBParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// The name of a specific DB parameter group to return details for. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBParameterGroupName: String? = nil
-
-        public init() {}
+        public let dBParameterGroupName: String?
 
         public init(maxRecords: Int32? = nil, filters: [Filter]? = nil, marker: String? = nil, dBParameterGroupName: String? = nil) {
             self.maxRecords = maxRecords
@@ -2109,6 +2021,8 @@ extension Rds {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.marker = dictionary["Marker"] as? String
             self.dBParameterGroupName = dictionary["DBParameterGroupName"] as? String
@@ -2118,32 +2032,28 @@ extension Rds {
     public struct CopyDBSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBSnapshot: DBSnapshot? = nil
-
-        public init() {}
+        public let dBSnapshot: DBSnapshot?
 
         public init(dBSnapshot: DBSnapshot? = nil) {
             self.dBSnapshot = dBSnapshot
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBSnapshot = dictionary["DBSnapshot"] as? [String: Any] { self.dBSnapshot = try Rds.DBSnapshot(dictionary: dBSnapshot) }
+            if let dBSnapshot = dictionary["DBSnapshot"] as? [String: Any] { self.dBSnapshot = try Rds.DBSnapshot(dictionary: dBSnapshot) } else { self.dBSnapshot = nil }
         }
     }
 
     public struct ModifyEventSubscriptionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var eventSubscription: EventSubscription? = nil
-
-        public init() {}
+        public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Rds.EventSubscription(dictionary: eventSubscription) }
+            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Rds.EventSubscription(dictionary: eventSubscription) } else { self.eventSubscription = nil }
         }
     }
 
@@ -2151,15 +2061,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the option group to be modified. Permanent options, such as the TDE option for Oracle Advanced Security TDE, cannot be removed from an option group, and that option group cannot be removed from a DB instance once it is associated with a DB instance
-        public var optionGroupName: String = ""
+        public let optionGroupName: String
         /// Options in this list are added to the option group or, if already present, the specified configuration is used to update the existing configuration.
-        public var optionsToInclude: [OptionConfiguration]? = nil
+        public let optionsToInclude: [OptionConfiguration]?
         /// Options in this list are removed from the option group.
-        public var optionsToRemove: [String]? = nil
+        public let optionsToRemove: [String]?
         /// Indicates whether the changes should be applied immediately, or during the next maintenance window for each instance associated with the option group.
-        public var applyImmediately: Bool? = nil
-
-        public init() {}
+        public let applyImmediately: Bool?
 
         public init(optionGroupName: String, optionsToInclude: [OptionConfiguration]? = nil, optionsToRemove: [String]? = nil, applyImmediately: Bool? = nil) {
             self.optionGroupName = optionGroupName
@@ -2173,10 +2081,10 @@ extension Rds {
             self.optionGroupName = optionGroupName
             if let optionsToInclude = dictionary["OptionsToInclude"] as? [[String: Any]] {
                 self.optionsToInclude = try optionsToInclude.map({ try OptionConfiguration(dictionary: $0) })
+            } else { 
+                self.optionsToInclude = nil
             }
-            if let optionsToRemove = dictionary["OptionsToRemove"] as? [String] {
-                self.optionsToRemove = optionsToRemove
-            }
+            self.optionsToRemove = dictionary["OptionsToRemove"] as? [String]
             self.applyImmediately = dictionary["ApplyImmediately"] as? Bool
         }
     }
@@ -2185,11 +2093,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the DP parameter group.
-        public var dBParameterGroupName: String? = nil
+        public let dBParameterGroupName: String?
         /// The status of parameter updates.
-        public var parameterApplyStatus: String? = nil
-
-        public init() {}
+        public let parameterApplyStatus: String?
 
         public init(dBParameterGroupName: String? = nil, parameterApplyStatus: String? = nil) {
             self.dBParameterGroupName = dBParameterGroupName
@@ -2206,11 +2112,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// A list of DB cluster parameter groups.
-        public var dBClusterParameterGroups: [DBClusterParameterGroup]? = nil
-
-        public init() {}
+        public let dBClusterParameterGroups: [DBClusterParameterGroup]?
 
         public init(marker: String? = nil, dBClusterParameterGroups: [DBClusterParameterGroup]? = nil) {
             self.marker = marker
@@ -2221,6 +2125,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let dBClusterParameterGroups = dictionary["DBClusterParameterGroups"] as? [[String: Any]] {
                 self.dBClusterParameterGroups = try dBClusterParameterGroups.map({ try DBClusterParameterGroup(dictionary: $0) })
+            } else { 
+                self.dBClusterParameterGroups = nil
             }
         }
     }
@@ -2229,11 +2135,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// List of option groups.
-        public var optionGroupsList: [OptionGroup]? = nil
-
-        public init() {}
+        public let optionGroupsList: [OptionGroup]?
 
         public init(marker: String? = nil, optionGroupsList: [OptionGroup]? = nil) {
             self.marker = marker
@@ -2244,6 +2148,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let optionGroupsList = dictionary["OptionGroupsList"] as? [[String: Any]] {
                 self.optionGroupsList = try optionGroupsList.map({ try OptionGroup(dictionary: $0) })
+            } else { 
+                self.optionGroupsList = nil
             }
         }
     }
@@ -2252,14 +2158,12 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The EC2 Subnet IDs for the DB subnet group.
-        public var subnetIds: [String] = []
+        public let subnetIds: [String]
         /// The description for the DB subnet group.
-        public var dBSubnetGroupDescription: String = ""
+        public let dBSubnetGroupDescription: String
         /// The name for the DB subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        public var dBSubnetGroupName: String = ""
-        public var tags: [Tag]? = nil
-
-        public init() {}
+        public let dBSubnetGroupName: String
+        public let tags: [Tag]?
 
         public init(subnetIds: [String], dBSubnetGroupDescription: String, dBSubnetGroupName: String, tags: [Tag]? = nil) {
             self.subnetIds = subnetIds
@@ -2277,6 +2181,8 @@ extension Rds {
             self.dBSubnetGroupName = dBSubnetGroupName
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
         }
     }
@@ -2284,16 +2190,14 @@ extension Rds {
     public struct CreateOptionGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var optionGroup: OptionGroup? = nil
-
-        public init() {}
+        public let optionGroup: OptionGroup?
 
         public init(optionGroup: OptionGroup? = nil) {
             self.optionGroup = optionGroup
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let optionGroup = dictionary["OptionGroup"] as? [String: Any] { self.optionGroup = try Rds.OptionGroup(dictionary: optionGroup) }
+            if let optionGroup = dictionary["OptionGroup"] as? [String: Any] { self.optionGroup = try Rds.OptionGroup(dictionary: optionGroup) } else { self.optionGroup = nil }
         }
     }
 
@@ -2301,14 +2205,12 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).  Constraints:   Must specify a valid DB cluster parameter group.   If the source DB cluster parameter group is in the same region as the copy, specify a valid DB parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a different region than the copy, specify a valid DB cluster parameter group ARN, for example arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.  
-        public var sourceDBClusterParameterGroupIdentifier: String = ""
+        public let sourceDBClusterParameterGroupIdentifier: String
         /// A description for the copied DB cluster parameter group.
-        public var targetDBClusterParameterGroupDescription: String = ""
+        public let targetDBClusterParameterGroupDescription: String
         /// The identifier for the copied DB cluster parameter group. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-cluster-param-group1 
-        public var targetDBClusterParameterGroupIdentifier: String = ""
-        public var tags: [Tag]? = nil
-
-        public init() {}
+        public let targetDBClusterParameterGroupIdentifier: String
+        public let tags: [Tag]?
 
         public init(sourceDBClusterParameterGroupIdentifier: String, targetDBClusterParameterGroupDescription: String, targetDBClusterParameterGroupIdentifier: String, tags: [Tag]? = nil) {
             self.sourceDBClusterParameterGroupIdentifier = sourceDBClusterParameterGroupIdentifier
@@ -2326,6 +2228,8 @@ extension Rds {
             self.targetDBClusterParameterGroupIdentifier = targetDBClusterParameterGroupIdentifier
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
         }
     }
@@ -2333,32 +2237,28 @@ extension Rds {
     public struct RestoreDBInstanceFromDBSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBInstance: DBInstance? = nil
-
-        public init() {}
+        public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) }
+            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) } else { self.dBInstance = nil }
         }
     }
 
     public struct CreateDBParameterGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBParameterGroup: DBParameterGroup? = nil
-
-        public init() {}
+        public let dBParameterGroup: DBParameterGroup?
 
         public init(dBParameterGroup: DBParameterGroup? = nil) {
             self.dBParameterGroup = dBParameterGroup
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBParameterGroup = dictionary["DBParameterGroup"] as? [String: Any] { self.dBParameterGroup = try Rds.DBParameterGroup(dictionary: dBParameterGroup) }
+            if let dBParameterGroup = dictionary["DBParameterGroup"] as? [String: Any] { self.dBParameterGroup = try Rds.DBParameterGroup(dictionary: dBParameterGroup) } else { self.dBParameterGroup = nil }
         }
     }
 
@@ -2366,25 +2266,23 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description of the option setting.
-        public var description: String? = nil
+        public let description: String?
         /// The allowed values of the option setting.
-        public var allowedValues: String? = nil
+        public let allowedValues: String?
         /// The data type of the option setting.
-        public var dataType: String? = nil
+        public let dataType: String?
         /// The name of the option that has settings that you can set.
-        public var name: String? = nil
+        public let name: String?
         /// The DB engine specific parameter type.
-        public var applyType: String? = nil
+        public let applyType: String?
         /// A Boolean value that, when true, indicates the option setting can be modified from the default.
-        public var isModifiable: Bool? = nil
+        public let isModifiable: Bool?
         /// The current value of the option setting.
-        public var value: String? = nil
+        public let value: String?
         /// The default value of the option setting.
-        public var defaultValue: String? = nil
+        public let defaultValue: String?
         /// Indicates if the option setting is part of a collection.
-        public var isCollection: Bool? = nil
-
-        public init() {}
+        public let isCollection: Bool?
 
         public init(description: String? = nil, allowedValues: String? = nil, dataType: String? = nil, name: String? = nil, applyType: String? = nil, isModifiable: Bool? = nil, value: String? = nil, defaultValue: String? = nil, isCollection: Bool? = nil) {
             self.description = description
@@ -2415,13 +2313,11 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The EC2 subnet IDs for the DB subnet group.
-        public var subnetIds: [String] = []
+        public let subnetIds: [String]
         /// The description for the DB subnet group.
-        public var dBSubnetGroupDescription: String? = nil
+        public let dBSubnetGroupDescription: String?
         /// The name for the DB subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        public var dBSubnetGroupName: String = ""
-
-        public init() {}
+        public let dBSubnetGroupName: String
 
         public init(subnetIds: [String], dBSubnetGroupDescription: String? = nil, dBSubnetGroupName: String) {
             self.subnetIds = subnetIds
@@ -2442,13 +2338,11 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Boolean value that if true, indicates there is more data to be downloaded.
-        public var additionalDataPending: Bool? = nil
+        public let additionalDataPending: Bool?
         /// A pagination token that can be used in a subsequent DownloadDBLogFilePortion request.
-        public var marker: String? = nil
+        public let marker: String?
         /// Entries from the specified log file.
-        public var logFileData: String? = nil
-
-        public init() {}
+        public let logFileData: String?
 
         public init(additionalDataPending: Bool? = nil, marker: String? = nil, logFileData: String? = nil) {
             self.additionalDataPending = additionalDataPending
@@ -2467,11 +2361,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the manual DB snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBSnapshotAttribute API action.
-        public var attributeName: String? = nil
+        public let attributeName: String?
         /// The value or values for the manual DB snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the AWS accounts that are authorized to copy or restore the manual DB snapshot. If a value of all is in the list, then the manual DB snapshot is public and available for any AWS account to copy or restore.
-        public var attributeValues: [String]? = nil
-
-        public init() {}
+        public let attributeValues: [String]?
 
         public init(attributeName: String? = nil, attributeValues: [String]? = nil) {
             self.attributeName = attributeName
@@ -2480,25 +2372,21 @@ extension Rds {
 
         public init(dictionary: [String: Any]) throws {
             self.attributeName = dictionary["AttributeName"] as? String
-            if let attributeValues = dictionary["AttributeValues"] as? [String] {
-                self.attributeValues = attributeValues
-            }
+            self.attributeValues = dictionary["AttributeValues"] as? [String]
         }
     }
 
     public struct RemoveSourceIdentifierFromSubscriptionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var eventSubscription: EventSubscription? = nil
-
-        public init() {}
+        public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Rds.EventSubscription(dictionary: eventSubscription) }
+            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Rds.EventSubscription(dictionary: eventSubscription) } else { self.eventSubscription = nil }
         }
     }
 
@@ -2506,9 +2394,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the option group to be deleted.  You cannot delete default option groups. 
-        public var optionGroupName: String = ""
-
-        public init() {}
+        public let optionGroupName: String
 
         public init(optionGroupName: String) {
             self.optionGroupName = optionGroupName
@@ -2523,16 +2409,14 @@ extension Rds {
     public struct DeleteDBClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBCluster: DBCluster? = nil
-
-        public init() {}
+        public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) }
+            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) } else { self.dBCluster = nil }
         }
     }
 
@@ -2540,11 +2424,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The tags to be assigned to the Amazon RDS resource.
-        public var tags: [Tag] = []
+        public let tags: [Tag]
         /// The Amazon RDS resource the tags will be added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
-        public var resourceName: String = ""
-
-        public init() {}
+        public let resourceName: String
 
         public init(tags: [Tag], resourceName: String) {
             self.tags = tags
@@ -2563,19 +2445,17 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date of the maintenance window when the action will be applied. The maintenance action will be applied to the resource during its first maintenance window after this date. If this date is specified, any next-maintenance opt-in requests are ignored.
-        public var autoAppliedAfterDate: Date? = nil
+        public let autoAppliedAfterDate: Date?
         /// Indicates the type of opt-in request that has been received for the resource.
-        public var optInStatus: String? = nil
+        public let optInStatus: String?
         /// The type of pending maintenance action that is available for the resource.
-        public var action: String? = nil
+        public let action: String?
         /// The date when the maintenance action will be automatically applied. The maintenance action will be applied to the resource on this date regardless of the maintenance window for the resource. If this date is specified, any immediate opt-in requests are ignored.
-        public var forcedApplyDate: Date? = nil
+        public let forcedApplyDate: Date?
         /// The effective date when the pending maintenance action will be applied to the resource. This date takes into account opt-in requests received from the ApplyPendingMaintenanceAction API, the AutoAppliedAfterDate, and the ForcedApplyDate. This value is blank if an opt-in request has not been received and nothing has been specified as AutoAppliedAfterDate or ForcedApplyDate.
-        public var currentApplyDate: Date? = nil
+        public let currentApplyDate: Date?
         /// A description providing more detail about the maintenance action.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(autoAppliedAfterDate: Date? = nil, optInStatus: String? = nil, action: String? = nil, forcedApplyDate: Date? = nil, currentApplyDate: Date? = nil, description: String? = nil) {
             self.autoAppliedAfterDate = autoAppliedAfterDate
@@ -2599,16 +2479,14 @@ extension Rds {
     public struct DeleteDBSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBSnapshot: DBSnapshot? = nil
-
-        public init() {}
+        public let dBSnapshot: DBSnapshot?
 
         public init(dBSnapshot: DBSnapshot? = nil) {
             self.dBSnapshot = dBSnapshot
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBSnapshot = dictionary["DBSnapshot"] as? [String: Any] { self.dBSnapshot = try Rds.DBSnapshot(dictionary: dBSnapshot) }
+            if let dBSnapshot = dictionary["DBSnapshot"] as? [String: Any] { self.dBSnapshot = try Rds.DBSnapshot(dictionary: dBSnapshot) } else { self.dBSnapshot = nil }
         }
     }
 
@@ -2616,15 +2494,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this value to restore.
-        public var attributeName: String = ""
+        public let attributeName: String
         /// A list of DB cluster snapshot attributes to add to the attribute specified by AttributeName. To authorize other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account IDs, or all to make the manual DB cluster snapshot restorable by any AWS account. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all AWS accounts.
-        public var valuesToAdd: [String]? = nil
+        public let valuesToAdd: [String]?
         /// The identifier for the DB cluster snapshot to modify the attributes for.
-        public var dBClusterSnapshotIdentifier: String = ""
+        public let dBClusterSnapshotIdentifier: String
         /// A list of DB cluster snapshot attributes to remove from the attribute specified by AttributeName. To remove authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account identifiers, or all to remove authorization for any AWS account to copy or restore the DB cluster snapshot. If you specify all, an AWS account whose account ID is explicitly added to the restore attribute can still copy or restore a manual DB cluster snapshot.
-        public var valuesToRemove: [String]? = nil
-
-        public init() {}
+        public let valuesToRemove: [String]?
 
         public init(attributeName: String, valuesToAdd: [String]? = nil, dBClusterSnapshotIdentifier: String, valuesToRemove: [String]? = nil) {
             self.attributeName = attributeName
@@ -2636,14 +2512,10 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
             self.attributeName = attributeName
-            if let valuesToAdd = dictionary["ValuesToAdd"] as? [String] {
-                self.valuesToAdd = valuesToAdd
-            }
+            self.valuesToAdd = dictionary["ValuesToAdd"] as? [String]
             guard let dBClusterSnapshotIdentifier = dictionary["DBClusterSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBClusterSnapshotIdentifier") }
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
-            if let valuesToRemove = dictionary["ValuesToRemove"] as? [String] {
-                self.valuesToRemove = valuesToRemove
-            }
+            self.valuesToRemove = dictionary["ValuesToRemove"] as? [String]
         }
     }
 
@@ -2651,11 +2523,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of EventSubscriptions data types.
-        public var eventSubscriptionsList: [EventSubscription]? = nil
+        public let eventSubscriptionsList: [EventSubscription]?
         ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
-
-        public init() {}
+        public let marker: String?
 
         public init(eventSubscriptionsList: [EventSubscription]? = nil, marker: String? = nil) {
             self.eventSubscriptionsList = eventSubscriptionsList
@@ -2665,6 +2535,8 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             if let eventSubscriptionsList = dictionary["EventSubscriptionsList"] as? [[String: Any]] {
                 self.eventSubscriptionsList = try eventSubscriptionsList.map({ try EventSubscription(dictionary: $0) })
+            } else { 
+                self.eventSubscriptionsList = nil
             }
             self.marker = dictionary["Marker"] as? String
         }
@@ -2674,9 +2546,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the DB cluster parameter group. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
-        public var dBClusterParameterGroupName: String? = nil
-
-        public init() {}
+        public let dBClusterParameterGroupName: String?
 
         public init(dBClusterParameterGroupName: String? = nil) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
@@ -2691,11 +2561,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the DB snapshot to modify.
-        public var dBSnapshotIdentifier: String = ""
+        public let dBSnapshotIdentifier: String
         /// The engine version to update the DB snapshot to. 
-        public var engineVersion: String? = nil
-
-        public init() {}
+        public let engineVersion: String?
 
         public init(dBSnapshotIdentifier: String, engineVersion: String? = nil) {
             self.dBSnapshotIdentifier = dBSnapshotIdentifier
@@ -2713,11 +2581,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of parameters in the DB cluster parameter group to modify.
-        public var parameters: [Parameter] = []
+        public let parameters: [Parameter]
         /// The name of the DB cluster parameter group to modify.
-        public var dBClusterParameterGroupName: String = ""
-
-        public init() {}
+        public let dBClusterParameterGroupName: String
 
         public init(parameters: [Parameter], dBClusterParameterGroupName: String) {
             self.parameters = parameters
@@ -2736,11 +2602,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the event source to be added. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it cannot end with a hyphen or contain two consecutive hyphens. Constraints:   If the source type is a DB instance, then a DBInstanceIdentifier must be supplied.   If the source type is a DB security group, a DBSecurityGroupName must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier must be supplied.  
-        public var sourceIdentifier: String = ""
+        public let sourceIdentifier: String
         /// The name of the RDS event notification subscription you want to add a source identifier to.
-        public var subscriptionName: String = ""
-
-        public init() {}
+        public let subscriptionName: String
 
         public init(sourceIdentifier: String, subscriptionName: String) {
             self.sourceIdentifier = sourceIdentifier
@@ -2759,19 +2623,17 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// The name of the option group to describe. Cannot be supplied together with EngineName or MajorEngineVersion.
-        public var optionGroupName: String? = nil
+        public let optionGroupName: String?
         ///  An optional pagination token provided by a previous DescribeOptionGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// Filters the list of option groups to only include groups associated with a specific database engine.
-        public var engineName: String? = nil
+        public let engineName: String?
         /// Filters the list of option groups to only include groups associated with a specific database engine version. If specified, then EngineName must also be specified.
-        public var majorEngineVersion: String? = nil
-
-        public init() {}
+        public let majorEngineVersion: String?
 
         public init(maxRecords: Int32? = nil, filters: [Filter]? = nil, optionGroupName: String? = nil, marker: String? = nil, engineName: String? = nil, majorEngineVersion: String? = nil) {
             self.maxRecords = maxRecords
@@ -2786,6 +2648,8 @@ extension Rds {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.optionGroupName = dictionary["OptionGroupName"] as? String
             self.marker = dictionary["Marker"] as? String
@@ -2797,16 +2661,14 @@ extension Rds {
     public struct CreateEventSubscriptionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var eventSubscription: EventSubscription? = nil
-
-        public init() {}
+        public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Rds.EventSubscription(dictionary: eventSubscription) }
+            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Rds.EventSubscription(dictionary: eventSubscription) } else { self.eventSubscription = nil }
         }
     }
 
@@ -2814,11 +2676,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         ///  A list of Parameter values. 
-        public var parameters: [Parameter]? = nil
-
-        public init() {}
+        public let parameters: [Parameter]?
 
         public init(marker: String? = nil, parameters: [Parameter]? = nil) {
             self.marker = marker
@@ -2829,6 +2689,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let parameters = dictionary["Parameters"] as? [[String: Any]] {
                 self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            } else { 
+                self.parameters = nil
             }
         }
     }
@@ -2837,11 +2699,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the VPC security group.
-        public var status: String? = nil
+        public let status: String?
         /// The name of the VPC security group.
-        public var vpcSecurityGroupId: String? = nil
-
-        public init() {}
+        public let vpcSecurityGroupId: String?
 
         public init(status: String? = nil, vpcSecurityGroupId: String? = nil) {
             self.status = status
@@ -2858,11 +2718,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// A list of the pending maintenance actions for the resource.
-        public var pendingMaintenanceActions: [ResourcePendingMaintenanceActions]? = nil
-
-        public init() {}
+        public let pendingMaintenanceActions: [ResourcePendingMaintenanceActions]?
 
         public init(marker: String? = nil, pendingMaintenanceActions: [ResourcePendingMaintenanceActions]? = nil) {
             self.marker = marker
@@ -2873,6 +2731,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let pendingMaintenanceActions = dictionary["PendingMaintenanceActions"] as? [[String: Any]] {
                 self.pendingMaintenanceActions = try pendingMaintenanceActions.map({ try ResourcePendingMaintenanceActions(dictionary: $0) })
+            } else { 
+                self.pendingMaintenanceActions = nil
             }
         }
     }
@@ -2880,16 +2740,14 @@ extension Rds {
     public struct CopyDBClusterSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBClusterSnapshot: DBClusterSnapshot? = nil
-
-        public init() {}
+        public let dBClusterSnapshot: DBClusterSnapshot?
 
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
             self.dBClusterSnapshot = dBClusterSnapshot
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBClusterSnapshot = dictionary["DBClusterSnapshot"] as? [String: Any] { self.dBClusterSnapshot = try Rds.DBClusterSnapshot(dictionary: dBClusterSnapshot) }
+            if let dBClusterSnapshot = dictionary["DBClusterSnapshot"] as? [String: Any] { self.dBClusterSnapshot = try Rds.DBClusterSnapshot(dictionary: dBClusterSnapshot) } else { self.dBClusterSnapshot = nil }
         }
     }
 
@@ -2897,11 +2755,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        public var marker: String? = nil
+        public let marker: String?
         ///  A list of DBInstance instances. 
-        public var dBInstances: [DBInstance]? = nil
-
-        public init() {}
+        public let dBInstances: [DBInstance]?
 
         public init(marker: String? = nil, dBInstances: [DBInstance]? = nil) {
             self.marker = marker
@@ -2912,6 +2768,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let dBInstances = dictionary["DBInstances"] as? [[String: Any]] {
                 self.dBInstances = try dBInstances.map({ try DBInstance(dictionary: $0) })
+            } else { 
+                self.dBInstances = nil
             }
         }
     }
@@ -2919,16 +2777,14 @@ extension Rds {
     public struct PromoteReadReplicaResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBInstance: DBInstance? = nil
-
-        public init() {}
+        public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) }
+            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) } else { self.dBInstance = nil }
         }
     }
 
@@ -2936,15 +2792,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the DB parameter group family.
-        public var dBParameterGroupFamily: String = ""
+        public let dBParameterGroupFamily: String
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// Not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeEngineDefaultParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
-
-        public init() {}
+        public let marker: String?
 
         public init(dBParameterGroupFamily: String, maxRecords: Int32? = nil, filters: [Filter]? = nil, marker: String? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
@@ -2959,6 +2813,8 @@ extension Rds {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.marker = dictionary["Marker"] as? String
         }
@@ -2968,27 +2824,25 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so that the following results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// The Multi-AZ filter value. Specify this parameter to show only those reservations matching the specified Multi-AZ parameter.
-        public var multiAZ: Bool? = nil
+        public let multiAZ: Bool?
         /// The reserved DB instance identifier filter value. Specify this parameter to show only the reservation that matches the specified reservation ID.
-        public var reservedDBInstanceId: String? = nil
+        public let reservedDBInstanceId: String?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// The offering identifier filter value. Specify this parameter to show only purchased reservations matching the specified offering identifier.
-        public var reservedDBInstancesOfferingId: String? = nil
+        public let reservedDBInstancesOfferingId: String?
         /// The duration filter value, specified in years or seconds. Specify this parameter to show only reservations for this duration. Valid Values: 1 | 3 | 31536000 | 94608000 
-        public var duration: String? = nil
+        public let duration: String?
         /// The offering type filter value. Specify this parameter to show only the available offerings matching the specified offering type. Valid Values: "Partial Upfront" | "All Upfront" | "No Upfront"  
-        public var offeringType: String? = nil
+        public let offeringType: String?
         /// The DB instance class filter value. Specify this parameter to show only those reservations matching the specified DB instances class.
-        public var dBInstanceClass: String? = nil
+        public let dBInstanceClass: String?
         /// The product description filter value. Specify this parameter to show only those reservations matching the specified product description.
-        public var productDescription: String? = nil
-
-        public init() {}
+        public let productDescription: String?
 
         public init(maxRecords: Int32? = nil, multiAZ: Bool? = nil, reservedDBInstanceId: String? = nil, marker: String? = nil, filters: [Filter]? = nil, reservedDBInstancesOfferingId: String? = nil, duration: String? = nil, offeringType: String? = nil, dBInstanceClass: String? = nil, productDescription: String? = nil) {
             self.maxRecords = maxRecords
@@ -3010,6 +2864,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.reservedDBInstancesOfferingId = dictionary["ReservedDBInstancesOfferingId"] as? String
             self.duration = dictionary["Duration"] as? String
@@ -3022,16 +2878,14 @@ extension Rds {
     public struct DeleteDBInstanceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBInstance: DBInstance? = nil
-
-        public init() {}
+        public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) }
+            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) } else { self.dBInstance = nil }
         }
     }
 
@@ -3039,31 +2893,29 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether this orderable DB instance supports provisioned IOPS.
-        public var supportsIops: Bool? = nil
+        public let supportsIops: Bool?
         /// A list of Availability Zones for the orderable DB instance.
-        public var availabilityZones: [AvailabilityZone]? = nil
+        public let availabilityZones: [AvailabilityZone]?
         /// Indicates whether this orderable DB instance is multi-AZ capable.
-        public var multiAZCapable: Bool? = nil
+        public let multiAZCapable: Bool?
         /// Indicates whether this orderable DB instance can have a Read Replica.
-        public var readReplicaCapable: Bool? = nil
+        public let readReplicaCapable: Bool?
         /// The engine version of the orderable DB instance.
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         /// Indicates whether the DB instance supports enhanced monitoring at intervals from 1 to 60 seconds.
-        public var supportsEnhancedMonitoring: Bool? = nil
+        public let supportsEnhancedMonitoring: Bool?
         /// Indicates the storage type for this orderable DB instance.
-        public var storageType: String? = nil
+        public let storageType: String?
         /// The engine type of the orderable DB instance.
-        public var engine: String? = nil
+        public let engine: String?
         /// The license model for the orderable DB instance.
-        public var licenseModel: String? = nil
+        public let licenseModel: String?
         /// Indicates whether this is a VPC orderable DB instance.
-        public var vpc: Bool? = nil
+        public let vpc: Bool?
         /// The DB instance class for the orderable DB instance.
-        public var dBInstanceClass: String? = nil
+        public let dBInstanceClass: String?
         /// Indicates whether this orderable DB instance supports encrypted storage.
-        public var supportsStorageEncryption: Bool? = nil
-
-        public init() {}
+        public let supportsStorageEncryption: Bool?
 
         public init(supportsIops: Bool? = nil, availabilityZones: [AvailabilityZone]? = nil, multiAZCapable: Bool? = nil, readReplicaCapable: Bool? = nil, engineVersion: String? = nil, supportsEnhancedMonitoring: Bool? = nil, storageType: String? = nil, engine: String? = nil, licenseModel: String? = nil, vpc: Bool? = nil, dBInstanceClass: String? = nil, supportsStorageEncryption: Bool? = nil) {
             self.supportsIops = supportsIops
@@ -3084,6 +2936,8 @@ extension Rds {
             self.supportsIops = dictionary["SupportsIops"] as? Bool
             if let availabilityZones = dictionary["AvailabilityZones"] as? [[String: Any]] {
                 self.availabilityZones = try availabilityZones.map({ try AvailabilityZone(dictionary: $0) })
+            } else { 
+                self.availabilityZones = nil
             }
             self.multiAZCapable = dictionary["MultiAZCapable"] as? Bool
             self.readReplicaCapable = dictionary["ReadReplicaCapable"] as? Bool
@@ -3102,13 +2956,11 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the name of the DB parameter group family that the engine default parameters apply to.
-        public var dBParameterGroupFamily: String? = nil
+        public let dBParameterGroupFamily: String?
         ///  An optional pagination token provided by a previous EngineDefaults request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        public var marker: String? = nil
+        public let marker: String?
         /// Contains a list of engine default parameters.
-        public var parameters: [Parameter]? = nil
-
-        public init() {}
+        public let parameters: [Parameter]?
 
         public init(dBParameterGroupFamily: String? = nil, marker: String? = nil, parameters: [Parameter]? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
@@ -3121,6 +2973,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let parameters = dictionary["Parameters"] as? [[String: Any]] {
                 self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            } else { 
+                self.parameters = nil
             }
         }
     }
@@ -3129,14 +2983,12 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier for the copied DB parameter group. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-db-parameter-group 
-        public var targetDBParameterGroupIdentifier: String = ""
+        public let targetDBParameterGroupIdentifier: String
         ///  The identifier or ARN for the source DB parameter group. For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).  Constraints:   Must specify a valid DB parameter group.    Must specify a valid DB parameter group identifier, for example my-db-param-group, or a valid ARN.  
-        public var sourceDBParameterGroupIdentifier: String = ""
-        public var tags: [Tag]? = nil
+        public let sourceDBParameterGroupIdentifier: String
+        public let tags: [Tag]?
         /// A description for the copied DB parameter group.
-        public var targetDBParameterGroupDescription: String = ""
-
-        public init() {}
+        public let targetDBParameterGroupDescription: String
 
         public init(targetDBParameterGroupIdentifier: String, sourceDBParameterGroupIdentifier: String, tags: [Tag]? = nil, targetDBParameterGroupDescription: String) {
             self.targetDBParameterGroupIdentifier = targetDBParameterGroupIdentifier
@@ -3152,6 +3004,8 @@ extension Rds {
             self.sourceDBParameterGroupIdentifier = sourceDBParameterGroupIdentifier
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let targetDBParameterGroupDescription = dictionary["TargetDBParameterGroupDescription"] as? String else { throw InitializableError.missingRequiredParam("TargetDBParameterGroupDescription") }
             self.targetDBParameterGroupDescription = targetDBParameterGroupDescription
@@ -3162,13 +3016,11 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is set to false.    Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.   Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var finalDBSnapshotIdentifier: String? = nil
+        public let finalDBSnapshotIdentifier: String?
         ///  Determines whether a final DB cluster snapshot is created before the DB cluster is deleted. If true is specified, no DB cluster snapshot is created. If false is specified, a DB cluster snapshot is created before the DB cluster is deleted.   You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is false.  Default: false 
-        public var skipFinalSnapshot: Bool? = nil
+        public let skipFinalSnapshot: Bool?
         /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBClusterIdentifier: String = ""
-
-        public init() {}
+        public let dBClusterIdentifier: String
 
         public init(finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil, dBClusterIdentifier: String) {
             self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
@@ -3188,40 +3040,38 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS KMS key ID for an encrypted Read Replica. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you create an unencrypted Read Replica and specify a value for the KmsKeyId parameter, Amazon RDS encrypts the target Read Replica using the specified KMS encryption key.  If you create an encrypted Read Replica from your AWS account, you can specify a value for KmsKeyId to encrypt the Read Replica with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the Read Replica is encrypted with the same KMS key as the source DB instance.   If you create an encrypted Read Replica in a different AWS region, then you must specify a KMS key for the destination AWS region. KMS encryption keys are specific to the region that they are created in, and you cannot use encryption keys from one region in another region.
-        public var kmsKeyId: String? = nil
+        public let kmsKeyId: String?
         /// The compute and memory capacity of the Read Replica. Note that not all instance classes are available in all regions for all DB engines.  Valid Values: db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.xlarge |db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large  Default: Inherits from the source DB instance.
-        public var dBInstanceClass: String? = nil
+        public let dBInstanceClass: String?
         /// The DB instance identifier of the Read Replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
-        public var dBInstanceIdentifier: String = ""
-        public var tags: [Tag]? = nil
+        public let dBInstanceIdentifier: String
+        public let tags: [Tag]?
         /// Specifies the storage type to be associated with the Read Replica.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified; otherwise standard 
-        public var storageType: String? = nil
+        public let storageType: String?
         /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance.
-        public var iops: Int32? = nil
+        public let iops: Int32?
         /// The Amazon EC2 Availability Zone that the Read Replica will be created in. Default: A random, system-chosen Availability Zone in the endpoint's region.  Example: us-east-1d 
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// Indicates that minor engine upgrades will be applied automatically to the Read Replica during the maintenance window. Default: Inherits from the source DB instance
-        public var autoMinorVersionUpgrade: Bool? = nil
+        public let autoMinorVersionUpgrade: Bool?
         /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC:true    VPC:false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be private.
-        public var publiclyAccessible: Bool? = nil
+        public let publiclyAccessible: Bool?
         /// Specifies a DB subnet group for the DB instance. The new DB instance will be created in the VPC associated with the DB subnet group. If no DB subnet group is specified, then the new DB instance is not created in a VPC. Constraints:   Can only be specified if the source DB instance identifier specifies a DB instance in another region.   The specified DB subnet group must be in the same region in which the operation is running.   All Read Replicas in one region that are created from the same source DB instance must either:&gt;   Specify DB subnet groups from the same VPC. All these Read Replicas will be created in the same VPC.   Not specify a DB subnet group. All these Read Replicas will be created outside of any VPC.     Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        public var dBSubnetGroupName: String? = nil
+        public let dBSubnetGroupName: String?
         /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to To create an IAM role for Amazon RDS Enhanced Monitoring. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
-        public var monitoringRoleArn: String? = nil
+        public let monitoringRoleArn: String?
         /// The option group the DB instance will be associated with. If omitted, the default option group for the engine specified will be used.
-        public var optionGroupName: String? = nil
+        public let optionGroupName: String?
         /// True to copy all tags from the Read Replica to snapshots of the Read Replica; otherwise false. The default is false.
-        public var copyTagsToSnapshot: Bool? = nil
+        public let copyTagsToSnapshot: Bool?
         /// The URL that contains a Signature Version 4 signed request for the  CreateDBInstanceReadReplica API action in the AWS region that contains the source DB instance. The PreSignedUrl parameter must be used when encrypting a Read Replica from another AWS region. The presigned URL must be a valid request for the CreateDBInstanceReadReplica API action that can be executed in the source region that contains the encrypted DB instance. The presigned URL request must contain the following parameter values:    DestinationRegion - The AWS Region that the Read Replica is created in. This region is the same one where the CreateDBInstanceReadReplica action is called that contains this presigned URL.   For example, if you create an encrypted Read Replica in the us-east-1 region, and the source DB instance is in the west-2 region, then you call the CreateDBInstanceReadReplica action in the us-east-1 region and provide a presigned URL that contains a call to the CreateDBInstanceReadReplica action in the us-west-2 region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 region.    KmsKeyId - The KMS key identifier for the key to use to encrypt the Read Replica in the destination region. This is the same identifier for both the CreateDBInstanceReadReplica action that is called in the destination region, and the action contained in the presigned URL.    SourceDBInstanceIdentifier - The DB instance identifier for the encrypted Read Replica to be created. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you create an encrypted Read Replica from a DB instance in the us-west-2 region, then your SourceDBInstanceIdentifier would look like this example:  arn:aws:rds:us-west-2:123456789012:instance:mysql-instance1-instance-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.
-        public var preSignedUrl: String? = nil
+        public let preSignedUrl: String?
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the Read Replica. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 
-        public var monitoringInterval: Int32? = nil
+        public let monitoringInterval: Int32?
         /// The port number that the DB instance uses for connections. Default: Inherits from the source DB instance Valid Values: 1150-65535 
-        public var port: Int32? = nil
+        public let port: Int32?
         /// The identifier of the DB instance that will act as the source for the Read Replica. Each DB instance can have up to five Read Replicas. Constraints:   Must be the identifier of an existing MySQL, MariaDB, or PostgreSQL DB instance.   Can specify a DB instance that is a MySQL Read Replica only if the source is running MySQL 5.6.   Can specify a DB instance that is a PostgreSQL DB instance only if the source is running PostgreSQL 9.3.5 or later.   The specified DB instance must have automatic backups enabled, its backup retention period must be greater than 0.   If the source DB instance is in the same region as the Read Replica, specify a valid DB instance identifier.   If the source DB instance is in a different region than the Read Replica, specify a valid DB instance ARN. For more information, go to  Constructing a Amazon RDS Amazon Resource Name (ARN).  
-        public var sourceDBInstanceIdentifier: String = ""
-
-        public init() {}
+        public let sourceDBInstanceIdentifier: String
 
         public init(kmsKeyId: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String, tags: [Tag]? = nil, storageType: String? = nil, iops: Int32? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, publiclyAccessible: Bool? = nil, dBSubnetGroupName: String? = nil, monitoringRoleArn: String? = nil, optionGroupName: String? = nil, copyTagsToSnapshot: Bool? = nil, preSignedUrl: String? = nil, monitoringInterval: Int32? = nil, port: Int32? = nil, sourceDBInstanceIdentifier: String) {
             self.kmsKeyId = kmsKeyId
@@ -3250,6 +3100,8 @@ extension Rds {
             self.dBInstanceIdentifier = dBInstanceIdentifier
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.storageType = dictionary["StorageType"] as? String
             self.iops = dictionary["Iops"] as? Int32
@@ -3272,15 +3124,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBClusterIdentifier: String? = nil
+        public let dBClusterIdentifier: String?
         /// A filter that specifies one or more DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB clusters identified by these ARNs.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeDBClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
-
-        public init() {}
+        public let marker: String?
 
         public init(maxRecords: Int32? = nil, dBClusterIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil) {
             self.maxRecords = maxRecords
@@ -3294,6 +3144,8 @@ extension Rds {
             self.dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.marker = dictionary["Marker"] as? String
         }
@@ -3303,10 +3155,8 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        public var marker: String? = nil
-        public var optionGroupOptions: [OptionGroupOption]? = nil
-
-        public init() {}
+        public let marker: String?
+        public let optionGroupOptions: [OptionGroupOption]?
 
         public init(marker: String? = nil, optionGroupOptions: [OptionGroupOption]? = nil) {
             self.marker = marker
@@ -3317,6 +3167,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let optionGroupOptions = dictionary["OptionGroupOptions"] as? [[String: Any]] {
                 self.optionGroupOptions = try optionGroupOptions.map({ try OptionGroupOption(dictionary: $0) })
+            } else { 
+                self.optionGroupOptions = nil
             }
         }
     }
@@ -3324,16 +3176,14 @@ extension Rds {
     public struct DeleteEventSubscriptionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var eventSubscription: EventSubscription? = nil
-
-        public init() {}
+        public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Rds.EventSubscription(dictionary: eventSubscription) }
+            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Rds.EventSubscription(dictionary: eventSubscription) } else { self.eventSubscription = nil }
         }
     }
 
@@ -3341,14 +3191,12 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family.
-        public var dBParameterGroupFamily: String = ""
-        public var tags: [Tag]? = nil
+        public let dBParameterGroupFamily: String
+        public let tags: [Tag]?
         /// The name of the DB parameter group. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
-        public var dBParameterGroupName: String = ""
+        public let dBParameterGroupName: String
         /// The description for the DB parameter group.
-        public var description: String = ""
-
-        public init() {}
+        public let description: String
 
         public init(dBParameterGroupFamily: String, tags: [Tag]? = nil, dBParameterGroupName: String, description: String) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
@@ -3362,6 +3210,8 @@ extension Rds {
             self.dBParameterGroupFamily = dBParameterGroupFamily
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let dBParameterGroupName = dictionary["DBParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("DBParameterGroupName") }
             self.dBParameterGroupName = dBParameterGroupName
@@ -3373,32 +3223,28 @@ extension Rds {
     public struct CreateDBSecurityGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBSecurityGroup: DBSecurityGroup? = nil
-
-        public init() {}
+        public let dBSecurityGroup: DBSecurityGroup?
 
         public init(dBSecurityGroup: DBSecurityGroup? = nil) {
             self.dBSecurityGroup = dBSecurityGroup
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBSecurityGroup = dictionary["DBSecurityGroup"] as? [String: Any] { self.dBSecurityGroup = try Rds.DBSecurityGroup(dictionary: dBSecurityGroup) }
+            if let dBSecurityGroup = dictionary["DBSecurityGroup"] as? [String: Any] { self.dBSecurityGroup = try Rds.DBSecurityGroup(dictionary: dBSecurityGroup) } else { self.dBSecurityGroup = nil }
         }
     }
 
     public struct CopyDBParameterGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBParameterGroup: DBParameterGroup? = nil
-
-        public init() {}
+        public let dBParameterGroup: DBParameterGroup?
 
         public init(dBParameterGroup: DBParameterGroup? = nil) {
             self.dBParameterGroup = dBParameterGroup
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBParameterGroup = dictionary["DBParameterGroup"] as? [String: Any] { self.dBParameterGroup = try Rds.DBParameterGroup(dictionary: dBParameterGroup) }
+            if let dBParameterGroup = dictionary["DBParameterGroup"] as? [String: Any] { self.dBParameterGroup = try Rds.DBParameterGroup(dictionary: dBParameterGroup) } else { self.dBParameterGroup = nil }
         }
     }
 
@@ -3406,27 +3252,25 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the RDS event notification subscription. Constraints: Can be one of the following: creating | modifying | deleting | active | no-permission | topic-not-exist The status "no-permission" indicates that RDS no longer has permission to post to the SNS topic. The status "topic-not-exist" indicates that the topic was deleted after the subscription was created.
-        public var status: String? = nil
+        public let status: String?
         /// The topic ARN of the RDS event notification subscription.
-        public var snsTopicArn: String? = nil
+        public let snsTopicArn: String?
         /// A list of source IDs for the RDS event notification subscription.
-        public var sourceIdsList: [String]? = nil
+        public let sourceIdsList: [String]?
         /// The source type for the RDS event notification subscription.
-        public var sourceType: String? = nil
+        public let sourceType: String?
         /// The RDS event notification subscription Id.
-        public var custSubscriptionId: String? = nil
+        public let custSubscriptionId: String?
         /// A Boolean value indicating if the subscription is enabled. True indicates the subscription is enabled.
-        public var enabled: Bool? = nil
+        public let enabled: Bool?
         /// The Amazon Resource Name (ARN) for the event subscription.
-        public var eventSubscriptionArn: String? = nil
+        public let eventSubscriptionArn: String?
         /// The AWS customer account associated with the RDS event notification subscription.
-        public var customerAwsId: String? = nil
+        public let customerAwsId: String?
         /// A list of event categories for the RDS event notification subscription.
-        public var eventCategoriesList: [String]? = nil
+        public let eventCategoriesList: [String]?
         /// The time the RDS event notification subscription was created.
-        public var subscriptionCreationTime: String? = nil
-
-        public init() {}
+        public let subscriptionCreationTime: String?
 
         public init(status: String? = nil, snsTopicArn: String? = nil, sourceIdsList: [String]? = nil, sourceType: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, eventSubscriptionArn: String? = nil, customerAwsId: String? = nil, eventCategoriesList: [String]? = nil, subscriptionCreationTime: String? = nil) {
             self.status = status
@@ -3444,17 +3288,13 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             self.status = dictionary["Status"] as? String
             self.snsTopicArn = dictionary["SnsTopicArn"] as? String
-            if let sourceIdsList = dictionary["SourceIdsList"] as? [String] {
-                self.sourceIdsList = sourceIdsList
-            }
+            self.sourceIdsList = dictionary["SourceIdsList"] as? [String]
             self.sourceType = dictionary["SourceType"] as? String
             self.custSubscriptionId = dictionary["CustSubscriptionId"] as? String
             self.enabled = dictionary["Enabled"] as? Bool
             self.eventSubscriptionArn = dictionary["EventSubscriptionArn"] as? String
             self.customerAwsId = dictionary["CustomerAwsId"] as? String
-            if let eventCategoriesList = dictionary["EventCategoriesList"] as? [String] {
-                self.eventCategoriesList = eventCategoriesList
-            }
+            self.eventCategoriesList = dictionary["EventCategoriesList"] as? [String]
             self.subscriptionCreationTime = dictionary["SubscriptionCreationTime"] as? String
         }
     }
@@ -3463,9 +3303,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of AccountQuota objects. Within this list, each quota has a name, a count of usage toward the quota maximum, and a maximum value for the quota.
-        public var accountQuotas: [AccountQuota]? = nil
-
-        public init() {}
+        public let accountQuotas: [AccountQuota]?
 
         public init(accountQuotas: [AccountQuota]? = nil) {
             self.accountQuotas = accountQuotas
@@ -3474,6 +3312,8 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             if let accountQuotas = dictionary["AccountQuotas"] as? [[String: Any]] {
                 self.accountQuotas = try accountQuotas.map({ try AccountQuota(dictionary: $0) })
+            } else { 
+                self.accountQuotas = nil
             }
         }
     }
@@ -3482,11 +3322,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB cluster.
-        public var roleArn: String? = nil
+        public let roleArn: String?
         /// Describes the state of association between the IAM role and the DB cluster. The Status property returns one of the following values:    ACTIVE - the IAM role ARN is associated with the DB cluster and can be used to access other AWS services on your behalf.    PENDING - the IAM role ARN is being associated with the DB cluster.    INVALID - the IAM role ARN is associated with the DB cluster, but the DB cluster is unable to assume the IAM role in order to access other AWS services on your behalf.  
-        public var status: String? = nil
-
-        public init() {}
+        public let status: String?
 
         public init(roleArn: String? = nil, status: String? = nil) {
             self.roleArn = roleArn
@@ -3503,82 +3341,80 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The meaning of this parameter differs according to the database engine you use. Type: String  MySQL  The name of the database to create when the DB instance is created. If this parameter is not specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 alphanumeric characters   Cannot be a word reserved by the specified database engine    MariaDB  The name of the database to create when the DB instance is created. If this parameter is not specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 alphanumeric characters   Cannot be a word reserved by the specified database engine    PostgreSQL  The name of the database to create when the DB instance is created. If this parameter is not specified, the default "postgres" database is created in the DB instance. Constraints:   Must contain 1 to 63 alphanumeric characters   Must begin with a letter or an underscore. Subsequent characters can be letters, underscores, or digits (0-9).   Cannot be a word reserved by the specified database engine    Oracle  The Oracle System ID (SID) of the created DB instance. Default: ORCL  Constraints:   Cannot be longer than 8 characters    SQL Server  Not applicable. Must be null.  Amazon Aurora  The name of the database to create when the primary instance of the DB cluster is created. If this parameter is not specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 alphanumeric characters   Cannot be a word reserved by the specified database engine  
-        public var dBName: String? = nil
+        public let dBName: String?
         /// The password for the given ARN from the Key Store in order to access the device.
-        public var tdeCredentialPassword: String? = nil
+        public let tdeCredentialPassword: String?
         /// The password for the master database user. Can be any printable ASCII character except "/", """, or "@". Type: String  MySQL  Constraints: Must contain from 8 to 41 characters.  MariaDB  Constraints: Must contain from 8 to 41 characters.  Oracle  Constraints: Must contain from 8 to 30 characters.  SQL Server  Constraints: Must contain from 8 to 128 characters.  PostgreSQL  Constraints: Must contain from 8 to 128 characters.  Amazon Aurora  Constraints: Must contain from 8 to 41 characters.
-        public var masterUserPassword: String? = nil
+        public let masterUserPassword: String?
         /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. Constraints: Must be a multiple between 3 and 10 of the storage amount for the DB instance. Must also be an integer multiple of 1000. For example, if the size of your DB instance is 500 GB, then your Iops value can be 2000, 3000, 4000, or 5000. 
-        public var iops: Int32? = nil
+        public let iops: Int32?
         /// A list of DB security groups to associate with this DB instance. Default: The default DB security group for the database engine.
-        public var dBSecurityGroups: [String]? = nil
+        public let dBSecurityGroups: [String]?
         /// For supported engines, indicates that the DB instance should be associated with the specified CharacterSet.
-        public var characterSetName: String? = nil
+        public let characterSetName: String?
         ///  The EC2 Availability Zone that the database instance will be created in. For information on regions and Availability Zones, see Regions and Availability Zones.  Default: A random, system-chosen Availability Zone in the endpoint's region.  Example: us-east-1d   Constraint: The AvailabilityZone parameter cannot be specified if the MultiAZ parameter is set to true. The specified Availability Zone must be in the same region as the current endpoint. 
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// Indicates that minor engine upgrades will be applied automatically to the DB instance during the maintenance window. Default: true 
-        public var autoMinorVersionUpgrade: Bool? = nil
+        public let autoMinorVersionUpgrade: Bool?
         /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Default: 1 Constraints:   Must be a value from 0 to 35   Cannot be set to 0 if the DB instance is a source to Read Replicas  
-        public var backupRetentionPeriod: Int32? = nil
+        public let backupRetentionPeriod: Int32?
         /// The identifier of the DB cluster that the instance will belong to. For information on creating a DB cluster, see CreateDBCluster. Type: String
-        public var dBClusterIdentifier: String? = nil
+        public let dBClusterIdentifier: String?
         /// The version number of the database engine to use. The following are the database engines and major and minor versions that are available with Amazon RDS. Not every database engine is available for every AWS region.  Amazon Aurora     Version 5.6 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-2, eu-west-1, us-east-1, us-east-2, us-west-2):  5.6.10a     MariaDB     Version 10.1 (available in these AWS regions: us-east-2):  10.1.16     Version 10.1 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  10.1.14     Version 10.0 (available in all AWS regions):  10.0.24     Version 10.0 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  10.0.17     Microsoft SQL Server 2016     13.00.2164.0.v1 (supported for all editions, and all AWS regions except sa-east-1)    Microsoft SQL Server 2014     12.00.5000.0.v1 (supported for all editions, and all AWS regions)    12.00.4422.0.v1 (supported for all editions except Enterprise Edition, and all AWS regions except us-east-2)    Microsoft SQL Server 2012     11.00.6020.0.v1 (supported for all editions, and all AWS regions)    11.00.5058.0.v1 (supported for all editions, and all AWS regions except us-east-2)    11.00.2100.60.v1 (supported for all editions, and all AWS regions except us-east-2)    Microsoft SQL Server 2008 R2     10.50.6529.0.v1 (supported for all editions, and all AWS regions except us-east-2)    10.50.6000.34.v1 (supported for all editions, and all AWS regions except us-east-2)    10.50.2789.0.v1 (supported for all editions, and all AWS regions except us-east-2)    MySQL     Version 5.7 (available in all AWS regions):  5.7.11     Version 5.7 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  5.7.10     Version 5.6 (available in all AWS regions):  5.6.29     Version 5.6 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  5.6.27     Version 5.6 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  5.6.23     Version 5.6 (available in these AWS regions: ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  5.6.19a | 5.6.19b | 5.6.21 | 5.6.21b | 5.6.22     Version 5.5 (available in all AWS regions):  5.5.46     Version 5.1 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  5.1.73a | 5.1.73b     Oracle Database Enterprise Edition (oracle-ee)     Version 12.1 (available in all AWS regions except ap-south-1, ap-northeast-2):  12.1.0.1.v1 | 12.1.0.1.v2     Version 12.1 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  12.1.0.1.v3 | 12.1.0.1.v4 | 12.1.0.1.v5     Version 12.1 (available in all AWS regions):  12.1.0.2.v1     Version 12.1 (available in all AWS regions except us-gov-west-1):  12.1.0.2.v2 | 12.1.0.2.v3 | 12.1.0.2.v4     Version 11.2 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  11.2.0.2.v3 | 11.2.0.2.v4 | 11.2.0.2.v5 | 11.2.0.2.v6 | 11.2.0.2.v7     Version 11.2 (available in all AWS regions except ap-south-1, ap-northeast-2):  11.2.0.3.v1 | 11.2.0.3.v2 | 11.2.0.3.v3     Version 11.2 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  11.2.0.3.v4     Version 11.2 (available in all AWS regions):  11.2.0.4.v1 | 11.2.0.4.v3 | 11.2.0.4.v4     Version 11.2 (available in all AWS regions except us-gov-west-1):  11.2.0.4.v5 | 11.2.0.4.v6 | 11.2.0.4.v7 | 11.2.0.4.v8     Oracle Database Standard Edition (oracle-se)     Version 12.1 (available in all AWS regions except ap-south-1, ap-northeast-2):  12.1.0.1.v1 | 12.1.0.1.v2     Version 12.1 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  12.1.0.1.v3 | 12.1.0.1.v4 | 12.1.0.1.v5     Version 11.2 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  11.2.0.2.v3 | 11.2.0.2.v4 | 11.2.0.2.v5 | 11.2.0.2.v6 | 11.2.0.2.v7     Version 11.2 (available in all AWS regions except ap-south-1, ap-northeast-2):  11.2.0.3.v1 | 11.2.0.3.v2 | 11.2.0.3.v3     Version 11.2 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  11.2.0.3.v4     Version 11.2 (available in all AWS regions):  11.2.0.4.v1 | 11.2.0.4.v3 | 11.2.0.4.v4     Version 11.2 (available in all AWS regions except us-gov-west-1):  11.2.0.4.v5 | 11.2.0.4.v6 | 11.2.0.4.v7 | 11.2.0.4.v8     Oracle Database Standard Edition One (oracle-se1)     Version 12.1 (available in all AWS regions except ap-south-1, ap-northeast-2):  12.1.0.1.v1 | 12.1.0.1.v2     Version 12.1 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  12.1.0.1.v3 | 12.1.0.1.v4 | 12.1.0.1.v5     Version 11.2 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  11.2.0.2.v3 | 11.2.0.2.v4 | 11.2.0.2.v5 | 11.2.0.2.v6 | 11.2.0.2.v7     Version 11.2 (available in all AWS regions except ap-south-1, ap-northeast-2):  11.2.0.3.v1 | 11.2.0.3.v2 | 11.2.0.3.v3     Version 11.2 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  11.2.0.3.v4     Version 11.2 (available in all AWS regions):  11.2.0.4.v1 | 11.2.0.4.v3 | 11.2.0.4.v4     Version 11.2 (available in all AWS regions except us-gov-west-1):  11.2.0.4.v5 | 11.2.0.4.v6 | 11.2.0.4.v7 | 11.2.0.4.v8     Oracle Database Standard Edition Two (oracle-se2)     Version 12.1 (available in all AWS regions except us-gov-west-1):  12.1.0.2.v2 | 12.1.0.2.v3 | 12.1.0.2.v4     PostgreSQL     Version 9.6:  9.6.1     Version 9.5: 9.5.4 | 9.5.2     Version 9.4:  9.4.9 | 9.4.7 | 9.4.5 | 9.4.4 | 9.4.1     Version 9.3:  9.3.14 | 9.3.12 | 9.3.10 | 9.3.9 | 9.3.6 | 9.3.5 | 9.3.3 | 9.3.2 | 9.3.1      Oracle 12c     12.1.0.2.v6 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v5 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v4 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v3 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v2 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)    12.1.0.2.v1 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)       12.1.0.1.v6 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)    12.1.0.1.v5 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)    12.1.0.1.v4 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)    12.1.0.1.v3 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)    12.1.0.1.v2 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)    12.1.0.1.v1 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)    Oracle 11g     11.2.0.4.v10 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v9 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v8 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v7 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v6 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v5 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v4 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v3 (supported for EE, SE1, and SE, in all AWS regions)    11.2.0.4.v1 (supported for EE, SE1, and SE, in all AWS regions)    PostgreSQL     Version 9.5 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  9.5.4     Version 9.5 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2):  9.5.2     Version 9.4 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  9.4.9     Version 9.4 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2):  9.4.7     Version 9.4 (available in all AWS regions):  9.4.5     Version 9.4 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  9.4.4     Version 9.4 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-east-2, us-gov-west-1, us-west-1, us-west-2):  9.4.1     Version 9.3 (available in these AWS regions: ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  9.3.10 | 9.3.3 | 9.3.5 | 9.3.6 | 9.3.9     Version 9.3 (available in these AWS regions: ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2):  9.3.1 | 9.3.2     Version 9.3 (available in these AWS regions: ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2):  9.3.12 | 9.3.14   
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster.  Default: 1 Valid Values: 0 - 15
-        public var promotionTier: Int32? = nil
+        public let promotionTier: Int32?
         ///  The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). For more information, see DB Instance Maintenance.   Format: ddd:hh24:mi-ddd:hh24:mi   Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
-        public var preferredMaintenanceWindow: String? = nil
+        public let preferredMaintenanceWindow: String?
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
-        public var domainIAMRoleName: String? = nil
+        public let domainIAMRoleName: String?
         /// True to copy all tags from the DB instance to snapshots of the DB instance; otherwise false. The default is false.
-        public var copyTagsToSnapshot: Bool? = nil
+        public let copyTagsToSnapshot: Bool?
         /// The compute and memory capacity of the DB instance. Note that not all instance classes are available in all regions for all DB engines.  Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.xlarge |db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large 
-        public var dBInstanceClass: String = ""
+        public let dBInstanceClass: String
         /// Specify the Active Directory Domain to create the instance in.
-        public var domain: String? = nil
+        public let domain: String?
         /// The KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same AWS account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
-        public var kmsKeyId: String? = nil
+        public let kmsKeyId: String?
         /// Specifies if the DB instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the MultiAZ parameter is set to true.
-        public var multiAZ: Bool? = nil
-        public var tags: [Tag]? = nil
+        public let multiAZ: Bool?
+        public let tags: [Tag]?
         /// The time zone of the DB instance. The time zone parameter is currently supported only by Microsoft SQL Server. 
-        public var timezone: String? = nil
+        public let timezone: String?
         /// A list of EC2 VPC security groups to associate with this DB instance. Default: The default EC2 VPC security group for the DB subnet group's VPC.
-        public var vpcSecurityGroupIds: [String]? = nil
+        public let vpcSecurityGroupIds: [String]?
         /// The amount of storage (in gigabytes) to be initially allocated for the database instance. Type: Integer  MySQL  Constraints: Must be an integer from 5 to 6144.  MariaDB  Constraints: Must be an integer from 5 to 6144.  PostgreSQL  Constraints: Must be an integer from 5 to 6144.  Oracle  Constraints: Must be an integer from 10 to 6144.  SQL Server  Constraints: Must be an integer from 200 to 4096 (Standard Edition and Enterprise Edition) or from 20 to 4096 (Express Edition and Web Edition)
-        public var allocatedStorage: Int32? = nil
+        public let allocatedStorage: Int32?
         /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified; otherwise standard 
-        public var storageType: String? = nil
+        public let storageType: String?
         /// License model information for this DB instance.  Valid values: license-included | bring-your-own-license | general-public-license 
-        public var licenseModel: String? = nil
+        public let licenseModel: String?
         /// The ARN from the Key Store with which to associate the instance for TDE encryption.
-        public var tdeCredentialArn: String? = nil
+        public let tdeCredentialArn: String?
         /// The name of the DB parameter group to associate with this DB instance. If this argument is omitted, the default DBParameterGroup for the specified engine will be used. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBParameterGroupName: String? = nil
+        public let dBParameterGroupName: String?
         /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC: true    VPC: false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be private.
-        public var publiclyAccessible: Bool? = nil
+        public let publiclyAccessible: Bool?
         ///  The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. For more information, see DB Instance Backups.   Default: A 30-minute window selected at random from an 8-hour block of time per region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Times should be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
-        public var preferredBackupWindow: String? = nil
+        public let preferredBackupWindow: String?
         /// A DB subnet group to associate with this DB instance. If there is no DB subnet group, then it is a non-VPC DB instance.
-        public var dBSubnetGroupName: String? = nil
+        public let dBSubnetGroupName: String?
         /// Indicates that the DB instance should be associated with the specified option group. Permanent options, such as the TDE option for Oracle Advanced Security TDE, cannot be removed from an option group, and that option group cannot be removed from a DB instance once it is associated with a DB instance
-        public var optionGroupName: String? = nil
+        public let optionGroupName: String?
         /// The name of master user for the client DB instance.  MySQL  Constraints:   Must be 1 to 16 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.    MariaDB  Constraints:   Must be 1 to 16 alphanumeric characters.   Cannot be a reserved word for the chosen database engine.   Type: String  Oracle  Constraints:   Must be 1 to 30 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.    SQL Server  Constraints:   Must be 1 to 128 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.    PostgreSQL  Constraints:   Must be 1 to 63 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.  
-        public var masterUsername: String? = nil
+        public let masterUsername: String?
         /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to To create an IAM role for Amazon RDS Enhanced Monitoring. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
-        public var monitoringRoleArn: String? = nil
+        public let monitoringRoleArn: String?
         /// The name of the database engine to be used for this instance.  Valid Values: mysql | mariadb | oracle-se1 | oracle-se2 | oracle-se | oracle-ee | sqlserver-ee | sqlserver-se | sqlserver-ex | sqlserver-web | postgres | aurora  Not every database engine is available for every AWS region.
-        public var engine: String = ""
+        public let engine: String
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 
-        public var monitoringInterval: Int32? = nil
+        public let monitoringInterval: Int32?
         /// Specifies whether the DB instance is encrypted. Default: false
-        public var storageEncrypted: Bool? = nil
+        public let storageEncrypted: Bool?
         /// The port number on which the database accepts connections.  MySQL   Default: 3306   Valid Values: 1150-65535  Type: Integer  MariaDB   Default: 3306   Valid Values: 1150-65535  Type: Integer  PostgreSQL   Default: 5432   Valid Values: 1150-65535  Type: Integer  Oracle   Default: 1521   Valid Values: 1150-65535   SQL Server   Default: 1433   Valid Values: 1150-65535 except for 1434, 3389, 47001, 49152, and 49152 through 49156.   Amazon Aurora   Default: 3306   Valid Values: 1150-65535  Type: Integer
-        public var port: Int32? = nil
+        public let port: Int32?
         /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens (1 to 15 for SQL Server).   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance 
-        public var dBInstanceIdentifier: String = ""
-
-        public init() {}
+        public let dBInstanceIdentifier: String
 
         public init(dBName: String? = nil, tdeCredentialPassword: String? = nil, masterUserPassword: String? = nil, iops: Int32? = nil, dBSecurityGroups: [String]? = nil, characterSetName: String? = nil, availabilityZone: String? = nil, autoMinorVersionUpgrade: Bool? = nil, backupRetentionPeriod: Int32? = nil, dBClusterIdentifier: String? = nil, engineVersion: String? = nil, promotionTier: Int32? = nil, preferredMaintenanceWindow: String? = nil, domainIAMRoleName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String, domain: String? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, tags: [Tag]? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil, allocatedStorage: Int32? = nil, storageType: String? = nil, licenseModel: String? = nil, tdeCredentialArn: String? = nil, dBParameterGroupName: String? = nil, publiclyAccessible: Bool? = nil, preferredBackupWindow: String? = nil, dBSubnetGroupName: String? = nil, optionGroupName: String? = nil, masterUsername: String? = nil, monitoringRoleArn: String? = nil, engine: String, monitoringInterval: Int32? = nil, storageEncrypted: Bool? = nil, port: Int32? = nil, dBInstanceIdentifier: String) {
             self.dBName = dBName
@@ -3626,9 +3462,7 @@ extension Rds {
             self.tdeCredentialPassword = dictionary["TdeCredentialPassword"] as? String
             self.masterUserPassword = dictionary["MasterUserPassword"] as? String
             self.iops = dictionary["Iops"] as? Int32
-            if let dBSecurityGroups = dictionary["DBSecurityGroups"] as? [String] {
-                self.dBSecurityGroups = dBSecurityGroups
-            }
+            self.dBSecurityGroups = dictionary["DBSecurityGroups"] as? [String]
             self.characterSetName = dictionary["CharacterSetName"] as? String
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
             self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
@@ -3646,11 +3480,11 @@ extension Rds {
             self.multiAZ = dictionary["MultiAZ"] as? Bool
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.timezone = dictionary["Timezone"] as? String
-            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
-                self.vpcSecurityGroupIds = vpcSecurityGroupIds
-            }
+            self.vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String]
             self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
             self.storageType = dictionary["StorageType"] as? String
             self.licenseModel = dictionary["LicenseModel"] as? String
@@ -3676,13 +3510,11 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The RDS Amazon Resource Name (ARN) of the resource that the pending maintenance action applies to. For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
-        public var resourceIdentifier: String = ""
+        public let resourceIdentifier: String
         /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate cannot be undone. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.  
-        public var optInType: String = ""
+        public let optInType: String
         /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade 
-        public var applyAction: String = ""
-
-        public init() {}
+        public let applyAction: String
 
         public init(resourceIdentifier: String, optInType: String, applyAction: String) {
             self.resourceIdentifier = resourceIdentifier
@@ -3703,16 +3535,14 @@ extension Rds {
     public struct CreateDBClusterParameterGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBClusterParameterGroup: DBClusterParameterGroup? = nil
-
-        public init() {}
+        public let dBClusterParameterGroup: DBClusterParameterGroup?
 
         public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
             self.dBClusterParameterGroup = dBClusterParameterGroup
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBClusterParameterGroup = dictionary["DBClusterParameterGroup"] as? [String: Any] { self.dBClusterParameterGroup = try Rds.DBClusterParameterGroup(dictionary: dBClusterParameterGroup) }
+            if let dBClusterParameterGroup = dictionary["DBClusterParameterGroup"] as? [String: Any] { self.dBClusterParameterGroup = try Rds.DBClusterParameterGroup(dictionary: dBClusterParameterGroup) } else { self.dBClusterParameterGroup = nil }
         }
     }
 
@@ -3720,15 +3550,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the DB snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB snapshot, set this value to restore.
-        public var attributeName: String = ""
+        public let attributeName: String
         /// A list of DB snapshot attributes to add to the attribute specified by AttributeName. To authorize other AWS accounts to copy or restore a manual snapshot, set this list to include one or more AWS account IDs, or all to make the manual DB snapshot restorable by any AWS account. Do not add the all value for any manual DB snapshots that contain private information that you don't want available to all AWS accounts.
-        public var valuesToAdd: [String]? = nil
+        public let valuesToAdd: [String]?
         /// A list of DB snapshot attributes to remove from the attribute specified by AttributeName. To remove authorization for other AWS accounts to copy or restore a manual snapshot, set this list to include one or more AWS account identifiers, or all to remove authorization for any AWS account to copy or restore the DB snapshot. If you specify all, an AWS account whose account ID is explicitly added to the restore attribute can still copy or restore the manual DB snapshot.
-        public var valuesToRemove: [String]? = nil
+        public let valuesToRemove: [String]?
         /// The identifier for the DB snapshot to modify the attributes for.
-        public var dBSnapshotIdentifier: String = ""
-
-        public init() {}
+        public let dBSnapshotIdentifier: String
 
         public init(attributeName: String, valuesToAdd: [String]? = nil, valuesToRemove: [String]? = nil, dBSnapshotIdentifier: String) {
             self.attributeName = attributeName
@@ -3740,12 +3568,8 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             guard let attributeName = dictionary["AttributeName"] as? String else { throw InitializableError.missingRequiredParam("AttributeName") }
             self.attributeName = attributeName
-            if let valuesToAdd = dictionary["ValuesToAdd"] as? [String] {
-                self.valuesToAdd = valuesToAdd
-            }
-            if let valuesToRemove = dictionary["ValuesToRemove"] as? [String] {
-                self.valuesToRemove = valuesToRemove
-            }
+            self.valuesToAdd = dictionary["ValuesToAdd"] as? [String]
+            self.valuesToRemove = dictionary["ValuesToRemove"] as? [String]
             guard let dBSnapshotIdentifier = dictionary["DBSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBSnapshotIdentifier") }
             self.dBSnapshotIdentifier = dBSnapshotIdentifier
         }
@@ -3755,26 +3579,24 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is different than the KMS key used to encrypt the source DB cluster. The new DB cluster will be encrypted with the KMS key identified by the KmsKeyId parameter. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB cluster.   If the DB cluster is not encrypted, then the restored DB cluster is not encrypted.   If DBClusterIdentifier refers to a DB cluster that is note encrypted, then the restore request is rejected.
-        public var kmsKeyId: String? = nil
+        public let kmsKeyId: String?
         /// The name of the new DB cluster to be created. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBClusterIdentifier: String = ""
+        public let dBClusterIdentifier: String
         /// The name of the option group for the new DB cluster.
-        public var optionGroupName: String? = nil
+        public let optionGroupName: String?
         /// The DB subnet group name to use for the new DB cluster. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        public var dBSubnetGroupName: String? = nil
-        public var tags: [Tag]? = nil
+        public let dBSubnetGroupName: String?
+        public let tags: [Tag]?
         /// A lst of VPC security groups that the new DB cluster belongs to.
-        public var vpcSecurityGroupIds: [String]? = nil
+        public let vpcSecurityGroupIds: [String]?
         /// The date and time to restore the DB cluster to. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Cannot be specified if UseLatestRestorableTime parameter is true   Example: 2015-03-07T23:45:00Z 
-        public var restoreToTime: Date? = nil
+        public let restoreToTime: Date?
         /// A value that is set to true to restore the DB cluster to the latest restorable backup time, and false otherwise.  Default: false  Constraints: Cannot be specified if RestoreToTime parameter is provided.
-        public var useLatestRestorableTime: Bool? = nil
+        public let useLatestRestorableTime: Bool?
         /// The port number on which the new DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
-        public var port: Int32? = nil
+        public let port: Int32?
         /// The identifier of the source DB cluster from which to restore. Constraints:   Must be the identifier of an existing database instance   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var sourceDBClusterIdentifier: String = ""
-
-        public init() {}
+        public let sourceDBClusterIdentifier: String
 
         public init(kmsKeyId: String? = nil, dBClusterIdentifier: String, optionGroupName: String? = nil, dBSubnetGroupName: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil, restoreToTime: Date? = nil, useLatestRestorableTime: Bool? = nil, port: Int32? = nil, sourceDBClusterIdentifier: String) {
             self.kmsKeyId = kmsKeyId
@@ -3797,10 +3619,10 @@ extension Rds {
             self.dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
-            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
-                self.vpcSecurityGroupIds = vpcSecurityGroupIds
-            }
+            self.vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String]
             self.restoreToTime = dictionary["RestoreToTime"] as? Date
             self.useLatestRestorableTime = dictionary["UseLatestRestorableTime"] as? Bool
             self.port = dictionary["Port"] as? Int32
@@ -3813,73 +3635,71 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) for the DB cluster.
-        public var dBClusterArn: String? = nil
+        public let dBClusterArn: String?
         /// Provides a list of VPC security groups that the DB cluster belongs to.
-        public var vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil
+        public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
         /// Contains one or more identifiers of the Read Replicas associated with this DB cluster.
-        public var readReplicaIdentifiers: [String]? = nil
+        public let readReplicaIdentifiers: [String]?
         /// Specifies the number of days for which automatic DB snapshots are retained.
-        public var backupRetentionPeriod: Int32? = nil
+        public let backupRetentionPeriod: Int32?
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
-        public var hostedZoneId: String? = nil
+        public let hostedZoneId: String?
         /// If present, specifies the name of the character set that this cluster is associated with.
-        public var characterSetName: String? = nil
+        public let characterSetName: String?
         /// Specifies the current state of this DB cluster.
-        public var status: String? = nil
+        public let status: String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
-        public var latestRestorableTime: Date? = nil
+        public let latestRestorableTime: Date?
         /// Indicates the database engine version.
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         /// Contains a user-supplied DB cluster identifier. This identifier is the unique key that identifies a DB cluster.
-        public var dBClusterIdentifier: String? = nil
+        public let dBClusterIdentifier: String?
         /// Specifies the weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).
-        public var preferredMaintenanceWindow: String? = nil
+        public let preferredMaintenanceWindow: String?
         /// Specifies the name of the DB cluster parameter group for the DB cluster.
-        public var dBClusterParameterGroup: String? = nil
+        public let dBClusterParameterGroup: String?
         /// Contains the identifier of the source DB cluster if this DB cluster is a Read Replica.
-        public var replicationSourceIdentifier: String? = nil
+        public let replicationSourceIdentifier: String?
         /// Specifies the progress of the operation as a percentage.
-        public var percentProgress: String? = nil
+        public let percentProgress: String?
         /// The reader endpoint for the DB cluster. The reader endpoint for a DB cluster load-balances connections across the Aurora Replicas that are available in a DB cluster. As clients request new connections to the reader endpoint, Aurora distributes the connection requests among the Aurora Replicas in the DB cluster. This functionality can help balance your read workload across multiple Aurora Replicas in your DB cluster.  If a failover occurs, and the Aurora Replica that you are connected to is promoted to be the primary instance, your connection will be dropped. To continue sending your read workload to other Aurora Replicas in the cluster, you can then recoonect to the reader endpoint.
-        public var readerEndpoint: String? = nil
+        public let readerEndpoint: String?
         /// The region-unique, immutable identifier for the DB cluster. This identifier is found in AWS CloudTrail log entries whenever the KMS key for the DB cluster is accessed.
-        public var dbClusterResourceId: String? = nil
+        public let dbClusterResourceId: String?
         /// Specifies the connection endpoint for the primary instance of the DB cluster.
-        public var endpoint: String? = nil
+        public let endpoint: String?
         /// If StorageEncrypted is true, the KMS key identifier for the encrypted DB cluster.
-        public var kmsKeyId: String? = nil
+        public let kmsKeyId: String?
         /// Provides the list of EC2 Availability Zones that instances in the DB cluster can be created in.
-        public var availabilityZones: [String]? = nil
+        public let availabilityZones: [String]?
         /// Provides the list of option group memberships for this DB cluster.
-        public var dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil
+        public let dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]?
         /// Specifies whether the DB cluster has instances in multiple Availability Zones.
-        public var multiAZ: Bool? = nil
+        public let multiAZ: Bool?
         /// Provides the list of instances that make up the DB cluster.
-        public var dBClusterMembers: [DBClusterMember]? = nil
+        public let dBClusterMembers: [DBClusterMember]?
         /// Specifies the allocated storage size in gigabytes (GB).
-        public var allocatedStorage: Int32? = nil
+        public let allocatedStorage: Int32?
         /// Specifies the earliest time to which a database can be restored with point-in-time restore.
-        public var earliestRestorableTime: Date? = nil
+        public let earliestRestorableTime: Date?
         /// Specifies the time when the DB cluster was created, in Universal Coordinated Time (UTC).
-        public var clusterCreateTime: Date? = nil
+        public let clusterCreateTime: Date?
         /// Specifies the daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod. 
-        public var preferredBackupWindow: String? = nil
+        public let preferredBackupWindow: String?
         /// Contains the master username for the DB cluster.
-        public var masterUsername: String? = nil
+        public let masterUsername: String?
         /// Contains the name of the initial database of this DB cluster that was provided at create time, if one was specified when the DB cluster was created. This same name is returned for the life of the DB cluster.
-        public var databaseName: String? = nil
+        public let databaseName: String?
         /// Provides the name of the database engine to be used for this DB cluster.
-        public var engine: String? = nil
+        public let engine: String?
         /// Specifies information on the subnet group associated with the DB cluster, including the name, description, and subnets in the subnet group.
-        public var dBSubnetGroup: String? = nil
+        public let dBSubnetGroup: String?
         /// Specifies whether the DB cluster is encrypted.
-        public var storageEncrypted: Bool? = nil
+        public let storageEncrypted: Bool?
         /// Provides a list of the AWS Identity and Access Management (IAM) roles that are associated with the DB cluster. IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other AWS services on your behalf.
-        public var associatedRoles: [DBClusterRole]? = nil
+        public let associatedRoles: [DBClusterRole]?
         /// Specifies the port that the database engine is listening on.
-        public var port: Int32? = nil
-
-        public init() {}
+        public let port: Int32?
 
         public init(dBClusterArn: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil, readReplicaIdentifiers: [String]? = nil, backupRetentionPeriod: Int32? = nil, hostedZoneId: String? = nil, characterSetName: String? = nil, status: String? = nil, latestRestorableTime: Date? = nil, engineVersion: String? = nil, dBClusterIdentifier: String? = nil, preferredMaintenanceWindow: String? = nil, dBClusterParameterGroup: String? = nil, replicationSourceIdentifier: String? = nil, percentProgress: String? = nil, readerEndpoint: String? = nil, dbClusterResourceId: String? = nil, endpoint: String? = nil, kmsKeyId: String? = nil, availabilityZones: [String]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, multiAZ: Bool? = nil, dBClusterMembers: [DBClusterMember]? = nil, allocatedStorage: Int32? = nil, earliestRestorableTime: Date? = nil, clusterCreateTime: Date? = nil, preferredBackupWindow: String? = nil, masterUsername: String? = nil, databaseName: String? = nil, engine: String? = nil, dBSubnetGroup: String? = nil, storageEncrypted: Bool? = nil, associatedRoles: [DBClusterRole]? = nil, port: Int32? = nil) {
             self.dBClusterArn = dBClusterArn
@@ -3921,10 +3741,10 @@ extension Rds {
             self.dBClusterArn = dictionary["DBClusterArn"] as? String
             if let vpcSecurityGroups = dictionary["VpcSecurityGroups"] as? [[String: Any]] {
                 self.vpcSecurityGroups = try vpcSecurityGroups.map({ try VpcSecurityGroupMembership(dictionary: $0) })
+            } else { 
+                self.vpcSecurityGroups = nil
             }
-            if let readReplicaIdentifiers = dictionary["ReadReplicaIdentifiers"] as? [String] {
-                self.readReplicaIdentifiers = readReplicaIdentifiers
-            }
+            self.readReplicaIdentifiers = dictionary["ReadReplicaIdentifiers"] as? [String]
             self.backupRetentionPeriod = dictionary["BackupRetentionPeriod"] as? Int32
             self.hostedZoneId = dictionary["HostedZoneId"] as? String
             self.characterSetName = dictionary["CharacterSetName"] as? String
@@ -3940,15 +3760,17 @@ extension Rds {
             self.dbClusterResourceId = dictionary["DbClusterResourceId"] as? String
             self.endpoint = dictionary["Endpoint"] as? String
             self.kmsKeyId = dictionary["KmsKeyId"] as? String
-            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
-                self.availabilityZones = availabilityZones
-            }
+            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
             if let dBClusterOptionGroupMemberships = dictionary["DBClusterOptionGroupMemberships"] as? [[String: Any]] {
                 self.dBClusterOptionGroupMemberships = try dBClusterOptionGroupMemberships.map({ try DBClusterOptionGroupStatus(dictionary: $0) })
+            } else { 
+                self.dBClusterOptionGroupMemberships = nil
             }
             self.multiAZ = dictionary["MultiAZ"] as? Bool
             if let dBClusterMembers = dictionary["DBClusterMembers"] as? [[String: Any]] {
                 self.dBClusterMembers = try dBClusterMembers.map({ try DBClusterMember(dictionary: $0) })
+            } else { 
+                self.dBClusterMembers = nil
             }
             self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
             self.earliestRestorableTime = dictionary["EarliestRestorableTime"] as? Date
@@ -3961,6 +3783,8 @@ extension Rds {
             self.storageEncrypted = dictionary["StorageEncrypted"] as? Bool
             if let associatedRoles = dictionary["AssociatedRoles"] as? [[String: Any]] {
                 self.associatedRoles = try associatedRoles.map({ try DBClusterRole(dictionary: $0) })
+            } else { 
+                self.associatedRoles = nil
             }
             self.port = dictionary["Port"] as? Int32
         }
@@ -3970,11 +3794,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of source that will be generating the events. Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
-        public var sourceType: String? = nil
+        public let sourceType: String?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
-
-        public init() {}
+        public let filters: [Filter]?
 
         public init(sourceType: String? = nil, filters: [Filter]? = nil) {
             self.sourceType = sourceType
@@ -3985,6 +3807,8 @@ extension Rds {
             self.sourceType = dictionary["SourceType"] as? String
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
         }
     }
@@ -3992,48 +3816,42 @@ extension Rds {
     public struct CreateDBClusterSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBClusterSnapshot: DBClusterSnapshot? = nil
-
-        public init() {}
+        public let dBClusterSnapshot: DBClusterSnapshot?
 
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
             self.dBClusterSnapshot = dBClusterSnapshot
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBClusterSnapshot = dictionary["DBClusterSnapshot"] as? [String: Any] { self.dBClusterSnapshot = try Rds.DBClusterSnapshot(dictionary: dBClusterSnapshot) }
+            if let dBClusterSnapshot = dictionary["DBClusterSnapshot"] as? [String: Any] { self.dBClusterSnapshot = try Rds.DBClusterSnapshot(dictionary: dBClusterSnapshot) } else { self.dBClusterSnapshot = nil }
         }
     }
 
     public struct ModifyDBClusterSnapshotAttributeResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil
-
-        public init() {}
+        public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
         public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
             self.dBClusterSnapshotAttributesResult = dBClusterSnapshotAttributesResult
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBClusterSnapshotAttributesResult = dictionary["DBClusterSnapshotAttributesResult"] as? [String: Any] { self.dBClusterSnapshotAttributesResult = try Rds.DBClusterSnapshotAttributesResult(dictionary: dBClusterSnapshotAttributesResult) }
+            if let dBClusterSnapshotAttributesResult = dictionary["DBClusterSnapshotAttributesResult"] as? [String: Any] { self.dBClusterSnapshotAttributesResult = try Rds.DBClusterSnapshotAttributesResult(dictionary: dBClusterSnapshotAttributesResult) } else { self.dBClusterSnapshotAttributesResult = nil }
         }
     }
 
     public struct AuthorizeDBSecurityGroupIngressResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBSecurityGroup: DBSecurityGroup? = nil
-
-        public init() {}
+        public let dBSecurityGroup: DBSecurityGroup?
 
         public init(dBSecurityGroup: DBSecurityGroup? = nil) {
             self.dBSecurityGroup = dBSecurityGroup
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBSecurityGroup = dictionary["DBSecurityGroup"] as? [String: Any] { self.dBSecurityGroup = try Rds.DBSecurityGroup(dictionary: dBSecurityGroup) }
+            if let dBSecurityGroup = dictionary["DBSecurityGroup"] as? [String: Any] { self.dBSecurityGroup = try Rds.DBSecurityGroup(dictionary: dBSecurityGroup) } else { self.dBSecurityGroup = nil }
         }
     }
 
@@ -4041,11 +3859,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// A list of reserved DB instances.
-        public var reservedDBInstances: [ReservedDBInstance]? = nil
-
-        public init() {}
+        public let reservedDBInstances: [ReservedDBInstance]?
 
         public init(marker: String? = nil, reservedDBInstances: [ReservedDBInstance]? = nil) {
             self.marker = marker
@@ -4056,6 +3872,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let reservedDBInstances = dictionary["ReservedDBInstances"] as? [[String: Any]] {
                 self.reservedDBInstances = try reservedDBInstances.map({ try ReservedDBInstance(dictionary: $0) })
+            } else { 
+                self.reservedDBInstances = nil
             }
         }
     }
@@ -4064,17 +3882,15 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         ///  A value that indicates to return only parameters for a specific source. Parameter sources can be engine, service, or customer. 
-        public var source: String? = nil
+        public let source: String?
         ///  An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// The name of a specific DB cluster parameter group to return parameter details for. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBClusterParameterGroupName: String = ""
-
-        public init() {}
+        public let dBClusterParameterGroupName: String
 
         public init(maxRecords: Int32? = nil, filters: [Filter]? = nil, source: String? = nil, marker: String? = nil, dBClusterParameterGroupName: String) {
             self.maxRecords = maxRecords
@@ -4088,6 +3904,8 @@ extension Rds {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.source = dictionary["Source"] as? String
             self.marker = dictionary["Marker"] as? String
@@ -4100,9 +3918,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   You cannot delete a default DB parameter group   Cannot be associated with any DB instances  
-        public var dBParameterGroupName: String = ""
-
-        public init() {}
+        public let dBParameterGroupName: String
 
         public init(dBParameterGroupName: String) {
             self.dBParameterGroupName = dBParameterGroupName
@@ -4118,11 +3934,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the DB security group.
-        public var status: String? = nil
+        public let status: String?
         /// The name of the DB security group.
-        public var dBSecurityGroupName: String? = nil
-
-        public init() {}
+        public let dBSecurityGroupName: String?
 
         public init(status: String? = nil, dBSecurityGroupName: String? = nil) {
             self.status = status
@@ -4139,11 +3953,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// True if the version is the default version of the option; otherwise, false.
-        public var isDefault: Bool? = nil
+        public let isDefault: Bool?
         /// The version of the option.
-        public var version: String? = nil
-
-        public init() {}
+        public let version: String?
 
         public init(isDefault: Bool? = nil, version: String? = nil) {
             self.isDefault = isDefault
@@ -4160,15 +3972,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Provides the name of the DB parameter group family that this DB cluster parameter group is compatible with.
-        public var dBParameterGroupFamily: String? = nil
+        public let dBParameterGroupFamily: String?
         /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
-        public var dBClusterParameterGroupArn: String? = nil
+        public let dBClusterParameterGroupArn: String?
         /// Provides the name of the DB cluster parameter group.
-        public var dBClusterParameterGroupName: String? = nil
+        public let dBClusterParameterGroupName: String?
         /// Provides the customer-specified description for this DB cluster parameter group.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(dBParameterGroupFamily: String? = nil, dBClusterParameterGroupArn: String? = nil, dBClusterParameterGroupName: String? = nil, description: String? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
@@ -4188,13 +3998,11 @@ extension Rds {
     public struct CreateDBSecurityGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The description for the DB security group.
-        public var dBSecurityGroupDescription: String = ""
+        public let dBSecurityGroupDescription: String
         /// The name for the DB security group. This value is stored as a lowercase string. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Must not be "Default"   Example: mysecuritygroup 
-        public var dBSecurityGroupName: String = ""
-
-        public init() {}
+        public let dBSecurityGroupName: String
 
         public init(tags: [Tag]? = nil, dBSecurityGroupDescription: String, dBSecurityGroupName: String) {
             self.tags = tags
@@ -4205,6 +4013,8 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let dBSecurityGroupDescription = dictionary["DBSecurityGroupDescription"] as? String else { throw InitializableError.missingRequiredParam("DBSecurityGroupDescription") }
             self.dBSecurityGroupDescription = dBSecurityGroupDescription
@@ -4217,19 +4027,17 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the option group option.
-        public var settingName: String? = nil
+        public let settingName: String?
         /// Indicates the acceptable values for the option group option.
-        public var allowedValues: String? = nil
+        public let allowedValues: String?
         /// Boolean value where true indicates that this option group option can be changed from the default value.
-        public var isModifiable: Bool? = nil
+        public let isModifiable: Bool?
         /// The default value for the option group option.
-        public var defaultValue: String? = nil
+        public let defaultValue: String?
         /// The DB engine specific parameter type for the option group option.
-        public var applyType: String? = nil
+        public let applyType: String?
         /// The description of the option group option.
-        public var settingDescription: String? = nil
-
-        public init() {}
+        public let settingDescription: String?
 
         public init(settingName: String? = nil, allowedValues: String? = nil, isModifiable: Bool? = nil, defaultValue: String? = nil, applyType: String? = nil, settingDescription: String? = nil) {
             self.settingName = settingName
@@ -4253,16 +4061,14 @@ extension Rds {
     public struct CreateDBClusterResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBCluster: DBCluster? = nil
-
-        public init() {}
+        public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) }
+            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) } else { self.dBCluster = nil }
         }
     }
 
@@ -4270,13 +4076,11 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The DBSnapshotIdentifier of the new DBSnapshot created when SkipFinalSnapshot is set to false.   Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Cannot be specified when deleting a Read Replica.  
-        public var finalDBSnapshotIdentifier: String? = nil
+        public let finalDBSnapshotIdentifier: String?
         ///  Determines whether a final DB snapshot is created before the DB instance is deleted. If true is specified, no DBSnapshot is created. If false is specified, a DB snapshot is created before the DB instance is deleted.  Note that when a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when the SkipFinalSnapshot parameter is set to "true". Specify true when deleting a Read Replica.  The FinalDBSnapshotIdentifier parameter must be specified if SkipFinalSnapshot is false.  Default: false 
-        public var skipFinalSnapshot: Bool? = nil
+        public let skipFinalSnapshot: Bool?
         /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBInstanceIdentifier: String = ""
-
-        public init() {}
+        public let dBInstanceIdentifier: String
 
         public init(finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil, dBInstanceIdentifier: String) {
             self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
@@ -4296,9 +4100,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the time zone.
-        public var timezoneName: String? = nil
-
-        public init() {}
+        public let timezoneName: String?
 
         public init(timezoneName: String? = nil) {
             self.timezoneName = timezoneName
@@ -4313,11 +4115,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBInstanceIdentifier: String = ""
+        public let dBInstanceIdentifier: String
         ///  When true, the reboot will be conducted through a MultiAZ failover.  Constraint: You cannot specify true if the instance is not configured for MultiAZ.
-        public var forceFailover: Bool? = nil
-
-        public init() {}
+        public let forceFailover: Bool?
 
         public init(dBInstanceIdentifier: String, forceFailover: Bool? = nil) {
             self.dBInstanceIdentifier = dBInstanceIdentifier
@@ -4335,23 +4135,21 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         ///  An optional pagination token provided by a previous DescribeDBSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// Set this value to true to include manual DB snapshots that are public and can be copied or restored by any AWS account, otherwise set this value to false. The default is false. You can share a manual DB snapshot as public by using the ModifyDBSnapshotAttribute API.
-        public var includePublic: Bool? = nil
+        public let includePublic: Bool?
         /// The type of snapshots to be returned. You can specify one of the following values:    automated - Return all DB snapshots that have been automatically taken by Amazon RDS for my AWS account.    manual - Return all DB snapshots that have been taken by my AWS account.    shared - Return all manual DB snapshots that have been shared to my AWS account.    public - Return all DB snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual snapshots are returned. Shared and public DB snapshots are not included in the returned results by default. You can include shared snapshots with these results by setting the IncludeShared parameter to true. You can include public snapshots with these results by setting the IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
-        public var snapshotType: String? = nil
+        public let snapshotType: String?
         /// Set this value to true to include shared manual DB snapshots from other AWS accounts that this AWS account has been given permission to copy or restore, otherwise set this value to false. The default is false. You can give an AWS account permission to restore a manual DB snapshot from another AWS account by using the ModifyDBSnapshotAttribute API action.
-        public var includeShared: Bool? = nil
+        public let includeShared: Bool?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         ///  A specific DB snapshot identifier to describe. This parameter cannot be used in conjunction with DBInstanceIdentifier. This value is stored as a lowercase string.  Constraints:   Must be 1 to 255 alphanumeric characters.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.  
-        public var dBSnapshotIdentifier: String? = nil
+        public let dBSnapshotIdentifier: String?
         /// The ID of the DB instance to retrieve the list of DB snapshots for. This parameter cannot be used in conjunction with DBSnapshotIdentifier. This parameter is not case-sensitive.  Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBInstanceIdentifier: String? = nil
-
-        public init() {}
+        public let dBInstanceIdentifier: String?
 
         public init(maxRecords: Int32? = nil, marker: String? = nil, includePublic: Bool? = nil, snapshotType: String? = nil, includeShared: Bool? = nil, filters: [Filter]? = nil, dBSnapshotIdentifier: String? = nil, dBInstanceIdentifier: String? = nil) {
             self.maxRecords = maxRecords
@@ -4372,6 +4170,8 @@ extension Rds {
             self.includeShared = dictionary["IncludeShared"] as? Bool
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dBSnapshotIdentifier = dictionary["DBSnapshotIdentifier"] as? String
             self.dBInstanceIdentifier = dictionary["DBInstanceIdentifier"] as? String
@@ -4381,32 +4181,28 @@ extension Rds {
     public struct DeleteDBClusterSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBClusterSnapshot: DBClusterSnapshot? = nil
-
-        public init() {}
+        public let dBClusterSnapshot: DBClusterSnapshot?
 
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
             self.dBClusterSnapshot = dBClusterSnapshot
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBClusterSnapshot = dictionary["DBClusterSnapshot"] as? [String: Any] { self.dBClusterSnapshot = try Rds.DBClusterSnapshot(dictionary: dBClusterSnapshot) }
+            if let dBClusterSnapshot = dictionary["DBClusterSnapshot"] as? [String: Any] { self.dBClusterSnapshot = try Rds.DBClusterSnapshot(dictionary: dBClusterSnapshot) } else { self.dBClusterSnapshot = nil }
         }
     }
 
     public struct RestoreDBInstanceToPointInTimeResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBInstance: DBInstance? = nil
-
-        public init() {}
+        public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) }
+            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) } else { self.dBInstance = nil }
         }
     }
 
@@ -4414,11 +4210,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the manual DB cluster snapshot that the attributes apply to.
-        public var dBClusterSnapshotIdentifier: String? = nil
+        public let dBClusterSnapshotIdentifier: String?
         /// The list of attributes and values for the manual DB cluster snapshot.
-        public var dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]? = nil
-
-        public init() {}
+        public let dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]?
 
         public init(dBClusterSnapshotIdentifier: String? = nil, dBClusterSnapshotAttributes: [DBClusterSnapshotAttribute]? = nil) {
             self.dBClusterSnapshotIdentifier = dBClusterSnapshotIdentifier
@@ -4429,6 +4223,8 @@ extension Rds {
             self.dBClusterSnapshotIdentifier = dictionary["DBClusterSnapshotIdentifier"] as? String
             if let dBClusterSnapshotAttributes = dictionary["DBClusterSnapshotAttributes"] as? [[String: Any]] {
                 self.dBClusterSnapshotAttributes = try dBClusterSnapshotAttributes.map({ try DBClusterSnapshotAttribute(dictionary: $0) })
+            } else { 
+                self.dBClusterSnapshotAttributes = nil
             }
         }
     }
@@ -4437,13 +4233,11 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A POSIX timestamp when the last log entry was written.
-        public var lastWritten: Int64? = nil
+        public let lastWritten: Int64?
         /// The size, in bytes, of the log file for the specified DB instance.
-        public var size: Int64? = nil
+        public let size: Int64?
         /// The name of the log file for the specified DB instance.
-        public var logFileName: String? = nil
-
-        public init() {}
+        public let logFileName: String?
 
         public init(lastWritten: Int64? = nil, size: Int64? = nil, logFileName: String? = nil) {
             self.lastWritten = lastWritten
@@ -4462,11 +4256,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the status of the DB cluster option group.
-        public var status: String? = nil
+        public let status: String?
         /// Specifies the name of the DB cluster option group.
-        public var dBClusterOptionGroupName: String? = nil
-
-        public init() {}
+        public let dBClusterOptionGroupName: String?
 
         public init(status: String? = nil, dBClusterOptionGroupName: String? = nil) {
             self.status = status
@@ -4483,103 +4275,101 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Provides a list of VPC security group elements that the DB instance belongs to.
-        public var vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil
+        public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
         /// The meaning of this parameter differs according to the database engine you use. For example, this value returns MySQL, MariaDB, or PostgreSQL information when returning values from CreateDBInstanceReadReplica since Read Replicas are only supported for these engines.  MySQL, MariaDB, SQL Server, PostgreSQL, Amazon Aurora  Contains the name of the initial database of this instance that was provided at create time, if one was specified when the DB instance was created. This same name is returned for the life of the DB instance. Type: String  Oracle  Contains the Oracle System ID (SID) of the created DB instance. Not shown when the returned parameters do not apply to an Oracle DB instance.
-        public var dBName: String? = nil
+        public let dBName: String?
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log stream that receives the Enhanced Monitoring metrics data for the DB instance.
-        public var enhancedMonitoringResourceArn: String? = nil
+        public let enhancedMonitoringResourceArn: String?
         /// The Active Directory Domain membership records associated with the DB instance.
-        public var domainMemberships: [DomainMembership]? = nil
+        public let domainMemberships: [DomainMembership]?
         /// Specifies the current state of this database.
-        public var dBInstanceStatus: String? = nil
+        public let dBInstanceStatus: String?
         /// Provides the list of DB parameter groups applied to this DB instance.
-        public var dBParameterGroups: [DBParameterGroupStatus]? = nil
+        public let dBParameterGroups: [DBParameterGroupStatus]?
         /// Specifies the number of days for which automatic DB snapshots are retained.
-        public var backupRetentionPeriod: Int32? = nil
+        public let backupRetentionPeriod: Int32?
         ///  Provides List of DB security group elements containing only DBSecurityGroup.Name and DBSecurityGroup.Status subelements. 
-        public var dBSecurityGroups: [DBSecurityGroupMembership]? = nil
+        public let dBSecurityGroups: [DBSecurityGroupMembership]?
         /// Specifies the name of the Availability Zone the DB instance is located in.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// Provides the list of option group memberships for this DB instance.
-        public var optionGroupMemberships: [OptionGroupMembership]? = nil
+        public let optionGroupMemberships: [OptionGroupMembership]?
         /// Indicates that minor version patches are applied automatically.
-        public var autoMinorVersionUpgrade: Bool? = nil
+        public let autoMinorVersionUpgrade: Bool?
         /// The identifier of the CA certificate for this DB instance.
-        public var cACertificateIdentifier: String? = nil
+        public let cACertificateIdentifier: String?
         /// If the DB instance is a member of a DB cluster, contains the name of the DB cluster that the DB instance is a member of.
-        public var dBClusterIdentifier: String? = nil
+        public let dBClusterIdentifier: String?
         /// Indicates the database engine version.
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
-        public var latestRestorableTime: Date? = nil
+        public let latestRestorableTime: Date?
         /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster. 
-        public var promotionTier: Int32? = nil
+        public let promotionTier: Int32?
         /// Specifies the Provisioned IOPS (I/O operations per second) value.
-        public var iops: Int32? = nil
+        public let iops: Int32?
         /// Specifies whether tags are copied from the DB instance to snapshots of the DB instance.
-        public var copyTagsToSnapshot: Bool? = nil
+        public let copyTagsToSnapshot: Bool?
         /// If present, specifies the name of the character set that this instance is associated with.
-        public var characterSetName: String? = nil
+        public let characterSetName: String?
         /// Specifies the weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).
-        public var preferredMaintenanceWindow: String? = nil
+        public let preferredMaintenanceWindow: String?
         /// The Amazon Resource Name (ARN) for the DB instance.
-        public var dBInstanceArn: String? = nil
+        public let dBInstanceArn: String?
         /// The region-unique, immutable identifier for the DB instance. This identifier is found in AWS CloudTrail log entries whenever the KMS key for the DB instance is accessed.
-        public var dbiResourceId: String? = nil
+        public let dbiResourceId: String?
         /// Specifies the connection endpoint.
-        public var endpoint: Endpoint? = nil
+        public let endpoint: Endpoint?
         /// Contains the name of the compute and memory capacity class of the DB instance.
-        public var dBInstanceClass: String? = nil
+        public let dBInstanceClass: String?
         ///  If StorageEncrypted is true, the KMS key identifier for the encrypted DB instance. 
-        public var kmsKeyId: String? = nil
+        public let kmsKeyId: String?
         /// Specifies that changes to the DB instance are pending. This element is only included when changes are pending. Specific changes are identified by subelements.
-        public var pendingModifiedValues: PendingModifiedValues? = nil
+        public let pendingModifiedValues: PendingModifiedValues?
         /// Provides the date and time the DB instance was created.
-        public var instanceCreateTime: Date? = nil
+        public let instanceCreateTime: Date?
         /// Specifies if the DB instance is a Multi-AZ deployment.
-        public var multiAZ: Bool? = nil
+        public let multiAZ: Bool?
         /// Contains the identifier of the source DB instance if this DB instance is a Read Replica.
-        public var readReplicaSourceDBInstanceIdentifier: String? = nil
+        public let readReplicaSourceDBInstanceIdentifier: String?
         /// The time zone of the DB instance. In most cases, the Timezone element is empty. Timezone content appears only for Microsoft SQL Server DB instances that were created with a time zone specified. 
-        public var timezone: String? = nil
+        public let timezone: String?
         /// Specifies the allocated storage size specified in gigabytes.
-        public var allocatedStorage: Int32? = nil
+        public let allocatedStorage: Int32?
         /// Specifies the storage type associated with DB instance.
-        public var storageType: String? = nil
+        public let storageType: String?
         /// License model information for this DB instance.
-        public var licenseModel: String? = nil
+        public let licenseModel: String?
         /// Specifies the port that the DB instance listens on. If the DB instance is part of a DB cluster, this can be a different port than the DB cluster port.
-        public var dbInstancePort: Int32? = nil
+        public let dbInstancePort: Int32?
         /// The ARN from the key store with which the instance is associated for TDE encryption.
-        public var tdeCredentialArn: String? = nil
+        public let tdeCredentialArn: String?
         /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC:true    VPC:false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be private.
-        public var publiclyAccessible: Bool? = nil
+        public let publiclyAccessible: Bool?
         ///  Specifies the daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod. 
-        public var preferredBackupWindow: String? = nil
+        public let preferredBackupWindow: String?
         /// The ARN for the IAM role that permits RDS to send Enhanced Monitoring metrics to CloudWatch Logs.
-        public var monitoringRoleArn: String? = nil
+        public let monitoringRoleArn: String?
         /// The status of a Read Replica. If the instance is not a Read Replica, this will be blank.
-        public var statusInfos: [DBInstanceStatusInfo]? = nil
+        public let statusInfos: [DBInstanceStatusInfo]?
         /// Contains the master username for the DB instance.
-        public var masterUsername: String? = nil
+        public let masterUsername: String?
         /// If present, specifies the name of the secondary Availability Zone for a DB instance with multi-AZ support.
-        public var secondaryAvailabilityZone: String? = nil
+        public let secondaryAvailabilityZone: String?
         /// Contains one or more identifiers of Aurora DB clusters that are Read Replicas of this DB instance.
-        public var readReplicaDBClusterIdentifiers: [String]? = nil
+        public let readReplicaDBClusterIdentifiers: [String]?
         /// Contains one or more identifiers of the Read Replicas associated with this DB instance.
-        public var readReplicaDBInstanceIdentifiers: [String]? = nil
+        public let readReplicaDBInstanceIdentifiers: [String]?
         /// Specifies information on the subnet group associated with the DB instance, including the name, description, and subnets in the subnet group.
-        public var dBSubnetGroup: DBSubnetGroup? = nil
+        public let dBSubnetGroup: DBSubnetGroup?
         /// Specifies whether the DB instance is encrypted.
-        public var storageEncrypted: Bool? = nil
+        public let storageEncrypted: Bool?
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance.
-        public var monitoringInterval: Int32? = nil
+        public let monitoringInterval: Int32?
         /// Provides the name of the database engine to be used for this DB instance.
-        public var engine: String? = nil
+        public let engine: String?
         /// Contains a user-supplied database identifier. This identifier is the unique key that identifies a DB instance.
-        public var dBInstanceIdentifier: String? = nil
-
-        public init() {}
+        public let dBInstanceIdentifier: String?
 
         public init(vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil, dBName: String? = nil, enhancedMonitoringResourceArn: String? = nil, domainMemberships: [DomainMembership]? = nil, dBInstanceStatus: String? = nil, dBParameterGroups: [DBParameterGroupStatus]? = nil, backupRetentionPeriod: Int32? = nil, dBSecurityGroups: [DBSecurityGroupMembership]? = nil, availabilityZone: String? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, autoMinorVersionUpgrade: Bool? = nil, cACertificateIdentifier: String? = nil, dBClusterIdentifier: String? = nil, engineVersion: String? = nil, latestRestorableTime: Date? = nil, promotionTier: Int32? = nil, iops: Int32? = nil, copyTagsToSnapshot: Bool? = nil, characterSetName: String? = nil, preferredMaintenanceWindow: String? = nil, dBInstanceArn: String? = nil, dbiResourceId: String? = nil, endpoint: Endpoint? = nil, dBInstanceClass: String? = nil, kmsKeyId: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, instanceCreateTime: Date? = nil, multiAZ: Bool? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, timezone: String? = nil, allocatedStorage: Int32? = nil, storageType: String? = nil, licenseModel: String? = nil, dbInstancePort: Int32? = nil, tdeCredentialArn: String? = nil, publiclyAccessible: Bool? = nil, preferredBackupWindow: String? = nil, monitoringRoleArn: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, masterUsername: String? = nil, secondaryAvailabilityZone: String? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, dBSubnetGroup: DBSubnetGroup? = nil, storageEncrypted: Bool? = nil, monitoringInterval: Int32? = nil, engine: String? = nil, dBInstanceIdentifier: String? = nil) {
             self.vpcSecurityGroups = vpcSecurityGroups
@@ -4635,23 +4425,33 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             if let vpcSecurityGroups = dictionary["VpcSecurityGroups"] as? [[String: Any]] {
                 self.vpcSecurityGroups = try vpcSecurityGroups.map({ try VpcSecurityGroupMembership(dictionary: $0) })
+            } else { 
+                self.vpcSecurityGroups = nil
             }
             self.dBName = dictionary["DBName"] as? String
             self.enhancedMonitoringResourceArn = dictionary["EnhancedMonitoringResourceArn"] as? String
             if let domainMemberships = dictionary["DomainMemberships"] as? [[String: Any]] {
                 self.domainMemberships = try domainMemberships.map({ try DomainMembership(dictionary: $0) })
+            } else { 
+                self.domainMemberships = nil
             }
             self.dBInstanceStatus = dictionary["DBInstanceStatus"] as? String
             if let dBParameterGroups = dictionary["DBParameterGroups"] as? [[String: Any]] {
                 self.dBParameterGroups = try dBParameterGroups.map({ try DBParameterGroupStatus(dictionary: $0) })
+            } else { 
+                self.dBParameterGroups = nil
             }
             self.backupRetentionPeriod = dictionary["BackupRetentionPeriod"] as? Int32
             if let dBSecurityGroups = dictionary["DBSecurityGroups"] as? [[String: Any]] {
                 self.dBSecurityGroups = try dBSecurityGroups.map({ try DBSecurityGroupMembership(dictionary: $0) })
+            } else { 
+                self.dBSecurityGroups = nil
             }
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
             if let optionGroupMemberships = dictionary["OptionGroupMemberships"] as? [[String: Any]] {
                 self.optionGroupMemberships = try optionGroupMemberships.map({ try OptionGroupMembership(dictionary: $0) })
+            } else { 
+                self.optionGroupMemberships = nil
             }
             self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
             self.cACertificateIdentifier = dictionary["CACertificateIdentifier"] as? String
@@ -4665,10 +4465,10 @@ extension Rds {
             self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
             self.dBInstanceArn = dictionary["DBInstanceArn"] as? String
             self.dbiResourceId = dictionary["DbiResourceId"] as? String
-            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Rds.Endpoint(dictionary: endpoint) }
+            if let endpoint = dictionary["Endpoint"] as? [String: Any] { self.endpoint = try Rds.Endpoint(dictionary: endpoint) } else { self.endpoint = nil }
             self.dBInstanceClass = dictionary["DBInstanceClass"] as? String
             self.kmsKeyId = dictionary["KmsKeyId"] as? String
-            if let pendingModifiedValues = dictionary["PendingModifiedValues"] as? [String: Any] { self.pendingModifiedValues = try Rds.PendingModifiedValues(dictionary: pendingModifiedValues) }
+            if let pendingModifiedValues = dictionary["PendingModifiedValues"] as? [String: Any] { self.pendingModifiedValues = try Rds.PendingModifiedValues(dictionary: pendingModifiedValues) } else { self.pendingModifiedValues = nil }
             self.instanceCreateTime = dictionary["InstanceCreateTime"] as? Date
             self.multiAZ = dictionary["MultiAZ"] as? Bool
             self.readReplicaSourceDBInstanceIdentifier = dictionary["ReadReplicaSourceDBInstanceIdentifier"] as? String
@@ -4683,16 +4483,14 @@ extension Rds {
             self.monitoringRoleArn = dictionary["MonitoringRoleArn"] as? String
             if let statusInfos = dictionary["StatusInfos"] as? [[String: Any]] {
                 self.statusInfos = try statusInfos.map({ try DBInstanceStatusInfo(dictionary: $0) })
+            } else { 
+                self.statusInfos = nil
             }
             self.masterUsername = dictionary["MasterUsername"] as? String
             self.secondaryAvailabilityZone = dictionary["SecondaryAvailabilityZone"] as? String
-            if let readReplicaDBClusterIdentifiers = dictionary["ReadReplicaDBClusterIdentifiers"] as? [String] {
-                self.readReplicaDBClusterIdentifiers = readReplicaDBClusterIdentifiers
-            }
-            if let readReplicaDBInstanceIdentifiers = dictionary["ReadReplicaDBInstanceIdentifiers"] as? [String] {
-                self.readReplicaDBInstanceIdentifiers = readReplicaDBInstanceIdentifiers
-            }
-            if let dBSubnetGroup = dictionary["DBSubnetGroup"] as? [String: Any] { self.dBSubnetGroup = try Rds.DBSubnetGroup(dictionary: dBSubnetGroup) }
+            self.readReplicaDBClusterIdentifiers = dictionary["ReadReplicaDBClusterIdentifiers"] as? [String]
+            self.readReplicaDBInstanceIdentifiers = dictionary["ReadReplicaDBInstanceIdentifiers"] as? [String]
+            if let dBSubnetGroup = dictionary["DBSubnetGroup"] as? [String: Any] { self.dBSubnetGroup = try Rds.DBSubnetGroup(dictionary: dBSubnetGroup) } else { self.dBSubnetGroup = nil }
             self.storageEncrypted = dictionary["StorageEncrypted"] as? Bool
             self.monitoringInterval = dictionary["MonitoringInterval"] as? Int32
             self.engine = dictionary["Engine"] as? String
@@ -4703,32 +4501,28 @@ extension Rds {
     public struct ModifyDBSnapshotAttributeResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBSnapshotAttributesResult: DBSnapshotAttributesResult? = nil
-
-        public init() {}
+        public let dBSnapshotAttributesResult: DBSnapshotAttributesResult?
 
         public init(dBSnapshotAttributesResult: DBSnapshotAttributesResult? = nil) {
             self.dBSnapshotAttributesResult = dBSnapshotAttributesResult
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBSnapshotAttributesResult = dictionary["DBSnapshotAttributesResult"] as? [String: Any] { self.dBSnapshotAttributesResult = try Rds.DBSnapshotAttributesResult(dictionary: dBSnapshotAttributesResult) }
+            if let dBSnapshotAttributesResult = dictionary["DBSnapshotAttributesResult"] as? [String: Any] { self.dBSnapshotAttributesResult = try Rds.DBSnapshotAttributesResult(dictionary: dBSnapshotAttributesResult) } else { self.dBSnapshotAttributesResult = nil }
         }
     }
 
     public struct RevokeDBSecurityGroupIngressResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBSecurityGroup: DBSecurityGroup? = nil
-
-        public init() {}
+        public let dBSecurityGroup: DBSecurityGroup?
 
         public init(dBSecurityGroup: DBSecurityGroup? = nil) {
             self.dBSecurityGroup = dBSecurityGroup
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBSecurityGroup = dictionary["DBSecurityGroup"] as? [String: Any] { self.dBSecurityGroup = try Rds.DBSecurityGroup(dictionary: dBSecurityGroup) }
+            if let dBSecurityGroup = dictionary["DBSecurityGroup"] as? [String: Any] { self.dBSecurityGroup = try Rds.DBSecurityGroup(dictionary: dBSecurityGroup) } else { self.dBSecurityGroup = nil }
         }
     }
 
@@ -4736,17 +4530,15 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the upgrade target database engine.
-        public var engine: String? = nil
+        public let engine: String?
         /// The version of the database engine that a DB instance can be upgraded to.
-        public var description: String? = nil
+        public let description: String?
         /// The version number of the upgrade target database engine.
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         /// A value that indicates whether the target version will be applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
-        public var autoUpgrade: Bool? = nil
+        public let autoUpgrade: Bool?
         /// A value that indicates whether a database engine will be upgraded to a major version.
-        public var isMajorVersionUpgrade: Bool? = nil
-
-        public init() {}
+        public let isMajorVersionUpgrade: Bool?
 
         public init(engine: String? = nil, description: String? = nil, engineVersion: String? = nil, autoUpgrade: Bool? = nil, isMajorVersionUpgrade: Bool? = nil) {
             self.engine = engine
@@ -4769,11 +4561,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         ///  A list of DBSecurityGroup instances. 
-        public var dBSecurityGroups: [DBSecurityGroup]? = nil
-
-        public init() {}
+        public let dBSecurityGroups: [DBSecurityGroup]?
 
         public init(marker: String? = nil, dBSecurityGroups: [DBSecurityGroup]? = nil) {
             self.marker = marker
@@ -4784,6 +4574,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let dBSecurityGroups = dictionary["DBSecurityGroups"] as? [[String: Any]] {
                 self.dBSecurityGroups = try dBSecurityGroups.map({ try DBSecurityGroup(dictionary: $0) })
+            } else { 
+                self.dBSecurityGroups = nil
             }
         }
     }
@@ -4791,24 +4583,20 @@ extension Rds {
     public struct ApplyPendingMaintenanceActionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions? = nil
-
-        public init() {}
+        public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
 
         public init(resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions? = nil) {
             self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let resourcePendingMaintenanceActions = dictionary["ResourcePendingMaintenanceActions"] as? [String: Any] { self.resourcePendingMaintenanceActions = try Rds.ResourcePendingMaintenanceActions(dictionary: resourcePendingMaintenanceActions) }
+            if let resourcePendingMaintenanceActions = dictionary["ResourcePendingMaintenanceActions"] as? [String: Any] { self.resourcePendingMaintenanceActions = try Rds.ResourcePendingMaintenanceActions(dictionary: resourcePendingMaintenanceActions) } else { self.resourcePendingMaintenanceActions = nil }
         }
     }
 
     public struct DescribeAccountAttributesMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -4818,17 +4606,15 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// A required parameter. Options available for the given engine name will be described.
-        public var engineName: String = ""
+        public let engineName: String
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        public var marker: String? = nil
+        public let marker: String?
         /// If specified, filters the results to include only options for the specified major engine version.
-        public var majorEngineVersion: String? = nil
-
-        public init() {}
+        public let majorEngineVersion: String?
 
         public init(maxRecords: Int32? = nil, filters: [Filter]? = nil, engineName: String, marker: String? = nil, majorEngineVersion: String? = nil) {
             self.maxRecords = maxRecords
@@ -4842,6 +4628,8 @@ extension Rds {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             guard let engineName = dictionary["EngineName"] as? String else { throw InitializableError.missingRequiredParam("EngineName") }
             self.engineName = engineName
@@ -4853,13 +4641,11 @@ extension Rds {
     public struct CreateDBSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The identifier for the DB snapshot. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
-        public var dBSnapshotIdentifier: String = ""
+        public let dBSnapshotIdentifier: String
         /// The DB instance identifier. This is the unique key that identifies a DB instance. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBInstanceIdentifier: String = ""
-
-        public init() {}
+        public let dBInstanceIdentifier: String
 
         public init(tags: [Tag]? = nil, dBSnapshotIdentifier: String, dBInstanceIdentifier: String) {
             self.tags = tags
@@ -4870,6 +4656,8 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let dBSnapshotIdentifier = dictionary["DBSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBSnapshotIdentifier") }
             self.dBSnapshotIdentifier = dBSnapshotIdentifier
@@ -4882,16 +4670,14 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the name of the option group to be created. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: myoptiongroup 
-        public var optionGroupName: String = ""
+        public let optionGroupName: String
         /// Specifies the name of the engine that this option group should be associated with.
-        public var engineName: String = ""
-        public var tags: [Tag]? = nil
+        public let engineName: String
+        public let tags: [Tag]?
         /// The description of the option group.
-        public var optionGroupDescription: String = ""
+        public let optionGroupDescription: String
         /// Specifies the major version of the engine that this option group should be associated with.
-        public var majorEngineVersion: String = ""
-
-        public init() {}
+        public let majorEngineVersion: String
 
         public init(optionGroupName: String, engineName: String, tags: [Tag]? = nil, optionGroupDescription: String, majorEngineVersion: String) {
             self.optionGroupName = optionGroupName
@@ -4908,6 +4694,8 @@ extension Rds {
             self.engineName = engineName
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let optionGroupDescription = dictionary["OptionGroupDescription"] as? String else { throw InitializableError.missingRequiredParam("OptionGroupDescription") }
             self.optionGroupDescription = optionGroupDescription
@@ -4920,15 +4708,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// The name of a specific DB cluster parameter group to return details for. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBClusterParameterGroupName: String? = nil
+        public let dBClusterParameterGroupName: String?
         ///  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
-
-        public init() {}
+        public let marker: String?
 
         public init(maxRecords: Int32? = nil, filters: [Filter]? = nil, dBClusterParameterGroupName: String? = nil, marker: String? = nil) {
             self.maxRecords = maxRecords
@@ -4941,6 +4727,8 @@ extension Rds {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dBClusterParameterGroupName = dictionary["DBClusterParameterGroupName"] as? String
             self.marker = dictionary["Marker"] as? String
@@ -4951,15 +4739,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeSourceRegions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
-        public var marker: String? = nil
+        public let marker: String?
         /// The source region name. For example, us-east-1. Constraints:   Must specify a valid AWS Region name.  
-        public var regionName: String? = nil
-
-        public init() {}
+        public let regionName: String?
 
         public init(maxRecords: Int32? = nil, filters: [Filter]? = nil, marker: String? = nil, regionName: String? = nil) {
             self.maxRecords = maxRecords
@@ -4972,6 +4758,8 @@ extension Rds {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.marker = dictionary["Marker"] as? String
             self.regionName = dictionary["RegionName"] as? String
@@ -4982,19 +4770,17 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) for the certificate.
-        public var certificateArn: String? = nil
+        public let certificateArn: String?
         /// The thumbprint of the certificate.
-        public var thumbprint: String? = nil
+        public let thumbprint: String?
         /// The starting date from which the certificate is valid.
-        public var validFrom: Date? = nil
+        public let validFrom: Date?
         /// The final date that the certificate continues to be valid.
-        public var validTill: Date? = nil
+        public let validTill: Date?
         /// The unique key that identifies a certificate.
-        public var certificateIdentifier: String? = nil
+        public let certificateIdentifier: String?
         /// The type of the certificate.
-        public var certificateType: String? = nil
-
-        public init() {}
+        public let certificateType: String?
 
         public init(certificateArn: String? = nil, thumbprint: String? = nil, validFrom: Date? = nil, validTill: Date? = nil, certificateIdentifier: String? = nil, certificateType: String? = nil) {
             self.certificateArn = certificateArn
@@ -5019,27 +4805,25 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The database engine used by the offering.
-        public var productDescription: String? = nil
+        public let productDescription: String?
         /// The recurring price charged to run this reserved DB instance.
-        public var recurringCharges: [RecurringCharge]? = nil
+        public let recurringCharges: [RecurringCharge]?
         /// Indicates if the offering applies to Multi-AZ deployments.
-        public var multiAZ: Bool? = nil
+        public let multiAZ: Bool?
         /// The hourly price charged for this offering.
-        public var usagePrice: Double? = nil
+        public let usagePrice: Double?
         /// The currency code for the reserved DB instance offering.
-        public var currencyCode: String? = nil
+        public let currencyCode: String?
         /// The offering identifier.
-        public var reservedDBInstancesOfferingId: String? = nil
+        public let reservedDBInstancesOfferingId: String?
         /// The duration of the offering in seconds.
-        public var duration: Int32? = nil
+        public let duration: Int32?
         /// The offering type.
-        public var offeringType: String? = nil
+        public let offeringType: String?
         /// The fixed price charged for this offering.
-        public var fixedPrice: Double? = nil
+        public let fixedPrice: Double?
         /// The DB instance class for the reserved DB instance.
-        public var dBInstanceClass: String? = nil
-
-        public init() {}
+        public let dBInstanceClass: String?
 
         public init(productDescription: String? = nil, recurringCharges: [RecurringCharge]? = nil, multiAZ: Bool? = nil, usagePrice: Double? = nil, currencyCode: String? = nil, reservedDBInstancesOfferingId: String? = nil, duration: Int32? = nil, offeringType: String? = nil, fixedPrice: Double? = nil, dBInstanceClass: String? = nil) {
             self.productDescription = productDescription
@@ -5058,6 +4842,8 @@ extension Rds {
             self.productDescription = dictionary["ProductDescription"] as? String
             if let recurringCharges = dictionary["RecurringCharges"] as? [[String: Any]] {
                 self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
+            } else { 
+                self.recurringCharges = nil
             }
             self.multiAZ = dictionary["MultiAZ"] as? Bool
             self.usagePrice = dictionary["UsagePrice"] as? Double
@@ -5074,9 +4860,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the availability zone.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(name: String? = nil) {
             self.name = name
@@ -5091,11 +4875,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description of the character set.
-        public var characterSetDescription: String? = nil
+        public let characterSetDescription: String?
         /// The name of the character set.
-        public var characterSetName: String? = nil
-
-        public init() {}
+        public let characterSetName: String?
 
         public init(characterSetDescription: String? = nil, characterSetName: String? = nil) {
             self.characterSetDescription = characterSetDescription
@@ -5112,17 +4894,15 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
-        public var snsTopicArn: String? = nil
+        public let snsTopicArn: String?
         /// The name of the RDS event notification subscription.
-        public var subscriptionName: String = ""
+        public let subscriptionName: String
         /// The type of source that will be generating the events. For example, if you want to be notified of events generated by a DB instance, you would set this parameter to db-instance. if this value is not specified, all events are returned. Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
-        public var sourceType: String? = nil
+        public let sourceType: String?
         ///  A list of event categories for a SourceType that you want to subscribe to. You can see a list of the categories for a given SourceType in the Events topic in the Amazon RDS User Guide or by using the DescribeEventCategories action. 
-        public var eventCategories: [String]? = nil
+        public let eventCategories: [String]?
         ///  A Boolean value; set to true to activate the subscription. 
-        public var enabled: Bool? = nil
-
-        public init() {}
+        public let enabled: Bool?
 
         public init(snsTopicArn: String? = nil, subscriptionName: String, sourceType: String? = nil, eventCategories: [String]? = nil, enabled: Bool? = nil) {
             self.snsTopicArn = snsTopicArn
@@ -5137,9 +4917,7 @@ extension Rds {
             guard let subscriptionName = dictionary["SubscriptionName"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionName") }
             self.subscriptionName = subscriptionName
             self.sourceType = dictionary["SourceType"] as? String
-            if let eventCategories = dictionary["EventCategories"] as? [String] {
-                self.eventCategories = eventCategories
-            }
+            self.eventCategories = dictionary["EventCategories"] as? [String]
             self.enabled = dictionary["Enabled"] as? Bool
         }
     }
@@ -5148,52 +4926,50 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specify the Active Directory Domain to restore the instance in.
-        public var domain: String? = nil
+        public let domain: String?
         /// The port number on which the database accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB instance.
-        public var port: Int32? = nil
+        public let port: Int32?
         /// The database name for the restored DB instance.  This parameter is not used for the MySQL or MariaDB engines. 
-        public var dBName: String? = nil
+        public let dBName: String?
         /// Specifies if the DB instance is a Multi-AZ deployment. Constraint: You cannot specify the AvailabilityZone parameter if the MultiAZ parameter is set to true.
-        public var multiAZ: Bool? = nil
+        public let multiAZ: Bool?
         /// The password for the given ARN from the Key Store in order to access the device.
-        public var tdeCredentialPassword: String? = nil
-        public var tags: [Tag]? = nil
+        public let tdeCredentialPassword: String?
+        public let tags: [Tag]?
         /// License model information for the restored DB instance. Default: Same as source.  Valid values: license-included | bring-your-own-license | general-public-license 
-        public var licenseModel: String? = nil
+        public let licenseModel: String?
         /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified; otherwise standard 
-        public var storageType: String? = nil
+        public let storageType: String?
         /// The ARN from the Key Store with which to associate the instance for TDE encryption.
-        public var tdeCredentialArn: String? = nil
+        public let tdeCredentialArn: String?
         /// The date and time to restore from. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Cannot be specified if UseLatestRestorableTime parameter is true   Example: 2009-09-07T23:45:00Z 
-        public var restoreTime: Date? = nil
+        public let restoreTime: Date?
         /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. Constraints: Must be an integer greater than 1000.  SQL Server  Setting the IOPS value for the SQL Server database engine is not supported.
-        public var iops: Int32? = nil
+        public let iops: Int32?
         /// The EC2 Availability Zone that the database instance will be created in. Default: A random, system-chosen Availability Zone. Constraint: You cannot specify the AvailabilityZone parameter if the MultiAZ parameter is set to true. Example: us-east-1a 
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// Specifies the accessibility options for the DB instance. A value of true specifies an Internet-facing instance with a publicly resolvable DNS name, which resolves to a public IP address. A value of false specifies an internal instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether a VPC has been requested or not. The following list shows the default behavior in each case.    Default VPC:true    VPC:false   If no DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be publicly accessible. If a specific DB subnet group has been specified as part of the request and the PubliclyAccessible value has not been set, the DB instance will be private.
-        public var publiclyAccessible: Bool? = nil
+        public let publiclyAccessible: Bool?
         /// Indicates that minor version upgrades will be applied automatically to the DB instance during the maintenance window.
-        public var autoMinorVersionUpgrade: Bool? = nil
+        public let autoMinorVersionUpgrade: Bool?
         /// The name of the new database instance to be created. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var targetDBInstanceIdentifier: String = ""
+        public let targetDBInstanceIdentifier: String
         /// The name of the option group to be used for the restored DB instance. Permanent options, such as the TDE option for Oracle Advanced Security TDE, cannot be removed from an option group, and that option group cannot be removed from a DB instance once it is associated with a DB instance
-        public var optionGroupName: String? = nil
+        public let optionGroupName: String?
         /// The DB subnet group name to use for the new instance. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        public var dBSubnetGroupName: String? = nil
+        public let dBSubnetGroupName: String?
         /// True to copy all tags from the restored DB instance to snapshots of the DB instance; otherwise false. The default is false.
-        public var copyTagsToSnapshot: Bool? = nil
+        public let copyTagsToSnapshot: Bool?
         /// The database engine to use for the new instance. Default: The same as source Constraint: Must be compatible with the engine of the source  Valid Values: MySQL | mariadb | oracle-se1 | oracle-se | oracle-ee | sqlserver-ee | sqlserver-se | sqlserver-ex | sqlserver-web | postgres | aurora 
-        public var engine: String? = nil
+        public let engine: String?
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
-        public var domainIAMRoleName: String? = nil
+        public let domainIAMRoleName: String?
         ///  Specifies whether (true) or not (false) the DB instance is restored from the latest backup time.  Default: false  Constraints: Cannot be specified if RestoreTime parameter is provided.
-        public var useLatestRestorableTime: Bool? = nil
+        public let useLatestRestorableTime: Bool?
         /// The identifier of the source DB instance from which to restore. Constraints:   Must be the identifier of an existing database instance   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var sourceDBInstanceIdentifier: String = ""
+        public let sourceDBInstanceIdentifier: String
         /// The compute and memory capacity of the Amazon RDS DB instance. Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large  Default: The same DBInstanceClass as the original DB instance.
-        public var dBInstanceClass: String? = nil
-
-        public init() {}
+        public let dBInstanceClass: String?
 
         public init(domain: String? = nil, port: Int32? = nil, dBName: String? = nil, multiAZ: Bool? = nil, tdeCredentialPassword: String? = nil, tags: [Tag]? = nil, licenseModel: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, restoreTime: Date? = nil, iops: Int32? = nil, availabilityZone: String? = nil, publiclyAccessible: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, targetDBInstanceIdentifier: String, optionGroupName: String? = nil, dBSubnetGroupName: String? = nil, copyTagsToSnapshot: Bool? = nil, engine: String? = nil, domainIAMRoleName: String? = nil, useLatestRestorableTime: Bool? = nil, sourceDBInstanceIdentifier: String, dBInstanceClass: String? = nil) {
             self.domain = domain
@@ -5229,6 +5005,8 @@ extension Rds {
             self.tdeCredentialPassword = dictionary["TdeCredentialPassword"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.licenseModel = dictionary["LicenseModel"] as? String
             self.storageType = dictionary["StorageType"] as? String
@@ -5255,16 +5033,14 @@ extension Rds {
     public struct CreateDBInstanceResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBInstance: DBInstance? = nil
-
-        public init() {}
+        public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
             self.dBInstance = dBInstance
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) }
+            if let dBInstance = dictionary["DBInstance"] as? [String: Any] { self.dBInstance = try Rds.DBInstance(dictionary: dBInstance) } else { self.dBInstance = nil }
         }
     }
 
@@ -5272,37 +5048,35 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The recurring price charged to run this reserved DB instance.
-        public var recurringCharges: [RecurringCharge]? = nil
+        public let recurringCharges: [RecurringCharge]?
         /// Indicates if the reservation applies to Multi-AZ deployments.
-        public var multiAZ: Bool? = nil
+        public let multiAZ: Bool?
         /// The hourly price charged for this reserved DB instance.
-        public var usagePrice: Double? = nil
+        public let usagePrice: Double?
         /// The state of the reserved DB instance.
-        public var state: String? = nil
+        public let state: String?
         /// The Amazon Resource Name (ARN) for the reserved DB instance.
-        public var reservedDBInstanceArn: String? = nil
+        public let reservedDBInstanceArn: String?
         /// The offering type of this reserved DB instance.
-        public var offeringType: String? = nil
+        public let offeringType: String?
         /// The description of the reserved DB instance.
-        public var productDescription: String? = nil
+        public let productDescription: String?
         /// The time the reservation started.
-        public var startTime: Date? = nil
+        public let startTime: Date?
         /// The unique identifier for the reservation.
-        public var reservedDBInstanceId: String? = nil
+        public let reservedDBInstanceId: String?
         /// The number of reserved DB instances.
-        public var dBInstanceCount: Int32? = nil
+        public let dBInstanceCount: Int32?
         /// The currency code for the reserved DB instance.
-        public var currencyCode: String? = nil
+        public let currencyCode: String?
         /// The offering identifier.
-        public var reservedDBInstancesOfferingId: String? = nil
+        public let reservedDBInstancesOfferingId: String?
         /// The duration of the reservation in seconds.
-        public var duration: Int32? = nil
+        public let duration: Int32?
         /// The DB instance class for the reserved DB instance.
-        public var dBInstanceClass: String? = nil
+        public let dBInstanceClass: String?
         /// The fixed price charged for this reserved DB instance.
-        public var fixedPrice: Double? = nil
-
-        public init() {}
+        public let fixedPrice: Double?
 
         public init(recurringCharges: [RecurringCharge]? = nil, multiAZ: Bool? = nil, usagePrice: Double? = nil, state: String? = nil, reservedDBInstanceArn: String? = nil, offeringType: String? = nil, productDescription: String? = nil, startTime: Date? = nil, reservedDBInstanceId: String? = nil, dBInstanceCount: Int32? = nil, currencyCode: String? = nil, reservedDBInstancesOfferingId: String? = nil, duration: Int32? = nil, dBInstanceClass: String? = nil, fixedPrice: Double? = nil) {
             self.recurringCharges = recurringCharges
@@ -5325,6 +5099,8 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             if let recurringCharges = dictionary["RecurringCharges"] as? [[String: Any]] {
                 self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
+            } else { 
+                self.recurringCharges = nil
             }
             self.multiAZ = dictionary["MultiAZ"] as? Bool
             self.usagePrice = dictionary["UsagePrice"] as? Double
@@ -5347,11 +5123,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; subsequent arguments are optional. A maximum of 20 parameters can be modified in a single request. Valid Values (for the application method): immediate | pending-reboot   You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when you reboot the DB instance without failover. 
-        public var parameters: [Parameter] = []
+        public let parameters: [Parameter]
         /// The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBParameterGroupName: String = ""
-
-        public init() {}
+        public let dBParameterGroupName: String
 
         public init(parameters: [Parameter], dBParameterGroupName: String) {
             self.parameters = parameters
@@ -5370,15 +5144,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeCertificates request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// The user-supplied certificate identifier. If this parameter is specified, information for only the identified certificate is returned. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var certificateIdentifier: String? = nil
-
-        public init() {}
+        public let certificateIdentifier: String?
 
         public init(maxRecords: Int32? = nil, filters: [Filter]? = nil, marker: String? = nil, certificateIdentifier: String? = nil) {
             self.maxRecords = maxRecords
@@ -5391,6 +5163,8 @@ extension Rds {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.marker = dictionary["Marker"] as? String
             self.certificateIdentifier = dictionary["CertificateIdentifier"] as? String
@@ -5401,9 +5175,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You cannot delete a default DB cluster parameter group.   Cannot be associated with any DB clusters.  
-        public var dBClusterParameterGroupName: String = ""
-
-        public init() {}
+        public let dBClusterParameterGroupName: String
 
         public init(dBClusterParameterGroupName: String) {
             self.dBClusterParameterGroupName = dBClusterParameterGroupName
@@ -5419,11 +5191,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the Aurora DB cluster, for example arn:aws:iam::123456789012:role/AuroraAccessRole.
-        public var roleArn: String = ""
+        public let roleArn: String
         /// The name of the DB cluster to disassociate the IAM role rom.
-        public var dBClusterIdentifier: String = ""
-
-        public init() {}
+        public let dBClusterIdentifier: String
 
         public init(roleArn: String, dBClusterIdentifier: String) {
             self.roleArn = roleArn
@@ -5442,15 +5212,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// The name of the DB subnet group to return details for.
-        public var dBSubnetGroupName: String? = nil
+        public let dBSubnetGroupName: String?
         ///  An optional pagination token provided by a previous DescribeDBSubnetGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
-
-        public init() {}
+        public let marker: String?
 
         public init(maxRecords: Int32? = nil, filters: [Filter]? = nil, dBSubnetGroupName: String? = nil, marker: String? = nil) {
             self.maxRecords = maxRecords
@@ -5463,6 +5231,8 @@ extension Rds {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String
             self.marker = dictionary["Marker"] as? String
@@ -5472,16 +5242,14 @@ extension Rds {
     public struct DescribeDBClusterSnapshotAttributesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil
-
-        public init() {}
+        public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
         public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
             self.dBClusterSnapshotAttributesResult = dBClusterSnapshotAttributesResult
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBClusterSnapshotAttributesResult = dictionary["DBClusterSnapshotAttributesResult"] as? [String: Any] { self.dBClusterSnapshotAttributesResult = try Rds.DBClusterSnapshotAttributesResult(dictionary: dBClusterSnapshotAttributesResult) }
+            if let dBClusterSnapshotAttributesResult = dictionary["DBClusterSnapshotAttributesResult"] as? [String: Any] { self.dBClusterSnapshotAttributesResult = try Rds.DBClusterSnapshotAttributesResult(dictionary: dBClusterSnapshotAttributesResult) } else { self.dBClusterSnapshotAttributesResult = nil }
         }
     }
 
@@ -5489,13 +5257,11 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the source region.
-        public var status: String? = nil
+        public let status: String?
         /// The source region endpoint.
-        public var endpoint: String? = nil
+        public let endpoint: String?
         /// The source region name.
-        public var regionName: String? = nil
-
-        public init() {}
+        public let regionName: String?
 
         public init(status: String? = nil, endpoint: String? = nil, regionName: String? = nil) {
             self.status = status
@@ -5514,11 +5280,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the resource that has pending maintenance actions.
-        public var resourceIdentifier: String? = nil
+        public let resourceIdentifier: String?
         /// A list that provides details about the pending maintenance actions for the resource.
-        public var pendingMaintenanceActionDetails: [PendingMaintenanceAction]? = nil
-
-        public init() {}
+        public let pendingMaintenanceActionDetails: [PendingMaintenanceAction]?
 
         public init(resourceIdentifier: String? = nil, pendingMaintenanceActionDetails: [PendingMaintenanceAction]? = nil) {
             self.resourceIdentifier = resourceIdentifier
@@ -5529,6 +5293,8 @@ extension Rds {
             self.resourceIdentifier = dictionary["ResourceIdentifier"] as? String
             if let pendingMaintenanceActionDetails = dictionary["PendingMaintenanceActionDetails"] as? [[String: Any]] {
                 self.pendingMaintenanceActionDetails = try pendingMaintenanceActionDetails.map({ try PendingMaintenanceAction(dictionary: $0) })
+            } else { 
+                self.pendingMaintenanceActionDetails = nil
             }
         }
     }
@@ -5537,9 +5303,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the DB security group to delete.  You cannot delete the default DB security group.  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Must not be "Default"  
-        public var dBSecurityGroupName: String = ""
-
-        public init() {}
+        public let dBSecurityGroupName: String
 
         public init(dBSecurityGroupName: String) {
             self.dBSecurityGroupName = dBSecurityGroupName
@@ -5554,16 +5318,14 @@ extension Rds {
     public struct CreateDBSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBSnapshot: DBSnapshot? = nil
-
-        public init() {}
+        public let dBSnapshot: DBSnapshot?
 
         public init(dBSnapshot: DBSnapshot? = nil) {
             self.dBSnapshot = dBSnapshot
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBSnapshot = dictionary["DBSnapshot"] as? [String: Any] { self.dBSnapshot = try Rds.DBSnapshot(dictionary: dBSnapshot) }
+            if let dBSnapshot = dictionary["DBSnapshot"] as? [String: Any] { self.dBSnapshot = try Rds.DBSnapshot(dictionary: dBSnapshot) } else { self.dBSnapshot = nil }
         }
     }
 
@@ -5571,11 +5333,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         ///  A list of DBSubnetGroup instances. 
-        public var dBSubnetGroups: [DBSubnetGroup]? = nil
-
-        public init() {}
+        public let dBSubnetGroups: [DBSubnetGroup]?
 
         public init(marker: String? = nil, dBSubnetGroups: [DBSubnetGroup]? = nil) {
             self.marker = marker
@@ -5586,6 +5346,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let dBSubnetGroups = dictionary["DBSubnetGroups"] as? [[String: Any]] {
                 self.dBSubnetGroups = try dBSubnetGroups.map({ try DBSubnetGroup(dictionary: $0) })
+            } else { 
+                self.dBSubnetGroups = nil
             }
         }
     }
@@ -5593,16 +5355,14 @@ extension Rds {
     public struct RestoreDBClusterFromS3Result: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBCluster: DBCluster? = nil
-
-        public init() {}
+        public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
             self.dBCluster = dBCluster
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) }
+            if let dBCluster = dictionary["DBCluster"] as? [String: Any] { self.dBCluster = try Rds.DBCluster(dictionary: dBCluster) } else { self.dBCluster = nil }
         }
     }
 
@@ -5610,11 +5370,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         ///  A list of DBSnapshot instances. 
-        public var dBSnapshots: [DBSnapshot]? = nil
-
-        public init() {}
+        public let dBSnapshots: [DBSnapshot]?
 
         public init(marker: String? = nil, dBSnapshots: [DBSnapshot]? = nil) {
             self.marker = marker
@@ -5625,6 +5383,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let dBSnapshots = dictionary["DBSnapshots"] as? [[String: Any]] {
                 self.dBSnapshots = try dBSnapshots.map({ try DBSnapshot(dictionary: $0) })
+            } else { 
+                self.dBSnapshots = nil
             }
         }
     }
@@ -5632,32 +5392,28 @@ extension Rds {
     public struct CopyDBClusterParameterGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBClusterParameterGroup: DBClusterParameterGroup? = nil
-
-        public init() {}
+        public let dBClusterParameterGroup: DBClusterParameterGroup?
 
         public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
             self.dBClusterParameterGroup = dBClusterParameterGroup
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBClusterParameterGroup = dictionary["DBClusterParameterGroup"] as? [String: Any] { self.dBClusterParameterGroup = try Rds.DBClusterParameterGroup(dictionary: dBClusterParameterGroup) }
+            if let dBClusterParameterGroup = dictionary["DBClusterParameterGroup"] as? [String: Any] { self.dBClusterParameterGroup = try Rds.DBClusterParameterGroup(dictionary: dBClusterParameterGroup) } else { self.dBClusterParameterGroup = nil }
         }
     }
 
     public struct AddSourceIdentifierToSubscriptionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var eventSubscription: EventSubscription? = nil
-
-        public init() {}
+        public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
             self.eventSubscription = eventSubscription
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Rds.EventSubscription(dictionary: eventSubscription) }
+            if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Rds.EventSubscription(dictionary: eventSubscription) } else { self.eventSubscription = nil }
         }
     }
 
@@ -5665,11 +5421,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of attributes and values for the manual DB snapshot.
-        public var dBSnapshotAttributes: [DBSnapshotAttribute]? = nil
+        public let dBSnapshotAttributes: [DBSnapshotAttribute]?
         /// The identifier of the manual DB snapshot that the attributes apply to.
-        public var dBSnapshotIdentifier: String? = nil
-
-        public init() {}
+        public let dBSnapshotIdentifier: String?
 
         public init(dBSnapshotAttributes: [DBSnapshotAttribute]? = nil, dBSnapshotIdentifier: String? = nil) {
             self.dBSnapshotAttributes = dBSnapshotAttributes
@@ -5679,6 +5433,8 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             if let dBSnapshotAttributes = dictionary["DBSnapshotAttributes"] as? [[String: Any]] {
                 self.dBSnapshotAttributes = try dBSnapshotAttributes.map({ try DBSnapshotAttribute(dictionary: $0) })
+            } else { 
+                self.dBSnapshotAttributes = nil
             }
             self.dBSnapshotIdentifier = dictionary["DBSnapshotIdentifier"] as? String
         }
@@ -5688,11 +5444,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the IAM role to associate with the Aurora DB cluster, for example arn:aws:iam::123456789012:role/AuroraAccessRole.
-        public var roleArn: String = ""
+        public let roleArn: String
         /// The name of the DB cluster to associate the IAM role with.
-        public var dBClusterIdentifier: String = ""
-
-        public init() {}
+        public let dBClusterIdentifier: String
 
         public init(roleArn: String, dBClusterIdentifier: String) {
             self.roleArn = roleArn
@@ -5711,19 +5465,17 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) for the DB subnet group.
-        public var dBSubnetGroupArn: String? = nil
+        public let dBSubnetGroupArn: String?
         /// Provides the status of the DB subnet group.
-        public var subnetGroupStatus: String? = nil
+        public let subnetGroupStatus: String?
         /// Provides the description of the DB subnet group.
-        public var dBSubnetGroupDescription: String? = nil
+        public let dBSubnetGroupDescription: String?
         /// The name of the DB subnet group.
-        public var dBSubnetGroupName: String? = nil
+        public let dBSubnetGroupName: String?
         /// Provides the VpcId of the DB subnet group.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         ///  Contains a list of Subnet elements. 
-        public var subnets: [Subnet]? = nil
-
-        public init() {}
+        public let subnets: [Subnet]?
 
         public init(dBSubnetGroupArn: String? = nil, subnetGroupStatus: String? = nil, dBSubnetGroupDescription: String? = nil, dBSubnetGroupName: String? = nil, vpcId: String? = nil, subnets: [Subnet]? = nil) {
             self.dBSubnetGroupArn = dBSubnetGroupArn
@@ -5742,6 +5494,8 @@ extension Rds {
             self.vpcId = dictionary["VpcId"] as? String
             if let subnets = dictionary["Subnets"] as? [[String: Any]] {
                 self.subnets = try subnets.map({ try Subnet(dictionary: $0) })
+            } else { 
+                self.subnets = nil
             }
         }
     }
@@ -5750,11 +5504,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The source identifier to be removed from the subscription, such as the DB instance identifier for a DB instance or the name of a security group. 
-        public var sourceIdentifier: String = ""
+        public let sourceIdentifier: String
         /// The name of the RDS event notification subscription you want to remove a source identifier from.
-        public var subscriptionName: String = ""
-
-        public init() {}
+        public let subscriptionName: String
 
         public init(sourceIdentifier: String, subscriptionName: String) {
             self.sourceIdentifier = sourceIdentifier
@@ -5773,17 +5525,15 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Name of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
-        public var eC2SecurityGroupName: String? = nil
+        public let eC2SecurityGroupName: String?
         /// The name of the DB security group to add authorization to.
-        public var dBSecurityGroupName: String = ""
+        public let dBSecurityGroupName: String
         ///  Id of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
-        public var eC2SecurityGroupId: String? = nil
+        public let eC2SecurityGroupId: String?
         ///  AWS account number of the owner of the EC2 security group specified in the EC2SecurityGroupName parameter. The AWS Access Key ID is not an acceptable value. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
-        public var eC2SecurityGroupOwnerId: String? = nil
+        public let eC2SecurityGroupOwnerId: String?
         /// The IP range to authorize.
-        public var cIDRIP: String? = nil
-
-        public init() {}
+        public let cIDRIP: String?
 
         public init(eC2SecurityGroupName: String? = nil, dBSecurityGroupName: String, eC2SecurityGroupId: String? = nil, eC2SecurityGroupOwnerId: String? = nil, cIDRIP: String? = nil) {
             self.eC2SecurityGroupName = eC2SecurityGroupName
@@ -5807,54 +5557,52 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of EC2 Availability Zones that instances in the restored DB cluster can be created in.
-        public var availabilityZones: [String]? = nil
+        public let availabilityZones: [String]?
         /// The KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KM encryption key. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
-        public var kmsKeyId: String? = nil
-        public var tags: [Tag]? = nil
+        public let kmsKeyId: String?
+        public let tags: [Tag]?
         /// The version of the database that the backup files were created from. MySQL version 5.5 and 5.6 are supported.  Example: 5.6.22 
-        public var sourceEngineVersion: String = ""
+        public let sourceEngineVersion: String
         /// A list of EC2 VPC security groups to associate with the restored DB cluster.
-        public var vpcSecurityGroupIds: [String]? = nil
+        public let vpcSecurityGroupIds: [String]?
         /// The identifier for the database engine that was backed up to create the files stored in the Amazon S3 bucket.  Valid values: mysql 
-        public var sourceEngine: String = ""
+        public let sourceEngine: String
         /// The prefix for all of the file names that contain the data used to create the Amazon Aurora DB cluster. If you do not specify a SourceS3Prefix value, then the Amazon Aurora DB cluster is created by using all of the files in the Amazon S3 bucket.
-        public var s3Prefix: String? = nil
+        public let s3Prefix: String?
         /// The number of days for which automated backups of the restored DB cluster are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35  
-        public var backupRetentionPeriod: Int32? = nil
+        public let backupRetentionPeriod: Int32?
         /// The password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
-        public var masterUserPassword: String = ""
+        public let masterUserPassword: String
         /// A value that indicates that the restored DB cluster should be associated with the specified CharacterSet.
-        public var characterSetName: String? = nil
+        public let characterSetName: String?
         /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  Default: A 30-minute window selected at random from an 8-hour block of time per region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Times should be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
-        public var preferredBackupWindow: String? = nil
+        public let preferredBackupWindow: String?
         /// The name of the DB cluster to create from the source data in the S3 bucket. This parameter is isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1 
-        public var dBClusterIdentifier: String = ""
+        public let dBClusterIdentifier: String
         /// A value that indicates that the restored DB cluster should be associated with the specified option group. Permanent options cannot be removed from an option group. An option group cannot be removed from a DB cluster once it is associated with a DB cluster.
-        public var optionGroupName: String? = nil
+        public let optionGroupName: String?
         /// The version number of the database engine to use.  Aurora  Example: 5.6.10a 
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         /// The name of the master user for the restored DB cluster. Constraints:   Must be 1 to 16 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.  
-        public var masterUsername: String = ""
+        public let masterUsername: String
         /// A DB subnet group to associate with the restored DB cluster. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        public var dBSubnetGroupName: String? = nil
+        public let dBSubnetGroupName: String?
         /// The name of the Amazon S3 bucket that contains the data used to create the Amazon Aurora DB cluster.
-        public var s3BucketName: String = ""
+        public let s3BucketName: String
         /// The name of the database engine to be used for the restored DB cluster. Valid Values: aurora 
-        public var engine: String = ""
+        public let engine: String
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
-        public var preferredMaintenanceWindow: String? = nil
+        public let preferredMaintenanceWindow: String?
         /// The database name for the restored DB cluster.
-        public var databaseName: String? = nil
+        public let databaseName: String?
         /// Specifies whether the restored DB cluster is encrypted.
-        public var storageEncrypted: Bool? = nil
+        public let storageEncrypted: Bool?
         /// The name of the DB cluster parameter group to associate with the restored DB cluster. If this argument is omitted, default.aurora5.6 will be used.  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBClusterParameterGroupName: String? = nil
+        public let dBClusterParameterGroupName: String?
         /// The port number on which the instances in the restored DB cluster accept connections.  Default: 3306 
-        public var port: Int32? = nil
+        public let port: Int32?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon RDS to access the Amazon S3 bucket on your behalf.
-        public var s3IngestionRoleArn: String = ""
-
-        public init() {}
+        public let s3IngestionRoleArn: String
 
         public init(availabilityZones: [String]? = nil, kmsKeyId: String? = nil, tags: [Tag]? = nil, sourceEngineVersion: String, vpcSecurityGroupIds: [String]? = nil, sourceEngine: String, s3Prefix: String? = nil, backupRetentionPeriod: Int32? = nil, masterUserPassword: String, characterSetName: String? = nil, preferredBackupWindow: String? = nil, dBClusterIdentifier: String, optionGroupName: String? = nil, engineVersion: String? = nil, masterUsername: String, dBSubnetGroupName: String? = nil, s3BucketName: String, engine: String, preferredMaintenanceWindow: String? = nil, databaseName: String? = nil, storageEncrypted: Bool? = nil, dBClusterParameterGroupName: String? = nil, port: Int32? = nil, s3IngestionRoleArn: String) {
             self.availabilityZones = availabilityZones
@@ -5884,18 +5632,16 @@ extension Rds {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
-                self.availabilityZones = availabilityZones
-            }
+            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
             self.kmsKeyId = dictionary["KmsKeyId"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let sourceEngineVersion = dictionary["SourceEngineVersion"] as? String else { throw InitializableError.missingRequiredParam("SourceEngineVersion") }
             self.sourceEngineVersion = sourceEngineVersion
-            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
-                self.vpcSecurityGroupIds = vpcSecurityGroupIds
-            }
+            self.vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String]
             guard let sourceEngine = dictionary["SourceEngine"] as? String else { throw InitializableError.missingRequiredParam("SourceEngine") }
             self.sourceEngine = sourceEngine
             self.s3Prefix = dictionary["S3Prefix"] as? String
@@ -5929,29 +5675,27 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter.  Default: A 30-minute window selected at random from an 8-hour block of time per region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Times should be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
-        public var preferredBackupWindow: String? = nil
+        public let preferredBackupWindow: String?
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35  
-        public var backupRetentionPeriod: Int32? = nil
+        public let backupRetentionPeriod: Int32?
         /// The DB cluster identifier for the cluster being modified. This parameter is not case-sensitive. Constraints:   Must be the identifier for an existing DB cluster.   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
-        public var dBClusterIdentifier: String = ""
+        public let dBClusterIdentifier: String
         /// A value that indicates that the DB cluster should be associated with the specified option group. Changing this parameter does not result in an outage except in the following case, and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request. If the parameter change results in an option group that enables OEM, this change can cause a brief (sub-second) period during which new connections are rejected but existing connections are not interrupted.  Permanent options cannot be removed from an option group. The option group cannot be removed from a DB cluster once it is associated with a DB cluster.
-        public var optionGroupName: String? = nil
+        public let optionGroupName: String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
-        public var preferredMaintenanceWindow: String? = nil
+        public let preferredMaintenanceWindow: String?
         /// A lst of VPC security groups that the DB cluster will belong to.
-        public var vpcSecurityGroupIds: [String]? = nil
+        public let vpcSecurityGroupIds: [String]?
         /// The new password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
-        public var masterUserPassword: String? = nil
+        public let masterUserPassword: String?
         /// The name of the DB cluster parameter group to use for the DB cluster.
-        public var dBClusterParameterGroupName: String? = nil
+        public let dBClusterParameterGroupName: String?
         /// A value that specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to false, changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter only affects the NewDBClusterIdentifier and MasterUserPassword values. If you set the ApplyImmediately parameter value to false, then changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false 
-        public var applyImmediately: Bool? = nil
+        public let applyImmediately: Bool?
         /// The port number on which the DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
-        public var port: Int32? = nil
+        public let port: Int32?
         /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-cluster2 
-        public var newDBClusterIdentifier: String? = nil
-
-        public init() {}
+        public let newDBClusterIdentifier: String?
 
         public init(preferredBackupWindow: String? = nil, backupRetentionPeriod: Int32? = nil, dBClusterIdentifier: String, optionGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, vpcSecurityGroupIds: [String]? = nil, masterUserPassword: String? = nil, dBClusterParameterGroupName: String? = nil, applyImmediately: Bool? = nil, port: Int32? = nil, newDBClusterIdentifier: String? = nil) {
             self.preferredBackupWindow = preferredBackupWindow
@@ -5974,9 +5718,7 @@ extension Rds {
             self.dBClusterIdentifier = dBClusterIdentifier
             self.optionGroupName = dictionary["OptionGroupName"] as? String
             self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
-            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
-                self.vpcSecurityGroupIds = vpcSecurityGroupIds
-            }
+            self.vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String]
             self.masterUserPassword = dictionary["MasterUserPassword"] as? String
             self.dBClusterParameterGroupName = dictionary["DBClusterParameterGroupName"] as? String
             self.applyImmediately = dictionary["ApplyImmediately"] as? Bool
@@ -5989,11 +5731,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous DescribeCertificates request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        public var marker: String? = nil
+        public let marker: String?
         /// The list of Certificate objects for the AWS account.
-        public var certificates: [Certificate]? = nil
-
-        public init() {}
+        public let certificates: [Certificate]?
 
         public init(marker: String? = nil, certificates: [Certificate]? = nil) {
             self.marker = marker
@@ -6004,6 +5744,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let certificates = dictionary["Certificates"] as? [[String: Any]] {
                 self.certificates = try certificates.map({ try Certificate(dictionary: $0) })
+            } else { 
+                self.certificates = nil
             }
         }
     }
@@ -6012,9 +5754,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of tags returned by the ListTagsForResource operation.
-        public var tagList: [Tag]? = nil
-
-        public init() {}
+        public let tagList: [Tag]?
 
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
@@ -6023,6 +5763,8 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             if let tagList = dictionary["TagList"] as? [[String: Any]] {
                 self.tagList = try tagList.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tagList = nil
             }
         }
     }
@@ -6031,17 +5773,15 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot1 
-        public var sourceDBClusterSnapshotIdentifier: String = ""
-        public var copyTags: Bool? = nil
+        public let sourceDBClusterSnapshotIdentifier: String
+        public let copyTags: Bool?
         /// The AWS KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, Amazon RDS encrypts the target DB cluster snapshot using the specified KMS encryption key.  If you copy an encrypted DB cluster snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot.  If you copy an encrypted DB cluster snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId.  To copy an encrypted DB cluster snapshot to another region, you must set KmsKeyId to the KMS key ID you want to use to encrypt the copy of the DB cluster snapshot in the destination region. KMS encryption keys are specific to the region that they are created in, and you cannot use encryption keys from one region in another region.
-        public var kmsKeyId: String? = nil
-        public var tags: [Tag]? = nil
+        public let kmsKeyId: String?
+        public let tags: [Tag]?
         /// The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter is not case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot2 
-        public var targetDBClusterSnapshotIdentifier: String = ""
+        public let targetDBClusterSnapshotIdentifier: String
         /// The URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot API action in the AWS region that contains the source DB cluster snapshot to copy. The PreSignedUrl parameter must be used when copying an encrypted DB cluster snapshot from another AWS region. The pre-signed URL must be a valid request for the CopyDBSClusterSnapshot API action that can be executed in the source region that contains the encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the region that the DB cluster snapshot will be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.
-        public var preSignedUrl: String? = nil
-
-        public init() {}
+        public let preSignedUrl: String?
 
         public init(sourceDBClusterSnapshotIdentifier: String, copyTags: Bool? = nil, kmsKeyId: String? = nil, tags: [Tag]? = nil, targetDBClusterSnapshotIdentifier: String, preSignedUrl: String? = nil) {
             self.sourceDBClusterSnapshotIdentifier = sourceDBClusterSnapshotIdentifier
@@ -6059,6 +5799,8 @@ extension Rds {
             self.kmsKeyId = dictionary["KmsKeyId"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let targetDBClusterSnapshotIdentifier = dictionary["TargetDBClusterSnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("TargetDBClusterSnapshotIdentifier") }
             self.targetDBClusterSnapshotIdentifier = targetDBClusterSnapshotIdentifier
@@ -6070,25 +5812,23 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so that the following results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// The Multi-AZ filter value. Specify this parameter to show only the available offerings matching the specified Multi-AZ parameter.
-        public var multiAZ: Bool? = nil
+        public let multiAZ: Bool?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// The offering identifier filter value. Specify this parameter to show only the available offering that matches the specified reservation identifier. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706 
-        public var reservedDBInstancesOfferingId: String? = nil
+        public let reservedDBInstancesOfferingId: String?
         /// Duration filter value, specified in years or seconds. Specify this parameter to show only reservations for this duration. Valid Values: 1 | 3 | 31536000 | 94608000 
-        public var duration: String? = nil
+        public let duration: String?
         /// The offering type filter value. Specify this parameter to show only the available offerings matching the specified offering type. Valid Values: "Partial Upfront" | "All Upfront" | "No Upfront"  
-        public var offeringType: String? = nil
+        public let offeringType: String?
         /// The DB instance class filter value. Specify this parameter to show only the available offerings matching the specified DB instance class.
-        public var dBInstanceClass: String? = nil
+        public let dBInstanceClass: String?
         /// Product description filter value. Specify this parameter to show only the available offerings matching the specified product description.
-        public var productDescription: String? = nil
-
-        public init() {}
+        public let productDescription: String?
 
         public init(maxRecords: Int32? = nil, multiAZ: Bool? = nil, marker: String? = nil, filters: [Filter]? = nil, reservedDBInstancesOfferingId: String? = nil, duration: String? = nil, offeringType: String? = nil, dBInstanceClass: String? = nil, productDescription: String? = nil) {
             self.maxRecords = maxRecords
@@ -6108,6 +5848,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.reservedDBInstancesOfferingId = dictionary["ReservedDBInstancesOfferingId"] as? String
             self.duration = dictionary["Duration"] as? String
@@ -6121,11 +5863,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         ///  A list of DBEngineVersion elements. 
-        public var dBEngineVersions: [DBEngineVersion]? = nil
-
-        public init() {}
+        public let dBEngineVersions: [DBEngineVersion]?
 
         public init(marker: String? = nil, dBEngineVersions: [DBEngineVersion]? = nil) {
             self.marker = marker
@@ -6136,6 +5876,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let dBEngineVersions = dictionary["DBEngineVersions"] as? [[String: Any]] {
                 self.dBEngineVersions = try dBEngineVersions.map({ try DBEngineVersion(dictionary: $0) })
+            } else { 
+                self.dBEngineVersions = nil
             }
         }
     }
@@ -6144,11 +5886,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         ///  A list of DBParameterGroup instances. 
-        public var dBParameterGroups: [DBParameterGroup]? = nil
-
-        public init() {}
+        public let dBParameterGroups: [DBParameterGroup]?
 
         public init(marker: String? = nil, dBParameterGroups: [DBParameterGroup]? = nil) {
             self.marker = marker
@@ -6159,6 +5899,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let dBParameterGroups = dictionary["DBParameterGroups"] as? [[String: Any]] {
                 self.dBParameterGroups = try dBParameterGroups.map({ try DBParameterGroup(dictionary: $0) })
+            } else { 
+                self.dBParameterGroups = nil
             }
         }
     }
@@ -6167,17 +5909,15 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The name of the EC2 security group to revoke access from. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
-        public var eC2SecurityGroupName: String? = nil
+        public let eC2SecurityGroupName: String?
         /// The name of the DB security group to revoke ingress from.
-        public var dBSecurityGroupName: String = ""
+        public let dBSecurityGroupName: String
         ///  The id of the EC2 security group to revoke access from. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
-        public var eC2SecurityGroupId: String? = nil
+        public let eC2SecurityGroupId: String?
         ///  The AWS Account Number of the owner of the EC2 security group specified in the EC2SecurityGroupName parameter. The AWS Access Key ID is not an acceptable value. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
-        public var eC2SecurityGroupOwnerId: String? = nil
+        public let eC2SecurityGroupOwnerId: String?
         ///  The IP range to revoke access from. Must be a valid CIDR range. If CIDRIP is specified, EC2SecurityGroupName, EC2SecurityGroupId and EC2SecurityGroupOwnerId cannot be provided. 
-        public var cIDRIP: String? = nil
-
-        public init() {}
+        public let cIDRIP: String?
 
         public init(eC2SecurityGroupName: String? = nil, dBSecurityGroupName: String, eC2SecurityGroupId: String? = nil, eC2SecurityGroupOwnerId: String? = nil, cIDRIP: String? = nil) {
             self.eC2SecurityGroupName = eC2SecurityGroupName
@@ -6201,19 +5941,17 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The option settings to include in an option group.
-        public var optionSettings: [OptionSetting]? = nil
+        public let optionSettings: [OptionSetting]?
         /// The configuration of options to include in a group.
-        public var optionName: String = ""
+        public let optionName: String
         /// A list of DBSecurityGroupMemebrship name strings used for this option.
-        public var dBSecurityGroupMemberships: [String]? = nil
+        public let dBSecurityGroupMemberships: [String]?
         /// A list of VpcSecurityGroupMemebrship name strings used for this option.
-        public var vpcSecurityGroupMemberships: [String]? = nil
+        public let vpcSecurityGroupMemberships: [String]?
         /// The version for the option.
-        public var optionVersion: String? = nil
+        public let optionVersion: String?
         /// The optional port for the option.
-        public var port: Int32? = nil
-
-        public init() {}
+        public let port: Int32?
 
         public init(optionSettings: [OptionSetting]? = nil, optionName: String, dBSecurityGroupMemberships: [String]? = nil, vpcSecurityGroupMemberships: [String]? = nil, optionVersion: String? = nil, port: Int32? = nil) {
             self.optionSettings = optionSettings
@@ -6227,15 +5965,13 @@ extension Rds {
         public init(dictionary: [String: Any]) throws {
             if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
                 self.optionSettings = try optionSettings.map({ try OptionSetting(dictionary: $0) })
+            } else { 
+                self.optionSettings = nil
             }
             guard let optionName = dictionary["OptionName"] as? String else { throw InitializableError.missingRequiredParam("OptionName") }
             self.optionName = optionName
-            if let dBSecurityGroupMemberships = dictionary["DBSecurityGroupMemberships"] as? [String] {
-                self.dBSecurityGroupMemberships = dBSecurityGroupMemberships
-            }
-            if let vpcSecurityGroupMemberships = dictionary["VpcSecurityGroupMemberships"] as? [String] {
-                self.vpcSecurityGroupMemberships = vpcSecurityGroupMemberships
-            }
+            self.dBSecurityGroupMemberships = dictionary["DBSecurityGroupMemberships"] as? [String]
+            self.vpcSecurityGroupMemberships = dictionary["VpcSecurityGroupMemberships"] as? [String]
             self.optionVersion = dictionary["OptionVersion"] as? String
             self.port = dictionary["Port"] as? Int32
         }
@@ -6245,31 +5981,29 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Provides the list of EC2 Availability Zones that instances in the restored DB cluster can be created in.
-        public var availabilityZones: [String]? = nil
+        public let availabilityZones: [String]?
         /// The name of the DB cluster to create from the DB cluster snapshot. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
-        public var dBClusterIdentifier: String = ""
+        public let dBClusterIdentifier: String
         /// The name of the DB subnet group to use for the new DB cluster. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        public var dBSubnetGroupName: String? = nil
+        public let dBSubnetGroupName: String?
         /// The name of the option group to use for the restored DB cluster.
-        public var optionGroupName: String? = nil
+        public let optionGroupName: String?
         /// The tags to be assigned to the restored DB cluster.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The version of the database engine to use for the new DB cluster.
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         /// A list of VPC security groups that the new DB cluster will belong to.
-        public var vpcSecurityGroupIds: [String]? = nil
+        public let vpcSecurityGroupIds: [String]?
         /// The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source
-        public var engine: String = ""
+        public let engine: String
         /// The identifier for the DB cluster snapshot to restore from. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var snapshotIdentifier: String = ""
+        public let snapshotIdentifier: String
         /// The database name for the restored DB cluster.
-        public var databaseName: String? = nil
+        public let databaseName: String?
         /// The port number on which the new DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
-        public var port: Int32? = nil
+        public let port: Int32?
         /// The KMS key identifier to use when restoring an encrypted DB cluster from a DB cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If you do not specify a value for the KmsKeyId parameter, then the following will occur:   If the DB cluster snapshot is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the DB cluster snapshot.   If the DB cluster snapshot is not encrypted, then the restored DB cluster is encrypted using the specified encryption key.  
-        public var kmsKeyId: String? = nil
-
-        public init() {}
+        public let kmsKeyId: String?
 
         public init(availabilityZones: [String]? = nil, dBClusterIdentifier: String, dBSubnetGroupName: String? = nil, optionGroupName: String? = nil, tags: [Tag]? = nil, engineVersion: String? = nil, vpcSecurityGroupIds: [String]? = nil, engine: String, snapshotIdentifier: String, databaseName: String? = nil, port: Int32? = nil, kmsKeyId: String? = nil) {
             self.availabilityZones = availabilityZones
@@ -6287,20 +6021,18 @@ extension Rds {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
-                self.availabilityZones = availabilityZones
-            }
+            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
             guard let dBClusterIdentifier = dictionary["DBClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("DBClusterIdentifier") }
             self.dBClusterIdentifier = dBClusterIdentifier
             self.dBSubnetGroupName = dictionary["DBSubnetGroupName"] as? String
             self.optionGroupName = dictionary["OptionGroupName"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.engineVersion = dictionary["EngineVersion"] as? String
-            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
-                self.vpcSecurityGroupIds = vpcSecurityGroupIds
-            }
+            self.vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String]
             guard let engine = dictionary["Engine"] as? String else { throw InitializableError.missingRequiredParam("Engine") }
             self.engine = engine
             guard let snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SnapshotIdentifier") }
@@ -6315,48 +6047,46 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of EC2 Availability Zones that instances in the DB cluster can be created in. For information on regions and Availability Zones, see Regions and Availability Zones. 
-        public var availabilityZones: [String]? = nil
-        public var tags: [Tag]? = nil
+        public let availabilityZones: [String]?
+        public let tags: [Tag]?
         /// A list of EC2 VPC security groups to associate with this DB cluster.
-        public var vpcSecurityGroupIds: [String]? = nil
+        public let vpcSecurityGroupIds: [String]?
         /// The password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
-        public var masterUserPassword: String? = nil
+        public let masterUserPassword: String?
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35  
-        public var backupRetentionPeriod: Int32? = nil
+        public let backupRetentionPeriod: Int32?
         /// A value that indicates that the DB cluster should be associated with the specified CharacterSet.
-        public var characterSetName: String? = nil
+        public let characterSetName: String?
         /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  Default: A 30-minute window selected at random from an 8-hour block of time per region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Times should be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
-        public var preferredBackupWindow: String? = nil
+        public let preferredBackupWindow: String?
         /// The DB cluster identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1 
-        public var dBClusterIdentifier: String = ""
+        public let dBClusterIdentifier: String
         /// A value that indicates that the DB cluster should be associated with the specified option group. Permanent options cannot be removed from an option group. The option group cannot be removed from a DB cluster once it is associated with a DB cluster.
-        public var optionGroupName: String? = nil
+        public let optionGroupName: String?
         /// The version number of the database engine to use.  Aurora  Example: 5.6.10a 
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         /// The name of the master user for the DB cluster. Constraints:   Must be 1 to 16 alphanumeric characters.   First character must be a letter.   Cannot be a reserved word for the chosen database engine.  
-        public var masterUsername: String? = nil
+        public let masterUsername: String?
         /// A DB subnet group to associate with this DB cluster. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
-        public var dBSubnetGroupName: String? = nil
+        public let dBSubnetGroupName: String?
         /// A URL that contains a Signature Version 4 signed request for the CreateDBCluster action to be called in the source region where the DB cluster will be replicated from. You only need to specify PreSignedUrl when you are performing cross-region replication from an encrypted DB cluster. The pre-signed URL must be a valid request for the CreateDBCluster API action that can be executed in the source region that contains the encrypted DB cluster to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB cluster in the destination region. This should refer to the same KMS key for both the CreateDBCluster action that is called in the destination region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the region that Aurora Read Replica will be created in.    ReplicationSourceIdentifier - The DB cluster identifier for the encrypted DB cluster to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you are copying an encrypted DB cluster from the us-west-2 region, then your ReplicationSourceIdentifier would look like Example: arn:aws:rds:us-west-2:123456789012:cluster:aurora-cluster1.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.
-        public var preSignedUrl: String? = nil
+        public let preSignedUrl: String?
         /// The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB cluster is created as a Read Replica.
-        public var replicationSourceIdentifier: String? = nil
+        public let replicationSourceIdentifier: String?
         /// The name of the database engine to be used for this DB cluster. Valid Values: aurora 
-        public var engine: String = ""
+        public let engine: String
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
-        public var preferredMaintenanceWindow: String? = nil
+        public let preferredMaintenanceWindow: String?
         /// Specifies whether the DB cluster is encrypted.
-        public var storageEncrypted: Bool? = nil
+        public let storageEncrypted: Bool?
         /// The name for your database of up to 8 alpha-numeric characters. If you do not provide a name, Amazon RDS will not create a database in the DB cluster you are creating.
-        public var databaseName: String? = nil
+        public let databaseName: String?
         ///  The name of the DB cluster parameter group to associate with this DB cluster. If this argument is omitted, default.aurora5.6 will be used.  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBClusterParameterGroupName: String? = nil
+        public let dBClusterParameterGroupName: String?
         /// The port number on which the instances in the DB cluster accept connections.  Default: 3306 
-        public var port: Int32? = nil
+        public let port: Int32?
         /// The KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region. If you create a Read Replica of an encrypted DB cluster in another region, you must set KmsKeyId to a KMS key ID that is valid in the destination region. This key is used to encrypt the Read Replica in that region.
-        public var kmsKeyId: String? = nil
-
-        public init() {}
+        public let kmsKeyId: String?
 
         public init(availabilityZones: [String]? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil, masterUserPassword: String? = nil, backupRetentionPeriod: Int32? = nil, characterSetName: String? = nil, preferredBackupWindow: String? = nil, dBClusterIdentifier: String, optionGroupName: String? = nil, engineVersion: String? = nil, masterUsername: String? = nil, dBSubnetGroupName: String? = nil, preSignedUrl: String? = nil, replicationSourceIdentifier: String? = nil, engine: String, preferredMaintenanceWindow: String? = nil, storageEncrypted: Bool? = nil, databaseName: String? = nil, dBClusterParameterGroupName: String? = nil, port: Int32? = nil, kmsKeyId: String? = nil) {
             self.availabilityZones = availabilityZones
@@ -6383,15 +6113,13 @@ extension Rds {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let availabilityZones = dictionary["AvailabilityZones"] as? [String] {
-                self.availabilityZones = availabilityZones
-            }
+            self.availabilityZones = dictionary["AvailabilityZones"] as? [String]
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
-            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
-                self.vpcSecurityGroupIds = vpcSecurityGroupIds
-            }
+            self.vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String]
             self.masterUserPassword = dictionary["MasterUserPassword"] as? String
             self.backupRetentionPeriod = dictionary["BackupRetentionPeriod"] as? Int32
             self.characterSetName = dictionary["CharacterSetName"] as? String
@@ -6419,15 +6147,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// A filter that specifies one or more DB instances to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB instances associated with the DB Clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance Amazon Resource Names (ARNs). The results list will only include information about the DB instances identified by these ARNs.  
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeDBInstances request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// The user-supplied instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBInstanceIdentifier: String? = nil
-
-        public init() {}
+        public let dBInstanceIdentifier: String?
 
         public init(maxRecords: Int32? = nil, filters: [Filter]? = nil, marker: String? = nil, dBInstanceIdentifier: String? = nil) {
             self.maxRecords = maxRecords
@@ -6440,6 +6166,8 @@ extension Rds {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.marker = dictionary["Marker"] as? String
             self.dBInstanceIdentifier = dictionary["DBInstanceIdentifier"] as? String
@@ -6450,23 +6178,21 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// The engine version filter value. Specify this parameter to show only the available offerings matching the specified engine version.
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
-        public var marker: String? = nil
+        public let marker: String?
         /// The license model filter value. Specify this parameter to show only the available offerings matching the specified license model.
-        public var licenseModel: String? = nil
+        public let licenseModel: String?
         /// The name of the engine to retrieve DB instance options for.
-        public var engine: String = ""
+        public let engine: String
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         /// The VPC filter value. Specify this parameter to show only the available VPC or non-VPC offerings.
-        public var vpc: Bool? = nil
+        public let vpc: Bool?
         /// The DB instance class filter value. Specify this parameter to show only the available offerings matching the specified DB instance class.
-        public var dBInstanceClass: String? = nil
-
-        public init() {}
+        public let dBInstanceClass: String?
 
         public init(maxRecords: Int32? = nil, engineVersion: String? = nil, marker: String? = nil, licenseModel: String? = nil, engine: String, filters: [Filter]? = nil, vpc: Bool? = nil, dBInstanceClass: String? = nil) {
             self.maxRecords = maxRecords
@@ -6488,6 +6214,8 @@ extension Rds {
             self.engine = engine
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.vpc = dictionary["Vpc"] as? Bool
             self.dBInstanceClass = dictionary["DBInstanceClass"] as? String
@@ -6498,33 +6226,31 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Contains the new DBInstanceClass for the DB instance that will be applied or is in progress. 
-        public var dBInstanceClass: String? = nil
+        public let dBInstanceClass: String?
         /// Indicates that the Single-AZ DB instance is to change to a Multi-AZ deployment.
-        public var multiAZ: Bool? = nil
+        public let multiAZ: Bool?
         /// The license model for the DB instance. Valid values: license-included | bring-your-own-license | general-public-license 
-        public var licenseModel: String? = nil
+        public let licenseModel: String?
         /// Specifies the storage type to be associated with the DB instance.
-        public var storageType: String? = nil
+        public let storageType: String?
         ///  Contains the new AllocatedStorage size for the DB instance that will be applied or is in progress. 
-        public var allocatedStorage: Int32? = nil
+        public let allocatedStorage: Int32?
         /// Contains the pending or in-progress change of the master credentials for the DB instance.
-        public var masterUserPassword: String? = nil
+        public let masterUserPassword: String?
         /// Specifies the pending number of days for which automated backups are retained.
-        public var backupRetentionPeriod: Int32? = nil
+        public let backupRetentionPeriod: Int32?
         /// Specifies the new Provisioned IOPS value for the DB instance that will be applied or is being applied.
-        public var iops: Int32? = nil
+        public let iops: Int32?
         /// Specifies the identifier of the CA certificate for the DB instance.
-        public var cACertificateIdentifier: String? = nil
+        public let cACertificateIdentifier: String?
         /// The new DB subnet group for the DB instance. 
-        public var dBSubnetGroupName: String? = nil
+        public let dBSubnetGroupName: String?
         /// Indicates the database engine version.
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         /// Specifies the pending port for the DB instance.
-        public var port: Int32? = nil
+        public let port: Int32?
         ///  Contains the new DBInstanceIdentifier for the DB instance that will be applied or is in progress. 
-        public var dBInstanceIdentifier: String? = nil
-
-        public init() {}
+        public let dBInstanceIdentifier: String?
 
         public init(dBInstanceClass: String? = nil, multiAZ: Bool? = nil, licenseModel: String? = nil, storageType: String? = nil, allocatedStorage: Int32? = nil, masterUserPassword: String? = nil, backupRetentionPeriod: Int32? = nil, iops: Int32? = nil, cACertificateIdentifier: String? = nil, dBSubnetGroupName: String? = nil, engineVersion: String? = nil, port: Int32? = nil, dBInstanceIdentifier: String? = nil) {
             self.dBInstanceClass = dBInstanceClass
@@ -6562,16 +6288,14 @@ extension Rds {
     public struct ModifyDBSnapshotResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var dBSnapshot: DBSnapshot? = nil
-
-        public init() {}
+        public let dBSnapshot: DBSnapshot?
 
         public init(dBSnapshot: DBSnapshot? = nil) {
             self.dBSnapshot = dBSnapshot
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dBSnapshot = dictionary["DBSnapshot"] as? [String: Any] { self.dBSnapshot = try Rds.DBSnapshot(dictionary: dBSnapshot) }
+            if let dBSnapshot = dictionary["DBSnapshot"] as? [String: Any] { self.dBSnapshot = try Rds.DBSnapshot(dictionary: dBSnapshot) } else { self.dBSnapshot = nil }
         }
     }
 
@@ -6579,11 +6303,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// A list of SourceRegion instances that contains each source AWS Region that the current region can get a Read Replica or a DB snapshot from.
-        public var sourceRegions: [SourceRegion]? = nil
-
-        public init() {}
+        public let sourceRegions: [SourceRegion]?
 
         public init(marker: String? = nil, sourceRegions: [SourceRegion]? = nil) {
             self.marker = marker
@@ -6594,6 +6316,8 @@ extension Rds {
             self.marker = dictionary["Marker"] as? String
             if let sourceRegions = dictionary["SourceRegions"] as? [[String: Any]] {
                 self.sourceRegions = try sourceRegions.map({ try SourceRegion(dictionary: $0) })
+            } else { 
+                self.sourceRegions = nil
             }
         }
     }
@@ -6602,71 +6326,69 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Constraints: This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the DB instance's current version.
-        public var allowMajorVersionUpgrade: Bool? = nil
+        public let allowMajorVersionUpgrade: Bool?
         /// The password for the given ARN from the Key Store in order to access the device.
-        public var tdeCredentialPassword: String? = nil
+        public let tdeCredentialPassword: String?
         /// The port number on which the database accepts connections. The value of the DBPortNumber parameter must not match any of the port values specified for options in the option group for the DB instance. Your database will restart when you change the DBPortNumber value regardless of the value of the ApplyImmediately parameter.  MySQL   Default: 3306   Valid Values: 1150-65535   MariaDB   Default: 3306   Valid Values: 1150-65535   PostgreSQL   Default: 5432   Valid Values: 1150-65535  Type: Integer  Oracle   Default: 1521   Valid Values: 1150-65535   SQL Server   Default: 1433   Valid Values: 1150-65535 except for 1434, 3389, 47001, 49152, and 49152 through 49156.   Amazon Aurora   Default: 3306   Valid Values: 1150-65535 
-        public var dBPortNumber: Int32? = nil
+        public let dBPortNumber: Int32?
         /// A list of DB security groups to authorize on this DB instance. Changing this setting does not result in an outage and the change is asynchronously applied as soon as possible. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBSecurityGroups: [String]? = nil
+        public let dBSecurityGroups: [String]?
         ///  The new Provisioned IOPS (I/O operations per second) value for the RDS instance. Changing this setting does not result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request.  Default: Uses existing setting Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. If you are migrating from Provisioned IOPS to standard storage, set this value to 0. The DB instance will require a reboot for the change in storage type to take effect.  SQL Server  Setting the IOPS value for the SQL Server database engine is not supported. Type: Integer If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance will be available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance will be suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a Read Replica for the instance, and creating a DB snapshot of the instance.
-        public var iops: Int32? = nil
+        public let iops: Int32?
         /// The number of days to retain automated backups. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Changing this parameter can result in an outage if you change from 0 to a non-zero value or from a non-zero value to 0. These changes are applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request. If you change the parameter from one non-zero value to another non-zero value, the change is asynchronously applied as soon as possible. Default: Uses existing setting Constraints:   Must be a value from 0 to 35   Can be specified for a MySQL Read Replica only if the source is running MySQL 5.6   Can be specified for a PostgreSQL Read Replica only if the source is running PostgreSQL 9.3.5   Cannot be set to 0 if the DB instance is a source to Read Replicas  
-        public var backupRetentionPeriod: Int32? = nil
+        public let backupRetentionPeriod: Int32?
         /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB instance.   If this parameter is set to false, changes to the DB instance are applied during the next maintenance window. Some parameter changes can cause an outage and will be applied on the next call to RebootDBInstance, or the next failure reboot. Review the table of parameters in Modifying a DB Instance and Using the Apply Immediately Parameter to see the impact that setting ApplyImmediately to true or false has for each modified parameter and to determine when the changes will be applied.  Default: false 
-        public var applyImmediately: Bool? = nil
+        public let applyImmediately: Bool?
         ///  Indicates that minor version upgrades will be applied automatically to the DB instance during the maintenance window. Changing this parameter does not result in an outage except in the following case and the change is asynchronously applied as soon as possible. An outage will result if this parameter is set to true during the maintenance window, and a newer minor version is available, and RDS has enabled auto patching for that engine version. 
-        public var autoMinorVersionUpgrade: Bool? = nil
+        public let autoMinorVersionUpgrade: Bool?
         /// The new password for the DB instance master user. Can be any printable ASCII character except "/", """, or "@".  Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.  Default: Uses existing setting Constraints: Must be 8 to 41 alphanumeric characters (MySQL, MariaDB, and Amazon Aurora), 8 to 30 alphanumeric characters (Oracle), or 8 to 128 alphanumeric characters (SQL Server).  Amazon RDS API actions never return the password, so this action provides a way to regain access to a primary instance user if the password is lost. This includes restoring privileges that might have been accidentally revoked. 
-        public var masterUserPassword: String? = nil
+        public let masterUserPassword: String?
         /// Indicates the certificate that needs to be associated with the instance.
-        public var cACertificateIdentifier: String? = nil
+        public let cACertificateIdentifier: String?
         ///  The version number of the database engine to upgrade to. Changing this parameter results in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request.  For major version upgrades, if a non-default DB parameter group is currently in use, a new DB parameter group in the DB parameter group family for the new engine version must be specified. The new DB parameter group can be the default for that DB parameter group family. For a list of valid engine versions, see CreateDBInstance.
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster.  Default: 1 Valid Values: 0 - 15
-        public var promotionTier: Int32? = nil
+        public let promotionTier: Int32?
         /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter does not result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If there are pending actions that cause a reboot, and the maintenance window is changed to include the current time, then changing this parameter will cause a reboot of the DB instance. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
-        public var preferredMaintenanceWindow: String? = nil
+        public let preferredMaintenanceWindow: String?
         /// True to copy all tags from the DB instance to snapshots of the DB instance; otherwise false. The default is false.
-        public var copyTagsToSnapshot: Bool? = nil
+        public let copyTagsToSnapshot: Bool?
         /// The name of the IAM role to use when making API calls to the Directory Service.
-        public var domainIAMRoleName: String? = nil
+        public let domainIAMRoleName: String?
         ///  The new compute and memory capacity of the DB instance. To determine the instance classes that are available for a particular DB engine, use the DescribeOrderableDBInstanceOptions action. Note that not all instance classes are available in all regions for all DB engines.   Passing a value for this setting causes an outage during the change and is applied during the next maintenance window, unless ApplyImmediately is specified as true for this request.  Default: Uses existing setting Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.xlarge | db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large 
-        public var dBInstanceClass: String? = nil
+        public let dBInstanceClass: String?
         /// The Active Directory Domain to move the instance to. Specify none to remove the instance from its current domain. The domain must be created prior to this operation. Currently only a Microsoft SQL Server instance can be created in a Active Directory Domain. 
-        public var domain: String? = nil
+        public let domain: String?
         ///  Specifies if the DB instance is a Multi-AZ deployment. Changing this parameter does not result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request.  Constraints: Cannot be specified if the DB instance is a Read Replica.
-        public var multiAZ: Bool? = nil
+        public let multiAZ: Bool?
         ///  The new storage capacity of the RDS instance. Changing this setting does not result in an outage and the change is applied during the next maintenance window unless ApplyImmediately is set to true for this request.   MySQL  Default: Uses existing setting Valid Values: 5-6144 Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. Type: Integer  MariaDB  Default: Uses existing setting Valid Values: 5-6144 Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. Type: Integer  PostgreSQL  Default: Uses existing setting Valid Values: 5-6144 Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. Type: Integer  Oracle  Default: Uses existing setting Valid Values: 10-6144 Constraints: Value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value.  SQL Server  Cannot be modified. If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance will be available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance will be suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a Read Replica for the instance, and creating a DB snapshot of the instance.
-        public var allocatedStorage: Int32? = nil
+        public let allocatedStorage: Int32?
         /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified; otherwise standard 
-        public var storageType: String? = nil
+        public let storageType: String?
         /// The ARN from the Key Store with which to associate the instance for TDE encryption.
-        public var tdeCredentialArn: String? = nil
+        public let tdeCredentialArn: String?
         /// A list of EC2 VPC security groups to authorize on this DB instance. This change is asynchronously applied as soon as possible. Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var vpcSecurityGroupIds: [String]? = nil
+        public let vpcSecurityGroupIds: [String]?
         /// The name of the DB parameter group to apply to the DB instance. Changing this setting does not result in an outage. The parameter group name itself is changed immediately, but the actual parameter changes are not applied until you reboot the instance without failover. The db instance will NOT be rebooted automatically and the parameter changes will NOT be applied during the next maintenance window. Default: Uses existing setting Constraints: The DB parameter group must be in the same DB parameter group family as this DB instance.
-        public var dBParameterGroupName: String? = nil
+        public let dBParameterGroupName: String?
         /// The license model for the DB instance. Valid values: license-included | bring-your-own-license | general-public-license 
-        public var licenseModel: String? = nil
+        public let licenseModel: String?
         /// Boolean value that indicates if the DB instance has a publicly resolvable DNS name. Set to True to make the DB instance Internet-facing with a publicly resolvable DNS name, which resolves to a public IP address. Set to False to make the DB instance internal with a DNS name that resolves to a private IP address.   PubliclyAccessible only applies to DB instances in a VPC. The DB instance must be part of a public subnet and PubliclyAccessible must be true in order for it to be publicly accessible.  Changes to the PubliclyAccessible parameter are applied immediately regardless of the value of the ApplyImmediately parameter. Default: false
-        public var publiclyAccessible: Bool? = nil
+        public let publiclyAccessible: Bool?
         ///  The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod parameter. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible.  Constraints:   Must be in the format hh24:mi-hh24:mi   Times should be in Universal Time Coordinated (UTC)   Must not conflict with the preferred maintenance window   Must be at least 30 minutes  
-        public var preferredBackupWindow: String? = nil
+        public let preferredBackupWindow: String?
         ///  Indicates that the DB instance should be associated with the specified option group. Changing this parameter does not result in an outage except in the following case and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request. If the parameter change results in an option group that enables OEM, this change can cause a brief (sub-second) period during which new connections are rejected but existing connections are not interrupted.  Permanent options, such as the TDE option for Oracle Advanced Security TDE, cannot be removed from an option group, and that option group cannot be removed from a DB instance once it is associated with a DB instance
-        public var optionGroupName: String? = nil
+        public let optionGroupName: String?
         /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to To create an IAM role for Amazon RDS Enhanced Monitoring. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
-        public var monitoringRoleArn: String? = nil
+        public let monitoringRoleArn: String?
         /// The new DB subnet group for the DB instance. You can use this parameter to move your DB instance to a different VPC. If your DB instance is not in a VPC, you can also use this parameter to move your DB instance into a VPC. For more information, see Updating the VPC for a DB Instance.  Changing the subnet group causes an outage during the change. The change is applied during the next maintenance window, unless you specify true for the ApplyImmediately parameter.  Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, spaces, or hyphens. Example: mySubnetGroup 
-        public var dBSubnetGroupName: String? = nil
+        public let dBSubnetGroupName: String?
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 
-        public var monitoringInterval: Int32? = nil
+        public let monitoringInterval: Int32?
         ///  The new DB instance identifier for the DB instance when renaming a DB instance. When you change the DB instance identifier, an instance reboot will occur immediately if you set Apply Immediately to true, or will occur during the next maintenance window if Apply Immediately to false. This value is stored as a lowercase string.  Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var newDBInstanceIdentifier: String? = nil
+        public let newDBInstanceIdentifier: String?
         /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must be the identifier for an existing DB instance   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBInstanceIdentifier: String = ""
-
-        public init() {}
+        public let dBInstanceIdentifier: String
 
         public init(allowMajorVersionUpgrade: Bool? = nil, tdeCredentialPassword: String? = nil, dBPortNumber: Int32? = nil, dBSecurityGroups: [String]? = nil, iops: Int32? = nil, backupRetentionPeriod: Int32? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, masterUserPassword: String? = nil, cACertificateIdentifier: String? = nil, engineVersion: String? = nil, promotionTier: Int32? = nil, preferredMaintenanceWindow: String? = nil, copyTagsToSnapshot: Bool? = nil, domainIAMRoleName: String? = nil, dBInstanceClass: String? = nil, domain: String? = nil, multiAZ: Bool? = nil, allocatedStorage: Int32? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, vpcSecurityGroupIds: [String]? = nil, dBParameterGroupName: String? = nil, licenseModel: String? = nil, publiclyAccessible: Bool? = nil, preferredBackupWindow: String? = nil, optionGroupName: String? = nil, monitoringRoleArn: String? = nil, dBSubnetGroupName: String? = nil, monitoringInterval: Int32? = nil, newDBInstanceIdentifier: String? = nil, dBInstanceIdentifier: String) {
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
@@ -6707,9 +6429,7 @@ extension Rds {
             self.allowMajorVersionUpgrade = dictionary["AllowMajorVersionUpgrade"] as? Bool
             self.tdeCredentialPassword = dictionary["TdeCredentialPassword"] as? String
             self.dBPortNumber = dictionary["DBPortNumber"] as? Int32
-            if let dBSecurityGroups = dictionary["DBSecurityGroups"] as? [String] {
-                self.dBSecurityGroups = dBSecurityGroups
-            }
+            self.dBSecurityGroups = dictionary["DBSecurityGroups"] as? [String]
             self.iops = dictionary["Iops"] as? Int32
             self.backupRetentionPeriod = dictionary["BackupRetentionPeriod"] as? Int32
             self.applyImmediately = dictionary["ApplyImmediately"] as? Bool
@@ -6727,9 +6447,7 @@ extension Rds {
             self.allocatedStorage = dictionary["AllocatedStorage"] as? Int32
             self.storageType = dictionary["StorageType"] as? String
             self.tdeCredentialArn = dictionary["TdeCredentialArn"] as? String
-            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String] {
-                self.vpcSecurityGroupIds = vpcSecurityGroupIds
-            }
+            self.vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String]
             self.dBParameterGroupName = dictionary["DBParameterGroupName"] as? String
             self.licenseModel = dictionary["LicenseModel"] as? String
             self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
@@ -6748,11 +6466,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the status of the IP range. Status can be "authorizing", "authorized", "revoking", and "revoked".
-        public var status: String? = nil
+        public let status: String?
         /// Specifies the IP range.
-        public var cIDRIP: String? = nil
-
-        public init() {}
+        public let cIDRIP: String?
 
         public init(status: String? = nil, cIDRIP: String? = nil) {
             self.status = status
@@ -6769,57 +6485,55 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the port that the database engine was listening on at the time of the snapshot.
-        public var port: Int32? = nil
+        public let port: Int32?
         /// Specifies whether the DB snapshot is encrypted.
-        public var encrypted: Bool? = nil
+        public let encrypted: Bool?
         /// Specifies the Provisioned IOPS (I/O operations per second) value of the DB instance at the time of the snapshot.
-        public var iops: Int32? = nil
+        public let iops: Int32?
         /// Specifies the name of the Availability Zone the DB instance was located in at the time of the DB snapshot.
-        public var availabilityZone: String? = nil
+        public let availabilityZone: String?
         /// The DB snapshot Arn that the DB snapshot was copied from. It only has value in case of cross customer or cross region copy.
-        public var sourceDBSnapshotIdentifier: String? = nil
+        public let sourceDBSnapshotIdentifier: String?
         /// Specifies the status of this DB snapshot.
-        public var status: String? = nil
+        public let status: String?
         /// Specifies the version of the database engine.
-        public var engineVersion: String? = nil
+        public let engineVersion: String?
         /// Provides the VPC ID associated with the DB snapshot.
-        public var vpcId: String? = nil
+        public let vpcId: String?
         /// The percentage of the estimated data that has been transferred.
-        public var percentProgress: Int32? = nil
+        public let percentProgress: Int32?
         /// Provides the time when the snapshot was taken, in Universal Coordinated Time (UTC).
-        public var snapshotCreateTime: Date? = nil
+        public let snapshotCreateTime: Date?
         /// The Amazon Resource Name (ARN) for the DB snapshot.
-        public var dBSnapshotArn: String? = nil
+        public let dBSnapshotArn: String?
         ///  If Encrypted is true, the KMS key identifier for the encrypted DB snapshot. 
-        public var kmsKeyId: String? = nil
+        public let kmsKeyId: String?
         /// Specifies the time when the snapshot was taken, in Universal Coordinated Time (UTC).
-        public var instanceCreateTime: Date? = nil
+        public let instanceCreateTime: Date?
         /// The region that the DB snapshot was created in or copied from.
-        public var sourceRegion: String? = nil
+        public let sourceRegion: String?
         /// Specifies the allocated storage size in gigabytes (GB).
-        public var allocatedStorage: Int32? = nil
+        public let allocatedStorage: Int32?
         /// Specifies the storage type associated with DB snapshot.
-        public var storageType: String? = nil
+        public let storageType: String?
         /// The ARN from the key store with which to associate the instance for TDE encryption.
-        public var tdeCredentialArn: String? = nil
+        public let tdeCredentialArn: String?
         /// The time zone of the DB snapshot. In most cases, the Timezone element is empty. Timezone content appears only for snapshots taken from Microsoft SQL Server DB instances that were created with a time zone specified. 
-        public var timezone: String? = nil
+        public let timezone: String?
         /// Provides the type of the DB snapshot.
-        public var snapshotType: String? = nil
+        public let snapshotType: String?
         /// License model information for the restored DB instance.
-        public var licenseModel: String? = nil
+        public let licenseModel: String?
         /// Provides the option group name for the DB snapshot.
-        public var optionGroupName: String? = nil
+        public let optionGroupName: String?
         /// Provides the master username for the DB snapshot.
-        public var masterUsername: String? = nil
+        public let masterUsername: String?
         /// Specifies the name of the database engine.
-        public var engine: String? = nil
+        public let engine: String?
         /// Specifies the identifier for the DB snapshot.
-        public var dBSnapshotIdentifier: String? = nil
+        public let dBSnapshotIdentifier: String?
         /// Specifies the DB instance identifier of the DB instance this DB snapshot was created from.
-        public var dBInstanceIdentifier: String? = nil
-
-        public init() {}
+        public let dBInstanceIdentifier: String?
 
         public init(port: Int32? = nil, encrypted: Bool? = nil, iops: Int32? = nil, availabilityZone: String? = nil, sourceDBSnapshotIdentifier: String? = nil, status: String? = nil, engineVersion: String? = nil, vpcId: String? = nil, percentProgress: Int32? = nil, snapshotCreateTime: Date? = nil, dBSnapshotArn: String? = nil, kmsKeyId: String? = nil, instanceCreateTime: Date? = nil, sourceRegion: String? = nil, allocatedStorage: Int32? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, snapshotType: String? = nil, licenseModel: String? = nil, optionGroupName: String? = nil, masterUsername: String? = nil, engine: String? = nil, dBSnapshotIdentifier: String? = nil, dBInstanceIdentifier: String? = nil) {
             self.port = port
@@ -6882,15 +6596,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Provides the name of the DB parameter group family that this DB parameter group is compatible with.
-        public var dBParameterGroupFamily: String? = nil
+        public let dBParameterGroupFamily: String?
         /// The Amazon Resource Name (ARN) for the DB parameter group.
-        public var dBParameterGroupArn: String? = nil
+        public let dBParameterGroupArn: String?
         /// Provides the name of the DB parameter group.
-        public var dBParameterGroupName: String? = nil
+        public let dBParameterGroupName: String?
         /// Provides the customer-specified description for this DB parameter group.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(dBParameterGroupFamily: String? = nil, dBParameterGroupArn: String? = nil, dBParameterGroupName: String? = nil, description: String? = nil) {
             self.dBParameterGroupFamily = dBParameterGroupFamily
@@ -6911,14 +6623,12 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Customer-specified identifier to track this reservation. Example: myreservationID
-        public var reservedDBInstanceId: String? = nil
+        public let reservedDBInstanceId: String?
         /// The ID of the Reserved DB instance offering to purchase. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
-        public var reservedDBInstancesOfferingId: String = ""
+        public let reservedDBInstancesOfferingId: String
         /// The number of instances to reserve. Default: 1 
-        public var dBInstanceCount: Int32? = nil
-        public var tags: [Tag]? = nil
-
-        public init() {}
+        public let dBInstanceCount: Int32?
+        public let tags: [Tag]?
 
         public init(reservedDBInstanceId: String? = nil, reservedDBInstancesOfferingId: String, dBInstanceCount: Int32? = nil, tags: [Tag]? = nil) {
             self.reservedDBInstanceId = reservedDBInstanceId
@@ -6934,6 +6644,8 @@ extension Rds {
             self.dBInstanceCount = dictionary["DBInstanceCount"] as? Int32
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
         }
     }
@@ -6942,9 +6654,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// Provides the name of the DB parameter group.
-        public var dBParameterGroupName: String? = nil
-
-        public init() {}
+        public let dBParameterGroupName: String?
 
         public init(dBParameterGroupName: String? = nil) {
             self.dBParameterGroupName = dBParameterGroupName
@@ -6959,9 +6669,7 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier for the DB snapshot to describe the attributes for.
-        public var dBSnapshotIdentifier: String = ""
-
-        public init() {}
+        public let dBSnapshotIdentifier: String
 
         public init(dBSnapshotIdentifier: String) {
             self.dBSnapshotIdentifier = dBSnapshotIdentifier
@@ -6977,15 +6685,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// This parameter is not currently supported.
-        public var filters: [Filter]? = nil
+        public let filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeDBSecurityGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
-        public var marker: String? = nil
+        public let marker: String?
         /// The name of the DB security group to return details for.
-        public var dBSecurityGroupName: String? = nil
-
-        public init() {}
+        public let dBSecurityGroupName: String?
 
         public init(maxRecords: Int32? = nil, filters: [Filter]? = nil, marker: String? = nil, dBSecurityGroupName: String? = nil) {
             self.maxRecords = maxRecords
@@ -6998,6 +6704,8 @@ extension Rds {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try Filter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
             self.marker = dictionary["Marker"] as? String
             self.dBSecurityGroupName = dictionary["DBSecurityGroupName"] as? String
@@ -7008,11 +6716,9 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// This parameter is not currently supported.
-        public var name: String = ""
+        public let name: String
         /// This parameter is not currently supported.
-        public var values: [String] = []
-
-        public init() {}
+        public let values: [String]
 
         public init(name: String, values: [String]) {
             self.name = name
@@ -7031,15 +6737,13 @@ extension Rds {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of lines to download. If the number of lines specified results in a file over 1 MB in size, the file will be truncated at 1 MB in size. If the NumberOfLines parameter is specified, then the block of lines returned can be from the beginning or the end of the log file, depending on the value of the Marker parameter.   If neither Marker or NumberOfLines are specified, the entire log file is returned up to a maximum of 10000 lines, starting with the most recent log entries first.   If NumberOfLines is specified and Marker is not specified, then the most recent lines from the end of the log file are returned.   If Marker is specified as "0", then the specified number of lines from the beginning of the log file are returned.   You can download the log file in blocks of lines by specifying the size of the block using the NumberOfLines parameter, and by specifying a value of "0" for the Marker parameter in your first request. Include the Marker value returned in the response as the Marker value for the next request, continuing until the AdditionalDataPending response element returns false.  
-        public var numberOfLines: Int32? = nil
+        public let numberOfLines: Int32?
         /// The pagination token provided in the previous request or "0". If the Marker parameter is specified the response includes only records beyond the marker until the end of the file or up to NumberOfLines.
-        public var marker: String? = nil
+        public let marker: String?
         /// The name of the log file to be downloaded.
-        public var logFileName: String = ""
+        public let logFileName: String
         /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public var dBInstanceIdentifier: String = ""
-
-        public init() {}
+        public let dBInstanceIdentifier: String
 
         public init(numberOfLines: Int32? = nil, marker: String? = nil, logFileName: String, dBInstanceIdentifier: String) {
             self.numberOfLines = numberOfLines

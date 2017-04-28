@@ -32,10 +32,8 @@ extension Es {
     public struct InstanceCountLimits: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var minimumInstanceCount: Int32? = nil
-        public var maximumInstanceCount: Int32? = nil
-
-        public init() {}
+        public let minimumInstanceCount: Int32?
+        public let maximumInstanceCount: Int32?
 
         public init(minimumInstanceCount: Int32? = nil, maximumInstanceCount: Int32? = nil) {
             self.minimumInstanceCount = minimumInstanceCount
@@ -52,9 +50,7 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Elasticsearch domains for which you want information.
-        public var domainNames: [String] = []
-
-        public init() {}
+        public let domainNames: [String]
 
         public init(domainNames: [String]) {
             self.domainNames = domainNames
@@ -73,9 +69,7 @@ extension Es {
             return ["DomainName": "DomainName"]
         }
         /// The name of the Elasticsearch domain for which you want information.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
@@ -91,11 +85,9 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Specify the ARN for which you want to add the tags.
-        public var aRN: String = ""
+        public let aRN: String
         ///  List of Tag that need to be added for the Elasticsearch domain. 
-        public var tagList: [Tag] = []
-
-        public init() {}
+        public let tagList: [Tag]
 
         public init(aRN: String, tagList: [Tag]) {
             self.aRN = aRN
@@ -120,15 +112,13 @@ extension Es {
             return ["ElasticsearchVersion": "ElasticsearchVersion"]
         }
         ///  Set this value to limit the number of results returned. Value provided must be greater than 30 else it wont be honored. 
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for list of available Elasticsearch instance types when modifying existing domain. 
-        public var domainName: String? = nil
+        public let domainName: String?
         /// NextToken should be sent in case if earlier API call produced result containing NextToken. It is used for pagination. 
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Version of Elasticsearch for which list of supported elasticsearch instance types are needed. 
-        public var elasticsearchVersion: String = ""
-
-        public init() {}
+        public let elasticsearchVersion: String
 
         public init(maxResults: Int32? = nil, domainName: String? = nil, nextToken: String? = nil, elasticsearchVersion: String) {
             self.maxResults = maxResults
@@ -153,19 +143,17 @@ extension Es {
             return ["DomainName": "DomainName"]
         }
         /// Option to set the time, in UTC format, for the daily automated snapshot. Default value is 0 hours. 
-        public var snapshotOptions: SnapshotOptions? = nil
+        public let snapshotOptions: SnapshotOptions?
         /// The type and number of instances to instantiate for the domain cluster.
-        public var elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil
+        public let elasticsearchClusterConfig: ElasticsearchClusterConfig?
         /// Modifies the advanced option to allow references to indices in an HTTP request body. Must be false when configuring access to individual sub-resources. By default, the value is true. See Configuration Advanced Options for more information.
-        public var advancedOptions: [String: String]? = nil
+        public let advancedOptions: [String: String]?
         /// IAM access policy as a JSON-formatted string.
-        public var accessPolicies: String? = nil
+        public let accessPolicies: String?
         /// Specify the type and size of the EBS volume that you want to use. 
-        public var eBSOptions: EBSOptions? = nil
+        public let eBSOptions: EBSOptions?
         /// The name of the Elasticsearch domain that you are updating. 
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(snapshotOptions: SnapshotOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, advancedOptions: [String: String]? = nil, accessPolicies: String? = nil, eBSOptions: EBSOptions? = nil, domainName: String) {
             self.snapshotOptions = snapshotOptions
@@ -177,13 +165,15 @@ extension Es {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let snapshotOptions = dictionary["SnapshotOptions"] as? [String: Any] { self.snapshotOptions = try Es.SnapshotOptions(dictionary: snapshotOptions) }
-            if let elasticsearchClusterConfig = dictionary["ElasticsearchClusterConfig"] as? [String: Any] { self.elasticsearchClusterConfig = try Es.ElasticsearchClusterConfig(dictionary: elasticsearchClusterConfig) }
+            if let snapshotOptions = dictionary["SnapshotOptions"] as? [String: Any] { self.snapshotOptions = try Es.SnapshotOptions(dictionary: snapshotOptions) } else { self.snapshotOptions = nil }
+            if let elasticsearchClusterConfig = dictionary["ElasticsearchClusterConfig"] as? [String: Any] { self.elasticsearchClusterConfig = try Es.ElasticsearchClusterConfig(dictionary: elasticsearchClusterConfig) } else { self.elasticsearchClusterConfig = nil }
             if let advancedOptions = dictionary["AdvancedOptions"] as? [String: String] {
                 self.advancedOptions = advancedOptions
+            } else { 
+                self.advancedOptions = nil
             }
             self.accessPolicies = dictionary["AccessPolicies"] as? String
-            if let eBSOptions = dictionary["EBSOptions"] as? [String: Any] { self.eBSOptions = try Es.EBSOptions(dictionary: eBSOptions) }
+            if let eBSOptions = dictionary["EBSOptions"] as? [String: Any] { self.eBSOptions = try Es.EBSOptions(dictionary: eBSOptions) } else { self.eBSOptions = nil }
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
         }
@@ -193,16 +183,14 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the newly created Elasticsearch domain. 
-        public var domainStatus: ElasticsearchDomainStatus? = nil
-
-        public init() {}
+        public let domainStatus: ElasticsearchDomainStatus?
 
         public init(domainStatus: ElasticsearchDomainStatus? = nil) {
             self.domainStatus = domainStatus
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let domainStatus = dictionary["DomainStatus"] as? [String: Any] { self.domainStatus = try Es.ElasticsearchDomainStatus(dictionary: domainStatus) }
+            if let domainStatus = dictionary["DomainStatus"] as? [String: Any] { self.domainStatus = try Es.ElasticsearchDomainStatus(dictionary: domainStatus) } else { self.domainStatus = nil }
         }
     }
 
@@ -210,11 +198,9 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Specifies the cluster configuration for the specified Elasticsearch domain.
-        public var options: ElasticsearchClusterConfig = ElasticsearchClusterConfig()
+        public let options: ElasticsearchClusterConfig
         ///  Specifies the status of the configuration for the specified Elasticsearch domain.
-        public var status: OptionStatus = OptionStatus()
-
-        public init() {}
+        public let status: OptionStatus
 
         public init(options: ElasticsearchClusterConfig, status: OptionStatus) {
             self.options = options
@@ -233,9 +219,7 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         ///  List of Tag for the requested Elasticsearch domain.
-        public var tagList: [Tag]? = nil
-
-        public init() {}
+        public let tagList: [Tag]?
 
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
@@ -244,6 +228,8 @@ extension Es {
         public init(dictionary: [String: Any]) throws {
             if let tagList = dictionary["TagList"] as? [[String: Any]] {
                 self.tagList = try tagList.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tagList = nil
             }
         }
     }
@@ -258,13 +244,11 @@ extension Es {
             return ["InstanceType": "InstanceType", "ElasticsearchVersion": "ElasticsearchVersion"]
         }
         ///  The instance type for an Elasticsearch cluster for which Elasticsearch  Limits  are needed. 
-        public var instanceType: String = ""
+        public let instanceType: String
         ///  DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for Elasticsearch  Limits  for existing domain. 
-        public var domainName: String? = nil
+        public let domainName: String?
         ///  Version of Elasticsearch for which  Limits  are needed. 
-        public var elasticsearchVersion: String = ""
-
-        public init() {}
+        public let elasticsearchVersion: String
 
         public init(instanceType: String, domainName: String? = nil, elasticsearchVersion: String) {
             self.instanceType = instanceType
@@ -285,11 +269,9 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the ARN for the Elasticsearch domain from which you want to delete the specified tags.
-        public var aRN: String = ""
+        public let aRN: String
         /// Specifies the TagKey list which you want to remove from the Elasticsearch domain.
-        public var tagKeys: [String] = []
-
-        public init() {}
+        public let tagKeys: [String]
 
         public init(aRN: String, tagKeys: [String]) {
             self.aRN = aRN
@@ -308,17 +290,15 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the latest version for the entity.
-        public var updateVersion: Int32? = nil
+        public let updateVersion: Int32?
         /// Indicates whether the Elasticsearch domain is being deleted.
-        public var pendingDeletion: Bool? = nil
+        public let pendingDeletion: Bool?
         /// Timestamp which tells the creation date for the entity.
-        public var creationDate: Date = Date()
+        public let creationDate: Date
         /// Provides the OptionState for the Elasticsearch domain.
-        public var state: String = ""
+        public let state: String
         /// Timestamp which tells the last updated time for the entity.
-        public var updateDate: Date = Date()
-
-        public init() {}
+        public let updateDate: Date
 
         public init(updateVersion: Int32? = nil, pendingDeletion: Bool? = nil, creationDate: Date, state: String, updateDate: Date) {
             self.updateVersion = updateVersion
@@ -343,9 +323,7 @@ extension Es {
     public struct DescribeElasticsearchInstanceTypeLimitsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var limitsByRole: [String: Limits]? = nil
-
-        public init() {}
+        public let limitsByRole: [String: Limits]?
 
         public init(limitsByRole: [String: Limits]? = nil) {
             self.limitsByRole = limitsByRole
@@ -359,6 +337,8 @@ extension Es {
                     limitsByRoleDict[key] = try Limits(dictionary: limitsDict)
                 }
                 self.limitsByRole = limitsByRoleDict
+            } else { 
+                self.limitsByRole = nil
             }
         }
     }
@@ -367,9 +347,7 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current status of the Elasticsearch domain.
-        public var domainStatus: ElasticsearchDomainStatus = ElasticsearchDomainStatus()
-
-        public init() {}
+        public let domainStatus: ElasticsearchDomainStatus
 
         public init(domainStatus: ElasticsearchDomainStatus) {
             self.domainStatus = domainStatus
@@ -385,11 +363,9 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Name of Additional Limit is specific to a given InstanceType and for each of it's  InstanceRole  etc.  Attributes and their details:   MaximumNumberOfDataNodesSupported This attribute will be present in Master node only to specify how much data nodes upto which given  ESPartitionInstanceType  can support as master node. MaximumNumberOfDataNodesWithoutMasterNode This attribute will be present in Data node only to specify how much data nodes of given  ESPartitionInstanceType  upto which you don't need any master nodes to govern them.  
-        public var limitName: String? = nil
+        public let limitName: String?
         ///  Value for given  AdditionalLimit$LimitName  . 
-        public var limitValues: [String]? = nil
-
-        public init() {}
+        public let limitValues: [String]?
 
         public init(limitName: String? = nil, limitValues: [String]? = nil) {
             self.limitName = limitName
@@ -398,9 +374,7 @@ extension Es {
 
         public init(dictionary: [String: Any]) throws {
             self.limitName = dictionary["LimitName"] as? String
-            if let limitValues = dictionary["LimitValues"] as? [String] {
-                self.limitValues = limitValues
-            }
+            self.limitValues = dictionary["LimitValues"] as? [String]
         }
     }
 
@@ -408,9 +382,7 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of Elasticsearch domain names.
-        public var domainNames: [DomainInfo]? = nil
-
-        public init() {}
+        public let domainNames: [DomainInfo]?
 
         public init(domainNames: [DomainInfo]? = nil) {
             self.domainNames = domainNames
@@ -419,6 +391,8 @@ extension Es {
         public init(dictionary: [String: Any]) throws {
             if let domainNames = dictionary["DomainNames"] as? [[String: Any]] {
                 self.domainNames = try domainNames.map({ try DomainInfo(dictionary: $0) })
+            } else { 
+                self.domainNames = nil
             }
         }
     }
@@ -427,9 +401,7 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the time, in UTC format, when the service takes a daily automated snapshot of the specified Elasticsearch domain. Default value is 0 hours.
-        public var automatedSnapshotStartHour: Int32? = nil
-
-        public init() {}
+        public let automatedSnapshotStartHour: Int32?
 
         public init(automatedSnapshotStartHour: Int32? = nil) {
             self.automatedSnapshotStartHour = automatedSnapshotStartHour
@@ -444,15 +416,13 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Integer to specify the size of an EBS volume.
-        public var volumeSize: Int32? = nil
+        public let volumeSize: Int32?
         ///  Specifies the volume type for EBS-based storage.
-        public var volumeType: String? = nil
+        public let volumeType: String?
         /// Specifies the IOPD for a Provisioned IOPS EBS volume (SSD).
-        public var iops: Int32? = nil
+        public let iops: Int32?
         /// Specifies whether EBS-based storage is enabled.
-        public var eBSEnabled: Bool? = nil
-
-        public init() {}
+        public let eBSEnabled: Bool?
 
         public init(volumeSize: Int32? = nil, volumeType: String? = nil, iops: Int32? = nil, eBSEnabled: Bool? = nil) {
             self.volumeSize = volumeSize
@@ -476,9 +446,7 @@ extension Es {
             return ["DomainName": "DomainName"]
         }
         /// The Elasticsearch domain that you want to get information about.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
@@ -494,9 +462,7 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// The configuration information of the domain requested in the DescribeElasticsearchDomainConfig request.
-        public var domainConfig: ElasticsearchDomainConfig = ElasticsearchDomainConfig()
-
-        public init() {}
+        public let domainConfig: ElasticsearchDomainConfig
 
         public init(domainConfig: ElasticsearchDomainConfig) {
             self.domainConfig = domainConfig
@@ -514,11 +480,9 @@ extension Es {
         public static var queryParams: [String: String] {
             return ["nextToken": "NextToken", "maxResults": "MaxResults"]
         }
-        public var nextToken: String? = nil
+        public let nextToken: String?
         ///  Set this value to limit the number of results returned. Value provided must be greater than 10 else it wont be honored. 
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -535,11 +499,9 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         ///  List of instance types supported by Amazon Elasticsearch service for given  ElasticsearchVersion  
-        public var elasticsearchInstanceTypes: [String]? = nil
+        public let elasticsearchInstanceTypes: [String]?
         /// In case if there are more results available NextToken would be present, make further request to the same API with received NextToken to paginate remaining results. 
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(elasticsearchInstanceTypes: [String]? = nil, nextToken: String? = nil) {
             self.elasticsearchInstanceTypes = elasticsearchInstanceTypes
@@ -547,9 +509,7 @@ extension Es {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let elasticsearchInstanceTypes = dictionary["ElasticsearchInstanceTypes"] as? [String] {
-                self.elasticsearchInstanceTypes = elasticsearchInstanceTypes
-            }
+            self.elasticsearchInstanceTypes = dictionary["ElasticsearchInstanceTypes"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
         }
     }
@@ -558,11 +518,9 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the TagValue, the value assigned to the corresponding tag key. Tag values can be null and do not have to be unique in a tag set. For example, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity
-        public var value: String = ""
+        public let value: String
         /// Specifies the TagKey, the name of the tag. Tag keys must be unique for the Elasticsearch domain to which they are attached.
-        public var key: String = ""
-
-        public init() {}
+        public let key: String
 
         public init(value: String, key: String) {
             self.value = value
@@ -581,11 +539,9 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the daily snapshot options specified for the Elasticsearch domain.
-        public var options: SnapshotOptions = SnapshotOptions()
+        public let options: SnapshotOptions
         /// Specifies the status of a daily automated snapshot.
-        public var status: OptionStatus = OptionStatus()
-
-        public init() {}
+        public let status: OptionStatus
 
         public init(options: SnapshotOptions, status: OptionStatus) {
             self.options = options
@@ -604,9 +560,7 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Specifies the DomainName.
-        public var domainName: String? = nil
-
-        public init() {}
+        public let domainName: String?
 
         public init(domainName: String? = nil) {
             self.domainName = domainName
@@ -621,9 +575,7 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the domains requested in the DescribeElasticsearchDomains request.
-        public var domainStatusList: [ElasticsearchDomainStatus] = []
-
-        public init() {}
+        public let domainStatusList: [ElasticsearchDomainStatus]
 
         public init(domainStatusList: [ElasticsearchDomainStatus]) {
             self.domainStatusList = domainStatusList
@@ -639,9 +591,7 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the updated Elasticsearch domain. 
-        public var domainConfig: ElasticsearchDomainConfig = ElasticsearchDomainConfig()
-
-        public init() {}
+        public let domainConfig: ElasticsearchDomainConfig
 
         public init(domainConfig: ElasticsearchDomainConfig) {
             self.domainConfig = domainConfig
@@ -657,11 +607,9 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Name of storage limits that are applicable for given storage type. If  StorageType  is ebs, following storage options are applicable  MinimumVolumeSize Minimum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumVolumeSize Maximum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumIops Maximum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable. MinimumIops Minimum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable.  
-        public var limitName: String? = nil
+        public let limitName: String?
         ///  Values for the  StorageTypeLimit$LimitName  . 
-        public var limitValues: [String]? = nil
-
-        public init() {}
+        public let limitValues: [String]?
 
         public init(limitName: String? = nil, limitValues: [String]? = nil) {
             self.limitName = limitName
@@ -670,9 +618,7 @@ extension Es {
 
         public init(dictionary: [String: Any]) throws {
             self.limitName = dictionary["LimitName"] as? String
-            if let limitValues = dictionary["LimitValues"] as? [String] {
-                self.limitValues = limitValues
-            }
+            self.limitValues = dictionary["LimitValues"] as? [String]
         }
     }
 
@@ -680,11 +626,9 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Specifies the Elasticsearch version for the specified Elasticsearch domain.
-        public var options: String = ""
+        public let options: String
         ///  Specifies the status of the Elasticsearch version options for the specified Elasticsearch domain.
-        public var status: OptionStatus = OptionStatus()
-
-        public init() {}
+        public let status: OptionStatus
 
         public init(options: String, status: OptionStatus) {
             self.options = options
@@ -702,10 +646,8 @@ extension Es {
     public struct ListElasticsearchVersionsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var elasticsearchVersions: [String]? = nil
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let elasticsearchVersions: [String]?
+        public let nextToken: String?
 
         public init(elasticsearchVersions: [String]? = nil, nextToken: String? = nil) {
             self.elasticsearchVersions = elasticsearchVersions
@@ -713,9 +655,7 @@ extension Es {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let elasticsearchVersions = dictionary["ElasticsearchVersions"] as? [String] {
-                self.elasticsearchVersions = elasticsearchVersions
-            }
+            self.elasticsearchVersions = dictionary["ElasticsearchVersions"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
         }
     }
@@ -723,16 +663,14 @@ extension Es {
     public struct InstanceLimits: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var instanceCountLimits: InstanceCountLimits? = nil
-
-        public init() {}
+        public let instanceCountLimits: InstanceCountLimits?
 
         public init(instanceCountLimits: InstanceCountLimits? = nil) {
             self.instanceCountLimits = instanceCountLimits
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let instanceCountLimits = dictionary["InstanceCountLimits"] as? [String: Any] { self.instanceCountLimits = try Es.InstanceCountLimits(dictionary: instanceCountLimits) }
+            if let instanceCountLimits = dictionary["InstanceCountLimits"] as? [String: Any] { self.instanceCountLimits = try Es.InstanceCountLimits(dictionary: instanceCountLimits) } else { self.instanceCountLimits = nil }
         }
     }
 
@@ -743,9 +681,7 @@ extension Es {
             return ["DomainName": "DomainName"]
         }
         /// The name of the Elasticsearch domain that you want to permanently delete.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
@@ -761,11 +697,9 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Specifies the status of advanced options for the specified Elasticsearch domain.
-        public var options: [String: String] = [:]
+        public let options: [String: String]
         ///  Specifies the status of OptionStatus for advanced options for the specified Elasticsearch domain.
-        public var status: OptionStatus = OptionStatus()
-
-        public init() {}
+        public let status: OptionStatus
 
         public init(options: [String: String], status: OptionStatus) {
             self.options = options
@@ -784,12 +718,10 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         ///  List of additional limits that are specific to a given InstanceType and for each of it's  InstanceRole  . 
-        public var additionalLimits: [AdditionalLimit]? = nil
+        public let additionalLimits: [AdditionalLimit]?
         /// StorageType represents the list of storage related types and attributes that are available for given InstanceType. 
-        public var storageTypes: [StorageType]? = nil
-        public var instanceLimits: InstanceLimits? = nil
-
-        public init() {}
+        public let storageTypes: [StorageType]?
+        public let instanceLimits: InstanceLimits?
 
         public init(additionalLimits: [AdditionalLimit]? = nil, storageTypes: [StorageType]? = nil, instanceLimits: InstanceLimits? = nil) {
             self.additionalLimits = additionalLimits
@@ -800,11 +732,15 @@ extension Es {
         public init(dictionary: [String: Any]) throws {
             if let additionalLimits = dictionary["AdditionalLimits"] as? [[String: Any]] {
                 self.additionalLimits = try additionalLimits.map({ try AdditionalLimit(dictionary: $0) })
+            } else { 
+                self.additionalLimits = nil
             }
             if let storageTypes = dictionary["StorageTypes"] as? [[String: Any]] {
                 self.storageTypes = try storageTypes.map({ try StorageType(dictionary: $0) })
+            } else { 
+                self.storageTypes = nil
             }
-            if let instanceLimits = dictionary["InstanceLimits"] as? [String: Any] { self.instanceLimits = try Es.InstanceLimits(dictionary: instanceLimits) }
+            if let instanceLimits = dictionary["InstanceLimits"] as? [String: Any] { self.instanceLimits = try Es.InstanceLimits(dictionary: instanceLimits) } else { self.instanceLimits = nil }
         }
     }
 
@@ -812,19 +748,17 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the SnapshotOptions for the Elasticsearch domain.
-        public var snapshotOptions: SnapshotOptionsStatus? = nil
+        public let snapshotOptions: SnapshotOptionsStatus?
         /// Specifies the ElasticsearchClusterConfig for the Elasticsearch domain.
-        public var elasticsearchClusterConfig: ElasticsearchClusterConfigStatus? = nil
+        public let elasticsearchClusterConfig: ElasticsearchClusterConfigStatus?
         /// IAM access policy as a JSON-formatted string.
-        public var accessPolicies: AccessPoliciesStatus? = nil
+        public let accessPolicies: AccessPoliciesStatus?
         /// Specifies the AdvancedOptions for the domain. See Configuring Advanced Options for more information.
-        public var advancedOptions: AdvancedOptionsStatus? = nil
+        public let advancedOptions: AdvancedOptionsStatus?
         /// Specifies the EBSOptions for the Elasticsearch domain.
-        public var eBSOptions: EBSOptionsStatus? = nil
+        public let eBSOptions: EBSOptionsStatus?
         /// String of format X.Y to specify version for the Elasticsearch domain.
-        public var elasticsearchVersion: ElasticsearchVersionStatus? = nil
-
-        public init() {}
+        public let elasticsearchVersion: ElasticsearchVersionStatus?
 
         public init(snapshotOptions: SnapshotOptionsStatus? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfigStatus? = nil, accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, eBSOptions: EBSOptionsStatus? = nil, elasticsearchVersion: ElasticsearchVersionStatus? = nil) {
             self.snapshotOptions = snapshotOptions
@@ -836,12 +770,12 @@ extension Es {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let snapshotOptions = dictionary["SnapshotOptions"] as? [String: Any] { self.snapshotOptions = try Es.SnapshotOptionsStatus(dictionary: snapshotOptions) }
-            if let elasticsearchClusterConfig = dictionary["ElasticsearchClusterConfig"] as? [String: Any] { self.elasticsearchClusterConfig = try Es.ElasticsearchClusterConfigStatus(dictionary: elasticsearchClusterConfig) }
-            if let accessPolicies = dictionary["AccessPolicies"] as? [String: Any] { self.accessPolicies = try Es.AccessPoliciesStatus(dictionary: accessPolicies) }
-            if let advancedOptions = dictionary["AdvancedOptions"] as? [String: Any] { self.advancedOptions = try Es.AdvancedOptionsStatus(dictionary: advancedOptions) }
-            if let eBSOptions = dictionary["EBSOptions"] as? [String: Any] { self.eBSOptions = try Es.EBSOptionsStatus(dictionary: eBSOptions) }
-            if let elasticsearchVersion = dictionary["ElasticsearchVersion"] as? [String: Any] { self.elasticsearchVersion = try Es.ElasticsearchVersionStatus(dictionary: elasticsearchVersion) }
+            if let snapshotOptions = dictionary["SnapshotOptions"] as? [String: Any] { self.snapshotOptions = try Es.SnapshotOptionsStatus(dictionary: snapshotOptions) } else { self.snapshotOptions = nil }
+            if let elasticsearchClusterConfig = dictionary["ElasticsearchClusterConfig"] as? [String: Any] { self.elasticsearchClusterConfig = try Es.ElasticsearchClusterConfigStatus(dictionary: elasticsearchClusterConfig) } else { self.elasticsearchClusterConfig = nil }
+            if let accessPolicies = dictionary["AccessPolicies"] as? [String: Any] { self.accessPolicies = try Es.AccessPoliciesStatus(dictionary: accessPolicies) } else { self.accessPolicies = nil }
+            if let advancedOptions = dictionary["AdvancedOptions"] as? [String: Any] { self.advancedOptions = try Es.AdvancedOptionsStatus(dictionary: advancedOptions) } else { self.advancedOptions = nil }
+            if let eBSOptions = dictionary["EBSOptions"] as? [String: Any] { self.eBSOptions = try Es.EBSOptionsStatus(dictionary: eBSOptions) } else { self.eBSOptions = nil }
+            if let elasticsearchVersion = dictionary["ElasticsearchVersion"] as? [String: Any] { self.elasticsearchVersion = try Es.ElasticsearchVersionStatus(dictionary: elasticsearchVersion) } else { self.elasticsearchVersion = nil }
         }
     }
 
@@ -849,21 +783,19 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// Option to set time, in UTC format, of the daily automated snapshot. Default value is 0 hours. 
-        public var snapshotOptions: SnapshotOptions? = nil
+        public let snapshotOptions: SnapshotOptions?
         /// Configuration options for an Elasticsearch domain. Specifies the instance type and number of instances in the domain cluster. 
-        public var elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil
+        public let elasticsearchClusterConfig: ElasticsearchClusterConfig?
         /// Options to enable, disable and specify the type and size of EBS storage volumes. 
-        public var eBSOptions: EBSOptions? = nil
+        public let eBSOptions: EBSOptions?
         /// String of format X.Y to specify version for the Elasticsearch domain eg. "1.5" or "2.3". For more information, see Creating Elasticsearch Domains in the Amazon Elasticsearch Service Developer Guide.
-        public var elasticsearchVersion: String? = nil
+        public let elasticsearchVersion: String?
         ///  IAM access policy as a JSON-formatted string.
-        public var accessPolicies: String? = nil
+        public let accessPolicies: String?
         ///  Option to allow references to indices in an HTTP request body. Must be false when configuring access to individual sub-resources. By default, the value is true. See Configuration Advanced Options for more information.
-        public var advancedOptions: [String: String]? = nil
+        public let advancedOptions: [String: String]?
         /// The name of the Elasticsearch domain that you are creating. Domain names are unique across the domains owned by an account within an AWS region. Domain names must start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(snapshotOptions: SnapshotOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, eBSOptions: EBSOptions? = nil, elasticsearchVersion: String? = nil, accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, domainName: String) {
             self.snapshotOptions = snapshotOptions
@@ -876,13 +808,15 @@ extension Es {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let snapshotOptions = dictionary["SnapshotOptions"] as? [String: Any] { self.snapshotOptions = try Es.SnapshotOptions(dictionary: snapshotOptions) }
-            if let elasticsearchClusterConfig = dictionary["ElasticsearchClusterConfig"] as? [String: Any] { self.elasticsearchClusterConfig = try Es.ElasticsearchClusterConfig(dictionary: elasticsearchClusterConfig) }
-            if let eBSOptions = dictionary["EBSOptions"] as? [String: Any] { self.eBSOptions = try Es.EBSOptions(dictionary: eBSOptions) }
+            if let snapshotOptions = dictionary["SnapshotOptions"] as? [String: Any] { self.snapshotOptions = try Es.SnapshotOptions(dictionary: snapshotOptions) } else { self.snapshotOptions = nil }
+            if let elasticsearchClusterConfig = dictionary["ElasticsearchClusterConfig"] as? [String: Any] { self.elasticsearchClusterConfig = try Es.ElasticsearchClusterConfig(dictionary: elasticsearchClusterConfig) } else { self.elasticsearchClusterConfig = nil }
+            if let eBSOptions = dictionary["EBSOptions"] as? [String: Any] { self.eBSOptions = try Es.EBSOptions(dictionary: eBSOptions) } else { self.eBSOptions = nil }
             self.elasticsearchVersion = dictionary["ElasticsearchVersion"] as? String
             self.accessPolicies = dictionary["AccessPolicies"] as? String
             if let advancedOptions = dictionary["AdvancedOptions"] as? [String: String] {
                 self.advancedOptions = advancedOptions
+            } else { 
+                self.advancedOptions = nil
             }
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
@@ -893,11 +827,9 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of limits that are applicable for given storage type. 
-        public var storageTypeLimits: [StorageTypeLimit]? = nil
-        public var storageSubTypeName: String? = nil
-        public var storageTypeName: String? = nil
-
-        public init() {}
+        public let storageTypeLimits: [StorageTypeLimit]?
+        public let storageSubTypeName: String?
+        public let storageTypeName: String?
 
         public init(storageTypeLimits: [StorageTypeLimit]? = nil, storageSubTypeName: String? = nil, storageTypeName: String? = nil) {
             self.storageTypeLimits = storageTypeLimits
@@ -908,6 +840,8 @@ extension Es {
         public init(dictionary: [String: Any]) throws {
             if let storageTypeLimits = dictionary["StorageTypeLimits"] as? [[String: Any]] {
                 self.storageTypeLimits = try storageTypeLimits.map({ try StorageTypeLimit(dictionary: $0) })
+            } else { 
+                self.storageTypeLimits = nil
             }
             self.storageSubTypeName = dictionary["StorageSubTypeName"] as? String
             self.storageTypeName = dictionary["StorageTypeName"] as? String
@@ -918,16 +852,14 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the Elasticsearch domain being deleted.
-        public var domainStatus: ElasticsearchDomainStatus? = nil
-
-        public init() {}
+        public let domainStatus: ElasticsearchDomainStatus?
 
         public init(domainStatus: ElasticsearchDomainStatus? = nil) {
             self.domainStatus = domainStatus
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let domainStatus = dictionary["DomainStatus"] as? [String: Any] { self.domainStatus = try Es.ElasticsearchDomainStatus(dictionary: domainStatus) }
+            if let domainStatus = dictionary["DomainStatus"] as? [String: Any] { self.domainStatus = try Es.ElasticsearchDomainStatus(dictionary: domainStatus) } else { self.domainStatus = nil }
         }
     }
 
@@ -935,11 +867,9 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Specifies the EBS options for the specified Elasticsearch domain.
-        public var options: EBSOptions = EBSOptions()
+        public let options: EBSOptions
         ///  Specifies the status of the EBS options for the specified Elasticsearch domain.
-        public var status: OptionStatus = OptionStatus()
-
-        public init() {}
+        public let status: OptionStatus
 
         public init(options: EBSOptions, status: OptionStatus) {
             self.options = options
@@ -961,9 +891,7 @@ extension Es {
             return ["arn": "ARN"]
         }
         ///  Specify the ARN for the Elasticsearch domain to which the tags are attached that you want to view.
-        public var aRN: String = ""
-
-        public init() {}
+        public let aRN: String
 
         public init(aRN: String) {
             self.aRN = aRN
@@ -979,19 +907,17 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// Total number of dedicated master nodes, active and on standby, for the cluster.
-        public var dedicatedMasterCount: Int32? = nil
+        public let dedicatedMasterCount: Int32?
         /// The number of instances in the specified domain cluster.
-        public var instanceCount: Int32? = nil
+        public let instanceCount: Int32?
         /// The instance type for an Elasticsearch cluster.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// A boolean value to indicate whether a dedicated master node is enabled. See About Dedicated Master Nodes for more information.
-        public var dedicatedMasterEnabled: Bool? = nil
+        public let dedicatedMasterEnabled: Bool?
         /// The instance type for a dedicated master node.
-        public var dedicatedMasterType: String? = nil
+        public let dedicatedMasterType: String?
         /// A boolean value to indicate whether zone awareness is enabled. See About Zone Awareness for more information.
-        public var zoneAwarenessEnabled: Bool? = nil
-
-        public init() {}
+        public let zoneAwarenessEnabled: Bool?
 
         public init(dedicatedMasterCount: Int32? = nil, instanceCount: Int32? = nil, instanceType: String? = nil, dedicatedMasterEnabled: Bool? = nil, dedicatedMasterType: String? = nil, zoneAwarenessEnabled: Bool? = nil) {
             self.dedicatedMasterCount = dedicatedMasterCount
@@ -1016,11 +942,9 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// The access policy configured for the Elasticsearch domain. Access policies may be resource-based, IP-based, or IAM-based. See  Configuring Access Policiesfor more information.
-        public var options: String = ""
+        public let options: String
         /// The status of the access policy for the Elasticsearch domain. See OptionStatus for the status information that's included. 
-        public var status: OptionStatus = OptionStatus()
-
-        public init() {}
+        public let status: OptionStatus
 
         public init(options: String, status: OptionStatus) {
             self.options = options
@@ -1039,32 +963,30 @@ extension Es {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the Elasticsearch domain configuration. True if Amazon Elasticsearch Service is processing configuration changes. False if the configuration is active.
-        public var processing: Bool? = nil
-        public var elasticsearchVersion: String? = nil
+        public let processing: Bool?
+        public let elasticsearchVersion: String?
         /// The domain creation status. True if the creation of an Elasticsearch domain is complete. False if domain creation is still in progress.
-        public var created: Bool? = nil
+        public let created: Bool?
         /// The Amazon resource name (ARN) of an Elasticsearch domain. See Identifiers for IAM Entities in Using AWS Identity and Access Management for more information.
-        public var aRN: String = ""
+        public let aRN: String
         /// The EBSOptions for the specified domain. See Configuring EBS-based Storage for more information.
-        public var eBSOptions: EBSOptions? = nil
+        public let eBSOptions: EBSOptions?
         /// The type and number of instances in the domain cluster.
-        public var elasticsearchClusterConfig: ElasticsearchClusterConfig = ElasticsearchClusterConfig()
+        public let elasticsearchClusterConfig: ElasticsearchClusterConfig
         /// Specifies the status of the SnapshotOptions
-        public var snapshotOptions: SnapshotOptions? = nil
+        public let snapshotOptions: SnapshotOptions?
         ///  IAM access policy as a JSON-formatted string.
-        public var accessPolicies: String? = nil
+        public let accessPolicies: String?
         /// Specifies the status of the AdvancedOptions
-        public var advancedOptions: [String: String]? = nil
+        public let advancedOptions: [String: String]?
         /// The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
-        public var domainName: String = ""
+        public let domainName: String
         /// The Elasticsearch domain endpoint that you use to submit index and search requests.
-        public var endpoint: String? = nil
+        public let endpoint: String?
         /// The unique identifier for the specified Elasticsearch domain.
-        public var domainId: String = ""
+        public let domainId: String
         /// The domain deletion status. True if a delete request has been received for the domain but resource cleanup is still in progress. False if the domain has not been deleted. Once domain deletion is complete, the status of the domain is no longer returned.
-        public var deleted: Bool? = nil
-
-        public init() {}
+        public let deleted: Bool?
 
         public init(processing: Bool? = nil, elasticsearchVersion: String? = nil, created: Bool? = nil, aRN: String, eBSOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig, snapshotOptions: SnapshotOptions? = nil, accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, domainName: String, endpoint: String? = nil, domainId: String, deleted: Bool? = nil) {
             self.processing = processing
@@ -1088,13 +1010,15 @@ extension Es {
             self.created = dictionary["Created"] as? Bool
             guard let aRN = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
             self.aRN = aRN
-            if let eBSOptions = dictionary["EBSOptions"] as? [String: Any] { self.eBSOptions = try Es.EBSOptions(dictionary: eBSOptions) }
+            if let eBSOptions = dictionary["EBSOptions"] as? [String: Any] { self.eBSOptions = try Es.EBSOptions(dictionary: eBSOptions) } else { self.eBSOptions = nil }
             guard let elasticsearchClusterConfig = dictionary["ElasticsearchClusterConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ElasticsearchClusterConfig") }
             self.elasticsearchClusterConfig = try Es.ElasticsearchClusterConfig(dictionary: elasticsearchClusterConfig)
-            if let snapshotOptions = dictionary["SnapshotOptions"] as? [String: Any] { self.snapshotOptions = try Es.SnapshotOptions(dictionary: snapshotOptions) }
+            if let snapshotOptions = dictionary["SnapshotOptions"] as? [String: Any] { self.snapshotOptions = try Es.SnapshotOptions(dictionary: snapshotOptions) } else { self.snapshotOptions = nil }
             self.accessPolicies = dictionary["AccessPolicies"] as? String
             if let advancedOptions = dictionary["AdvancedOptions"] as? [String: String] {
                 self.advancedOptions = advancedOptions
+            } else { 
+                self.advancedOptions = nil
             }
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName

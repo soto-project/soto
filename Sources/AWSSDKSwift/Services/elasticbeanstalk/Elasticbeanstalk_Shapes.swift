@@ -33,11 +33,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         ///  If returned, this indicates that there are more results to obtain. Use this token in the next DescribeEvents call to get the next batch of events. 
-        public var nextToken: String? = nil
+        public let nextToken: String?
         ///  A list of EventDescription. 
-        public var events: [EventDescription]? = nil
-
-        public init() {}
+        public let events: [EventDescription]?
 
         public init(nextToken: String? = nil, events: [EventDescription]? = nil) {
             self.nextToken = nextToken
@@ -48,6 +46,8 @@ extension Elasticbeanstalk {
             self.nextToken = dictionary["NextToken"] as? String
             if let events = dictionary["Events"] as? [[String: Any]] {
                 self.events = try events.map({ try EventDescription(dictionary: $0) })
+            } else { 
+                self.events = nil
             }
         }
     }
@@ -56,11 +56,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The permitted file types allowed for a solution stack.
-        public var permittedFileTypes: [String]? = nil
+        public let permittedFileTypes: [String]?
         /// The name of the solution stack.
-        public var solutionStackName: String? = nil
-
-        public init() {}
+        public let solutionStackName: String?
 
         public init(permittedFileTypes: [String]? = nil, solutionStackName: String? = nil) {
             self.permittedFileTypes = permittedFileTypes
@@ -68,9 +66,7 @@ extension Elasticbeanstalk {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let permittedFileTypes = dictionary["PermittedFileTypes"] as? [String] {
-                self.permittedFileTypes = permittedFileTypes
-            }
+            self.permittedFileTypes = dictionary["PermittedFileTypes"] as? [String]
             self.solutionStackName = dictionary["SolutionStackName"] as? String
         }
     }
@@ -79,13 +75,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// The type of information to request.
-        public var infoType: String = ""
+        public let infoType: String
         /// The ID of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public var environmentId: String? = nil
-
-        public init() {}
+        public let environmentId: String?
 
         public init(environmentName: String? = nil, infoType: String, environmentId: String? = nil) {
             self.environmentName = environmentName
@@ -105,11 +99,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the programming language.
-        public var name: String? = nil
+        public let name: String?
         /// The version of the programming language.
-        public var version: String? = nil
-
-        public init() {}
+        public let version: String?
 
         public init(name: String? = nil, version: String? = nil) {
             self.name = name
@@ -126,17 +118,15 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of managed action.
-        public var actionType: String? = nil
+        public let actionType: String?
         /// The status of the managed action. If the action is Scheduled, you can apply it immediately with ApplyEnvironmentManagedAction.
-        public var status: String? = nil
+        public let status: String?
         /// A description of the managed action.
-        public var actionDescription: String? = nil
+        public let actionDescription: String?
         /// A unique identifier for the managed action.
-        public var actionId: String? = nil
+        public let actionId: String?
         /// The start time of the maintenance window in which the managed action will execute.
-        public var windowStartTime: Date? = nil
-
-        public init() {}
+        public let windowStartTime: Date?
 
         public init(actionType: String? = nil, status: String? = nil, actionDescription: String? = nil, actionId: String? = nil, windowStartTime: Date? = nil) {
             self.actionType = actionType
@@ -159,11 +149,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the environment to restart the server for.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// The ID of the environment to restart the server for.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public var environmentId: String? = nil
-
-        public init() {}
+        public let environmentId: String?
 
         public init(environmentName: String? = nil, environmentId: String? = nil) {
             self.environmentName = environmentName
@@ -180,21 +168,19 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// Percentage of time that the CPU has spent in the Nice state over the last 10 seconds.
-        public var nice: Double? = nil
+        public let nice: Double?
         /// Percentage of time that the CPU has spent in the IRQ state over the last 10 seconds.
-        public var iRQ: Double? = nil
+        public let iRQ: Double?
         /// Percentage of time that the CPU has spent in the SoftIRQ state over the last 10 seconds.
-        public var softIRQ: Double? = nil
+        public let softIRQ: Double?
         /// Percentage of time that the CPU has spent in the Idle state over the last 10 seconds.
-        public var idle: Double? = nil
+        public let idle: Double?
         /// Percentage of time that the CPU has spent in the I/O Wait state over the last 10 seconds.
-        public var iOWait: Double? = nil
+        public let iOWait: Double?
         /// Percentage of time that the CPU has spent in the System state over the last 10 seconds.
-        public var system: Double? = nil
+        public let system: Double?
         /// Percentage of time that the CPU has spent in the User state over the last 10 seconds.
-        public var user: Double? = nil
-
-        public init() {}
+        public let user: Double?
 
         public init(nice: Double? = nil, iRQ: Double? = nil, softIRQ: Double? = nil, idle: Double? = nil, iOWait: Double? = nil, system: Double? = nil, user: Double? = nil) {
             self.nice = nice
@@ -221,11 +207,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// A pagination token that you pass to DescribeEnvironmentManagedActionHistory to get the next page of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of completed and failed managed actions.
-        public var managedActionHistoryItems: [ManagedActionHistoryItem]? = nil
-
-        public init() {}
+        public let managedActionHistoryItems: [ManagedActionHistoryItem]?
 
         public init(nextToken: String? = nil, managedActionHistoryItems: [ManagedActionHistoryItem]? = nil) {
             self.nextToken = nextToken
@@ -236,6 +220,8 @@ extension Elasticbeanstalk {
             self.nextToken = dictionary["NextToken"] as? String
             if let managedActionHistoryItems = dictionary["ManagedActionHistoryItems"] as? [[String: Any]] {
                 self.managedActionHistoryItems = try managedActionHistoryItems.map({ try ManagedActionHistoryItem(dictionary: $0) })
+            } else { 
+                self.managedActionHistoryItems = nil
             }
         }
     }
@@ -244,15 +230,13 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the environment to terminate.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// Indicates whether the associated AWS resources should shut down when the environment is terminated:    true: The specified environment as well as the associated AWS resources, such as Auto Scaling group and LoadBalancer, are terminated.    false: AWS Elastic Beanstalk resource management is removed from the environment, but the AWS resources continue to operate.    For more information, see the  AWS Elastic Beanstalk User Guide.    Default: true   Valid Values: true | false 
-        public var terminateResources: Bool? = nil
+        public let terminateResources: Bool?
         /// The ID of the environment to terminate.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public var environmentId: String? = nil
+        public let environmentId: String?
         /// Terminates the target environment even if another environment in the same group is dependent on it.
-        public var forceTerminate: Bool? = nil
-
-        public init() {}
+        public let forceTerminate: Bool?
 
         public init(environmentName: String? = nil, terminateResources: Bool? = nil, environmentId: String? = nil, forceTerminate: Bool? = nil) {
             self.environmentName = environmentName
@@ -273,9 +257,7 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the Amazon S3 bucket created.
-        public var s3Bucket: String? = nil
-
-        public init() {}
+        public let s3Bucket: String?
 
         public init(s3Bucket: String? = nil) {
             self.s3Bucket = s3Bucket
@@ -290,15 +272,13 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The percentage of requests over the last 10 seconds that resulted in a 5xx (500, 501, etc.) status code.
-        public var status5xx: Int32? = nil
+        public let status5xx: Int32?
         /// The percentage of requests over the last 10 seconds that resulted in a 3xx (300, 301, etc.) status code.
-        public var status3xx: Int32? = nil
+        public let status3xx: Int32?
         /// The percentage of requests over the last 10 seconds that resulted in a 2xx (200, 201, etc.) status code.
-        public var status2xx: Int32? = nil
+        public let status2xx: Int32?
         /// The percentage of requests over the last 10 seconds that resulted in a 4xx (400, 401, etc.) status code.
-        public var status4xx: Int32? = nil
-
-        public init() {}
+        public let status4xx: Int32?
 
         public init(status5xx: Int32? = nil, status3xx: Int32? = nil, status2xx: Int32? = nil, status4xx: Int32? = nil) {
             self.status5xx = status5xx
@@ -319,15 +299,13 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of managed action.
-        public var actionType: String? = nil
+        public let actionType: String?
         /// The status of the managed action.
-        public var status: String? = nil
+        public let status: String?
         /// A description of the managed action.
-        public var actionDescription: String? = nil
+        public let actionDescription: String?
         /// The action ID of the managed action.
-        public var actionId: String? = nil
-
-        public init() {}
+        public let actionId: String?
 
         public init(actionType: String? = nil, status: String? = nil, actionDescription: String? = nil, actionId: String? = nil) {
             self.actionType = actionType
@@ -348,25 +326,23 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The severity level of this event.
-        public var severity: String? = nil
+        public let severity: String?
         /// The name of the configuration associated with this event.
-        public var templateName: String? = nil
+        public let templateName: String?
         /// The event message.
-        public var message: String? = nil
+        public let message: String?
         /// The ARN of the custom platform.
-        public var platformArn: String? = nil
+        public let platformArn: String?
         /// The release label for the application version associated with this event.
-        public var versionLabel: String? = nil
+        public let versionLabel: String?
         /// The name of the environment associated with this event.
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// The application associated with the event.
-        public var applicationName: String? = nil
+        public let applicationName: String?
         /// The web service request ID for the activity of this event.
-        public var requestId: String? = nil
+        public let requestId: String?
         /// The date when the event occurred.
-        public var eventDate: Date? = nil
-
-        public init() {}
+        public let eventDate: Date?
 
         public init(severity: String? = nil, templateName: String? = nil, message: String? = nil, platformArn: String? = nil, versionLabel: String? = nil, environmentName: String? = nil, applicationName: String? = nil, requestId: String? = nil, eventDate: Date? = nil) {
             self.severity = severity
@@ -397,11 +373,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the tag.
-        public var value: String? = nil
+        public let value: String?
         /// The key of the tag.
-        public var key: String? = nil
-
-        public init() {}
+        public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
             self.value = value
@@ -418,9 +392,7 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of upcoming and in-progress managed actions.
-        public var managedActions: [ManagedAction]? = nil
-
-        public init() {}
+        public let managedActions: [ManagedAction]?
 
         public init(managedActions: [ManagedAction]? = nil) {
             self.managedActions = managedActions
@@ -429,6 +401,8 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             if let managedActions = dictionary["ManagedActions"] as? [[String: Any]] {
                 self.managedActions = try managedActions.map({ try ManagedAction(dictionary: $0) })
+            } else { 
+                self.managedActions = nil
             }
         }
     }
@@ -437,23 +411,21 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The version of the operating system used by the platform.
-        public var operatingSystemVersion: String? = nil
+        public let operatingSystemVersion: String?
         /// The status of the platform. You can create an environment from the platform once it is ready.
-        public var platformStatus: String? = nil
+        public let platformStatus: String?
         /// The ARN of the platform.
-        public var platformArn: String? = nil
+        public let platformArn: String?
         /// The additions associated with the platform.
-        public var supportedAddonList: [String]? = nil
+        public let supportedAddonList: [String]?
         /// The category of platform.
-        public var platformCategory: String? = nil
+        public let platformCategory: String?
         /// The operating system used by the platform.
-        public var operatingSystemName: String? = nil
+        public let operatingSystemName: String?
         /// The AWS account ID of the person who created the platform.
-        public var platformOwner: String? = nil
+        public let platformOwner: String?
         /// The tiers in which the platform runs.
-        public var supportedTierList: [String]? = nil
-
-        public init() {}
+        public let supportedTierList: [String]?
 
         public init(operatingSystemVersion: String? = nil, platformStatus: String? = nil, platformArn: String? = nil, supportedAddonList: [String]? = nil, platformCategory: String? = nil, operatingSystemName: String? = nil, platformOwner: String? = nil, supportedTierList: [String]? = nil) {
             self.operatingSystemVersion = operatingSystemVersion
@@ -470,15 +442,11 @@ extension Elasticbeanstalk {
             self.operatingSystemVersion = dictionary["OperatingSystemVersion"] as? String
             self.platformStatus = dictionary["PlatformStatus"] as? String
             self.platformArn = dictionary["PlatformArn"] as? String
-            if let supportedAddonList = dictionary["SupportedAddonList"] as? [String] {
-                self.supportedAddonList = supportedAddonList
-            }
+            self.supportedAddonList = dictionary["SupportedAddonList"] as? [String]
             self.platformCategory = dictionary["PlatformCategory"] as? String
             self.operatingSystemName = dictionary["OperatingSystemName"] as? String
             self.platformOwner = dictionary["PlatformOwner"] as? String
-            if let supportedTierList = dictionary["SupportedTierList"] as? [String] {
-                self.supportedTierList = supportedTierList
-            }
+            self.supportedTierList = dictionary["SupportedTierList"] as? [String]
         }
     }
 
@@ -486,15 +454,13 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the target environment.
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// The maximum number of items to return for a single request.
-        public var maxItems: Int32? = nil
+        public let maxItems: Int32?
         /// The environment ID of the target environment.
-        public var environmentId: String? = nil
+        public let environmentId: String?
         /// The pagination token returned by a previous request.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(environmentName: String? = nil, maxItems: Int32? = nil, environmentId: String? = nil, nextToken: String? = nil) {
             self.environmentName = environmentName
@@ -515,11 +481,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the framework.
-        public var name: String? = nil
+        public let name: String?
         /// The version of the framework.
-        public var version: String? = nil
-
-        public init() {}
+        public let version: String?
 
         public init(name: String? = nil, version: String? = nil) {
             self.name = name
@@ -536,13 +500,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specify the environment by name. You must specify either this or an EnvironmentName, or both.
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// Specify the environment by ID. You must specify either this or an EnvironmentName, or both.
-        public var environmentId: String? = nil
+        public let environmentId: String?
         /// Specify the response elements to return. To retrieve all attributes, set to All. If no attribute names are specified, returns the name of the environment.
-        public var attributeNames: [String]? = nil
-
-        public init() {}
+        public let attributeNames: [String]?
 
         public init(environmentName: String? = nil, environmentId: String? = nil, attributeNames: [String]? = nil) {
             self.environmentName = environmentName
@@ -553,9 +515,7 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             self.environmentName = dictionary["EnvironmentName"] as? String
             self.environmentId = dictionary["EnvironmentId"] as? String
-            if let attributeNames = dictionary["AttributeNames"] as? [String] {
-                self.attributeNames = attributeNames
-            }
+            self.attributeNames = dictionary["AttributeNames"] as? [String]
         }
     }
 
@@ -563,9 +523,7 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the trigger.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(name: String? = nil) {
             self.name = name
@@ -580,9 +538,7 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the Amazon EC2 instance.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(id: String? = nil) {
             self.id = id
@@ -597,31 +553,29 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur on or after this time.
-        public var startTime: Date? = nil
+        public let startTime: Date?
         /// Specifies the maximum number of events that can be returned, beginning with the most recent event.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that are associated with this environment configuration.
-        public var templateName: String? = nil
+        public let templateName: String?
         /// If specified, limits the events returned from this call to include only those with the specified severity or higher.
-        public var severity: String? = nil
+        public let severity: String?
         /// The ARN of the version of the custom platform.
-        public var platformArn: String? = nil
+        public let platformArn: String?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this application version.
-        public var versionLabel: String? = nil
+        public let versionLabel: String?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
-        public var environmentName: String? = nil
+        public let environmentName: String?
         ///  If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur up to, but not including, the EndTime. 
-        public var endTime: Date? = nil
+        public let endTime: Date?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
-        public var environmentId: String? = nil
+        public let environmentId: String?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those associated with this application.
-        public var applicationName: String? = nil
+        public let applicationName: String?
         /// If specified, AWS Elastic Beanstalk restricts the described events to include only those associated with this request ID.
-        public var requestId: String? = nil
+        public let requestId: String?
         /// Pagination token. If specified, the events return the next batch of results.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(startTime: Date? = nil, maxRecords: Int32? = nil, templateName: String? = nil, severity: String? = nil, platformArn: String? = nil, versionLabel: String? = nil, environmentName: String? = nil, endTime: Date? = nil, environmentId: String? = nil, applicationName: String? = nil, requestId: String? = nil, nextToken: String? = nil) {
             self.startTime = startTime
@@ -658,23 +612,21 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// A label identifying this version. Constraint: Must be unique per application. If an application version already exists with this label for the specified application, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
-        public var versionLabel: String = ""
+        public let versionLabel: String
         /// Set to true to create an application with the specified name if it doesn't already exist.
-        public var autoCreateApplication: Bool? = nil
+        public let autoCreateApplication: Bool?
         /// Settings for an AWS CodeBuild build.
-        public var buildConfiguration: BuildConfiguration? = nil
+        public let buildConfiguration: BuildConfiguration?
         /// Specify a commit in an AWS CodeCommit Git repository to use as the source code for the application version.
-        public var sourceBuildInformation: SourceBuildInformation? = nil
+        public let sourceBuildInformation: SourceBuildInformation?
         /// Preprocesses and validates the environment manifest and configuration files in the source bundle. Validating configuration files can identify issues prior to deploying the application version to an environment.
-        public var process: Bool? = nil
+        public let process: Bool?
         ///  The name of the application. If no application is found with this name, and AutoCreateApplication is false, returns an InvalidParameterValue error. 
-        public var applicationName: String = ""
+        public let applicationName: String
         /// The Amazon S3 bucket and key that identify the location of the source bundle for this version.  The Amazon S3 bucket must be in the same region as the environment.  Specify a source bundle in S3 or a commit in an AWS CodeCommit repository (with SourceBuildInformation), but not both. If neither SourceBundle nor SourceBuildInformation are provided, Elastic Beanstalk uses a sample application.
-        public var sourceBundle: S3Location? = nil
+        public let sourceBundle: S3Location?
         /// Describes this version.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(versionLabel: String, autoCreateApplication: Bool? = nil, buildConfiguration: BuildConfiguration? = nil, sourceBuildInformation: SourceBuildInformation? = nil, process: Bool? = nil, applicationName: String, sourceBundle: S3Location? = nil, description: String? = nil) {
             self.versionLabel = versionLabel
@@ -691,12 +643,12 @@ extension Elasticbeanstalk {
             guard let versionLabel = dictionary["VersionLabel"] as? String else { throw InitializableError.missingRequiredParam("VersionLabel") }
             self.versionLabel = versionLabel
             self.autoCreateApplication = dictionary["AutoCreateApplication"] as? Bool
-            if let buildConfiguration = dictionary["BuildConfiguration"] as? [String: Any] { self.buildConfiguration = try Elasticbeanstalk.BuildConfiguration(dictionary: buildConfiguration) }
-            if let sourceBuildInformation = dictionary["SourceBuildInformation"] as? [String: Any] { self.sourceBuildInformation = try Elasticbeanstalk.SourceBuildInformation(dictionary: sourceBuildInformation) }
+            if let buildConfiguration = dictionary["BuildConfiguration"] as? [String: Any] { self.buildConfiguration = try Elasticbeanstalk.BuildConfiguration(dictionary: buildConfiguration) } else { self.buildConfiguration = nil }
+            if let sourceBuildInformation = dictionary["SourceBuildInformation"] as? [String: Any] { self.sourceBuildInformation = try Elasticbeanstalk.SourceBuildInformation(dictionary: sourceBuildInformation) } else { self.sourceBuildInformation = nil }
             self.process = dictionary["Process"] as? Bool
             guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
             self.applicationName = applicationName
-            if let sourceBundle = dictionary["SourceBundle"] as? [String: Any] { self.sourceBundle = try Elasticbeanstalk.S3Location(dictionary: sourceBundle) }
+            if let sourceBundle = dictionary["SourceBundle"] as? [String: Any] { self.sourceBundle = try Elasticbeanstalk.S3Location(dictionary: sourceBundle) } else { self.sourceBundle = nil }
             self.description = dictionary["Description"] as? String
         }
     }
@@ -705,15 +657,13 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the destination environment.  Condition: You must specify at least the DestinationEnvironmentID or the DestinationEnvironmentName. You may also specify both. You must specify the SourceEnvironmentName with the DestinationEnvironmentName. 
-        public var destinationEnvironmentName: String? = nil
+        public let destinationEnvironmentName: String?
         /// The name of the source environment.  Condition: You must specify at least the SourceEnvironmentID or the SourceEnvironmentName. You may also specify both. If you specify the SourceEnvironmentName, you must specify the DestinationEnvironmentName. 
-        public var sourceEnvironmentName: String? = nil
+        public let sourceEnvironmentName: String?
         /// The ID of the source environment.  Condition: You must specify at least the SourceEnvironmentID or the SourceEnvironmentName. You may also specify both. If you specify the SourceEnvironmentId, you must specify the DestinationEnvironmentId. 
-        public var sourceEnvironmentId: String? = nil
+        public let sourceEnvironmentId: String?
         /// The ID of the destination environment.  Condition: You must specify at least the DestinationEnvironmentID or the DestinationEnvironmentName. You may also specify both. You must specify the SourceEnvironmentId with the DestinationEnvironmentId. 
-        public var destinationEnvironmentId: String? = nil
-
-        public init() {}
+        public let destinationEnvironmentId: String?
 
         public init(destinationEnvironmentName: String? = nil, sourceEnvironmentName: String? = nil, sourceEnvironmentId: String? = nil, destinationEnvironmentId: String? = nil) {
             self.destinationEnvironmentName = destinationEnvironmentName
@@ -734,13 +684,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of version labels, specifying one or more application source bundles that belong to the target application. Each source bundle must include an environment manifest that specifies the name of the environment and the name of the solution stack to use, and optionally can specify environment links to create.
-        public var versionLabels: [String]? = nil
+        public let versionLabels: [String]?
         /// The name of the application to which the specified source bundles belong.
-        public var applicationName: String? = nil
+        public let applicationName: String?
         /// The name of the group to which the target environments belong. Specify a group name only if the environment name defined in each target environment's manifest ends with a + (plus) character. See Environment Manifest (env.yaml) for details.
-        public var groupName: String? = nil
-
-        public init() {}
+        public let groupName: String?
 
         public init(versionLabels: [String]? = nil, applicationName: String? = nil, groupName: String? = nil) {
             self.versionLabels = versionLabels
@@ -749,9 +697,7 @@ extension Elasticbeanstalk {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let versionLabels = dictionary["VersionLabels"] as? [String] {
-                self.versionLabels = versionLabels
-            }
+            self.versionLabels = dictionary["VersionLabels"] as? [String]
             self.applicationName = dictionary["ApplicationName"] as? String
             self.groupName = dictionary["GroupName"] as? String
         }
@@ -761,16 +707,14 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// Describes the LoadBalancer.
-        public var loadBalancer: LoadBalancerDescription? = nil
-
-        public init() {}
+        public let loadBalancer: LoadBalancerDescription?
 
         public init(loadBalancer: LoadBalancerDescription? = nil) {
             self.loadBalancer = loadBalancer
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let loadBalancer = dictionary["LoadBalancer"] as? [String: Any] { self.loadBalancer = try Elasticbeanstalk.LoadBalancerDescription(dictionary: loadBalancer) }
+            if let loadBalancer = dictionary["LoadBalancer"] as? [String: Any] { self.loadBalancer = try Elasticbeanstalk.LoadBalancerDescription(dictionary: loadBalancer) } else { self.loadBalancer = nil }
         }
     }
 
@@ -778,9 +722,7 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The prefix used when this CNAME is reserved.
-        public var cNAMEPrefix: String = ""
-
-        public init() {}
+        public let cNAMEPrefix: String
 
         public init(cNAMEPrefix: String) {
             self.cNAMEPrefix = cNAMEPrefix
@@ -796,17 +738,15 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the Docker image to use for this build project.
-        public var image: String = ""
+        public let image: String
         /// Information about the compute resources the build project will use.    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds     BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds     BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds   
-        public var computeType: String? = nil
+        public let computeType: String?
         /// The name of the artifact of the CodeBuild build. If provided, Elastic Beanstalk stores the build artifact in the S3 location S3-bucket/resources/application-name/codebuild/codebuild-version-label-artifact-name.zip. If not provided, Elastic Beanstalk stores the build artifact in the S3 location S3-bucket/resources/application-name/codebuild/codebuild-version-label.zip. 
-        public var artifactName: String? = nil
+        public let artifactName: String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
-        public var codeBuildServiceRole: String = ""
+        public let codeBuildServiceRole: String
         /// How long in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait until timing out any related build that does not get marked as completed. The default is 60 minutes.
-        public var timeoutInMinutes: Int32? = nil
-
-        public init() {}
+        public let timeoutInMinutes: Int32?
 
         public init(image: String, computeType: String? = nil, artifactName: String? = nil, codeBuildServiceRole: String, timeoutInMinutes: Int32? = nil) {
             self.image = image
@@ -831,23 +771,21 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The average latency for the slowest 5 percent of requests over the last 10 seconds.
-        public var p95: Double? = nil
+        public let p95: Double?
         /// The average latency for the slowest 90 percent of requests over the last 10 seconds.
-        public var p10: Double? = nil
+        public let p10: Double?
         /// The average latency for the slowest 10 percent of requests over the last 10 seconds.
-        public var p90: Double? = nil
+        public let p90: Double?
         /// The average latency for the slowest 15 percent of requests over the last 10 seconds.
-        public var p85: Double? = nil
+        public let p85: Double?
         /// The average latency for the slowest 50 percent of requests over the last 10 seconds.
-        public var p50: Double? = nil
+        public let p50: Double?
         /// The average latency for the slowest 25 percent of requests over the last 10 seconds.
-        public var p75: Double? = nil
+        public let p75: Double?
         /// The average latency for the slowest 1 percent of requests over the last 10 seconds.
-        public var p99: Double? = nil
+        public let p99: Double?
         /// The average latency for the slowest 0.1 percent of requests over the last 10 seconds.
-        public var p999: Double? = nil
-
-        public init() {}
+        public let p999: Double?
 
         public init(p95: Double? = nil, p10: Double? = nil, p90: Double? = nil, p85: Double? = nil, p50: Double? = nil, p75: Double? = nil, p99: Double? = nil, p999: Double? = nil) {
             self.p95 = p95
@@ -876,9 +814,7 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the LoadBalancer.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(name: String? = nil) {
             self.name = name
@@ -893,11 +829,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the environment to rebuild.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// The ID of the environment to rebuild.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public var environmentId: String? = nil
-
-        public init() {}
+        public let environmentId: String?
 
         public init(environmentName: String? = nil, environmentId: String? = nil) {
             self.environmentName = environmentName
@@ -914,23 +848,21 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of the managed action.
-        public var actionType: String? = nil
+        public let actionType: String?
         /// The status of the action.
-        public var status: String? = nil
+        public let status: String?
         /// The date and time that the action finished executing.
-        public var finishedTime: Date? = nil
+        public let finishedTime: Date?
         /// If the action failed, the type of failure.
-        public var failureType: String? = nil
+        public let failureType: String?
         /// A unique identifier for the managed action.
-        public var actionId: String? = nil
+        public let actionId: String?
         /// If the action failed, a description of the failure.
-        public var failureDescription: String? = nil
+        public let failureDescription: String?
         /// The date and time that the action started executing.
-        public var executedTime: Date? = nil
+        public let executedTime: Date?
         /// A description of the managed action.
-        public var actionDescription: String? = nil
-
-        public init() {}
+        public let actionDescription: String?
 
         public init(actionType: String? = nil, status: String? = nil, finishedTime: Date? = nil, failureType: String? = nil, actionId: String? = nil, failureDescription: String? = nil, executedTime: Date? = nil, actionDescription: String? = nil) {
             self.actionType = actionType
@@ -959,16 +891,14 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// Detailed information about the version of the platform.
-        public var platformDescription: PlatformDescription? = nil
-
-        public init() {}
+        public let platformDescription: PlatformDescription?
 
         public init(platformDescription: PlatformDescription? = nil) {
             self.platformDescription = platformDescription
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let platformDescription = dictionary["PlatformDescription"] as? [String: Any] { self.platformDescription = try Elasticbeanstalk.PlatformDescription(dictionary: platformDescription) }
+            if let platformDescription = dictionary["PlatformDescription"] as? [String: Any] { self.platformDescription = try Elasticbeanstalk.PlatformDescription(dictionary: platformDescription) } else { self.platformDescription = nil }
         }
     }
 
@@ -976,9 +906,7 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The EnvironmentInfoDescription of the environment. 
-        public var environmentInfo: [EnvironmentInfoDescription]? = nil
-
-        public init() {}
+        public let environmentInfo: [EnvironmentInfoDescription]?
 
         public init(environmentInfo: [EnvironmentInfoDescription]? = nil) {
             self.environmentInfo = environmentInfo
@@ -987,6 +915,8 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             if let environmentInfo = dictionary["EnvironmentInfo"] as? [[String: Any]] {
                 self.environmentInfo = try environmentInfo.map({ try EnvironmentInfoDescription(dictionary: $0) })
+            } else { 
+                self.environmentInfo = nil
             }
         }
     }
@@ -995,23 +925,21 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Grey. An operation is in progress on an instance within the command timeout.
-        public var pending: Int32? = nil
+        public let pending: Int32?
         ///  Red. The health agent is reporting a high number of request failures or other issues for an instance or environment.
-        public var degraded: Int32? = nil
+        public let degraded: Int32?
         ///  Yellow. The health agent is reporting a moderate number of request failures or other issues for an instance or environment.
-        public var warning: Int32? = nil
+        public let warning: Int32?
         ///  Green. An instance is passing health checks and the health agent is not reporting any problems.
-        public var ok: Int32? = nil
+        public let ok: Int32?
         ///  Green. An operation is in progress on an instance.
-        public var info: Int32? = nil
+        public let info: Int32?
         ///  Grey. AWS Elastic Beanstalk and the health agent are reporting no data on an instance.
-        public var noData: Int32? = nil
+        public let noData: Int32?
         ///  Grey. AWS Elastic Beanstalk and the health agent are reporting an insufficient amount of data on an instance.
-        public var unknown: Int32? = nil
+        public let unknown: Int32?
         ///  Red. The health agent is reporting a very high number of request failures or other issues for an instance or environment.
-        public var severe: Int32? = nil
-
-        public init() {}
+        public let severe: Int32?
 
         public init(pending: Int32? = nil, degraded: Int32? = nil, warning: Int32? = nil, ok: Int32? = nil, info: Int32? = nil, noData: Int32? = nil, unknown: Int32? = nil, severe: Int32? = nil) {
             self.pending = pending
@@ -1040,21 +968,19 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The names of the configuration templates associated with this application.
-        public var configurationTemplates: [String]? = nil
+        public let configurationTemplates: [String]?
         /// User-defined description of the application.
-        public var description: String? = nil
+        public let description: String?
         /// The date when the application was last modified.
-        public var dateUpdated: Date? = nil
+        public let dateUpdated: Date?
         /// The lifecycle settings for the application.
-        public var resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil
+        public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
         /// The name of the application.
-        public var applicationName: String? = nil
+        public let applicationName: String?
         /// The date when the application was created.
-        public var dateCreated: Date? = nil
+        public let dateCreated: Date?
         /// The names of the versions for this application.
-        public var versions: [String]? = nil
-
-        public init() {}
+        public let versions: [String]?
 
         public init(configurationTemplates: [String]? = nil, description: String? = nil, dateUpdated: Date? = nil, resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil, applicationName: String? = nil, dateCreated: Date? = nil, versions: [String]? = nil) {
             self.configurationTemplates = configurationTemplates
@@ -1067,17 +993,13 @@ extension Elasticbeanstalk {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let configurationTemplates = dictionary["ConfigurationTemplates"] as? [String] {
-                self.configurationTemplates = configurationTemplates
-            }
+            self.configurationTemplates = dictionary["ConfigurationTemplates"] as? [String]
             self.description = dictionary["Description"] as? String
             self.dateUpdated = dictionary["DateUpdated"] as? Date
-            if let resourceLifecycleConfig = dictionary["ResourceLifecycleConfig"] as? [String: Any] { self.resourceLifecycleConfig = try Elasticbeanstalk.ApplicationResourceLifecycleConfig(dictionary: resourceLifecycleConfig) }
+            if let resourceLifecycleConfig = dictionary["ResourceLifecycleConfig"] as? [String: Any] { self.resourceLifecycleConfig = try Elasticbeanstalk.ApplicationResourceLifecycleConfig(dictionary: resourceLifecycleConfig) } else { self.resourceLifecycleConfig = nil }
             self.applicationName = dictionary["ApplicationName"] as? String
             self.dateCreated = dictionary["DateCreated"] as? Date
-            if let versions = dictionary["Versions"] as? [String] {
-                self.versions = versions
-            }
+            self.versions = dictionary["Versions"] as? [String]
         }
     }
 
@@ -1085,9 +1007,7 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the builder.
-        public var aRN: String? = nil
-
-        public init() {}
+        public let aRN: String?
 
         public init(aRN: String? = nil) {
             self.aRN = aRN
@@ -1102,15 +1022,13 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specify the AWS Elastic Beanstalk environment by name.
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// Specify the AWS Elastic Beanstalk environment by ID.
-        public var environmentId: String? = nil
+        public let environmentId: String?
         /// Specify the pagination token returned by a previous call.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Specifies the response elements you wish to receive. To retrieve all attributes, set to All. If no attribute names are specified, returns a list of instances.
-        public var attributeNames: [String]? = nil
-
-        public init() {}
+        public let attributeNames: [String]?
 
         public init(environmentName: String? = nil, environmentId: String? = nil, nextToken: String? = nil, attributeNames: [String]? = nil) {
             self.environmentName = environmentName
@@ -1123,9 +1041,7 @@ extension Elasticbeanstalk {
             self.environmentName = dictionary["EnvironmentName"] as? String
             self.environmentId = dictionary["EnvironmentId"] as? String
             self.nextToken = dictionary["NextToken"] as? String
-            if let attributeNames = dictionary["AttributeNames"] as? [String] {
-                self.attributeNames = attributeNames
-            }
+            self.attributeNames = dictionary["AttributeNames"] as? [String]
         }
     }
 
@@ -1133,9 +1049,7 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the AutoScalingGroup . 
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(name: String? = nil) {
             self.name = name
@@ -1150,11 +1064,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// Detailed information about the new version of the custom platform.
-        public var platformSummary: PlatformSummary? = nil
+        public let platformSummary: PlatformSummary?
         /// The builder used to create the custom platform.
-        public var builder: Builder? = nil
-
-        public init() {}
+        public let builder: Builder?
 
         public init(platformSummary: PlatformSummary? = nil, builder: Builder? = nil) {
             self.platformSummary = platformSummary
@@ -1162,8 +1074,8 @@ extension Elasticbeanstalk {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let platformSummary = dictionary["PlatformSummary"] as? [String: Any] { self.platformSummary = try Elasticbeanstalk.PlatformSummary(dictionary: platformSummary) }
-            if let builder = dictionary["Builder"] as? [String: Any] { self.builder = try Elasticbeanstalk.Builder(dictionary: builder) }
+            if let platformSummary = dictionary["PlatformSummary"] as? [String: Any] { self.platformSummary = try Elasticbeanstalk.PlatformSummary(dictionary: platformSummary) } else { self.platformSummary = nil }
+            if let builder = dictionary["Builder"] as? [String: Any] { self.builder = try Elasticbeanstalk.Builder(dictionary: builder) } else { self.builder = nil }
         }
     }
 
@@ -1171,9 +1083,7 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Returns an EnvironmentDescription list. 
-        public var environments: [EnvironmentDescription]? = nil
-
-        public init() {}
+        public let environments: [EnvironmentDescription]?
 
         public init(environments: [EnvironmentDescription]? = nil) {
             self.environments = environments
@@ -1182,6 +1092,8 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             if let environments = dictionary["Environments"] as? [[String: Any]] {
                 self.environments = try environments.map({ try EnvironmentDescription(dictionary: $0) })
+            } else { 
+                self.environments = nil
             }
         }
     }
@@ -1190,11 +1102,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the configuration template.
-        public var templateName: String? = nil
+        public let templateName: String?
         /// The name of the application associated with the configuration.
-        public var applicationName: String? = nil
-
-        public init() {}
+        public let applicationName: String?
 
         public init(templateName: String? = nil, applicationName: String? = nil) {
             self.templateName = templateName
@@ -1211,23 +1121,21 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// If specified, AWS Elastic Beanstalk sets the specified configuration option to the requested value. The new value overrides the value obtained from the solution stack or the source configuration template.
-        public var optionSettings: [ConfigurationOptionSetting]? = nil
+        public let optionSettings: [ConfigurationOptionSetting]?
         /// If specified, AWS Elastic Beanstalk uses the configuration values from the specified configuration template to create a new configuration.  Values specified in the OptionSettings parameter of this call overrides any values obtained from the SourceConfiguration.   If no configuration template is found, returns an InvalidParameterValue error.   Constraint: If both the solution stack name parameter and the source configuration parameters are specified, the solution stack of the source configuration template must match the specified solution stack name or else AWS Elastic Beanstalk returns an InvalidParameterCombination error. 
-        public var sourceConfiguration: SourceConfiguration? = nil
+        public let sourceConfiguration: SourceConfiguration?
         /// The name of the configuration template. Constraint: This name must be unique per application. Default: If a configuration template already exists with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
-        public var templateName: String = ""
+        public let templateName: String
         /// The name of the solution stack used by this configuration. The solution stack specifies the operating system, architecture, and application server for a configuration template. It determines the set of configuration options as well as the possible and default values.  Use ListAvailableSolutionStacks to obtain a list of available solution stacks.   A solution stack name or a source configuration parameter must be specified, otherwise AWS Elastic Beanstalk returns an InvalidParameterValue error.  If a solution stack name is not specified and the source configuration parameter is specified, AWS Elastic Beanstalk uses the same solution stack as the source configuration template.
-        public var solutionStackName: String? = nil
+        public let solutionStackName: String?
         /// The ARN of the custome platform.
-        public var platformArn: String? = nil
+        public let platformArn: String?
         /// The ID of the environment used with this configuration template.
-        public var environmentId: String? = nil
+        public let environmentId: String?
         /// The name of the application to associate with this configuration template. If no application is found with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
-        public var applicationName: String = ""
+        public let applicationName: String
         /// Describes this configuration.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(optionSettings: [ConfigurationOptionSetting]? = nil, sourceConfiguration: SourceConfiguration? = nil, templateName: String, solutionStackName: String? = nil, platformArn: String? = nil, environmentId: String? = nil, applicationName: String, description: String? = nil) {
             self.optionSettings = optionSettings
@@ -1243,8 +1151,10 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
                 self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
+            } else { 
+                self.optionSettings = nil
             }
-            if let sourceConfiguration = dictionary["SourceConfiguration"] as? [String: Any] { self.sourceConfiguration = try Elasticbeanstalk.SourceConfiguration(dictionary: sourceConfiguration) }
+            if let sourceConfiguration = dictionary["SourceConfiguration"] as? [String: Any] { self.sourceConfiguration = try Elasticbeanstalk.SourceConfiguration(dictionary: sourceConfiguration) } else { self.sourceConfiguration = nil }
             guard let templateName = dictionary["TemplateName"] as? String else { throw InitializableError.missingRequiredParam("TemplateName") }
             self.templateName = templateName
             self.solutionStackName = dictionary["SolutionStackName"] as? String
@@ -1260,27 +1170,25 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of the configuration options and their values in this configuration set.
-        public var optionSettings: [ConfigurationOptionSetting]? = nil
+        public let optionSettings: [ConfigurationOptionSetting]?
         /// The date (in UTC time) when this configuration set was last modified.
-        public var dateUpdated: Date? = nil
+        public let dateUpdated: Date?
         ///  If not null, the name of the configuration template for this configuration set. 
-        public var templateName: String? = nil
+        public let templateName: String?
         /// The name of the solution stack this configuration set uses.
-        public var solutionStackName: String? = nil
+        public let solutionStackName: String?
         /// The ARN of the custom platform.
-        public var platformArn: String? = nil
+        public let platformArn: String?
         ///  If not null, the name of the environment for this configuration set. 
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// The name of the application associated with this configuration set.
-        public var applicationName: String? = nil
+        public let applicationName: String?
         ///  If this configuration set is associated with an environment, the DeploymentStatus parameter indicates the deployment status of this configuration set:     null: This configuration is not associated with a running environment.    pending: This is a draft configuration that is not deployed to the associated environment but is in the process of deploying.    deployed: This is the configuration that is currently deployed to the associated running environment.    failed: This is a draft configuration that failed to successfully deploy.  
-        public var deploymentStatus: String? = nil
+        public let deploymentStatus: String?
         /// The date (in UTC time) when this configuration set was created.
-        public var dateCreated: Date? = nil
+        public let dateCreated: Date?
         /// Describes this configuration set.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(optionSettings: [ConfigurationOptionSetting]? = nil, dateUpdated: Date? = nil, templateName: String? = nil, solutionStackName: String? = nil, platformArn: String? = nil, environmentName: String? = nil, applicationName: String? = nil, deploymentStatus: String? = nil, dateCreated: Date? = nil, description: String? = nil) {
             self.optionSettings = optionSettings
@@ -1298,6 +1206,8 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
                 self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
+            } else { 
+                self.optionSettings = nil
             }
             self.dateUpdated = dictionary["DateUpdated"] as? Date
             self.templateName = dictionary["TemplateName"] as? String
@@ -1315,17 +1225,15 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of configuration option settings to update with the new specified option value.
-        public var optionSettings: [ConfigurationOptionSetting]? = nil
+        public let optionSettings: [ConfigurationOptionSetting]?
         /// The name of the application associated with the configuration template to update.  If no application is found with this name, UpdateConfigurationTemplate returns an InvalidParameterValue error. 
-        public var applicationName: String = ""
+        public let applicationName: String
         /// A list of configuration options to remove from the configuration set.  Constraint: You can remove only UserDefined configuration options. 
-        public var optionsToRemove: [OptionSpecification]? = nil
+        public let optionsToRemove: [OptionSpecification]?
         /// The name of the configuration template to update.  If no configuration template is found with this name, UpdateConfigurationTemplate returns an InvalidParameterValue error. 
-        public var templateName: String = ""
+        public let templateName: String
         /// A new description for the configuration.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(optionSettings: [ConfigurationOptionSetting]? = nil, applicationName: String, optionsToRemove: [OptionSpecification]? = nil, templateName: String, description: String? = nil) {
             self.optionSettings = optionSettings
@@ -1338,11 +1246,15 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
                 self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
+            } else { 
+                self.optionSettings = nil
             }
             guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
             self.applicationName = applicationName
             if let optionsToRemove = dictionary["OptionsToRemove"] as? [[String: Any]] {
                 self.optionsToRemove = try optionsToRemove.map({ try OptionSpecification(dictionary: $0) })
+            } else { 
+                self.optionsToRemove = nil
             }
             guard let templateName = dictionary["TemplateName"] as? String else { throw InitializableError.missingRequiredParam("TemplateName") }
             self.templateName = templateName
@@ -1354,45 +1266,43 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the configuration template used to originally launch this environment.
-        public var templateName: String? = nil
+        public let templateName: String?
         /// The last modified date for this environment.
-        public var dateUpdated: Date? = nil
+        public let dateUpdated: Date?
         /// The application version deployed in this environment.
-        public var versionLabel: String? = nil
+        public let versionLabel: String?
         /// The name of this environment.
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// The URL to the CNAME for this environment.
-        public var cNAME: String? = nil
+        public let cNAME: String?
         /// Returns the health status of the application running in your environment. For more information, see Health Colors and Statuses.
-        public var healthStatus: String? = nil
+        public let healthStatus: String?
         /// For load-balanced, autoscaling environments, the URL to the LoadBalancer. For single-instance environments, the IP address of the instance.
-        public var endpointURL: String? = nil
+        public let endpointURL: String?
         /// A list of links to other environments in the same group.
-        public var environmentLinks: [EnvironmentLink]? = nil
+        public let environmentLinks: [EnvironmentLink]?
         /// The creation date for this environment.
-        public var dateCreated: Date? = nil
+        public let dateCreated: Date?
         /// Indicates if there is an in-progress environment configuration update or application version deployment that you can cancel.  true: There is an update in progress.   false: There are no updates currently in progress. 
-        public var abortableOperationInProgress: Bool? = nil
+        public let abortableOperationInProgress: Bool?
         /// Describes this environment.
-        public var description: String? = nil
+        public let description: String?
         /// Describes the health status of the environment. AWS Elastic Beanstalk indicates the failure levels for a running environment:    Red: Indicates the environment is not responsive. Occurs when three or more consecutive failures occur for an environment.    Yellow: Indicates that something is wrong. Occurs when two consecutive failures occur for an environment.    Green: Indicates the environment is healthy and fully functional.    Grey: Default health for a new environment. The environment is not fully launched and health checks have not started or health checks are suspended during an UpdateEnvironment or RestartEnvironement request.    Default: Grey 
-        public var health: String? = nil
+        public let health: String?
         /// The current operational status of the environment:    Launching: Environment is in the process of initial deployment.    Updating: Environment is in the process of updating its configuration settings or application version.    Ready: Environment is available to have an action performed on it, such as update or terminate.    Terminating: Environment is in the shut-down process.    Terminated: Environment is not running.  
-        public var status: String? = nil
+        public let status: String?
         ///  The name of the SolutionStack deployed with this environment. 
-        public var solutionStackName: String? = nil
+        public let solutionStackName: String?
         /// The ARN of the custom platform.
-        public var platformArn: String? = nil
+        public let platformArn: String?
         /// The ID of this environment.
-        public var environmentId: String? = nil
+        public let environmentId: String?
         /// The description of the AWS resources used by this environment.
-        public var resources: EnvironmentResourcesDescription? = nil
+        public let resources: EnvironmentResourcesDescription?
         /// The name of the application associated with this environment.
-        public var applicationName: String? = nil
+        public let applicationName: String?
         /// Describes the current tier of this environment.
-        public var tier: EnvironmentTier? = nil
-
-        public init() {}
+        public let tier: EnvironmentTier?
 
         public init(templateName: String? = nil, dateUpdated: Date? = nil, versionLabel: String? = nil, environmentName: String? = nil, cNAME: String? = nil, healthStatus: String? = nil, endpointURL: String? = nil, environmentLinks: [EnvironmentLink]? = nil, dateCreated: Date? = nil, abortableOperationInProgress: Bool? = nil, description: String? = nil, health: String? = nil, status: String? = nil, solutionStackName: String? = nil, platformArn: String? = nil, environmentId: String? = nil, resources: EnvironmentResourcesDescription? = nil, applicationName: String? = nil, tier: EnvironmentTier? = nil) {
             self.templateName = templateName
@@ -1426,6 +1336,8 @@ extension Elasticbeanstalk {
             self.endpointURL = dictionary["EndpointURL"] as? String
             if let environmentLinks = dictionary["EnvironmentLinks"] as? [[String: Any]] {
                 self.environmentLinks = try environmentLinks.map({ try EnvironmentLink(dictionary: $0) })
+            } else { 
+                self.environmentLinks = nil
             }
             self.dateCreated = dictionary["DateCreated"] as? Date
             self.abortableOperationInProgress = dictionary["AbortableOperationInProgress"] as? Bool
@@ -1435,9 +1347,9 @@ extension Elasticbeanstalk {
             self.solutionStackName = dictionary["SolutionStackName"] as? String
             self.platformArn = dictionary["PlatformArn"] as? String
             self.environmentId = dictionary["EnvironmentId"] as? String
-            if let resources = dictionary["Resources"] as? [String: Any] { self.resources = try Elasticbeanstalk.EnvironmentResourcesDescription(dictionary: resources) }
+            if let resources = dictionary["Resources"] as? [String: Any] { self.resources = try Elasticbeanstalk.EnvironmentResourcesDescription(dictionary: resources) } else { self.resources = nil }
             self.applicationName = dictionary["ApplicationName"] as? String
-            if let tier = dictionary["Tier"] as? [String: Any] { self.tier = try Elasticbeanstalk.EnvironmentTier(dictionary: tier) }
+            if let tier = dictionary["Tier"] as? [String: Any] { self.tier = try Elasticbeanstalk.EnvironmentTier(dictionary: tier) } else { self.tier = nil }
         }
     }
 
@@ -1445,29 +1357,27 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// If specified, the configuration option must be a string value that satisfies this regular expression.
-        public var regex: OptionRestrictionRegex? = nil
+        public let regex: OptionRestrictionRegex?
         /// If specified, the configuration option must be a numeric value less than this value.
-        public var maxValue: Int32? = nil
+        public let maxValue: Int32?
         /// An indication of which action is required if the value for this configuration option changes:    NoInterruption : There is no interruption to the environment or application availability.    RestartEnvironment : The environment is entirely restarted, all AWS resources are deleted and recreated, and the environment is unavailable during the process.    RestartApplicationServer : The environment is available the entire time. However, a short application outage occurs when the application servers on the running Amazon EC2 instances are restarted.  
-        public var changeSeverity: String? = nil
+        public let changeSeverity: String?
         /// If specified, values for the configuration option are selected from this list.
-        public var valueOptions: [String]? = nil
+        public let valueOptions: [String]?
         /// If specified, the configuration option must be a string value no longer than this value.
-        public var maxLength: Int32? = nil
+        public let maxLength: Int32?
         /// An indication of which type of values this option has and whether it is allowable to select one or more than one of the possible values:    Scalar : Values for this option are a single selection from the possible values, or an unformatted string, or numeric value governed by the MIN/MAX/Regex constraints.    List : Values for this option are multiple selections from the possible values.    Boolean : Values for this option are either true or false .    Json : Values for this option are a JSON representation of a ConfigDocument.  
-        public var valueType: String? = nil
+        public let valueType: String?
         /// The name of the configuration option.
-        public var name: String? = nil
+        public let name: String?
         /// If specified, the configuration option must be a numeric value greater than this value.
-        public var minValue: Int32? = nil
+        public let minValue: Int32?
         /// An indication of whether the user defined this configuration option:    true : This configuration option was defined by the user. It is a valid choice for specifying if this as an Option to Remove when updating configuration settings.     false : This configuration was not defined by the user.    Constraint: You can remove only UserDefined options from a configuration.   Valid Values: true | false 
-        public var userDefined: Bool? = nil
+        public let userDefined: Bool?
         /// A unique namespace identifying the option's associated AWS resource.
-        public var namespace: String? = nil
+        public let namespace: String?
         /// The default value for this configuration option.
-        public var defaultValue: String? = nil
-
-        public init() {}
+        public let defaultValue: String?
 
         public init(regex: OptionRestrictionRegex? = nil, maxValue: Int32? = nil, changeSeverity: String? = nil, valueOptions: [String]? = nil, maxLength: Int32? = nil, valueType: String? = nil, name: String? = nil, minValue: Int32? = nil, userDefined: Bool? = nil, namespace: String? = nil, defaultValue: String? = nil) {
             self.regex = regex
@@ -1484,12 +1394,10 @@ extension Elasticbeanstalk {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let regex = dictionary["Regex"] as? [String: Any] { self.regex = try Elasticbeanstalk.OptionRestrictionRegex(dictionary: regex) }
+            if let regex = dictionary["Regex"] as? [String: Any] { self.regex = try Elasticbeanstalk.OptionRestrictionRegex(dictionary: regex) } else { self.regex = nil }
             self.maxValue = dictionary["MaxValue"] as? Int32
             self.changeSeverity = dictionary["ChangeSeverity"] as? String
-            if let valueOptions = dictionary["ValueOptions"] as? [String] {
-                self.valueOptions = valueOptions
-            }
+            self.valueOptions = dictionary["ValueOptions"] as? [String]
             self.maxLength = dictionary["MaxLength"] as? Int32
             self.valueType = dictionary["ValueType"] as? String
             self.name = dictionary["Name"] as? String
@@ -1504,9 +1412,7 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A list of ValidationMessage. 
-        public var messages: [ValidationMessage]? = nil
-
-        public init() {}
+        public let messages: [ValidationMessage]?
 
         public init(messages: [ValidationMessage]? = nil) {
             self.messages = messages
@@ -1515,6 +1421,8 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             if let messages = dictionary["Messages"] as? [[String: Any]] {
                 self.messages = try messages.map({ try ValidationMessage(dictionary: $0) })
+            } else { 
+                self.messages = nil
             }
         }
     }
@@ -1523,13 +1431,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The location of the source code, as a formatted string, depending on the value of SourceRepository    For CodeCommit, the format is the repository name and commit ID, separated by a forward slash. For example, my-git-repo/265cfa0cf6af46153527f55d6503ec030551f57a.   For S3, the format is the S3 bucket name and object key, separated by a forward slash. For example, my-s3-bucket/Folders/my-source-file.  
-        public var sourceLocation: String = ""
+        public let sourceLocation: String
         /// The type of repository.    Git     Zip   
-        public var sourceType: String = ""
+        public let sourceType: String
         /// Location where the repository is stored.    CodeCommit     S3   
-        public var sourceRepository: String = ""
-
-        public init() {}
+        public let sourceRepository: String
 
         public init(sourceLocation: String, sourceType: String, sourceRepository: String) {
             self.sourceLocation = sourceLocation
@@ -1551,11 +1457,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The lifecycle configuration.
-        public var resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil
+        public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
         /// The name of the application.
-        public var applicationName: String? = nil
-
-        public init() {}
+        public let applicationName: String?
 
         public init(resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil, applicationName: String? = nil) {
             self.resourceLifecycleConfig = resourceLifecycleConfig
@@ -1563,7 +1467,7 @@ extension Elasticbeanstalk {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let resourceLifecycleConfig = dictionary["ResourceLifecycleConfig"] as? [String: Any] { self.resourceLifecycleConfig = try Elasticbeanstalk.ApplicationResourceLifecycleConfig(dictionary: resourceLifecycleConfig) }
+            if let resourceLifecycleConfig = dictionary["ResourceLifecycleConfig"] as? [String: Any] { self.resourceLifecycleConfig = try Elasticbeanstalk.ApplicationResourceLifecycleConfig(dictionary: resourceLifecycleConfig) } else { self.resourceLifecycleConfig = nil }
             self.applicationName = dictionary["ApplicationName"] as? String
         }
     }
@@ -1572,15 +1476,13 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// Represents the average latency for the slowest X percent of requests over the last 10 seconds. Latencies are in seconds with one millisecond resolution.
-        public var latency: Latency? = nil
+        public let latency: Latency?
         /// Average number of requests handled by the web server per second over the last 10 seconds.
-        public var requestCount: Int32? = nil
+        public let requestCount: Int32?
         /// The amount of time that the metrics cover (usually 10 seconds). For example, you might have 5 requests (request_count) within the most recent time slice of 10 seconds (duration).
-        public var duration: Int32? = nil
+        public let duration: Int32?
         /// Represents the percentage of requests over the last 10 seconds that resulted in each type of status code response.
-        public var statusCodes: StatusCodes? = nil
-
-        public init() {}
+        public let statusCodes: StatusCodes?
 
         public init(latency: Latency? = nil, requestCount: Int32? = nil, duration: Int32? = nil, statusCodes: StatusCodes? = nil) {
             self.latency = latency
@@ -1590,10 +1492,10 @@ extension Elasticbeanstalk {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let latency = dictionary["Latency"] as? [String: Any] { self.latency = try Elasticbeanstalk.Latency(dictionary: latency) }
+            if let latency = dictionary["Latency"] as? [String: Any] { self.latency = try Elasticbeanstalk.Latency(dictionary: latency) } else { self.latency = nil }
             self.requestCount = dictionary["RequestCount"] as? Int32
             self.duration = dictionary["Duration"] as? Int32
-            if let statusCodes = dictionary["StatusCodes"] as? [String: Any] { self.statusCodes = try Elasticbeanstalk.StatusCodes(dictionary: statusCodes) }
+            if let statusCodes = dictionary["StatusCodes"] as? [String: Any] { self.statusCodes = try Elasticbeanstalk.StatusCodes(dictionary: statusCodes) } else { self.statusCodes = nil }
         }
     }
 
@@ -1601,9 +1503,7 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// This parameter contains a list of ApplicationDescription.
-        public var applications: [ApplicationDescription]? = nil
-
-        public init() {}
+        public let applications: [ApplicationDescription]?
 
         public init(applications: [ApplicationDescription]? = nil) {
             self.applications = applications
@@ -1612,6 +1512,8 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             if let applications = dictionary["Applications"] as? [[String: Any]] {
                 self.applications = try applications.map({ try ApplicationDescription(dictionary: $0) })
+            } else { 
+                self.applications = nil
             }
         }
     }
@@ -1620,19 +1522,17 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the environment whose configuration options you want to describe.
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// If specified, restricts the descriptions to only the specified options.
-        public var options: [OptionSpecification]? = nil
+        public let options: [OptionSpecification]?
         /// The name of the application associated with the configuration template or environment. Only needed if you want to describe the configuration options associated with either the configuration template or environment.
-        public var applicationName: String? = nil
+        public let applicationName: String?
         /// The name of the solution stack whose configuration options you want to describe.
-        public var solutionStackName: String? = nil
+        public let solutionStackName: String?
         /// The ARN of the custom platform.
-        public var platformArn: String? = nil
+        public let platformArn: String?
         /// The name of the configuration template whose configuration options you want to describe.
-        public var templateName: String? = nil
-
-        public init() {}
+        public let templateName: String?
 
         public init(environmentName: String? = nil, options: [OptionSpecification]? = nil, applicationName: String? = nil, solutionStackName: String? = nil, platformArn: String? = nil, templateName: String? = nil) {
             self.environmentName = environmentName
@@ -1647,6 +1547,8 @@ extension Elasticbeanstalk {
             self.environmentName = dictionary["EnvironmentName"] as? String
             if let options = dictionary["Options"] as? [[String: Any]] {
                 self.options = try options.map({ try OptionSpecification(dictionary: $0) })
+            } else { 
+                self.options = nil
             }
             self.applicationName = dictionary["ApplicationName"] as? String
             self.solutionStackName = dictionary["SolutionStackName"] as? String
@@ -1659,11 +1561,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the application to update. If no such application is found, UpdateApplication returns an InvalidParameterValue error. 
-        public var applicationName: String = ""
+        public let applicationName: String
         /// A new description for the application. Default: If not specified, AWS Elastic Beanstalk does not update the description.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(applicationName: String, description: String? = nil) {
             self.applicationName = applicationName
@@ -1681,11 +1581,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The regular expression pattern that a string configuration option value with this restriction must match.
-        public var pattern: String? = nil
+        public let pattern: String?
         /// A unique name representing this regular expression.
-        public var label: String? = nil
-
-        public init() {}
+        public let label: String?
 
         public init(pattern: String? = nil, label: String? = nil) {
             self.pattern = pattern
@@ -1702,15 +1600,13 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// For in-progress deployments, the time that the deloyment started. For completed deployments, the time that the deployment ended.
-        public var deploymentTime: Date? = nil
+        public let deploymentTime: Date?
         /// The ID of the deployment. This number increases by one each time that you deploy source code or change instance configuration settings.
-        public var deploymentId: Int64? = nil
+        public let deploymentId: Int64?
         /// The status of the deployment:    In Progress : The deployment is in progress.    Deployed : The deployment succeeded.    Failed : The deployment failed.  
-        public var status: String? = nil
+        public let status: String?
         /// The version label of the application version in the deployment.
-        public var versionLabel: String? = nil
-
-        public init() {}
+        public let versionLabel: String?
 
         public init(deploymentTime: Date? = nil, deploymentId: Int64? = nil, status: String? = nil, versionLabel: String? = nil) {
             self.deploymentTime = deploymentTime
@@ -1731,11 +1627,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The application version lifecycle configuration.
-        public var versionLifecycleConfig: ApplicationVersionLifecycleConfig? = nil
+        public let versionLifecycleConfig: ApplicationVersionLifecycleConfig?
         /// The ARN of an IAM service role that Elastic Beanstalk has permission to assume.
-        public var serviceRole: String? = nil
-
-        public init() {}
+        public let serviceRole: String?
 
         public init(versionLifecycleConfig: ApplicationVersionLifecycleConfig? = nil, serviceRole: String? = nil) {
             self.versionLifecycleConfig = versionLifecycleConfig
@@ -1743,7 +1637,7 @@ extension Elasticbeanstalk {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let versionLifecycleConfig = dictionary["VersionLifecycleConfig"] as? [String: Any] { self.versionLifecycleConfig = try Elasticbeanstalk.ApplicationVersionLifecycleConfig(dictionary: versionLifecycleConfig) }
+            if let versionLifecycleConfig = dictionary["VersionLifecycleConfig"] as? [String: Any] { self.versionLifecycleConfig = try Elasticbeanstalk.ApplicationVersionLifecycleConfig(dictionary: versionLifecycleConfig) } else { self.versionLifecycleConfig = nil }
             self.serviceRole = dictionary["ServiceRole"] as? String
         }
     }
@@ -1752,18 +1646,14 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to only include those with the specified names.
-        public var applicationNames: [String]? = nil
-
-        public init() {}
+        public let applicationNames: [String]?
 
         public init(applicationNames: [String]? = nil) {
             self.applicationNames = applicationNames
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let applicationNames = dictionary["ApplicationNames"] as? [String] {
-                self.applicationNames = applicationNames
-            }
+            self.applicationNames = dictionary["ApplicationNames"] as? [String]
         }
     }
 
@@ -1771,16 +1661,14 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A list of EnvironmentResourceDescription. 
-        public var environmentResources: EnvironmentResourceDescription? = nil
-
-        public init() {}
+        public let environmentResources: EnvironmentResourceDescription?
 
         public init(environmentResources: EnvironmentResourceDescription? = nil) {
             self.environmentResources = environmentResources
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let environmentResources = dictionary["EnvironmentResources"] as? [String: Any] { self.environmentResources = try Elasticbeanstalk.EnvironmentResourceDescription(dictionary: environmentResources) }
+            if let environmentResources = dictionary["EnvironmentResources"] as? [String: Any] { self.environmentResources = try Elasticbeanstalk.EnvironmentResourceDescription(dictionary: environmentResources) } else { self.environmentResources = nil }
         }
     }
 
@@ -1788,11 +1676,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// Load average in the last 1-minute, 5-minute, and 15-minute periods. For more information, see Operating System Metrics.
-        public var loadAverage: [Double]? = nil
+        public let loadAverage: [Double]?
         /// CPU utilization metrics for the instance.
-        public var cPUUtilization: CPUUtilization? = nil
-
-        public init() {}
+        public let cPUUtilization: CPUUtilization?
 
         public init(loadAverage: [Double]? = nil, cPUUtilization: CPUUtilization? = nil) {
             self.loadAverage = loadAverage
@@ -1800,10 +1686,8 @@ extension Elasticbeanstalk {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let loadAverage = dictionary["LoadAverage"] as? [Double] {
-                self.loadAverage = loadAverage
-            }
-            if let cPUUtilization = dictionary["CPUUtilization"] as? [String: Any] { self.cPUUtilization = try Elasticbeanstalk.CPUUtilization(dictionary: cPUUtilization) }
+            self.loadAverage = dictionary["LoadAverage"] as? [Double]
+            if let cPUUtilization = dictionary["CPUUtilization"] as? [String: Any] { self.cPUUtilization = try Elasticbeanstalk.CPUUtilization(dictionary: cPUUtilization) } else { self.cPUUtilization = nil }
         }
     }
 
@@ -1811,13 +1695,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the target environment.
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// The action ID of the scheduled managed action to execute.
-        public var actionId: String = ""
+        public let actionId: String
         /// The environment ID of the target environment.
-        public var environmentId: String? = nil
-
-        public init() {}
+        public let environmentId: String?
 
         public init(environmentName: String? = nil, actionId: String, environmentId: String? = nil) {
             self.environmentName = environmentName
@@ -1837,9 +1719,7 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the version of the platform.
-        public var platformArn: String? = nil
-
-        public init() {}
+        public let platformArn: String?
 
         public init(platformArn: String? = nil) {
             self.platformArn = platformArn
@@ -1854,13 +1734,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A list of ConfigurationOptionDescription. 
-        public var options: [ConfigurationOptionDescription]? = nil
+        public let options: [ConfigurationOptionDescription]?
         /// The ARN of the custom platform.
-        public var platformArn: String? = nil
+        public let platformArn: String?
         /// The name of the solution stack these configuration options belong to.
-        public var solutionStackName: String? = nil
-
-        public init() {}
+        public let solutionStackName: String?
 
         public init(options: [ConfigurationOptionDescription]? = nil, platformArn: String? = nil, solutionStackName: String? = nil) {
             self.options = options
@@ -1871,6 +1749,8 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             if let options = dictionary["Options"] as? [[String: Any]] {
                 self.options = try options.map({ try ConfigurationOptionDescription(dictionary: $0) })
+            } else { 
+                self.options = nil
             }
             self.platformArn = dictionary["PlatformArn"] as? String
             self.solutionStackName = dictionary["SolutionStackName"] as? String
@@ -1881,11 +1761,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// For a paginated request, the token that you can pass in a subsequent request to get the next page.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// List of ApplicationVersionDescription objects sorted in order of creation.
-        public var applicationVersions: [ApplicationVersionDescription]? = nil
-
-        public init() {}
+        public let applicationVersions: [ApplicationVersionDescription]?
 
         public init(nextToken: String? = nil, applicationVersions: [ApplicationVersionDescription]? = nil) {
             self.nextToken = nextToken
@@ -1896,6 +1774,8 @@ extension Elasticbeanstalk {
             self.nextToken = dictionary["NextToken"] as? String
             if let applicationVersions = dictionary["ApplicationVersions"] as? [[String: Any]] {
                 self.applicationVersions = try applicationVersions.map({ try ApplicationVersionDescription(dictionary: $0) })
+            } else { 
+                self.applicationVersions = nil
             }
         }
     }
@@ -1904,25 +1784,23 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description of the application version.
-        public var description: String? = nil
+        public let description: String?
         /// The processing status of the application version.
-        public var status: String? = nil
+        public let status: String?
         /// The last modified date of the application version.
-        public var dateUpdated: Date? = nil
+        public let dateUpdated: Date?
         /// A unique identifier for the application version.
-        public var versionLabel: String? = nil
+        public let versionLabel: String?
         /// If the version's source code was retrieved from AWS CodeCommit, the location of the source code for the application version.
-        public var sourceBuildInformation: SourceBuildInformation? = nil
+        public let sourceBuildInformation: SourceBuildInformation?
         /// The name of the application to which the application version belongs.
-        public var applicationName: String? = nil
+        public let applicationName: String?
         /// The storage location of the application version's source bundle in Amazon S3.
-        public var sourceBundle: S3Location? = nil
+        public let sourceBundle: S3Location?
         /// Reference to the artifact from the AWS CodeBuild build.
-        public var buildArn: String? = nil
+        public let buildArn: String?
         /// The creation date of the application version.
-        public var dateCreated: Date? = nil
-
-        public init() {}
+        public let dateCreated: Date?
 
         public init(description: String? = nil, status: String? = nil, dateUpdated: Date? = nil, versionLabel: String? = nil, sourceBuildInformation: SourceBuildInformation? = nil, applicationName: String? = nil, sourceBundle: S3Location? = nil, buildArn: String? = nil, dateCreated: Date? = nil) {
             self.description = description
@@ -1941,9 +1819,9 @@ extension Elasticbeanstalk {
             self.status = dictionary["Status"] as? String
             self.dateUpdated = dictionary["DateUpdated"] as? Date
             self.versionLabel = dictionary["VersionLabel"] as? String
-            if let sourceBuildInformation = dictionary["SourceBuildInformation"] as? [String: Any] { self.sourceBuildInformation = try Elasticbeanstalk.SourceBuildInformation(dictionary: sourceBuildInformation) }
+            if let sourceBuildInformation = dictionary["SourceBuildInformation"] as? [String: Any] { self.sourceBuildInformation = try Elasticbeanstalk.SourceBuildInformation(dictionary: sourceBuildInformation) } else { self.sourceBuildInformation = nil }
             self.applicationName = dictionary["ApplicationName"] as? String
-            if let sourceBundle = dictionary["SourceBundle"] as? [String: Any] { self.sourceBundle = try Elasticbeanstalk.S3Location(dictionary: sourceBundle) }
+            if let sourceBundle = dictionary["SourceBundle"] as? [String: Any] { self.sourceBundle = try Elasticbeanstalk.S3Location(dictionary: sourceBundle) } else { self.sourceBundle = nil }
             self.buildArn = dictionary["BuildArn"] as? String
             self.dateCreated = dictionary["DateCreated"] as? Date
         }
@@ -1953,13 +1831,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the environment to describe.  Condition: You must specify either this or a TemplateName, but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// The name of the configuration template to describe.  Conditional: You must specify either this parameter or an EnvironmentName, but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns a MissingRequiredParameter error. 
-        public var templateName: String? = nil
+        public let templateName: String?
         /// The application for the environment or configuration template.
-        public var applicationName: String = ""
-
-        public init() {}
+        public let applicationName: String
 
         public init(environmentName: String? = nil, templateName: String? = nil, applicationName: String) {
             self.environmentName = environmentName
@@ -1979,13 +1855,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// A unique namespace identifying the option's associated AWS resource.
-        public var namespace: String? = nil
+        public let namespace: String?
         /// The name of the configuration option.
-        public var optionName: String? = nil
+        public let optionName: String?
         /// A unique resource name for a time-based scaling configuration option.
-        public var resourceName: String? = nil
-
-        public init() {}
+        public let resourceName: String?
 
         public init(namespace: String? = nil, optionName: String? = nil, resourceName: String? = nil) {
             self.namespace = namespace
@@ -2004,11 +1878,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The port that is used by the Listener.
-        public var port: Int32? = nil
+        public let port: Int32?
         /// The protocol that is used by the Listener.
-        public var `protocol`: String? = nil
-
-        public init() {}
+        public let `protocol`: String?
 
         public init(port: Int32? = nil, protocol: String? = nil) {
             self.port = port
@@ -2025,11 +1897,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specify a max count rule to restrict the number of application versions that are retained for an application.
-        public var maxCountRule: MaxCountRule? = nil
+        public let maxCountRule: MaxCountRule?
         /// Specify a max age rule to restrict the length of time that application versions are retained for an application.
-        public var maxAgeRule: MaxAgeRule? = nil
-
-        public init() {}
+        public let maxAgeRule: MaxAgeRule?
 
         public init(maxCountRule: MaxCountRule? = nil, maxAgeRule: MaxAgeRule? = nil) {
             self.maxCountRule = maxCountRule
@@ -2037,8 +1907,8 @@ extension Elasticbeanstalk {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let maxCountRule = dictionary["MaxCountRule"] as? [String: Any] { self.maxCountRule = try Elasticbeanstalk.MaxCountRule(dictionary: maxCountRule) }
-            if let maxAgeRule = dictionary["MaxAgeRule"] as? [String: Any] { self.maxAgeRule = try Elasticbeanstalk.MaxAgeRule(dictionary: maxAgeRule) }
+            if let maxCountRule = dictionary["MaxCountRule"] as? [String: Any] { self.maxCountRule = try Elasticbeanstalk.MaxCountRule(dictionary: maxCountRule) } else { self.maxCountRule = nil }
+            if let maxAgeRule = dictionary["MaxAgeRule"] as? [String: Any] { self.maxAgeRule = try Elasticbeanstalk.MaxAgeRule(dictionary: maxAgeRule) } else { self.maxAgeRule = nil }
         }
     }
 
@@ -2046,13 +1916,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// Detailed health information about each instance.
-        public var instanceHealthList: [SingleInstanceHealth]? = nil
+        public let instanceHealthList: [SingleInstanceHealth]?
         /// Pagination token for the next page of results, if available.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The date and time that the health information was retrieved.
-        public var refreshedAt: Date? = nil
-
-        public init() {}
+        public let refreshedAt: Date?
 
         public init(instanceHealthList: [SingleInstanceHealth]? = nil, nextToken: String? = nil, refreshedAt: Date? = nil) {
             self.instanceHealthList = instanceHealthList
@@ -2063,6 +1931,8 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             if let instanceHealthList = dictionary["InstanceHealthList"] as? [[String: Any]] {
                 self.instanceHealthList = try instanceHealthList.map({ try SingleInstanceHealth(dictionary: $0) })
+            } else { 
+                self.instanceHealthList = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
             self.refreshedAt = dictionary["RefreshedAt"] as? Date
@@ -2073,16 +1943,14 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The ApplicationDescription of the application. 
-        public var application: ApplicationDescription? = nil
-
-        public init() {}
+        public let application: ApplicationDescription?
 
         public init(application: ApplicationDescription? = nil) {
             self.application = application
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let application = dictionary["Application"] as? [String: Any] { self.application = try Elasticbeanstalk.ApplicationDescription(dictionary: application) }
+            if let application = dictionary["Application"] as? [String: Any] { self.application = try Elasticbeanstalk.ApplicationDescription(dictionary: application) } else { self.application = nil }
         }
     }
 
@@ -2090,23 +1958,21 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The environment's operational status. Ready, Launching, Updating, Terminating, or Terminated.
-        public var status: String? = nil
+        public let status: String?
         /// The health color of the environment.
-        public var color: String? = nil
+        public let color: String?
         /// Summary health information for the instances in the environment.
-        public var instancesHealth: InstanceHealthSummary? = nil
+        public let instancesHealth: InstanceHealthSummary?
         /// Application request metrics for the environment.
-        public var applicationMetrics: ApplicationMetrics? = nil
+        public let applicationMetrics: ApplicationMetrics?
         /// The environment's name.
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// The health status of the environment. For example, Ok.
-        public var healthStatus: String? = nil
+        public let healthStatus: String?
         /// Descriptions of the data that contributed to the environment's current health status.
-        public var causes: [String]? = nil
+        public let causes: [String]?
         /// The date and time that the health information was retrieved.
-        public var refreshedAt: Date? = nil
-
-        public init() {}
+        public let refreshedAt: Date?
 
         public init(status: String? = nil, color: String? = nil, instancesHealth: InstanceHealthSummary? = nil, applicationMetrics: ApplicationMetrics? = nil, environmentName: String? = nil, healthStatus: String? = nil, causes: [String]? = nil, refreshedAt: Date? = nil) {
             self.status = status
@@ -2122,13 +1988,11 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             self.status = dictionary["Status"] as? String
             self.color = dictionary["Color"] as? String
-            if let instancesHealth = dictionary["InstancesHealth"] as? [String: Any] { self.instancesHealth = try Elasticbeanstalk.InstanceHealthSummary(dictionary: instancesHealth) }
-            if let applicationMetrics = dictionary["ApplicationMetrics"] as? [String: Any] { self.applicationMetrics = try Elasticbeanstalk.ApplicationMetrics(dictionary: applicationMetrics) }
+            if let instancesHealth = dictionary["InstancesHealth"] as? [String: Any] { self.instancesHealth = try Elasticbeanstalk.InstanceHealthSummary(dictionary: instancesHealth) } else { self.instancesHealth = nil }
+            if let applicationMetrics = dictionary["ApplicationMetrics"] as? [String: Any] { self.applicationMetrics = try Elasticbeanstalk.ApplicationMetrics(dictionary: applicationMetrics) } else { self.applicationMetrics = nil }
             self.environmentName = dictionary["EnvironmentName"] as? String
             self.healthStatus = dictionary["HealthStatus"] as? String
-            if let causes = dictionary["Causes"] as? [String] {
-                self.causes = causes
-            }
+            self.causes = dictionary["Causes"] as? [String]
             self.refreshedAt = dictionary["RefreshedAt"] as? Date
         }
     }
@@ -2137,13 +2001,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the data's environment.  If no such environment is found, returns an InvalidParameterValue error.   Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// The type of information to retrieve.
-        public var infoType: String = ""
+        public let infoType: String
         /// The ID of the data's environment. If no such environment is found, returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
-        public var environmentId: String? = nil
-
-        public init() {}
+        public let environmentId: String?
 
         public init(environmentName: String? = nil, infoType: String, environmentId: String? = nil) {
             self.environmentName = environmentName
@@ -2163,9 +2025,7 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A list of ConfigurationSettingsDescription. 
-        public var configurationSettings: [ConfigurationSettingsDescription]? = nil
-
-        public init() {}
+        public let configurationSettings: [ConfigurationSettingsDescription]?
 
         public init(configurationSettings: [ConfigurationSettingsDescription]? = nil) {
             self.configurationSettings = configurationSettings
@@ -2174,6 +2034,8 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             if let configurationSettings = dictionary["ConfigurationSettings"] as? [[String: Any]] {
                 self.configurationSettings = try configurationSettings.map({ try ConfigurationSettingsDescription(dictionary: $0) })
+            } else { 
+                self.configurationSettings = nil
             }
         }
     }
@@ -2182,11 +2044,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// This specifies the name of the environment with the in-progress update that you want to cancel.
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// This specifies the ID of the environment with the in-progress update that you want to cancel.
-        public var environmentId: String? = nil
-
-        public init() {}
+        public let environmentId: String?
 
         public init(environmentName: String? = nil, environmentId: String? = nil) {
             self.environmentName = environmentName
@@ -2203,13 +2063,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specify true to apply the rule, or false to disable it.
-        public var enabled: Bool = false
+        public let enabled: Bool
         /// Specify the maximum number of application versions to retain.
-        public var maxCount: Int32? = nil
+        public let maxCount: Int32?
         /// Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version.
-        public var deleteSourceFromS3: Bool? = nil
-
-        public init() {}
+        public let deleteSourceFromS3: Bool?
 
         public init(enabled: Bool, maxCount: Int32? = nil, deleteSourceFromS3: Bool? = nil) {
             self.enabled = enabled
@@ -2229,11 +2087,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the environment to retrieve AWS resource usage data.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// The ID of the environment to retrieve AWS resource usage data.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public var environmentId: String? = nil
-
-        public init() {}
+        public let environmentId: String?
 
         public init(environmentName: String? = nil, environmentId: String? = nil) {
             self.environmentName = environmentName
@@ -2250,11 +2106,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A list of available solution stacks and their SolutionStackDescription. 
-        public var solutionStackDetails: [SolutionStackDescription]? = nil
+        public let solutionStackDetails: [SolutionStackDescription]?
         /// A list of available solution stacks.
-        public var solutionStacks: [String]? = nil
-
-        public init() {}
+        public let solutionStacks: [String]?
 
         public init(solutionStackDetails: [SolutionStackDescription]? = nil, solutionStacks: [String]? = nil) {
             self.solutionStackDetails = solutionStackDetails
@@ -2264,10 +2118,10 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             if let solutionStackDetails = dictionary["SolutionStackDetails"] as? [[String: Any]] {
                 self.solutionStackDetails = try solutionStackDetails.map({ try SolutionStackDescription(dictionary: $0) })
+            } else { 
+                self.solutionStackDetails = nil
             }
-            if let solutionStacks = dictionary["SolutionStacks"] as? [String] {
-                self.solutionStacks = solutionStacks
-            }
+            self.solutionStacks = dictionary["SolutionStacks"] as? [String]
         }
     }
 
@@ -2275,11 +2129,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon S3 bucket where the data is located.
-        public var s3Bucket: String? = nil
+        public let s3Bucket: String?
         /// The Amazon S3 key where the data is located.
-        public var s3Key: String? = nil
-
-        public init() {}
+        public let s3Key: String?
 
         public init(s3Bucket: String? = nil, s3Key: String? = nil) {
             self.s3Bucket = s3Bucket
@@ -2296,15 +2148,13 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the environment to validate the settings against. Condition: You cannot specify both this and a configuration template name.
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// A list of the options and desired values to evaluate.
-        public var optionSettings: [ConfigurationOptionSetting] = []
+        public let optionSettings: [ConfigurationOptionSetting]
         /// The name of the application that the configuration template or environment belongs to.
-        public var applicationName: String = ""
+        public let applicationName: String
         /// The name of the configuration template to validate the settings against. Condition: You cannot specify both this and an environment name.
-        public var templateName: String? = nil
-
-        public init() {}
+        public let templateName: String?
 
         public init(environmentName: String? = nil, optionSettings: [ConfigurationOptionSetting], applicationName: String, templateName: String? = nil) {
             self.environmentName = environmentName
@@ -2327,17 +2177,15 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number, such as 1.0.2, for the new platform version.
-        public var platformVersion: String = ""
+        public let platformVersion: String
         /// The name of your custom platform.
-        public var platformName: String = ""
+        public let platformName: String
         /// The name of the builder environment.
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// The configuration option settings to apply to the builder environment.
-        public var optionSettings: [ConfigurationOptionSetting]? = nil
+        public let optionSettings: [ConfigurationOptionSetting]?
         /// The location of the platform definition archive in Amazon S3.
-        public var platformDefinitionBundle: S3Location = S3Location()
-
-        public init() {}
+        public let platformDefinitionBundle: S3Location
 
         public init(platformVersion: String, platformName: String, environmentName: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, platformDefinitionBundle: S3Location) {
             self.platformVersion = platformVersion
@@ -2355,6 +2203,8 @@ extension Elasticbeanstalk {
             self.environmentName = dictionary["EnvironmentName"] as? String
             if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
                 self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
+            } else { 
+                self.optionSettings = nil
             }
             guard let platformDefinitionBundle = dictionary["PlatformDefinitionBundle"] as? [String: Any] else { throw InitializableError.missingRequiredParam("PlatformDefinitionBundle") }
             self.platformDefinitionBundle = try Elasticbeanstalk.S3Location(dictionary: platformDefinitionBundle)
@@ -2365,33 +2215,31 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// If specified, AWS Elastic Beanstalk sets the specified configuration options to the requested value in the configuration set for the new environment. These override the values obtained from the solution stack or the configuration template.
-        public var optionSettings: [ConfigurationOptionSetting]? = nil
+        public let optionSettings: [ConfigurationOptionSetting]?
         ///  The name of the configuration template to use in deployment. If no configuration template is found with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
-        public var templateName: String? = nil
+        public let templateName: String?
         /// The name of the group to which the target environment belongs. Specify a group name only if the environment's name is specified in an environment manifest and not with the environment name parameter. See Environment Manifest (env.yaml) for details.
-        public var groupName: String? = nil
+        public let groupName: String?
         /// The name of the application version to deploy.  If the specified application has no associated application versions, AWS Elastic Beanstalk UpdateEnvironment returns an InvalidParameterValue error.  Default: If not specified, AWS Elastic Beanstalk attempts to launch the sample application in the container.
-        public var versionLabel: String? = nil
+        public let versionLabel: String?
         /// This specifies the tags applied to resources in the environment.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// A unique name for the deployment environment. Used in the application URL. Constraint: Must be from 4 to 40 characters in length. The name can contain only letters, numbers, and hyphens. It cannot start or end with a hyphen. This name must be unique in your account. If the specified name already exists, AWS Elastic Beanstalk returns an InvalidParameterValue error.  Default: If the CNAME parameter is not specified, the environment name becomes part of the CNAME, and therefore part of the visible URL for your application.
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// Describes this environment.
-        public var description: String? = nil
+        public let description: String?
         /// This is an alternative to specifying a template name. If specified, AWS Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack.
-        public var solutionStackName: String? = nil
+        public let solutionStackName: String?
         /// The ARN of the custom platform.
-        public var platformArn: String? = nil
+        public let platformArn: String?
         /// If specified, the environment attempts to use this value as the prefix for the CNAME. If not specified, the CNAME is generated automatically by appending a random alphanumeric string to the environment name.
-        public var cNAMEPrefix: String? = nil
+        public let cNAMEPrefix: String?
         /// A list of custom user-defined configuration options to remove from the configuration set for this new environment.
-        public var optionsToRemove: [OptionSpecification]? = nil
+        public let optionsToRemove: [OptionSpecification]?
         /// The name of the application that contains the version to be deployed.  If no application is found with this name, CreateEnvironment returns an InvalidParameterValue error. 
-        public var applicationName: String = ""
+        public let applicationName: String
         /// This specifies the tier to use for creating this environment.
-        public var tier: EnvironmentTier? = nil
-
-        public init() {}
+        public let tier: EnvironmentTier?
 
         public init(optionSettings: [ConfigurationOptionSetting]? = nil, templateName: String? = nil, groupName: String? = nil, versionLabel: String? = nil, tags: [Tag]? = nil, environmentName: String? = nil, description: String? = nil, solutionStackName: String? = nil, platformArn: String? = nil, cNAMEPrefix: String? = nil, optionsToRemove: [OptionSpecification]? = nil, applicationName: String, tier: EnvironmentTier? = nil) {
             self.optionSettings = optionSettings
@@ -2412,12 +2260,16 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
                 self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
+            } else { 
+                self.optionSettings = nil
             }
             self.templateName = dictionary["TemplateName"] as? String
             self.groupName = dictionary["GroupName"] as? String
             self.versionLabel = dictionary["VersionLabel"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.environmentName = dictionary["EnvironmentName"] as? String
             self.description = dictionary["Description"] as? String
@@ -2426,10 +2278,12 @@ extension Elasticbeanstalk {
             self.cNAMEPrefix = dictionary["CNAMEPrefix"] as? String
             if let optionsToRemove = dictionary["OptionsToRemove"] as? [[String: Any]] {
                 self.optionsToRemove = try optionsToRemove.map({ try OptionSpecification(dictionary: $0) })
+            } else { 
+                self.optionsToRemove = nil
             }
             guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
             self.applicationName = applicationName
-            if let tier = dictionary["Tier"] as? [String: Any] { self.tier = try Elasticbeanstalk.EnvironmentTier(dictionary: tier) }
+            if let tier = dictionary["Tier"] as? [String: Any] { self.tier = try Elasticbeanstalk.EnvironmentTier(dictionary: tier) } else { self.tier = nil }
         }
     }
 
@@ -2437,16 +2291,14 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// Detailed information about the version of the custom platform.
-        public var platformSummary: PlatformSummary? = nil
-
-        public init() {}
+        public let platformSummary: PlatformSummary?
 
         public init(platformSummary: PlatformSummary? = nil) {
             self.platformSummary = platformSummary
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let platformSummary = dictionary["PlatformSummary"] as? [String: Any] { self.platformSummary = try Elasticbeanstalk.PlatformSummary(dictionary: platformSummary) }
+            if let platformSummary = dictionary["PlatformSummary"] as? [String: Any] { self.platformSummary = try Elasticbeanstalk.PlatformSummary(dictionary: platformSummary) } else { self.platformSummary = nil }
         }
     }
 
@@ -2454,11 +2306,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of virtualization used to create the custom AMI.
-        public var virtualizationType: String? = nil
+        public let virtualizationType: String?
         /// THe ID of the image used to create the custom AMI.
-        public var imageId: String? = nil
-
-        public init() {}
+        public let imageId: String?
 
         public init(virtualizationType: String? = nil, imageId: String? = nil) {
             self.virtualizationType = virtualizationType
@@ -2475,11 +2325,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The fully qualified CNAME to reserve when CreateEnvironment is called with the provided prefix.
-        public var fullyQualifiedCNAME: String? = nil
+        public let fullyQualifiedCNAME: String?
         /// Indicates if the specified CNAME is available:    true : The CNAME is available.    false : The CNAME is not available.  
-        public var available: Bool? = nil
-
-        public init() {}
+        public let available: Bool?
 
         public init(fullyQualifiedCNAME: String? = nil, available: Bool? = nil) {
             self.fullyQualifiedCNAME = fullyQualifiedCNAME
@@ -2496,11 +2344,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the configuration template to delete.
-        public var templateName: String = ""
+        public let templateName: String
         /// The name of the application to delete the configuration template from.
-        public var applicationName: String = ""
-
-        public init() {}
+        public let applicationName: String
 
         public init(templateName: String, applicationName: String) {
             self.templateName = templateName
@@ -2519,13 +2365,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The custom platform attribute to which the filter values are applied. Valid Values: PlatformName | PlatformVersion | PlatformStatus | PlatformOwner 
-        public var type: String? = nil
+        public let type: String?
         /// The operator to apply to the Type with each of the Values.  Valid Values: = (equal to) | != (not equal to) | &lt; (less than) | &lt;= (less than or equal to) | &gt; (greater than) | &gt;= (greater than or equal to) | contains | begins_with | ends_with 
-        public var `operator`: String? = nil
+        public let `operator`: String?
         /// The list of values applied to the custom platform attribute.
-        public var values: [String]? = nil
-
-        public init() {}
+        public let values: [String]?
 
         public init(type: String? = nil, operator: String? = nil, values: [String]? = nil) {
             self.type = type
@@ -2536,9 +2380,7 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             self.type = dictionary["Type"] as? String
             self.`operator` = dictionary["Operator"] as? String
-            if let values = dictionary["Values"] as? [String] {
-                self.values = values
-            }
+            self.values = dictionary["Values"] as? [String]
         }
     }
 
@@ -2546,43 +2388,41 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date when the platform was last updated.
-        public var dateUpdated: Date? = nil
+        public let dateUpdated: Date?
         /// The status of the platform.
-        public var platformStatus: String? = nil
+        public let platformStatus: String?
         /// The additions supported by the platform.
-        public var supportedAddonList: [String]? = nil
+        public let supportedAddonList: [String]?
         /// The version of the platform.
-        public var platformVersion: String? = nil
+        public let platformVersion: String?
         /// The custom AMIs supported by the platform.
-        public var customAmiList: [CustomAmi]? = nil
+        public let customAmiList: [CustomAmi]?
         /// The category of the platform.
-        public var platformCategory: String? = nil
+        public let platformCategory: String?
         /// Information about the maintainer of the platform.
-        public var maintainer: String? = nil
+        public let maintainer: String?
         /// The operating system used by the platform.
-        public var operatingSystemName: String? = nil
+        public let operatingSystemName: String?
         /// The date when the platform was created.
-        public var dateCreated: Date? = nil
+        public let dateCreated: Date?
         /// The AWS account ID of the person who created the platform.
-        public var platformOwner: String? = nil
+        public let platformOwner: String?
         /// The description of the platform.
-        public var description: String? = nil
+        public let description: String?
         /// The name of the platform.
-        public var platformName: String? = nil
+        public let platformName: String?
         /// The version of the operating system used by the platform.
-        public var operatingSystemVersion: String? = nil
+        public let operatingSystemVersion: String?
         /// The name of the solution stack used by the platform.
-        public var solutionStackName: String? = nil
+        public let solutionStackName: String?
         /// The ARN of the platform.
-        public var platformArn: String? = nil
+        public let platformArn: String?
         /// The tiers supported by the platform.
-        public var supportedTierList: [String]? = nil
+        public let supportedTierList: [String]?
         /// The frameworks supported by the platform.
-        public var frameworks: [PlatformFramework]? = nil
+        public let frameworks: [PlatformFramework]?
         /// The programming languages supported by the platform.
-        public var programmingLanguages: [PlatformProgrammingLanguage]? = nil
-
-        public init() {}
+        public let programmingLanguages: [PlatformProgrammingLanguage]?
 
         public init(dateUpdated: Date? = nil, platformStatus: String? = nil, supportedAddonList: [String]? = nil, platformVersion: String? = nil, customAmiList: [CustomAmi]? = nil, platformCategory: String? = nil, maintainer: String? = nil, operatingSystemName: String? = nil, dateCreated: Date? = nil, platformOwner: String? = nil, description: String? = nil, platformName: String? = nil, operatingSystemVersion: String? = nil, solutionStackName: String? = nil, platformArn: String? = nil, supportedTierList: [String]? = nil, frameworks: [PlatformFramework]? = nil, programmingLanguages: [PlatformProgrammingLanguage]? = nil) {
             self.dateUpdated = dateUpdated
@@ -2608,12 +2448,12 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             self.dateUpdated = dictionary["DateUpdated"] as? Date
             self.platformStatus = dictionary["PlatformStatus"] as? String
-            if let supportedAddonList = dictionary["SupportedAddonList"] as? [String] {
-                self.supportedAddonList = supportedAddonList
-            }
+            self.supportedAddonList = dictionary["SupportedAddonList"] as? [String]
             self.platformVersion = dictionary["PlatformVersion"] as? String
             if let customAmiList = dictionary["CustomAmiList"] as? [[String: Any]] {
                 self.customAmiList = try customAmiList.map({ try CustomAmi(dictionary: $0) })
+            } else { 
+                self.customAmiList = nil
             }
             self.platformCategory = dictionary["PlatformCategory"] as? String
             self.maintainer = dictionary["Maintainer"] as? String
@@ -2625,14 +2465,16 @@ extension Elasticbeanstalk {
             self.operatingSystemVersion = dictionary["OperatingSystemVersion"] as? String
             self.solutionStackName = dictionary["SolutionStackName"] as? String
             self.platformArn = dictionary["PlatformArn"] as? String
-            if let supportedTierList = dictionary["SupportedTierList"] as? [String] {
-                self.supportedTierList = supportedTierList
-            }
+            self.supportedTierList = dictionary["SupportedTierList"] as? [String]
             if let frameworks = dictionary["Frameworks"] as? [[String: Any]] {
                 self.frameworks = try frameworks.map({ try PlatformFramework(dictionary: $0) })
+            } else { 
+                self.frameworks = nil
             }
             if let programmingLanguages = dictionary["ProgrammingLanguages"] as? [[String: Any]] {
                 self.programmingLanguages = try programmingLanguages.map({ try PlatformProgrammingLanguage(dictionary: $0) })
+            } else { 
+                self.programmingLanguages = nil
             }
         }
     }
@@ -2641,31 +2483,29 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// If specified, AWS Elastic Beanstalk updates the configuration set associated with the running environment and sets the specified configuration options to the requested value.
-        public var optionSettings: [ConfigurationOptionSetting]? = nil
+        public let optionSettings: [ConfigurationOptionSetting]?
         /// If this parameter is specified, AWS Elastic Beanstalk deploys this configuration template to the environment. If no such configuration template is found, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
-        public var templateName: String? = nil
+        public let templateName: String?
         /// The name of the group to which the target environment belongs. Specify a group name only if the environment's name is specified in an environment manifest and not with the environment name or environment ID parameters. See Environment Manifest (env.yaml) for details.
-        public var groupName: String? = nil
+        public let groupName: String?
         /// This specifies the platform version that the environment will run after the environment is updated.
-        public var solutionStackName: String? = nil
+        public let solutionStackName: String?
         /// The ARN of the platform, if used.
-        public var platformArn: String? = nil
+        public let platformArn: String?
         /// A list of custom user-defined configuration options to remove from the configuration set for this environment.
-        public var optionsToRemove: [OptionSpecification]? = nil
+        public let optionsToRemove: [OptionSpecification]?
         /// If this parameter is specified, AWS Elastic Beanstalk deploys the named application version to the environment. If no such application version is found, returns an InvalidParameterValue error. 
-        public var versionLabel: String? = nil
+        public let versionLabel: String?
         /// The name of the environment to update. If no environment with this name exists, AWS Elastic Beanstalk returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// The ID of the environment to update. If no environment with this ID exists, AWS Elastic Beanstalk returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
-        public var environmentId: String? = nil
+        public let environmentId: String?
         /// The name of the application with which the environment is associated.
-        public var applicationName: String? = nil
+        public let applicationName: String?
         /// This specifies the tier to use to update the environment. Condition: At this time, if you change the tier version, name, or type, AWS Elastic Beanstalk returns InvalidParameterValue error. 
-        public var tier: EnvironmentTier? = nil
+        public let tier: EnvironmentTier?
         /// If this parameter is specified, AWS Elastic Beanstalk updates the description of this environment.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(optionSettings: [ConfigurationOptionSetting]? = nil, templateName: String? = nil, groupName: String? = nil, solutionStackName: String? = nil, platformArn: String? = nil, optionsToRemove: [OptionSpecification]? = nil, versionLabel: String? = nil, environmentName: String? = nil, environmentId: String? = nil, applicationName: String? = nil, tier: EnvironmentTier? = nil, description: String? = nil) {
             self.optionSettings = optionSettings
@@ -2685,6 +2525,8 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             if let optionSettings = dictionary["OptionSettings"] as? [[String: Any]] {
                 self.optionSettings = try optionSettings.map({ try ConfigurationOptionSetting(dictionary: $0) })
+            } else { 
+                self.optionSettings = nil
             }
             self.templateName = dictionary["TemplateName"] as? String
             self.groupName = dictionary["GroupName"] as? String
@@ -2692,12 +2534,14 @@ extension Elasticbeanstalk {
             self.platformArn = dictionary["PlatformArn"] as? String
             if let optionsToRemove = dictionary["OptionsToRemove"] as? [[String: Any]] {
                 self.optionsToRemove = try optionsToRemove.map({ try OptionSpecification(dictionary: $0) })
+            } else { 
+                self.optionsToRemove = nil
             }
             self.versionLabel = dictionary["VersionLabel"] as? String
             self.environmentName = dictionary["EnvironmentName"] as? String
             self.environmentId = dictionary["EnvironmentId"] as? String
             self.applicationName = dictionary["ApplicationName"] as? String
-            if let tier = dictionary["Tier"] as? [String: Any] { self.tier = try Elasticbeanstalk.EnvironmentTier(dictionary: tier) }
+            if let tier = dictionary["Tier"] as? [String: Any] { self.tier = try Elasticbeanstalk.EnvironmentTier(dictionary: tier) } else { self.tier = nil }
             self.description = dictionary["Description"] as? String
         }
     }
@@ -2706,11 +2550,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the application to delete.
-        public var applicationName: String = ""
+        public let applicationName: String
         /// When set to true, running environments will be terminated before deleting the application.
-        public var terminateEnvByForce: Bool? = nil
-
-        public init() {}
+        public let terminateEnvByForce: Bool?
 
         public init(applicationName: String, terminateEnvByForce: Bool? = nil) {
             self.applicationName = applicationName
@@ -2728,13 +2570,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of this environment tier.
-        public var type: String? = nil
+        public let type: String?
         /// The name of this environment tier.
-        public var name: String? = nil
+        public let name: String?
         /// The version of this environment tier.
-        public var version: String? = nil
-
-        public init() {}
+        public let version: String?
 
         public init(type: String? = nil, name: String? = nil, version: String? = nil) {
             self.type = type
@@ -2753,11 +2593,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The starting index into the remaining list of platforms. if this value is not null, you can use it in a subsequent ListPlatformVersion call. 
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Detailed information about the platforms.
-        public var platformSummaryList: [PlatformSummary]? = nil
-
-        public init() {}
+        public let platformSummaryList: [PlatformSummary]?
 
         public init(nextToken: String? = nil, platformSummaryList: [PlatformSummary]? = nil) {
             self.nextToken = nextToken
@@ -2768,6 +2606,8 @@ extension Elasticbeanstalk {
             self.nextToken = dictionary["NextToken"] as? String
             if let platformSummaryList = dictionary["PlatformSummaryList"] as? [[String: Any]] {
                 self.platformSummaryList = try platformSummaryList.map({ try PlatformSummary(dictionary: $0) })
+            } else { 
+                self.platformSummaryList = nil
             }
         }
     }
@@ -2776,16 +2616,14 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The ApplicationVersionDescription of the application version. 
-        public var applicationVersion: ApplicationVersionDescription? = nil
-
-        public init() {}
+        public let applicationVersion: ApplicationVersionDescription?
 
         public init(applicationVersion: ApplicationVersionDescription? = nil) {
             self.applicationVersion = applicationVersion
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let applicationVersion = dictionary["ApplicationVersion"] as? [String: Any] { self.applicationVersion = try Elasticbeanstalk.ApplicationVersionDescription(dictionary: applicationVersion) }
+            if let applicationVersion = dictionary["ApplicationVersion"] as? [String: Any] { self.applicationVersion = try Elasticbeanstalk.ApplicationVersionDescription(dictionary: applicationVersion) } else { self.applicationVersion = nil }
         }
     }
 
@@ -2793,11 +2631,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the linked environment (the dependency).
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// The name of the link.
-        public var linkName: String? = nil
-
-        public init() {}
+        public let linkName: String?
 
         public init(environmentName: String? = nil, linkName: String? = nil) {
             self.environmentName = environmentName
@@ -2814,9 +2650,7 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the launch configuration.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(name: String? = nil) {
             self.name = name
@@ -2831,13 +2665,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specify the number of days to retain an application versions.
-        public var maxAgeInDays: Int32? = nil
+        public let maxAgeInDays: Int32?
         /// Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version.
-        public var deleteSourceFromS3: Bool? = nil
+        public let deleteSourceFromS3: Bool?
         /// Specify true to apply the rule, or false to disable it.
-        public var enabled: Bool = false
-
-        public init() {}
+        public let enabled: Bool
 
         public init(maxAgeInDays: Int32? = nil, deleteSourceFromS3: Bool? = nil, enabled: Bool) {
             self.maxAgeInDays = maxAgeInDays
@@ -2857,13 +2689,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of platform values returned in one call.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// The starting index into the remaining list of platforms. Use the NextToken value from a previous ListPlatformVersion call.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// List only the platforms where the platform member value relates to one of the supplied values.
-        public var filters: [PlatformFilter]? = nil
-
-        public init() {}
+        public let filters: [PlatformFilter]?
 
         public init(maxRecords: Int32? = nil, nextToken: String? = nil, filters: [PlatformFilter]? = nil) {
             self.maxRecords = maxRecords
@@ -2876,6 +2706,8 @@ extension Elasticbeanstalk {
             self.nextToken = dictionary["NextToken"] as? String
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try PlatformFilter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
         }
     }
@@ -2884,13 +2716,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the version to update. If no application version is found with this label, UpdateApplication returns an InvalidParameterValue error. 
-        public var versionLabel: String = ""
+        public let versionLabel: String
         /// The name of the application associated with this version.  If no application is found with this name, UpdateApplication returns an InvalidParameterValue error.
-        public var applicationName: String = ""
+        public let applicationName: String
         /// A new description for this version.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(versionLabel: String, applicationName: String, description: String? = nil) {
             self.versionLabel = versionLabel
@@ -2911,11 +2741,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the environment to delete the draft configuration from.
-        public var environmentName: String = ""
+        public let environmentName: String
         /// The name of the application the environment is associated with.
-        public var applicationName: String = ""
-
-        public init() {}
+        public let applicationName: String
 
         public init(environmentName: String, applicationName: String) {
             self.environmentName = environmentName
@@ -2934,15 +2762,13 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The retrieved information.
-        public var message: String? = nil
+        public let message: String?
         /// The type of information retrieved.
-        public var infoType: String? = nil
+        public let infoType: String?
         /// The Amazon EC2 Instance ID for this information.
-        public var ec2InstanceId: String? = nil
+        public let ec2InstanceId: String?
         /// The time stamp when this information was retrieved.
-        public var sampleTimestamp: Date? = nil
-
-        public init() {}
+        public let sampleTimestamp: Date?
 
         public init(message: String? = nil, infoType: String? = nil, ec2InstanceId: String? = nil, sampleTimestamp: Date? = nil) {
             self.message = message
@@ -2963,13 +2789,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The label of the version to delete.
-        public var versionLabel: String = ""
+        public let versionLabel: String
         /// Set to true to delete the source bundle from your storage bucket. Otherwise, the application version is deleted only from Elastic Beanstalk and the source bundle remains in Amazon S3.
-        public var deleteSourceBundle: Bool? = nil
+        public let deleteSourceBundle: Bool?
         /// The name of the application to which the version belongs.
-        public var applicationName: String = ""
-
-        public init() {}
+        public let applicationName: String
 
         public init(versionLabel: String, deleteSourceBundle: Bool? = nil, applicationName: String) {
             self.versionLabel = versionLabel
@@ -2990,15 +2814,13 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The namespace to which the option belongs.
-        public var namespace: String? = nil
+        public let namespace: String?
         /// An indication of the severity of this message:    error: This message indicates that this is not a valid setting for an option.    warning: This message is providing information you should take into account.  
-        public var severity: String? = nil
+        public let severity: String?
         /// A message describing the error or warning.
-        public var message: String? = nil
+        public let message: String?
         /// The name of the option.
-        public var optionName: String? = nil
-
-        public init() {}
+        public let optionName: String?
 
         public init(namespace: String? = nil, severity: String? = nil, message: String? = nil, optionName: String? = nil) {
             self.namespace = namespace
@@ -3019,11 +2841,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the queue.
-        public var name: String? = nil
+        public let name: String?
         /// The URL of the queue.
-        public var uRL: String? = nil
-
-        public init() {}
+        public let uRL: String?
 
         public init(name: String? = nil, uRL: String? = nil) {
             self.name = name
@@ -3040,13 +2860,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the target environment.
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// To show only actions with a particular status, specify a status.
-        public var status: String? = nil
+        public let status: String?
         /// The environment ID of the target environment.
-        public var environmentId: String? = nil
-
-        public init() {}
+        public let environmentId: String?
 
         public init(environmentName: String? = nil, status: String? = nil, environmentId: String? = nil) {
             self.environmentName = environmentName
@@ -3065,9 +2883,7 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the version of the custom platform.
-        public var platformArn: String? = nil
-
-        public init() {}
+        public let platformArn: String?
 
         public init(platformArn: String? = nil) {
             self.platformArn = platformArn
@@ -3082,15 +2898,13 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// A unique namespace identifying the option's associated AWS resource.
-        public var namespace: String? = nil
+        public let namespace: String?
         /// The name of the configuration option.
-        public var optionName: String? = nil
+        public let optionName: String?
         /// The current value for the configuration option.
-        public var value: String? = nil
+        public let value: String?
         /// A unique resource name for a time-based scaling configuration option.
-        public var resourceName: String? = nil
-
-        public init() {}
+        public let resourceName: String?
 
         public init(namespace: String? = nil, optionName: String? = nil, value: String? = nil, resourceName: String? = nil) {
             self.namespace = namespace
@@ -3111,13 +2925,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specify an application resource lifecycle configuration to prevent your application from accumulating too many versions.
-        public var resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil
+        public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig?
         /// The name of the application. Constraint: This name must be unique within your account. If the specified name already exists, the action returns an InvalidParameterValue error.
-        public var applicationName: String = ""
+        public let applicationName: String
         /// Describes the application.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil, applicationName: String, description: String? = nil) {
             self.resourceLifecycleConfig = resourceLifecycleConfig
@@ -3126,7 +2938,7 @@ extension Elasticbeanstalk {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let resourceLifecycleConfig = dictionary["ResourceLifecycleConfig"] as? [String: Any] { self.resourceLifecycleConfig = try Elasticbeanstalk.ApplicationResourceLifecycleConfig(dictionary: resourceLifecycleConfig) }
+            if let resourceLifecycleConfig = dictionary["ResourceLifecycleConfig"] as? [String: Any] { self.resourceLifecycleConfig = try Elasticbeanstalk.ApplicationResourceLifecycleConfig(dictionary: resourceLifecycleConfig) } else { self.resourceLifecycleConfig = nil }
             guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
             self.applicationName = applicationName
             self.description = dictionary["Description"] as? String
@@ -3137,13 +2949,11 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the LoadBalancer.
-        public var loadBalancerName: String? = nil
+        public let loadBalancerName: String?
         /// The domain name of the LoadBalancer.
-        public var domain: String? = nil
+        public let domain: String?
         /// A list of Listeners used by the LoadBalancer.
-        public var listeners: [Listener]? = nil
-
-        public init() {}
+        public let listeners: [Listener]?
 
         public init(loadBalancerName: String? = nil, domain: String? = nil, listeners: [Listener]? = nil) {
             self.loadBalancerName = loadBalancerName
@@ -3156,6 +2966,8 @@ extension Elasticbeanstalk {
             self.domain = dictionary["Domain"] as? String
             if let listeners = dictionary["Listeners"] as? [[String: Any]] {
                 self.listeners = try listeners.map({ try Listener(dictionary: $0) })
+            } else { 
+                self.listeners = nil
             }
         }
     }
@@ -3164,11 +2976,9 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// The lifecycle configuration.
-        public var resourceLifecycleConfig: ApplicationResourceLifecycleConfig = ApplicationResourceLifecycleConfig()
+        public let resourceLifecycleConfig: ApplicationResourceLifecycleConfig
         /// The name of the application.
-        public var applicationName: String = ""
-
-        public init() {}
+        public let applicationName: String
 
         public init(resourceLifecycleConfig: ApplicationResourceLifecycleConfig, applicationName: String) {
             self.resourceLifecycleConfig = resourceLifecycleConfig
@@ -3187,27 +2997,25 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// Represents the color indicator that gives you information about the health of the EC2 instance. For more information, see Health Colors and Statuses.
-        public var color: String? = nil
+        public let color: String?
         /// The ID of the Amazon EC2 instance.
-        public var instanceId: String? = nil
+        public let instanceId: String?
         /// Information about the most recent deployment to an instance.
-        public var deployment: Deployment? = nil
+        public let deployment: Deployment?
         /// Request metrics from your application.
-        public var applicationMetrics: ApplicationMetrics? = nil
+        public let applicationMetrics: ApplicationMetrics?
         /// The time at which the EC2 instance was launched.
-        public var launchedAt: Date? = nil
+        public let launchedAt: Date?
         /// Returns the health status of the specified instance. For more information, see Health Colors and Statuses.
-        public var healthStatus: String? = nil
+        public let healthStatus: String?
         /// The instance's type.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// Operating system metrics from the instance.
-        public var system: SystemStatus? = nil
+        public let system: SystemStatus?
         /// Represents the causes, which provide more information about the current health status.
-        public var causes: [String]? = nil
+        public let causes: [String]?
         /// The availability zone in which the instance runs.
-        public var availabilityZone: String? = nil
-
-        public init() {}
+        public let availabilityZone: String?
 
         public init(color: String? = nil, instanceId: String? = nil, deployment: Deployment? = nil, applicationMetrics: ApplicationMetrics? = nil, launchedAt: Date? = nil, healthStatus: String? = nil, instanceType: String? = nil, system: SystemStatus? = nil, causes: [String]? = nil, availabilityZone: String? = nil) {
             self.color = color
@@ -3225,15 +3033,13 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             self.color = dictionary["Color"] as? String
             self.instanceId = dictionary["InstanceId"] as? String
-            if let deployment = dictionary["Deployment"] as? [String: Any] { self.deployment = try Elasticbeanstalk.Deployment(dictionary: deployment) }
-            if let applicationMetrics = dictionary["ApplicationMetrics"] as? [String: Any] { self.applicationMetrics = try Elasticbeanstalk.ApplicationMetrics(dictionary: applicationMetrics) }
+            if let deployment = dictionary["Deployment"] as? [String: Any] { self.deployment = try Elasticbeanstalk.Deployment(dictionary: deployment) } else { self.deployment = nil }
+            if let applicationMetrics = dictionary["ApplicationMetrics"] as? [String: Any] { self.applicationMetrics = try Elasticbeanstalk.ApplicationMetrics(dictionary: applicationMetrics) } else { self.applicationMetrics = nil }
             self.launchedAt = dictionary["LaunchedAt"] as? Date
             self.healthStatus = dictionary["HealthStatus"] as? String
             self.instanceType = dictionary["InstanceType"] as? String
-            if let system = dictionary["System"] as? [String: Any] { self.system = try Elasticbeanstalk.SystemStatus(dictionary: system) }
-            if let causes = dictionary["Causes"] as? [String] {
-                self.causes = causes
-            }
+            if let system = dictionary["System"] as? [String: Any] { self.system = try Elasticbeanstalk.SystemStatus(dictionary: system) } else { self.system = nil }
+            self.causes = dictionary["Causes"] as? [String]
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
         }
     }
@@ -3242,21 +3048,19 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The AutoScalingGroups used by this environment. 
-        public var autoScalingGroups: [AutoScalingGroup]? = nil
+        public let autoScalingGroups: [AutoScalingGroup]?
         /// The Auto Scaling launch configurations in use by this environment.
-        public var launchConfigurations: [LaunchConfiguration]? = nil
+        public let launchConfigurations: [LaunchConfiguration]?
         /// The AutoScaling triggers in use by this environment. 
-        public var triggers: [Trigger]? = nil
+        public let triggers: [Trigger]?
         /// The queues used by this environment.
-        public var queues: [Queue]? = nil
+        public let queues: [Queue]?
         /// The name of the environment.
-        public var environmentName: String? = nil
+        public let environmentName: String?
         /// The Amazon EC2 instances used by this environment.
-        public var instances: [Instance]? = nil
+        public let instances: [Instance]?
         /// The LoadBalancers in use by this environment.
-        public var loadBalancers: [LoadBalancer]? = nil
-
-        public init() {}
+        public let loadBalancers: [LoadBalancer]?
 
         public init(autoScalingGroups: [AutoScalingGroup]? = nil, launchConfigurations: [LaunchConfiguration]? = nil, triggers: [Trigger]? = nil, queues: [Queue]? = nil, environmentName: String? = nil, instances: [Instance]? = nil, loadBalancers: [LoadBalancer]? = nil) {
             self.autoScalingGroups = autoScalingGroups
@@ -3271,22 +3075,34 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             if let autoScalingGroups = dictionary["AutoScalingGroups"] as? [[String: Any]] {
                 self.autoScalingGroups = try autoScalingGroups.map({ try AutoScalingGroup(dictionary: $0) })
+            } else { 
+                self.autoScalingGroups = nil
             }
             if let launchConfigurations = dictionary["LaunchConfigurations"] as? [[String: Any]] {
                 self.launchConfigurations = try launchConfigurations.map({ try LaunchConfiguration(dictionary: $0) })
+            } else { 
+                self.launchConfigurations = nil
             }
             if let triggers = dictionary["Triggers"] as? [[String: Any]] {
                 self.triggers = try triggers.map({ try Trigger(dictionary: $0) })
+            } else { 
+                self.triggers = nil
             }
             if let queues = dictionary["Queues"] as? [[String: Any]] {
                 self.queues = try queues.map({ try Queue(dictionary: $0) })
+            } else { 
+                self.queues = nil
             }
             self.environmentName = dictionary["EnvironmentName"] as? String
             if let instances = dictionary["Instances"] as? [[String: Any]] {
                 self.instances = try instances.map({ try Instance(dictionary: $0) })
+            } else { 
+                self.instances = nil
             }
             if let loadBalancers = dictionary["LoadBalancers"] as? [[String: Any]] {
                 self.loadBalancers = try loadBalancers.map({ try LoadBalancer(dictionary: $0) })
+            } else { 
+                self.loadBalancers = nil
             }
         }
     }
@@ -3295,19 +3111,17 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         ///  If specified when IncludeDeleted is set to true, then environments deleted after this date are displayed. 
-        public var includedDeletedBackTo: Date? = nil
+        public let includedDeletedBackTo: Date?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
-        public var environmentIds: [String]? = nil
+        public let environmentIds: [String]?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
-        public var applicationName: String? = nil
+        public let applicationName: String?
         /// Indicates whether to include deleted environments:  true: Environments that have been deleted after IncludedDeletedBackTo are displayed.  false: Do not include deleted environments.
-        public var includeDeleted: Bool? = nil
+        public let includeDeleted: Bool?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application version.
-        public var versionLabel: String? = nil
+        public let versionLabel: String?
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names.
-        public var environmentNames: [String]? = nil
-
-        public init() {}
+        public let environmentNames: [String]?
 
         public init(includedDeletedBackTo: Date? = nil, environmentIds: [String]? = nil, applicationName: String? = nil, includeDeleted: Bool? = nil, versionLabel: String? = nil, environmentNames: [String]? = nil) {
             self.includedDeletedBackTo = includedDeletedBackTo
@@ -3320,15 +3134,11 @@ extension Elasticbeanstalk {
 
         public init(dictionary: [String: Any]) throws {
             self.includedDeletedBackTo = dictionary["IncludedDeletedBackTo"] as? Date
-            if let environmentIds = dictionary["EnvironmentIds"] as? [String] {
-                self.environmentIds = environmentIds
-            }
+            self.environmentIds = dictionary["EnvironmentIds"] as? [String]
             self.applicationName = dictionary["ApplicationName"] as? String
             self.includeDeleted = dictionary["IncludeDeleted"] as? Bool
             self.versionLabel = dictionary["VersionLabel"] as? String
-            if let environmentNames = dictionary["EnvironmentNames"] as? [String] {
-                self.environmentNames = environmentNames
-            }
+            self.environmentNames = dictionary["EnvironmentNames"] as? [String]
         }
     }
 
@@ -3336,15 +3146,13 @@ extension Elasticbeanstalk {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specify a maximum number of application versions to paginate in the request.
-        public var maxRecords: Int32? = nil
+        public let maxRecords: Int32?
         /// Specify an application name to show only application versions for that application.
-        public var applicationName: String? = nil
+        public let applicationName: String?
         /// Specify a version label to show a specific application version.
-        public var versionLabels: [String]? = nil
+        public let versionLabels: [String]?
         /// Specify a next token to retrieve the next page in a paginated request.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(maxRecords: Int32? = nil, applicationName: String? = nil, versionLabels: [String]? = nil, nextToken: String? = nil) {
             self.maxRecords = maxRecords
@@ -3356,9 +3164,7 @@ extension Elasticbeanstalk {
         public init(dictionary: [String: Any]) throws {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             self.applicationName = dictionary["ApplicationName"] as? String
-            if let versionLabels = dictionary["VersionLabels"] as? [String] {
-                self.versionLabels = versionLabels
-            }
+            self.versionLabels = dictionary["VersionLabels"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
         }
     }

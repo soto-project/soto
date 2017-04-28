@@ -33,13 +33,11 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// Pagination token. Not used.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Full traces for the specified requests.
-        public var traces: [Trace]? = nil
+        public let traces: [Trace]?
         /// Trace IDs of requests that haven't been processed.
-        public var unprocessedTraceIds: [String]? = nil
-
-        public init() {}
+        public let unprocessedTraceIds: [String]?
 
         public init(nextToken: String? = nil, traces: [Trace]? = nil, unprocessedTraceIds: [String]? = nil) {
             self.nextToken = nextToken
@@ -51,10 +49,10 @@ extension Xray {
             self.nextToken = dictionary["NextToken"] as? String
             if let traces = dictionary["Traces"] as? [[String: Any]] {
                 self.traces = try traces.map({ try Trace(dictionary: $0) })
+            } else { 
+                self.traces = nil
             }
-            if let unprocessedTraceIds = dictionary["UnprocessedTraceIds"] as? [String] {
-                self.unprocessedTraceIds = unprocessedTraceIds
-            }
+            self.unprocessedTraceIds = dictionary["UnprocessedTraceIds"] as? [String]
         }
     }
 
@@ -62,17 +60,15 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// The aggregate response time of completed requests.
-        public var totalResponseTime: Double? = nil
+        public let totalResponseTime: Double?
         /// Information about requests that failed with a 5xx Server Error status code.
-        public var faultStatistics: FaultStatistics? = nil
+        public let faultStatistics: FaultStatistics?
         /// The number of requests that completed with a 2xx Success status code.
-        public var okCount: Int64? = nil
+        public let okCount: Int64?
         /// Information about requests that failed with a 4xx Client Error status code.
-        public var errorStatistics: ErrorStatistics? = nil
+        public let errorStatistics: ErrorStatistics?
         /// The total number of completed requests.
-        public var totalCount: Int64? = nil
-
-        public init() {}
+        public let totalCount: Int64?
 
         public init(totalResponseTime: Double? = nil, faultStatistics: FaultStatistics? = nil, okCount: Int64? = nil, errorStatistics: ErrorStatistics? = nil, totalCount: Int64? = nil) {
             self.totalResponseTime = totalResponseTime
@@ -84,9 +80,9 @@ extension Xray {
 
         public init(dictionary: [String: Any]) throws {
             self.totalResponseTime = dictionary["TotalResponseTime"] as? Double
-            if let faultStatistics = dictionary["FaultStatistics"] as? [String: Any] { self.faultStatistics = try Xray.FaultStatistics(dictionary: faultStatistics) }
+            if let faultStatistics = dictionary["FaultStatistics"] as? [String: Any] { self.faultStatistics = try Xray.FaultStatistics(dictionary: faultStatistics) } else { self.faultStatistics = nil }
             self.okCount = dictionary["OkCount"] as? Int64
-            if let errorStatistics = dictionary["ErrorStatistics"] as? [String: Any] { self.errorStatistics = try Xray.ErrorStatistics(dictionary: errorStatistics) }
+            if let errorStatistics = dictionary["ErrorStatistics"] as? [String: Any] { self.errorStatistics = try Xray.ErrorStatistics(dictionary: errorStatistics) } else { self.errorStatistics = nil }
             self.totalCount = dictionary["TotalCount"] as? Int64
         }
     }
@@ -95,11 +91,9 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// The segment document.
-        public var document: String? = nil
+        public let document: String?
         /// The segment's ID.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(document: String? = nil, id: String? = nil) {
             self.document = document
@@ -116,13 +110,11 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of the alias.
-        public var type: String? = nil
+        public let type: String?
         /// The canonical name of the alias.
-        public var name: String? = nil
+        public let name: String?
         /// A list of names for the alias, including the canonical name.
-        public var names: [String]? = nil
-
-        public init() {}
+        public let names: [String]?
 
         public init(type: String? = nil, name: String? = nil, names: [String]? = nil) {
             self.type = type
@@ -133,9 +125,7 @@ extension Xray {
         public init(dictionary: [String: Any]) throws {
             self.type = dictionary["Type"] as? String
             self.name = dictionary["Name"] as? String
-            if let names = dictionary["Names"] as? [String] {
-                self.names = names
-            }
+            self.names = dictionary["Names"] as? [String]
         }
     }
 
@@ -143,11 +133,9 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// Services to which the annotation applies.
-        public var serviceIds: [ServiceId]? = nil
+        public let serviceIds: [ServiceId]?
         /// Values of the annotation.
-        public var annotationValue: AnnotationValue? = nil
-
-        public init() {}
+        public let annotationValue: AnnotationValue?
 
         public init(serviceIds: [ServiceId]? = nil, annotationValue: AnnotationValue? = nil) {
             self.serviceIds = serviceIds
@@ -157,8 +145,10 @@ extension Xray {
         public init(dictionary: [String: Any]) throws {
             if let serviceIds = dictionary["ServiceIds"] as? [[String: Any]] {
                 self.serviceIds = try serviceIds.map({ try ServiceId(dictionary: $0) })
+            } else { 
+                self.serviceIds = nil
             }
-            if let annotationValue = dictionary["AnnotationValue"] as? [String: Any] { self.annotationValue = try Xray.AnnotationValue(dictionary: annotationValue) }
+            if let annotationValue = dictionary["AnnotationValue"] as? [String: Any] { self.annotationValue = try Xray.AnnotationValue(dictionary: annotationValue) } else { self.annotationValue = nil }
         }
     }
 
@@ -166,11 +156,9 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the entry.
-        public var value: Double? = nil
+        public let value: Double?
         /// The prevalence of the entry.
-        public var count: Int32? = nil
-
-        public init() {}
+        public let count: Int32?
 
         public init(value: Double? = nil, count: Int32? = nil) {
             self.value = value
@@ -187,13 +175,11 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// The segment's ID.
-        public var id: String? = nil
+        public let id: String?
         /// The error that caused processing to fail.
-        public var errorCode: String? = nil
+        public let errorCode: String?
         /// The error message.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(id: String? = nil, errorCode: String? = nil, message: String? = nil) {
             self.id = id
@@ -212,15 +198,13 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of traces that were processed to get this set of summaries.
-        public var tracesProcessedCount: Int64? = nil
+        public let tracesProcessedCount: Int64?
         /// Trace IDs and metadata for traces that were found in the specified time frame.
-        public var traceSummaries: [TraceSummary]? = nil
+        public let traceSummaries: [TraceSummary]?
         /// If the requested time frame contained more than one page of results, you can use this token to retrieve the next page. The first page contains the most most recent results, closest to the end of the time frame.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The start time of this page of results.
-        public var approximateTime: Date? = nil
-
-        public init() {}
+        public let approximateTime: Date?
 
         public init(tracesProcessedCount: Int64? = nil, traceSummaries: [TraceSummary]? = nil, nextToken: String? = nil, approximateTime: Date? = nil) {
             self.tracesProcessedCount = tracesProcessedCount
@@ -233,6 +217,8 @@ extension Xray {
             self.tracesProcessedCount = dictionary["TracesProcessedCount"] as? Int64
             if let traceSummaries = dictionary["TraceSummaries"] as? [[String: Any]] {
                 self.traceSummaries = try traceSummaries.map({ try TraceSummary(dictionary: $0) })
+            } else { 
+                self.traceSummaries = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
             self.approximateTime = dictionary["ApproximateTime"] as? Date
@@ -243,19 +229,17 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// The start time of the first segment on the edge.
-        public var startTime: Date? = nil
+        public let startTime: Date?
         /// Response statistics for segments on the edge.
-        public var summaryStatistics: EdgeStatistics? = nil
+        public let summaryStatistics: EdgeStatistics?
         /// The end time of the last segment on the edge.
-        public var endTime: Date? = nil
+        public let endTime: Date?
         /// Identifier of the edge. Unique within a service map.
-        public var referenceId: Int32? = nil
+        public let referenceId: Int32?
         /// Aliases for the edge.
-        public var aliases: [Alias]? = nil
+        public let aliases: [Alias]?
         /// Histogram describing the prominence of response times on the edge.
-        public var responseTimeHistogram: [HistogramEntry]? = nil
-
-        public init() {}
+        public let responseTimeHistogram: [HistogramEntry]?
 
         public init(startTime: Date? = nil, summaryStatistics: EdgeStatistics? = nil, endTime: Date? = nil, referenceId: Int32? = nil, aliases: [Alias]? = nil, responseTimeHistogram: [HistogramEntry]? = nil) {
             self.startTime = startTime
@@ -268,14 +252,18 @@ extension Xray {
 
         public init(dictionary: [String: Any]) throws {
             self.startTime = dictionary["StartTime"] as? Date
-            if let summaryStatistics = dictionary["SummaryStatistics"] as? [String: Any] { self.summaryStatistics = try Xray.EdgeStatistics(dictionary: summaryStatistics) }
+            if let summaryStatistics = dictionary["SummaryStatistics"] as? [String: Any] { self.summaryStatistics = try Xray.EdgeStatistics(dictionary: summaryStatistics) } else { self.summaryStatistics = nil }
             self.endTime = dictionary["EndTime"] as? Date
             self.referenceId = dictionary["ReferenceId"] as? Int32
             if let aliases = dictionary["Aliases"] as? [[String: Any]] {
                 self.aliases = try aliases.map({ try Alias(dictionary: $0) })
+            } else { 
+                self.aliases = nil
             }
             if let responseTimeHistogram = dictionary["ResponseTimeHistogram"] as? [[String: Any]] {
                 self.responseTimeHistogram = try responseTimeHistogram.map({ try HistogramEntry(dictionary: $0) })
+            } else { 
+                self.responseTimeHistogram = nil
             }
         }
     }
@@ -284,13 +272,11 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// The total number of requests that failed with a 4xx Client Error status code.
-        public var totalCount: Int64? = nil
+        public let totalCount: Int64?
         /// The number of requests that failed with untracked 4xx Client Error status codes.
-        public var otherCount: Int64? = nil
+        public let otherCount: Int64?
         /// The number of requests that failed with a 419 throttling status code.
-        public var throttleCount: Int64? = nil
-
-        public init() {}
+        public let throttleCount: Int64?
 
         public init(totalCount: Int64? = nil, otherCount: Int64? = nil, throttleCount: Int64? = nil) {
             self.totalCount = totalCount
@@ -309,13 +295,11 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// The end of the time frame for which to generate a graph.
-        public var endTime: Date = Date()
+        public let endTime: Date
         /// Pagination token. Not used.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The start of the time frame for which to generate a graph.
-        public var startTime: Date = Date()
-
-        public init() {}
+        public let startTime: Date
 
         public init(endTime: Date, nextToken: String? = nil, startTime: Date) {
             self.endTime = endTime
@@ -336,9 +320,7 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// Segments that failed processing.
-        public var unprocessedTraceSegments: [UnprocessedTraceSegment]? = nil
-
-        public init() {}
+        public let unprocessedTraceSegments: [UnprocessedTraceSegment]?
 
         public init(unprocessedTraceSegments: [UnprocessedTraceSegment]? = nil) {
             self.unprocessedTraceSegments = unprocessedTraceSegments
@@ -347,6 +329,8 @@ extension Xray {
         public init(dictionary: [String: Any]) throws {
             if let unprocessedTraceSegments = dictionary["UnprocessedTraceSegments"] as? [[String: Any]] {
                 self.unprocessedTraceSegments = try unprocessedTraceSegments.map({ try UnprocessedTraceSegment(dictionary: $0) })
+            } else { 
+                self.unprocessedTraceSegments = nil
             }
         }
     }
@@ -355,13 +339,11 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// Value for a Boolean annotation.
-        public var booleanValue: Bool? = nil
+        public let booleanValue: Bool?
         /// Value for a String annotation.
-        public var stringValue: String? = nil
+        public let stringValue: String?
         /// Value for a Number annotation.
-        public var numberValue: Double? = nil
-
-        public init() {}
+        public let numberValue: Double?
 
         public init(booleanValue: Bool? = nil, stringValue: String? = nil, numberValue: Double? = nil) {
             self.booleanValue = booleanValue
@@ -380,15 +362,13 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// The start of the time frame for which the graph was generated.
-        public var startTime: Date? = nil
+        public let startTime: Date?
         /// The end of the time frame for which the graph was generated.
-        public var endTime: Date? = nil
+        public let endTime: Date?
         /// The services that have processed a traced request during the specified time frame.
-        public var services: [Service]? = nil
+        public let services: [Service]?
         /// Pagination token. Not used.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(startTime: Date? = nil, endTime: Date? = nil, services: [Service]? = nil, nextToken: String? = nil) {
             self.startTime = startTime
@@ -402,6 +382,8 @@ extension Xray {
             self.endTime = dictionary["EndTime"] as? Date
             if let services = dictionary["Services"] as? [[String: Any]] {
                 self.services = try services.map({ try Service(dictionary: $0) })
+            } else { 
+                self.services = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -411,11 +393,9 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// Services that the user's request hit.
-        public var serviceIds: [ServiceId]? = nil
+        public let serviceIds: [ServiceId]?
         /// The user's name.
-        public var userName: String? = nil
-
-        public init() {}
+        public let userName: String?
 
         public init(serviceIds: [ServiceId]? = nil, userName: String? = nil) {
             self.serviceIds = serviceIds
@@ -425,6 +405,8 @@ extension Xray {
         public init(dictionary: [String: Any]) throws {
             if let serviceIds = dictionary["ServiceIds"] as? [[String: Any]] {
                 self.serviceIds = try serviceIds.map({ try ServiceId(dictionary: $0) })
+            } else { 
+                self.serviceIds = nil
             }
             self.userName = dictionary["UserName"] as? String
         }
@@ -434,11 +416,9 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// The total number of requests that failed with a 5xx Server Error status code.
-        public var totalCount: Int64? = nil
+        public let totalCount: Int64?
         /// The number of requests that failed with untracked 5xx Server Error status codes.
-        public var otherCount: Int64? = nil
-
-        public init() {}
+        public let otherCount: Int64?
 
         public init(totalCount: Int64? = nil, otherCount: Int64? = nil) {
             self.totalCount = totalCount
@@ -455,17 +435,15 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IP address of the requestor.
-        public var clientIp: String? = nil
+        public let clientIp: String?
         /// The request URL.
-        public var httpURL: String? = nil
+        public let httpURL: String?
         /// The request method.
-        public var httpMethod: String? = nil
+        public let httpMethod: String?
         /// The response status.
-        public var httpStatus: Int32? = nil
+        public let httpStatus: Int32?
         /// The request's user agent string.
-        public var userAgent: String? = nil
-
-        public init() {}
+        public let userAgent: String?
 
         public init(clientIp: String? = nil, httpURL: String? = nil, httpMethod: String? = nil, httpStatus: Int32? = nil, userAgent: String? = nil) {
             self.clientIp = clientIp
@@ -488,17 +466,15 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// The aggregate response time of completed requests.
-        public var totalResponseTime: Double? = nil
+        public let totalResponseTime: Double?
         /// Information about requests that failed with a 5xx Server Error status code.
-        public var faultStatistics: FaultStatistics? = nil
+        public let faultStatistics: FaultStatistics?
         /// The number of requests that completed with a 2xx Success status code.
-        public var okCount: Int64? = nil
+        public let okCount: Int64?
         /// Information about requests that failed with a 4xx Client Error status code.
-        public var errorStatistics: ErrorStatistics? = nil
+        public let errorStatistics: ErrorStatistics?
         /// The total number of completed requests.
-        public var totalCount: Int64? = nil
-
-        public init() {}
+        public let totalCount: Int64?
 
         public init(totalResponseTime: Double? = nil, faultStatistics: FaultStatistics? = nil, okCount: Int64? = nil, errorStatistics: ErrorStatistics? = nil, totalCount: Int64? = nil) {
             self.totalResponseTime = totalResponseTime
@@ -510,9 +486,9 @@ extension Xray {
 
         public init(dictionary: [String: Any]) throws {
             self.totalResponseTime = dictionary["TotalResponseTime"] as? Double
-            if let faultStatistics = dictionary["FaultStatistics"] as? [String: Any] { self.faultStatistics = try Xray.FaultStatistics(dictionary: faultStatistics) }
+            if let faultStatistics = dictionary["FaultStatistics"] as? [String: Any] { self.faultStatistics = try Xray.FaultStatistics(dictionary: faultStatistics) } else { self.faultStatistics = nil }
             self.okCount = dictionary["OkCount"] as? Int64
-            if let errorStatistics = dictionary["ErrorStatistics"] as? [String: Any] { self.errorStatistics = try Xray.ErrorStatistics(dictionary: errorStatistics) }
+            if let errorStatistics = dictionary["ErrorStatistics"] as? [String: Any] { self.errorStatistics = try Xray.ErrorStatistics(dictionary: errorStatistics) } else { self.errorStatistics = nil }
             self.totalCount = dictionary["TotalCount"] as? Int64
         }
     }
@@ -521,11 +497,9 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// Trace IDs of requests for which to generate a service graph.
-        public var traceIds: [String] = []
+        public let traceIds: [String]
         /// Pagination token. Not used.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(traceIds: [String], nextToken: String? = nil) {
             self.traceIds = traceIds
@@ -543,11 +517,9 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// The services that have processed one of the specified requests.
-        public var services: [Service]? = nil
+        public let services: [Service]?
         /// Pagination token. Not used.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(services: [Service]? = nil, nextToken: String? = nil) {
             self.services = services
@@ -557,6 +529,8 @@ extension Xray {
         public init(dictionary: [String: Any]) throws {
             if let services = dictionary["Services"] as? [[String: Any]] {
                 self.services = try services.map({ try Service(dictionary: $0) })
+            } else { 
+                self.services = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -566,13 +540,11 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// Segment documents for the segments and subsegments that comprise the trace.
-        public var segments: [Segment]? = nil
+        public let segments: [Segment]?
         /// The length of time in seconds between the start time of the root segment and the end time of the last segment that completed.
-        public var duration: Double? = nil
+        public let duration: Double?
         /// The unique identifier for the request that generated the trace's segments and subsegments.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(segments: [Segment]? = nil, duration: Double? = nil, id: String? = nil) {
             self.segments = segments
@@ -583,6 +555,8 @@ extension Xray {
         public init(dictionary: [String: Any]) throws {
             if let segments = dictionary["Segments"] as? [[String: Any]] {
                 self.segments = try segments.map({ try Segment(dictionary: $0) })
+            } else { 
+                self.segments = nil
             }
             self.duration = dictionary["Duration"] as? Double
             self.id = dictionary["Id"] as? String
@@ -593,9 +567,7 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// A JSON document defining one or more segments or subsegments. Segments must include the following fields.  Required Segment Document Fields     name - The name of the service that handled the request.    id - A 64-bit identifier for the segment, unique among segments in the same trace, in 16 hexadecimal digits.    trace_id - A unique identifier that connects all segments and subsegments originating from a single client request.    start_time - Time the segment or subsegment was created, in floating point seconds in epoch time, accurate to milliseconds. For example, 1480615200.010 or 1.480615200010E9.    end_time - Time the segment or subsegment was closed. For example, 1480615200.090 or 1.480615200090E9. Specify either an end_time or in_progress.    in_progress - Set to true instead of specifying an end_time to record that a segment has been started, but is not complete. Send an in progress segment when your application receives a request that will take a long time to serve, to trace the fact that the request was received. When the response is sent, send the complete segment to overwrite the in-progress segment.   A trace_id consists of three numbers separated by hyphens. For example, 1-58406520-a006649127e371903a2de979. This includes:  Trace ID Format    The version number, i.e. 1.   The time of the original request, in Unix epoch time, in 8 hexadecimal digits. For example, 10:00AM December 2nd, 2016 PST in epoch time is 1480615200 seconds, or 58406520 in hexadecimal.   A 96-bit identifier for the trace, globally unique, in 24 hexadecimal digits.  
-        public var traceSegmentDocuments: [String] = []
-
-        public init() {}
+        public let traceSegmentDocuments: [String]
 
         public init(traceSegmentDocuments: [String]) {
             self.traceSegmentDocuments = traceSegmentDocuments
@@ -611,17 +583,15 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// The start of the time frame for which to retrieve traces.
-        public var startTime: Date = Date()
+        public let startTime: Date
         /// The end of the time frame for which to retrieve traces.
-        public var endTime: Date = Date()
+        public let endTime: Date
         /// Specify a filter expression to retrieve trace summaries for services or requests that meet certain requirements.
-        public var filterExpression: String? = nil
+        public let filterExpression: String?
         /// Set to true to get summaries for only a subset of available traces.
-        public var sampling: Bool? = nil
+        public let sampling: Bool?
         /// Specify the pagination token returned by a previous request to retrieve the next page of results.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(startTime: Date, endTime: Date, filterExpression: String? = nil, sampling: Bool? = nil, nextToken: String? = nil) {
             self.startTime = startTime
@@ -646,8 +616,6 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -655,12 +623,10 @@ extension Xray {
     public struct PutTelemetryRecordsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var eC2InstanceId: String? = nil
-        public var hostname: String? = nil
-        public var telemetryRecords: [TelemetryRecord] = []
-        public var resourceARN: String? = nil
-
-        public init() {}
+        public let eC2InstanceId: String?
+        public let hostname: String?
+        public let telemetryRecords: [TelemetryRecord]
+        public let resourceARN: String?
 
         public init(eC2InstanceId: String? = nil, hostname: String? = nil, telemetryRecords: [TelemetryRecord], resourceARN: String? = nil) {
             self.eC2InstanceId = eC2InstanceId
@@ -682,31 +648,29 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// The start time of the first segment that the service generated.
-        public var startTime: Date? = nil
+        public let startTime: Date?
         /// Aggregated statistics for the service.
-        public var summaryStatistics: ServiceStatistics? = nil
+        public let summaryStatistics: ServiceStatistics?
         /// Histogram mapping the spread of trace durations
-        public var durationHistogram: [HistogramEntry]? = nil
+        public let durationHistogram: [HistogramEntry]?
         /// Identifier of the AWS account in which the service runs.
-        public var accountId: String? = nil
+        public let accountId: String?
         /// Indicates that the service was the first service to process a request.
-        public var root: Bool? = nil
+        public let root: Bool?
         /// The canonical name of the service.
-        public var name: String? = nil
+        public let name: String?
         /// The service's state.
-        public var state: String? = nil
+        public let state: String?
         /// The end time of the last segment that the service generated.
-        public var endTime: Date? = nil
+        public let endTime: Date?
         /// Identifier for the service. Unique within the service map.
-        public var referenceId: Int32? = nil
+        public let referenceId: Int32?
         /// A list of names for the service, including the canonical name.
-        public var names: [String]? = nil
+        public let names: [String]?
         /// Connections to downstream services.
-        public var edges: [Edge]? = nil
+        public let edges: [Edge]?
         /// The type of service.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for a application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.  
-        public var type: String? = nil
-
-        public init() {}
+        public let type: String?
 
         public init(startTime: Date? = nil, summaryStatistics: ServiceStatistics? = nil, durationHistogram: [HistogramEntry]? = nil, accountId: String? = nil, root: Bool? = nil, name: String? = nil, state: String? = nil, endTime: Date? = nil, referenceId: Int32? = nil, names: [String]? = nil, edges: [Edge]? = nil, type: String? = nil) {
             self.startTime = startTime
@@ -725,9 +689,11 @@ extension Xray {
 
         public init(dictionary: [String: Any]) throws {
             self.startTime = dictionary["StartTime"] as? Date
-            if let summaryStatistics = dictionary["SummaryStatistics"] as? [String: Any] { self.summaryStatistics = try Xray.ServiceStatistics(dictionary: summaryStatistics) }
+            if let summaryStatistics = dictionary["SummaryStatistics"] as? [String: Any] { self.summaryStatistics = try Xray.ServiceStatistics(dictionary: summaryStatistics) } else { self.summaryStatistics = nil }
             if let durationHistogram = dictionary["DurationHistogram"] as? [[String: Any]] {
                 self.durationHistogram = try durationHistogram.map({ try HistogramEntry(dictionary: $0) })
+            } else { 
+                self.durationHistogram = nil
             }
             self.accountId = dictionary["AccountId"] as? String
             self.root = dictionary["Root"] as? Bool
@@ -735,11 +701,11 @@ extension Xray {
             self.state = dictionary["State"] as? String
             self.endTime = dictionary["EndTime"] as? Date
             self.referenceId = dictionary["ReferenceId"] as? Int32
-            if let names = dictionary["Names"] as? [String] {
-                self.names = names
-            }
+            self.names = dictionary["Names"] as? [String]
             if let edges = dictionary["Edges"] as? [[String: Any]] {
                 self.edges = try edges.map({ try Edge(dictionary: $0) })
+            } else { 
+                self.edges = nil
             }
             self.type = dictionary["Type"] as? String
         }
@@ -748,12 +714,10 @@ extension Xray {
     public struct ServiceId: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var accountId: String? = nil
-        public var names: [String]? = nil
-        public var type: String? = nil
-        public var name: String? = nil
-
-        public init() {}
+        public let accountId: String?
+        public let names: [String]?
+        public let type: String?
+        public let name: String?
 
         public init(accountId: String? = nil, names: [String]? = nil, type: String? = nil, name: String? = nil) {
             self.accountId = accountId
@@ -764,9 +728,7 @@ extension Xray {
 
         public init(dictionary: [String: Any]) throws {
             self.accountId = dictionary["AccountId"] as? String
-            if let names = dictionary["Names"] as? [String] {
-                self.names = names
-            }
+            self.names = dictionary["Names"] as? [String]
             self.type = dictionary["Type"] as? String
             self.name = dictionary["Name"] as? String
         }
@@ -775,14 +737,12 @@ extension Xray {
     public struct BackendConnectionErrors: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var connectionRefusedCount: Int32? = nil
-        public var timeoutCount: Int32? = nil
-        public var unknownHostCount: Int32? = nil
-        public var hTTPCode5XXCount: Int32? = nil
-        public var otherCount: Int32? = nil
-        public var hTTPCode4XXCount: Int32? = nil
-
-        public init() {}
+        public let connectionRefusedCount: Int32?
+        public let timeoutCount: Int32?
+        public let unknownHostCount: Int32?
+        public let hTTPCode5XXCount: Int32?
+        public let otherCount: Int32?
+        public let hTTPCode4XXCount: Int32?
 
         public init(connectionRefusedCount: Int32? = nil, timeoutCount: Int32? = nil, unknownHostCount: Int32? = nil, hTTPCode5XXCount: Int32? = nil, otherCount: Int32? = nil, hTTPCode4XXCount: Int32? = nil) {
             self.connectionRefusedCount = connectionRefusedCount
@@ -806,14 +766,12 @@ extension Xray {
     public struct TelemetryRecord: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var segmentsRejectedCount: Int32? = nil
-        public var timestamp: Date? = nil
-        public var segmentsReceivedCount: Int32? = nil
-        public var segmentsSentCount: Int32? = nil
-        public var segmentsSpilloverCount: Int32? = nil
-        public var backendConnectionErrors: BackendConnectionErrors? = nil
-
-        public init() {}
+        public let segmentsRejectedCount: Int32?
+        public let timestamp: Date?
+        public let segmentsReceivedCount: Int32?
+        public let segmentsSentCount: Int32?
+        public let segmentsSpilloverCount: Int32?
+        public let backendConnectionErrors: BackendConnectionErrors?
 
         public init(segmentsRejectedCount: Int32? = nil, timestamp: Date? = nil, segmentsReceivedCount: Int32? = nil, segmentsSentCount: Int32? = nil, segmentsSpilloverCount: Int32? = nil, backendConnectionErrors: BackendConnectionErrors? = nil) {
             self.segmentsRejectedCount = segmentsRejectedCount
@@ -830,7 +788,7 @@ extension Xray {
             self.segmentsReceivedCount = dictionary["SegmentsReceivedCount"] as? Int32
             self.segmentsSentCount = dictionary["SegmentsSentCount"] as? Int32
             self.segmentsSpilloverCount = dictionary["SegmentsSpilloverCount"] as? Int32
-            if let backendConnectionErrors = dictionary["BackendConnectionErrors"] as? [String: Any] { self.backendConnectionErrors = try Xray.BackendConnectionErrors(dictionary: backendConnectionErrors) }
+            if let backendConnectionErrors = dictionary["BackendConnectionErrors"] as? [String: Any] { self.backendConnectionErrors = try Xray.BackendConnectionErrors(dictionary: backendConnectionErrors) } else { self.backendConnectionErrors = nil }
         }
     }
 
@@ -838,11 +796,9 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specify the trace IDs of requests for which to retrieve segments.
-        public var traceIds: [String] = []
+        public let traceIds: [String]
         /// Pagination token. Not used.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(traceIds: [String], nextToken: String? = nil) {
             self.traceIds = traceIds
@@ -860,29 +816,27 @@ extension Xray {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more of the segment documents is in progress.
-        public var isPartial: Bool? = nil
+        public let isPartial: Bool?
         /// Service IDs from the trace's segment documents.
-        public var serviceIds: [ServiceId]? = nil
+        public let serviceIds: [ServiceId]?
         /// Information about the HTTP request served by the trace.
-        public var http: Http? = nil
+        public let http: Http?
         /// One or more of the segment documents has a 400 series error.
-        public var hasError: Bool? = nil
+        public let hasError: Bool?
         /// The unique identifier for the request that generated the trace's segments and subsegments.
-        public var id: String? = nil
+        public let id: String?
         /// One or more of the segment documents has a 429 throttling error.
-        public var hasThrottle: Bool? = nil
+        public let hasThrottle: Bool?
         /// Users from the trace's segment documents.
-        public var users: [TraceUser]? = nil
+        public let users: [TraceUser]?
         /// Annotations from the trace's segment documents.
-        public var annotations: [String: [ValueWithServiceIds]]? = nil
+        public let annotations: [String: [ValueWithServiceIds]]?
         /// The length of time in seconds between the start time of the root segment and the end time of the last segment that completed.
-        public var duration: Double? = nil
+        public let duration: Double?
         /// One or more of the segment documents has a 500 series error.
-        public var hasFault: Bool? = nil
+        public let hasFault: Bool?
         /// The length of time in seconds between the start and end times of the root segment. If the service performs work asynchronously, the response time measures the time before the response is sent to the user, while the duration measures the amount of time before the last traced activity completes.
-        public var responseTime: Double? = nil
-
-        public init() {}
+        public let responseTime: Double?
 
         public init(isPartial: Bool? = nil, serviceIds: [ServiceId]? = nil, http: Http? = nil, hasError: Bool? = nil, id: String? = nil, hasThrottle: Bool? = nil, users: [TraceUser]? = nil, annotations: [String: [ValueWithServiceIds]]? = nil, duration: Double? = nil, hasFault: Bool? = nil, responseTime: Double? = nil) {
             self.isPartial = isPartial
@@ -902,13 +856,17 @@ extension Xray {
             self.isPartial = dictionary["IsPartial"] as? Bool
             if let serviceIds = dictionary["ServiceIds"] as? [[String: Any]] {
                 self.serviceIds = try serviceIds.map({ try ServiceId(dictionary: $0) })
+            } else { 
+                self.serviceIds = nil
             }
-            if let http = dictionary["Http"] as? [String: Any] { self.http = try Xray.Http(dictionary: http) }
+            if let http = dictionary["Http"] as? [String: Any] { self.http = try Xray.Http(dictionary: http) } else { self.http = nil }
             self.hasError = dictionary["HasError"] as? Bool
             self.id = dictionary["Id"] as? String
             self.hasThrottle = dictionary["HasThrottle"] as? Bool
             if let users = dictionary["Users"] as? [[String: Any]] {
                 self.users = try users.map({ try TraceUser(dictionary: $0) })
+            } else { 
+                self.users = nil
             }
             if let annotations = dictionary["Annotations"] as? [String: Any] {
                 var annotationsDict: [String: [ValueWithServiceIds]] = [:]
@@ -918,6 +876,8 @@ extension Xray {
                     annotationsDict[key] = valueWithServiceIdsList
                 }
                 self.annotations = annotationsDict
+            } else { 
+                self.annotations = nil
             }
             self.duration = dictionary["Duration"] as? Double
             self.hasFault = dictionary["HasFault"] as? Bool

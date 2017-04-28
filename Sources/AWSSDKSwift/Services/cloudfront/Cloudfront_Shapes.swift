@@ -36,11 +36,9 @@ extension Cloudfront {
             return ["ETag": "ETag"]
         }
         /// The current version of the streaming distribution's information. For example: E2QWRUHAPOMQZL.
-        public var eTag: String? = nil
+        public let eTag: String?
         /// The streaming distribution's information.
-        public var streamingDistribution: StreamingDistribution? = nil
-
-        public init() {}
+        public let streamingDistribution: StreamingDistribution?
 
         public init(eTag: String? = nil, streamingDistribution: StreamingDistribution? = nil) {
             self.eTag = eTag
@@ -49,7 +47,7 @@ extension Cloudfront {
 
         public init(dictionary: [String: Any]) throws {
             self.eTag = dictionary["ETag"] as? String
-            if let streamingDistribution = dictionary["StreamingDistribution"] as? [String: Any] { self.streamingDistribution = try Cloudfront.StreamingDistribution(dictionary: streamingDistribution) }
+            if let streamingDistribution = dictionary["StreamingDistribution"] as? [String: Any] { self.streamingDistribution = try Cloudfront.StreamingDistribution(dictionary: streamingDistribution) } else { self.streamingDistribution = nil }
         }
     }
 
@@ -60,11 +58,9 @@ extension Cloudfront {
             return ["Resource": "Resource"]
         }
         ///  An ARN of a CloudFront resource.
-        public var resource: String = ""
+        public let resource: String
         ///  A complex type that contains zero or more Tag elements.
-        public var tags: Tags = Tags()
-
-        public init() {}
+        public let tags: Tags
 
         public init(resource: String, tags: Tags) {
             self.resource = resource
@@ -83,11 +79,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// An AWS account that is included in the TrustedSigners complex type for this RTMP distribution. Valid values include:    self, which is the AWS account used to create the distribution.   An AWS account number.  
-        public var awsAccountNumber: String? = nil
+        public let awsAccountNumber: String?
         /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber.
-        public var keyPairIds: KeyPairIds? = nil
-
-        public init() {}
+        public let keyPairIds: KeyPairIds?
 
         public init(awsAccountNumber: String? = nil, keyPairIds: KeyPairIds? = nil) {
             self.awsAccountNumber = awsAccountNumber
@@ -96,7 +90,7 @@ extension Cloudfront {
 
         public init(dictionary: [String: Any]) throws {
             self.awsAccountNumber = dictionary["AwsAccountNumber"] as? String
-            if let keyPairIds = dictionary["KeyPairIds"] as? [String: Any] { self.keyPairIds = try Cloudfront.KeyPairIds(dictionary: keyPairIds) }
+            if let keyPairIds = dictionary["KeyPairIds"] as? [String: Any] { self.keyPairIds = try Cloudfront.KeyPairIds(dictionary: keyPairIds) } else { self.keyPairIds = nil }
         }
     }
 
@@ -106,13 +100,11 @@ extension Cloudfront {
         public static var headerParams: [String: String] {
             return ["ETag": "ETag", "Location": "Location"]
         }
-        public var eTag: String? = nil
+        public let eTag: String?
         /// The fully qualified URI of the new streaming distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/streaming-distribution/EGTXBD79H29TRA8.
-        public var location: String? = nil
+        public let location: String?
         /// The streaming distribution's information. 
-        public var streamingDistribution: StreamingDistribution? = nil
-
-        public init() {}
+        public let streamingDistribution: StreamingDistribution?
 
         public init(eTag: String? = nil, location: String? = nil, streamingDistribution: StreamingDistribution? = nil) {
             self.eTag = eTag
@@ -123,7 +115,7 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             self.eTag = dictionary["ETag"] as? String
             self.location = dictionary["Location"] as? String
-            if let streamingDistribution = dictionary["StreamingDistribution"] as? [String: Any] { self.streamingDistribution = try Cloudfront.StreamingDistribution(dictionary: streamingDistribution) }
+            if let streamingDistribution = dictionary["StreamingDistribution"] as? [String: Any] { self.streamingDistribution = try Cloudfront.StreamingDistribution(dictionary: streamingDistribution) } else { self.streamingDistribution = nil }
         }
     }
 
@@ -134,11 +126,9 @@ extension Cloudfront {
             return ["ETag": "ETag"]
         }
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
-        public var eTag: String? = nil
+        public let eTag: String?
         /// The streaming distribution's information.
-        public var streamingDistribution: StreamingDistribution? = nil
-
-        public init() {}
+        public let streamingDistribution: StreamingDistribution?
 
         public init(eTag: String? = nil, streamingDistribution: StreamingDistribution? = nil) {
             self.eTag = eTag
@@ -147,7 +137,7 @@ extension Cloudfront {
 
         public init(dictionary: [String: Any]) throws {
             self.eTag = dictionary["ETag"] as? String
-            if let streamingDistribution = dictionary["StreamingDistribution"] as? [String: Any] { self.streamingDistribution = try Cloudfront.StreamingDistribution(dictionary: streamingDistribution) }
+            if let streamingDistribution = dictionary["StreamingDistribution"] as? [String: Any] { self.streamingDistribution = try Cloudfront.StreamingDistribution(dictionary: streamingDistribution) } else { self.streamingDistribution = nil }
         }
     }
 
@@ -155,11 +145,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A value that you specify to uniquely identify an invalidation request. CloudFront uses the value to prevent you from accidentally resubmitting an identical request. Whenever you create a new invalidation request, you must specify a new value for CallerReference and change other values in the request as applicable. One way to ensure that the value of CallerReference is unique is to use a timestamp, for example, 20120301090000. If you make a second invalidation request with the same value for CallerReference, and if the rest of the request is the same, CloudFront doesn't create a new invalidation request. Instead, CloudFront returns information about the invalidation request that you previously created with the same CallerReference. If CallerReference is a value you already sent in a previous invalidation batch request but the content of any Path is different from the original request, CloudFront returns an InvalidationBatchAlreadyExists error.
-        public var callerReference: String = ""
+        public let callerReference: String
         /// A complex type that contains information about the objects that you want to invalidate. For more information, see Specifying the Objects to Invalidate in the Amazon CloudFront Developer Guide. 
-        public var paths: Paths = Paths()
-
-        public init() {}
+        public let paths: Paths
 
         public init(callerReference: String, paths: Paths) {
             self.callerReference = callerReference
@@ -178,13 +166,11 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Optional: A complex type that contains trusted signers for this cache behavior. If Quantity is 0, you can omit Items.
-        public var items: [String]? = nil
+        public let items: [String]?
         /// Specifies whether you want to require viewers to use signed URLs to access the files specified by PathPattern and TargetOriginId.
-        public var enabled: Bool = false
+        public let enabled: Bool
         /// The number of trusted signers for this cache behavior.
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(items: [String]? = nil, enabled: Bool, quantity: Int32) {
             self.items = items
@@ -193,9 +179,7 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String] {
-                self.items = items
-            }
+            self.items = dictionary["Items"] as? [String]
             guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
             self.enabled = enabled
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
@@ -207,16 +191,14 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = "CloudFrontOriginAccessIdentityList"
         /// The CloudFrontOriginAccessIdentityList type. 
-        public var cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList? = nil
-
-        public init() {}
+        public let cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList?
 
         public init(cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList? = nil) {
             self.cloudFrontOriginAccessIdentityList = cloudFrontOriginAccessIdentityList
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let cloudFrontOriginAccessIdentityList = dictionary["CloudFrontOriginAccessIdentityList"] as? [String: Any] { self.cloudFrontOriginAccessIdentityList = try Cloudfront.CloudFrontOriginAccessIdentityList(dictionary: cloudFrontOriginAccessIdentityList) }
+            if let cloudFrontOriginAccessIdentityList = dictionary["CloudFrontOriginAccessIdentityList"] as? [String: Any] { self.cloudFrontOriginAccessIdentityList = try Cloudfront.CloudFrontOriginAccessIdentityList(dictionary: cloudFrontOriginAccessIdentityList) } else { self.cloudFrontOriginAccessIdentityList = nil }
         }
     }
 
@@ -224,11 +206,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains one Name element for each header that you want CloudFront to forward to the origin and to vary on for this cache behavior. If Quantity is 0, omit Items.
-        public var items: [String]? = nil
+        public let items: [String]?
         /// The number of different headers that you want CloudFront to forward to the origin for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:    Forward all headers to your origin: Specify 1 for Quantity and * for Name.  If you configure CloudFront to forward all headers to your origin, CloudFront doesn't cache the objects associated with this cache behavior. Instead, it sends every request to the origin.     Forward a whitelist of headers you specify: Specify the number of headers that you want to forward, and specify the header names in Name elements. CloudFront caches your objects based on the values in all of the specified headers. CloudFront also forwards the headers that it forwards by default, but it caches your objects based only on the headers that you specify.     Forward only the default headers: Specify 0 for Quantity and omit Items. In this configuration, CloudFront doesn't cache based on the values in the request headers.  
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
@@ -236,9 +216,7 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String] {
-                self.items = items
-            }
+            self.items = dictionary["Items"] as? [String]
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -248,9 +226,7 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = "StreamingDistributionConfigWithTags"
         ///  The streaming distribution's configuration information. 
-        public var streamingDistributionConfigWithTags: StreamingDistributionConfigWithTags = StreamingDistributionConfigWithTags()
-
-        public init() {}
+        public let streamingDistributionConfigWithTags: StreamingDistributionConfigWithTags
 
         public init(streamingDistributionConfigWithTags: StreamingDistributionConfigWithTags) {
             self.streamingDistributionConfigWithTags = streamingDistributionConfigWithTags
@@ -266,11 +242,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// (Optional) A list that contains the query string parameters that you want CloudFront to use as a basis for caching for this cache behavior. If Quantity is 0, you can omit Items. 
-        public var items: [String]? = nil
+        public let items: [String]?
         /// The number of whitelisted query string parameters for this cache behavior.
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
@@ -278,9 +252,7 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String] {
-                self.items = items
-            }
+            self.items = dictionary["Items"] as? [String]
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -290,11 +262,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Optional: A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0, you can omit Items.
-        public var items: [LambdaFunctionAssociation]? = nil
+        public let items: [LambdaFunctionAssociation]?
         /// The number of Lambda function associations for this cache behavior.
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(items: [LambdaFunctionAssociation]? = nil, quantity: Int32) {
             self.items = items
@@ -304,6 +274,8 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["Items"] as? [[String: Any]] {
                 self.items = try items.map({ try LambdaFunctionAssociation(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
@@ -317,9 +289,7 @@ extension Cloudfront {
             return ["Id": "Id"]
         }
         /// The streaming distribution's ID.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(id: String) {
             self.id = id
@@ -335,11 +305,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains a list of the paths that you want to invalidate.
-        public var items: [String]? = nil
+        public let items: [String]?
         /// The number of objects that you want to invalidate.
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
@@ -347,9 +315,7 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String] {
-                self.items = items
-            }
+            self.items = dictionary["Items"] as? [String]
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -359,27 +325,25 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
-        public var defaultTTL: Int64? = nil
+        public let defaultTTL: Int64?
         /// The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior.
-        public var targetOriginId: String = ""
+        public let targetOriginId: String
         /// A complex type that specifies how CloudFront handles query strings and cookies.
-        public var forwardedValues: ForwardedValues = ForwardedValues()
+        public let forwardedValues: ForwardedValues
         /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items. For more information, see Serving Private Content through CloudFront in the Amazon Amazon CloudFront Developer Guide. If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
-        public var trustedSigners: TrustedSigners = TrustedSigners()
+        public let trustedSigners: TrustedSigners
         /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide.
-        public var compress: Bool? = nil
+        public let compress: Bool?
         /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern. 
-        public var smoothStreaming: Bool? = nil
-        public var maxTTL: Int64? = nil
+        public let smoothStreaming: Bool?
+        public let maxTTL: Int64?
         /// A complex type that contains zero or more Lambda function associations for a cache behavior.
-        public var lambdaFunctionAssociations: LambdaFunctionAssociations? = nil
+        public let lambdaFunctionAssociations: LambdaFunctionAssociations?
         /// The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
-        public var minTTL: Int64 = 0
+        public let minTTL: Int64
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Using an HTTPS Connection to Access Your Objects in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. 
-        public var viewerProtocolPolicy: String = ""
-        public var allowedMethods: AllowedMethods? = nil
-
-        public init() {}
+        public let viewerProtocolPolicy: String
+        public let allowedMethods: AllowedMethods?
 
         public init(defaultTTL: Int64? = nil, targetOriginId: String, forwardedValues: ForwardedValues, trustedSigners: TrustedSigners, compress: Bool? = nil, smoothStreaming: Bool? = nil, maxTTL: Int64? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, minTTL: Int64, viewerProtocolPolicy: String, allowedMethods: AllowedMethods? = nil) {
             self.defaultTTL = defaultTTL
@@ -406,12 +370,12 @@ extension Cloudfront {
             self.compress = dictionary["Compress"] as? Bool
             self.smoothStreaming = dictionary["SmoothStreaming"] as? Bool
             self.maxTTL = dictionary["MaxTTL"] as? Int64
-            if let lambdaFunctionAssociations = dictionary["LambdaFunctionAssociations"] as? [String: Any] { self.lambdaFunctionAssociations = try Cloudfront.LambdaFunctionAssociations(dictionary: lambdaFunctionAssociations) }
+            if let lambdaFunctionAssociations = dictionary["LambdaFunctionAssociations"] as? [String: Any] { self.lambdaFunctionAssociations = try Cloudfront.LambdaFunctionAssociations(dictionary: lambdaFunctionAssociations) } else { self.lambdaFunctionAssociations = nil }
             guard let minTTL = dictionary["MinTTL"] as? Int64 else { throw InitializableError.missingRequiredParam("MinTTL") }
             self.minTTL = minTTL
             guard let viewerProtocolPolicy = dictionary["ViewerProtocolPolicy"] as? String else { throw InitializableError.missingRequiredParam("ViewerProtocolPolicy") }
             self.viewerProtocolPolicy = viewerProtocolPolicy
-            if let allowedMethods = dictionary["AllowedMethods"] as? [String: Any] { self.allowedMethods = try Cloudfront.AllowedMethods(dictionary: allowedMethods) }
+            if let allowedMethods = dictionary["AllowedMethods"] as? [String: Any] { self.allowedMethods = try Cloudfront.AllowedMethods(dictionary: allowedMethods) } else { self.allowedMethods = nil }
         }
     }
 
@@ -419,15 +383,13 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current invalidation information for the batch request. 
-        public var invalidationBatch: InvalidationBatch = InvalidationBatch()
+        public let invalidationBatch: InvalidationBatch
         /// The status of the invalidation request. When the invalidation batch is finished, the status is Completed.
-        public var status: String = ""
+        public let status: String
         /// The date and time the invalidation request was first made. 
-        public var createTime: Date = Date()
+        public let createTime: Date
         /// The identifier for the invalidation request. For example: IDFDVBD632BHDS5.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(invalidationBatch: InvalidationBatch, status: String, createTime: Date, id: String) {
             self.invalidationBatch = invalidationBatch
@@ -452,11 +414,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
-        public var value: String? = nil
+        public let value: String?
         ///  A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
-        public var key: String = ""
-
-        public init() {}
+        public let key: String
 
         public init(value: String? = nil, key: String) {
             self.value = value
@@ -474,9 +434,7 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = "DistributionConfig"
         /// The distribution's configuration information.
-        public var distributionConfig: DistributionConfig = DistributionConfig()
-
-        public init() {}
+        public let distributionConfig: DistributionConfig
 
         public init(distributionConfig: DistributionConfig) {
             self.distributionConfig = distributionConfig
@@ -495,9 +453,7 @@ extension Cloudfront {
             return ["Id": "Id"]
         }
         /// The identity's ID.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(id: String) {
             self.id = id
@@ -519,13 +475,11 @@ extension Cloudfront {
             return ["Id": "Id"]
         }
         /// The identity's id.
-        public var id: String = ""
+        public let id: String
         /// The identity's configuration information.
-        public var cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig = CloudFrontOriginAccessIdentityConfig()
+        public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig
         /// The value of the ETag header that you received when retrieving the identity's configuration. For example: E2QWRUHAPOMQZL.
-        public var ifMatch: String? = nil
-
-        public init() {}
+        public let ifMatch: String?
 
         public init(id: String, cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig, ifMatch: String? = nil) {
             self.id = id
@@ -546,16 +500,14 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = "Invalidation"
         /// The invalidation's information. For more information, see Invalidation Complex Type. 
-        public var invalidation: Invalidation? = nil
-
-        public init() {}
+        public let invalidation: Invalidation?
 
         public init(invalidation: Invalidation? = nil) {
             self.invalidation = invalidation
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let invalidation = dictionary["Invalidation"] as? [String: Any] { self.invalidation = try Cloudfront.Invalidation(dictionary: invalidation) }
+            if let invalidation = dictionary["Invalidation"] as? [String: Any] { self.invalidation = try Cloudfront.Invalidation(dictionary: invalidation) } else { self.invalidation = nil }
         }
     }
 
@@ -566,11 +518,9 @@ extension Cloudfront {
             return ["Location": "Location"]
         }
         /// The fully qualified URI of the distribution and invalidation batch request, including the Invalidation ID.
-        public var location: String? = nil
+        public let location: String?
         /// The invalidation's information.
-        public var invalidation: Invalidation? = nil
-
-        public init() {}
+        public let invalidation: Invalidation?
 
         public init(location: String? = nil, invalidation: Invalidation? = nil) {
             self.location = location
@@ -579,7 +529,7 @@ extension Cloudfront {
 
         public init(dictionary: [String: Any]) throws {
             self.location = dictionary["Location"] as? String
-            if let invalidation = dictionary["Invalidation"] as? [String: Any] { self.invalidation = try Cloudfront.Invalidation(dictionary: invalidation) }
+            if let invalidation = dictionary["Invalidation"] as? [String: Any] { self.invalidation = try Cloudfront.Invalidation(dictionary: invalidation) } else { self.invalidation = nil }
         }
     }
 
@@ -587,28 +537,26 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date and time the distribution was last modified.
-        public var lastModifiedTime: Date = Date()
+        public let lastModifiedTime: Date
         ///  Indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated throughout the Amazon CloudFront system.
-        public var status: String = ""
+        public let status: String
         /// The identifier for the distribution. For example: EDFDVBD632BHDS5.
-        public var id: String = ""
+        public let id: String
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this streaming distribution.
-        public var aliases: Aliases = Aliases()
+        public let aliases: Aliases
         /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items.If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
-        public var trustedSigners: TrustedSigners = TrustedSigners()
+        public let trustedSigners: TrustedSigners
         /// A complex type that contains information about the Amazon S3 bucket from which you want CloudFront to get your media files for distribution.
-        public var s3Origin: S3Origin = S3Origin()
+        public let s3Origin: S3Origin
         /// The comment originally specified when this distribution was created.
-        public var comment: String = ""
+        public let comment: String
         /// Whether the distribution is enabled to accept end user requests for content.
-        public var enabled: Bool = false
+        public let enabled: Bool
         ///  The ARN (Amazon Resource Name) for the streaming distribution. For example: arn:aws:cloudfront::123456789012:streaming-distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
-        public var aRN: String = ""
+        public let aRN: String
         /// The domain name corresponding to the distribution. For example: d604721fxaaqy9.cloudfront.net.
-        public var domainName: String = ""
-        public var priceClass: String = ""
-
-        public init() {}
+        public let domainName: String
+        public let priceClass: String
 
         public init(lastModifiedTime: Date, status: String, id: String, aliases: Aliases, trustedSigners: TrustedSigners, s3Origin: S3Origin, comment: String, enabled: Bool, aRN: String, domainName: String, priceClass: String) {
             self.lastModifiedTime = lastModifiedTime
@@ -654,30 +602,28 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior.
-        public var targetOriginId: String = ""
+        public let targetOriginId: String
         /// The pattern (for example, images/*.jpg) that specifies which requests to apply the behavior to. When CloudFront receives a viewer request, the requested path is compared with path patterns in the order in which cache behaviors are listed in the distribution.  You can optionally include a slash (/) at the beginning of the path pattern. For example, /images/*.jpg. CloudFront behavior is the same with or without the leading /.  The path pattern for the default cache behavior is * and cannot be changed. If the request for an object does not match the path pattern for any cache behaviors, CloudFront applies the behavior in the default cache behavior. For more information, see Path Pattern in the  Amazon CloudFront Developer Guide.
-        public var pathPattern: String = ""
-        public var allowedMethods: AllowedMethods? = nil
+        public let pathPattern: String
+        public let allowedMethods: AllowedMethods?
         /// A complex type that specifies how CloudFront handles query strings and cookies.
-        public var forwardedValues: ForwardedValues = ForwardedValues()
+        public let forwardedValues: ForwardedValues
         /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items. For more information, see Serving Private Content through CloudFront in the Amazon Amazon CloudFront Developer Guide. If you don't want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it's currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
-        public var trustedSigners: TrustedSigners = TrustedSigners()
+        public let trustedSigners: TrustedSigners
         /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide.
-        public var compress: Bool? = nil
+        public let compress: Bool?
         /// A complex type that contains zero or more Lambda function associations for a cache behavior.
-        public var lambdaFunctionAssociations: LambdaFunctionAssociations? = nil
+        public let lambdaFunctionAssociations: LambdaFunctionAssociations?
         /// The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
-        public var maxTTL: Int64? = nil
+        public let maxTTL: Int64?
         /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern. 
-        public var smoothStreaming: Bool? = nil
+        public let smoothStreaming: Bool?
         /// The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
-        public var minTTL: Int64 = 0
+        public let minTTL: Int64
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.     https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).    For more information about requiring the HTTPS protocol, see Using an HTTPS Connection to Access Your Objects in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects' cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide. 
-        public var viewerProtocolPolicy: String = ""
+        public let viewerProtocolPolicy: String
         /// The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide.
-        public var defaultTTL: Int64? = nil
-
-        public init() {}
+        public let defaultTTL: Int64?
 
         public init(targetOriginId: String, pathPattern: String, allowedMethods: AllowedMethods? = nil, forwardedValues: ForwardedValues, trustedSigners: TrustedSigners, compress: Bool? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, maxTTL: Int64? = nil, smoothStreaming: Bool? = nil, minTTL: Int64, viewerProtocolPolicy: String, defaultTTL: Int64? = nil) {
             self.targetOriginId = targetOriginId
@@ -699,13 +645,13 @@ extension Cloudfront {
             self.targetOriginId = targetOriginId
             guard let pathPattern = dictionary["PathPattern"] as? String else { throw InitializableError.missingRequiredParam("PathPattern") }
             self.pathPattern = pathPattern
-            if let allowedMethods = dictionary["AllowedMethods"] as? [String: Any] { self.allowedMethods = try Cloudfront.AllowedMethods(dictionary: allowedMethods) }
+            if let allowedMethods = dictionary["AllowedMethods"] as? [String: Any] { self.allowedMethods = try Cloudfront.AllowedMethods(dictionary: allowedMethods) } else { self.allowedMethods = nil }
             guard let forwardedValues = dictionary["ForwardedValues"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ForwardedValues") }
             self.forwardedValues = try Cloudfront.ForwardedValues(dictionary: forwardedValues)
             guard let trustedSigners = dictionary["TrustedSigners"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TrustedSigners") }
             self.trustedSigners = try Cloudfront.TrustedSigners(dictionary: trustedSigners)
             self.compress = dictionary["Compress"] as? Bool
-            if let lambdaFunctionAssociations = dictionary["LambdaFunctionAssociations"] as? [String: Any] { self.lambdaFunctionAssociations = try Cloudfront.LambdaFunctionAssociations(dictionary: lambdaFunctionAssociations) }
+            if let lambdaFunctionAssociations = dictionary["LambdaFunctionAssociations"] as? [String: Any] { self.lambdaFunctionAssociations = try Cloudfront.LambdaFunctionAssociations(dictionary: lambdaFunctionAssociations) } else { self.lambdaFunctionAssociations = nil }
             self.maxTTL = dictionary["MaxTTL"] as? Int64
             self.smoothStreaming = dictionary["SmoothStreaming"] as? Bool
             guard let minTTL = dictionary["MinTTL"] as? Int64 else { throw InitializableError.missingRequiredParam("MinTTL") }
@@ -720,11 +666,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains zero or more Tag elements.
-        public var tags: Tags = Tags()
+        public let tags: Tags
         /// A distribution configuration.
-        public var distributionConfig: DistributionConfig = DistributionConfig()
-
-        public init() {}
+        public let distributionConfig: DistributionConfig
 
         public init(tags: Tags, distributionConfig: DistributionConfig) {
             self.tags = tags
@@ -743,16 +687,14 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = "StreamingDistributionList"
         /// The StreamingDistributionList type. 
-        public var streamingDistributionList: StreamingDistributionList? = nil
-
-        public init() {}
+        public let streamingDistributionList: StreamingDistributionList?
 
         public init(streamingDistributionList: StreamingDistributionList? = nil) {
             self.streamingDistributionList = streamingDistributionList
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let streamingDistributionList = dictionary["StreamingDistributionList"] as? [String: Any] { self.streamingDistributionList = try Cloudfront.StreamingDistributionList(dictionary: streamingDistributionList) }
+            if let streamingDistributionList = dictionary["StreamingDistributionList"] as? [String: Any] { self.streamingDistributionList = try Cloudfront.StreamingDistributionList(dictionary: streamingDistributionList) } else { self.streamingDistributionList = nil }
         }
     }
 
@@ -760,11 +702,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains origins for this distribution.
-        public var items: [Origin]? = nil
+        public let items: [Origin]?
         /// The number of origins for this distribution.
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(items: [Origin]? = nil, quantity: Int32) {
             self.items = items
@@ -774,6 +714,8 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["Items"] as? [[String: Any]] {
                 self.items = try items.map({ try Origin(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
@@ -787,11 +729,9 @@ extension Cloudfront {
             return ["ETag": "ETag"]
         }
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
-        public var eTag: String? = nil
+        public let eTag: String?
         /// The distribution's configuration information.
-        public var distributionConfig: DistributionConfig? = nil
-
-        public init() {}
+        public let distributionConfig: DistributionConfig?
 
         public init(eTag: String? = nil, distributionConfig: DistributionConfig? = nil) {
             self.eTag = eTag
@@ -800,7 +740,7 @@ extension Cloudfront {
 
         public init(dictionary: [String: Any]) throws {
             self.eTag = dictionary["ETag"] as? String
-            if let distributionConfig = dictionary["DistributionConfig"] as? [String: Any] { self.distributionConfig = try Cloudfront.DistributionConfig(dictionary: distributionConfig) }
+            if let distributionConfig = dictionary["DistributionConfig"] as? [String: Any] { self.distributionConfig = try Cloudfront.DistributionConfig(dictionary: distributionConfig) } else { self.distributionConfig = nil }
         }
     }
 
@@ -808,19 +748,17 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value that you provided for the MaxItems request parameter.
-        public var maxItems: Int32 = 0
+        public let maxItems: Int32
         /// A flag that indicates whether more invalidation batch requests remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more invalidation batches in the list.
-        public var isTruncated: Bool = false
+        public let isTruncated: Bool
         /// If IsTruncated is true, this element is present and contains the value that you can use for the Marker request parameter to continue listing your invalidation batches where they left off.
-        public var nextMarker: String? = nil
+        public let nextMarker: String?
         /// The value that you provided for the Marker request parameter.
-        public var marker: String = ""
+        public let marker: String
         /// A complex type that contains one InvalidationSummary element for each invalidation batch created by the current AWS account.
-        public var items: [InvalidationSummary]? = nil
+        public let items: [InvalidationSummary]?
         /// The number of invalidation batches that were created by the current AWS account. 
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(maxItems: Int32, isTruncated: Bool, nextMarker: String? = nil, marker: String, items: [InvalidationSummary]? = nil, quantity: Int32) {
             self.maxItems = maxItems
@@ -841,6 +779,8 @@ extension Cloudfront {
             self.marker = marker
             if let items = dictionary["Items"] as? [[String: Any]] {
                 self.items = try items.map({ try InvalidationSummary(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
@@ -854,11 +794,9 @@ extension Cloudfront {
             return ["DistributionId": "DistributionId", "Id": "Id"]
         }
         /// The distribution's ID.
-        public var distributionId: String = ""
+        public let distributionId: String
         /// The identifier for the invalidation request, for example, IDFDVBD632BHDS5.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(distributionId: String, id: String) {
             self.distributionId = distributionId
@@ -877,15 +815,13 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether you want CloudFront to forward query strings to the origin that is associated with this cache behavior and cache based on the query string parameters. CloudFront behavior depends on the value of QueryString and on the values that you specify for QueryStringCacheKeys, if any: If you specify true for QueryString and you don't specify any values for QueryStringCacheKeys, CloudFront forwards all query string parameters to the origin and caches based on all query string parameters. Depending on how many query string parameters and values you have, this can adversely affect performance because CloudFront must forward more requests to the origin. If you specify true for QueryString and you specify one or more values for QueryStringCacheKeys, CloudFront forwards all query string parameters to the origin, but it only caches based on the query string parameters that you specify. If you specify false for QueryString, CloudFront doesn't forward any query string parameters to the origin, and doesn't cache based on query string parameters. For more information, see Configuring CloudFront to Cache Based on Query String Parameters in the Amazon CloudFront Developer Guide.
-        public var queryString: Bool = false
+        public let queryString: Bool
         /// A complex type that specifies the Headers, if any, that you want CloudFront to vary upon for this cache behavior. 
-        public var headers: Headers? = nil
+        public let headers: Headers?
         /// A complex type that specifies whether you want CloudFront to forward cookies to the origin and, if so, which ones. For more information about forwarding cookies to the origin, see How CloudFront Forwards, Caches, and Logs Cookies in the Amazon CloudFront Developer Guide.
-        public var cookies: CookiePreference = CookiePreference()
+        public let cookies: CookiePreference
         /// A complex type that contains information about the query string parameters that you want CloudFront to use for caching for this cache behavior.
-        public var queryStringCacheKeys: QueryStringCacheKeys? = nil
-
-        public init() {}
+        public let queryStringCacheKeys: QueryStringCacheKeys?
 
         public init(queryString: Bool, headers: Headers? = nil, cookies: CookiePreference, queryStringCacheKeys: QueryStringCacheKeys? = nil) {
             self.queryString = queryString
@@ -897,10 +833,10 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             guard let queryString = dictionary["QueryString"] as? Bool else { throw InitializableError.missingRequiredParam("QueryString") }
             self.queryString = queryString
-            if let headers = dictionary["Headers"] as? [String: Any] { self.headers = try Cloudfront.Headers(dictionary: headers) }
+            if let headers = dictionary["Headers"] as? [String: Any] { self.headers = try Cloudfront.Headers(dictionary: headers) } else { self.headers = nil }
             guard let cookies = dictionary["Cookies"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Cookies") }
             self.cookies = try Cloudfront.CookiePreference(dictionary: cookies)
-            if let queryStringCacheKeys = dictionary["QueryStringCacheKeys"] as? [String: Any] { self.queryStringCacheKeys = try Cloudfront.QueryStringCacheKeys(dictionary: queryStringCacheKeys) }
+            if let queryStringCacheKeys = dictionary["QueryStringCacheKeys"] as? [String: Any] { self.queryStringCacheKeys = try Cloudfront.QueryStringCacheKeys(dictionary: queryStringCacheKeys) } else { self.queryStringCacheKeys = nil }
         }
     }
 
@@ -914,13 +850,11 @@ extension Cloudfront {
             return ["Id": "Id"]
         }
         /// The distribution's id.
-        public var id: String = ""
+        public let id: String
         /// The value of the ETag header that you received when retrieving the distribution's configuration. For example: E2QWRUHAPOMQZL.
-        public var ifMatch: String? = nil
+        public let ifMatch: String?
         /// The distribution's configuration information.
-        public var distributionConfig: DistributionConfig = DistributionConfig()
-
-        public init() {}
+        public let distributionConfig: DistributionConfig
 
         public init(id: String, ifMatch: String? = nil, distributionConfig: DistributionConfig) {
             self.id = id
@@ -941,11 +875,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the event type that triggers a Lambda function invocation. Valid values are:    viewer-request     origin-request     viewer-response     origin-response   
-        public var eventType: String? = nil
+        public let eventType: String?
         /// The ARN of the Lambda function.
-        public var lambdaFunctionARN: String? = nil
-
-        public init() {}
+        public let lambdaFunctionARN: String?
 
         public init(eventType: String? = nil, lambdaFunctionARN: String? = nil) {
             self.eventType = eventType
@@ -965,9 +897,7 @@ extension Cloudfront {
             return ["Resource": "Resource"]
         }
         ///  An ARN of a CloudFront resource.
-        public var resource: String = ""
-
-        public init() {}
+        public let resource: String
 
         public init(resource: String) {
             self.resource = resource
@@ -983,11 +913,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of a header that you want CloudFront to forward to your origin. For more information, see Forwarding Custom Headers to Your Origin (Web Distributions Only) in the Amazon Amazon CloudFront Developer Guide.
-        public var headerName: String = ""
+        public let headerName: String
         /// The value for the header that you specified in the HeaderName field.
-        public var headerValue: String = ""
-
-        public init() {}
+        public let headerValue: String
 
         public init(headerName: String, headerValue: String) {
             self.headerName = headerName
@@ -1012,13 +940,11 @@ extension Cloudfront {
             return ["DistributionId": "DistributionId"]
         }
         /// Use this parameter when paginating results to indicate where to begin in your list of invalidation batches. Because the results are returned in decreasing order from most recent to oldest, the most recent results are on the first page, the second page will contain earlier results, and so on. To get the next page of results, set Marker to the value of the NextMarker from the current page's response. This value is the same as the ID of the last invalidation batch on that page. 
-        public var marker: String? = nil
+        public let marker: String?
         /// The maximum number of invalidation batches that you want in the response body.
-        public var maxItems: String? = nil
+        public let maxItems: String?
         /// The distribution's ID.
-        public var distributionId: String = ""
-
-        public init() {}
+        public let distributionId: String
 
         public init(marker: String? = nil, maxItems: String? = nil, distributionId: String) {
             self.marker = marker
@@ -1038,11 +964,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// Optional: A complex type that contains cache behaviors for this distribution. If Quantity is 0, you can omit Items.
-        public var items: [CacheBehavior]? = nil
+        public let items: [CacheBehavior]?
         /// The number of cache behaviors for this distribution. 
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(items: [CacheBehavior]? = nil, quantity: Int32) {
             self.items = items
@@ -1052,6 +976,8 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["Items"] as? [[String: Any]] {
                 self.items = try items.map({ try CacheBehavior(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
@@ -1065,13 +991,11 @@ extension Cloudfront {
             return ["ETag": "ETag", "Location": "Location"]
         }
         /// The current version of the origin access identity created.
-        public var eTag: String? = nil
+        public let eTag: String?
         /// The fully qualified URI of the new origin access identity just created. For example: https://cloudfront.amazonaws.com/2010-11-01/origin-access-identity/cloudfront/E74FTE3AJFJ256A.
-        public var location: String? = nil
+        public let location: String?
         /// The origin access identity's information.
-        public var cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil
-
-        public init() {}
+        public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity?
 
         public init(eTag: String? = nil, location: String? = nil, cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil) {
             self.eTag = eTag
@@ -1082,7 +1006,7 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             self.eTag = dictionary["ETag"] as? String
             self.location = dictionary["Location"] as? String
-            if let cloudFrontOriginAccessIdentity = dictionary["CloudFrontOriginAccessIdentity"] as? [String: Any] { self.cloudFrontOriginAccessIdentity = try Cloudfront.CloudFrontOriginAccessIdentity(dictionary: cloudFrontOriginAccessIdentity) }
+            if let cloudFrontOriginAccessIdentity = dictionary["CloudFrontOriginAccessIdentity"] as? [String: Any] { self.cloudFrontOriginAccessIdentity = try Cloudfront.CloudFrontOriginAccessIdentity(dictionary: cloudFrontOriginAccessIdentity) } else { self.cloudFrontOriginAccessIdentity = nil }
         }
     }
 
@@ -1090,12 +1014,10 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains the HTTP methods that you want CloudFront to process and forward to your origin.
-        public var items: [String] = []
-        public var cachedMethods: CachedMethods? = nil
+        public let items: [String]
+        public let cachedMethods: CachedMethods?
         /// The number of HTTP methods that you want CloudFront to forward to your origin. Valid values are 2 (for GET and HEAD requests), 3 (for GET, HEAD, and OPTIONS requests) and 7 (for GET, HEAD, OPTIONS, PUT, PATCH, POST, and DELETE requests).
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(items: [String], cachedMethods: CachedMethods? = nil, quantity: Int32) {
             self.items = items
@@ -1106,7 +1028,7 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             guard let items = dictionary["Items"] as? [String] else { throw InitializableError.missingRequiredParam("Items") }
             self.items = items
-            if let cachedMethods = dictionary["CachedMethods"] as? [String: Any] { self.cachedMethods = try Cloudfront.CachedMethods(dictionary: cachedMethods) }
+            if let cachedMethods = dictionary["CachedMethods"] as? [String: Any] { self.cachedMethods = try Cloudfront.CachedMethods(dictionary: cachedMethods) } else { self.cachedMethods = nil }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -1116,9 +1038,7 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = "StreamingDistributionConfig"
         /// The streaming distribution's configuration information.
-        public var streamingDistributionConfig: StreamingDistributionConfig = StreamingDistributionConfig()
-
-        public init() {}
+        public let streamingDistributionConfig: StreamingDistributionConfig
 
         public init(streamingDistributionConfig: StreamingDistributionConfig) {
             self.streamingDistributionConfig = streamingDistributionConfig
@@ -1137,11 +1057,9 @@ extension Cloudfront {
             return ["Marker": "Marker", "MaxItems": "MaxItems"]
         }
         /// The value that you provided for the Marker request parameter.
-        public var marker: String? = nil
+        public let marker: String?
         /// The value that you provided for the MaxItems request parameter.
-        public var maxItems: String? = nil
-
-        public init() {}
+        public let maxItems: String?
 
         public init(marker: String? = nil, maxItems: String? = nil) {
             self.marker = marker
@@ -1158,16 +1076,14 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = "DistributionList"
         /// The DistributionList type. 
-        public var distributionList: DistributionList? = nil
-
-        public init() {}
+        public let distributionList: DistributionList?
 
         public init(distributionList: DistributionList? = nil) {
             self.distributionList = distributionList
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let distributionList = dictionary["DistributionList"] as? [String: Any] { self.distributionList = try Cloudfront.DistributionList(dictionary: distributionList) }
+            if let distributionList = dictionary["DistributionList"] as? [String: Any] { self.distributionList = try Cloudfront.DistributionList(dictionary: distributionList) } else { self.distributionList = nil }
         }
     }
 
@@ -1181,13 +1097,11 @@ extension Cloudfront {
             return ["WebACLId": "WebACLId"]
         }
         /// Use Marker and MaxItems to control pagination of results. If you have more than MaxItems distributions that satisfy the request, the response includes a NextMarker element. To get the next page of results, submit another request. For the value of Marker, specify the value of NextMarker from the last response. (For the first request, omit Marker.) 
-        public var marker: String? = nil
+        public let marker: String?
         /// The maximum number of distributions that you want CloudFront to return in the response body. The maximum and default values are both 100.
-        public var maxItems: String? = nil
+        public let maxItems: String?
         /// The ID of the AWS WAF web ACL that you want to list the associated distributions. If you specify "null" for the ID, the request returns a list of the distributions that aren't associated with a web ACL. 
-        public var webACLId: String = ""
-
-        public init() {}
+        public let webACLId: String
 
         public init(marker: String? = nil, maxItems: String? = nil, webACLId: String) {
             self.marker = marker
@@ -1207,9 +1121,7 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is: origin-access-identity/CloudFront/ID-of-origin-access-identity  where  ID-of-origin-access-identity  is the value that CloudFront returned in the ID element when you created the origin access identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information about the origin access identity, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide.
-        public var originAccessIdentity: String = ""
-
-        public init() {}
+        public let originAccessIdentity: String
 
         public init(originAccessIdentity: String) {
             self.originAccessIdentity = originAccessIdentity
@@ -1225,11 +1137,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies which cookies to forward to the origin for this cache behavior: all, none, or the list of cookies specified in the WhitelistedNames complex type. Amazon S3 doesn't process cookies. When the cache behavior is forwarding requests to an Amazon S3 origin, specify none for the Forward element. 
-        public var forward: String = ""
+        public let forward: String
         /// Required if you specify whitelist for the value of Forward:. A complex type that specifies how many different cookies you want CloudFront to forward to the origin for this cache behavior and, if you want to forward selected cookies, the names of those cookies. If you specify all or none for the value of Forward, omit WhitelistedNames. If you change the value of Forward from whitelist to all or none and you don't delete the WhitelistedNames element and its child elements, CloudFront deletes them automatically. For the current limit on the number of cookie names that you can whitelist for each cache behavior, see Amazon CloudFront Limits in the AWS General Reference.
-        public var whitelistedNames: CookieNames? = nil
-
-        public init() {}
+        public let whitelistedNames: CookieNames?
 
         public init(forward: String, whitelistedNames: CookieNames? = nil) {
             self.forward = forward
@@ -1239,7 +1149,7 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             guard let forward = dictionary["Forward"] as? String else { throw InitializableError.missingRequiredParam("Forward") }
             self.forward = forward
-            if let whitelistedNames = dictionary["WhitelistedNames"] as? [String: Any] { self.whitelistedNames = try Cloudfront.CookieNames(dictionary: whitelistedNames) }
+            if let whitelistedNames = dictionary["WhitelistedNames"] as? [String: Any] { self.whitelistedNames = try Cloudfront.CookieNames(dictionary: whitelistedNames) } else { self.whitelistedNames = nil }
         }
     }
 
@@ -1247,11 +1157,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list that contains allowed SSL/TLS protocols for this distribution.
-        public var items: [String] = []
+        public let items: [String]
         /// The number of SSL/TLS protocols that you want to allow CloudFront to use when establishing an HTTPS connection with this origin. 
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(items: [String], quantity: Int32) {
             self.items = items
@@ -1270,9 +1178,7 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = "DistributionConfigWithTags"
         /// The distribution's configuration information. 
-        public var distributionConfigWithTags: DistributionConfigWithTags = DistributionConfigWithTags()
-
-        public init() {}
+        public let distributionConfigWithTags: DistributionConfigWithTags
 
         public init(distributionConfigWithTags: DistributionConfigWithTags) {
             self.distributionConfigWithTags = distributionConfigWithTags
@@ -1291,13 +1197,11 @@ extension Cloudfront {
             return ["ETag": "ETag", "Location": "Location"]
         }
         /// The current version of the distribution created.
-        public var eTag: String? = nil
+        public let eTag: String?
         /// The fully qualified URI of the new distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/distribution/EDFDVBD632BHDS5. 
-        public var location: String? = nil
+        public let location: String?
         /// The distribution's information. 
-        public var distribution: Distribution? = nil
-
-        public init() {}
+        public let distribution: Distribution?
 
         public init(eTag: String? = nil, location: String? = nil, distribution: Distribution? = nil) {
             self.eTag = eTag
@@ -1308,7 +1212,7 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             self.eTag = dictionary["ETag"] as? String
             self.location = dictionary["Location"] as? String
-            if let distribution = dictionary["Distribution"] as? [String: Any] { self.distribution = try Cloudfront.Distribution(dictionary: distribution) }
+            if let distribution = dictionary["Distribution"] as? [String: Any] { self.distribution = try Cloudfront.Distribution(dictionary: distribution) } else { self.distribution = nil }
         }
     }
 
@@ -1319,13 +1223,11 @@ extension Cloudfront {
             return ["ETag": "ETag", "Location": "Location"]
         }
         /// The current version of the distribution created.
-        public var eTag: String? = nil
+        public let eTag: String?
         /// The fully qualified URI of the new distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/distribution/EDFDVBD632BHDS5.
-        public var location: String? = nil
+        public let location: String?
         /// The distribution's information.
-        public var distribution: Distribution? = nil
-
-        public init() {}
+        public let distribution: Distribution?
 
         public init(eTag: String? = nil, location: String? = nil, distribution: Distribution? = nil) {
             self.eTag = eTag
@@ -1336,7 +1238,7 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             self.eTag = dictionary["ETag"] as? String
             self.location = dictionary["Location"] as? String
-            if let distribution = dictionary["Distribution"] as? [String: Any] { self.distribution = try Cloudfront.Distribution(dictionary: distribution) }
+            if let distribution = dictionary["Distribution"] as? [String: Any] { self.distribution = try Cloudfront.Distribution(dictionary: distribution) } else { self.distribution = nil }
         }
     }
 
@@ -1344,16 +1246,14 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = "DistributionList"
         /// The DistributionList type. 
-        public var distributionList: DistributionList? = nil
-
-        public init() {}
+        public let distributionList: DistributionList?
 
         public init(distributionList: DistributionList? = nil) {
             self.distributionList = distributionList
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let distributionList = dictionary["DistributionList"] as? [String: Any] { self.distributionList = try Cloudfront.DistributionList(dictionary: distributionList) }
+            if let distributionList = dictionary["DistributionList"] as? [String: Any] { self.distributionList = try Cloudfront.DistributionList(dictionary: distributionList) } else { self.distributionList = nil }
         }
     }
 
@@ -1361,19 +1261,17 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value you provided for the MaxItems request parameter.
-        public var maxItems: Int32 = 0
+        public let maxItems: Int32
         /// A flag that indicates whether more distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list.
-        public var isTruncated: Bool = false
+        public let isTruncated: Bool
         /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your distributions where they left off. 
-        public var nextMarker: String? = nil
+        public let nextMarker: String?
         /// The value you provided for the Marker request parameter.
-        public var marker: String = ""
+        public let marker: String
         /// A complex type that contains one DistributionSummary element for each distribution that was created by the current AWS account.
-        public var items: [DistributionSummary]? = nil
+        public let items: [DistributionSummary]?
         /// The number of distributions that were created by the current AWS account. 
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(maxItems: Int32, isTruncated: Bool, nextMarker: String? = nil, marker: String, items: [DistributionSummary]? = nil, quantity: Int32) {
             self.maxItems = maxItems
@@ -1394,6 +1292,8 @@ extension Cloudfront {
             self.marker = marker
             if let items = dictionary["Items"] as? [[String: Any]] {
                 self.items = try items.map({ try DistributionSummary(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
@@ -1404,18 +1304,14 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A complex type that contains Tag key elements.
-        public var items: [String]? = nil
-
-        public init() {}
+        public let items: [String]?
 
         public init(items: [String]? = nil) {
             self.items = items
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String] {
-                self.items = items
-            }
+            self.items = dictionary["Items"] as? [String]
         }
     }
 
@@ -1423,15 +1319,13 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com.
-        public var bucket: String = ""
+        public let bucket: String
         /// An optional string that you want CloudFront to prefix to the access log filenames for this distribution, for example, myprefix/. If you want to enable logging, but you do not want to specify a prefix, you still must include an empty Prefix element in the Logging element.
-        public var prefix: String = ""
+        public let prefix: String
         /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you do not want to enable logging when you create a distribution or if you want to disable logging for an existing distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket, prefix, and IncludeCookies, the values are automatically deleted.
-        public var enabled: Bool = false
+        public let enabled: Bool
         /// Specifies whether you want CloudFront to include cookies in access logs, specify true for IncludeCookies. If you choose to include cookies in logs, CloudFront logs all cookies regardless of how you configure the cache behaviors for this distribution. If you do not want to include cookies when you create a distribution or if you want to disable include cookies for an existing distribution, specify false for IncludeCookies.
-        public var includeCookies: Bool = false
-
-        public init() {}
+        public let includeCookies: Bool
 
         public init(bucket: String, prefix: String, enabled: Bool, includeCookies: Bool) {
             self.bucket = bucket
@@ -1459,11 +1353,9 @@ extension Cloudfront {
             return ["Marker": "Marker", "MaxItems": "MaxItems"]
         }
         /// Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page).
-        public var marker: String? = nil
+        public let marker: String?
         /// The maximum number of origin access identities you want in the response body. 
-        public var maxItems: String? = nil
-
-        public init() {}
+        public let maxItems: String?
 
         public init(marker: String? = nil, maxItems: String? = nil) {
             self.marker = marker
@@ -1480,9 +1372,7 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = "Tags"
         ///  A complex type that contains zero or more Tag elements.
-        public var tags: Tags = Tags()
-
-        public init() {}
+        public let tags: Tags
 
         public init(tags: Tags) {
             self.tags = tags
@@ -1501,11 +1391,9 @@ extension Cloudfront {
             return ["Marker": "Marker", "MaxItems": "MaxItems"]
         }
         /// Use this when paginating results to indicate where to begin in your list of distributions. The results include distributions in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last distribution on that page).
-        public var marker: String? = nil
+        public let marker: String?
         /// The maximum number of distributions you want in the response body.
-        public var maxItems: String? = nil
-
-        public init() {}
+        public let maxItems: String?
 
         public init(marker: String? = nil, maxItems: String? = nil) {
             self.marker = marker
@@ -1522,37 +1410,35 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// (Optional) Specify the maximum HTTP version that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 automatically use an earlier HTTP version. For viewers and CloudFront to use HTTP/2, viewers must support TLS 1.2 or later, and must support Server Name Identification (SNI). In general, configuring CloudFront to communicate with viewers using HTTP/2 reduces latency. You can improve performance by optimizing for HTTP/2. For more information, do an Internet search for "http/2 optimization." 
-        public var httpVersion: String? = nil
+        public let httpVersion: String?
         /// The object that you want CloudFront to request from your origin (for example, index.html) when a viewer requests the root URL for your distribution (http://www.example.com) instead of an object in your distribution (http://www.example.com/product-description.html). Specifying a default root object avoids exposing the contents of your distribution. Specify only the object name, for example, index.html. Do not add a / before the object name. If you don't want to specify a default root object when you create a distribution, include an empty DefaultRootObject element. To delete the default root object from an existing distribution, update the distribution configuration and include an empty DefaultRootObject element. To replace the default root object, update the distribution configuration and specify the new object. For more information about the default root object, see Creating a Default Root Object in the Amazon CloudFront Developer Guide.
-        public var defaultRootObject: String? = nil
+        public let defaultRootObject: String?
         /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the DistributionConfig object), CloudFront creates a new distribution. If CallerReference is a value you already sent in a previous request to create a distribution, and if the content of the DistributionConfig is identical to the original request (ignoring white space), CloudFront returns the same the response that it returned to the original request. If CallerReference is a value you already sent in a previous request to create a distribution but the content of the DistributionConfig is different from the original request, CloudFront returns a DistributionAlreadyExists error.
-        public var callerReference: String = ""
+        public let callerReference: String
         /// A complex type that controls the following:   Whether CloudFront replaces HTTP status codes in the 4xx and 5xx range with custom error messages before returning the response to the viewer.   How long CloudFront caches HTTP status codes in the 4xx and 5xx range.   For more information about custom error pages, see Customizing Error Responses in the Amazon CloudFront Developer Guide.
-        public var customErrorResponses: CustomErrorResponses? = nil
+        public let customErrorResponses: CustomErrorResponses?
         /// A complex type that contains information about origins for this distribution. 
-        public var origins: Origins = Origins()
+        public let origins: Origins
         /// A unique identifier that specifies the AWS WAF web ACL, if any, to associate with this distribution. AWS WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about AWS WAF, see the AWS WAF Developer Guide. 
-        public var webACLId: String? = nil
+        public let webACLId: String?
         /// Any comments you want to include about the distribution. If you don't want to specify a comment, include an empty Comment element. To delete an existing comment, update the distribution configuration and include an empty Comment element. To add or change a comment, update the distribution configuration and specify the new comment.
-        public var comment: String = ""
+        public let comment: String
         /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you do not want to enable logging when you create a distribution, or if you want to disable logging for an existing distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix, the values are automatically deleted.
-        public var enabled: Bool = false
+        public let enabled: Bool
         /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true. If you specify false, CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution.  In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, do not enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide. If you're using an Amazon Route 53 alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:   You enable IPv6 for the distribution   You're using alternate domain names in the URLs for your objects   For more information, see Routing Traffic to an Amazon CloudFront Web Distribution by Using Your Domain Name in the Amazon Route 53 Developer Guide. If you created a CNAME resource record set, either with Amazon Route 53 or with another DNS service, you don't need to make any changes. A CNAME record will route traffic to your distribution regardless of the IP address format of the viewer request.
-        public var isIPV6Enabled: Bool? = nil
+        public let isIPV6Enabled: Bool?
         /// The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All, CloudFront responds to requests for your objects from all CloudFront edge locations. If you specify a price class other than PriceClass_All, CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance. For more information about price classes, see Choosing the Price Class for a CloudFront Distribution in the Amazon CloudFront Developer Guide. For information about CloudFront pricing, including how price classes map to CloudFront regions, see Amazon CloudFront Pricing.
-        public var priceClass: String? = nil
-        public var viewerCertificate: ViewerCertificate? = nil
-        public var restrictions: Restrictions? = nil
+        public let priceClass: String?
+        public let viewerCertificate: ViewerCertificate?
+        public let restrictions: Restrictions?
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
-        public var aliases: Aliases? = nil
+        public let aliases: Aliases?
         /// A complex type that controls whether access logs are written for the distribution. For more information about logging, see Access Logs in the Amazon CloudFront Developer Guide.
-        public var logging: LoggingConfig? = nil
+        public let logging: LoggingConfig?
         /// A complex type that contains zero or more CacheBehavior elements. 
-        public var cacheBehaviors: CacheBehaviors? = nil
+        public let cacheBehaviors: CacheBehaviors?
         /// A complex type that describes the default cache behavior if you do not specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
-        public var defaultCacheBehavior: DefaultCacheBehavior = DefaultCacheBehavior()
-
-        public init() {}
+        public let defaultCacheBehavior: DefaultCacheBehavior
 
         public init(httpVersion: String? = nil, defaultRootObject: String? = nil, callerReference: String, customErrorResponses: CustomErrorResponses? = nil, origins: Origins, webACLId: String? = nil, comment: String, enabled: Bool, isIPV6Enabled: Bool? = nil, priceClass: String? = nil, viewerCertificate: ViewerCertificate? = nil, restrictions: Restrictions? = nil, aliases: Aliases? = nil, logging: LoggingConfig? = nil, cacheBehaviors: CacheBehaviors? = nil, defaultCacheBehavior: DefaultCacheBehavior) {
             self.httpVersion = httpVersion
@@ -1578,7 +1464,7 @@ extension Cloudfront {
             self.defaultRootObject = dictionary["DefaultRootObject"] as? String
             guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
             self.callerReference = callerReference
-            if let customErrorResponses = dictionary["CustomErrorResponses"] as? [String: Any] { self.customErrorResponses = try Cloudfront.CustomErrorResponses(dictionary: customErrorResponses) }
+            if let customErrorResponses = dictionary["CustomErrorResponses"] as? [String: Any] { self.customErrorResponses = try Cloudfront.CustomErrorResponses(dictionary: customErrorResponses) } else { self.customErrorResponses = nil }
             guard let origins = dictionary["Origins"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Origins") }
             self.origins = try Cloudfront.Origins(dictionary: origins)
             self.webACLId = dictionary["WebACLId"] as? String
@@ -1588,11 +1474,11 @@ extension Cloudfront {
             self.enabled = enabled
             self.isIPV6Enabled = dictionary["IsIPV6Enabled"] as? Bool
             self.priceClass = dictionary["PriceClass"] as? String
-            if let viewerCertificate = dictionary["ViewerCertificate"] as? [String: Any] { self.viewerCertificate = try Cloudfront.ViewerCertificate(dictionary: viewerCertificate) }
-            if let restrictions = dictionary["Restrictions"] as? [String: Any] { self.restrictions = try Cloudfront.Restrictions(dictionary: restrictions) }
-            if let aliases = dictionary["Aliases"] as? [String: Any] { self.aliases = try Cloudfront.Aliases(dictionary: aliases) }
-            if let logging = dictionary["Logging"] as? [String: Any] { self.logging = try Cloudfront.LoggingConfig(dictionary: logging) }
-            if let cacheBehaviors = dictionary["CacheBehaviors"] as? [String: Any] { self.cacheBehaviors = try Cloudfront.CacheBehaviors(dictionary: cacheBehaviors) }
+            if let viewerCertificate = dictionary["ViewerCertificate"] as? [String: Any] { self.viewerCertificate = try Cloudfront.ViewerCertificate(dictionary: viewerCertificate) } else { self.viewerCertificate = nil }
+            if let restrictions = dictionary["Restrictions"] as? [String: Any] { self.restrictions = try Cloudfront.Restrictions(dictionary: restrictions) } else { self.restrictions = nil }
+            if let aliases = dictionary["Aliases"] as? [String: Any] { self.aliases = try Cloudfront.Aliases(dictionary: aliases) } else { self.aliases = nil }
+            if let logging = dictionary["Logging"] as? [String: Any] { self.logging = try Cloudfront.LoggingConfig(dictionary: logging) } else { self.logging = nil }
+            if let cacheBehaviors = dictionary["CacheBehaviors"] as? [String: Any] { self.cacheBehaviors = try Cloudfront.CacheBehaviors(dictionary: cacheBehaviors) } else { self.cacheBehaviors = nil }
             guard let defaultCacheBehavior = dictionary["DefaultCacheBehavior"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DefaultCacheBehavior") }
             self.defaultCacheBehavior = try Cloudfront.DefaultCacheBehavior(dictionary: defaultCacheBehavior)
         }
@@ -1601,9 +1487,7 @@ extension Cloudfront {
     public struct Restrictions: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var geoRestriction: GeoRestriction = GeoRestriction()
-
-        public init() {}
+        public let geoRestriction: GeoRestriction
 
         public init(geoRestriction: GeoRestriction) {
             self.geoRestriction = geoRestriction
@@ -1619,18 +1503,16 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// If you specify a value for ACMCertificateArn or for IAMCertificateId, you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:    vip: CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you must request permission to use this feature, and you incur additional monthly charges.    sni-only: CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:   Use the vip option (dedicated IP addresses) instead of sni-only.   Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png.   If you can control which browser your users use, upgrade the browser to one that supports SNI.   Use HTTP instead of HTTPS.     Do not specify a value for SSLSupportMethod if you specified &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;. For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide.
-        public var sSLSupportMethod: String? = nil
-        public var iAMCertificateId: String? = nil
+        public let sSLSupportMethod: String?
+        public let iAMCertificateId: String?
         /// Specify the minimum version of the SSL/TLS protocol that you want CloudFront to use for HTTPS connections between viewers and CloudFront: SSLv3 or TLSv1. CloudFront serves your objects only to viewers that support SSL/TLS version that you specify and later versions. The TLSv1 protocol is more secure, so we recommend that you specify SSLv3 only if your users are using browsers or devices that don't support TLSv1. Note the following:   If you specify &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;, the minimum SSL protocol version is TLSv1 and can't be changed.   If you're using a custom certificate (if you specify a value for ACMCertificateArn or for IAMCertificateId) and if you're using SNI (if you specify sni-only for SSLSupportMethod), you must specify TLSv1 for MinimumProtocolVersion.  
-        public var minimumProtocolVersion: String? = nil
-        public var aCMCertificateArn: String? = nil
+        public let minimumProtocolVersion: String?
+        public let aCMCertificateArn: String?
         /// Include one of these values to specify the following:   Whether you want viewers to use HTTP or HTTPS to request your objects.   If you want viewers to use HTTPS, whether you're using an alternate domain name such as example.com or the CloudFront domain name for your distribution, such as d111111abcdef8.cloudfront.net.   If you're using an alternate domain name, whether AWS Certificate Manager (ACM) provided the certificate, or you purchased a certificate from a third-party certificate authority and imported it into ACM or uploaded it to the IAM certificate store.   You must specify one (and only one) of the three values. Do not specify false for CloudFrontDefaultCertificate.  If you want viewers to use HTTP to request your objects: Specify the following value:  &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;  In addition, specify allow-all for ViewerProtocolPolicy for all of your cache behaviors.  If you want viewers to use HTTPS to request your objects: Choose the type of certificate that you want to use based on whether you're using an alternate domain name for your objects or the CloudFront domain name:    If you're using an alternate domain name, such as example.com: Specify one of the following values, depending on whether ACM provided your certificate or you purchased your certificate from third-party certificate authority:    &lt;ACMCertificateArn&gt;ARN for ACM SSL/TLS certificate&lt;ACMCertificateArn&gt; where ARN for ACM SSL/TLS certificate is the ARN for the ACM SSL/TLS certificate that you want to use for this distribution.    &lt;IAMCertificateId&gt;IAM certificate ID&lt;IAMCertificateId&gt; where IAM certificate ID is the ID that IAM returned when you added the certificate to the IAM certificate store.   If you specify ACMCertificateArn or IAMCertificateId, you must also specify a value for SSLSupportMethod. If you choose to use an ACM certificate or a certificate in the IAM certificate store, we recommend that you use only an alternate domain name in your object URLs (https://example.com/logo.jpg). If you use the domain name that is associated with your CloudFront distribution (https://d111111abcdef8.cloudfront.net/logo.jpg) and the viewer supports SNI, then CloudFront behaves normally. However, if the browser does not support SNI, the user's experience depends on the value that you choose for SSLSupportMethod:    vip: The viewer displays a warning because there is a mismatch between the CloudFront domain name and the domain name in your SSL/TLS certificate.    sni-only: CloudFront drops the connection with the browser without returning the object.      If you're using the CloudFront domain name for your distribution, such as d111111abcdef8.cloudfront.net : Specify the following value:   &lt;CloudFrontDefaultCertificate&gt;true&lt;CloudFrontDefaultCertificate&gt;   If you want viewers to use HTTPS, you must also specify one of the following values in your cache behaviors:     &lt;ViewerProtocolPolicy&gt;https-only&lt;ViewerProtocolPolicy&gt;       &lt;ViewerProtocolPolicy&gt;redirect-to-https&lt;ViewerProtocolPolicy&gt;     You can also optionally require that CloudFront use HTTPS to communicate with your origin by specifying one of the following values for the applicable origins:     &lt;OriginProtocolPolicy&gt;https-only&lt;OriginProtocolPolicy&gt;       &lt;OriginProtocolPolicy&gt;match-viewer&lt;OriginProtocolPolicy&gt;     For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide.  
-        public var certificate: String? = nil
-        public var cloudFrontDefaultCertificate: Bool? = nil
+        public let certificate: String?
+        public let cloudFrontDefaultCertificate: Bool?
         ///  This field is deprecated. You can use one of the following: [ACMCertificateArn, IAMCertificateId, or CloudFrontDefaultCertificate]. 
-        public var certificateSource: String? = nil
-
-        public init() {}
+        public let certificateSource: String?
 
         public init(sSLSupportMethod: String? = nil, iAMCertificateId: String? = nil, minimumProtocolVersion: String? = nil, aCMCertificateArn: String? = nil, certificate: String? = nil, cloudFrontDefaultCertificate: Bool? = nil, certificateSource: String? = nil) {
             self.sSLSupportMethod = sSLSupportMethod
@@ -1660,11 +1542,9 @@ extension Cloudfront {
             return ["Resource": "Resource"]
         }
         ///  An ARN of a CloudFront resource.
-        public var resource: String = ""
+        public let resource: String
         ///  A complex type that contains zero or more Tag key elements.
-        public var tagKeys: TagKeys = TagKeys()
-
-        public init() {}
+        public let tagKeys: TagKeys
 
         public init(resource: String, tagKeys: TagKeys) {
             self.resource = resource
@@ -1686,9 +1566,7 @@ extension Cloudfront {
             return ["Id": "Id"]
         }
         /// The streaming distribution's ID.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(id: String) {
             self.id = id
@@ -1704,20 +1582,18 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date and time that the distribution was last modified. 
-        public var lastModifiedTime: Date? = nil
+        public let lastModifiedTime: Date?
         /// The current status of the RTMP distribution. When the status is Deployed, the distribution's information is propagated to all CloudFront edge locations.
-        public var status: String = ""
+        public let status: String
         /// The current configuration information for the RTMP distribution.
-        public var streamingDistributionConfig: StreamingDistributionConfig = StreamingDistributionConfig()
+        public let streamingDistributionConfig: StreamingDistributionConfig
         /// A complex type that lists the AWS accounts, if any, that you included in the TrustedSigners complex type for this distribution. These are the accounts that you want to allow to create signed URLs for private content. The Signer complex type lists the AWS account number of the trusted signer or self if the signer is the AWS account that created the distribution. The Signer element also includes the IDs of any active CloudFront key pairs that are associated with the trusted signer's AWS account. If no KeyPairId element appears for a Signer, that signer can't create signed URLs. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide. 
-        public var activeTrustedSigners: ActiveTrustedSigners = ActiveTrustedSigners()
-        public var aRN: String = ""
+        public let activeTrustedSigners: ActiveTrustedSigners
+        public let aRN: String
         /// The domain name that corresponds to the streaming distribution. For example: s5c39gqb8ow64r.cloudfront.net. 
-        public var domainName: String = ""
+        public let domainName: String
         /// The identifier for the RTMP distribution. For example: EGTXBD79EXAMPLE.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(lastModifiedTime: Date? = nil, status: String, streamingDistributionConfig: StreamingDistributionConfig, activeTrustedSigners: ActiveTrustedSigners, aRN: String, domainName: String, id: String) {
             self.lastModifiedTime = lastModifiedTime
@@ -1750,11 +1626,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Optional: A list that contains one OriginCustomHeader element for each custom header that you want CloudFront to forward to the origin. If Quantity is 0, omit Items.
-        public var items: [OriginCustomHeader]? = nil
+        public let items: [OriginCustomHeader]?
         /// The number of custom headers, if any, for this distribution.
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(items: [OriginCustomHeader]? = nil, quantity: Int32) {
             self.items = items
@@ -1764,6 +1638,8 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["Items"] as? [[String: Any]] {
                 self.items = try items.map({ try OriginCustomHeader(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
@@ -1774,11 +1650,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains the HTTP methods that you want CloudFront to cache responses to.
-        public var items: [String] = []
+        public let items: [String]
         /// The number of HTTP methods for which you want CloudFront to cache responses. Valid values are 2 (for caching responses to GET and HEAD requests) and 3 (for caching responses to GET, HEAD, and OPTIONS requests).
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(items: [String], quantity: Int32) {
             self.items = items
@@ -1797,40 +1671,38 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Specify the maximum HTTP version that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 will automatically use an earlier version.
-        public var httpVersion: String = ""
+        public let httpVersion: String
         /// A complex type that contains zero or more CustomErrorResponses elements.
-        public var customErrorResponses: CustomErrorResponses = CustomErrorResponses()
+        public let customErrorResponses: CustomErrorResponses
         /// A complex type that contains information about origins for this distribution.
-        public var origins: Origins = Origins()
+        public let origins: Origins
         /// The comment originally specified when this distribution was created.
-        public var comment: String = ""
+        public let comment: String
         /// Whether the distribution is enabled to accept user requests for content.
-        public var enabled: Bool = false
+        public let enabled: Bool
         /// The Web ACL Id (if any) associated with the distribution.
-        public var webACLId: String = ""
+        public let webACLId: String
         /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
-        public var aRN: String = ""
+        public let aRN: String
         /// Whether CloudFront responds to IPv6 DNS requests with an IPv6 address for your distribution.
-        public var isIPV6Enabled: Bool = false
-        public var restrictions: Restrictions = Restrictions()
+        public let isIPV6Enabled: Bool
+        public let restrictions: Restrictions
         /// The date and time the distribution was last modified.
-        public var lastModifiedTime: Date = Date()
-        public var viewerCertificate: ViewerCertificate = ViewerCertificate()
+        public let lastModifiedTime: Date
+        public let viewerCertificate: ViewerCertificate
         /// The identifier for the distribution. For example: EDFDVBD632BHDS5.
-        public var id: String = ""
+        public let id: String
         /// The current status of the distribution. When the status is Deployed, the distribution's information is propagated to all CloudFront edge locations.
-        public var status: String = ""
+        public let status: String
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
-        public var aliases: Aliases = Aliases()
-        public var priceClass: String = ""
+        public let aliases: Aliases
+        public let priceClass: String
         /// A complex type that contains zero or more CacheBehavior elements.
-        public var cacheBehaviors: CacheBehaviors = CacheBehaviors()
+        public let cacheBehaviors: CacheBehaviors
         /// The domain name that corresponds to the distribution. For example: d604721fxaaqy9.cloudfront.net.
-        public var domainName: String = ""
+        public let domainName: String
         /// A complex type that describes the default cache behavior if you do not specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
-        public var defaultCacheBehavior: DefaultCacheBehavior = DefaultCacheBehavior()
-
-        public init() {}
+        public let defaultCacheBehavior: DefaultCacheBehavior
 
         public init(httpVersion: String, customErrorResponses: CustomErrorResponses, origins: Origins, comment: String, enabled: Bool, webACLId: String, aRN: String, isIPV6Enabled: Bool, restrictions: Restrictions, lastModifiedTime: Date, viewerCertificate: ViewerCertificate, id: String, status: String, aliases: Aliases, priceClass: String, cacheBehaviors: CacheBehaviors, domainName: String, defaultCacheBehavior: DefaultCacheBehavior) {
             self.httpVersion = httpVersion
@@ -1897,15 +1769,13 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The HTTPS port the custom origin listens on.
-        public var hTTPSPort: Int32 = 0
+        public let hTTPSPort: Int32
         /// The HTTP port the custom origin listens on.
-        public var hTTPPort: Int32 = 0
+        public let hTTPPort: Int32
         /// The origin protocol policy to apply to your origin.
-        public var originProtocolPolicy: String = ""
+        public let originProtocolPolicy: String
         /// The SSL/TLS protocols that you want CloudFront to use when communicating with your origin over HTTPS.
-        public var originSslProtocols: OriginSslProtocols? = nil
-
-        public init() {}
+        public let originSslProtocols: OriginSslProtocols?
 
         public init(hTTPSPort: Int32, hTTPPort: Int32, originProtocolPolicy: String, originSslProtocols: OriginSslProtocols? = nil) {
             self.hTTPSPort = hTTPSPort
@@ -1921,7 +1791,7 @@ extension Cloudfront {
             self.hTTPPort = hTTPPort
             guard let originProtocolPolicy = dictionary["OriginProtocolPolicy"] as? String else { throw InitializableError.missingRequiredParam("OriginProtocolPolicy") }
             self.originProtocolPolicy = originProtocolPolicy
-            if let originSslProtocols = dictionary["OriginSslProtocols"] as? [String: Any] { self.originSslProtocols = try Cloudfront.OriginSslProtocols(dictionary: originSslProtocols) }
+            if let originSslProtocols = dictionary["OriginSslProtocols"] as? [String: Any] { self.originSslProtocols = try Cloudfront.OriginSslProtocols(dictionary: originSslProtocols) } else { self.originSslProtocols = nil }
         }
     }
 
@@ -1932,13 +1802,11 @@ extension Cloudfront {
             return ["ETag": "ETag", "Location": "Location"]
         }
         /// The current version of the streaming distribution created.
-        public var eTag: String? = nil
+        public let eTag: String?
         /// The fully qualified URI of the new streaming distribution resource just created. For example: https://cloudfront.amazonaws.com/2010-11-01/streaming-distribution/EGTXBD79H29TRA8.
-        public var location: String? = nil
+        public let location: String?
         /// The streaming distribution's information.
-        public var streamingDistribution: StreamingDistribution? = nil
-
-        public init() {}
+        public let streamingDistribution: StreamingDistribution?
 
         public init(eTag: String? = nil, location: String? = nil, streamingDistribution: StreamingDistribution? = nil) {
             self.eTag = eTag
@@ -1949,7 +1817,7 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             self.eTag = dictionary["ETag"] as? String
             self.location = dictionary["Location"] as? String
-            if let streamingDistribution = dictionary["StreamingDistribution"] as? [String: Any] { self.streamingDistribution = try Cloudfront.StreamingDistribution(dictionary: streamingDistribution) }
+            if let streamingDistribution = dictionary["StreamingDistribution"] as? [String: Any] { self.streamingDistribution = try Cloudfront.StreamingDistribution(dictionary: streamingDistribution) } else { self.streamingDistribution = nil }
         }
     }
 
@@ -1957,15 +1825,13 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The HTTP status code that you want CloudFront to return to the viewer along with the custom error page. There are a variety of reasons that you might want CloudFront to return a status code different from the status code that your origin returned to CloudFront, for example:   Some Internet devices (some firewalls and corporate proxies, for example) intercept HTTP 4xx and 5xx and prevent the response from being returned to the viewer. If you substitute 200, the response typically won't be intercepted.   If you don't care about distinguishing among different client errors or server errors, you can specify 400 or 500 as the ResponseCode for all 4xx or 5xx errors.   You might want to return a 200 status code (OK) and static website so your customers don't know that your website is down.   If you specify a value for ResponseCode, you must also specify a value for ResponsePagePath. If you don't want to specify a value, include an empty element, &lt;ResponseCode&gt;, in the XML document.
-        public var responseCode: String? = nil
+        public let responseCode: String?
         /// The minimum amount of time, in seconds, that you want CloudFront to cache the HTTP status code specified in ErrorCode. When this time period has elapsed, CloudFront queries your origin to see whether the problem that caused the error has been resolved and the requested object is now available. If you don't want to specify a value, include an empty element, &lt;ErrorCachingMinTTL&gt;, in the XML document. For more information, see Customizing Error Responses in the Amazon CloudFront Developer Guide.
-        public var errorCachingMinTTL: Int64? = nil
+        public let errorCachingMinTTL: Int64?
         /// The HTTP status code for which you want to specify a custom error page and/or a caching duration.
-        public var errorCode: Int32 = 0
+        public let errorCode: Int32
         /// The path to the custom error page that you want CloudFront to return to a viewer when your origin returns the HTTP status code specified by ErrorCode, for example, /4xx-errors/403-forbidden.html. If you want to store your objects and your custom error pages in different locations, your distribution must include a cache behavior for which the following is true:   The value of PathPattern matches the path to your custom error messages. For example, suppose you saved custom error pages for 4xx errors in an Amazon S3 bucket in a directory named /4xx-errors. Your distribution must include a cache behavior for which the path pattern routes requests for your custom error pages to that location, for example, /4xx-errors/*.    The value of TargetOriginId specifies the value of the ID element for the origin that contains your custom error pages.   If you specify a value for ResponsePagePath, you must also specify a value for ResponseCode. If you don't want to specify a value, include an empty element, &lt;ResponsePagePath&gt;, in the XML document. We recommend that you store custom error pages in an Amazon S3 bucket. If you store custom error pages on an HTTP server and the server starts to return 5xx errors, CloudFront can't get the files that you want to return to viewers because the origin server is unavailable.
-        public var responsePagePath: String? = nil
-
-        public init() {}
+        public let responsePagePath: String?
 
         public init(responseCode: String? = nil, errorCachingMinTTL: Int64? = nil, errorCode: Int32, responsePagePath: String? = nil) {
             self.responseCode = responseCode
@@ -1990,11 +1856,9 @@ extension Cloudfront {
             return ["ETag": "ETag"]
         }
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
-        public var eTag: String? = nil
+        public let eTag: String?
         /// The origin access identity's configuration information. 
-        public var cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig? = nil
-
-        public init() {}
+        public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig?
 
         public init(eTag: String? = nil, cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig? = nil) {
             self.eTag = eTag
@@ -2003,7 +1867,7 @@ extension Cloudfront {
 
         public init(dictionary: [String: Any]) throws {
             self.eTag = dictionary["ETag"] as? String
-            if let cloudFrontOriginAccessIdentityConfig = dictionary["CloudFrontOriginAccessIdentityConfig"] as? [String: Any] { self.cloudFrontOriginAccessIdentityConfig = try Cloudfront.CloudFrontOriginAccessIdentityConfig(dictionary: cloudFrontOriginAccessIdentityConfig) }
+            if let cloudFrontOriginAccessIdentityConfig = dictionary["CloudFrontOriginAccessIdentityConfig"] as? [String: Any] { self.cloudFrontOriginAccessIdentityConfig = try Cloudfront.CloudFrontOriginAccessIdentityConfig(dictionary: cloudFrontOriginAccessIdentityConfig) } else { self.cloudFrontOriginAccessIdentityConfig = nil }
         }
     }
 
@@ -2011,13 +1875,11 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon S3 canonical user ID for the origin access identity, used when giving the origin access identity read permission to an object in Amazon S3. 
-        public var s3CanonicalUserId: String = ""
+        public let s3CanonicalUserId: String
         /// The current configuration information for the identity. 
-        public var cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig? = nil
+        public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig?
         /// The ID for the origin access identity. For example: E74FTE3AJFJ256A. 
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(s3CanonicalUserId: String, cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig? = nil, id: String) {
             self.s3CanonicalUserId = s3CanonicalUserId
@@ -2028,7 +1890,7 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             guard let s3CanonicalUserId = dictionary["S3CanonicalUserId"] as? String else { throw InitializableError.missingRequiredParam("S3CanonicalUserId") }
             self.s3CanonicalUserId = s3CanonicalUserId
-            if let cloudFrontOriginAccessIdentityConfig = dictionary["CloudFrontOriginAccessIdentityConfig"] as? [String: Any] { self.cloudFrontOriginAccessIdentityConfig = try Cloudfront.CloudFrontOriginAccessIdentityConfig(dictionary: cloudFrontOriginAccessIdentityConfig) }
+            if let cloudFrontOriginAccessIdentityConfig = dictionary["CloudFrontOriginAccessIdentityConfig"] as? [String: Any] { self.cloudFrontOriginAccessIdentityConfig = try Cloudfront.CloudFrontOriginAccessIdentityConfig(dictionary: cloudFrontOriginAccessIdentityConfig) } else { self.cloudFrontOriginAccessIdentityConfig = nil }
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id
         }
@@ -2041,9 +1903,7 @@ extension Cloudfront {
             return ["Id": "Id"]
         }
         /// The distribution's ID.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(id: String) {
             self.id = id
@@ -2059,13 +1919,11 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com.
-        public var bucket: String = ""
+        public let bucket: String
         /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you do not want to enable logging when you create a streaming distribution or if you want to disable logging for an existing streaming distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix, the values are automatically deleted. 
-        public var enabled: Bool = false
+        public let enabled: Bool
         /// An optional string that you want CloudFront to prefix to the access log filenames for this streaming distribution, for example, myprefix/. If you want to enable logging, but you do not want to specify a prefix, you still must include an empty Prefix element in the Logging element.
-        public var prefix: String = ""
-
-        public init() {}
+        public let prefix: String
 
         public init(bucket: String, enabled: Bool, prefix: String) {
             self.bucket = bucket
@@ -2087,13 +1945,11 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A complex type that contains a Location element for each country in which you want CloudFront either to distribute your content (whitelist) or not distribute your content (blacklist). The Location element is a two-letter, uppercase country code for a country that you want to include in your blacklist or whitelist. Include one Location element for each country. CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list in the CloudFront console, which includes both country names and codes.
-        public var items: [String]? = nil
+        public let items: [String]?
         /// The method that you want to use to restrict distribution of your content by country:    none: No geo restriction is enabled, meaning access to content is not restricted by client geo location.    blacklist: The Location elements specify the countries in which you do not want CloudFront to distribute your content.    whitelist: The Location elements specify the countries in which you want CloudFront to distribute your content.  
-        public var restrictionType: String = ""
+        public let restrictionType: String
         /// When geo restriction is enabled, this is the number of countries in your whitelist or blacklist. Otherwise, when it is not enabled, Quantity is 0, and you can omit Items.
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(items: [String]? = nil, restrictionType: String, quantity: Int32) {
             self.items = items
@@ -2102,9 +1958,7 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String] {
-                self.items = items
-            }
+            self.items = dictionary["Items"] as? [String]
             guard let restrictionType = dictionary["RestrictionType"] as? String else { throw InitializableError.missingRequiredParam("RestrictionType") }
             self.restrictionType = restrictionType
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
@@ -2116,19 +1970,17 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value you provided for the MaxItems request parameter. 
-        public var maxItems: Int32 = 0
+        public let maxItems: Int32
         /// A flag that indicates whether more streaming distributions remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more distributions in the list. 
-        public var isTruncated: Bool = false
+        public let isTruncated: Bool
         /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your RTMP distributions where they left off. 
-        public var nextMarker: String? = nil
+        public let nextMarker: String?
         /// The value you provided for the Marker request parameter. 
-        public var marker: String = ""
+        public let marker: String
         /// A complex type that contains one StreamingDistributionSummary element for each distribution that was created by the current AWS account.
-        public var items: [StreamingDistributionSummary]? = nil
+        public let items: [StreamingDistributionSummary]?
         /// The number of streaming distributions that were created by the current AWS account. 
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(maxItems: Int32, isTruncated: Bool, nextMarker: String? = nil, marker: String, items: [StreamingDistributionSummary]? = nil, quantity: Int32) {
             self.maxItems = maxItems
@@ -2149,6 +2001,8 @@ extension Cloudfront {
             self.marker = marker
             if let items = dictionary["Items"] as? [[String: Any]] {
                 self.items = try items.map({ try StreamingDistributionSummary(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
@@ -2159,11 +2013,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The CloudFront origin access identity to associate with the RTMP distribution. Use an origin access identity to configure the distribution so that end users can only access objects in an Amazon S3 bucket through CloudFront. If you want end users to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information, see Using an Origin Access Identity to Restrict Access to Your Amazon S3 Content in the Amazon Amazon CloudFront Developer Guide.
-        public var originAccessIdentity: String = ""
+        public let originAccessIdentity: String
         /// The DNS name of the Amazon S3 origin. 
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(originAccessIdentity: String, domainName: String) {
             self.originAccessIdentity = originAccessIdentity
@@ -2182,16 +2034,14 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = "InvalidationList"
         /// Information about invalidation batches. 
-        public var invalidationList: InvalidationList? = nil
-
-        public init() {}
+        public let invalidationList: InvalidationList?
 
         public init(invalidationList: InvalidationList? = nil) {
             self.invalidationList = invalidationList
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let invalidationList = dictionary["InvalidationList"] as? [String: Any] { self.invalidationList = try Cloudfront.InvalidationList(dictionary: invalidationList) }
+            if let invalidationList = dictionary["InvalidationList"] as? [String: Any] { self.invalidationList = try Cloudfront.InvalidationList(dictionary: invalidationList) } else { self.invalidationList = nil }
         }
     }
 
@@ -2199,13 +2049,11 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID for the origin access identity. For example: E74FTE3AJFJ256A.
-        public var id: String = ""
+        public let id: String
         /// The Amazon S3 canonical user ID for the origin access identity, which you use when giving the origin access identity read permission to an object in Amazon S3.
-        public var s3CanonicalUserId: String = ""
+        public let s3CanonicalUserId: String
         /// The comment for this origin access identity, as originally specified when created.
-        public var comment: String = ""
-
-        public init() {}
+        public let comment: String
 
         public init(id: String, s3CanonicalUserId: String, comment: String) {
             self.id = id
@@ -2227,12 +2075,10 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique ID for an invalidation request.
-        public var id: String = ""
+        public let id: String
         /// The status of an invalidation request.
-        public var status: String = ""
-        public var createTime: Date = Date()
-
-        public init() {}
+        public let status: String
+        public let createTime: Date
 
         public init(id: String, status: String, createTime: Date) {
             self.id = id
@@ -2254,13 +2100,11 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains one Signer complex type for each trusted signer that is specified in the TrustedSigners complex type. For more information, see ActiveTrustedSigners. 
-        public var items: [Signer]? = nil
+        public let items: [Signer]?
         /// Enabled is true if any of the AWS accounts listed in the TrustedSigners complex type for this RTMP distribution have active CloudFront key pairs. If not, Enabled is false. For more information, see ActiveTrustedSigners.
-        public var enabled: Bool = false
+        public let enabled: Bool
         /// A complex type that contains one Signer complex type for each trusted signer specified in the TrustedSigners complex type. For more information, see ActiveTrustedSigners.
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(items: [Signer]? = nil, enabled: Bool, quantity: Int32) {
             self.items = items
@@ -2271,6 +2115,8 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["Items"] as? [[String: Any]] {
                 self.items = try items.map({ try Signer(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
             self.enabled = enabled
@@ -2283,23 +2129,21 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this streaming distribution. 
-        public var aliases: Aliases? = nil
+        public let aliases: Aliases?
         /// A unique number that ensures that the request can't be replayed. If the CallerReference is new (no matter the content of the StreamingDistributionConfig object), a new streaming distribution is created. If the CallerReference is a value that you already sent in a previous request to create a streaming distribution, and the content of the StreamingDistributionConfig is identical to the original request (ignoring white space), the response includes the same information returned to the original request. If the CallerReference is a value that you already sent in a previous request to create a streaming distribution but the content of the StreamingDistributionConfig is different from the original request, CloudFront returns a DistributionAlreadyExists error. 
-        public var callerReference: String = ""
+        public let callerReference: String
         /// A complex type that controls whether access logs are written for the streaming distribution. 
-        public var logging: StreamingLoggingConfig? = nil
+        public let logging: StreamingLoggingConfig?
         /// A complex type that contains information about the Amazon S3 bucket from which you want CloudFront to get your media files for distribution. 
-        public var s3Origin: S3Origin = S3Origin()
+        public let s3Origin: S3Origin
         /// Whether the streaming distribution is enabled to accept user requests for content.
-        public var enabled: Bool = false
+        public let enabled: Bool
         /// Any comments you want to include about the streaming distribution. 
-        public var comment: String = ""
+        public let comment: String
         /// A complex type that specifies any AWS accounts that you want to permit to create signed URLs for private content. If you want the distribution to use signed URLs, include this element; if you want the distribution to use public URLs, remove this element. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide. 
-        public var trustedSigners: TrustedSigners = TrustedSigners()
+        public let trustedSigners: TrustedSigners
         /// A complex type that contains information about price class for this streaming distribution. 
-        public var priceClass: String? = nil
-
-        public init() {}
+        public let priceClass: String?
 
         public init(aliases: Aliases? = nil, callerReference: String, logging: StreamingLoggingConfig? = nil, s3Origin: S3Origin, enabled: Bool, comment: String, trustedSigners: TrustedSigners, priceClass: String? = nil) {
             self.aliases = aliases
@@ -2313,10 +2157,10 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let aliases = dictionary["Aliases"] as? [String: Any] { self.aliases = try Cloudfront.Aliases(dictionary: aliases) }
+            if let aliases = dictionary["Aliases"] as? [String: Any] { self.aliases = try Cloudfront.Aliases(dictionary: aliases) } else { self.aliases = nil }
             guard let callerReference = dictionary["CallerReference"] as? String else { throw InitializableError.missingRequiredParam("CallerReference") }
             self.callerReference = callerReference
-            if let logging = dictionary["Logging"] as? [String: Any] { self.logging = try Cloudfront.StreamingLoggingConfig(dictionary: logging) }
+            if let logging = dictionary["Logging"] as? [String: Any] { self.logging = try Cloudfront.StreamingLoggingConfig(dictionary: logging) } else { self.logging = nil }
             guard let s3Origin = dictionary["S3Origin"] as? [String: Any] else { throw InitializableError.missingRequiredParam("S3Origin") }
             self.s3Origin = try Cloudfront.S3Origin(dictionary: s3Origin)
             guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
@@ -2339,11 +2183,9 @@ extension Cloudfront {
             return ["Id": "Id"]
         }
         /// The value of the ETag header you received from a previous GET or PUT request. For example: E2QWRUHAPOMQZL.
-        public var ifMatch: String? = nil
+        public let ifMatch: String?
         /// The origin access identity's ID.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(ifMatch: String? = nil, id: String) {
             self.ifMatch = ifMatch
@@ -2364,11 +2206,9 @@ extension Cloudfront {
             return ["DistributionId": "DistributionId"]
         }
         /// The batch information for the invalidation.
-        public var invalidationBatch: InvalidationBatch = InvalidationBatch()
+        public let invalidationBatch: InvalidationBatch
         /// The distribution's id.
-        public var distributionId: String = ""
-
-        public init() {}
+        public let distributionId: String
 
         public init(invalidationBatch: InvalidationBatch, distributionId: String) {
             self.invalidationBatch = invalidationBatch
@@ -2390,9 +2230,7 @@ extension Cloudfront {
             return ["Id": "Id"]
         }
         /// The distribution's ID.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(id: String) {
             self.id = id
@@ -2411,11 +2249,9 @@ extension Cloudfront {
             return ["ETag": "ETag"]
         }
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
-        public var eTag: String? = nil
+        public let eTag: String?
         /// The distribution's information.
-        public var distribution: Distribution? = nil
-
-        public init() {}
+        public let distribution: Distribution?
 
         public init(eTag: String? = nil, distribution: Distribution? = nil) {
             self.eTag = eTag
@@ -2424,7 +2260,7 @@ extension Cloudfront {
 
         public init(dictionary: [String: Any]) throws {
             self.eTag = dictionary["ETag"] as? String
-            if let distribution = dictionary["Distribution"] as? [String: Any] { self.distribution = try Cloudfront.Distribution(dictionary: distribution) }
+            if let distribution = dictionary["Distribution"] as? [String: Any] { self.distribution = try Cloudfront.Distribution(dictionary: distribution) } else { self.distribution = nil }
         }
     }
 
@@ -2435,11 +2271,9 @@ extension Cloudfront {
             return ["ETag": "ETag"]
         }
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL. 
-        public var eTag: String? = nil
+        public let eTag: String?
         /// The streaming distribution's configuration information.
-        public var streamingDistributionConfig: StreamingDistributionConfig? = nil
-
-        public init() {}
+        public let streamingDistributionConfig: StreamingDistributionConfig?
 
         public init(eTag: String? = nil, streamingDistributionConfig: StreamingDistributionConfig? = nil) {
             self.eTag = eTag
@@ -2448,7 +2282,7 @@ extension Cloudfront {
 
         public init(dictionary: [String: Any]) throws {
             self.eTag = dictionary["ETag"] as? String
-            if let streamingDistributionConfig = dictionary["StreamingDistributionConfig"] as? [String: Any] { self.streamingDistributionConfig = try Cloudfront.StreamingDistributionConfig(dictionary: streamingDistributionConfig) }
+            if let streamingDistributionConfig = dictionary["StreamingDistributionConfig"] as? [String: Any] { self.streamingDistributionConfig = try Cloudfront.StreamingDistributionConfig(dictionary: streamingDistributionConfig) } else { self.streamingDistributionConfig = nil }
         }
     }
 
@@ -2456,11 +2290,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber. For more information, see ActiveTrustedSigners.
-        public var items: [String]? = nil
+        public let items: [String]?
         /// The number of active CloudFront key pairs for AwsAccountNumber. For more information, see ActiveTrustedSigners.
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
@@ -2468,9 +2300,7 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String] {
-                self.items = items
-            }
+            self.items = dictionary["Items"] as? [String]
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -2480,19 +2310,17 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains names and values for the custom headers that you want.
-        public var customHeaders: CustomHeaders? = nil
+        public let customHeaders: CustomHeaders?
         /// A complex type that contains information about a custom origin. If the origin is an Amazon S3 bucket, use the S3OriginConfig element instead.
-        public var customOriginConfig: CustomOriginConfig? = nil
+        public let customOriginConfig: CustomOriginConfig?
         ///  Amazon S3 origins: The DNS name of the Amazon S3 bucket from which you want CloudFront to get objects for this origin, for example, myawsbucket.s3.amazonaws.com. Constraints for Amazon S3 origins:    If you configured Amazon S3 Transfer Acceleration for your bucket, do not specify the s3-accelerate endpoint for DomainName.   The bucket name must be between 3 and 63 characters long (inclusive).   The bucket name must contain only lowercase characters, numbers, periods, underscores, and dashes.   The bucket name must not contain adjacent periods.    Custom Origins: The DNS domain name for the HTTP server from which you want CloudFront to get objects for this origin, for example, www.example.com.  Constraints for custom origins:    DomainName must be a valid DNS name that contains only a-z, A-Z, 0-9, dot (.), hyphen (-), or underscore (_) characters.   The name cannot exceed 128 characters.  
-        public var domainName: String = ""
+        public let domainName: String
         /// An optional element that causes CloudFront to request your content from a directory in your Amazon S3 bucket or your custom origin. When you include the OriginPath element, specify the directory name, beginning with a /. CloudFront appends the directory name to the value of DomainName, for example, example.com/production. Do not include a / at the end of the directory name. For example, suppose you've specified the following values for your distribution:    DomainName: An Amazon S3 bucket named myawsbucket.    OriginPath: /production     CNAME: example.com    When a user enters example.com/index.html in a browser, CloudFront sends a request to Amazon S3 for myawsbucket/production/index.html. When a user enters example.com/acme/index.html in a browser, CloudFront sends a request to Amazon S3 for myawsbucket/production/acme/index.html.
-        public var originPath: String? = nil
+        public let originPath: String?
         /// A complex type that contains information about the Amazon S3 origin. If the origin is a custom origin, use the CustomOriginConfig element instead.
-        public var s3OriginConfig: S3OriginConfig? = nil
+        public let s3OriginConfig: S3OriginConfig?
         /// A unique identifier for the origin. The value of Id must be unique within the distribution. When you specify the value of TargetOriginId for the default cache behavior or for another cache behavior, you indicate the origin to which you want the cache behavior to route requests by specifying the value of the Id element for that origin. When a request matches the path pattern for that cache behavior, CloudFront routes the request to the specified origin. For more information, see Cache Behavior Settings in the Amazon CloudFront Developer Guide.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(customHeaders: CustomHeaders? = nil, customOriginConfig: CustomOriginConfig? = nil, domainName: String, originPath: String? = nil, s3OriginConfig: S3OriginConfig? = nil, id: String) {
             self.customHeaders = customHeaders
@@ -2504,12 +2332,12 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let customHeaders = dictionary["CustomHeaders"] as? [String: Any] { self.customHeaders = try Cloudfront.CustomHeaders(dictionary: customHeaders) }
-            if let customOriginConfig = dictionary["CustomOriginConfig"] as? [String: Any] { self.customOriginConfig = try Cloudfront.CustomOriginConfig(dictionary: customOriginConfig) }
+            if let customHeaders = dictionary["CustomHeaders"] as? [String: Any] { self.customHeaders = try Cloudfront.CustomHeaders(dictionary: customHeaders) } else { self.customHeaders = nil }
+            if let customOriginConfig = dictionary["CustomOriginConfig"] as? [String: Any] { self.customOriginConfig = try Cloudfront.CustomOriginConfig(dictionary: customOriginConfig) } else { self.customOriginConfig = nil }
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
             self.originPath = dictionary["OriginPath"] as? String
-            if let s3OriginConfig = dictionary["S3OriginConfig"] as? [String: Any] { self.s3OriginConfig = try Cloudfront.S3OriginConfig(dictionary: s3OriginConfig) }
+            if let s3OriginConfig = dictionary["S3OriginConfig"] as? [String: Any] { self.s3OriginConfig = try Cloudfront.S3OriginConfig(dictionary: s3OriginConfig) } else { self.s3OriginConfig = nil }
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id
         }
@@ -2519,9 +2347,7 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A complex type that contains Tag elements.
-        public var items: [Tag]? = nil
-
-        public init() {}
+        public let items: [Tag]?
 
         public init(items: [Tag]? = nil) {
             self.items = items
@@ -2530,6 +2356,8 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["Items"] as? [[String: Any]] {
                 self.items = try items.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
         }
     }
@@ -2541,11 +2369,9 @@ extension Cloudfront {
             return ["ETag": "ETag"]
         }
         /// The current version of the origin access identity's information. For example: E2QWRUHAPOMQZL.
-        public var eTag: String? = nil
+        public let eTag: String?
         /// The origin access identity's information.
-        public var cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil
-
-        public init() {}
+        public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity?
 
         public init(eTag: String? = nil, cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil) {
             self.eTag = eTag
@@ -2554,7 +2380,7 @@ extension Cloudfront {
 
         public init(dictionary: [String: Any]) throws {
             self.eTag = dictionary["ETag"] as? String
-            if let cloudFrontOriginAccessIdentity = dictionary["CloudFrontOriginAccessIdentity"] as? [String: Any] { self.cloudFrontOriginAccessIdentity = try Cloudfront.CloudFrontOriginAccessIdentity(dictionary: cloudFrontOriginAccessIdentity) }
+            if let cloudFrontOriginAccessIdentity = dictionary["CloudFrontOriginAccessIdentity"] as? [String: Any] { self.cloudFrontOriginAccessIdentity = try Cloudfront.CloudFrontOriginAccessIdentity(dictionary: cloudFrontOriginAccessIdentity) } else { self.cloudFrontOriginAccessIdentity = nil }
         }
     }
 
@@ -2565,11 +2391,9 @@ extension Cloudfront {
             return ["ETag": "ETag"]
         }
         /// The current version of the distribution's information. For example: E2QWRUHAPOMQZL.
-        public var eTag: String? = nil
+        public let eTag: String?
         /// The distribution's information.
-        public var distribution: Distribution? = nil
-
-        public init() {}
+        public let distribution: Distribution?
 
         public init(eTag: String? = nil, distribution: Distribution? = nil) {
             self.eTag = eTag
@@ -2578,7 +2402,7 @@ extension Cloudfront {
 
         public init(dictionary: [String: Any]) throws {
             self.eTag = dictionary["ETag"] as? String
-            if let distribution = dictionary["Distribution"] as? [String: Any] { self.distribution = try Cloudfront.Distribution(dictionary: distribution) }
+            if let distribution = dictionary["Distribution"] as? [String: Any] { self.distribution = try Cloudfront.Distribution(dictionary: distribution) } else { self.distribution = nil }
         }
     }
 
@@ -2592,13 +2416,11 @@ extension Cloudfront {
             return ["Id": "Id"]
         }
         /// The value of the ETag header that you received when retrieving the streaming distribution's configuration. For example: E2QWRUHAPOMQZL.
-        public var ifMatch: String? = nil
+        public let ifMatch: String?
         /// The streaming distribution's configuration information.
-        public var streamingDistributionConfig: StreamingDistributionConfig = StreamingDistributionConfig()
+        public let streamingDistributionConfig: StreamingDistributionConfig
         /// The streaming distribution's id.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(ifMatch: String? = nil, streamingDistributionConfig: StreamingDistributionConfig, id: String) {
             self.ifMatch = ifMatch
@@ -2619,19 +2441,17 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of origin access identities you want in the response body. 
-        public var maxItems: Int32 = 0
+        public let maxItems: Int32
         /// A flag that indicates whether more origin access identities remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more items in the list.
-        public var isTruncated: Bool = false
+        public let isTruncated: Bool
         /// If IsTruncated is true, this element is present and contains the value you can use for the Marker request parameter to continue listing your origin access identities where they left off. 
-        public var nextMarker: String? = nil
+        public let nextMarker: String?
         /// Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page). 
-        public var marker: String = ""
+        public let marker: String
         /// A complex type that contains one CloudFrontOriginAccessIdentitySummary element for each origin access identity that was created by the current AWS account.
-        public var items: [CloudFrontOriginAccessIdentitySummary]? = nil
+        public let items: [CloudFrontOriginAccessIdentitySummary]?
         /// The number of CloudFront origin access identities that were created by the current AWS account. 
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(maxItems: Int32, isTruncated: Bool, nextMarker: String? = nil, marker: String, items: [CloudFrontOriginAccessIdentitySummary]? = nil, quantity: Int32) {
             self.maxItems = maxItems
@@ -2652,6 +2472,8 @@ extension Cloudfront {
             self.marker = marker
             if let items = dictionary["Items"] as? [[String: Any]] {
                 self.items = try items.map({ try CloudFrontOriginAccessIdentitySummary(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
@@ -2665,9 +2487,7 @@ extension Cloudfront {
             return ["Id": "Id"]
         }
         /// The identity's ID. 
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(id: String) {
             self.id = id
@@ -2683,9 +2503,7 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = "CloudFrontOriginAccessIdentityConfig"
         /// The current configuration information for the identity.
-        public var cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig = CloudFrontOriginAccessIdentityConfig()
-
-        public init() {}
+        public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig
 
         public init(cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig) {
             self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
@@ -2701,23 +2519,21 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date and time the distribution was last modified. 
-        public var lastModifiedTime: Date = Date()
+        public let lastModifiedTime: Date
         /// This response element indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated to all CloudFront edge locations. 
-        public var status: String = ""
+        public let status: String
         /// CloudFront automatically adds this element to the response only if you've set up the distribution to serve private content with signed URLs. The element lists the key pair IDs that CloudFront is aware of for each trusted signer. The Signer child element lists the AWS account number of the trusted signer (or an empty Self element if the signer is you). The Signer element also includes the IDs of any active key pairs associated with the trusted signer's AWS account. If no KeyPairId element appears for a Signer, that signer can't create working signed URLs.
-        public var activeTrustedSigners: ActiveTrustedSigners = ActiveTrustedSigners()
+        public let activeTrustedSigners: ActiveTrustedSigners
         /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
-        public var aRN: String = ""
+        public let aRN: String
         /// The current configuration information for the distribution. Send a GET request to the /CloudFront API version/distribution ID/config resource.
-        public var distributionConfig: DistributionConfig = DistributionConfig()
+        public let distributionConfig: DistributionConfig
         /// The domain name corresponding to the distribution. For example: d604721fxaaqy9.cloudfront.net. 
-        public var domainName: String = ""
+        public let domainName: String
         /// The number of invalidation batches currently in progress. 
-        public var inProgressInvalidationBatches: Int32 = 0
+        public let inProgressInvalidationBatches: Int32
         /// The identifier for the distribution. For example: EDFDVBD632BHDS5. 
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(lastModifiedTime: Date, status: String, activeTrustedSigners: ActiveTrustedSigners, aRN: String, distributionConfig: DistributionConfig, domainName: String, inProgressInvalidationBatches: Int32, id: String) {
             self.lastModifiedTime = lastModifiedTime
@@ -2754,11 +2570,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains zero or more Tag elements.
-        public var tags: Tags = Tags()
+        public let tags: Tags
         /// A streaming distribution Configuration.
-        public var streamingDistributionConfig: StreamingDistributionConfig = StreamingDistributionConfig()
-
-        public init() {}
+        public let streamingDistributionConfig: StreamingDistributionConfig
 
         public init(tags: Tags, streamingDistributionConfig: StreamingDistributionConfig) {
             self.tags = tags
@@ -2777,11 +2591,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A unique number that ensures the request can't be replayed. If the CallerReference is new (no matter the content of the CloudFrontOriginAccessIdentityConfig object), a new origin access identity is created. If the CallerReference is a value already sent in a previous identity request, and the content of the CloudFrontOriginAccessIdentityConfig is identical to the original request (ignoring white space), the response includes the same information returned to the original request.  If the CallerReference is a value you already sent in a previous request to create an identity, but the content of the CloudFrontOriginAccessIdentityConfig is different from the original request, CloudFront returns a CloudFrontOriginAccessIdentityAlreadyExists error. 
-        public var callerReference: String = ""
+        public let callerReference: String
         /// Any comments you want to include about the origin access identity. 
-        public var comment: String = ""
-
-        public init() {}
+        public let comment: String
 
         public init(callerReference: String, comment: String) {
             self.callerReference = callerReference
@@ -2803,11 +2615,9 @@ extension Cloudfront {
             return ["ETag": "ETag"]
         }
         /// The current version of the configuration. For example: E2QWRUHAPOMQZL.
-        public var eTag: String? = nil
+        public let eTag: String?
         /// The origin access identity's information.
-        public var cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil
-
-        public init() {}
+        public let cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity?
 
         public init(eTag: String? = nil, cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity? = nil) {
             self.eTag = eTag
@@ -2816,7 +2626,7 @@ extension Cloudfront {
 
         public init(dictionary: [String: Any]) throws {
             self.eTag = dictionary["ETag"] as? String
-            if let cloudFrontOriginAccessIdentity = dictionary["CloudFrontOriginAccessIdentity"] as? [String: Any] { self.cloudFrontOriginAccessIdentity = try Cloudfront.CloudFrontOriginAccessIdentity(dictionary: cloudFrontOriginAccessIdentity) }
+            if let cloudFrontOriginAccessIdentity = dictionary["CloudFrontOriginAccessIdentity"] as? [String: Any] { self.cloudFrontOriginAccessIdentity = try Cloudfront.CloudFrontOriginAccessIdentity(dictionary: cloudFrontOriginAccessIdentity) } else { self.cloudFrontOriginAccessIdentity = nil }
         }
     }
 
@@ -2830,11 +2640,9 @@ extension Cloudfront {
             return ["Id": "Id"]
         }
         /// The value of the ETag header that you received when you disabled the streaming distribution. For example: E2QWRUHAPOMQZL.
-        public var ifMatch: String? = nil
+        public let ifMatch: String?
         /// The distribution ID. 
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(ifMatch: String? = nil, id: String) {
             self.ifMatch = ifMatch
@@ -2852,11 +2660,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains a CustomErrorResponse element for each HTTP status code for which you want to specify a custom error page and/or a caching duration. 
-        public var items: [CustomErrorResponse]? = nil
+        public let items: [CustomErrorResponse]?
         /// The number of HTTP status codes for which you want to specify a custom error page and/or a caching duration. If Quantity is 0, you can omit Items.
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(items: [CustomErrorResponse]? = nil, quantity: Int32) {
             self.items = items
@@ -2866,6 +2672,8 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["Items"] as? [[String: Any]] {
                 self.items = try items.map({ try CustomErrorResponse(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
@@ -2876,11 +2684,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains one Name element for each cookie that you want CloudFront to forward to the origin for this cache behavior.
-        public var items: [String]? = nil
+        public let items: [String]?
         /// The number of different cookies that you want CloudFront to forward to the origin for this cache behavior.
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
@@ -2888,9 +2694,7 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String] {
-                self.items = items
-            }
+            self.items = dictionary["Items"] as? [String]
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -2900,11 +2704,9 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains the CNAME aliases, if any, that you want to associate with this distribution.
-        public var items: [String]? = nil
+        public let items: [String]?
         /// The number of CNAME aliases, if any, that you want to associate with this distribution.
-        public var quantity: Int32 = 0
-
-        public init() {}
+        public let quantity: Int32
 
         public init(items: [String]? = nil, quantity: Int32) {
             self.items = items
@@ -2912,9 +2714,7 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [String] {
-                self.items = items
-            }
+            self.items = dictionary["Items"] as? [String]
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -2930,11 +2730,9 @@ extension Cloudfront {
             return ["Id": "Id"]
         }
         /// The value of the ETag header that you received when you disabled the distribution. For example: E2QWRUHAPOMQZL. 
-        public var ifMatch: String? = nil
+        public let ifMatch: String?
         /// The distribution ID. 
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(ifMatch: String? = nil, id: String) {
             self.ifMatch = ifMatch

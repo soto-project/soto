@@ -32,9 +32,7 @@ extension Cloudsearch {
     public struct DescribeScalingParametersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
@@ -50,19 +48,17 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        public var returnEnabled: Bool? = nil
+        public let returnEnabled: Bool?
         /// Whether facet information can be returned for the field.
-        public var facetEnabled: Bool? = nil
+        public let facetEnabled: Bool?
         /// The name of the source field to map to the field. 
-        public var sourceField: String? = nil
+        public let sourceField: String?
         /// Whether the contents of the field are searchable.
-        public var searchEnabled: Bool? = nil
+        public let searchEnabled: Bool?
         /// Whether the field can be used to sort the search results.
-        public var sortEnabled: Bool? = nil
+        public let sortEnabled: Bool?
         /// A value to use for the field if the field isn't specified for a document. This can be important if you are using the field in an expression and that field is not present in every document.
-        public var defaultValue: Int64? = nil
-
-        public init() {}
+        public let defaultValue: Int64?
 
         public init(returnEnabled: Bool? = nil, facetEnabled: Bool? = nil, sourceField: String? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, defaultValue: Int64? = nil) {
             self.returnEnabled = returnEnabled
@@ -87,10 +83,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The expression that is evaluated for sorting while processing a search request.
-        public var options: Expression = Expression()
-        public var status: OptionStatus = OptionStatus()
-
-        public init() {}
+        public let options: Expression
+        public let status: OptionStatus
 
         public init(options: Expression, status: OptionStatus) {
             self.options = options
@@ -108,9 +102,7 @@ extension Cloudsearch {
     public struct DescribeScalingParametersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var scalingParameters: ScalingParametersStatus = ScalingParametersStatus()
-
-        public init() {}
+        public let scalingParameters: ScalingParametersStatus
 
         public init(scalingParameters: ScalingParametersStatus) {
             self.scalingParameters = scalingParameters
@@ -125,11 +117,9 @@ extension Cloudsearch {
     public struct AnalysisScheme: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var analysisSchemeLanguage: String = ""
-        public var analysisSchemeName: String = ""
-        public var analysisOptions: AnalysisOptions? = nil
-
-        public init() {}
+        public let analysisSchemeLanguage: String
+        public let analysisSchemeName: String
+        public let analysisOptions: AnalysisOptions?
 
         public init(analysisSchemeLanguage: String, analysisSchemeName: String, analysisOptions: AnalysisOptions? = nil) {
             self.analysisSchemeLanguage = analysisSchemeLanguage
@@ -142,7 +132,7 @@ extension Cloudsearch {
             self.analysisSchemeLanguage = analysisSchemeLanguage
             guard let analysisSchemeName = dictionary["AnalysisSchemeName"] as? String else { throw InitializableError.missingRequiredParam("AnalysisSchemeName") }
             self.analysisSchemeName = analysisSchemeName
-            if let analysisOptions = dictionary["AnalysisOptions"] as? [String: Any] { self.analysisOptions = try Cloudsearch.AnalysisOptions(dictionary: analysisOptions) }
+            if let analysisOptions = dictionary["AnalysisOptions"] as? [String: Any] { self.analysisOptions = try Cloudsearch.AnalysisOptions(dictionary: analysisOptions) } else { self.analysisOptions = nil }
         }
     }
 
@@ -150,10 +140,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the index field your want to remove from the domain's indexing options.
-        public var indexFieldName: String = ""
-        public var domainName: String = ""
-
-        public init() {}
+        public let indexFieldName: String
+        public let domainName: String
 
         public init(indexFieldName: String, domainName: String) {
             self.indexFieldName = indexFieldName
@@ -172,9 +160,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the expression being deleted.
-        public var expression: ExpressionStatus = ExpressionStatus()
-
-        public init() {}
+        public let expression: ExpressionStatus
 
         public init(expression: ExpressionStatus) {
             self.expression = expression
@@ -190,18 +176,16 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        public var returnEnabled: Bool? = nil
+        public let returnEnabled: Bool?
         /// Whether facet information can be returned for the field.
-        public var facetEnabled: Bool? = nil
-        public var sourceField: String? = nil
+        public let facetEnabled: Bool?
+        public let sourceField: String?
         /// Whether the contents of the field are searchable.
-        public var searchEnabled: Bool? = nil
+        public let searchEnabled: Bool?
         /// Whether the field can be used to sort the search results.
-        public var sortEnabled: Bool? = nil
+        public let sortEnabled: Bool?
         /// A value to use for the field if the field isn't specified for a document.
-        public var defaultValue: String? = nil
-
-        public init() {}
+        public let defaultValue: String?
 
         public init(returnEnabled: Bool? = nil, facetEnabled: Bool? = nil, sourceField: String? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, defaultValue: String? = nil) {
             self.returnEnabled = returnEnabled
@@ -226,13 +210,11 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The analysis schemes you want to describe.
-        public var analysisSchemeNames: [String]? = nil
+        public let analysisSchemeNames: [String]?
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
-        public var deployed: Bool? = nil
+        public let deployed: Bool?
         /// The name of the domain you want to describe.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(analysisSchemeNames: [String]? = nil, deployed: Bool? = nil, domainName: String) {
             self.analysisSchemeNames = analysisSchemeNames
@@ -241,9 +223,7 @@ extension Cloudsearch {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let analysisSchemeNames = dictionary["AnalysisSchemeNames"] as? [String] {
-                self.analysisSchemeNames = analysisSchemeNames
-            }
+            self.analysisSchemeNames = dictionary["AnalysisSchemeNames"] as? [String]
             self.deployed = dictionary["Deployed"] as? Bool
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
@@ -254,17 +234,15 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// A unique integer that indicates when this option was last updated.
-        public var updateVersion: Int32? = nil
+        public let updateVersion: Int32?
         /// Indicates that the option will be deleted once processing is complete.
-        public var pendingDeletion: Bool? = nil
+        public let pendingDeletion: Bool?
         /// A timestamp for when this option was created.
-        public var creationDate: Date = Date()
+        public let creationDate: Date
         /// The state of processing a change to an option. Possible values:   RequiresIndexDocuments: the option's latest value will not be deployed until IndexDocuments has been called and indexing is complete.  Processing: the option's latest value is in the process of being activated.   Active: the option's latest value is completely deployed.  FailedToValidate: the option value is not compatible with the domain's data and cannot be used to index the data. You must either modify the option value or update or remove the incompatible documents. 
-        public var state: String = ""
+        public let state: String
         /// A timestamp for when this option was last updated.
-        public var updateDate: Date = Date()
-
-        public init() {}
+        public let updateDate: Date
 
         public init(updateVersion: Int32? = nil, pendingDeletion: Bool? = nil, creationDate: Date, state: String, updateDate: Date) {
             self.updateVersion = updateVersion
@@ -290,18 +268,14 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The names of the domains you want to include in the response.
-        public var domainNames: [String]? = nil
-
-        public init() {}
+        public let domainNames: [String]?
 
         public init(domainNames: [String]? = nil) {
             self.domainNames = domainNames
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let domainNames = dictionary["DomainNames"] as? [String] {
-                self.domainNames = domainNames
-            }
+            self.domainNames = dictionary["DomainNames"] as? [String]
         }
     }
 
@@ -309,9 +283,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The access rules configured for the domain.
-        public var accessPolicies: AccessPoliciesStatus = AccessPoliciesStatus()
-
-        public init() {}
+        public let accessPolicies: AccessPoliciesStatus
 
         public init(accessPolicies: AccessPoliciesStatus) {
             self.accessPolicies = accessPolicies
@@ -327,17 +299,15 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        public var returnEnabled: Bool? = nil
+        public let returnEnabled: Bool?
         /// A list of source fields to map to the field. 
-        public var sourceFields: String? = nil
+        public let sourceFields: String?
         /// Whether facet information can be returned for the field.
-        public var facetEnabled: Bool? = nil
+        public let facetEnabled: Bool?
         /// Whether the contents of the field are searchable.
-        public var searchEnabled: Bool? = nil
+        public let searchEnabled: Bool?
         /// A value to use for the field if the field isn't specified for a document.
-        public var defaultValue: Double? = nil
-
-        public init() {}
+        public let defaultValue: Double?
 
         public init(returnEnabled: Bool? = nil, sourceFields: String? = nil, facetEnabled: Bool? = nil, searchEnabled: Bool? = nil, defaultValue: Double? = nil) {
             self.returnEnabled = returnEnabled
@@ -359,30 +329,28 @@ extension Cloudsearch {
     public struct DomainStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var limits: Limits? = nil
+        public let limits: Limits?
         /// True if processing is being done to activate the current domain configuration.
-        public var processing: Bool? = nil
+        public let processing: Bool?
         /// True if the search domain is created. It can take several minutes to initialize a domain when CreateDomain is called. Newly created search domains are returned from DescribeDomains with a false value for Created until domain creation is complete.
-        public var created: Bool? = nil
-        public var aRN: String? = nil
+        public let created: Bool?
+        public let aRN: String?
         /// The service endpoint for updating documents in a search domain.
-        public var docService: ServiceEndpoint? = nil
+        public let docService: ServiceEndpoint?
         /// True if IndexDocuments needs to be called to activate the current domain configuration.
-        public var requiresIndexDocuments: Bool = false
+        public let requiresIndexDocuments: Bool
         /// The service endpoint for requesting search results from a search domain.
-        public var searchService: ServiceEndpoint? = nil
+        public let searchService: ServiceEndpoint?
         /// The number of partitions across which the search index is spread.
-        public var searchPartitionCount: Int32? = nil
+        public let searchPartitionCount: Int32?
         /// The instance type that is being used to process search requests.
-        public var searchInstanceType: String? = nil
-        public var domainName: String = ""
+        public let searchInstanceType: String?
+        public let domainName: String
         /// The number of search instances that are available to process search requests.
-        public var searchInstanceCount: Int32? = nil
+        public let searchInstanceCount: Int32?
         /// True if the search domain has been deleted. The system must clean up resources dedicated to the search domain when DeleteDomain is called. Newly deleted search domains are returned from DescribeDomains with a true value for IsDeleted for several minutes until resource cleanup is complete.
-        public var deleted: Bool? = nil
-        public var domainId: String = ""
-
-        public init() {}
+        public let deleted: Bool?
+        public let domainId: String
 
         public init(limits: Limits? = nil, processing: Bool? = nil, created: Bool? = nil, aRN: String? = nil, docService: ServiceEndpoint? = nil, requiresIndexDocuments: Bool, searchService: ServiceEndpoint? = nil, searchPartitionCount: Int32? = nil, searchInstanceType: String? = nil, domainName: String, searchInstanceCount: Int32? = nil, deleted: Bool? = nil, domainId: String) {
             self.limits = limits
@@ -401,14 +369,14 @@ extension Cloudsearch {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Cloudsearch.Limits(dictionary: limits) }
+            if let limits = dictionary["Limits"] as? [String: Any] { self.limits = try Cloudsearch.Limits(dictionary: limits) } else { self.limits = nil }
             self.processing = dictionary["Processing"] as? Bool
             self.created = dictionary["Created"] as? Bool
             self.aRN = dictionary["ARN"] as? String
-            if let docService = dictionary["DocService"] as? [String: Any] { self.docService = try Cloudsearch.ServiceEndpoint(dictionary: docService) }
+            if let docService = dictionary["DocService"] as? [String: Any] { self.docService = try Cloudsearch.ServiceEndpoint(dictionary: docService) } else { self.docService = nil }
             guard let requiresIndexDocuments = dictionary["RequiresIndexDocuments"] as? Bool else { throw InitializableError.missingRequiredParam("RequiresIndexDocuments") }
             self.requiresIndexDocuments = requiresIndexDocuments
-            if let searchService = dictionary["SearchService"] as? [String: Any] { self.searchService = try Cloudsearch.ServiceEndpoint(dictionary: searchService) }
+            if let searchService = dictionary["SearchService"] as? [String: Any] { self.searchService = try Cloudsearch.ServiceEndpoint(dictionary: searchService) } else { self.searchService = nil }
             self.searchPartitionCount = dictionary["SearchPartitionCount"] as? Int32
             self.searchInstanceType = dictionary["SearchInstanceType"] as? String
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
@@ -423,9 +391,7 @@ extension Cloudsearch {
     public struct UpdateScalingParametersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var scalingParameters: ScalingParametersStatus = ScalingParametersStatus()
-
-        public init() {}
+        public let scalingParameters: ScalingParametersStatus
 
         public init(scalingParameters: ScalingParametersStatus) {
             self.scalingParameters = scalingParameters
@@ -441,9 +407,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The names of the search domains owned by an account.
-        public var domainNames: [String: String]? = nil
-
-        public init() {}
+        public let domainNames: [String: String]?
 
         public init(domainNames: [String: String]? = nil) {
             self.domainNames = domainNames
@@ -452,6 +416,8 @@ extension Cloudsearch {
         public init(dictionary: [String: Any]) throws {
             if let domainNames = dictionary["DomainNames"] as? [String: String] {
                 self.domainNames = domainNames
+            } else { 
+                self.domainNames = nil
             }
         }
     }
@@ -460,11 +426,9 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
-        public var deployed: Bool? = nil
+        public let deployed: Bool?
         /// The name of the domain you want to describe.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(deployed: Bool? = nil, domainName: String) {
             self.deployed = deployed
@@ -482,9 +446,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the index field being deleted.
-        public var indexField: IndexFieldStatus = IndexFieldStatus()
-
-        public init() {}
+        public let indexField: IndexFieldStatus
 
         public init(indexField: IndexFieldStatus) {
             self.indexField = indexField
@@ -499,10 +461,8 @@ extension Cloudsearch {
     public struct DefineSuggesterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var suggester: Suggester = Suggester()
-        public var domainName: String = ""
-
-        public init() {}
+        public let suggester: Suggester
+        public let domainName: String
 
         public init(suggester: Suggester, domainName: String) {
             self.suggester = suggester
@@ -521,13 +481,11 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
-        public var deployed: Bool? = nil
+        public let deployed: Bool?
         /// A list of the index fields you want to describe. If not specified, information is returned for all configured index fields.
-        public var fieldNames: [String]? = nil
+        public let fieldNames: [String]?
         /// The name of the domain you want to describe.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(deployed: Bool? = nil, fieldNames: [String]? = nil, domainName: String) {
             self.deployed = deployed
@@ -537,9 +495,7 @@ extension Cloudsearch {
 
         public init(dictionary: [String: Any]) throws {
             self.deployed = dictionary["Deployed"] as? Bool
-            if let fieldNames = dictionary["FieldNames"] as? [String] {
-                self.fieldNames = fieldNames
-            }
+            self.fieldNames = dictionary["FieldNames"] as? [String]
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
         }
@@ -548,26 +504,22 @@ extension Cloudsearch {
     public struct DeleteDomainResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var domainStatus: DomainStatus? = nil
-
-        public init() {}
+        public let domainStatus: DomainStatus?
 
         public init(domainStatus: DomainStatus? = nil) {
             self.domainStatus = domainStatus
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let domainStatus = dictionary["DomainStatus"] as? [String: Any] { self.domainStatus = try Cloudsearch.DomainStatus(dictionary: domainStatus) }
+            if let domainStatus = dictionary["DomainStatus"] as? [String: Any] { self.domainStatus = try Cloudsearch.DomainStatus(dictionary: domainStatus) } else { self.domainStatus = nil }
         }
     }
 
     public struct Suggester: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var suggesterName: String = ""
-        public var documentSuggesterOptions: DocumentSuggesterOptions = DocumentSuggesterOptions()
-
-        public init() {}
+        public let suggesterName: String
+        public let documentSuggesterOptions: DocumentSuggesterOptions
 
         public init(suggesterName: String, documentSuggesterOptions: DocumentSuggesterOptions) {
             self.suggesterName = suggesterName
@@ -586,13 +538,11 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of replicas you want to preconfigure for each index partition.
-        public var desiredReplicationCount: Int32? = nil
+        public let desiredReplicationCount: Int32?
         /// The instance type that you want to preconfigure for your domain. For example, search.m1.small.
-        public var desiredInstanceType: String? = nil
+        public let desiredInstanceType: String?
         /// The number of partitions you want to preconfigure for your domain. Only valid when you select m2.2xlarge as the desired instance type.
-        public var desiredPartitionCount: Int32? = nil
-
-        public init() {}
+        public let desiredPartitionCount: Int32?
 
         public init(desiredReplicationCount: Int32? = nil, desiredInstanceType: String? = nil, desiredPartitionCount: Int32? = nil) {
             self.desiredReplicationCount = desiredReplicationCount
@@ -611,11 +561,9 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
-        public var deployed: Bool? = nil
+        public let deployed: Bool?
         /// The name of the domain you want to describe.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(deployed: Bool? = nil, domainName: String) {
             self.deployed = deployed
@@ -632,16 +580,14 @@ extension Cloudsearch {
     public struct CreateDomainResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var domainStatus: DomainStatus? = nil
-
-        public init() {}
+        public let domainStatus: DomainStatus?
 
         public init(domainStatus: DomainStatus? = nil) {
             self.domainStatus = domainStatus
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let domainStatus = dictionary["DomainStatus"] as? [String: Any] { self.domainStatus = try Cloudsearch.DomainStatus(dictionary: domainStatus) }
+            if let domainStatus = dictionary["DomainStatus"] as? [String: Any] { self.domainStatus = try Cloudsearch.DomainStatus(dictionary: domainStatus) } else { self.domainStatus = nil }
         }
     }
 
@@ -649,13 +595,11 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// An expression that computes a score for each suggestion to control how they are sorted. The scores are rounded to the nearest integer, with a floor of 0 and a ceiling of 2^31-1. A document's relevance score is not computed for suggestions, so sort expressions cannot reference the _score value. To sort suggestions using a numeric field or existing expression, simply specify the name of the field or expression. If no expression is configured for the suggester, the suggestions are sorted with the closest matches listed first.
-        public var sortExpression: String? = nil
+        public let sortExpression: String?
         /// The level of fuzziness allowed when suggesting matches for a string: none, low, or high. With none, the specified string is treated as an exact prefix. With low, suggestions must differ from the specified string by no more than one character. With high, suggestions can differ by up to two characters. The default is none. 
-        public var fuzzyMatching: String? = nil
+        public let fuzzyMatching: String?
         /// The name of the index field you want to use for suggestions. 
-        public var sourceField: String = ""
-
-        public init() {}
+        public let sourceField: String
 
         public init(sortExpression: String? = nil, fuzzyMatching: String? = nil, sourceField: String) {
             self.sortExpression = sortExpression
@@ -674,10 +618,8 @@ extension Cloudsearch {
     public struct DefineExpressionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var domainName: String = ""
-        public var expression: Expression = Expression()
-
-        public init() {}
+        public let domainName: String
+        public let expression: Expression
 
         public init(domainName: String, expression: Expression) {
             self.domainName = domainName
@@ -696,17 +638,15 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of an analysis scheme for a text-array field.
-        public var analysisScheme: String? = nil
+        public let analysisScheme: String?
         /// Whether the contents of the field can be returned in the search results.
-        public var returnEnabled: Bool? = nil
+        public let returnEnabled: Bool?
         /// A list of source fields to map to the field. 
-        public var sourceFields: String? = nil
+        public let sourceFields: String?
         /// Whether highlights can be returned for the field.
-        public var highlightEnabled: Bool? = nil
+        public let highlightEnabled: Bool?
         /// A value to use for the field if the field isn't specified for a document.
-        public var defaultValue: String? = nil
-
-        public init() {}
+        public let defaultValue: String?
 
         public init(analysisScheme: String? = nil, returnEnabled: Bool? = nil, sourceFields: String? = nil, highlightEnabled: Bool? = nil, defaultValue: String? = nil) {
             self.analysisScheme = analysisScheme
@@ -728,9 +668,7 @@ extension Cloudsearch {
     public struct DescribeDomainsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var domainStatusList: [DomainStatus] = []
-
-        public init() {}
+        public let domainStatusList: [DomainStatus]
 
         public init(domainStatusList: [DomainStatus]) {
             self.domainStatusList = domainStatusList
@@ -746,9 +684,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the suggester being deleted.
-        public var suggester: SuggesterStatus = SuggesterStatus()
-
-        public init() {}
+        public let suggester: SuggesterStatus
 
         public init(suggester: SuggesterStatus) {
             self.suggester = suggester
@@ -764,10 +700,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The index field and field options you want to configure. 
-        public var indexField: IndexField = IndexField()
-        public var domainName: String = ""
-
-        public init() {}
+        public let indexField: IndexField
+        public let domainName: String
 
         public init(indexField: IndexField, domainName: String) {
             self.indexField = indexField
@@ -785,10 +719,8 @@ extension Cloudsearch {
     public struct DefineAnalysisSchemeRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var analysisScheme: AnalysisScheme = AnalysisScheme()
-        public var domainName: String = ""
-
-        public init() {}
+        public let analysisScheme: AnalysisScheme
+        public let domainName: String
 
         public init(analysisScheme: AnalysisScheme, domainName: String) {
             self.analysisScheme = analysisScheme
@@ -807,9 +739,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the domain you want to permanently delete.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
@@ -824,9 +754,7 @@ extension Cloudsearch {
     public struct IndexDocumentsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
@@ -842,10 +770,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the Expression to delete.
-        public var expressionName: String = ""
-        public var domainName: String = ""
-
-        public init() {}
+        public let expressionName: String
+        public let domainName: String
 
         public init(expressionName: String, domainName: String) {
             self.expressionName = expressionName
@@ -863,10 +789,8 @@ extension Cloudsearch {
     public struct IndexFieldStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var options: IndexField = IndexField()
-        public var status: OptionStatus = OptionStatus()
-
-        public init() {}
+        public let options: IndexField
+        public let status: OptionStatus
 
         public init(options: IndexField, status: OptionStatus) {
             self.options = options
@@ -885,10 +809,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the analysis scheme you want to delete.
-        public var analysisSchemeName: String = ""
-        public var domainName: String = ""
-
-        public init() {}
+        public let analysisSchemeName: String
+        public let domainName: String
 
         public init(analysisSchemeName: String, domainName: String) {
             self.analysisSchemeName = analysisSchemeName
@@ -906,10 +828,8 @@ extension Cloudsearch {
     public struct ScalingParametersStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var options: ScalingParameters = ScalingParameters()
-        public var status: OptionStatus = OptionStatus()
-
-        public init() {}
+        public let options: ScalingParameters
+        public let status: OptionStatus
 
         public init(options: ScalingParameters, status: OptionStatus) {
             self.options = options
@@ -928,17 +848,15 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// A JSON object that contains a collection of string:value pairs that each map a term to its stem. For example, {"term1": "stem1", "term2": "stem2", "term3": "stem3"}. The stemming dictionary is applied in addition to any algorithmic stemming. This enables you to override the results of the algorithmic stemming to correct specific cases of overstemming or understemming. The maximum size of a stemming dictionary is 500 KB.
-        public var stemmingDictionary: String? = nil
+        public let stemmingDictionary: String?
         /// A JSON array that contains a collection of terms, tokens, readings and part of speech for Japanese Tokenizaiton. The Japanese tokenization dictionary enables you to override the default tokenization for selected terms. This is only valid for Japanese language fields.
-        public var japaneseTokenizationDictionary: String? = nil
+        public let japaneseTokenizationDictionary: String?
         /// A JSON array of terms to ignore during indexing and searching. For example, ["a", "an", "the", "of"]. The stopwords dictionary must explicitly list each word you want to ignore. Wildcards and regular expressions are not supported. 
-        public var stopwords: String? = nil
+        public let stopwords: String?
         /// The level of algorithmic stemming to perform: none, minimal, light, or full. The available levels vary depending on the language. For more information, see Language Specific Text Processing Settings in the Amazon CloudSearch Developer Guide 
-        public var algorithmicStemming: String? = nil
+        public let algorithmicStemming: String?
         /// A JSON object that defines synonym groups and aliases. A synonym group is an array of arrays, where each sub-array is a group of terms where each term in the group is considered a synonym of every other term in the group. The aliases value is an object that contains a collection of string:value pairs where the string specifies a term and the array of values specifies each of the aliases for that term. An alias is considered a synonym of the specified term, but the term is not considered a synonym of the alias. For more information about specifying synonyms, see Synonyms in the Amazon CloudSearch Developer Guide.
-        public var synonyms: String? = nil
-
-        public init() {}
+        public let synonyms: String?
 
         public init(stemmingDictionary: String? = nil, japaneseTokenizationDictionary: String? = nil, stopwords: String? = nil, algorithmicStemming: String? = nil, synonyms: String? = nil) {
             self.stemmingDictionary = stemmingDictionary
@@ -961,10 +879,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The access rules you want to configure. These rules replace any existing rules. 
-        public var accessPolicies: String = ""
-        public var domainName: String = ""
-
-        public init() {}
+        public let accessPolicies: String
+        public let domainName: String
 
         public init(accessPolicies: String, domainName: String) {
             self.accessPolicies = accessPolicies
@@ -983,17 +899,15 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        public var returnEnabled: Bool? = nil
+        public let returnEnabled: Bool?
         /// A list of source fields to map to the field. 
-        public var sourceFields: String? = nil
+        public let sourceFields: String?
         /// Whether facet information can be returned for the field.
-        public var facetEnabled: Bool? = nil
+        public let facetEnabled: Bool?
         /// Whether the contents of the field are searchable.
-        public var searchEnabled: Bool? = nil
+        public let searchEnabled: Bool?
         /// A value to use for the field if the field isn't specified for a document.
-        public var defaultValue: String? = nil
-
-        public init() {}
+        public let defaultValue: String?
 
         public init(returnEnabled: Bool? = nil, sourceFields: String? = nil, facetEnabled: Bool? = nil, searchEnabled: Bool? = nil, defaultValue: String? = nil) {
             self.returnEnabled = returnEnabled
@@ -1016,9 +930,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the analysis scheme being deleted.
-        public var analysisScheme: AnalysisSchemeStatus = AnalysisSchemeStatus()
-
-        public init() {}
+        public let analysisScheme: AnalysisSchemeStatus
 
         public init(analysisScheme: AnalysisSchemeStatus) {
             self.analysisScheme = analysisScheme
@@ -1033,28 +945,22 @@ extension Cloudsearch {
     public struct BuildSuggestersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var fieldNames: [String]? = nil
-
-        public init() {}
+        public let fieldNames: [String]?
 
         public init(fieldNames: [String]? = nil) {
             self.fieldNames = fieldNames
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let fieldNames = dictionary["FieldNames"] as? [String] {
-                self.fieldNames = fieldNames
-            }
+            self.fieldNames = dictionary["FieldNames"] as? [String]
         }
     }
 
     public struct AnalysisSchemeStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var options: AnalysisScheme = AnalysisScheme()
-        public var status: OptionStatus = OptionStatus()
-
-        public init() {}
+        public let options: AnalysisScheme
+        public let status: OptionStatus
 
         public init(options: AnalysisScheme, status: OptionStatus) {
             self.options = options
@@ -1072,10 +978,8 @@ extension Cloudsearch {
     public struct AccessPoliciesStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var options: String = ""
-        public var status: OptionStatus = OptionStatus()
-
-        public init() {}
+        public let options: String
+        public let status: OptionStatus
 
         public init(options: String, status: OptionStatus) {
             self.options = options
@@ -1094,18 +998,16 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of an analysis scheme for a text field.
-        public var analysisScheme: String? = nil
+        public let analysisScheme: String?
         /// Whether the contents of the field can be returned in the search results.
-        public var returnEnabled: Bool? = nil
-        public var sourceField: String? = nil
+        public let returnEnabled: Bool?
+        public let sourceField: String?
         /// Whether highlights can be returned for the field.
-        public var highlightEnabled: Bool? = nil
+        public let highlightEnabled: Bool?
         /// Whether the field can be used to sort the search results.
-        public var sortEnabled: Bool? = nil
+        public let sortEnabled: Bool?
         /// A value to use for the field if the field isn't specified for a document.
-        public var defaultValue: String? = nil
-
-        public init() {}
+        public let defaultValue: String?
 
         public init(analysisScheme: String? = nil, returnEnabled: Bool? = nil, sourceField: String? = nil, highlightEnabled: Bool? = nil, sortEnabled: Bool? = nil, defaultValue: String? = nil) {
             self.analysisScheme = analysisScheme
@@ -1130,27 +1032,21 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The names of the fields that are currently being indexed.
-        public var fieldNames: [String]? = nil
-
-        public init() {}
+        public let fieldNames: [String]?
 
         public init(fieldNames: [String]? = nil) {
             self.fieldNames = fieldNames
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let fieldNames = dictionary["FieldNames"] as? [String] {
-                self.fieldNames = fieldNames
-            }
+            self.fieldNames = dictionary["FieldNames"] as? [String]
         }
     }
 
     public struct DefineExpressionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var expression: ExpressionStatus = ExpressionStatus()
-
-        public init() {}
+        public let expression: ExpressionStatus
 
         public init(expression: ExpressionStatus) {
             self.expression = expression
@@ -1166,16 +1062,14 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The newly-configured availability options. Indicates whether Multi-AZ is enabled for the domain. 
-        public var availabilityOptions: AvailabilityOptionsStatus? = nil
-
-        public init() {}
+        public let availabilityOptions: AvailabilityOptionsStatus?
 
         public init(availabilityOptions: AvailabilityOptionsStatus? = nil) {
             self.availabilityOptions = availabilityOptions
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let availabilityOptions = dictionary["AvailabilityOptions"] as? [String: Any] { self.availabilityOptions = try Cloudsearch.AvailabilityOptionsStatus(dictionary: availabilityOptions) }
+            if let availabilityOptions = dictionary["AvailabilityOptions"] as? [String: Any] { self.availabilityOptions = try Cloudsearch.AvailabilityOptionsStatus(dictionary: availabilityOptions) } else { self.availabilityOptions = nil }
         }
     }
 
@@ -1183,17 +1077,15 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        public var returnEnabled: Bool? = nil
+        public let returnEnabled: Bool?
         /// A list of source fields to map to the field. 
-        public var sourceFields: String? = nil
+        public let sourceFields: String?
         /// Whether facet information can be returned for the field.
-        public var facetEnabled: Bool? = nil
+        public let facetEnabled: Bool?
         /// Whether the contents of the field are searchable.
-        public var searchEnabled: Bool? = nil
+        public let searchEnabled: Bool?
         /// A value to use for the field if the field isn't specified for a document.
-        public var defaultValue: String? = nil
-
-        public init() {}
+        public let defaultValue: String?
 
         public init(returnEnabled: Bool? = nil, sourceFields: String? = nil, facetEnabled: Bool? = nil, searchEnabled: Bool? = nil, defaultValue: String? = nil) {
             self.returnEnabled = returnEnabled
@@ -1216,17 +1108,15 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        public var returnEnabled: Bool? = nil
+        public let returnEnabled: Bool?
         /// A list of source fields to map to the field. 
-        public var sourceFields: String? = nil
+        public let sourceFields: String?
         /// Whether facet information can be returned for the field.
-        public var facetEnabled: Bool? = nil
+        public let facetEnabled: Bool?
         /// Whether the contents of the field are searchable.
-        public var searchEnabled: Bool? = nil
+        public let searchEnabled: Bool?
         /// A value to use for the field if the field isn't specified for a document.
-        public var defaultValue: Int64? = nil
-
-        public init() {}
+        public let defaultValue: Int64?
 
         public init(returnEnabled: Bool? = nil, sourceFields: String? = nil, facetEnabled: Bool? = nil, searchEnabled: Bool? = nil, defaultValue: Int64? = nil) {
             self.returnEnabled = returnEnabled
@@ -1249,9 +1139,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The analysis scheme descriptions.
-        public var analysisSchemes: [AnalysisSchemeStatus] = []
-
-        public init() {}
+        public let analysisSchemes: [AnalysisSchemeStatus]
 
         public init(analysisSchemes: [AnalysisSchemeStatus]) {
             self.analysisSchemes = analysisSchemes
@@ -1267,9 +1155,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The expressions configured for the domain.
-        public var expressions: [ExpressionStatus] = []
-
-        public init() {}
+        public let expressions: [ExpressionStatus]
 
         public init(expressions: [ExpressionStatus]) {
             self.expressions = expressions
@@ -1284,10 +1170,8 @@ extension Cloudsearch {
     public struct Expression: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var expressionValue: String = ""
-        public var expressionName: String = ""
-
-        public init() {}
+        public let expressionValue: String
+        public let expressionName: String
 
         public init(expressionValue: String, expressionName: String) {
             self.expressionValue = expressionValue
@@ -1305,10 +1189,8 @@ extension Cloudsearch {
     public struct SuggesterStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var options: Suggester = Suggester()
-        public var status: OptionStatus = OptionStatus()
-
-        public init() {}
+        public let options: Suggester
+        public let status: OptionStatus
 
         public init(options: Suggester, status: OptionStatus) {
             self.options = options
@@ -1327,13 +1209,11 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
-        public var deployed: Bool? = nil
+        public let deployed: Bool?
         /// The suggesters you want to describe.
-        public var suggesterNames: [String]? = nil
+        public let suggesterNames: [String]?
         /// The name of the domain you want to describe.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(deployed: Bool? = nil, suggesterNames: [String]? = nil, domainName: String) {
             self.deployed = deployed
@@ -1343,9 +1223,7 @@ extension Cloudsearch {
 
         public init(dictionary: [String: Any]) throws {
             self.deployed = dictionary["Deployed"] as? Bool
-            if let suggesterNames = dictionary["SuggesterNames"] as? [String] {
-                self.suggesterNames = suggesterNames
-            }
+            self.suggesterNames = dictionary["SuggesterNames"] as? [String]
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
         }
@@ -1354,22 +1232,20 @@ extension Cloudsearch {
     public struct IndexField: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var intOptions: IntOptions? = nil
-        public var dateOptions: DateOptions? = nil
-        public var textArrayOptions: TextArrayOptions? = nil
-        public var doubleOptions: DoubleOptions? = nil
-        public var literalArrayOptions: LiteralArrayOptions? = nil
-        public var intArrayOptions: IntArrayOptions? = nil
-        public var indexFieldType: String = ""
+        public let intOptions: IntOptions?
+        public let dateOptions: DateOptions?
+        public let textArrayOptions: TextArrayOptions?
+        public let doubleOptions: DoubleOptions?
+        public let literalArrayOptions: LiteralArrayOptions?
+        public let intArrayOptions: IntArrayOptions?
+        public let indexFieldType: String
         /// A string that represents the name of an index field. CloudSearch supports regular index fields as well as dynamic fields. A dynamic field's name defines a pattern that begins or ends with a wildcard. Any document fields that don't map to a regular index field but do match a dynamic field's pattern are configured with the dynamic field's indexing options.  Regular field names begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore). Dynamic field names must begin or end with a wildcard (*). The wildcard can also be the only character in a dynamic field name. Multiple wildcards, and wildcards embedded within a string are not supported.  The name score is reserved and cannot be used as a field name. To reference a document's ID, you can use the name _id. 
-        public var indexFieldName: String = ""
-        public var dateArrayOptions: DateArrayOptions? = nil
-        public var literalOptions: LiteralOptions? = nil
-        public var latLonOptions: LatLonOptions? = nil
-        public var textOptions: TextOptions? = nil
-        public var doubleArrayOptions: DoubleArrayOptions? = nil
-
-        public init() {}
+        public let indexFieldName: String
+        public let dateArrayOptions: DateArrayOptions?
+        public let literalOptions: LiteralOptions?
+        public let latLonOptions: LatLonOptions?
+        public let textOptions: TextOptions?
+        public let doubleArrayOptions: DoubleArrayOptions?
 
         public init(intOptions: IntOptions? = nil, dateOptions: DateOptions? = nil, textArrayOptions: TextArrayOptions? = nil, doubleOptions: DoubleOptions? = nil, literalArrayOptions: LiteralArrayOptions? = nil, intArrayOptions: IntArrayOptions? = nil, indexFieldType: String, indexFieldName: String, dateArrayOptions: DateArrayOptions? = nil, literalOptions: LiteralOptions? = nil, latLonOptions: LatLonOptions? = nil, textOptions: TextOptions? = nil, doubleArrayOptions: DoubleArrayOptions? = nil) {
             self.intOptions = intOptions
@@ -1388,21 +1264,21 @@ extension Cloudsearch {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let intOptions = dictionary["IntOptions"] as? [String: Any] { self.intOptions = try Cloudsearch.IntOptions(dictionary: intOptions) }
-            if let dateOptions = dictionary["DateOptions"] as? [String: Any] { self.dateOptions = try Cloudsearch.DateOptions(dictionary: dateOptions) }
-            if let textArrayOptions = dictionary["TextArrayOptions"] as? [String: Any] { self.textArrayOptions = try Cloudsearch.TextArrayOptions(dictionary: textArrayOptions) }
-            if let doubleOptions = dictionary["DoubleOptions"] as? [String: Any] { self.doubleOptions = try Cloudsearch.DoubleOptions(dictionary: doubleOptions) }
-            if let literalArrayOptions = dictionary["LiteralArrayOptions"] as? [String: Any] { self.literalArrayOptions = try Cloudsearch.LiteralArrayOptions(dictionary: literalArrayOptions) }
-            if let intArrayOptions = dictionary["IntArrayOptions"] as? [String: Any] { self.intArrayOptions = try Cloudsearch.IntArrayOptions(dictionary: intArrayOptions) }
+            if let intOptions = dictionary["IntOptions"] as? [String: Any] { self.intOptions = try Cloudsearch.IntOptions(dictionary: intOptions) } else { self.intOptions = nil }
+            if let dateOptions = dictionary["DateOptions"] as? [String: Any] { self.dateOptions = try Cloudsearch.DateOptions(dictionary: dateOptions) } else { self.dateOptions = nil }
+            if let textArrayOptions = dictionary["TextArrayOptions"] as? [String: Any] { self.textArrayOptions = try Cloudsearch.TextArrayOptions(dictionary: textArrayOptions) } else { self.textArrayOptions = nil }
+            if let doubleOptions = dictionary["DoubleOptions"] as? [String: Any] { self.doubleOptions = try Cloudsearch.DoubleOptions(dictionary: doubleOptions) } else { self.doubleOptions = nil }
+            if let literalArrayOptions = dictionary["LiteralArrayOptions"] as? [String: Any] { self.literalArrayOptions = try Cloudsearch.LiteralArrayOptions(dictionary: literalArrayOptions) } else { self.literalArrayOptions = nil }
+            if let intArrayOptions = dictionary["IntArrayOptions"] as? [String: Any] { self.intArrayOptions = try Cloudsearch.IntArrayOptions(dictionary: intArrayOptions) } else { self.intArrayOptions = nil }
             guard let indexFieldType = dictionary["IndexFieldType"] as? String else { throw InitializableError.missingRequiredParam("IndexFieldType") }
             self.indexFieldType = indexFieldType
             guard let indexFieldName = dictionary["IndexFieldName"] as? String else { throw InitializableError.missingRequiredParam("IndexFieldName") }
             self.indexFieldName = indexFieldName
-            if let dateArrayOptions = dictionary["DateArrayOptions"] as? [String: Any] { self.dateArrayOptions = try Cloudsearch.DateArrayOptions(dictionary: dateArrayOptions) }
-            if let literalOptions = dictionary["LiteralOptions"] as? [String: Any] { self.literalOptions = try Cloudsearch.LiteralOptions(dictionary: literalOptions) }
-            if let latLonOptions = dictionary["LatLonOptions"] as? [String: Any] { self.latLonOptions = try Cloudsearch.LatLonOptions(dictionary: latLonOptions) }
-            if let textOptions = dictionary["TextOptions"] as? [String: Any] { self.textOptions = try Cloudsearch.TextOptions(dictionary: textOptions) }
-            if let doubleArrayOptions = dictionary["DoubleArrayOptions"] as? [String: Any] { self.doubleArrayOptions = try Cloudsearch.DoubleArrayOptions(dictionary: doubleArrayOptions) }
+            if let dateArrayOptions = dictionary["DateArrayOptions"] as? [String: Any] { self.dateArrayOptions = try Cloudsearch.DateArrayOptions(dictionary: dateArrayOptions) } else { self.dateArrayOptions = nil }
+            if let literalOptions = dictionary["LiteralOptions"] as? [String: Any] { self.literalOptions = try Cloudsearch.LiteralOptions(dictionary: literalOptions) } else { self.literalOptions = nil }
+            if let latLonOptions = dictionary["LatLonOptions"] as? [String: Any] { self.latLonOptions = try Cloudsearch.LatLonOptions(dictionary: latLonOptions) } else { self.latLonOptions = nil }
+            if let textOptions = dictionary["TextOptions"] as? [String: Any] { self.textOptions = try Cloudsearch.TextOptions(dictionary: textOptions) } else { self.textOptions = nil }
+            if let doubleArrayOptions = dictionary["DoubleArrayOptions"] as? [String: Any] { self.doubleArrayOptions = try Cloudsearch.DoubleArrayOptions(dictionary: doubleArrayOptions) } else { self.doubleArrayOptions = nil }
         }
     }
 
@@ -1410,18 +1286,16 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        public var returnEnabled: Bool? = nil
+        public let returnEnabled: Bool?
         /// Whether facet information can be returned for the field.
-        public var facetEnabled: Bool? = nil
-        public var sourceField: String? = nil
+        public let facetEnabled: Bool?
+        public let sourceField: String?
         /// Whether the contents of the field are searchable.
-        public var searchEnabled: Bool? = nil
+        public let searchEnabled: Bool?
         /// Whether the field can be used to sort the search results.
-        public var sortEnabled: Bool? = nil
+        public let sortEnabled: Bool?
         /// A value to use for the field if the field isn't specified for a document.
-        public var defaultValue: String? = nil
-
-        public init() {}
+        public let defaultValue: String?
 
         public init(returnEnabled: Bool? = nil, facetEnabled: Bool? = nil, sourceField: String? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, defaultValue: String? = nil) {
             self.returnEnabled = returnEnabled
@@ -1446,13 +1320,11 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
-        public var deployed: Bool? = nil
+        public let deployed: Bool?
         /// Limits the DescribeExpressions response to the specified expressions. If not specified, all expressions are shown.
-        public var expressionNames: [String]? = nil
+        public let expressionNames: [String]?
         /// The name of the domain you want to describe.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(deployed: Bool? = nil, expressionNames: [String]? = nil, domainName: String) {
             self.deployed = deployed
@@ -1462,9 +1334,7 @@ extension Cloudsearch {
 
         public init(dictionary: [String: Any]) throws {
             self.deployed = dictionary["Deployed"] as? Bool
-            if let expressionNames = dictionary["ExpressionNames"] as? [String] {
-                self.expressionNames = expressionNames
-            }
+            self.expressionNames = dictionary["ExpressionNames"] as? [String]
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
         }
@@ -1474,19 +1344,17 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        public var returnEnabled: Bool? = nil
+        public let returnEnabled: Bool?
         /// Whether facet information can be returned for the field.
-        public var facetEnabled: Bool? = nil
+        public let facetEnabled: Bool?
         /// The name of the source field to map to the field. 
-        public var sourceField: String? = nil
+        public let sourceField: String?
         /// Whether the contents of the field are searchable.
-        public var searchEnabled: Bool? = nil
+        public let searchEnabled: Bool?
         /// Whether the field can be used to sort the search results.
-        public var sortEnabled: Bool? = nil
+        public let sortEnabled: Bool?
         /// A value to use for the field if the field isn't specified for a document. This can be important if you are using the field in an expression and that field is not present in every document.
-        public var defaultValue: Double? = nil
-
-        public init() {}
+        public let defaultValue: Double?
 
         public init(returnEnabled: Bool? = nil, facetEnabled: Bool? = nil, sourceField: String? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, defaultValue: Double? = nil) {
             self.returnEnabled = returnEnabled
@@ -1511,18 +1379,16 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
-        public var returnEnabled: Bool? = nil
+        public let returnEnabled: Bool?
         /// Whether facet information can be returned for the field.
-        public var facetEnabled: Bool? = nil
-        public var sourceField: String? = nil
+        public let facetEnabled: Bool?
+        public let sourceField: String?
         /// Whether the contents of the field are searchable.
-        public var searchEnabled: Bool? = nil
+        public let searchEnabled: Bool?
         /// Whether the field can be used to sort the search results.
-        public var sortEnabled: Bool? = nil
+        public let sortEnabled: Bool?
         /// A value to use for the field if the field isn't specified for a document.
-        public var defaultValue: String? = nil
-
-        public init() {}
+        public let defaultValue: String?
 
         public init(returnEnabled: Bool? = nil, facetEnabled: Bool? = nil, sourceField: String? = nil, searchEnabled: Bool? = nil, sortEnabled: Bool? = nil, defaultValue: String? = nil) {
             self.returnEnabled = returnEnabled
@@ -1547,10 +1413,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// You expand an existing search domain to a second Availability Zone by setting the Multi-AZ option to true. Similarly, you can turn off the Multi-AZ option to downgrade the domain to a single Availability Zone by setting the Multi-AZ option to false. 
-        public var multiAZ: Bool = false
-        public var domainName: String = ""
-
-        public init() {}
+        public let multiAZ: Bool
+        public let domainName: String
 
         public init(multiAZ: Bool, domainName: String) {
             self.multiAZ = multiAZ
@@ -1569,9 +1433,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The access rules configured for the domain specified in the request.
-        public var accessPolicies: AccessPoliciesStatus = AccessPoliciesStatus()
-
-        public init() {}
+        public let accessPolicies: AccessPoliciesStatus
 
         public init(accessPolicies: AccessPoliciesStatus) {
             self.accessPolicies = accessPolicies
@@ -1586,9 +1448,7 @@ extension Cloudsearch {
     public struct BuildSuggestersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
@@ -1604,10 +1464,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The availability options configured for the domain.
-        public var options: Bool = false
-        public var status: OptionStatus = OptionStatus()
-
-        public init() {}
+        public let options: Bool
+        public let status: OptionStatus
 
         public init(options: Bool, status: OptionStatus) {
             self.options = options
@@ -1625,9 +1483,7 @@ extension Cloudsearch {
     public struct ServiceEndpoint: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var endpoint: String? = nil
-
-        public init() {}
+        public let endpoint: String?
 
         public init(endpoint: String? = nil) {
             self.endpoint = endpoint
@@ -1642,10 +1498,8 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the name of the suggester you want to delete.
-        public var suggesterName: String = ""
-        public var domainName: String = ""
-
-        public init() {}
+        public let suggesterName: String
+        public let domainName: String
 
         public init(suggesterName: String, domainName: String) {
             self.suggesterName = suggesterName
@@ -1663,10 +1517,8 @@ extension Cloudsearch {
     public struct Limits: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var maximumReplicationCount: Int32 = 0
-        public var maximumPartitionCount: Int32 = 0
-
-        public init() {}
+        public let maximumReplicationCount: Int32
+        public let maximumPartitionCount: Int32
 
         public init(maximumReplicationCount: Int32, maximumPartitionCount: Int32) {
             self.maximumReplicationCount = maximumReplicationCount
@@ -1685,9 +1537,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The index fields configured for the domain.
-        public var indexFields: [IndexFieldStatus] = []
-
-        public init() {}
+        public let indexFields: [IndexFieldStatus]
 
         public init(indexFields: [IndexFieldStatus]) {
             self.indexFields = indexFields
@@ -1702,10 +1552,8 @@ extension Cloudsearch {
     public struct UpdateScalingParametersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var scalingParameters: ScalingParameters = ScalingParameters()
-        public var domainName: String = ""
-
-        public init() {}
+        public let scalingParameters: ScalingParameters
+        public let domainName: String
 
         public init(scalingParameters: ScalingParameters, domainName: String) {
             self.scalingParameters = scalingParameters
@@ -1723,9 +1571,7 @@ extension Cloudsearch {
     public struct DefineAnalysisSchemeResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var analysisScheme: AnalysisSchemeStatus = AnalysisSchemeStatus()
-
-        public init() {}
+        public let analysisScheme: AnalysisSchemeStatus
 
         public init(analysisScheme: AnalysisSchemeStatus) {
             self.analysisScheme = analysisScheme
@@ -1740,9 +1586,7 @@ extension Cloudsearch {
     public struct DefineSuggesterResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var suggester: SuggesterStatus = SuggesterStatus()
-
-        public init() {}
+        public let suggester: SuggesterStatus
 
         public init(suggester: SuggesterStatus) {
             self.suggester = suggester
@@ -1757,9 +1601,7 @@ extension Cloudsearch {
     public struct DefineIndexFieldResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var indexField: IndexFieldStatus = IndexFieldStatus()
-
-        public init() {}
+        public let indexField: IndexFieldStatus
 
         public init(indexField: IndexFieldStatus) {
             self.indexField = indexField
@@ -1775,9 +1617,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The suggesters configured for the domain specified in the request.
-        public var suggesters: [SuggesterStatus] = []
-
-        public init() {}
+        public let suggesters: [SuggesterStatus]
 
         public init(suggesters: [SuggesterStatus]) {
             self.suggesters = suggesters
@@ -1793,16 +1633,14 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// The availability options configured for the domain. Indicates whether Multi-AZ is enabled for the domain. 
-        public var availabilityOptions: AvailabilityOptionsStatus? = nil
-
-        public init() {}
+        public let availabilityOptions: AvailabilityOptionsStatus?
 
         public init(availabilityOptions: AvailabilityOptionsStatus? = nil) {
             self.availabilityOptions = availabilityOptions
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let availabilityOptions = dictionary["AvailabilityOptions"] as? [String: Any] { self.availabilityOptions = try Cloudsearch.AvailabilityOptionsStatus(dictionary: availabilityOptions) }
+            if let availabilityOptions = dictionary["AvailabilityOptions"] as? [String: Any] { self.availabilityOptions = try Cloudsearch.AvailabilityOptionsStatus(dictionary: availabilityOptions) } else { self.availabilityOptions = nil }
         }
     }
 
@@ -1810,9 +1648,7 @@ extension Cloudsearch {
         /// The key for the payload
         public static let payload: String? = nil
         /// A name for the domain you are creating. Allowed characters are a-z (lower-case letters), 0-9, and hyphen (-). Domain names must start with a letter or number and be at least 3 and no more than 28 characters long.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName

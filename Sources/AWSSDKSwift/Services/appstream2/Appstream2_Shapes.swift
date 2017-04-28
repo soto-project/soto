@@ -33,11 +33,9 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The list of streaming sessions.
-        public var sessions: [Session]? = nil
-
-        public init() {}
+        public let sessions: [Session]?
 
         public init(nextToken: String? = nil, sessions: [Session]? = nil) {
             self.nextToken = nextToken
@@ -48,6 +46,8 @@ extension Appstream2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let sessions = dictionary["Sessions"] as? [[String: Any]] {
                 self.sessions = try sessions.map({ try Session(dictionary: $0) })
+            } else { 
+                self.sessions = nil
             }
         }
     }
@@ -56,11 +56,9 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the stack whose associated fleets are listed.
-        public var stackName: String = ""
+        public let stackName: String
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(stackName: String, nextToken: String? = nil) {
             self.stackName = stackName
@@ -78,11 +76,9 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of stack details.
-        public var stacks: [Stack]? = nil
+        public let stacks: [Stack]?
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(stacks: [Stack]? = nil, nextToken: String? = nil) {
             self.stacks = stacks
@@ -92,6 +88,8 @@ extension Appstream2 {
         public init(dictionary: [String: Any]) throws {
             if let stacks = dictionary["Stacks"] as? [[String: Any]] {
                 self.stacks = try stacks.map({ try Stack(dictionary: $0) })
+            } else { 
+                self.stacks = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -101,8 +99,6 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -111,9 +107,7 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The desired number of streaming instances.
-        public var desiredInstances: Int32 = 0
-
-        public init() {}
+        public let desiredInstances: Int32
 
         public init(desiredInstances: Int32) {
             self.desiredInstances = desiredInstances
@@ -129,18 +123,14 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A specific list of images to describe.
-        public var names: [String]? = nil
-
-        public init() {}
+        public let names: [String]?
 
         public init(names: [String]? = nil) {
             self.names = names
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let names = dictionary["Names"] as? [String] {
-                self.names = names
-            }
+            self.names = dictionary["Names"] as? [String]
         }
     }
 
@@ -148,9 +138,7 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of images.
-        public var images: [Image]? = nil
-
-        public init() {}
+        public let images: [Image]?
 
         public init(images: [Image]? = nil) {
             self.images = images
@@ -159,6 +147,8 @@ extension Appstream2 {
         public init(dictionary: [String: Any]) throws {
             if let images = dictionary["Images"] as? [[String: Any]] {
                 self.images = try images.map({ try Image(dictionary: $0) })
+            } else { 
+                self.images = nil
             }
         }
     }
@@ -167,17 +157,15 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user for whom to list sessions. Use null to describe all the sessions for the stack and fleet.
-        public var userId: String? = nil
+        public let userId: String?
         /// The size of each page of results. The default value is 20 and the maximum supported value is 50.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The name of the stack for which to list sessions.
-        public var stackName: String = ""
+        public let stackName: String
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The name of the fleet for which to list sessions.
-        public var fleetName: String = ""
-
-        public init() {}
+        public let fleetName: String
 
         public init(userId: String? = nil, limit: Int32? = nil, stackName: String, nextToken: String? = nil, fleetName: String) {
             self.userId = userId
@@ -202,17 +190,15 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the user for whom the session was created.
-        public var userId: String = ""
+        public let userId: String
         /// The name of the stack for which the streaming session was created.
-        public var stackName: String = ""
+        public let stackName: String
         /// The current state of the streaming session.
-        public var state: String = ""
+        public let state: String
         /// The name of the fleet for which the streaming session was created.
-        public var fleetName: String = ""
+        public let fleetName: String
         /// The unique ID for a streaming session.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(userId: String, stackName: String, state: String, fleetName: String, id: String) {
             self.userId = userId
@@ -240,11 +226,9 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The names of associated fleets.
-        public var names: [String]? = nil
-
-        public init() {}
+        public let names: [String]?
 
         public init(nextToken: String? = nil, names: [String]? = nil) {
             self.nextToken = nextToken
@@ -253,9 +237,7 @@ extension Appstream2 {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["NextToken"] as? String
-            if let names = dictionary["Names"] as? [String] {
-                self.names = names
-            }
+            self.names = dictionary["Names"] as? [String]
         }
     }
 
@@ -263,11 +245,9 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The fleet names to describe. Use null to describe all the fleets for the AWS account.
-        public var names: [String]? = nil
-
-        public init() {}
+        public let names: [String]?
 
         public init(nextToken: String? = nil, names: [String]? = nil) {
             self.nextToken = nextToken
@@ -276,9 +256,7 @@ extension Appstream2 {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["NextToken"] as? String
-            if let names = dictionary["Names"] as? [String] {
-                self.names = names
-            }
+            self.names = dictionary["Names"] as? [String]
         }
     }
 
@@ -286,11 +264,9 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The error message generated when the fleet has errors.
-        public var errorMessage: String? = nil
+        public let errorMessage: String?
         /// The error code for the fleet error.
-        public var errorCode: String? = nil
-
-        public init() {}
+        public let errorCode: String?
 
         public init(errorMessage: String? = nil, errorCode: String? = nil) {
             self.errorMessage = errorMessage
@@ -307,11 +283,9 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The names of associated stacks.
-        public var names: [String]? = nil
-
-        public init() {}
+        public let names: [String]?
 
         public init(nextToken: String? = nil, names: [String]? = nil) {
             self.nextToken = nextToken
@@ -320,9 +294,7 @@ extension Appstream2 {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["NextToken"] as? String
-            if let names = dictionary["Names"] as? [String] {
-                self.names = names
-            }
+            self.names = dictionary["Names"] as? [String]
         }
     }
 
@@ -330,24 +302,20 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of fleet details.
-        public var fleet: Fleet? = nil
-
-        public init() {}
+        public let fleet: Fleet?
 
         public init(fleet: Fleet? = nil) {
             self.fleet = fleet
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let fleet = dictionary["Fleet"] as? [String: Any] { self.fleet = try Appstream2.Fleet(dictionary: fleet) }
+            if let fleet = dictionary["Fleet"] as? [String: Any] { self.fleet = try Appstream2.Fleet(dictionary: fleet) } else { self.fleet = nil }
         }
     }
 
     public struct ExpireSessionResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -357,8 +325,6 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -366,8 +332,6 @@ extension Appstream2 {
     public struct DeleteFleetResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -377,25 +341,23 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The parameters for the capacity allocated to the fleet.
-        public var computeCapacity: ComputeCapacity = ComputeCapacity()
+        public let computeCapacity: ComputeCapacity
         /// The VPC configuration for the fleet.
-        public var vpcConfig: VpcConfig? = nil
+        public let vpcConfig: VpcConfig?
         /// A unique identifier for the fleet.
-        public var name: String = ""
+        public let name: String
         /// The display name of the fleet.
-        public var displayName: String? = nil
+        public let displayName: String?
         /// Unique name of the image used by the fleet.
-        public var imageName: String = ""
+        public let imageName: String
         /// The time after disconnection when a session is considered to have ended. If a user who got disconnected reconnects within this timeout interval, the user is connected back to his/her previous session. 
-        public var disconnectTimeoutInSeconds: Int32? = nil
+        public let disconnectTimeoutInSeconds: Int32?
         /// The maximum time up to which a streaming session can run.
-        public var maxUserDurationInSeconds: Int32? = nil
+        public let maxUserDurationInSeconds: Int32?
         /// The instance type of compute resources for the fleet. Fleet instances are launched from this instance type.
-        public var instanceType: String = ""
+        public let instanceType: String
         /// The description of the fleet.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(computeCapacity: ComputeCapacity, vpcConfig: VpcConfig? = nil, name: String, displayName: String? = nil, imageName: String, disconnectTimeoutInSeconds: Int32? = nil, maxUserDurationInSeconds: Int32? = nil, instanceType: String, description: String? = nil) {
             self.computeCapacity = computeCapacity
@@ -412,7 +374,7 @@ extension Appstream2 {
         public init(dictionary: [String: Any]) throws {
             guard let computeCapacity = dictionary["ComputeCapacity"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ComputeCapacity") }
             self.computeCapacity = try Appstream2.ComputeCapacity(dictionary: computeCapacity)
-            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Appstream2.VpcConfig(dictionary: vpcConfig) }
+            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Appstream2.VpcConfig(dictionary: vpcConfig) } else { self.vpcConfig = nil }
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
             self.displayName = dictionary["DisplayName"] as? String
@@ -430,17 +392,15 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A meaningful description for the stack.
-        public var description: String? = nil
+        public let description: String?
         /// The ARN of the stack.
-        public var arn: String? = nil
+        public let arn: String?
         /// The unique identifier of the stack.
-        public var name: String = ""
+        public let name: String
         /// The timestamp when the stack was created.
-        public var createdTime: Date? = nil
+        public let createdTime: Date?
         /// A display name for the stack.
-        public var displayName: String? = nil
-
-        public init() {}
+        public let displayName: String?
 
         public init(description: String? = nil, arn: String? = nil, name: String, createdTime: Date? = nil, displayName: String? = nil) {
             self.description = description
@@ -464,16 +424,14 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of stack details.
-        public var stack: Stack? = nil
-
-        public init() {}
+        public let stack: Stack?
 
         public init(stack: Stack? = nil) {
             self.stack = stack
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let stack = dictionary["Stack"] as? [String: Any] { self.stack = try Appstream2.Stack(dictionary: stack) }
+            if let stack = dictionary["Stack"] as? [String: Any] { self.stack = try Appstream2.Stack(dictionary: stack) } else { self.stack = nil }
         }
     }
 
@@ -481,27 +439,25 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Delete the VPC association for the specified fleet.
-        public var deleteVpcConfig: Bool? = nil
+        public let deleteVpcConfig: Bool?
         /// The parameters for the capacity allocated to the fleet. 
-        public var computeCapacity: ComputeCapacity? = nil
+        public let computeCapacity: ComputeCapacity?
         /// The VPC configuration for the fleet.
-        public var vpcConfig: VpcConfig? = nil
+        public let vpcConfig: VpcConfig?
         /// The name of the fleet.
-        public var name: String = ""
+        public let name: String
         /// The name displayed to end users on the AppStream 2.0 portal.
-        public var displayName: String? = nil
+        public let displayName: String?
         /// The image name from which a fleet is created.
-        public var imageName: String? = nil
+        public let imageName: String?
         /// The time after disconnection when a session is considered to have ended. When the user reconnects after a disconnection, the user is connected to the same instance within this time interval.
-        public var disconnectTimeoutInSeconds: Int32? = nil
+        public let disconnectTimeoutInSeconds: Int32?
         /// The maximum time during which a streaming session can run.
-        public var maxUserDurationInSeconds: Int32? = nil
+        public let maxUserDurationInSeconds: Int32?
         /// The instance type of compute resources for the fleet. Fleet instances are launched from this instance type.
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// The description displayed to end users on the AppStream 2.0 portal.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(deleteVpcConfig: Bool? = nil, computeCapacity: ComputeCapacity? = nil, vpcConfig: VpcConfig? = nil, name: String, displayName: String? = nil, imageName: String? = nil, disconnectTimeoutInSeconds: Int32? = nil, maxUserDurationInSeconds: Int32? = nil, instanceType: String? = nil, description: String? = nil) {
             self.deleteVpcConfig = deleteVpcConfig
@@ -518,8 +474,8 @@ extension Appstream2 {
 
         public init(dictionary: [String: Any]) throws {
             self.deleteVpcConfig = dictionary["DeleteVpcConfig"] as? Bool
-            if let computeCapacity = dictionary["ComputeCapacity"] as? [String: Any] { self.computeCapacity = try Appstream2.ComputeCapacity(dictionary: computeCapacity) }
-            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Appstream2.VpcConfig(dictionary: vpcConfig) }
+            if let computeCapacity = dictionary["ComputeCapacity"] as? [String: Any] { self.computeCapacity = try Appstream2.ComputeCapacity(dictionary: computeCapacity) } else { self.computeCapacity = nil }
+            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Appstream2.VpcConfig(dictionary: vpcConfig) } else { self.vpcConfig = nil }
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
             self.displayName = dictionary["DisplayName"] as? String
@@ -535,11 +491,9 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the stack with which the fleet is associated.
-        public var stackName: String = ""
+        public let stackName: String
         /// The name of the fleet to disassociate.
-        public var fleetName: String = ""
-
-        public init() {}
+        public let fleetName: String
 
         public init(stackName: String, fleetName: String) {
             self.stackName = stackName
@@ -558,21 +512,19 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Additional attributes that describes the application.
-        public var metadata: [String: String]? = nil
+        public let metadata: [String: String]?
         /// The unique identifier for the application.
-        public var name: String? = nil
+        public let name: String?
         /// The name of the application shown to the end users.
-        public var displayName: String? = nil
+        public let displayName: String?
         /// An application can be disabled after image creation if there is a problem.
-        public var enabled: Bool? = nil
+        public let enabled: Bool?
         /// The path to the application executable in the instance.
-        public var launchPath: String? = nil
+        public let launchPath: String?
         /// A list of arguments that are passed to the application at launch.
-        public var launchParameters: String? = nil
+        public let launchParameters: String?
         /// The URL for the application icon. This URL may be time-limited.
-        public var iconURL: String? = nil
-
-        public init() {}
+        public let iconURL: String?
 
         public init(metadata: [String: String]? = nil, name: String? = nil, displayName: String? = nil, enabled: Bool? = nil, launchPath: String? = nil, launchParameters: String? = nil, iconURL: String? = nil) {
             self.metadata = metadata
@@ -587,6 +539,8 @@ extension Appstream2 {
         public init(dictionary: [String: Any]) throws {
             if let metadata = dictionary["Metadata"] as? [String: String] {
                 self.metadata = metadata
+            } else { 
+                self.metadata = nil
             }
             self.name = dictionary["Name"] as? String
             self.displayName = dictionary["DisplayName"] as? String
@@ -601,33 +555,31 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN for the fleet.
-        public var arn: String = ""
+        public let arn: String
         /// The VPC configuration for the fleet.
-        public var vpcConfig: VpcConfig? = nil
+        public let vpcConfig: VpcConfig?
         /// The current state for the fleet.
-        public var state: String = ""
+        public let state: String
         /// The capacity information for the fleet.
-        public var computeCapacityStatus: ComputeCapacityStatus = ComputeCapacityStatus()
+        public let computeCapacityStatus: ComputeCapacityStatus
         /// The name displayed to end users on the AppStream 2.0 portal.
-        public var displayName: String? = nil
+        public let displayName: String?
         /// The list of fleet errors is appended to this list.
-        public var fleetErrors: [FleetError]? = nil
+        public let fleetErrors: [FleetError]?
         /// The image used by the fleet.
-        public var imageName: String = ""
+        public let imageName: String
         /// The instance type of compute resources for the fleet. The fleet instances are launched from this instance type. 
-        public var instanceType: String = ""
+        public let instanceType: String
         /// The time at which the fleet was created.
-        public var createdTime: Date? = nil
+        public let createdTime: Date?
         /// The description displayed to end users on the AppStream 2.0 portal.
-        public var description: String? = nil
+        public let description: String?
         /// The name of the fleet.
-        public var name: String = ""
+        public let name: String
         /// The time after disconnection when a session is considered to have ended. When a user reconnects after a disconnection, the user is connected to the same session and instance within this time interval.
-        public var disconnectTimeoutInSeconds: Int32? = nil
+        public let disconnectTimeoutInSeconds: Int32?
         /// The maximum time during which a streaming session can run.
-        public var maxUserDurationInSeconds: Int32? = nil
-
-        public init() {}
+        public let maxUserDurationInSeconds: Int32?
 
         public init(arn: String, vpcConfig: VpcConfig? = nil, state: String, computeCapacityStatus: ComputeCapacityStatus, displayName: String? = nil, fleetErrors: [FleetError]? = nil, imageName: String, instanceType: String, createdTime: Date? = nil, description: String? = nil, name: String, disconnectTimeoutInSeconds: Int32? = nil, maxUserDurationInSeconds: Int32? = nil) {
             self.arn = arn
@@ -648,7 +600,7 @@ extension Appstream2 {
         public init(dictionary: [String: Any]) throws {
             guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
             self.arn = arn
-            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Appstream2.VpcConfig(dictionary: vpcConfig) }
+            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Appstream2.VpcConfig(dictionary: vpcConfig) } else { self.vpcConfig = nil }
             guard let state = dictionary["State"] as? String else { throw InitializableError.missingRequiredParam("State") }
             self.state = state
             guard let computeCapacityStatus = dictionary["ComputeCapacityStatus"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ComputeCapacityStatus") }
@@ -656,6 +608,8 @@ extension Appstream2 {
             self.displayName = dictionary["DisplayName"] as? String
             if let fleetErrors = dictionary["FleetErrors"] as? [[String: Any]] {
                 self.fleetErrors = try fleetErrors.map({ try FleetError(dictionary: $0) })
+            } else { 
+                self.fleetErrors = nil
             }
             guard let imageName = dictionary["ImageName"] as? String else { throw InitializableError.missingRequiredParam("ImageName") }
             self.imageName = imageName
@@ -674,9 +628,7 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the fleet to start.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -692,8 +644,6 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -702,9 +652,7 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of subnets to which a network interface is established from the fleet instance.
-        public var subnetIds: [String] = []
-
-        public init() {}
+        public let subnetIds: [String]
 
         public init(subnetIds: [String]) {
             self.subnetIds = subnetIds
@@ -720,11 +668,9 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The stack names to describe. Use null to describe all the stacks for the AWS account.
-        public var names: [String]? = nil
-
-        public init() {}
+        public let names: [String]?
 
         public init(nextToken: String? = nil, names: [String]? = nil) {
             self.nextToken = nextToken
@@ -733,9 +679,7 @@ extension Appstream2 {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["NextToken"] as? String
-            if let names = dictionary["Names"] as? [String] {
-                self.names = names
-            }
+            self.names = dictionary["Names"] as? [String]
         }
     }
 
@@ -743,11 +687,9 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state change reason code of the image.
-        public var code: String? = nil
+        public let code: String?
         /// The state change reason message to the end user.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
@@ -764,11 +706,9 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The name of the fleet whose associated stacks are listed.
-        public var fleetName: String = ""
-
-        public init() {}
+        public let fleetName: String
 
         public init(nextToken: String? = nil, fleetName: String) {
             self.nextToken = nextToken
@@ -786,13 +726,11 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier for this stack.
-        public var name: String = ""
+        public let name: String
         /// The name displayed to end users on the AppStream 2.0 portal.
-        public var displayName: String? = nil
+        public let displayName: String?
         /// The description displayed to end users on the AppStream 2.0 portal.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(name: String, displayName: String? = nil, description: String? = nil) {
             self.name = name
@@ -812,13 +750,11 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the stack to update.
-        public var name: String = ""
+        public let name: String
         /// The name displayed to end users on the AppStream 2.0 portal.
-        public var displayName: String? = nil
+        public let displayName: String?
         /// The description displayed to end users on the AppStream 2.0 portal.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(name: String, displayName: String? = nil, description: String? = nil) {
             self.name = name
@@ -838,9 +774,7 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the fleet to stop.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -856,9 +790,7 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier of the streaming session to be stopped.
-        public var sessionId: String = ""
-
-        public init() {}
+        public let sessionId: String
 
         public init(sessionId: String) {
             self.sessionId = sessionId
@@ -874,16 +806,14 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The details for the created fleet.
-        public var fleet: Fleet? = nil
-
-        public init() {}
+        public let fleet: Fleet?
 
         public init(fleet: Fleet? = nil) {
             self.fleet = fleet
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let fleet = dictionary["Fleet"] as? [String: Any] { self.fleet = try Appstream2.Fleet(dictionary: fleet) }
+            if let fleet = dictionary["Fleet"] as? [String: Any] { self.fleet = try Appstream2.Fleet(dictionary: fleet) } else { self.fleet = nil }
         }
     }
 
@@ -891,19 +821,17 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The validity duration of the URL in seconds. After this duration, the URL returned by this operation becomes invalid.
-        public var validity: Int64? = nil
+        public let validity: Int64?
         /// A unique user ID for whom the URL is generated.
-        public var userId: String = ""
+        public let userId: String
         /// The ID of the application that must be launched after the session starts.
-        public var applicationId: String? = nil
+        public let applicationId: String?
         /// The sessionContext of the streaming URL.
-        public var sessionContext: String? = nil
+        public let sessionContext: String?
         /// The stack for which the URL is generated.
-        public var stackName: String = ""
+        public let stackName: String
         /// The fleet for which the URL is generated.
-        public var fleetName: String = ""
-
-        public init() {}
+        public let fleetName: String
 
         public init(validity: Int64? = nil, userId: String, applicationId: String? = nil, sessionContext: String? = nil, stackName: String, fleetName: String) {
             self.validity = validity
@@ -931,15 +859,13 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of currently available instances that can be used to stream sessions.
-        public var available: Int32? = nil
+        public let available: Int32?
         /// The number of instances that are being used for streaming.
-        public var inUse: Int32? = nil
+        public let inUse: Int32?
         /// The desired number of streaming instances.
-        public var desired: Int32 = 0
+        public let desired: Int32
         /// The total number of simultaneous streaming instances that are running.
-        public var running: Int32? = nil
-
-        public init() {}
+        public let running: Int32?
 
         public init(available: Int32? = nil, inUse: Int32? = nil, desired: Int32, running: Int32? = nil) {
             self.available = available
@@ -961,11 +887,9 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The URL to start the AppStream 2.0 streaming session.
-        public var streamingURL: String? = nil
+        public let streamingURL: String?
         /// Elapsed seconds after the Unix epoch, at which time this URL expires.
-        public var expires: Date? = nil
-
-        public init() {}
+        public let expires: Date?
 
         public init(streamingURL: String? = nil, expires: Date? = nil) {
             self.streamingURL = streamingURL
@@ -982,11 +906,9 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the stack to which the fleet is associated.
-        public var stackName: String = ""
+        public let stackName: String
         /// The name of the fleet to associate.
-        public var fleetName: String = ""
-
-        public init() {}
+        public let fleetName: String
 
         public init(stackName: String, fleetName: String) {
             self.stackName = stackName
@@ -1005,11 +927,9 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The list of fleet details.
-        public var fleets: [Fleet]? = nil
-
-        public init() {}
+        public let fleets: [Fleet]?
 
         public init(nextToken: String? = nil, fleets: [Fleet]? = nil) {
             self.nextToken = nextToken
@@ -1020,6 +940,8 @@ extension Appstream2 {
             self.nextToken = dictionary["NextToken"] as? String
             if let fleets = dictionary["Fleets"] as? [[String: Any]] {
                 self.fleets = try fleets.map({ try Fleet(dictionary: $0) })
+            } else { 
+                self.fleets = nil
             }
         }
     }
@@ -1028,29 +950,27 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The reason why the last state change occurred.
-        public var stateChangeReason: ImageStateChangeReason? = nil
+        public let stateChangeReason: ImageStateChangeReason?
         /// The ARN for the image.
-        public var arn: String? = nil
+        public let arn: String?
         /// The operating system platform of the image.
-        public var platform: String? = nil
+        public let platform: String?
         /// The image starts in the PENDING state, and then moves to AVAILABLE if image creation succeeds and FAILED if image creation has failed.
-        public var state: String? = nil
+        public let state: String?
         /// The display name for the image.
-        public var displayName: String? = nil
+        public let displayName: String?
         /// The unique identifier for the image.
-        public var name: String = ""
+        public let name: String
         /// The source image ARN from which this image was created.
-        public var baseImageArn: String? = nil
+        public let baseImageArn: String?
         /// The applications associated with an image.
-        public var applications: [Application]? = nil
+        public let applications: [Application]?
         /// The visibility of an image to the user; images can be public or private.
-        public var visibility: String? = nil
+        public let visibility: String?
         /// The timestamp when the image was created.
-        public var createdTime: Date? = nil
+        public let createdTime: Date?
         /// A meaningful description for the image.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(stateChangeReason: ImageStateChangeReason? = nil, arn: String? = nil, platform: String? = nil, state: String? = nil, displayName: String? = nil, name: String, baseImageArn: String? = nil, applications: [Application]? = nil, visibility: String? = nil, createdTime: Date? = nil, description: String? = nil) {
             self.stateChangeReason = stateChangeReason
@@ -1067,7 +987,7 @@ extension Appstream2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Appstream2.ImageStateChangeReason(dictionary: stateChangeReason) }
+            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Appstream2.ImageStateChangeReason(dictionary: stateChangeReason) } else { self.stateChangeReason = nil }
             self.arn = dictionary["Arn"] as? String
             self.platform = dictionary["Platform"] as? String
             self.state = dictionary["State"] as? String
@@ -1077,6 +997,8 @@ extension Appstream2 {
             self.baseImageArn = dictionary["BaseImageArn"] as? String
             if let applications = dictionary["Applications"] as? [[String: Any]] {
                 self.applications = try applications.map({ try Application(dictionary: $0) })
+            } else { 
+                self.applications = nil
             }
             self.visibility = dictionary["Visibility"] as? String
             self.createdTime = dictionary["CreatedTime"] as? Date
@@ -1088,9 +1010,7 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the stack to delete.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -1106,8 +1026,6 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1116,16 +1034,14 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The details for the created stack.
-        public var stack: Stack? = nil
-
-        public init() {}
+        public let stack: Stack?
 
         public init(stack: Stack? = nil) {
             self.stack = stack
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let stack = dictionary["Stack"] as? [String: Any] { self.stack = try Appstream2.Stack(dictionary: stack) }
+            if let stack = dictionary["Stack"] as? [String: Any] { self.stack = try Appstream2.Stack(dictionary: stack) } else { self.stack = nil }
         }
     }
 
@@ -1133,9 +1049,7 @@ extension Appstream2 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the fleet to be deleted.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -1150,8 +1064,6 @@ extension Appstream2 {
     public struct AssociateFleetResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }

@@ -33,19 +33,17 @@ extension Mobileanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// A collection of key-value pairs that gives additional, measurable context to the event. The key-value pairs are specified by the developer. This collection can be empty or the attribute object can be omitted.
-        public var metrics: [String: Double]? = nil
+        public let metrics: [String: Double]?
         /// The session the event occured within. 
-        public var session: Session? = nil
+        public let session: Session?
         /// A collection of key-value pairs that give additional context to the event. The key-value pairs are specified by the developer. This collection can be empty or the attribute object can be omitted.
-        public var attributes: [String: String]? = nil
+        public let attributes: [String: String]?
         /// The time the event occurred in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
-        public var timestamp: String = ""
+        public let timestamp: String
         /// A name signifying an event that occurred in your app. This is used for grouping and aggregating like events together for reporting purposes.
-        public var eventType: String = ""
+        public let eventType: String
         /// The version of the event.
-        public var version: String? = nil
-
-        public init() {}
+        public let version: String?
 
         public init(metrics: [String: Double]? = nil, session: Session? = nil, attributes: [String: String]? = nil, timestamp: String, eventType: String, version: String? = nil) {
             self.metrics = metrics
@@ -59,10 +57,14 @@ extension Mobileanalytics {
         public init(dictionary: [String: Any]) throws {
             if let metrics = dictionary["metrics"] as? [String: Double] {
                 self.metrics = metrics
+            } else { 
+                self.metrics = nil
             }
-            if let session = dictionary["session"] as? [String: Any] { self.session = try Mobileanalytics.Session(dictionary: session) }
+            if let session = dictionary["session"] as? [String: Any] { self.session = try Mobileanalytics.Session(dictionary: session) } else { self.session = nil }
             if let attributes = dictionary["attributes"] as? [String: String] {
                 self.attributes = attributes
+            } else { 
+                self.attributes = nil
             }
             guard let timestamp = dictionary["timestamp"] as? String else { throw InitializableError.missingRequiredParam("timestamp") }
             self.timestamp = timestamp
@@ -76,15 +78,13 @@ extension Mobileanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time the event started in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
-        public var startTimestamp: String? = nil
+        public let startTimestamp: String?
         /// A unique identifier for the session
-        public var id: String? = nil
+        public let id: String?
         /// The time the event terminated in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
-        public var stopTimestamp: String? = nil
+        public let stopTimestamp: String?
         /// The duration of the session.
-        public var duration: Int64? = nil
-
-        public init() {}
+        public let duration: Int64?
 
         public init(startTimestamp: String? = nil, id: String? = nil, stopTimestamp: String? = nil, duration: Int64? = nil) {
             self.startTimestamp = startTimestamp
@@ -108,13 +108,11 @@ extension Mobileanalytics {
             return ["x-amz-Client-Context-Encoding": "clientContextEncoding", "x-amz-Client-Context": "clientContext"]
         }
         /// The client context including the client ID, app title, app version and package name.
-        public var clientContext: String = ""
+        public let clientContext: String
         /// The encoding used for the client context.
-        public var clientContextEncoding: String? = nil
+        public let clientContextEncoding: String?
         /// An array of Event JSON objects
-        public var events: [Event] = []
-
-        public init() {}
+        public let events: [Event]
 
         public init(clientContext: String, clientContextEncoding: String? = nil, events: [Event]) {
             self.clientContext = clientContext

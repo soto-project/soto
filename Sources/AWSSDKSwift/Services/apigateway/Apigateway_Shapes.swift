@@ -36,9 +36,7 @@ extension Apigateway {
             return ["api_Key": "apiKey"]
         }
         /// The identifier of the ApiKey resource to be deleted.
-        public var apiKey: String = ""
-
-        public init() {}
+        public let apiKey: String
 
         public init(apiKey: String) {
             self.apiKey = apiKey
@@ -60,17 +58,15 @@ extension Apigateway {
             return ["restapi_id": "restApiId"]
         }
         /// The identifier of the RestApi to be updated. 
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The mode query parameter to specify the update mode. Valid values are "merge" and "overwrite". By default, the update mode is "merge".
-        public var mode: String? = nil
+        public let mode: String?
         /// A query parameter to indicate whether to rollback the API update (true) or not (false) when a warning is encountered. The default value is false.
-        public var failOnWarnings: Bool? = nil
+        public let failOnWarnings: Bool?
         /// The PUT request body containing external API definitions. Currently, only Swagger definition JSON files are supported.
-        public var body: Data = Data()
+        public let body: Data
         /// Custom headers supplied as part of the request. 
-        public var parameters: [String: String]? = nil
-
-        public init() {}
+        public let parameters: [String: String]?
 
         public init(restApiId: String, mode: String? = nil, failOnWarnings: Bool? = nil, body: Data, parameters: [String: String]? = nil) {
             self.restApiId = restApiId
@@ -89,6 +85,8 @@ extension Apigateway {
             self.body = body
             if let parameters = dictionary["parameters"] as? [String: String] {
                 self.parameters = parameters
+            } else { 
+                self.parameters = nil
             }
         }
     }
@@ -100,9 +98,7 @@ extension Apigateway {
             return ["domain_name": "domainName"]
         }
         /// The name of the DomainName resource to be deleted.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
@@ -121,11 +117,9 @@ extension Apigateway {
             return ["doc_version": "documentationVersion", "restapi_id": "restApiId"]
         }
         /// [Required] The version identifier of the to-be-retrieved documentation snapshot.
-        public var documentationVersion: String = ""
+        public let documentationVersion: String
         /// [Required] The identifier of the API of the to-be-retrieved documentation snapshot.
-        public var restApiId: String = ""
-
-        public init() {}
+        public let restApiId: String
 
         public init(documentationVersion: String, restApiId: String) {
             self.documentationVersion = documentationVersion
@@ -147,11 +141,9 @@ extension Apigateway {
             return ["keyId": "keyId", "usageplanId": "usagePlanId"]
         }
         /// The key Id of the to-be-retrieved UsagePlanKey resource representing a plan customer.
-        public var keyId: String = ""
+        public let keyId: String
         /// The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
-        public var usagePlanId: String = ""
-
-        public init() {}
+        public let usagePlanId: String
 
         public init(keyId: String, usagePlanId: String) {
             self.keyId = keyId
@@ -173,13 +165,11 @@ extension Apigateway {
             return ["doc_version": "documentationVersion", "restapi_id": "restApiId"]
         }
         /// [Required] The version identifier of the to-be-updated documentation version.
-        public var documentationVersion: String = ""
+        public let documentationVersion: String
         /// [Required] The identifier of an API of the to-be-updated documentation version.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
-
-        public init() {}
+        public let patchOperations: [PatchOperation]?
 
         public init(documentationVersion: String, restApiId: String, patchOperations: [PatchOperation]? = nil) {
             self.documentationVersion = documentationVersion
@@ -194,6 +184,8 @@ extension Apigateway {
             self.restApiId = restApiId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
         }
     }
@@ -205,17 +197,15 @@ extension Apigateway {
             return ["restapi_id": "restApiId"]
         }
         /// The description of the model.
-        public var description: String? = nil
+        public let description: String?
         /// The content-type for the model.
-        public var contentType: String = ""
+        public let contentType: String
         /// The RestApi identifier under which the Model will be created.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The name of the model.
-        public var name: String = ""
+        public let name: String
         /// The schema for the model. For application/json models, this should be JSON-schema draft v4 model.
-        public var schema: String? = nil
-
-        public init() {}
+        public let schema: String?
 
         public init(description: String? = nil, contentType: String, restApiId: String, name: String, schema: String? = nil) {
             self.description = description
@@ -244,17 +234,15 @@ extension Apigateway {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// The RestApi identifier for the MethodResponse resource.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
+        public let patchOperations: [PatchOperation]?
         /// The status code for the MethodResponse resource.
-        public var statusCode: String = ""
+        public let statusCode: String
         /// The Resource identifier for the MethodResponse resource.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// The HTTP verb of the Method resource.
-        public var httpMethod: String = ""
-
-        public init() {}
+        public let httpMethod: String
 
         public init(restApiId: String, patchOperations: [PatchOperation]? = nil, statusCode: String, resourceId: String, httpMethod: String) {
             self.restApiId = restApiId
@@ -269,6 +257,8 @@ extension Apigateway {
             self.restApiId = restApiId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
             guard let statusCode = dictionary["statusCode"] as? String else { throw InitializableError.missingRequiredParam("statusCode") }
             self.statusCode = statusCode
@@ -286,13 +276,11 @@ extension Apigateway {
             return ["deployment_id": "deploymentId", "restapi_id": "restApiId"]
         }
         /// The replacement identifier for the Deployment resource to change information about.
-        public var deploymentId: String = ""
+        public let deploymentId: String
         /// The replacement identifier of the RestApi resource for the Deployment resource to change information about.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
-
-        public init() {}
+        public let patchOperations: [PatchOperation]?
 
         public init(deploymentId: String, restApiId: String, patchOperations: [PatchOperation]? = nil) {
             self.deploymentId = deploymentId
@@ -307,6 +295,8 @@ extension Apigateway {
             self.restApiId = restApiId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
         }
     }
@@ -318,13 +308,11 @@ extension Apigateway {
             return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
         /// The RestApi identifier for the Method resource.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The HTTP verb of the Method resource.
-        public var httpMethod: String = ""
+        public let httpMethod: String
         /// The Resource identifier for the Method resource.
-        public var resourceId: String = ""
-
-        public init() {}
+        public let resourceId: String
 
         public init(restApiId: String, httpMethod: String, resourceId: String) {
             self.restApiId = restApiId
@@ -349,11 +337,9 @@ extension Apigateway {
             return ["restapi_id": "restApiId", "stage_name": "stageName"]
         }
         /// The identifier of the RestApi resource for the Stage resource to get information about.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The name of the Stage resource to get information about.
-        public var stageName: String = ""
-
-        public init() {}
+        public let stageName: String
 
         public init(restApiId: String, stageName: String) {
             self.restApiId = restApiId
@@ -375,17 +361,15 @@ extension Apigateway {
             return ["includeValues": "includeValues", "position": "position", "limit": "limit", "name": "nameQuery", "customerId": "customerId"]
         }
         /// A boolean flag to specify whether (true) or not (false) the result contains key values.
-        public var includeValues: Bool? = nil
+        public let includeValues: Bool?
         /// The position of the current ApiKeys resource to get information about.
-        public var position: String? = nil
+        public let position: String?
         /// The maximum number of ApiKeys to get information about.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The name of queried API keys.
-        public var nameQuery: String? = nil
+        public let nameQuery: String?
         /// The identifier of a customer in AWS Marketplace or an external system, such as a developer portal.
-        public var customerId: String? = nil
-
-        public init() {}
+        public let customerId: String?
 
         public init(includeValues: Bool? = nil, position: String? = nil, limit: Int32? = nil, nameQuery: String? = nil, customerId: String? = nil) {
             self.includeValues = includeValues
@@ -408,10 +392,8 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current page of any BasePathMapping resources in the collection of base path mapping resources.
-        public var items: [BasePathMapping]? = nil
-        public var position: String? = nil
-
-        public init() {}
+        public let items: [BasePathMapping]?
+        public let position: String?
 
         public init(items: [BasePathMapping]? = nil, position: String? = nil) {
             self.items = items
@@ -421,6 +403,8 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["items"] as? [[String: Any]] {
                 self.items = try items.map({ try BasePathMapping(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             self.position = dictionary["position"] as? String
         }
@@ -436,19 +420,17 @@ extension Apigateway {
             return ["usageplanId": "usagePlanId"]
         }
         /// The Id of the API key associated with the resultant usage data.
-        public var keyId: String? = nil
+        public let keyId: String?
         /// Position
-        public var position: String? = nil
+        public let position: String?
         /// The maximum number of results to be returned.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The starting date (e.g., 2016-01-01) of the usage data.
-        public var startDate: String = ""
+        public let startDate: String
         /// The Id of the usage plan associated with the usage data.
-        public var usagePlanId: String = ""
+        public let usagePlanId: String
         /// The ending date (e.g., 2016-12-31) of the usage data.
-        public var endDate: String = ""
-
-        public init() {}
+        public let endDate: String
 
         public init(keyId: String? = nil, position: String? = nil, limit: Int32? = nil, startDate: String, usagePlanId: String, endDate: String) {
             self.keyId = keyId
@@ -476,10 +458,8 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The set of SdkType items that comprise this view of the SdkTypes collection.
-        public var items: [SdkType]? = nil
-        public var position: String? = nil
-
-        public init() {}
+        public let items: [SdkType]?
+        public let position: String?
 
         public init(items: [SdkType]? = nil, position: String? = nil) {
             self.items = items
@@ -489,6 +469,8 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["items"] as? [[String: Any]] {
                 self.items = try items.map({ try SdkType(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             self.position = dictionary["position"] as? String
         }
@@ -501,13 +483,11 @@ extension Apigateway {
             return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
         /// Specifies a get integration request's API identifier.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// Specifies a get integration request's HTTP method.
-        public var httpMethod: String = ""
+        public let httpMethod: String
         /// Specifies a get integration request's resource identifier
-        public var resourceId: String = ""
-
-        public init() {}
+        public let resourceId: String
 
         public init(restApiId: String, httpMethod: String, resourceId: String) {
             self.restApiId = restApiId
@@ -529,10 +509,8 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of links to the current page of RestApi resources.
-        public var items: [RestApi]? = nil
-        public var position: String? = nil
-
-        public init() {}
+        public let items: [RestApi]?
+        public let position: String?
 
         public init(items: [RestApi]? = nil, position: String? = nil) {
             self.items = items
@@ -542,6 +520,8 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["items"] as? [[String: Any]] {
                 self.items = try items.map({ try RestApi(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             self.position = dictionary["position"] as? String
         }
@@ -554,11 +534,9 @@ extension Apigateway {
             return ["part_id": "documentationPartId", "restapi_id": "restApiId"]
         }
         /// [Required] The identifier of the to-be-retrieved documentation part.
-        public var documentationPartId: String = ""
+        public let documentationPartId: String
         /// [Required] The identifier of an API of the to-be-retrieved documentation part.
-        public var restApiId: String = ""
-
-        public init() {}
+        public let restApiId: String
 
         public init(documentationPartId: String, restApiId: String) {
             self.documentationPartId = documentationPartId
@@ -583,13 +561,11 @@ extension Apigateway {
             return ["restapi_id": "restApiId"]
         }
         /// The position of the returned DocumentationVersion in the DocumentationVersions collection.
-        public var position: String? = nil
+        public let position: String?
         /// [Required] The identifier of an API of the to-be-retrieved documentation versions.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The page size of the returned documentation versions.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(position: String? = nil, restApiId: String, limit: Int32? = nil) {
             self.position = position
@@ -612,13 +588,11 @@ extension Apigateway {
             return ["domain_name": "domainName", "base_path": "basePath"]
         }
         /// The base path of the BasePathMapping resource to change.
-        public var basePath: String = ""
+        public let basePath: String
         /// The domain name of the BasePathMapping resource to change.
-        public var domainName: String = ""
+        public let domainName: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
-
-        public init() {}
+        public let patchOperations: [PatchOperation]?
 
         public init(basePath: String, domainName: String, patchOperations: [PatchOperation]? = nil) {
             self.basePath = basePath
@@ -633,6 +607,8 @@ extension Apigateway {
             self.domainName = domainName
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
         }
     }
@@ -644,9 +620,7 @@ extension Apigateway {
             return ["clientcertificate_id": "clientCertificateId"]
         }
         /// The identifier of the ClientCertificate resource to be deleted.
-        public var clientCertificateId: String = ""
-
-        public init() {}
+        public let clientCertificateId: String
 
         public init(clientCertificateId: String) {
             self.clientCertificateId = clientCertificateId
@@ -665,11 +639,9 @@ extension Apigateway {
             return ["restapi_id": "restApiId", "model_name": "modelName"]
         }
         /// The RestApi under which the model will be deleted.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The name of the model to delete.
-        public var modelName: String = ""
-
-        public init() {}
+        public let modelName: String
 
         public init(restApiId: String, modelName: String) {
             self.restApiId = restApiId
@@ -688,17 +660,15 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The parent resource's identifier.
-        public var parentId: String? = nil
+        public let parentId: String?
         /// The last path segment for this resource.
-        public var pathPart: String? = nil
+        public let pathPart: String?
         /// The full path for this resource.
-        public var path: String? = nil
+        public let path: String?
         /// The resource's identifier.
-        public var id: String? = nil
+        public let id: String?
         /// Gets an API resource's method of a given HTTP verb.  The resource methods are a map of methods indexed by methods' HTTP verbs enabled on the resource. This method map is included in the 200 OK response of the GET /restapis/{restapi_id}/resources/{resource_id} or GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods request. Example: Get the GET method of an API resource Request GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com X-Amz-Date: 20160608T031827Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160608/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response { "_links": { "curies": [ { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html", "name": "integration", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-{rel}.html", "name": "method", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html", "name": "methodresponse", "templated": true } ], "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET", "name": "GET", "title": "GET" }, "integration:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "method:integration": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "method:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "methodresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/{status_code}", "templated": true } }, "apiKeyRequired": false, "authorizationType": "NONE", "httpMethod": "GET", "_embedded": { "method:integration": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integration:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integrationresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/{status_code}", "templated": true } }, "cacheKeyParameters": [], "cacheNamespace": "3kzxbg5sa2", "credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole", "httpMethod": "POST", "passthroughBehavior": "WHEN_NO_MATCH", "requestParameters": { "integration.request.header.Content-Type": "'application/x-amz-json-1.1'" }, "requestTemplates": { "application/json": "{\n}" }, "type": "AWS", "uri": "arn:aws:apigateway:us-east-1:kinesis:action/ListStreams", "_embedded": { "integration:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.Content-Type": "'application/xml'" }, "responseTemplates": { "application/json": "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n" }, "statusCode": "200" } } }, "method:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "methodresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" }, "methodresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" } }, "responseModels": { "application/json": "Empty" }, "responseParameters": { "method.response.header.Content-Type": false }, "statusCode": "200" } } } If the OPTIONS is enabled on the resource, you can follow the example here to get that method. Just replace the GET of the last path segment in the request URL with OPTIONS.   
-        public var resourceMethods: [String: Method]? = nil
-
-        public init() {}
+        public let resourceMethods: [String: Method]?
 
         public init(parentId: String? = nil, pathPart: String? = nil, path: String? = nil, id: String? = nil, resourceMethods: [String: Method]? = nil) {
             self.parentId = parentId
@@ -720,6 +690,8 @@ extension Apigateway {
                     resourceMethodsDict[key] = try Method(dictionary: methodDict)
                 }
                 self.resourceMethods = resourceMethodsDict
+            } else { 
+                self.resourceMethods = nil
             }
         }
     }
@@ -731,11 +703,9 @@ extension Apigateway {
             return ["doc_version": "documentationVersion", "restapi_id": "restApiId"]
         }
         /// [Required] The version identifier of a to-be-deleted documentation snapshot.
-        public var documentationVersion: String = ""
+        public let documentationVersion: String
         /// [Required] The identifier of an API of a to-be-deleted documentation snapshot.
-        public var restApiId: String = ""
-
-        public init() {}
+        public let restApiId: String
 
         public init(documentationVersion: String, restApiId: String) {
             self.documentationVersion = documentationVersion
@@ -760,13 +730,11 @@ extension Apigateway {
             return ["restapi_id": "restApiId"]
         }
         /// If not all Authorizer resources in the response were present, the position will specify where to start the next page of results.
-        public var position: String? = nil
+        public let position: String?
         /// The RestApi identifier for the Authorizers resource.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// Limit the number of Authorizer resources in the response.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(position: String? = nil, restApiId: String, limit: Int32? = nil) {
             self.position = position
@@ -786,19 +754,17 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user-friendly name of the certificate.
-        public var certificateName: String? = nil
+        public let certificateName: String?
         /// [Deprecated] Your certificate's private key.
-        public var certificatePrivateKey: String? = nil
+        public let certificatePrivateKey: String?
         /// (Required) The name of the DomainName resource.
-        public var domainName: String = ""
+        public let domainName: String
         /// [Deprecated] The intermediate certificates and optionally the root certificate, one after the other without any blank lines. If you include the root certificate, your certificate chain must start with intermediate certificates and end with the root certificate. Use the intermediate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
-        public var certificateChain: String? = nil
+        public let certificateChain: String?
         /// [Deprecated] The body of the server certificate provided by your certificate authority.
-        public var certificateBody: String? = nil
+        public let certificateBody: String?
         /// The reference to an AWS-managed certificate. AWS Certificate Manager is the only supported source.
-        public var certificateArn: String? = nil
-
-        public init() {}
+        public let certificateArn: String?
 
         public init(certificateName: String? = nil, certificatePrivateKey: String? = nil, domainName: String, certificateChain: String? = nil, certificateBody: String? = nil, certificateArn: String? = nil) {
             self.certificateName = certificateName
@@ -824,11 +790,9 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of all the ApiKey identifiers.
-        public var ids: [String]? = nil
+        public let ids: [String]?
         /// A list of warning messages.
-        public var warnings: [String]? = nil
-
-        public init() {}
+        public let warnings: [String]?
 
         public init(ids: [String]? = nil, warnings: [String]? = nil) {
             self.ids = ids
@@ -836,12 +800,8 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let ids = dictionary["ids"] as? [String] {
-                self.ids = ids
-            }
-            if let warnings = dictionary["warnings"] as? [String] {
-                self.warnings = warnings
-            }
+            self.ids = dictionary["ids"] as? [String]
+            self.warnings = dictionary["warnings"] as? [String]
         }
     }
 
@@ -849,31 +809,29 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The version of the associated API documentation.
-        public var documentationVersion: String? = nil
+        public let documentationVersion: String?
         /// The status of the cache cluster for the stage, if enabled.
-        public var cacheClusterStatus: String? = nil
+        public let cacheClusterStatus: String?
         /// The size of the cache cluster for the stage, if enabled.
-        public var cacheClusterSize: String? = nil
+        public let cacheClusterSize: String?
         /// A map that defines the stage variables for a Stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
-        public var variables: [String: String]? = nil
+        public let variables: [String: String]?
         /// The timestamp when the stage was created.
-        public var createdDate: Date? = nil
+        public let createdDate: Date?
         /// The stage's description.
-        public var description: String? = nil
+        public let description: String?
         /// The identifier of the Deployment that the stage points to.
-        public var deploymentId: String? = nil
+        public let deploymentId: String?
         /// The identifier of a client certificate for an API stage.
-        public var clientCertificateId: String? = nil
+        public let clientCertificateId: String?
         /// A map that defines the method settings for a Stage resource. Keys (designated as /{method_setting_key below) are method paths defined as {resource_path}/{http_method} for an individual method override, or /\*/\* for overriding all methods in the stage. 
-        public var methodSettings: [String: MethodSetting]? = nil
+        public let methodSettings: [String: MethodSetting]?
         /// The timestamp when the stage last updated.
-        public var lastUpdatedDate: Date? = nil
+        public let lastUpdatedDate: Date?
         /// The name of the stage is the first path segment in the Uniform Resource Identifier (URI) of a call to Amazon API Gateway.
-        public var stageName: String? = nil
+        public let stageName: String?
         /// Specifies whether a cache cluster is enabled for the stage.
-        public var cacheClusterEnabled: Bool? = nil
-
-        public init() {}
+        public let cacheClusterEnabled: Bool?
 
         public init(documentationVersion: String? = nil, cacheClusterStatus: String? = nil, cacheClusterSize: String? = nil, variables: [String: String]? = nil, createdDate: Date? = nil, description: String? = nil, deploymentId: String? = nil, clientCertificateId: String? = nil, methodSettings: [String: MethodSetting]? = nil, lastUpdatedDate: Date? = nil, stageName: String? = nil, cacheClusterEnabled: Bool? = nil) {
             self.documentationVersion = documentationVersion
@@ -896,6 +854,8 @@ extension Apigateway {
             self.cacheClusterSize = dictionary["cacheClusterSize"] as? String
             if let variables = dictionary["variables"] as? [String: String] {
                 self.variables = variables
+            } else { 
+                self.variables = nil
             }
             self.createdDate = dictionary["createdDate"] as? Date
             self.description = dictionary["description"] as? String
@@ -908,6 +868,8 @@ extension Apigateway {
                     methodSettingsDict[key] = try MethodSetting(dictionary: methodSettingDict)
                 }
                 self.methodSettings = methodSettingsDict
+            } else { 
+                self.methodSettings = nil
             }
             self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? Date
             self.stageName = dictionary["stageName"] as? String
@@ -922,13 +884,11 @@ extension Apigateway {
             return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
         /// The RestApi identifier for the Method resource.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// Specifies the method request's HTTP method type.
-        public var httpMethod: String = ""
+        public let httpMethod: String
         /// The Resource identifier for the Method resource.
-        public var resourceId: String = ""
-
-        public init() {}
+        public let resourceId: String
 
         public init(restApiId: String, httpMethod: String, resourceId: String) {
             self.restApiId = restApiId
@@ -950,10 +910,8 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// Gets the current item when enumerating the collection of UsagePlan.
-        public var items: [UsagePlan]? = nil
-        public var position: String? = nil
-
-        public init() {}
+        public let items: [UsagePlan]?
+        public let position: String?
 
         public init(items: [UsagePlan]? = nil, position: String? = nil) {
             self.items = items
@@ -963,6 +921,8 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["items"] as? [[String: Any]] {
                 self.items = try items.map({ try UsagePlan(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             self.position = dictionary["position"] as? String
         }
@@ -975,11 +935,9 @@ extension Apigateway {
             return ["restapi_id": "restApiId", "stage_name": "stageName"]
         }
         /// The identifier of the RestApi resource for the Stage resource to delete.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The name of the Stage resource to delete.
-        public var stageName: String = ""
-
-        public init() {}
+        public let stageName: String
 
         public init(restApiId: String, stageName: String) {
             self.restApiId = restApiId
@@ -1001,11 +959,9 @@ extension Apigateway {
             return ["deployment_id": "deploymentId", "restapi_id": "restApiId"]
         }
         /// The identifier of the Deployment resource to delete.
-        public var deploymentId: String = ""
+        public let deploymentId: String
         /// The identifier of the RestApi resource for the Deployment resource to delete.
-        public var restApiId: String = ""
-
-        public init() {}
+        public let restApiId: String
 
         public init(deploymentId: String, restApiId: String) {
             self.deploymentId = deploymentId
@@ -1027,21 +983,19 @@ extension Apigateway {
             return ["restapi_id": "restApiId", "authorizer_id": "authorizerId"]
         }
         /// Specifies a test invoke authorizer request's Authorizer ID.
-        public var authorizerId: String = ""
+        public let authorizerId: String
         /// [Required] A key-value map of headers to simulate an incoming invocation request. This is where the incoming authorization token, or identity source, should be specified.
-        public var headers: [String: String]? = nil
+        public let headers: [String: String]?
         /// [Optional] The URI path, including query string, of the simulated invocation request. Use this to specify path parameters and query string parameters.
-        public var pathWithQueryString: String? = nil
+        public let pathWithQueryString: String?
         /// [Optional] The simulated request body of an incoming invocation request.
-        public var body: String? = nil
+        public let body: String?
         /// A key-value map of stage variables to simulate an invocation on a deployed Stage.
-        public var stageVariables: [String: String]? = nil
+        public let stageVariables: [String: String]?
         /// Specifies a test invoke authorizer request's RestApi identifier.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// [Optional] A key-value map of additional context variables.
-        public var additionalContext: [String: String]? = nil
-
-        public init() {}
+        public let additionalContext: [String: String]?
 
         public init(authorizerId: String, headers: [String: String]? = nil, pathWithQueryString: String? = nil, body: String? = nil, stageVariables: [String: String]? = nil, restApiId: String, additionalContext: [String: String]? = nil) {
             self.authorizerId = authorizerId
@@ -1058,16 +1012,22 @@ extension Apigateway {
             self.authorizerId = authorizerId
             if let headers = dictionary["headers"] as? [String: String] {
                 self.headers = headers
+            } else { 
+                self.headers = nil
             }
             self.pathWithQueryString = dictionary["pathWithQueryString"] as? String
             self.body = dictionary["body"] as? String
             if let stageVariables = dictionary["stageVariables"] as? [String: String] {
                 self.stageVariables = stageVariables
+            } else { 
+                self.stageVariables = nil
             }
             guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
             self.restApiId = restApiId
             if let additionalContext = dictionary["additionalContext"] as? [String: String] {
                 self.additionalContext = additionalContext
+            } else { 
+                self.additionalContext = nil
             }
         }
     }
@@ -1079,25 +1039,23 @@ extension Apigateway {
             return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
         /// Specifies the identifier of an Authorizer to use on this Method, if the type is CUSTOM.
-        public var authorizerId: String? = nil
+        public let authorizerId: String?
         /// Specifies the Model resources used for the request's content type. Request models are represented as a key/value map, with a content type as the key and a Model name as the value.
-        public var requestModels: [String: String]? = nil
+        public let requestModels: [String: String]?
         /// A key-value map defining required or optional method request parameters that can be accepted by Amazon API Gateway. A key defines a method request parameter name matching the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name is a valid and unique parameter name. The value associated with the key is a Boolean flag indicating whether the parameter is required (true) or optional (false). The method request parameter names defined here are available in Integration to be mapped to integration request parameters or body-mapping templates.
-        public var requestParameters: [String: Bool]? = nil
+        public let requestParameters: [String: Bool]?
         /// Specifies the method request's HTTP method type.
-        public var httpMethod: String = ""
+        public let httpMethod: String
         /// The RestApi identifier for the new Method resource.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// Specifies whether the method required a valid ApiKey.
-        public var apiKeyRequired: Bool? = nil
+        public let apiKeyRequired: Bool?
         /// Specifies the type of authorization used for the method.
-        public var authorizationType: String = ""
+        public let authorizationType: String
         /// The Resource identifier for the new Method resource.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in PetStore example.
-        public var operationName: String? = nil
-
-        public init() {}
+        public let operationName: String?
 
         public init(authorizerId: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: Bool]? = nil, httpMethod: String, restApiId: String, apiKeyRequired: Bool? = nil, authorizationType: String, resourceId: String, operationName: String? = nil) {
             self.authorizerId = authorizerId
@@ -1115,9 +1073,13 @@ extension Apigateway {
             self.authorizerId = dictionary["authorizerId"] as? String
             if let requestModels = dictionary["requestModels"] as? [String: String] {
                 self.requestModels = requestModels
+            } else { 
+                self.requestModels = nil
             }
             if let requestParameters = dictionary["requestParameters"] as? [String: Bool] {
                 self.requestParameters = requestParameters
+            } else { 
+                self.requestParameters = nil
             }
             guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
             self.httpMethod = httpMethod
@@ -1142,13 +1104,11 @@ extension Apigateway {
             return ["domain_name": "domainName"]
         }
         /// The position of the current BasePathMapping resource in the collection to get information about.
-        public var position: String? = nil
+        public let position: String?
         /// The domain name of a BasePathMapping resource.
-        public var domainName: String = ""
+        public let domainName: String
         /// The maximum number of BasePathMapping resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(position: String? = nil, domainName: String, limit: Int32? = nil) {
             self.position = position
@@ -1168,15 +1128,13 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Not supported.
-        public var from: String? = nil
+        public let from: String?
         /// The new target value of the update operation. 
-        public var value: String? = nil
+        public let value: String?
         /// The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {"name":"value"}, the path for this property is /name. If the name property value is a JSON object (e.g., {"name": {"child/name": "child-value"}}), the path for the child/name property will be /name/child~1name. Any slash ("/") character appearing in path names must be escaped with "~1", as shown in the example above. Each op operation can have only one path associated with it.
-        public var path: String? = nil
+        public let path: String?
         /// An update operation to be performed with this PATCH request. The valid value can be "add", "remove", or "replace". Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
-        public var op: String? = nil
-
-        public init() {}
+        public let op: String?
 
         public init(from: String? = nil, value: String? = nil, path: String? = nil, op: String? = nil) {
             self.from = from
@@ -1200,23 +1158,21 @@ extension Apigateway {
             return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
         /// A key-value map of headers to simulate an incoming invocation request.
-        public var headers: [String: String]? = nil
+        public let headers: [String: String]?
         /// The URI path, including query string, of the simulated invocation request. Use this to specify path parameters and query string parameters.
-        public var pathWithQueryString: String? = nil
+        public let pathWithQueryString: String?
         /// The simulated request body of an incoming invocation request.
-        public var body: String? = nil
+        public let body: String?
         /// Specifies a test invoke method request's HTTP method.
-        public var httpMethod: String = ""
+        public let httpMethod: String
         /// A key-value map of stage variables to simulate an invocation on a deployed Stage.
-        public var stageVariables: [String: String]? = nil
+        public let stageVariables: [String: String]?
         /// A ClientCertificate identifier to use in the test invocation. API Gateway will use the certificate when making the HTTPS request to the defined back-end endpoint.
-        public var clientCertificateId: String? = nil
+        public let clientCertificateId: String?
         /// Specifies a test invoke method request's API identifier.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// Specifies a test invoke method request's resource ID.
-        public var resourceId: String = ""
-
-        public init() {}
+        public let resourceId: String
 
         public init(headers: [String: String]? = nil, pathWithQueryString: String? = nil, body: String? = nil, httpMethod: String, stageVariables: [String: String]? = nil, clientCertificateId: String? = nil, restApiId: String, resourceId: String) {
             self.headers = headers
@@ -1232,6 +1188,8 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let headers = dictionary["headers"] as? [String: String] {
                 self.headers = headers
+            } else { 
+                self.headers = nil
             }
             self.pathWithQueryString = dictionary["pathWithQueryString"] as? String
             self.body = dictionary["body"] as? String
@@ -1239,6 +1197,8 @@ extension Apigateway {
             self.httpMethod = httpMethod
             if let stageVariables = dictionary["stageVariables"] as? [String: String] {
                 self.stageVariables = stageVariables
+            } else { 
+                self.stageVariables = nil
             }
             self.clientCertificateId = dictionary["clientCertificateId"] as? String
             guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
@@ -1255,15 +1215,13 @@ extension Apigateway {
             return ["restapi_id": "restApiId"]
         }
         /// [Required] The version identifier of the new snapshot.
-        public var documentationVersion: String = ""
+        public let documentationVersion: String
         /// [Required] Specifies the API identifier of the to-be-created documentation version.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The stage name to be associated with the new documentation snapshot.
-        public var stageName: String? = nil
+        public let stageName: String?
         /// A description about the new documentation snapshot.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(documentationVersion: String, restApiId: String, stageName: String? = nil, description: String? = nil) {
             self.documentationVersion = documentationVersion
@@ -1292,13 +1250,11 @@ extension Apigateway {
             return ["restapi_id": "restApiId"]
         }
         /// The position of the current Deployment resource in the collection to get information about.
-        public var position: String? = nil
+        public let position: String?
         /// The identifier of the RestApi resource for the collection of Deployment resources to get information about.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The maximum number of Deployment resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(position: String? = nil, restApiId: String, limit: Int32? = nil) {
             self.position = position
@@ -1321,11 +1277,9 @@ extension Apigateway {
             return ["keyId": "keyId", "usageplanId": "usagePlanId"]
         }
         /// The Id of the UsagePlanKey resource to be deleted.
-        public var keyId: String = ""
+        public let keyId: String
         /// The Id of the UsagePlan resource representing the usage plan containing the to-be-deleted UsagePlanKey resource representing a plan customer.
-        public var usagePlanId: String = ""
-
-        public init() {}
+        public let usagePlanId: String
 
         public init(keyId: String, usagePlanId: String) {
             self.keyId = keyId
@@ -1344,17 +1298,15 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon API Gateway execution log for the test invoke request.
-        public var log: String? = nil
+        public let log: String?
         /// The HTTP status code.
-        public var status: Int32? = nil
+        public let status: Int32?
         /// The headers of the HTTP response.
-        public var headers: [String: String]? = nil
+        public let headers: [String: String]?
         /// The execution latency of the test invoke request.
-        public var latency: Int64? = nil
+        public let latency: Int64?
         /// The body of the HTTP response.
-        public var body: String? = nil
-
-        public init() {}
+        public let body: String?
 
         public init(log: String? = nil, status: Int32? = nil, headers: [String: String]? = nil, latency: Int64? = nil, body: String? = nil) {
             self.log = log
@@ -1369,6 +1321,8 @@ extension Apigateway {
             self.status = dictionary["status"] as? Int32
             if let headers = dictionary["headers"] as? [String: String] {
                 self.headers = headers
+            } else { 
+                self.headers = nil
             }
             self.latency = dictionary["latency"] as? Int64
             self.body = dictionary["body"] as? String
@@ -1382,11 +1336,9 @@ extension Apigateway {
             return ["restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// The RestApi identifier for the Resource resource.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The identifier of the Resource resource.
-        public var resourceId: String = ""
-
-        public init() {}
+        public let resourceId: String
 
         public init(restApiId: String, resourceId: String) {
             self.restApiId = restApiId
@@ -1408,11 +1360,9 @@ extension Apigateway {
             return ["position": "position", "limit": "limit"]
         }
         /// The position of the last fetched element in the SdkTypes collection.
-        public var position: String? = nil
+        public let position: String?
         /// The maximum number of SdkType instances to be returned. 
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(position: String? = nil, limit: Int32? = nil) {
             self.position = position
@@ -1429,10 +1379,8 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// Gets the current Model resource in the collection.
-        public var items: [Model]? = nil
-        public var position: String? = nil
-
-        public init() {}
+        public let items: [Model]?
+        public let position: String?
 
         public init(items: [Model]? = nil, position: String? = nil) {
             self.items = items
@@ -1442,6 +1390,8 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["items"] as? [[String: Any]] {
                 self.items = try items.map({ try Model(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             self.position = dictionary["position"] as? String
         }
@@ -1451,10 +1401,8 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// Gets the current Resource resource in the collection.
-        public var items: [Resource]? = nil
-        public var position: String? = nil
-
-        public init() {}
+        public let items: [Resource]?
+        public let position: String?
 
         public init(items: [Resource]? = nil, position: String? = nil) {
             self.items = items
@@ -1464,6 +1412,8 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["items"] as? [[String: Any]] {
                 self.items = try items.map({ try Resource(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             self.position = dictionary["position"] as? String
         }
@@ -1476,13 +1426,11 @@ extension Apigateway {
             return ["Content-Type": "contentType", "Content-Disposition": "contentDisposition"]
         }
         /// The content-type header value in the HTTP response. This will correspond to a valid 'accept' type in the request.
-        public var contentType: String? = nil
+        public let contentType: String?
         /// The content-disposition header value in the HTTP response.
-        public var contentDisposition: String? = nil
+        public let contentDisposition: String?
         /// The binary blob response to GetExport, which contains the export.
-        public var body: Data? = nil
-
-        public init() {}
+        public let body: Data?
 
         public init(contentType: String? = nil, contentDisposition: String? = nil, body: Data? = nil) {
             self.contentType = contentType
@@ -1507,13 +1455,11 @@ extension Apigateway {
             return ["restapi_id": "restApiId", "model_name": "modelName"]
         }
         /// The RestApi identifier under which the Model exists.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// A query parameter of a Boolean value to resolve (true) all external model references and returns a flattened model schema or not (false) The default is false.
-        public var flatten: Bool? = nil
+        public let flatten: Bool?
         /// The name of the model as an identifier.
-        public var modelName: String = ""
-
-        public init() {}
+        public let modelName: String
 
         public init(restApiId: String, flatten: Bool? = nil, modelName: String) {
             self.restApiId = restApiId
@@ -1537,13 +1483,11 @@ extension Apigateway {
             return ["restapi_id": "restApiId", "authorizer_id": "authorizerId"]
         }
         /// The identifier of the Authorizer resource.
-        public var authorizerId: String = ""
+        public let authorizerId: String
         /// The RestApi identifier for the Authorizer resource.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
-
-        public init() {}
+        public let patchOperations: [PatchOperation]?
 
         public init(authorizerId: String, restApiId: String, patchOperations: [PatchOperation]? = nil) {
             self.authorizerId = authorizerId
@@ -1558,6 +1502,8 @@ extension Apigateway {
             self.restApiId = restApiId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
         }
     }
@@ -1566,11 +1512,9 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of Stage resources that are associated with the ApiKey resource.
-        public var restApiId: String? = nil
+        public let restApiId: String?
         /// The stage name in the RestApi that the stage key references.
-        public var stageName: String? = nil
-
-        public init() {}
+        public let stageName: String?
 
         public init(restApiId: String? = nil, stageName: String? = nil) {
             self.restApiId = restApiId
@@ -1587,12 +1531,10 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current page of any ApiKey resources in the collection of ApiKey resources.
-        public var items: [ApiKey]? = nil
-        public var position: String? = nil
+        public let items: [ApiKey]?
+        public let position: String?
         /// A list of warning messages logged during the import of API keys when the failOnWarnings option is set to true.
-        public var warnings: [String]? = nil
-
-        public init() {}
+        public let warnings: [String]?
 
         public init(items: [ApiKey]? = nil, position: String? = nil, warnings: [String]? = nil) {
             self.items = items
@@ -1603,11 +1545,11 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["items"] as? [[String: Any]] {
                 self.items = try items.map({ try ApiKey(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             self.position = dictionary["position"] as? String
-            if let warnings = dictionary["warnings"] as? [String] {
-                self.warnings = warnings
-            }
+            self.warnings = dictionary["warnings"] as? [String]
         }
     }
 
@@ -1618,23 +1560,21 @@ extension Apigateway {
             return ["restapi_id": "restApiId"]
         }
         /// The version of the associated API documentation.
-        public var documentationVersion: String? = nil
+        public let documentationVersion: String?
         /// A map that defines the stage variables for the new Stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
-        public var variables: [String: String]? = nil
+        public let variables: [String: String]?
         /// The stage's cache cluster size.
-        public var cacheClusterSize: String? = nil
+        public let cacheClusterSize: String?
         /// The identifier of the Deployment resource for the Stage resource.
-        public var deploymentId: String = ""
+        public let deploymentId: String
         /// The identifier of the RestApi resource for the Stage resource to create.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The name for the Stage resource.
-        public var stageName: String = ""
+        public let stageName: String
         /// The description of the Stage resource.
-        public var description: String? = nil
+        public let description: String?
         /// Whether cache clustering is enabled for the stage.
-        public var cacheClusterEnabled: Bool? = nil
-
-        public init() {}
+        public let cacheClusterEnabled: Bool?
 
         public init(documentationVersion: String? = nil, variables: [String: String]? = nil, cacheClusterSize: String? = nil, deploymentId: String, restApiId: String, stageName: String, description: String? = nil, cacheClusterEnabled: Bool? = nil) {
             self.documentationVersion = documentationVersion
@@ -1651,6 +1591,8 @@ extension Apigateway {
             self.documentationVersion = dictionary["documentationVersion"] as? String
             if let variables = dictionary["variables"] as? [String: String] {
                 self.variables = variables
+            } else { 
+                self.variables = nil
             }
             self.cacheClusterSize = dictionary["cacheClusterSize"] as? String
             guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
@@ -1671,9 +1613,7 @@ extension Apigateway {
             return ["sdktype_id": "id"]
         }
         /// The identifier of the queried SdkType instance.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(id: String) {
             self.id = id
@@ -1692,13 +1632,11 @@ extension Apigateway {
             return ["failonwarnings": "failOnWarnings", "format": "format"]
         }
         /// The payload of the POST request to import API keys. For the payload format, see API Key File Format.
-        public var body: Data = Data()
+        public let body: Data
         /// A query parameter to specify the input format to imported API keys. Currently, only the csv format is supported.
-        public var format: String = ""
+        public let format: String
         /// A query parameter to indicate whether to rollback ApiKey importation (true) or not (false) when error is encountered.
-        public var failOnWarnings: Bool? = nil
-
-        public init() {}
+        public let failOnWarnings: Bool?
 
         public init(body: Data, format: String, failOnWarnings: Bool? = nil) {
             self.body = body
@@ -1719,27 +1657,25 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether data trace logging is enabled for this method, which effects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/dataTrace, and the value is a Boolean.
-        public var dataTraceEnabled: Bool? = nil
+        public let dataTraceEnabled: Bool?
         /// Specifies whether Amazon CloudWatch metrics are enabled for this method. The PATCH path for this setting is /{method_setting_key}/metrics/enabled, and the value is a Boolean.
-        public var metricsEnabled: Bool? = nil
+        public let metricsEnabled: Bool?
         /// Specifies whether the cached responses are encrypted. The PATCH path for this setting is /{method_setting_key}/caching/dataEncrypted, and the value is a Boolean.
-        public var cacheDataEncrypted: Bool? = nil
+        public let cacheDataEncrypted: Bool?
         /// Specifies whether responses should be cached and returned for requests. A cache cluster must be enabled on the stage for responses to be cached. The PATCH path for this setting is /{method_setting_key}/caching/enabled, and the value is a Boolean.
-        public var cachingEnabled: Bool? = nil
+        public let cachingEnabled: Bool?
         /// Specifies the time to live (TTL), in seconds, for cached responses. The higher the TTL, the longer the response will be cached. The PATCH path for this setting is /{method_setting_key}/caching/ttlInSeconds, and the value is an integer.
-        public var cacheTtlInSeconds: Int32? = nil
+        public let cacheTtlInSeconds: Int32?
         /// Specifies the throttling burst limit. The PATCH path for this setting is /{method_setting_key}/throttling/burstLimit, and the value is an integer.
-        public var throttlingBurstLimit: Int32? = nil
+        public let throttlingBurstLimit: Int32?
         /// Specifies the throttling rate limit. The PATCH path for this setting is /{method_setting_key}/throttling/rateLimit, and the value is a double.
-        public var throttlingRateLimit: Double? = nil
+        public let throttlingRateLimit: Double?
         /// Specifies the logging level for this method, which effects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/loglevel, and the available levels are OFF, ERROR, and INFO.
-        public var loggingLevel: String? = nil
+        public let loggingLevel: String?
         /// Specifies how to handle unauthorized requests for cache invalidation. The PATCH path for this setting is /{method_setting_key}/caching/unauthorizedCacheControlHeaderStrategy, and the available values are FAIL_WITH_403, SUCCEED_WITH_RESPONSE_HEADER, SUCCEED_WITHOUT_RESPONSE_HEADER.
-        public var unauthorizedCacheControlHeaderStrategy: String? = nil
+        public let unauthorizedCacheControlHeaderStrategy: String?
         /// Specifies whether authorization is required for a cache invalidation request. The PATCH path for this setting is /{method_setting_key}/caching/requireAuthorizationForCacheControl, and the value is a Boolean.
-        public var requireAuthorizationForCacheControl: Bool? = nil
-
-        public init() {}
+        public let requireAuthorizationForCacheControl: Bool?
 
         public init(dataTraceEnabled: Bool? = nil, metricsEnabled: Bool? = nil, cacheDataEncrypted: Bool? = nil, cachingEnabled: Bool? = nil, cacheTtlInSeconds: Int32? = nil, throttlingBurstLimit: Int32? = nil, throttlingRateLimit: Double? = nil, loggingLevel: String? = nil, unauthorizedCacheControlHeaderStrategy: String? = nil, requireAuthorizationForCacheControl: Bool? = nil) {
             self.dataTraceEnabled = dataTraceEnabled
@@ -1772,25 +1708,23 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the API Key.
-        public var name: String? = nil
+        public let name: String?
         /// The value of the API Key.
-        public var value: String? = nil
+        public let value: String?
         /// The identifier of the API Key.
-        public var id: String? = nil
+        public let id: String?
         /// The timestamp when the API Key was created.
-        public var createdDate: Date? = nil
+        public let createdDate: Date?
         /// The description of the API Key.
-        public var description: String? = nil
+        public let description: String?
         /// A list of Stage resources that are associated with the ApiKey resource.
-        public var stageKeys: [String]? = nil
+        public let stageKeys: [String]?
         /// Specifies whether the API Key can be used by callers.
-        public var enabled: Bool? = nil
+        public let enabled: Bool?
         /// The timestamp when the API Key was last updated.
-        public var lastUpdatedDate: Date? = nil
+        public let lastUpdatedDate: Date?
         /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS Marketplace.
-        public var customerId: String? = nil
-
-        public init() {}
+        public let customerId: String?
 
         public init(name: String? = nil, value: String? = nil, id: String? = nil, createdDate: Date? = nil, description: String? = nil, stageKeys: [String]? = nil, enabled: Bool? = nil, lastUpdatedDate: Date? = nil, customerId: String? = nil) {
             self.name = name
@@ -1810,9 +1744,7 @@ extension Apigateway {
             self.id = dictionary["id"] as? String
             self.createdDate = dictionary["createdDate"] as? Date
             self.description = dictionary["description"] as? String
-            if let stageKeys = dictionary["stageKeys"] as? [String] {
-                self.stageKeys = stageKeys
-            }
+            self.stageKeys = dictionary["stageKeys"] as? [String]
             self.enabled = dictionary["enabled"] as? Bool
             self.lastUpdatedDate = dictionary["lastUpdatedDate"] as? Date
             self.customerId = dictionary["customerId"] as? String
@@ -1826,17 +1758,15 @@ extension Apigateway {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// Specifies an update integration response request's API identifier.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
+        public let patchOperations: [PatchOperation]?
         /// Specifies an update integration response request's status code.
-        public var statusCode: String = ""
+        public let statusCode: String
         /// Specifies an update integration response request's resource identifier.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// Specifies an update integration response request's HTTP method.
-        public var httpMethod: String = ""
-
-        public init() {}
+        public let httpMethod: String
 
         public init(restApiId: String, patchOperations: [PatchOperation]? = nil, statusCode: String, resourceId: String, httpMethod: String) {
             self.restApiId = restApiId
@@ -1851,6 +1781,8 @@ extension Apigateway {
             self.restApiId = restApiId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
             guard let statusCode = dictionary["statusCode"] as? String else { throw InitializableError.missingRequiredParam("statusCode") }
             self.statusCode = statusCode
@@ -1868,11 +1800,9 @@ extension Apigateway {
             return ["position": "position", "limit": "limit"]
         }
         /// The position of the current domain names to get information about.
-        public var position: String? = nil
+        public let position: String?
         /// The maximum number of DomainName resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(position: String? = nil, limit: Int32? = nil) {
             self.position = position
@@ -1889,17 +1819,15 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the targeted API entity. It is a valid and required field for the API entity types of AUTHORIZER, MODEL, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY and RESPONSE_HEADER. It is an invalid field for any other entity type.
-        public var name: String? = nil
+        public let name: String?
         /// The HTTP verb of a method. It is a valid field for the API entity types of METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is * for any method. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's method attribute must match that of the parent entity exactly.
-        public var method: String? = nil
+        public let method: String?
         /// The URL path of the target. It is a valid field for the API entity types of RESOURCE, METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is / for the root resource. When an applicable child entity inherits the content of another entity of the same type with more general specifications of the other location attributes, the child entity's path attribute must match that of the parent entity as a prefix.
-        public var path: String? = nil
+        public let path: String?
         /// The HTTP status code of a response. It is a valid field for the API entity types of RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is * for any status code. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's statusCode attribute must match that of the parent entity exactly.
-        public var statusCode: String? = nil
+        public let statusCode: String?
         /// The type of API entity to which the documentation content applies. It is a valid and required field for API entity types of API, AUTHORIZER, MODEL, RESOURCE, METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. Content inheritance does not apply to any entity of the API, AUTHROZER, METHOD, MODEL, REQUEST_BODY, or RESOURCE type.
-        public var type: String = ""
-
-        public init() {}
+        public let type: String
 
         public init(name: String? = nil, method: String? = nil, path: String? = nil, statusCode: String? = nil, type: String) {
             self.name = name
@@ -1923,11 +1851,9 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether the method requires a valid ApiKey.
-        public var apiKeyRequired: Bool? = nil
+        public let apiKeyRequired: Bool?
         /// Specifies the type of authorization used for the method.
-        public var authorizationType: String? = nil
-
-        public init() {}
+        public let authorizationType: String?
 
         public init(apiKeyRequired: Bool? = nil, authorizationType: String? = nil) {
             self.apiKeyRequired = apiKeyRequired
@@ -1947,11 +1873,9 @@ extension Apigateway {
             return ["restapi_id": "restApiId"]
         }
         /// The ID of the RestApi you want to update.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
-
-        public init() {}
+        public let patchOperations: [PatchOperation]?
 
         public init(restApiId: String, patchOperations: [PatchOperation]? = nil) {
             self.restApiId = restApiId
@@ -1963,6 +1887,8 @@ extension Apigateway {
             self.restApiId = restApiId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
         }
     }
@@ -1971,17 +1897,15 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the certificate.
-        public var certificateName: String? = nil
+        public let certificateName: String?
         /// The name of the DomainName resource.
-        public var domainName: String? = nil
+        public let domainName: String?
         /// The reference to an AWS-managed certificate. AWS Certificate Manager is the only supported source.
-        public var certificateArn: String? = nil
+        public let certificateArn: String?
         /// The timestamp when the certificate was uploaded.
-        public var certificateUploadDate: Date? = nil
+        public let certificateUploadDate: Date?
         /// The domain name of the Amazon CloudFront distribution. For more information, see the Amazon CloudFront documentation.
-        public var distributionDomainName: String? = nil
-
-        public init() {}
+        public let distributionDomainName: String?
 
         public init(certificateName: String? = nil, domainName: String? = nil, certificateArn: String? = nil, certificateUploadDate: Date? = nil, distributionDomainName: String? = nil) {
             self.certificateName = certificateName
@@ -2010,17 +1934,15 @@ extension Apigateway {
             return ["restapi_id": "restApiId", "stage_name": "stageName", "export_type": "exportType"]
         }
         /// The identifier of the RestApi to be exported.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The name of the Stage that will be exported.
-        public var stageName: String = ""
+        public let stageName: String
         /// The type of export. Currently only 'swagger' is supported.
-        public var exportType: String = ""
+        public let exportType: String
         /// The content-type of the export, for example application/json. Currently application/json and application/yaml are supported for exportType of swagger. This should be specified in the Accept header for direct API requests.
-        public var accepts: String? = nil
+        public let accepts: String?
         /// A key-value map of query string parameters that specify properties of the export, depending on the requested exportType. For exportType swagger, any combination of the following parameters are supported: integrations will export the API with x-amazon-apigateway-integration extensions. authorizers will export the API with x-amazon-apigateway-authorizer extensions. postman will export the API with Postman extensions, allowing for import to the Postman tool
-        public var parameters: [String: String]? = nil
-
-        public init() {}
+        public let parameters: [String: String]?
 
         public init(restApiId: String, stageName: String, exportType: String, accepts: String? = nil, parameters: [String: String]? = nil) {
             self.restApiId = restApiId
@@ -2040,6 +1962,8 @@ extension Apigateway {
             self.accepts = dictionary["accepts"] as? String
             if let parameters = dictionary["parameters"] as? [String: String] {
                 self.parameters = parameters
+            } else { 
+                self.parameters = nil
             }
         }
     }
@@ -2048,17 +1972,15 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description of an SdkType configuration property.
-        public var description: String? = nil
+        public let description: String?
         /// The default value of an SdkType configuration property.
-        public var defaultValue: String? = nil
+        public let defaultValue: String?
         /// The name of a an SdkType configuration property.
-        public var name: String? = nil
+        public let name: String?
         /// A boolean flag of an SdkType configuration property to indicate if the associated SDK configuration property is required (true) or not (false).
-        public var required: Bool? = nil
+        public let required: Bool?
         /// The user-friendly name of an SdkType configuration property.
-        public var friendlyName: String? = nil
-
-        public init() {}
+        public let friendlyName: String?
 
         public init(description: String? = nil, defaultValue: String? = nil, name: String? = nil, required: Bool? = nil, friendlyName: String? = nil) {
             self.description = description
@@ -2087,13 +2009,11 @@ extension Apigateway {
             return ["restapi_id": "restApiId"]
         }
         /// The position of the next set of results in the Models resource to get information about.
-        public var position: String? = nil
+        public let position: String?
         /// The RestApi identifier.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The maximum number of models in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(position: String? = nil, restApiId: String, limit: Int32? = nil) {
             self.position = position
@@ -2116,23 +2036,21 @@ extension Apigateway {
             return ["resource_id": "resourceId", "status_code": "statusCode", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
         /// Specifies the status code that is used to map the integration response to an existing MethodResponse.
-        public var statusCode: String = ""
+        public let statusCode: String
         /// Specifies a put integration response request's HTTP method.
-        public var httpMethod: String = ""
+        public let httpMethod: String
         /// Specifies a put integration response request's API identifier.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// Specifies a put integration response's templates.
-        public var responseTemplates: [String: String]? = nil
+        public let responseTemplates: [String: String]?
         /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name must be a valid and unique response header name and JSON-expression a valid JSON expression without the $ prefix.
-        public var responseParameters: [String: String]? = nil
+        public let responseParameters: [String: String]?
         /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string.  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
-        public var contentHandling: String? = nil
+        public let contentHandling: String?
         /// Specifies a put integration response request's resource identifier.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// Specifies the selection pattern of a put integration response.
-        public var selectionPattern: String? = nil
-
-        public init() {}
+        public let selectionPattern: String?
 
         public init(statusCode: String, httpMethod: String, restApiId: String, responseTemplates: [String: String]? = nil, responseParameters: [String: String]? = nil, contentHandling: String? = nil, resourceId: String, selectionPattern: String? = nil) {
             self.statusCode = statusCode
@@ -2154,9 +2072,13 @@ extension Apigateway {
             self.restApiId = restApiId
             if let responseTemplates = dictionary["responseTemplates"] as? [String: String] {
                 self.responseTemplates = responseTemplates
+            } else { 
+                self.responseTemplates = nil
             }
             if let responseParameters = dictionary["responseParameters"] as? [String: String] {
                 self.responseParameters = responseParameters
+            } else { 
+                self.responseParameters = nil
             }
             self.contentHandling = dictionary["contentHandling"] as? String
             guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
@@ -2172,11 +2094,9 @@ extension Apigateway {
             return ["restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// The RestApi identifier for the resource.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The identifier for the Resource resource.
-        public var resourceId: String = ""
-
-        public init() {}
+        public let resourceId: String
 
         public init(restApiId: String, resourceId: String) {
             self.restApiId = restApiId
@@ -2195,10 +2115,8 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current page of any Deployment resources in the collection of deployment resources.
-        public var items: [Deployment]? = nil
-        public var position: String? = nil
-
-        public init() {}
+        public let items: [Deployment]?
+        public let position: String?
 
         public init(items: [Deployment]? = nil, position: String? = nil) {
             self.items = items
@@ -2208,6 +2126,8 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["items"] as? [[String: Any]] {
                 self.items = try items.map({ try Deployment(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             self.position = dictionary["position"] as? String
         }
@@ -2220,11 +2140,9 @@ extension Apigateway {
             return ["restapi_id": "restApiId", "stage_name": "stageName"]
         }
         /// The API identifier of the stage to flush its cache.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The name of the stage to flush its cache.
-        public var stageName: String = ""
-
-        public init() {}
+        public let stageName: String
 
         public init(restApiId: String, stageName: String) {
             self.restApiId = restApiId
@@ -2243,13 +2161,11 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The base path name that callers of the API must provide as part of the URL after the domain name.
-        public var basePath: String? = nil
+        public let basePath: String?
         /// The name of the API.
-        public var restApiId: String? = nil
+        public let restApiId: String?
         /// The name of the API's stage.
-        public var stage: String? = nil
-
-        public init() {}
+        public let stage: String?
 
         public init(basePath: String? = nil, restApiId: String? = nil, stage: String? = nil) {
             self.basePath = basePath
@@ -2271,9 +2187,7 @@ extension Apigateway {
             return ["clientcertificate_id": "clientCertificateId"]
         }
         /// The identifier of the ClientCertificate resource to be described.
-        public var clientCertificateId: String = ""
-
-        public init() {}
+        public let clientCertificateId: String
 
         public init(clientCertificateId: String) {
             self.clientCertificateId = clientCertificateId
@@ -2292,13 +2206,11 @@ extension Apigateway {
             return ["restapi_id": "restApiId", "model_name": "modelName"]
         }
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
+        public let patchOperations: [PatchOperation]?
         /// The RestApi identifier under which the model exists.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The name of the model to update.
-        public var modelName: String = ""
-
-        public init() {}
+        public let modelName: String
 
         public init(patchOperations: [PatchOperation]? = nil, restApiId: String, modelName: String) {
             self.patchOperations = patchOperations
@@ -2309,6 +2221,8 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
             guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
             self.restApiId = restApiId
@@ -2321,13 +2235,11 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The DocumentationPart identifier, generated by Amazon API Gateway when the DocumentationPart is created.
-        public var id: String? = nil
+        public let id: String?
         /// The location of the API entity to which the documentation applies. Valid fields depend on the targeted API entity type. All the valid location fields are not required. If not explicitly specified, a valid location field is treated as a wildcard and associated documentation content may be inherited by matching entities, unless overridden.
-        public var location: DocumentationPartLocation? = nil
+        public let location: DocumentationPartLocation?
         /// A content map of API-specific key-value pairs describing the targeted API entity. The map must be encoded as a JSON string, e.g., "{ \"description\": \"The API does ...\" }". Only Swagger-compliant documentation-related fields from the properties map are exported and, hence, published as part of the API entity definitions, while the original documentation parts are exported in a Swagger extension of x-amazon-apigateway-documentation.
-        public var properties: String? = nil
-
-        public init() {}
+        public let properties: String?
 
         public init(id: String? = nil, location: DocumentationPartLocation? = nil, properties: String? = nil) {
             self.id = id
@@ -2337,7 +2249,7 @@ extension Apigateway {
 
         public init(dictionary: [String: Any]) throws {
             self.id = dictionary["id"] as? String
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Apigateway.DocumentationPartLocation(dictionary: location) }
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Apigateway.DocumentationPartLocation(dictionary: location) } else { self.location = nil }
             self.properties = dictionary["properties"] as? String
         }
     }
@@ -2346,10 +2258,8 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current page of any ClientCertificate resources in the collection of ClientCertificate resources.
-        public var items: [ClientCertificate]? = nil
-        public var position: String? = nil
-
-        public init() {}
+        public let items: [ClientCertificate]?
+        public let position: String?
 
         public init(items: [ClientCertificate]? = nil, position: String? = nil) {
             self.items = items
@@ -2359,6 +2269,8 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["items"] as? [[String: Any]] {
                 self.items = try items.map({ try ClientCertificate(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             self.position = dictionary["position"] as? String
         }
@@ -2371,11 +2283,9 @@ extension Apigateway {
             return ["domain_name": "domainName", "base_path": "basePath"]
         }
         /// The base path name of the BasePathMapping resource to delete.
-        public var basePath: String = ""
+        public let basePath: String
         /// The domain name of the BasePathMapping resource to delete.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(basePath: String, domainName: String) {
             self.basePath = basePath
@@ -2397,13 +2307,11 @@ extension Apigateway {
             return ["keyId": "keyId", "usageplanId": "usagePlanId"]
         }
         /// The identifier of the API key associated with the usage plan in which a temporary extension is granted to the remaining quota.
-        public var keyId: String = ""
+        public let keyId: String
         /// The Id of the usage plan associated with the usage data.
-        public var usagePlanId: String = ""
+        public let usagePlanId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
-
-        public init() {}
+        public let patchOperations: [PatchOperation]?
 
         public init(keyId: String, usagePlanId: String, patchOperations: [PatchOperation]? = nil) {
             self.keyId = keyId
@@ -2418,6 +2326,8 @@ extension Apigateway {
             self.usagePlanId = usagePlanId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
         }
     }
@@ -2426,17 +2336,15 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The associated API stages of the usage plan.
-        public var apiStages: [ApiStage]? = nil
+        public let apiStages: [ApiStage]?
         /// The name of the usage plan.
-        public var name: String = ""
+        public let name: String
         /// The description of the usage plan.
-        public var description: String? = nil
+        public let description: String?
         /// The quota of the usage plan.
-        public var quota: QuotaSettings? = nil
+        public let quota: QuotaSettings?
         /// The throttling limits of the usage plan.
-        public var throttle: ThrottleSettings? = nil
-
-        public init() {}
+        public let throttle: ThrottleSettings?
 
         public init(apiStages: [ApiStage]? = nil, name: String, description: String? = nil, quota: QuotaSettings? = nil, throttle: ThrottleSettings? = nil) {
             self.apiStages = apiStages
@@ -2449,12 +2357,14 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let apiStages = dictionary["apiStages"] as? [[String: Any]] {
                 self.apiStages = try apiStages.map({ try ApiStage(dictionary: $0) })
+            } else { 
+                self.apiStages = nil
             }
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
             self.description = dictionary["description"] as? String
-            if let quota = dictionary["quota"] as? [String: Any] { self.quota = try Apigateway.QuotaSettings(dictionary: quota) }
-            if let throttle = dictionary["throttle"] as? [String: Any] { self.throttle = try Apigateway.ThrottleSettings(dictionary: throttle) }
+            if let quota = dictionary["quota"] as? [String: Any] { self.quota = try Apigateway.QuotaSettings(dictionary: quota) } else { self.quota = nil }
+            if let throttle = dictionary["throttle"] as? [String: Any] { self.throttle = try Apigateway.ThrottleSettings(dictionary: throttle) } else { self.throttle = nil }
         }
     }
 
@@ -2462,15 +2372,13 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description of an SdkType.
-        public var description: String? = nil
+        public let description: String?
         /// A list of configuration properties of an SdkType.
-        public var configurationProperties: [SdkConfigurationProperty]? = nil
+        public let configurationProperties: [SdkConfigurationProperty]?
         /// The identifier of an SdkType instance.
-        public var id: String? = nil
+        public let id: String?
         /// The user-friendly name of an SdkType instance.
-        public var friendlyName: String? = nil
-
-        public init() {}
+        public let friendlyName: String?
 
         public init(description: String? = nil, configurationProperties: [SdkConfigurationProperty]? = nil, id: String? = nil, friendlyName: String? = nil) {
             self.description = description
@@ -2483,6 +2391,8 @@ extension Apigateway {
             self.description = dictionary["description"] as? String
             if let configurationProperties = dictionary["configurationProperties"] as? [[String: Any]] {
                 self.configurationProperties = try configurationProperties.map({ try SdkConfigurationProperty(dictionary: $0) })
+            } else { 
+                self.configurationProperties = nil
             }
             self.id = dictionary["id"] as? String
             self.friendlyName = dictionary["friendlyName"] as? String
@@ -2493,29 +2403,27 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the integration's responses.   Example: Get integration responses of a method Request  GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200 HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com X-Amz-Date: 20160607T191449Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160607/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash}  Response The successful response returns 200 OK status and a payload as follows: { "_links": { "curies": { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true }, "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.Content-Type": "'application/xml'" }, "responseTemplates": { "application/json": "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n" }, "statusCode": "200" }    Creating an API 
-        public var integrationResponses: [String: IntegrationResponse]? = nil
+        public let integrationResponses: [String: IntegrationResponse]?
         /// Specifies the integration's cache namespace.
-        public var cacheNamespace: String? = nil
+        public let cacheNamespace: String?
         /// Specifies the integration's Uniform Resource Identifier (URI). For HTTP integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification. For AWS integrations, the URI should be of the form arn:aws:apigateway:{region}:{subdomain.service|service}:{path|action}/{service_api}. Region, subdomain and service are used to determine the right endpoint. For AWS services that use the Action= query string parameter, service_api should be a valid action for the desired service. For RESTful AWS service APIs, path is used to indicate that the remaining substring in the URI should be treated as the path to the resource, including the initial /.
-        public var uri: String? = nil
+        public let uri: String?
         /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
-        public var requestParameters: [String: String]? = nil
+        public let requestParameters: [String: String]?
         /// Specifies the integration's HTTP method type.
-        public var httpMethod: String? = nil
+        public let httpMethod: String?
         /// Specifies the integration's cache key parameters.
-        public var cacheKeyParameters: [String]? = nil
+        public let cacheKeyParameters: [String]?
         /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
-        public var requestTemplates: [String: String]? = nil
+        public let requestTemplates: [String: String]?
         /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob to a Base64-encoded string.  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehaviors is configured to support payload pass-through.
-        public var contentHandling: String? = nil
+        public let contentHandling: String?
         /// Specifies the credentials required for the integration, if any. For AWS integrations, three options are available. To specify an IAM Role for Amazon API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam::\*:user/\*. To use resource-based permissions on supported AWS services, specify null.
-        public var credentials: String? = nil
+        public let credentials: String?
         /// Specifies the integration's type. The valid value is HTTP for integrating with an HTTP back end, AWS for any AWS service endpoints, MOCK for testing without actually invoking the back end, HTTP_PROXY for integrating with the HTTP proxy integration, or AWS_PROXY for integrating with the Lambda proxy integration type.
-        public var type: String? = nil
+        public let type: String?
         ///   Specifies how the method request body of an unmapped content type will be passed through the integration request to the back end without transformation. A content type is unmapped if no mapping template is defined in the integration or the content type does not match any of the mapped content types, as specified in requestTemplates. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.    WHEN_NO_MATCH passes the method request body through the integration request to the back end without transformation when the method request content type does not match any content type associated with the mapping templates defined in the integration request.   WHEN_NO_TEMPLATES passes the method request body through the integration request to the back end without transformation when no mapping template is defined in the integration request. If a template is defined when this option is selected, the method request of an unmapped content-type will be rejected with an HTTP 415 Unsupported Media Type response.   NEVER rejects the method request with an HTTP 415 Unsupported Media Type response when either the method request content type does not match any content type associated with the mapping templates defined in the integration request or no mapping template is defined in the integration request.   
-        public var passthroughBehavior: String? = nil
-
-        public init() {}
+        public let passthroughBehavior: String?
 
         public init(integrationResponses: [String: IntegrationResponse]? = nil, cacheNamespace: String? = nil, uri: String? = nil, requestParameters: [String: String]? = nil, httpMethod: String? = nil, cacheKeyParameters: [String]? = nil, requestTemplates: [String: String]? = nil, contentHandling: String? = nil, credentials: String? = nil, type: String? = nil, passthroughBehavior: String? = nil) {
             self.integrationResponses = integrationResponses
@@ -2539,18 +2447,22 @@ extension Apigateway {
                     integrationResponsesDict[key] = try IntegrationResponse(dictionary: integrationResponseDict)
                 }
                 self.integrationResponses = integrationResponsesDict
+            } else { 
+                self.integrationResponses = nil
             }
             self.cacheNamespace = dictionary["cacheNamespace"] as? String
             self.uri = dictionary["uri"] as? String
             if let requestParameters = dictionary["requestParameters"] as? [String: String] {
                 self.requestParameters = requestParameters
+            } else { 
+                self.requestParameters = nil
             }
             self.httpMethod = dictionary["httpMethod"] as? String
-            if let cacheKeyParameters = dictionary["cacheKeyParameters"] as? [String] {
-                self.cacheKeyParameters = cacheKeyParameters
-            }
+            self.cacheKeyParameters = dictionary["cacheKeyParameters"] as? [String]
             if let requestTemplates = dictionary["requestTemplates"] as? [String: String] {
                 self.requestTemplates = requestTemplates
+            } else { 
+                self.requestTemplates = nil
             }
             self.contentHandling = dictionary["contentHandling"] as? String
             self.credentials = dictionary["credentials"] as? String
@@ -2563,16 +2475,14 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The usage data, as daily logs of used and remaining quotas, over the specified time interval indexed over the API keys in a usage plan. For example, {..., "values" : { "{api_key}" : [ [0, 100], [10, 90], [100, 10]]}, where {api_key} stands for an API key value and the daily log entry is of the format [used quota, remaining quota].
-        public var items: [String: [[Int64]]]? = nil
-        public var position: String? = nil
+        public let items: [String: [[Int64]]]?
+        public let position: String?
         /// The starting date of the usage data.
-        public var startDate: String? = nil
+        public let startDate: String?
         /// The plan Id associated with this usage data.
-        public var usagePlanId: String? = nil
+        public let usagePlanId: String?
         /// The ending date of the usage data.
-        public var endDate: String? = nil
-
-        public init() {}
+        public let endDate: String?
 
         public init(items: [String: [[Int64]]]? = nil, position: String? = nil, startDate: String? = nil, usagePlanId: String? = nil, endDate: String? = nil) {
             self.items = items
@@ -2583,6 +2493,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
+            self.items = [:]
             self.position = dictionary["position"] as? String
             self.startDate = dictionary["startDate"] as? String
             self.usagePlanId = dictionary["usagePlanId"] as? String
@@ -2594,15 +2505,13 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description for the deployment resource.
-        public var description: String? = nil
+        public let description: String?
         /// A summary of the RestApi at the date and time that the deployment resource was created.
-        public var apiSummary: [String: [String: MethodSnapshot]]? = nil
+        public let apiSummary: [String: [String: MethodSnapshot]]?
         /// The identifier for the deployment resource.
-        public var id: String? = nil
+        public let id: String?
         /// The date and time that the deployment resource was created.
-        public var createdDate: Date? = nil
-
-        public init() {}
+        public let createdDate: Date?
 
         public init(description: String? = nil, apiSummary: [String: [String: MethodSnapshot]]? = nil, id: String? = nil, createdDate: Date? = nil) {
             self.description = description
@@ -2624,6 +2533,8 @@ extension Apigateway {
                     apiSummaryDict[key] = mapOfMethodSnapshotDict
                 }
                 self.apiSummary = apiSummaryDict
+            } else { 
+                self.apiSummary = nil
             }
             self.id = dictionary["id"] as? String
             self.createdDate = dictionary["createdDate"] as? Date
@@ -2640,15 +2551,13 @@ extension Apigateway {
             return ["restapi_id": "restApiId"]
         }
         /// [Required] The identifier of an API of the to-be-imported documentation parts.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// A query parameter to indicate whether to overwrite (OVERWRITE) any existing DocumentationParts definition or to merge (MERGE) the new definition into the existing one. The default value is MERGE.
-        public var mode: String? = nil
+        public let mode: String?
         /// A query parameter to specify whether to rollback the documentation importation (true) or not (false) when a warning is encountered. The default value is false.
-        public var failOnWarnings: Bool? = nil
+        public let failOnWarnings: Bool?
         /// [Required] Raw byte array representing the to-be-imported documentation parts. To import from a Swagger file, this is a JSON object.
-        public var body: Data = Data()
-
-        public init() {}
+        public let body: Data
 
         public init(restApiId: String, mode: String? = nil, failOnWarnings: Bool? = nil, body: Data) {
             self.restApiId = restApiId
@@ -2671,17 +2580,15 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the client certificate.
-        public var clientCertificateId: String? = nil
+        public let clientCertificateId: String?
         /// The description of the client certificate.
-        public var description: String? = nil
+        public let description: String?
         /// The timestamp when the client certificate will expire.
-        public var expirationDate: Date? = nil
+        public let expirationDate: Date?
         /// The PEM-encoded public key of the client certificate, which can be used to configure certificate authentication in the integration endpoint .
-        public var pemEncodedCertificate: String? = nil
+        public let pemEncodedCertificate: String?
         /// The timestamp when the client certificate was created.
-        public var createdDate: Date? = nil
-
-        public init() {}
+        public let createdDate: Date?
 
         public init(clientCertificateId: String? = nil, description: String? = nil, expirationDate: Date? = nil, pemEncodedCertificate: String? = nil, createdDate: Date? = nil) {
             self.clientCertificateId = clientCertificateId
@@ -2704,10 +2611,8 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// Gets the current list of Authorizer resources in the collection.
-        public var items: [Authorizer]? = nil
-        public var position: String? = nil
-
-        public init() {}
+        public let items: [Authorizer]?
+        public let position: String?
 
         public init(items: [Authorizer]? = nil, position: String? = nil) {
             self.items = items
@@ -2717,6 +2622,8 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["items"] as? [[String: Any]] {
                 self.items = try items.map({ try Authorizer(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             self.position = dictionary["position"] as? String
         }
@@ -2726,13 +2633,11 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description of the API documentation snapshot.
-        public var description: String? = nil
+        public let description: String?
         /// The version identifier of the API documentation snapshot.
-        public var version: String? = nil
+        public let version: String?
         /// The date when the API documentation snapshot is created.
-        public var createdDate: Date? = nil
-
-        public init() {}
+        public let createdDate: Date?
 
         public init(description: String? = nil, version: String? = nil, createdDate: Date? = nil) {
             self.description = description
@@ -2754,15 +2659,13 @@ extension Apigateway {
             return ["domain_name": "domainName"]
         }
         /// The name of the API that you want to apply this mapping to.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The domain name of the BasePathMapping resource to create.
-        public var domainName: String = ""
+        public let domainName: String
         /// The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Leave this blank if you do not want callers to specify a base path name after the domain name.
-        public var basePath: String? = nil
+        public let basePath: String?
         /// The name of the API's stage that you want to use for this mapping. Leave this blank if you do not want callers to explicitly specify the stage name after any base path name.
-        public var stage: String? = nil
-
-        public init() {}
+        public let stage: String?
 
         public init(restApiId: String, domainName: String, basePath: String? = nil, stage: String? = nil) {
             self.restApiId = restApiId
@@ -2788,11 +2691,9 @@ extension Apigateway {
             return ["api_Key": "apiKey"]
         }
         /// The identifier of the ApiKey resource to be updated.
-        public var apiKey: String = ""
+        public let apiKey: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
-
-        public init() {}
+        public let patchOperations: [PatchOperation]?
 
         public init(apiKey: String, patchOperations: [PatchOperation]? = nil) {
             self.apiKey = apiKey
@@ -2804,6 +2705,8 @@ extension Apigateway {
             self.apiKey = apiKey
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
         }
     }
@@ -2815,9 +2718,7 @@ extension Apigateway {
             return ["restapi_id": "restApiId"]
         }
         /// The identifier of the RestApi resource.
-        public var restApiId: String = ""
-
-        public init() {}
+        public let restApiId: String
 
         public init(restApiId: String) {
             self.restApiId = restApiId
@@ -2833,9 +2734,7 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Apache Velocity Template Language (VTL) template content used for the template resource.
-        public var value: String? = nil
-
-        public init() {}
+        public let value: String?
 
         public init(value: String? = nil) {
             self.value = value
@@ -2856,11 +2755,9 @@ extension Apigateway {
             return ["api_Key": "apiKey"]
         }
         /// A boolean flag to specify whether (true) or not (false) the result contains the key value.
-        public var includeValue: Bool? = nil
+        public let includeValue: Bool?
         /// The identifier of the ApiKey resource.
-        public var apiKey: String = ""
-
-        public init() {}
+        public let apiKey: String
 
         public init(includeValue: Bool? = nil, apiKey: String) {
             self.includeValue = includeValue
@@ -2881,13 +2778,11 @@ extension Apigateway {
             return ["restapi_id": "restApiId"]
         }
         /// [Required] The identifier of an API of the to-be-created documentation part.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// [Required] The location of the targeted API entity of the to-be-created documentation part.
-        public var location: DocumentationPartLocation = DocumentationPartLocation()
+        public let location: DocumentationPartLocation
         /// [Required] The new documentation content map of the targeted API entity. Enclosed key-value pairs are API-specific, but only Swagger-compliant key-value pairs can be exported and, hence, published.
-        public var properties: String = ""
-
-        public init() {}
+        public let properties: String
 
         public init(restApiId: String, location: DocumentationPartLocation, properties: String) {
             self.restApiId = restApiId
@@ -2909,11 +2804,9 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The API request burst limit, the maximum rate limit over a time ranging from one to a few seconds, depending upon whether the underlying token bucket is at its full capacity.
-        public var burstLimit: Int32? = nil
+        public let burstLimit: Int32?
         /// The API request steady-state rate limit.
-        public var rateLimit: Double? = nil
-
-        public init() {}
+        public let rateLimit: Double?
 
         public init(burstLimit: Int32? = nil, rateLimit: Double? = nil) {
             self.burstLimit = burstLimit
@@ -2933,15 +2826,13 @@ extension Apigateway {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// Specifies a delete integration response request's API identifier.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// Specifies a delete integration response request's status code.
-        public var statusCode: String = ""
+        public let statusCode: String
         /// Specifies a delete integration response request's resource identifier.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// Specifies a delete integration response request's HTTP method.
-        public var httpMethod: String = ""
-
-        public init() {}
+        public let httpMethod: String
 
         public init(restApiId: String, statusCode: String, resourceId: String, httpMethod: String) {
             self.restApiId = restApiId
@@ -2969,13 +2860,11 @@ extension Apigateway {
             return ["Content-Type": "contentType", "Content-Disposition": "contentDisposition"]
         }
         /// The content-type header value in the HTTP response.
-        public var contentType: String? = nil
+        public let contentType: String?
         /// The content-disposition header value in the HTTP response.
-        public var contentDisposition: String? = nil
+        public let contentDisposition: String?
         /// The binary blob response to GetSdk, which contains the generated SDK.
-        public var body: Data? = nil
-
-        public init() {}
+        public let body: Data?
 
         public init(contentType: String? = nil, contentDisposition: String? = nil, body: Data? = nil) {
             self.contentType = contentType
@@ -2997,13 +2886,11 @@ extension Apigateway {
             return ["restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// The RestApi identifier for the Resource resource.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The identifier of the Resource resource.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
-
-        public init() {}
+        public let patchOperations: [PatchOperation]?
 
         public init(restApiId: String, resourceId: String, patchOperations: [PatchOperation]? = nil) {
             self.restApiId = restApiId
@@ -3018,6 +2905,8 @@ extension Apigateway {
             self.resourceId = resourceId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
         }
     }
@@ -3029,15 +2918,13 @@ extension Apigateway {
             return ["http_method": "httpMethod", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// Represents an update integration request's API identifier.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
+        public let patchOperations: [PatchOperation]?
         /// Represents an update integration request's resource identifier.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// Represents an update integration request's HTTP method.
-        public var httpMethod: String = ""
-
-        public init() {}
+        public let httpMethod: String
 
         public init(restApiId: String, patchOperations: [PatchOperation]? = nil, resourceId: String, httpMethod: String) {
             self.restApiId = restApiId
@@ -3051,6 +2938,8 @@ extension Apigateway {
             self.restApiId = restApiId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
             guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
             self.resourceId = resourceId
@@ -3063,10 +2952,8 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// Gets the current item of the usage plan keys collection.
-        public var items: [UsagePlanKey]? = nil
-        public var position: String? = nil
-
-        public init() {}
+        public let items: [UsagePlanKey]?
+        public let position: String?
 
         public init(items: [UsagePlanKey]? = nil, position: String? = nil) {
             self.items = items
@@ -3076,6 +2963,8 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["items"] as? [[String: Any]] {
                 self.items = try items.map({ try UsagePlanKey(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             self.position = dictionary["position"] as? String
         }
@@ -3085,11 +2974,9 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// API Id of the associated API stage in a usage plan.
-        public var apiId: String? = nil
+        public let apiId: String?
         /// API stage name of the associated API stage in a usage plan.
-        public var stage: String? = nil
-
-        public init() {}
+        public let stage: String?
 
         public init(apiId: String? = nil, stage: String? = nil) {
             self.apiId = apiId
@@ -3109,13 +2996,11 @@ extension Apigateway {
             return ["restapi_id": "restApiId", "parent_id": "parentId"]
         }
         /// The identifier of the RestApi for the resource. 
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The last path segment for this resource.
-        public var pathPart: String = ""
+        public let pathPart: String
         /// The parent resource's identifier.
-        public var parentId: String = ""
-
-        public init() {}
+        public let parentId: String
 
         public init(restApiId: String, pathPart: String, parentId: String) {
             self.restApiId = restApiId
@@ -3140,15 +3025,13 @@ extension Apigateway {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// The RestApi identifier for the MethodResponse resource.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The status code for the MethodResponse resource.
-        public var statusCode: String = ""
+        public let statusCode: String
         /// The Resource identifier for the MethodResponse resource.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// The HTTP verb of the Method resource.
-        public var httpMethod: String = ""
-
-        public init() {}
+        public let httpMethod: String
 
         public init(restApiId: String, statusCode: String, resourceId: String, httpMethod: String) {
             self.restApiId = restApiId
@@ -3179,19 +3062,17 @@ extension Apigateway {
             return ["restapi_id": "restApiId"]
         }
         /// The position of the to-be-retrieved documentation part in the DocumentationParts collection.
-        public var position: String? = nil
+        public let position: String?
         /// [Required] The identifier of the API of the to-be-retrieved documentation parts.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The size of the paged results.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The path of API entities of the to-be-retrieved documentation parts.
-        public var path: String? = nil
+        public let path: String?
         /// The name of API entities of the to-be-retrieved documentation parts.
-        public var nameQuery: String? = nil
+        public let nameQuery: String?
         /// The type of API entities of the to-be-retrieved documentation parts. 
-        public var type: String? = nil
-
-        public init() {}
+        public let type: String?
 
         public init(position: String? = nil, restApiId: String, limit: Int32? = nil, path: String? = nil, nameQuery: String? = nil, type: String? = nil) {
             self.position = position
@@ -3220,11 +3101,9 @@ extension Apigateway {
             return ["deployment_id": "deploymentId", "restapi_id": "restApiId"]
         }
         /// The identifier of the Deployment resource to get information about.
-        public var deploymentId: String = ""
+        public let deploymentId: String
         /// The identifier of the RestApi resource for the Deployment resource to get information about.
-        public var restApiId: String = ""
-
-        public init() {}
+        public let restApiId: String
 
         public init(deploymentId: String, restApiId: String) {
             self.deploymentId = deploymentId
@@ -3243,9 +3122,7 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
-
-        public init() {}
+        public let patchOperations: [PatchOperation]?
 
         public init(patchOperations: [PatchOperation]? = nil) {
             self.patchOperations = patchOperations
@@ -3254,6 +3131,8 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
         }
     }
@@ -3262,9 +3141,7 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description of the ClientCertificate.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(description: String? = nil) {
             self.description = description
@@ -3279,10 +3156,8 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current page of any DomainName resources in the collection of DomainName resources.
-        public var items: [DomainName]? = nil
-        public var position: String? = nil
-
-        public init() {}
+        public let items: [DomainName]?
+        public let position: String?
 
         public init(items: [DomainName]? = nil, position: String? = nil) {
             self.items = items
@@ -3292,6 +3167,8 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["items"] as? [[String: Any]] {
                 self.items = try items.map({ try DomainName(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             self.position = dictionary["position"] as? String
         }
@@ -3304,19 +3181,17 @@ extension Apigateway {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// The RestApi identifier for the Method resource.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The method response's status code.
-        public var statusCode: String = ""
+        public let statusCode: String
         /// Specifies the Model resources used for the response's content type. Response models are represented as a key/value map, with a content type as the key and a Model name as the value.
-        public var responseModels: [String: String]? = nil
+        public let responseModels: [String: String]?
         /// The Resource identifier for the Method resource.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// The HTTP verb of the Method resource.
-        public var httpMethod: String = ""
+        public let httpMethod: String
         /// A key-value map specifying required or optional response parameters that Amazon API Gateway can send back to the caller. A key defines a method response header name and the associated value is a Boolean flag indicating whether the method response parameter is required or not. The method response header names must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The response parameter names defined here are available in the integration response to be mapped from an integration response header expressed in integration.response.header.{name}, a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON expression without the $ prefix.)
-        public var responseParameters: [String: Bool]? = nil
-
-        public init() {}
+        public let responseParameters: [String: Bool]?
 
         public init(restApiId: String, statusCode: String, responseModels: [String: String]? = nil, resourceId: String, httpMethod: String, responseParameters: [String: Bool]? = nil) {
             self.restApiId = restApiId
@@ -3334,6 +3209,8 @@ extension Apigateway {
             self.statusCode = statusCode
             if let responseModels = dictionary["responseModels"] as? [String: String] {
                 self.responseModels = responseModels
+            } else { 
+                self.responseModels = nil
             }
             guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
             self.resourceId = resourceId
@@ -3341,6 +3218,8 @@ extension Apigateway {
             self.httpMethod = httpMethod
             if let responseParameters = dictionary["responseParameters"] as? [String: Bool] {
                 self.responseParameters = responseParameters
+            } else { 
+                self.responseParameters = nil
             }
         }
     }
@@ -3349,21 +3228,19 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The associated API stages of a usage plan.
-        public var apiStages: [ApiStage]? = nil
+        public let apiStages: [ApiStage]?
         /// The maximum number of permitted requests per a given unit time interval.
-        public var quota: QuotaSettings? = nil
+        public let quota: QuotaSettings?
         /// The name of a usage plan.
-        public var name: String? = nil
+        public let name: String?
         /// The identifier of a UsagePlan resource.
-        public var id: String? = nil
+        public let id: String?
         /// The request throttle limits of a usage plan.
-        public var throttle: ThrottleSettings? = nil
+        public let throttle: ThrottleSettings?
         /// The description of a usage plan.
-        public var description: String? = nil
+        public let description: String?
         /// The AWS Markeplace product identifier to associate with the usage plan as a SaaS product on AWS Marketplace.
-        public var productCode: String? = nil
-
-        public init() {}
+        public let productCode: String?
 
         public init(apiStages: [ApiStage]? = nil, quota: QuotaSettings? = nil, name: String? = nil, id: String? = nil, throttle: ThrottleSettings? = nil, description: String? = nil, productCode: String? = nil) {
             self.apiStages = apiStages
@@ -3378,11 +3255,13 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let apiStages = dictionary["apiStages"] as? [[String: Any]] {
                 self.apiStages = try apiStages.map({ try ApiStage(dictionary: $0) })
+            } else { 
+                self.apiStages = nil
             }
-            if let quota = dictionary["quota"] as? [String: Any] { self.quota = try Apigateway.QuotaSettings(dictionary: quota) }
+            if let quota = dictionary["quota"] as? [String: Any] { self.quota = try Apigateway.QuotaSettings(dictionary: quota) } else { self.quota = nil }
             self.name = dictionary["name"] as? String
             self.id = dictionary["id"] as? String
-            if let throttle = dictionary["throttle"] as? [String: Any] { self.throttle = try Apigateway.ThrottleSettings(dictionary: throttle) }
+            if let throttle = dictionary["throttle"] as? [String: Any] { self.throttle = try Apigateway.ThrottleSettings(dictionary: throttle) } else { self.throttle = nil }
             self.description = dictionary["description"] as? String
             self.productCode = dictionary["productCode"] as? String
         }
@@ -3398,13 +3277,11 @@ extension Apigateway {
             return ["restapi_id": "restApiId"]
         }
         /// The position of the next set of results in the current Resources resource to get information about.
-        public var position: String? = nil
+        public let position: String?
         /// The RestApi identifier for the Resource.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The maximum number of Resource resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(position: String? = nil, restApiId: String, limit: Int32? = nil) {
             self.position = position
@@ -3424,21 +3301,19 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
-        public var binaryMediaTypes: [String]? = nil
+        public let binaryMediaTypes: [String]?
         /// The API's name.
-        public var name: String? = nil
+        public let name: String?
         /// The API's identifier. This identifier is unique across all of your APIs in Amazon API Gateway.
-        public var id: String? = nil
+        public let id: String?
         /// The timestamp when the API was created.
-        public var createdDate: Date? = nil
+        public let createdDate: Date?
         /// The API's description.
-        public var description: String? = nil
+        public let description: String?
         /// A version identifier for the API.
-        public var version: String? = nil
+        public let version: String?
         /// The warning messages reported when failonwarnings is turned on during API import.
-        public var warnings: [String]? = nil
-
-        public init() {}
+        public let warnings: [String]?
 
         public init(binaryMediaTypes: [String]? = nil, name: String? = nil, id: String? = nil, createdDate: Date? = nil, description: String? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.binaryMediaTypes = binaryMediaTypes
@@ -3451,17 +3326,13 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let binaryMediaTypes = dictionary["binaryMediaTypes"] as? [String] {
-                self.binaryMediaTypes = binaryMediaTypes
-            }
+            self.binaryMediaTypes = dictionary["binaryMediaTypes"] as? [String]
             self.name = dictionary["name"] as? String
             self.id = dictionary["id"] as? String
             self.createdDate = dictionary["createdDate"] as? Date
             self.description = dictionary["description"] as? String
             self.version = dictionary["version"] as? String
-            if let warnings = dictionary["warnings"] as? [String] {
-                self.warnings = warnings
-            }
+            self.warnings = dictionary["warnings"] as? [String]
         }
     }
 
@@ -3469,17 +3340,15 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the templates used to transform the integration response body. Response templates are represented as a key/value map, with a content-type as the key and a template as the value.
-        public var responseTemplates: [String: String]? = nil
+        public let responseTemplates: [String: String]?
         /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string.  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
-        public var contentHandling: String? = nil
+        public let contentHandling: String?
         /// Specifies the status code that is used to map the integration response to an existing MethodResponse.
-        public var statusCode: String? = nil
+        public let statusCode: String?
         /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name is a valid and unique response header name and JSON-expression is a valid JSON expression without the $ prefix.
-        public var responseParameters: [String: String]? = nil
+        public let responseParameters: [String: String]?
         /// Specifies the regular expression (regex) pattern used to choose an integration response based on the response from the back end. For example, if the success response returns nothing and the error response returns some string, you could use the .+ regex to match error response. However, make sure that the error response does not contain any newline (\n) character in such cases. If the back end is an AWS Lambda function, the AWS Lambda function error header is matched. For all other HTTP and AWS back ends, the HTTP status code is matched.
-        public var selectionPattern: String? = nil
-
-        public init() {}
+        public let selectionPattern: String?
 
         public init(responseTemplates: [String: String]? = nil, contentHandling: String? = nil, statusCode: String? = nil, responseParameters: [String: String]? = nil, selectionPattern: String? = nil) {
             self.responseTemplates = responseTemplates
@@ -3492,11 +3361,15 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let responseTemplates = dictionary["responseTemplates"] as? [String: String] {
                 self.responseTemplates = responseTemplates
+            } else { 
+                self.responseTemplates = nil
             }
             self.contentHandling = dictionary["contentHandling"] as? String
             self.statusCode = dictionary["statusCode"] as? String
             if let responseParameters = dictionary["responseParameters"] as? [String: String] {
                 self.responseParameters = responseParameters
+            } else { 
+                self.responseParameters = nil
             }
             self.selectionPattern = dictionary["selectionPattern"] as? String
         }
@@ -3506,15 +3379,13 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of features supported for the account. When usage plans are enabled, the features list will include an entry of "UsagePlans".
-        public var features: [String]? = nil
+        public let features: [String]?
         /// The version of the API keys used for the account.
-        public var apiKeyVersion: String? = nil
+        public let apiKeyVersion: String?
         /// Specifies the API request limits configured for the current Account.
-        public var throttleSettings: ThrottleSettings? = nil
+        public let throttleSettings: ThrottleSettings?
         /// The ARN of an Amazon CloudWatch role for the current Account. 
-        public var cloudwatchRoleArn: String? = nil
-
-        public init() {}
+        public let cloudwatchRoleArn: String?
 
         public init(features: [String]? = nil, apiKeyVersion: String? = nil, throttleSettings: ThrottleSettings? = nil, cloudwatchRoleArn: String? = nil) {
             self.features = features
@@ -3524,11 +3395,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let features = dictionary["features"] as? [String] {
-                self.features = features
-            }
+            self.features = dictionary["features"] as? [String]
             self.apiKeyVersion = dictionary["apiKeyVersion"] as? String
-            if let throttleSettings = dictionary["throttleSettings"] as? [String: Any] { self.throttleSettings = try Apigateway.ThrottleSettings(dictionary: throttleSettings) }
+            if let throttleSettings = dictionary["throttleSettings"] as? [String: Any] { self.throttleSettings = try Apigateway.ThrottleSettings(dictionary: throttleSettings) } else { self.throttleSettings = nil }
             self.cloudwatchRoleArn = dictionary["cloudwatchRoleArn"] as? String
         }
     }
@@ -3540,27 +3409,25 @@ extension Apigateway {
             return ["restapi_id": "restApiId"]
         }
         /// [Required] The name of the authorizer.
-        public var name: String = ""
+        public let name: String
         /// A validation expression for the incoming identity.
-        public var identityValidationExpression: String? = nil
+        public let identityValidationExpression: String?
         /// The TTL of cached authorizer results.
-        public var authorizerResultTtlInSeconds: Int32? = nil
+        public let authorizerResultTtlInSeconds: Int32?
         /// [Required] Specifies the authorizer's Uniform Resource Identifier (URI).
-        public var authorizerUri: String? = nil
+        public let authorizerUri: String?
         /// Specifies the credentials required for the authorizer, if any.
-        public var authorizerCredentials: String? = nil
+        public let authorizerCredentials: String?
         /// The RestApi identifier under which the Authorizer will be created.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// [Required] The source of the identity in an incoming request.
-        public var identitySource: String = ""
+        public let identitySource: String
         /// Optional customer-defined field, used in Swagger imports/exports. Has no functional impact.
-        public var authType: String? = nil
+        public let authType: String?
         /// A list of the Cognito Your User Pool authorizer's provider ARNs.
-        public var providerARNs: [String]? = nil
+        public let providerARNs: [String]?
         /// [Required] The type of the authorizer.
-        public var type: String = ""
-
-        public init() {}
+        public let type: String
 
         public init(name: String, identityValidationExpression: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerUri: String? = nil, authorizerCredentials: String? = nil, restApiId: String, identitySource: String, authType: String? = nil, providerARNs: [String]? = nil, type: String) {
             self.name = name
@@ -3587,9 +3454,7 @@ extension Apigateway {
             guard let identitySource = dictionary["identitySource"] as? String else { throw InitializableError.missingRequiredParam("identitySource") }
             self.identitySource = identitySource
             self.authType = dictionary["authType"] as? String
-            if let providerARNs = dictionary["providerARNs"] as? [String] {
-                self.providerARNs = providerARNs
-            }
+            self.providerARNs = dictionary["providerARNs"] as? [String]
             guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
             self.type = type
         }
@@ -3605,11 +3470,9 @@ extension Apigateway {
             return ["restapi_id": "restApiId"]
         }
         /// The stages' deployment identifiers.
-        public var deploymentId: String? = nil
+        public let deploymentId: String?
         /// The stages' API identifiers.
-        public var restApiId: String = ""
-
-        public init() {}
+        public let restApiId: String
 
         public init(deploymentId: String? = nil, restApiId: String) {
             self.deploymentId = deploymentId
@@ -3630,13 +3493,11 @@ extension Apigateway {
             return ["failonwarnings": "failOnWarnings"]
         }
         /// A query parameter to indicate whether to rollback the API creation (true) or not (false) when a warning is encountered. The default value is false.
-        public var failOnWarnings: Bool? = nil
+        public let failOnWarnings: Bool?
         /// The POST request body containing external API definitions. Currently, only Swagger definition JSON files are supported.
-        public var body: Data = Data()
+        public let body: Data
         /// Custom header parameters as part of the request.
-        public var parameters: [String: String]? = nil
-
-        public init() {}
+        public let parameters: [String: String]?
 
         public init(failOnWarnings: Bool? = nil, body: Data, parameters: [String: String]? = nil) {
             self.failOnWarnings = failOnWarnings
@@ -3650,6 +3511,8 @@ extension Apigateway {
             self.body = body
             if let parameters = dictionary["parameters"] as? [String: String] {
                 self.parameters = parameters
+            } else { 
+                self.parameters = nil
             }
         }
     }
@@ -3661,11 +3524,9 @@ extension Apigateway {
             return ["position": "position", "limit": "limit"]
         }
         /// The position of the current RestApis resource in the collection to get information about.
-        public var position: String? = nil
+        public let position: String?
         /// The maximum number of RestApi resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(position: String? = nil, limit: Int32? = nil) {
             self.position = position
@@ -3685,15 +3546,13 @@ extension Apigateway {
             return ["sdk_type": "sdkType", "restapi_id": "restApiId", "stage_name": "stageName"]
         }
         /// The language for the generated SDK. Currently javascript, android, and objectivec (for iOS) are supported.
-        public var sdkType: String = ""
+        public let sdkType: String
         /// The identifier of the RestApi that the SDK will use.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The name of the Stage that the SDK will use.
-        public var stageName: String = ""
+        public let stageName: String
         /// A key-value map of query string parameters that specify properties of the SDK, depending on the requested sdkType. For sdkType of objectivec, a parameter named classPrefix is required. For sdkType of android, parameters named groupId, artifactId, artifactVersion, and invokerPackage are required.
-        public var parameters: [String: String]? = nil
-
-        public init() {}
+        public let parameters: [String: String]?
 
         public init(sdkType: String, restApiId: String, stageName: String, parameters: [String: String]? = nil) {
             self.sdkType = sdkType
@@ -3711,6 +3570,8 @@ extension Apigateway {
             self.stageName = stageName
             if let parameters = dictionary["parameters"] as? [String: String] {
                 self.parameters = parameters
+            } else { 
+                self.parameters = nil
             }
         }
     }
@@ -3718,21 +3579,19 @@ extension Apigateway {
     public struct TestInvokeAuthorizerResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var authorization: [String: [String]]? = nil
+        public let authorization: [String: [String]]?
         /// The principal identity returned by the Authorizer
-        public var principalId: String? = nil
+        public let principalId: String?
         /// The Amazon API Gateway execution log for the test authorizer request.
-        public var log: String? = nil
+        public let log: String?
         /// The execution latency of the test authorizer request.
-        public var latency: Int64? = nil
+        public let latency: Int64?
         /// The JSON policy document returned by the Authorizer
-        public var policy: String? = nil
+        public let policy: String?
         /// The HTTP status code that the client would have received. Value is 0 if the authorizer succeeded.
-        public var clientStatus: Int32? = nil
+        public let clientStatus: Int32?
         /// The open identity claims, with any supported custom attributes, returned from the Cognito Your User Pool configured for the API.
-        public var claims: [String: String]? = nil
-
-        public init() {}
+        public let claims: [String: String]?
 
         public init(authorization: [String: [String]]? = nil, principalId: String? = nil, log: String? = nil, latency: Int64? = nil, policy: String? = nil, clientStatus: Int32? = nil, claims: [String: String]? = nil) {
             self.authorization = authorization
@@ -3752,6 +3611,8 @@ extension Apigateway {
                     authorizationDict[key] = listOfString
                 }
                 self.authorization = authorizationDict
+            } else { 
+                self.authorization = nil
             }
             self.principalId = dictionary["principalId"] as? String
             self.log = dictionary["log"] as? String
@@ -3760,6 +3621,8 @@ extension Apigateway {
             self.clientStatus = dictionary["clientStatus"] as? Int32
             if let claims = dictionary["claims"] as? [String: String] {
                 self.claims = claims
+            } else { 
+                self.claims = nil
             }
         }
     }
@@ -3771,15 +3634,13 @@ extension Apigateway {
             return ["http_method": "httpMethod", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// The RestApi identifier for the Method resource.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
+        public let patchOperations: [PatchOperation]?
         /// The Resource identifier for the Method resource.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// The HTTP verb of the Method resource.
-        public var httpMethod: String = ""
-
-        public init() {}
+        public let httpMethod: String
 
         public init(restApiId: String, patchOperations: [PatchOperation]? = nil, resourceId: String, httpMethod: String) {
             self.restApiId = restApiId
@@ -3793,6 +3654,8 @@ extension Apigateway {
             self.restApiId = restApiId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
             guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
             self.resourceId = resourceId
@@ -3805,27 +3668,25 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// [Required] The name of the authorizer.
-        public var name: String? = nil
+        public let name: String?
         /// The identifier for the authorizer resource.
-        public var id: String? = nil
+        public let id: String?
         /// A validation expression for the incoming identity. For TOKEN authorizers, this value should be a regular expression. The incoming token from the client is matched against this expression, and will proceed if the token matches. If the token doesn't match, the client receives a 401 Unauthorized response.
-        public var identityValidationExpression: String? = nil
+        public let identityValidationExpression: String?
         /// The TTL in seconds of cached authorizer results. If greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour.
-        public var authorizerResultTtlInSeconds: Int32? = nil
+        public let authorizerResultTtlInSeconds: Int32?
         /// [Required] Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations.
-        public var authorizerUri: String? = nil
+        public let authorizerUri: String?
         /// Specifies the credentials required for the authorizer, if any. Two options are available. To specify an IAM role for Amazon API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
-        public var authorizerCredentials: String? = nil
+        public let authorizerCredentials: String?
         /// [Required] The source of the identity in an incoming request. For a TOKEN authorizer, this value is a mapping expression with the same syntax as integration parameter mappings. The only valid source for tokens is 'header', so the expression should match 'method.request.header.[headerName]'. The value of the header '[headerName]' will be interpreted as the incoming token. For COGNITO_USER_POOLS authorizers, this property is used.
-        public var identitySource: String? = nil
+        public let identitySource: String?
         /// Optional customer-defined field, used in Swagger imports/exports. Has no functional impact.
-        public var authType: String? = nil
+        public let authType: String?
         /// A list of the provider ARNs of the authorizer. For an TOKEN authorizer, this is not defined. For authorizers of the COGNITO_USER_POOLS type, each element corresponds to a user pool ARN of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. 
-        public var providerARNs: [String]? = nil
+        public let providerARNs: [String]?
         /// [Required] The type of the authorizer. Currently, the valid type is TOKEN for a Lambda function or COGNITO_USER_POOLS for an Amazon Cognito user pool.
-        public var type: String? = nil
-
-        public init() {}
+        public let type: String?
 
         public init(name: String? = nil, id: String? = nil, identityValidationExpression: String? = nil, authorizerResultTtlInSeconds: Int32? = nil, authorizerUri: String? = nil, authorizerCredentials: String? = nil, identitySource: String? = nil, authType: String? = nil, providerARNs: [String]? = nil, type: String? = nil) {
             self.name = name
@@ -3849,9 +3710,7 @@ extension Apigateway {
             self.authorizerCredentials = dictionary["authorizerCredentials"] as? String
             self.identitySource = dictionary["identitySource"] as? String
             self.authType = dictionary["authType"] as? String
-            if let providerARNs = dictionary["providerARNs"] as? [String] {
-                self.providerARNs = providerARNs
-            }
+            self.providerARNs = dictionary["providerARNs"] as? [String]
             self.type = dictionary["type"] as? String
         }
     }
@@ -3863,13 +3722,11 @@ extension Apigateway {
             return ["keyId": "keyId", "position": "position", "limit": "limit"]
         }
         /// The identifier of the API key associated with the usage plans.
-        public var keyId: String? = nil
+        public let keyId: String?
         /// The zero-based array index specifying the position of the to-be-retrieved UsagePlan resource.
-        public var position: String? = nil
+        public let position: String?
         /// The number of UsagePlan resources to be returned as the result.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(keyId: String? = nil, position: String? = nil, limit: Int32? = nil) {
             self.keyId = keyId
@@ -3891,13 +3748,11 @@ extension Apigateway {
             return ["restapi_id": "restApiId", "stage_name": "stageName"]
         }
         /// The identifier of the RestApi resource for the Stage resource to change information about.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The name of the Stage resource to change information about.
-        public var stageName: String = ""
+        public let stageName: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
-
-        public init() {}
+        public let patchOperations: [PatchOperation]?
 
         public init(restApiId: String, stageName: String, patchOperations: [PatchOperation]? = nil) {
             self.restApiId = restApiId
@@ -3912,6 +3767,8 @@ extension Apigateway {
             self.stageName = stageName
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
         }
     }
@@ -3923,11 +3780,9 @@ extension Apigateway {
             return ["position": "position", "limit": "limit"]
         }
         /// The position of the current ClientCertificate resource in the collection to get information about.
-        public var position: String? = nil
+        public let position: String?
         /// The maximum number of ClientCertificate resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(position: String? = nil, limit: Int32? = nil) {
             self.position = position
@@ -3947,9 +3802,7 @@ extension Apigateway {
             return ["usageplanId": "usagePlanId"]
         }
         /// The identifier of the UsagePlan resource to be retrieved.
-        public var usagePlanId: String = ""
-
-        public init() {}
+        public let usagePlanId: String
 
         public init(usagePlanId: String) {
             self.usagePlanId = usagePlanId
@@ -3965,10 +3818,8 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current page of DocumentationPart resources in the DocumentationParts collection.
-        public var items: [DocumentationPart]? = nil
-        public var position: String? = nil
-
-        public init() {}
+        public let items: [DocumentationPart]?
+        public let position: String?
 
         public init(items: [DocumentationPart]? = nil, position: String? = nil) {
             self.items = items
@@ -3978,6 +3829,8 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["items"] as? [[String: Any]] {
                 self.items = try items.map({ try DocumentationPart(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             self.position = dictionary["position"] as? String
         }
@@ -3986,8 +3839,6 @@ extension Apigateway {
     public struct GetAccountRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -4000,11 +3851,9 @@ extension Apigateway {
             return ["part_id": "documentationPartId", "restapi_id": "restApiId"]
         }
         /// [Required] The identifier of the to-be-deleted documentation part.
-        public var documentationPartId: String = ""
+        public let documentationPartId: String
         /// [Required] Specifies the identifier of an API of the to-be-deleted documentation part.
-        public var restApiId: String = ""
-
-        public init() {}
+        public let restApiId: String
 
         public init(documentationPartId: String, restApiId: String) {
             self.documentationPartId = documentationPartId
@@ -4023,17 +3872,15 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description of the RestApi.
-        public var description: String? = nil
+        public let description: String?
         /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
-        public var binaryMediaTypes: [String]? = nil
+        public let binaryMediaTypes: [String]?
         /// The ID of the RestApi that you want to clone from.
-        public var cloneFrom: String? = nil
+        public let cloneFrom: String?
         /// The name of the RestApi.
-        public var name: String = ""
+        public let name: String
         /// A version identifier for the API.
-        public var version: String? = nil
-
-        public init() {}
+        public let version: String?
 
         public init(description: String? = nil, binaryMediaTypes: [String]? = nil, cloneFrom: String? = nil, name: String, version: String? = nil) {
             self.description = description
@@ -4045,9 +3892,7 @@ extension Apigateway {
 
         public init(dictionary: [String: Any]) throws {
             self.description = dictionary["description"] as? String
-            if let binaryMediaTypes = dictionary["binaryMediaTypes"] as? [String] {
-                self.binaryMediaTypes = binaryMediaTypes
-            }
+            self.binaryMediaTypes = dictionary["binaryMediaTypes"] as? [String]
             self.cloneFrom = dictionary["cloneFrom"] as? String
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
@@ -4062,21 +3907,19 @@ extension Apigateway {
             return ["restapi_id": "restApiId"]
         }
         /// Enables a cache cluster for the Stage resource specified in the input.
-        public var cacheClusterEnabled: Bool? = nil
+        public let cacheClusterEnabled: Bool?
         /// Specifies the cache cluster size for the Stage resource specified in the input, if a cache cluster is enabled.
-        public var cacheClusterSize: String? = nil
+        public let cacheClusterSize: String?
         /// A map that defines the stage variables for the Stage resource that is associated with the new deployment. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
-        public var variables: [String: String]? = nil
+        public let variables: [String: String]?
         /// The description for the Deployment resource to create.
-        public var description: String? = nil
+        public let description: String?
         /// The RestApi resource identifier for the Deployment resource to create.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The name of the Stage resource for the Deployment resource to create.
-        public var stageName: String? = nil
+        public let stageName: String?
         /// The description of the Stage resource for the Deployment resource to create.
-        public var stageDescription: String? = nil
-
-        public init() {}
+        public let stageDescription: String?
 
         public init(cacheClusterEnabled: Bool? = nil, cacheClusterSize: String? = nil, variables: [String: String]? = nil, description: String? = nil, restApiId: String, stageName: String? = nil, stageDescription: String? = nil) {
             self.cacheClusterEnabled = cacheClusterEnabled
@@ -4093,6 +3936,8 @@ extension Apigateway {
             self.cacheClusterSize = dictionary["cacheClusterSize"] as? String
             if let variables = dictionary["variables"] as? [String: String] {
                 self.variables = variables
+            } else { 
+                self.variables = nil
             }
             self.description = dictionary["description"] as? String
             guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
@@ -4109,11 +3954,9 @@ extension Apigateway {
             return ["domain_name": "domainName", "base_path": "basePath"]
         }
         /// The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Leave this blank if you do not want callers to specify any base path name after the domain name.
-        public var basePath: String = ""
+        public let basePath: String
         /// The domain name of the BasePathMapping resource to be described.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(basePath: String, domainName: String) {
             self.basePath = basePath
@@ -4132,15 +3975,13 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of a usage plan key.
-        public var name: String? = nil
+        public let name: String?
         /// The value of a usage plan key.
-        public var value: String? = nil
+        public let value: String?
         /// The Id of a usage plan key.
-        public var id: String? = nil
+        public let id: String?
         /// The type of a usage plan key. Currently, the valid key type is API_KEY.
-        public var type: String? = nil
-
-        public init() {}
+        public let type: String?
 
         public init(name: String? = nil, value: String? = nil, id: String? = nil, type: String? = nil) {
             self.name = name
@@ -4161,10 +4002,8 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current page of DocumentationVersion items from the DocumentationVersions collection of an API.
-        public var items: [DocumentationVersion]? = nil
-        public var position: String? = nil
-
-        public init() {}
+        public let items: [DocumentationVersion]?
+        public let position: String?
 
         public init(items: [DocumentationVersion]? = nil, position: String? = nil) {
             self.items = items
@@ -4174,6 +4013,8 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["items"] as? [[String: Any]] {
                 self.items = try items.map({ try DocumentationVersion(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             self.position = dictionary["position"] as? String
         }
@@ -4186,11 +4027,9 @@ extension Apigateway {
             return ["domain_name": "domainName"]
         }
         /// The name of the DomainName resource to be changed.
-        public var domainName: String = ""
+        public let domainName: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
-
-        public init() {}
+        public let patchOperations: [PatchOperation]?
 
         public init(domainName: String, patchOperations: [PatchOperation]? = nil) {
             self.domainName = domainName
@@ -4202,6 +4041,8 @@ extension Apigateway {
             self.domainName = domainName
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
         }
     }
@@ -4213,13 +4054,11 @@ extension Apigateway {
             return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
         /// Specifies a delete integration request's API identifier.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// Specifies a delete integration request's HTTP method.
-        public var httpMethod: String = ""
+        public let httpMethod: String
         /// Specifies a delete integration request's resource identifier.
-        public var resourceId: String = ""
-
-        public init() {}
+        public let resourceId: String
 
         public init(restApiId: String, httpMethod: String, resourceId: String) {
             self.restApiId = restApiId
@@ -4244,13 +4083,11 @@ extension Apigateway {
             return ["usageplanId": "usagePlanId"]
         }
         /// The identifier of a UsagePlanKey resource for a plan customer.
-        public var keyId: String = ""
+        public let keyId: String
         /// The type of a UsagePlanKey resource for a plan customer.
-        public var keyType: String = ""
+        public let keyType: String
         /// The Id of the UsagePlan resource representing the usage plan containing the to-be-created UsagePlanKey resource representing a plan customer.
-        public var usagePlanId: String = ""
-
-        public init() {}
+        public let usagePlanId: String
 
         public init(keyId: String, keyType: String, usagePlanId: String) {
             self.keyId = keyId
@@ -4275,9 +4112,7 @@ extension Apigateway {
             return ["domain_name": "domainName"]
         }
         /// The name of the DomainName resource.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
@@ -4296,11 +4131,9 @@ extension Apigateway {
             return ["restapi_id": "restApiId", "authorizer_id": "authorizerId"]
         }
         /// The identifier of the Authorizer resource.
-        public var authorizerId: String = ""
+        public let authorizerId: String
         /// The RestApi identifier for the Authorizer resource.
-        public var restApiId: String = ""
-
-        public init() {}
+        public let restApiId: String
 
         public init(authorizerId: String, restApiId: String) {
             self.authorizerId = authorizerId
@@ -4325,15 +4158,13 @@ extension Apigateway {
             return ["usageplanId": "usagePlanId"]
         }
         /// A query parameter specifying the zero-based index specifying the position of a usage plan key.
-        public var position: String? = nil
+        public let position: String?
         /// A query parameter specifying the maximum number usage plan keys returned by the GET request.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// A query parameter specifying the name of the to-be-returned usage plan keys.
-        public var nameQuery: String? = nil
+        public let nameQuery: String?
         /// The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
-        public var usagePlanId: String = ""
-
-        public init() {}
+        public let usagePlanId: String
 
         public init(position: String? = nil, limit: Int32? = nil, nameQuery: String? = nil, usagePlanId: String) {
             self.position = position
@@ -4355,11 +4186,9 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of the returned documentation part identifiers.
-        public var ids: [String]? = nil
+        public let ids: [String]?
         /// A list of warning messages reported during import of documentation parts.
-        public var warnings: [String]? = nil
-
-        public init() {}
+        public let warnings: [String]?
 
         public init(ids: [String]? = nil, warnings: [String]? = nil) {
             self.ids = ids
@@ -4367,12 +4196,8 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let ids = dictionary["ids"] as? [String] {
-                self.ids = ids
-            }
-            if let warnings = dictionary["warnings"] as? [String] {
-                self.warnings = warnings
-            }
+            self.ids = dictionary["ids"] as? [String]
+            self.warnings = dictionary["warnings"] as? [String]
         }
     }
 
@@ -4383,33 +4208,31 @@ extension Apigateway {
             return ["http_method": "httpMethod", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// Specifies a put integration input's cache namespace.
-        public var cacheNamespace: String? = nil
+        public let cacheNamespace: String?
         /// Specifies a put integration input's Uniform Resource Identifier (URI). When the integration type is HTTP or AWS, this field is required. For integration with Lambda as an AWS service proxy, this value is of the 'arn:aws:apigateway:&lt;region&gt;:lambda:path/2015-03-31/functions/&lt;functionArn&gt;/invocations' format.
-        public var uri: String? = nil
+        public let uri: String?
         /// Specifies a put integration input's cache key parameters.
-        public var cacheKeyParameters: [String]? = nil
+        public let cacheKeyParameters: [String]?
         /// Specifies a put integration request's API identifier.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// Specifies a put integration input's type.
-        public var type: String = ""
+        public let type: String
         /// Specifies a put integration request's resource ID.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
-        public var requestParameters: [String: String]? = nil
+        public let requestParameters: [String: String]?
         /// Specifies a put integration request's HTTP method.
-        public var httpMethod: String = ""
+        public let httpMethod: String
         /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
-        public var requestTemplates: [String: String]? = nil
+        public let requestTemplates: [String: String]?
         /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob to a Base64-encoded string.  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehaviors is configured to support payload pass-through.
-        public var contentHandling: String? = nil
+        public let contentHandling: String?
         /// Specifies whether credentials are required for a put integration.
-        public var credentials: String? = nil
+        public let credentials: String?
         /// Specifies a put integration HTTP method. When the integration type is HTTP or AWS, this field is required.
-        public var integrationHttpMethod: String? = nil
+        public let integrationHttpMethod: String?
         /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values: WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.   WHEN_NO_MATCH passes the request body for unmapped content types through to the integration back end without transformation. NEVER rejects unmapped content types with an HTTP 415 'Unsupported Media Type' response. WHEN_NO_TEMPLATES allows pass-through when the integration has NO content types mapped to templates. However if there is at least one content type defined, unmapped content types will be rejected with the same 415 response. 
-        public var passthroughBehavior: String? = nil
-
-        public init() {}
+        public let passthroughBehavior: String?
 
         public init(cacheNamespace: String? = nil, uri: String? = nil, cacheKeyParameters: [String]? = nil, restApiId: String, type: String, resourceId: String, requestParameters: [String: String]? = nil, httpMethod: String, requestTemplates: [String: String]? = nil, contentHandling: String? = nil, credentials: String? = nil, integrationHttpMethod: String? = nil, passthroughBehavior: String? = nil) {
             self.cacheNamespace = cacheNamespace
@@ -4430,9 +4253,7 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             self.cacheNamespace = dictionary["cacheNamespace"] as? String
             self.uri = dictionary["uri"] as? String
-            if let cacheKeyParameters = dictionary["cacheKeyParameters"] as? [String] {
-                self.cacheKeyParameters = cacheKeyParameters
-            }
+            self.cacheKeyParameters = dictionary["cacheKeyParameters"] as? [String]
             guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
             self.restApiId = restApiId
             guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
@@ -4441,11 +4262,15 @@ extension Apigateway {
             self.resourceId = resourceId
             if let requestParameters = dictionary["requestParameters"] as? [String: String] {
                 self.requestParameters = requestParameters
+            } else { 
+                self.requestParameters = nil
             }
             guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
             self.httpMethod = httpMethod
             if let requestTemplates = dictionary["requestTemplates"] as? [String: String] {
                 self.requestTemplates = requestTemplates
+            } else { 
+                self.requestTemplates = nil
             }
             self.contentHandling = dictionary["contentHandling"] as? String
             self.credentials = dictionary["credentials"] as? String
@@ -4461,11 +4286,9 @@ extension Apigateway {
             return ["clientcertificate_id": "clientCertificateId"]
         }
         /// The identifier of the ClientCertificate resource to be updated.
-        public var clientCertificateId: String = ""
+        public let clientCertificateId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
-
-        public init() {}
+        public let patchOperations: [PatchOperation]?
 
         public init(clientCertificateId: String, patchOperations: [PatchOperation]? = nil) {
             self.clientCertificateId = clientCertificateId
@@ -4477,6 +4300,8 @@ extension Apigateway {
             self.clientCertificateId = clientCertificateId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
         }
     }
@@ -4488,9 +4313,7 @@ extension Apigateway {
             return ["restapi_id": "restApiId"]
         }
         /// The ID of the RestApi you want to delete.
-        public var restApiId: String = ""
-
-        public init() {}
+        public let restApiId: String
 
         public init(restApiId: String) {
             self.restApiId = restApiId
@@ -4506,13 +4329,11 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// A key-value map specifying required or optional response parameters that Amazon API Gateway can send back to the caller. A key defines a method response header and the value specifies whether the associated method response header is required or not. The expression of the key must match the pattern method.response.header.{name}, where name is a valid and unique header name. Amazon API Gateway passes certain integration response data to the method response headers specified here according to the mapping you prescribe in the API's IntegrationResponse. The integration response data that can be mapped include an integration response header expressed in integration.response.header.{name}, a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON expression without the $ prefix.)
-        public var responseParameters: [String: Bool]? = nil
+        public let responseParameters: [String: Bool]?
         /// Specifies the Model resources used for the response's content-type. Response models are represented as a key/value map, with a content-type as the key and a Model name as the value.
-        public var responseModels: [String: String]? = nil
+        public let responseModels: [String: String]?
         /// The method response's status code.
-        public var statusCode: String? = nil
-
-        public init() {}
+        public let statusCode: String?
 
         public init(responseParameters: [String: Bool]? = nil, responseModels: [String: String]? = nil, statusCode: String? = nil) {
             self.responseParameters = responseParameters
@@ -4523,9 +4344,13 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let responseParameters = dictionary["responseParameters"] as? [String: Bool] {
                 self.responseParameters = responseParameters
+            } else { 
+                self.responseParameters = nil
             }
             if let responseModels = dictionary["responseModels"] as? [String: String] {
                 self.responseModels = responseModels
+            } else { 
+                self.responseModels = nil
             }
             self.statusCode = dictionary["statusCode"] as? String
         }
@@ -4538,11 +4363,9 @@ extension Apigateway {
             return ["restapi_id": "restApiId", "model_name": "modelName"]
         }
         /// The ID of the RestApi under which the model exists.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The name of the model for which to generate a template.
-        public var modelName: String = ""
-
-        public init() {}
+        public let modelName: String
 
         public init(restApiId: String, modelName: String) {
             self.restApiId = restApiId
@@ -4561,17 +4384,15 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description of the model.
-        public var description: String? = nil
+        public let description: String?
         /// The content-type for the model.
-        public var contentType: String? = nil
+        public let contentType: String?
         /// The name of the model.
-        public var name: String? = nil
+        public let name: String?
         /// The schema for the model. For application/json models, this should be JSON-schema draft v4 model. Do not include "\*/" characters in the description of any properties because such "\*/" characters may be interpreted as the closing marker for comments in some languages, such as Java or JavaScript, causing the installation of your API's SDK generated by API Gateway to fail.
-        public var schema: String? = nil
+        public let schema: String?
         /// The identifier for the model resource.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(description: String? = nil, contentType: String? = nil, name: String? = nil, schema: String? = nil, id: String? = nil) {
             self.description = description
@@ -4597,11 +4418,9 @@ extension Apigateway {
             return ["restapi_id": "restApiId", "stage_name": "stageName"]
         }
         /// The API identifier of the stage to flush.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The name of the stage to flush.
-        public var stageName: String = ""
-
-        public init() {}
+        public let stageName: String
 
         public init(restApiId: String, stageName: String) {
             self.restApiId = restApiId
@@ -4620,13 +4439,11 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time period in which the limit applies. Valid values are "DAY", "WEEK" or "MONTH".
-        public var period: String? = nil
+        public let period: String?
         /// The number of requests subtracted from the given limit in the initial time period.
-        public var offset: Int32? = nil
+        public let offset: Int32?
         /// The maximum number of requests that can be made in a given time period.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(period: String? = nil, offset: Int32? = nil, limit: Int32? = nil) {
             self.period = period
@@ -4648,11 +4465,9 @@ extension Apigateway {
             return ["usageplanId": "usagePlanId"]
         }
         /// The Id of the to-be-updated usage plan.
-        public var usagePlanId: String = ""
+        public let usagePlanId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
-
-        public init() {}
+        public let patchOperations: [PatchOperation]?
 
         public init(usagePlanId: String, patchOperations: [PatchOperation]? = nil) {
             self.usagePlanId = usagePlanId
@@ -4664,6 +4479,8 @@ extension Apigateway {
             self.usagePlanId = usagePlanId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
         }
     }
@@ -4672,9 +4489,7 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// An individual Stage resource.
-        public var item: [Stage]? = nil
-
-        public init() {}
+        public let item: [Stage]?
 
         public init(item: [Stage]? = nil) {
             self.item = item
@@ -4683,6 +4498,8 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             if let item = dictionary["item"] as? [[String: Any]] {
                 self.item = try item.map({ try Stage(dictionary: $0) })
+            } else { 
+                self.item = nil
             }
         }
     }
@@ -4691,25 +4508,23 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of an Authorizer to use on this method. The authorizationType must be CUSTOM.
-        public var authorizerId: String? = nil
+        public let authorizerId: String?
         /// Gets a method response associated with a given HTTP status code.   The collection of method responses are encapsulated in a key-value map, where the key is a response's HTTP status code and the value is a MethodResponse resource that specifies the response returned to the caller from the back end through the integration response. Example: Get a 200 OK response of a GET method Request  GET /restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200 HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com Content-Length: 117 X-Amz-Date: 20160613T215008Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160613/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response The successful response returns a 200 OK status code and a payload similar to the following: { "_links": { "curies": { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html", "name": "methodresponse", "templated": true }, "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200", "title": "200" }, "methodresponse:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200" }, "methodresponse:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200" } }, "responseModels": { "application/json": "Empty" }, "responseParameters": { "method.response.header.operator": false, "method.response.header.operand_2": false, "method.response.header.operand_1": false }, "statusCode": "200" }    AWS CLI 
-        public var methodResponses: [String: MethodResponse]? = nil
+        public let methodResponses: [String: MethodResponse]?
         /// A key-value map specifying data schemas, represented by Model resources, (as the mapped value) of the request payloads of given content types (as the mapping key).
-        public var requestModels: [String: String]? = nil
+        public let requestModels: [String: String]?
         /// A key-value map defining required or optional method request parameters that can be accepted by Amazon API Gateway. A key is a method request parameter name matching the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name is a valid and unique parameter name. The value associated with the key is a Boolean flag indicating whether the parameter is required (true) or optional (false). The method request parameter names defined here are available in Integration to be mapped to integration request parameters or templates.
-        public var requestParameters: [String: Bool]? = nil
+        public let requestParameters: [String: Bool]?
         /// Gets the method's integration responsible for passing the client-submitted request to the back end and performing necessary transformations to make the request compliant with the back end.   Example:  Request  GET /restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com Content-Length: 117 X-Amz-Date: 20160613T213210Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160613/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response The successful response returns a 200 OK status code and a payload similar to the following: { "_links": { "curies": [ { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html", "name": "integration", "templated": true }, { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true } ], "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" }, "integration:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" }, "integration:responses": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integration:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" }, "integrationresponse:put": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/{status_code}", "templated": true } }, "cacheKeyParameters": [], "cacheNamespace": "0cjtch", "credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole", "httpMethod": "POST", "passthroughBehavior": "WHEN_NO_MATCH", "requestTemplates": { "application/json": "{\n \"a\": \"$input.params('operand1')\",\n \"b\": \"$input.params('operand2')\", \n \"op\": \"$input.params('operator')\" \n}" }, "type": "AWS", "uri": "arn:aws:apigateway:us-west-2:lambda:path//2015-03-31/functions/arn:aws:lambda:us-west-2:123456789012:function:Calc/invocations", "_embedded": { "integration:responses": { "_links": { "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.operator": "integration.response.body.op", "method.response.header.operand_2": "integration.response.body.b", "method.response.header.operand_1": "integration.response.body.a" }, "responseTemplates": { "application/json": "#set($res = $input.path('$'))\n{\n \"result\": \"$res.a, $res.b, $res.op => $res.c\",\n \"a\" : \"$res.a\",\n \"b\" : \"$res.b\",\n \"op\" : \"$res.op\",\n \"c\" : \"$res.c\"\n}" }, "selectionPattern": "", "statusCode": "200" } } }    AWS CLI 
-        public var methodIntegration: Integration? = nil
+        public let methodIntegration: Integration?
         /// The method's HTTP verb.
-        public var httpMethod: String? = nil
+        public let httpMethod: String?
         /// A boolean flag specifying whether a valid ApiKey is required to invoke this method.
-        public var apiKeyRequired: Bool? = nil
+        public let apiKeyRequired: Bool?
         /// The method's authorization type.
-        public var authorizationType: String? = nil
+        public let authorizationType: String?
         /// A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in PetStore example.
-        public var operationName: String? = nil
-
-        public init() {}
+        public let operationName: String?
 
         public init(authorizerId: String? = nil, methodResponses: [String: MethodResponse]? = nil, requestModels: [String: String]? = nil, requestParameters: [String: Bool]? = nil, methodIntegration: Integration? = nil, httpMethod: String? = nil, apiKeyRequired: Bool? = nil, authorizationType: String? = nil, operationName: String? = nil) {
             self.authorizerId = authorizerId
@@ -4732,14 +4547,20 @@ extension Apigateway {
                     methodResponsesDict[key] = try MethodResponse(dictionary: methodResponseDict)
                 }
                 self.methodResponses = methodResponsesDict
+            } else { 
+                self.methodResponses = nil
             }
             if let requestModels = dictionary["requestModels"] as? [String: String] {
                 self.requestModels = requestModels
+            } else { 
+                self.requestModels = nil
             }
             if let requestParameters = dictionary["requestParameters"] as? [String: Bool] {
                 self.requestParameters = requestParameters
+            } else { 
+                self.requestParameters = nil
             }
-            if let methodIntegration = dictionary["methodIntegration"] as? [String: Any] { self.methodIntegration = try Apigateway.Integration(dictionary: methodIntegration) }
+            if let methodIntegration = dictionary["methodIntegration"] as? [String: Any] { self.methodIntegration = try Apigateway.Integration(dictionary: methodIntegration) } else { self.methodIntegration = nil }
             self.httpMethod = dictionary["httpMethod"] as? String
             self.apiKeyRequired = dictionary["apiKeyRequired"] as? Bool
             self.authorizationType = dictionary["authorizationType"] as? String
@@ -4754,15 +4575,13 @@ extension Apigateway {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// The RestApi identifier for the MethodResponse resource.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// The status code identifier for the MethodResponse resource.
-        public var statusCode: String = ""
+        public let statusCode: String
         /// The Resource identifier for the MethodResponse resource.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// The HTTP verb of the Method resource.
-        public var httpMethod: String = ""
-
-        public init() {}
+        public let httpMethod: String
 
         public init(restApiId: String, statusCode: String, resourceId: String, httpMethod: String) {
             self.restApiId = restApiId
@@ -4790,9 +4609,7 @@ extension Apigateway {
             return ["usageplanId": "usagePlanId"]
         }
         /// The Id of the to-be-deleted usage plan.
-        public var usagePlanId: String = ""
-
-        public init() {}
+        public let usagePlanId: String
 
         public init(usagePlanId: String) {
             self.usagePlanId = usagePlanId
@@ -4811,13 +4628,11 @@ extension Apigateway {
             return ["part_id": "documentationPartId", "restapi_id": "restApiId"]
         }
         /// [Required] The identifier of the to-be-updated documentation part.
-        public var documentationPartId: String = ""
+        public let documentationPartId: String
         /// [Required] The identifier of an API of the to-be-updated documentation part.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
-        public var patchOperations: [PatchOperation]? = nil
-
-        public init() {}
+        public let patchOperations: [PatchOperation]?
 
         public init(documentationPartId: String, restApiId: String, patchOperations: [PatchOperation]? = nil) {
             self.documentationPartId = documentationPartId
@@ -4832,6 +4647,8 @@ extension Apigateway {
             self.restApiId = restApiId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
+            } else { 
+                self.patchOperations = nil
             }
         }
     }
@@ -4840,21 +4657,19 @@ extension Apigateway {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the ApiKey.
-        public var name: String? = nil
+        public let name: String?
         /// Specifies whether (true) or not (false) the key identifier is distinct from the created API key value.
-        public var generateDistinctId: Bool? = nil
+        public let generateDistinctId: Bool?
         /// Specifies a value of the API key.
-        public var value: String? = nil
+        public let value: String?
         /// The description of the ApiKey.
-        public var description: String? = nil
+        public let description: String?
         /// DEPRECATED FOR USAGE PLANS - Specifies stages associated with the API key.
-        public var stageKeys: [StageKey]? = nil
+        public let stageKeys: [StageKey]?
         /// Specifies whether the ApiKey can be used by callers.
-        public var enabled: Bool? = nil
+        public let enabled: Bool?
         /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS Marketplace.
-        public var customerId: String? = nil
-
-        public init() {}
+        public let customerId: String?
 
         public init(name: String? = nil, generateDistinctId: Bool? = nil, value: String? = nil, description: String? = nil, stageKeys: [StageKey]? = nil, enabled: Bool? = nil, customerId: String? = nil) {
             self.name = name
@@ -4873,6 +4688,8 @@ extension Apigateway {
             self.description = dictionary["description"] as? String
             if let stageKeys = dictionary["stageKeys"] as? [[String: Any]] {
                 self.stageKeys = try stageKeys.map({ try StageKey(dictionary: $0) })
+            } else { 
+                self.stageKeys = nil
             }
             self.enabled = dictionary["enabled"] as? Bool
             self.customerId = dictionary["customerId"] as? String
@@ -4886,11 +4703,9 @@ extension Apigateway {
             return ["restapi_id": "restApiId", "authorizer_id": "authorizerId"]
         }
         /// The identifier of the Authorizer resource.
-        public var authorizerId: String = ""
+        public let authorizerId: String
         /// The RestApi identifier for the Authorizer resource.
-        public var restApiId: String = ""
-
-        public init() {}
+        public let restApiId: String
 
         public init(authorizerId: String, restApiId: String) {
             self.authorizerId = authorizerId
@@ -4912,15 +4727,13 @@ extension Apigateway {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// Specifies a get integration response request's API identifier.
-        public var restApiId: String = ""
+        public let restApiId: String
         /// Specifies a get integration response request's status code.
-        public var statusCode: String = ""
+        public let statusCode: String
         /// Specifies a get integration response request's resource identifier.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// Specifies a get integration response request's HTTP method.
-        public var httpMethod: String = ""
-
-        public init() {}
+        public let httpMethod: String
 
         public init(restApiId: String, statusCode: String, resourceId: String, httpMethod: String) {
             self.restApiId = restApiId

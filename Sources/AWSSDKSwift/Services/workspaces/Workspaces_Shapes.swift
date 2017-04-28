@@ -33,11 +33,9 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The resource ID of the request.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// The tags of the request.
-        public var tags: [Tag] = []
-
-        public init() {}
+        public let tags: [Tag]
 
         public init(resourceId: String, tags: [Tag]) {
             self.resourceId = resourceId
@@ -56,9 +54,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of structures that specify the WorkSpaces to terminate.
-        public var terminateWorkspaceRequests: [TerminateRequest] = []
-
-        public init() {}
+        public let terminateWorkspaceRequests: [TerminateRequest]
 
         public init(terminateWorkspaceRequests: [TerminateRequest]) {
             self.terminateWorkspaceRequests = terminateWorkspaceRequests
@@ -74,13 +70,11 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The textual error message.
-        public var errorMessage: String? = nil
+        public let errorMessage: String?
         /// A FailedCreateWorkspaceRequest$WorkspaceRequest object that contains the information about the WorkSpace that could not be created.
-        public var workspaceRequest: WorkspaceRequest? = nil
+        public let workspaceRequest: WorkspaceRequest?
         /// The error code.
-        public var errorCode: String? = nil
-
-        public init() {}
+        public let errorCode: String?
 
         public init(errorMessage: String? = nil, workspaceRequest: WorkspaceRequest? = nil, errorCode: String? = nil) {
             self.errorMessage = errorMessage
@@ -90,7 +84,7 @@ extension Workspaces {
 
         public init(dictionary: [String: Any]) throws {
             self.errorMessage = dictionary["ErrorMessage"] as? String
-            if let workspaceRequest = dictionary["WorkspaceRequest"] as? [String: Any] { self.workspaceRequest = try Workspaces.WorkspaceRequest(dictionary: workspaceRequest) }
+            if let workspaceRequest = dictionary["WorkspaceRequest"] as? [String: Any] { self.workspaceRequest = try Workspaces.WorkspaceRequest(dictionary: workspaceRequest) } else { self.workspaceRequest = nil }
             self.errorCode = dictionary["ErrorCode"] as? String
         }
     }
@@ -99,13 +93,11 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The owner of the bundles to retrieve. This parameter cannot be combined with any other filter parameter. This contains one of the following values:   null- Retrieves the bundles that belong to the account making the call.    AMAZON- Retrieves the bundles that are provided by AWS.  
-        public var owner: String? = nil
+        public let owner: String?
         /// The NextToken value from a previous call to this operation. Pass null if this is the first call.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// An array of strings that contains the identifiers of the bundles to retrieve. This parameter cannot be combined with any other filter parameter.
-        public var bundleIds: [String]? = nil
-
-        public init() {}
+        public let bundleIds: [String]?
 
         public init(owner: String? = nil, nextToken: String? = nil, bundleIds: [String]? = nil) {
             self.owner = owner
@@ -116,9 +108,7 @@ extension Workspaces {
         public init(dictionary: [String: Any]) throws {
             self.owner = dictionary["Owner"] as? String
             self.nextToken = dictionary["NextToken"] as? String
-            if let bundleIds = dictionary["BundleIds"] as? [String] {
-                self.bundleIds = bundleIds
-            }
+            self.bundleIds = dictionary["BundleIds"] as? [String]
         }
     }
 
@@ -126,9 +116,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The amount of user storage for the bundle.
-        public var capacity: String? = nil
-
-        public init() {}
+        public let capacity: String?
 
         public init(capacity: String? = nil) {
             self.capacity = capacity
@@ -143,19 +131,17 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The bundle description.
-        public var description: String? = nil
+        public let description: String?
         /// A ComputeType object that specifies the compute type for the bundle.
-        public var computeType: ComputeType? = nil
+        public let computeType: ComputeType?
         /// A UserStorage object that specifies the amount of user storage that the bundle contains.
-        public var userStorage: UserStorage? = nil
+        public let userStorage: UserStorage?
         /// The owner of the bundle. This contains the owner's account identifier, or AMAZON if the bundle is provided by AWS.
-        public var owner: String? = nil
+        public let owner: String?
         /// The name of the bundle.
-        public var name: String? = nil
+        public let name: String?
         /// The bundle identifier.
-        public var bundleId: String? = nil
-
-        public init() {}
+        public let bundleId: String?
 
         public init(description: String? = nil, computeType: ComputeType? = nil, userStorage: UserStorage? = nil, owner: String? = nil, name: String? = nil, bundleId: String? = nil) {
             self.description = description
@@ -168,8 +154,8 @@ extension Workspaces {
 
         public init(dictionary: [String: Any]) throws {
             self.description = dictionary["Description"] as? String
-            if let computeType = dictionary["ComputeType"] as? [String: Any] { self.computeType = try Workspaces.ComputeType(dictionary: computeType) }
-            if let userStorage = dictionary["UserStorage"] as? [String: Any] { self.userStorage = try Workspaces.UserStorage(dictionary: userStorage) }
+            if let computeType = dictionary["ComputeType"] as? [String: Any] { self.computeType = try Workspaces.ComputeType(dictionary: computeType) } else { self.computeType = nil }
+            if let userStorage = dictionary["UserStorage"] as? [String: Any] { self.userStorage = try Workspaces.UserStorage(dictionary: userStorage) } else { self.userStorage = nil }
             self.owner = dictionary["Owner"] as? String
             self.name = dictionary["Name"] as? String
             self.bundleId = dictionary["BundleId"] as? String
@@ -180,9 +166,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of structures representing any WorkSpaces that could not be rebooted.
-        public var failedRequests: [FailedWorkspaceChangeRequest]? = nil
-
-        public init() {}
+        public let failedRequests: [FailedWorkspaceChangeRequest]?
 
         public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
             self.failedRequests = failedRequests
@@ -191,6 +175,8 @@ extension Workspaces {
         public init(dictionary: [String: Any]) throws {
             if let failedRequests = dictionary["FailedRequests"] as? [[String: Any]] {
                 self.failedRequests = try failedRequests.map({ try FailedWorkspaceChangeRequest(dictionary: $0) })
+            } else { 
+                self.failedRequests = nil
             }
         }
     }
@@ -199,9 +185,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The resource ID of the request.
-        public var resourceId: String = ""
-
-        public init() {}
+        public let resourceId: String
 
         public init(resourceId: String) {
             self.resourceId = resourceId
@@ -217,11 +201,9 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of structures that represent the WorkSpaces that could not be created.
-        public var failedRequests: [FailedCreateWorkspaceRequest]? = nil
+        public let failedRequests: [FailedCreateWorkspaceRequest]?
         /// An array of structures that represent the WorkSpaces that were created. Because this operation is asynchronous, the identifier in WorkspaceId is not immediately available. If you immediately call DescribeWorkspaces with this identifier, no information will be returned.
-        public var pendingRequests: [Workspace]? = nil
-
-        public init() {}
+        public let pendingRequests: [Workspace]?
 
         public init(failedRequests: [FailedCreateWorkspaceRequest]? = nil, pendingRequests: [Workspace]? = nil) {
             self.failedRequests = failedRequests
@@ -231,9 +213,13 @@ extension Workspaces {
         public init(dictionary: [String: Any]) throws {
             if let failedRequests = dictionary["FailedRequests"] as? [[String: Any]] {
                 self.failedRequests = try failedRequests.map({ try FailedCreateWorkspaceRequest(dictionary: $0) })
+            } else { 
+                self.failedRequests = nil
             }
             if let pendingRequests = dictionary["PendingRequests"] as? [[String: Any]] {
                 self.pendingRequests = try pendingRequests.map({ try Workspace(dictionary: $0) })
+            } else { 
+                self.pendingRequests = nil
             }
         }
     }
@@ -241,8 +227,6 @@ extension Workspaces {
     public struct CreateTagsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -252,9 +236,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of structures that specify the WorkSpaces to reboot.
-        public var rebootWorkspaceRequests: [RebootRequest] = []
-
-        public init() {}
+        public let rebootWorkspaceRequests: [RebootRequest]
 
         public init(rebootWorkspaceRequests: [RebootRequest]) {
             self.rebootWorkspaceRequests = rebootWorkspaceRequests
@@ -270,11 +252,9 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the tag.
-        public var value: String? = nil
+        public let value: String?
         /// The key of the tag.
-        public var key: String = ""
-
-        public init() {}
+        public let key: String
 
         public init(value: String? = nil, key: String) {
             self.value = value
@@ -292,8 +272,6 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -302,11 +280,9 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The connection status of the WorkSpace.
-        public var workspacesConnectionStatus: [WorkspaceConnectionStatus]? = nil
+        public let workspacesConnectionStatus: [WorkspaceConnectionStatus]?
         /// The next token of the result.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(workspacesConnectionStatus: [WorkspaceConnectionStatus]? = nil, nextToken: String? = nil) {
             self.workspacesConnectionStatus = workspacesConnectionStatus
@@ -316,6 +292,8 @@ extension Workspaces {
         public init(dictionary: [String: Any]) throws {
             if let workspacesConnectionStatus = dictionary["WorkspacesConnectionStatus"] as? [[String: Any]] {
                 self.workspacesConnectionStatus = try workspacesConnectionStatus.map({ try WorkspaceConnectionStatus(dictionary: $0) })
+            } else { 
+                self.workspacesConnectionStatus = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -325,9 +303,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The requests.
-        public var startWorkspaceRequests: [StartRequest] = []
-
-        public init() {}
+        public let startWorkspaceRequests: [StartRequest]
 
         public init(startWorkspaceRequests: [StartRequest]) {
             self.startWorkspaceRequests = startWorkspaceRequests
@@ -343,9 +319,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the compute type for the bundle.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(name: String? = nil) {
             self.name = name
@@ -360,13 +334,11 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The textual error message.
-        public var errorMessage: String? = nil
+        public let errorMessage: String?
         /// The error code.
-        public var errorCode: String? = nil
+        public let errorCode: String?
         /// The identifier of the WorkSpace.
-        public var workspaceId: String? = nil
-
-        public init() {}
+        public let workspaceId: String?
 
         public init(errorMessage: String? = nil, errorCode: String? = nil, workspaceId: String? = nil) {
             self.errorMessage = errorMessage
@@ -385,9 +357,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the WorkSpace.
-        public var workspaceId: String? = nil
-
-        public init() {}
+        public let workspaceId: String?
 
         public init(workspaceId: String? = nil) {
             self.workspaceId = workspaceId
@@ -402,9 +372,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the WorkSpace.
-        public var workspaceId: String? = nil
-
-        public init() {}
+        public let workspaceId: String?
 
         public init(workspaceId: String? = nil) {
             self.workspaceId = workspaceId
@@ -419,17 +387,15 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The organizational unit (OU) in the directory that the WorkSpace machine accounts are placed in.
-        public var defaultOu: String? = nil
+        public let defaultOu: String?
         /// The identifier of any custom security groups that are applied to the WorkSpaces when they are created.
-        public var customSecurityGroupId: String? = nil
+        public let customSecurityGroupId: String?
         /// A public IP address will be attached to all WorkSpaces that are created or rebuilt.
-        public var enableInternetAccess: Bool? = nil
+        public let enableInternetAccess: Bool?
         /// The WorkSpace user is an administrator on the WorkSpace.
-        public var userEnabledAsLocalAdministrator: Bool? = nil
+        public let userEnabledAsLocalAdministrator: Bool?
         /// Specifies if the directory is enabled for Amazon WorkDocs.
-        public var enableWorkDocs: Bool? = nil
-
-        public init() {}
+        public let enableWorkDocs: Bool?
 
         public init(defaultOu: String? = nil, customSecurityGroupId: String? = nil, enableInternetAccess: Bool? = nil, userEnabledAsLocalAdministrator: Bool? = nil, enableWorkDocs: Bool? = nil) {
             self.defaultOu = defaultOu
@@ -452,9 +418,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The requests.
-        public var stopWorkspaceRequests: [StopRequest] = []
-
-        public init() {}
+        public let stopWorkspaceRequests: [StopRequest]
 
         public init(stopWorkspaceRequests: [StopRequest]) {
             self.stopWorkspaceRequests = stopWorkspaceRequests
@@ -470,19 +434,17 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the directory identifier to which to limit the WorkSpaces. Optionally, you can specify a specific directory user with the UserName parameter. This parameter cannot be combined with any other filter parameter.
-        public var directoryId: String? = nil
+        public let directoryId: String?
         /// Used with the DirectoryId parameter to specify the directory user for whom to obtain the WorkSpace.
-        public var userName: String? = nil
+        public let userName: String?
         /// The maximum number of items to return.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The NextToken value from a previous call to this operation. Pass null if this is the first call.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// An array of strings that contain the identifiers of the WorkSpaces for which to retrieve information. This parameter cannot be combined with any other filter parameter. Because the CreateWorkspaces operation is asynchronous, the identifier it returns is not immediately available. If you immediately call DescribeWorkspaces with this identifier, no information is returned.
-        public var workspaceIds: [String]? = nil
+        public let workspaceIds: [String]?
         /// The identifier of a bundle to obtain the WorkSpaces for. All WorkSpaces that are created from this bundle will be retrieved. This parameter cannot be combined with any other filter parameter.
-        public var bundleId: String? = nil
-
-        public init() {}
+        public let bundleId: String?
 
         public init(directoryId: String? = nil, userName: String? = nil, limit: Int32? = nil, nextToken: String? = nil, workspaceIds: [String]? = nil, bundleId: String? = nil) {
             self.directoryId = directoryId
@@ -498,9 +460,7 @@ extension Workspaces {
             self.userName = dictionary["UserName"] as? String
             self.limit = dictionary["Limit"] as? Int32
             self.nextToken = dictionary["NextToken"] as? String
-            if let workspaceIds = dictionary["WorkspaceIds"] as? [String] {
-                self.workspaceIds = workspaceIds
-            }
+            self.workspaceIds = dictionary["WorkspaceIds"] as? [String]
             self.bundleId = dictionary["BundleId"] as? String
         }
     }
@@ -509,9 +469,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of structures representing any WorkSpaces that could not be rebuilt.
-        public var failedRequests: [FailedWorkspaceChangeRequest]? = nil
-
-        public init() {}
+        public let failedRequests: [FailedWorkspaceChangeRequest]?
 
         public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
             self.failedRequests = failedRequests
@@ -520,6 +478,8 @@ extension Workspaces {
         public init(dictionary: [String: Any]) throws {
             if let failedRequests = dictionary["FailedRequests"] as? [[String: Any]] {
                 self.failedRequests = try failedRequests.map({ try FailedWorkspaceChangeRequest(dictionary: $0) })
+            } else { 
+                self.failedRequests = nil
             }
         }
     }
@@ -528,9 +488,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the WorkSpace to reboot.
-        public var workspaceId: String = ""
-
-        public init() {}
+        public let workspaceId: String
 
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
@@ -546,11 +504,9 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of strings that contain the identifiers of the WorkSpaces.
-        public var workspaceIds: [String]? = nil
+        public let workspaceIds: [String]?
         /// The next token of the request.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(workspaceIds: [String]? = nil, nextToken: String? = nil) {
             self.workspaceIds = workspaceIds
@@ -558,9 +514,7 @@ extension Workspaces {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let workspaceIds = dictionary["WorkspaceIds"] as? [String] {
-                self.workspaceIds = workspaceIds
-            }
+            self.workspaceIds = dictionary["WorkspaceIds"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
         }
     }
@@ -569,15 +523,13 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the WorkSpace.
-        public var workspaceId: String? = nil
+        public let workspaceId: String?
         /// The connection state of the WorkSpace. Returns UNKOWN if the WorkSpace is in a Stopped state.
-        public var connectionState: String? = nil
+        public let connectionState: String?
         /// The timestamp of the last known user connection.
-        public var lastKnownUserConnectionTimestamp: Date? = nil
+        public let lastKnownUserConnectionTimestamp: Date?
         /// The timestamp of the connection state check.
-        public var connectionStateCheckTimestamp: Date? = nil
-
-        public init() {}
+        public let connectionStateCheckTimestamp: Date?
 
         public init(workspaceId: String? = nil, connectionState: String? = nil, lastKnownUserConnectionTimestamp: Date? = nil, connectionStateCheckTimestamp: Date? = nil) {
             self.workspaceId = workspaceId
@@ -598,9 +550,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of tags.
-        public var tagList: [Tag]? = nil
-
-        public init() {}
+        public let tagList: [Tag]?
 
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
@@ -609,6 +559,8 @@ extension Workspaces {
         public init(dictionary: [String: Any]) throws {
             if let tagList = dictionary["TagList"] as? [[String: Any]] {
                 self.tagList = try tagList.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tagList = nil
             }
         }
     }
@@ -617,11 +569,9 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to this operation to retrieve the next set of items. This token is valid for one day and must be used within that time frame.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// An array of structures that contain the information about the WorkSpaces. Because the CreateWorkspaces operation is asynchronous, some of this information may be incomplete for a newly-created WorkSpace.
-        public var workspaces: [Workspace]? = nil
-
-        public init() {}
+        public let workspaces: [Workspace]?
 
         public init(nextToken: String? = nil, workspaces: [Workspace]? = nil) {
             self.nextToken = nextToken
@@ -632,6 +582,8 @@ extension Workspaces {
             self.nextToken = dictionary["NextToken"] as? String
             if let workspaces = dictionary["Workspaces"] as? [[String: Any]] {
                 self.workspaces = try workspaces.map({ try Workspace(dictionary: $0) })
+            } else { 
+                self.workspaces = nil
             }
         }
     }
@@ -640,11 +592,9 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The running mode of the WorkSpace. AlwaysOn WorkSpaces are billed monthly. AutoStop WorkSpaces are billed by the hour and stopped when no longer being used in order to save on costs.
-        public var runningMode: String? = nil
+        public let runningMode: String?
         /// The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60 minute intervals.
-        public var runningModeAutoStopTimeoutInMinutes: Int32? = nil
-
-        public init() {}
+        public let runningModeAutoStopTimeoutInMinutes: Int32?
 
         public init(runningMode: String? = nil, runningModeAutoStopTimeoutInMinutes: Int32? = nil) {
             self.runningMode = runningMode
@@ -661,11 +611,9 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the WorkSpace.
-        public var workspaceId: String = ""
+        public let workspaceId: String
         /// The WorkSpace properties of the request.
-        public var workspaceProperties: WorkspaceProperties = WorkspaceProperties()
-
-        public init() {}
+        public let workspaceProperties: WorkspaceProperties
 
         public init(workspaceId: String, workspaceProperties: WorkspaceProperties) {
             self.workspaceId = workspaceId
@@ -684,11 +632,9 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to this operation to retrieve the next set of items. This token is valid for one day and must be used within that time frame.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// An array of structures that contain information about the bundles.
-        public var bundles: [WorkspaceBundle]? = nil
-
-        public init() {}
+        public let bundles: [WorkspaceBundle]?
 
         public init(nextToken: String? = nil, bundles: [WorkspaceBundle]? = nil) {
             self.nextToken = nextToken
@@ -699,6 +645,8 @@ extension Workspaces {
             self.nextToken = dictionary["NextToken"] as? String
             if let bundles = dictionary["Bundles"] as? [[String: Any]] {
                 self.bundles = try bundles.map({ try WorkspaceBundle(dictionary: $0) })
+            } else { 
+                self.bundles = nil
             }
         }
     }
@@ -707,11 +655,9 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The resource ID of the request.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// The tag keys of the request.
-        public var tagKeys: [String] = []
-
-        public init() {}
+        public let tagKeys: [String]
 
         public init(resourceId: String, tagKeys: [String]) {
             self.resourceId = resourceId
@@ -730,34 +676,32 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the subnet that the WorkSpace is in.
-        public var subnetId: String? = nil
+        public let subnetId: String?
         /// The user that the WorkSpace is assigned to.
-        public var userName: String? = nil
+        public let userName: String?
         /// The operational state of the WorkSpace.
-        public var state: String? = nil
+        public let state: String?
         /// Specifies whether the data stored on the root volume, or C: drive, is encrypted.
-        public var rootVolumeEncryptionEnabled: Bool? = nil
+        public let rootVolumeEncryptionEnabled: Bool?
         /// The identifier of the AWS Directory Service directory that the WorkSpace belongs to.
-        public var directoryId: String? = nil
-        public var workspaceProperties: WorkspaceProperties? = nil
+        public let directoryId: String?
+        public let workspaceProperties: WorkspaceProperties?
         /// The name of the WorkSpace as seen by the operating system.
-        public var computerName: String? = nil
+        public let computerName: String?
         /// If the WorkSpace could not be created, this contains a textual error message that describes the failure.
-        public var errorMessage: String? = nil
+        public let errorMessage: String?
         /// If the WorkSpace could not be created, this contains the error code.
-        public var errorCode: String? = nil
+        public let errorCode: String?
         /// The identifier of the bundle that the WorkSpace was created from.
-        public var bundleId: String? = nil
+        public let bundleId: String?
         /// Specifies whether the data stored on the user volume, or D: drive, is encrypted.
-        public var userVolumeEncryptionEnabled: Bool? = nil
+        public let userVolumeEncryptionEnabled: Bool?
         /// The identifier of the WorkSpace.
-        public var workspaceId: String? = nil
+        public let workspaceId: String?
         /// The KMS key used to encrypt data stored on your WorkSpace.
-        public var volumeEncryptionKey: String? = nil
+        public let volumeEncryptionKey: String?
         /// The IP address of the WorkSpace.
-        public var ipAddress: String? = nil
-
-        public init() {}
+        public let ipAddress: String?
 
         public init(subnetId: String? = nil, userName: String? = nil, state: String? = nil, rootVolumeEncryptionEnabled: Bool? = nil, directoryId: String? = nil, workspaceProperties: WorkspaceProperties? = nil, computerName: String? = nil, errorMessage: String? = nil, errorCode: String? = nil, bundleId: String? = nil, userVolumeEncryptionEnabled: Bool? = nil, workspaceId: String? = nil, volumeEncryptionKey: String? = nil, ipAddress: String? = nil) {
             self.subnetId = subnetId
@@ -782,7 +726,7 @@ extension Workspaces {
             self.state = dictionary["State"] as? String
             self.rootVolumeEncryptionEnabled = dictionary["RootVolumeEncryptionEnabled"] as? Bool
             self.directoryId = dictionary["DirectoryId"] as? String
-            if let workspaceProperties = dictionary["WorkspaceProperties"] as? [String: Any] { self.workspaceProperties = try Workspaces.WorkspaceProperties(dictionary: workspaceProperties) }
+            if let workspaceProperties = dictionary["WorkspaceProperties"] as? [String: Any] { self.workspaceProperties = try Workspaces.WorkspaceProperties(dictionary: workspaceProperties) } else { self.workspaceProperties = nil }
             self.computerName = dictionary["ComputerName"] as? String
             self.errorMessage = dictionary["ErrorMessage"] as? String
             self.errorCode = dictionary["ErrorCode"] as? String
@@ -798,9 +742,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of structures that specify the WorkSpaces to rebuild.
-        public var rebuildWorkspaceRequests: [RebuildRequest] = []
-
-        public init() {}
+        public let rebuildWorkspaceRequests: [RebuildRequest]
 
         public init(rebuildWorkspaceRequests: [RebuildRequest]) {
             self.rebuildWorkspaceRequests = rebuildWorkspaceRequests
@@ -816,11 +758,9 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of structures that contain information about the directories.
-        public var directories: [WorkspaceDirectory]? = nil
+        public let directories: [WorkspaceDirectory]?
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to this operation to retrieve the next set of items. This token is valid for one day and must be used within that time frame.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(directories: [WorkspaceDirectory]? = nil, nextToken: String? = nil) {
             self.directories = directories
@@ -830,6 +770,8 @@ extension Workspaces {
         public init(dictionary: [String: Any]) throws {
             if let directories = dictionary["Directories"] as? [[String: Any]] {
                 self.directories = try directories.map({ try WorkspaceDirectory(dictionary: $0) })
+            } else { 
+                self.directories = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -839,9 +781,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of structures representing any WorkSpaces that could not be terminated.
-        public var failedRequests: [FailedWorkspaceChangeRequest]? = nil
-
-        public init() {}
+        public let failedRequests: [FailedWorkspaceChangeRequest]?
 
         public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
             self.failedRequests = failedRequests
@@ -850,6 +790,8 @@ extension Workspaces {
         public init(dictionary: [String: Any]) throws {
             if let failedRequests = dictionary["FailedRequests"] as? [[String: Any]] {
                 self.failedRequests = try failedRequests.map({ try FailedWorkspaceChangeRequest(dictionary: $0) })
+            } else { 
+                self.failedRequests = nil
             }
         }
     }
@@ -858,9 +800,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The failed requests.
-        public var failedRequests: [FailedWorkspaceChangeRequest]? = nil
-
-        public init() {}
+        public let failedRequests: [FailedWorkspaceChangeRequest]?
 
         public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
             self.failedRequests = failedRequests
@@ -869,6 +809,8 @@ extension Workspaces {
         public init(dictionary: [String: Any]) throws {
             if let failedRequests = dictionary["FailedRequests"] as? [[String: Any]] {
                 self.failedRequests = try failedRequests.map({ try FailedWorkspaceChangeRequest(dictionary: $0) })
+            } else { 
+                self.failedRequests = nil
             }
         }
     }
@@ -877,9 +819,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the WorkSpace to rebuild.
-        public var workspaceId: String = ""
-
-        public init() {}
+        public let workspaceId: String
 
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
@@ -895,9 +835,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of structures that specify the WorkSpaces to create.
-        public var workspaces: [WorkspaceRequest] = []
-
-        public init() {}
+        public let workspaces: [WorkspaceRequest]
 
         public init(workspaces: [WorkspaceRequest]) {
             self.workspaces = workspaces
@@ -913,31 +851,29 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of strings that contains the identifiers of the subnets used with the directory.
-        public var subnetIds: [String]? = nil
+        public let subnetIds: [String]?
         /// A structure that specifies the default creation properties for all WorkSpaces in the directory.
-        public var workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil
+        public let workspaceCreationProperties: DefaultWorkspaceCreationProperties?
         /// An array of strings that contains the IP addresses of the DNS servers for the directory.
-        public var dnsIpAddresses: [String]? = nil
+        public let dnsIpAddresses: [String]?
         /// The registration code for the directory. This is the code that users enter in their Amazon WorkSpaces client application to connect to the directory.
-        public var registrationCode: String? = nil
+        public let registrationCode: String?
         /// The state of the directory's registration with Amazon WorkSpaces
-        public var state: String? = nil
+        public let state: String?
         /// The user name for the service account.
-        public var customerUserName: String? = nil
+        public let customerUserName: String?
         /// The directory alias.
-        public var alias: String? = nil
+        public let alias: String?
         /// The directory identifier.
-        public var directoryId: String? = nil
+        public let directoryId: String?
         /// The identifier of the security group that is assigned to new WorkSpaces.
-        public var workspaceSecurityGroupId: String? = nil
+        public let workspaceSecurityGroupId: String?
         /// The directory type.
-        public var directoryType: String? = nil
+        public let directoryType: String?
         /// The identifier of the IAM role. This is the role that allows Amazon WorkSpaces to make calls to other services, such as Amazon EC2, on your behalf.
-        public var iamRoleId: String? = nil
+        public let iamRoleId: String?
         /// The name of the directory.
-        public var directoryName: String? = nil
-
-        public init() {}
+        public let directoryName: String?
 
         public init(subnetIds: [String]? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, dnsIpAddresses: [String]? = nil, registrationCode: String? = nil, state: String? = nil, customerUserName: String? = nil, alias: String? = nil, directoryId: String? = nil, workspaceSecurityGroupId: String? = nil, directoryType: String? = nil, iamRoleId: String? = nil, directoryName: String? = nil) {
             self.subnetIds = subnetIds
@@ -955,13 +891,9 @@ extension Workspaces {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let subnetIds = dictionary["SubnetIds"] as? [String] {
-                self.subnetIds = subnetIds
-            }
-            if let workspaceCreationProperties = dictionary["WorkspaceCreationProperties"] as? [String: Any] { self.workspaceCreationProperties = try Workspaces.DefaultWorkspaceCreationProperties(dictionary: workspaceCreationProperties) }
-            if let dnsIpAddresses = dictionary["DnsIpAddresses"] as? [String] {
-                self.dnsIpAddresses = dnsIpAddresses
-            }
+            self.subnetIds = dictionary["SubnetIds"] as? [String]
+            if let workspaceCreationProperties = dictionary["WorkspaceCreationProperties"] as? [String: Any] { self.workspaceCreationProperties = try Workspaces.DefaultWorkspaceCreationProperties(dictionary: workspaceCreationProperties) } else { self.workspaceCreationProperties = nil }
+            self.dnsIpAddresses = dictionary["DnsIpAddresses"] as? [String]
             self.registrationCode = dictionary["RegistrationCode"] as? String
             self.state = dictionary["State"] as? String
             self.customerUserName = dictionary["CustomerUserName"] as? String
@@ -978,22 +910,20 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The username that the WorkSpace is assigned to. This username must exist in the AWS Directory Service directory specified by the DirectoryId member.
-        public var userName: String = ""
+        public let userName: String
         /// The KMS key used to encrypt data stored on your WorkSpace.
-        public var volumeEncryptionKey: String? = nil
+        public let volumeEncryptionKey: String?
         /// The tags of the WorkSpace request.
-        public var tags: [Tag]? = nil
-        public var workspaceProperties: WorkspaceProperties? = nil
+        public let tags: [Tag]?
+        public let workspaceProperties: WorkspaceProperties?
         /// The identifier of the AWS Directory Service directory to create the WorkSpace in. You can use the DescribeWorkspaceDirectories operation to obtain a list of the directories that are available.
-        public var directoryId: String = ""
+        public let directoryId: String
         /// Specifies whether the data stored on the root volume, or C: drive, is encrypted.
-        public var rootVolumeEncryptionEnabled: Bool? = nil
+        public let rootVolumeEncryptionEnabled: Bool?
         /// Specifies whether the data stored on the user volume, or D: drive, is encrypted.
-        public var userVolumeEncryptionEnabled: Bool? = nil
+        public let userVolumeEncryptionEnabled: Bool?
         /// The identifier of the bundle to create the WorkSpace from. You can use the DescribeWorkspaceBundles operation to obtain a list of the bundles that are available.
-        public var bundleId: String = ""
-
-        public init() {}
+        public let bundleId: String
 
         public init(userName: String, volumeEncryptionKey: String? = nil, tags: [Tag]? = nil, workspaceProperties: WorkspaceProperties? = nil, directoryId: String, rootVolumeEncryptionEnabled: Bool? = nil, userVolumeEncryptionEnabled: Bool? = nil, bundleId: String) {
             self.userName = userName
@@ -1012,8 +942,10 @@ extension Workspaces {
             self.volumeEncryptionKey = dictionary["VolumeEncryptionKey"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
-            if let workspaceProperties = dictionary["WorkspaceProperties"] as? [String: Any] { self.workspaceProperties = try Workspaces.WorkspaceProperties(dictionary: workspaceProperties) }
+            if let workspaceProperties = dictionary["WorkspaceProperties"] as? [String: Any] { self.workspaceProperties = try Workspaces.WorkspaceProperties(dictionary: workspaceProperties) } else { self.workspaceProperties = nil }
             guard let directoryId = dictionary["DirectoryId"] as? String else { throw InitializableError.missingRequiredParam("DirectoryId") }
             self.directoryId = directoryId
             self.rootVolumeEncryptionEnabled = dictionary["RootVolumeEncryptionEnabled"] as? Bool
@@ -1027,9 +959,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The failed requests.
-        public var failedRequests: [FailedWorkspaceChangeRequest]? = nil
-
-        public init() {}
+        public let failedRequests: [FailedWorkspaceChangeRequest]?
 
         public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
             self.failedRequests = failedRequests
@@ -1038,6 +968,8 @@ extension Workspaces {
         public init(dictionary: [String: Any]) throws {
             if let failedRequests = dictionary["FailedRequests"] as? [[String: Any]] {
                 self.failedRequests = try failedRequests.map({ try FailedWorkspaceChangeRequest(dictionary: $0) })
+            } else { 
+                self.failedRequests = nil
             }
         }
     }
@@ -1045,8 +977,6 @@ extension Workspaces {
     public struct DeleteTagsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -1056,11 +986,9 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The NextToken value from a previous call to this operation. Pass null if this is the first call.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// An array of strings that contains the directory identifiers to retrieve information for. If this member is null, all directories are retrieved.
-        public var directoryIds: [String]? = nil
-
-        public init() {}
+        public let directoryIds: [String]?
 
         public init(nextToken: String? = nil, directoryIds: [String]? = nil) {
             self.nextToken = nextToken
@@ -1069,9 +997,7 @@ extension Workspaces {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["NextToken"] as? String
-            if let directoryIds = dictionary["DirectoryIds"] as? [String] {
-                self.directoryIds = directoryIds
-            }
+            self.directoryIds = dictionary["DirectoryIds"] as? [String]
         }
     }
 
@@ -1079,9 +1005,7 @@ extension Workspaces {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the WorkSpace to terminate.
-        public var workspaceId: String = ""
-
-        public init() {}
+        public let workspaceId: String
 
         public init(workspaceId: String) {
             self.workspaceId = workspaceId

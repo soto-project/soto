@@ -33,11 +33,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the type of handshake action. If you specify ActionType, you cannot also specify ParentHandshakeId.
-        public var actionType: String? = nil
+        public let actionType: String?
         /// Specifies the parent handshake. Only used for handshake types that are a child of another type. If you specify ParentHandshakeId, you cannot also specify ActionType. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
-        public var parentHandshakeId: String? = nil
-
-        public init() {}
+        public let parentHandshakeId: String?
 
         public init(actionType: String? = nil, parentHandshakeId: String? = nil) {
             self.actionType = actionType
@@ -54,16 +52,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that contains details about the newly created policy.
-        public var policy: Policy? = nil
-
-        public init() {}
+        public let policy: Policy?
 
         public init(policy: Policy? = nil) {
             self.policy = policy
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Organizations.Policy(dictionary: policy) }
+            if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Organizations.Policy(dictionary: policy) } else { self.policy = nil }
         }
     }
 
@@ -71,11 +67,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of objects in the organization.
-        public var accounts: [Account]? = nil
-
-        public init() {}
+        public let accounts: [Account]?
 
         public init(nextToken: String? = nil, accounts: [Account]? = nil) {
             self.nextToken = nextToken
@@ -86,6 +80,8 @@ extension Organizations {
             self.nextToken = dictionary["NextToken"] as? String
             if let accounts = dictionary["Accounts"] as? [[String: Any]] {
                 self.accounts = try accounts.map({ try Account(dictionary: $0) })
+            } else { 
+                self.accounts = nil
             }
         }
     }
@@ -94,11 +90,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The text content of the policy.
-        public var content: String? = nil
+        public let content: String?
         /// A structure that contains additional details about the policy.
-        public var policySummary: PolicySummary? = nil
-
-        public init() {}
+        public let policySummary: PolicySummary?
 
         public init(content: String? = nil, policySummary: PolicySummary? = nil) {
             self.content = content
@@ -107,7 +101,7 @@ extension Organizations {
 
         public init(dictionary: [String: Any]) throws {
             self.content = dictionary["Content"] as? String
-            if let policySummary = dictionary["PolicySummary"] as? [String: Any] { self.policySummary = try Organizations.PolicySummary(dictionary: policySummary) }
+            if let policySummary = dictionary["PolicySummary"] as? [String: Any] { self.policySummary = try Organizations.PolicySummary(dictionary: policySummary) } else { self.policySummary = nil }
         }
     }
 
@@ -115,11 +109,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// Additional information that you want to include in the generated email to the recipient account owner.
-        public var notes: String? = nil
+        public let notes: String?
         /// The identifier (ID) of the AWS account that you want to invite to join your organization. This is a JSON object that contains the following elements:   { "Type": "ACCOUNT", "Id": "&lt; account id number &gt;" }  If you use the AWS CLI, you can submit this as a single string, similar to the following example:  --target id=123456789012,type=ACCOUNT  If you specify "Type": "ACCOUNT", then you must provide the AWS account ID number as the Id. If you specify "Type": "EMAIL", then you must specify the email address that is associated with the account.  --target id=bill@example.com,type=EMAIL 
-        public var target: HandshakeParty = HandshakeParty()
-
-        public init() {}
+        public let target: HandshakeParty
 
         public init(notes: String? = nil, target: HandshakeParty) {
             self.notes = notes
@@ -137,16 +129,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that contains details about the handshake that you canceled.
-        public var handshake: Handshake? = nil
-
-        public init() {}
+        public let handshake: Handshake?
 
         public init(handshake: Handshake? = nil) {
             self.handshake = handshake
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) }
+            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) } else { self.handshake = nil }
         }
     }
 
@@ -154,21 +144,19 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// If the account was created successfully, the unique identifier (ID) of the new account. The regex pattern for an account ID string requires exactly 12 digits.
-        public var accountId: String? = nil
+        public let accountId: String?
         /// The date and time that the request was made for the account creation.
-        public var requestedTimestamp: Date? = nil
+        public let requestedTimestamp: Date?
         /// The status of the request.
-        public var state: String? = nil
+        public let state: String?
         /// The account name given to the account when it was created.
-        public var accountName: String? = nil
+        public let accountName: String?
         /// The date and time that the account was created and the request completed.
-        public var completedTimestamp: Date? = nil
+        public let completedTimestamp: Date?
         /// If the request failed, a description of the reason for the failure.
-        public var failureReason: String? = nil
+        public let failureReason: String?
         /// The unique identifier (ID) that references this request. You get this value from the response of the initial CreateAccount request to create the account. The regex pattern for an create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(accountId: String? = nil, requestedTimestamp: Date? = nil, state: String? = nil, accountName: String? = nil, completedTimestamp: Date? = nil, failureReason: String? = nil, id: String? = nil) {
             self.accountId = accountId
@@ -195,16 +183,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that contains details about the declined handshake. The state is updated to show the value DECLINED.
-        public var handshake: Handshake? = nil
-
-        public init() {}
+        public let handshake: Handshake?
 
         public init(handshake: Handshake? = nil) {
             self.handshake = handshake
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) }
+            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) } else { self.handshake = nil }
         }
     }
 
@@ -212,11 +198,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of structures, each of which contains details about one of the entities to which the specified policy is attached.
-        public var targets: [PolicyTargetSummary]? = nil
+        public let targets: [PolicyTargetSummary]?
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(targets: [PolicyTargetSummary]? = nil, nextToken: String? = nil) {
             self.targets = targets
@@ -226,6 +210,8 @@ extension Organizations {
         public init(dictionary: [String: Any]) throws {
             if let targets = dictionary["Targets"] as? [[String: Any]] {
                 self.targets = try targets.map({ try PolicyTargetSummary(dictionary: $0) })
+            } else { 
+                self.targets = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -235,13 +221,11 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Specifies the type of policy that you want to include in the response.
-        public var filter: String = ""
-
-        public init() {}
+        public let filter: String
 
         public init(maxResults: Int32? = nil, nextToken: String? = nil, filter: String) {
             self.maxResults = maxResults
@@ -261,15 +245,13 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of policy that you want to include in the returned list.
-        public var filter: String = ""
+        public let filter: String
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The unique identifier (ID) of the root, organizational unit, or account whose policies you want to list. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public var targetId: String = ""
+        public let targetId: String
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(filter: String, nextToken: String? = nil, targetId: String, maxResults: Int32? = nil) {
             self.filter = filter
@@ -292,13 +274,11 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) of the policy for which you want to know its attachments. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
-        public var policyId: String = ""
+        public let policyId: String
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(policyId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.policyId = policyId
@@ -318,11 +298,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of the OUs in the specified root or parent OU.
-        public var organizationalUnits: [OrganizationalUnit]? = nil
-
-        public init() {}
+        public let organizationalUnits: [OrganizationalUnit]?
 
         public init(nextToken: String? = nil, organizationalUnits: [OrganizationalUnit]? = nil) {
             self.nextToken = nextToken
@@ -333,6 +311,8 @@ extension Organizations {
             self.nextToken = dictionary["NextToken"] as? String
             if let organizationalUnits = dictionary["OrganizationalUnits"] as? [[String: Any]] {
                 self.organizationalUnits = try organizationalUnits.map({ try OrganizationalUnit(dictionary: $0) })
+            } else { 
+                self.organizationalUnits = nil
             }
         }
     }
@@ -341,13 +321,11 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of information being passed, specifying how the value is to be interpreted by the other party:    ACCOUNT - Specifies an AWS account ID number.    ORGANIZATION - Specifies an organization ID number.    EMAIL - Specifies the email address that is associated with the account that receives the handshake.     OWNER_EMAIL - Specifies the email address associated with the master account. Included as information about an organization.     OWNER_NAME - Specifies the name associated with the master account. Included as information about an organization.     NOTES - Additional text provided by the handshake initiator and intended for the recipient to read.  
-        public var type: String? = nil
+        public let type: String?
         /// The information that is passed to the other party in the handshake. The format of the value string must match the requirements of the specified type.
-        public var value: String? = nil
+        public let value: String?
         /// When needed, contains an additional array of HandshakeResource objects.
-        public var resources: [HandshakeResource]? = nil
-
-        public init() {}
+        public let resources: [HandshakeResource]?
 
         public init(type: String? = nil, value: String? = nil, resources: [HandshakeResource]? = nil) {
             self.type = type
@@ -360,6 +338,8 @@ extension Organizations {
             self.value = dictionary["Value"] as? String
             if let resources = dictionary["Resources"] as? [[String: Any]] {
                 self.resources = try resources.map({ try HandshakeResource(dictionary: $0) })
+            } else { 
+                self.resources = nil
             }
         }
     }
@@ -368,16 +348,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that contains details about the handshake created to support this request to enable all features in the organization.
-        public var handshake: Handshake? = nil
-
-        public init() {}
+        public let handshake: Handshake?
 
         public init(handshake: Handshake? = nil) {
             self.handshake = handshake
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) }
+            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) } else { self.handshake = nil }
         }
     }
 
@@ -385,16 +363,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that contains details about the specified OU.
-        public var organizationalUnit: OrganizationalUnit? = nil
-
-        public init() {}
+        public let organizationalUnit: OrganizationalUnit?
 
         public init(organizationalUnit: OrganizationalUnit? = nil) {
             self.organizationalUnit = organizationalUnit
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let organizationalUnit = dictionary["OrganizationalUnit"] as? [String: Any] { self.organizationalUnit = try Organizations.OrganizationalUnit(dictionary: organizationalUnit) }
+            if let organizationalUnit = dictionary["OrganizationalUnit"] as? [String: Any] { self.organizationalUnit = try Organizations.OrganizationalUnit(dictionary: organizationalUnit) } else { self.organizationalUnit = nil }
         }
     }
 
@@ -402,16 +378,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that contains details about the handshake that is created to support this invitation request.
-        public var handshake: Handshake? = nil
-
-        public init() {}
+        public let handshake: Handshake?
 
         public init(handshake: Handshake? = nil) {
             self.handshake = handshake
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) }
+            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) } else { self.handshake = nil }
         }
     }
 
@@ -419,9 +393,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) of the organizational unit that you want details about. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
-        public var organizationalUnitId: String = ""
-
-        public init() {}
+        public let organizationalUnitId: String
 
         public init(organizationalUnitId: String) {
             self.organizationalUnitId = organizationalUnitId
@@ -437,16 +409,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that contains the details about the specified OU, including its new name.
-        public var organizationalUnit: OrganizationalUnit? = nil
-
-        public init() {}
+        public let organizationalUnit: OrganizationalUnit?
 
         public init(organizationalUnit: OrganizationalUnit? = nil) {
             self.organizationalUnit = organizationalUnit
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let organizationalUnit = dictionary["OrganizationalUnit"] as? [String: Any] { self.organizationalUnit = try Organizations.OrganizationalUnit(dictionary: organizationalUnit) }
+            if let organizationalUnit = dictionary["OrganizationalUnit"] as? [String: Any] { self.organizationalUnit = try Organizations.OrganizationalUnit(dictionary: organizationalUnit) } else { self.organizationalUnit = nil }
         }
     }
 
@@ -454,16 +424,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that contains details about the request to create an account. This response structure might not be fully populated when you first receive it because account creation is an asynchronous process. You can pass the returned CreateAccountStatus ID as a parameter to  DescribeCreateAccountStatus  to get status about the progress of the request at later times. 
-        public var createAccountStatus: CreateAccountStatus? = nil
-
-        public init() {}
+        public let createAccountStatus: CreateAccountStatus?
 
         public init(createAccountStatus: CreateAccountStatus? = nil) {
             self.createAccountStatus = createAccountStatus
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let createAccountStatus = dictionary["CreateAccountStatus"] as? [String: Any] { self.createAccountStatus = try Organizations.CreateAccountStatus(dictionary: createAccountStatus) }
+            if let createAccountStatus = dictionary["CreateAccountStatus"] as? [String: Any] { self.createAccountStatus = try Organizations.CreateAccountStatus(dictionary: createAccountStatus) } else { self.createAccountStatus = nil }
         }
     }
 
@@ -471,11 +439,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The policy type that you want to enable.
-        public var policyType: String = ""
+        public let policyType: String
         /// The unique identifier (ID) of the root in which you want to enable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
-        public var rootId: String = ""
-
-        public init() {}
+        public let rootId: String
 
         public init(policyType: String, rootId: String) {
             self.policyType = policyType
@@ -494,11 +460,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The friendly name to assign to the new OU.
-        public var name: String = ""
+        public let name: String
         /// The unique identifier (ID) of the parent root or OU in which you want to create the new OU. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public var parentId: String = ""
-
-        public init() {}
+        public let parentId: String
 
         public init(name: String, parentId: String) {
             self.name = name
@@ -517,16 +481,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that contains the current status of an account creation request.
-        public var createAccountStatus: CreateAccountStatus? = nil
-
-        public init() {}
+        public let createAccountStatus: CreateAccountStatus?
 
         public init(createAccountStatus: CreateAccountStatus? = nil) {
             self.createAccountStatus = createAccountStatus
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let createAccountStatus = dictionary["CreateAccountStatus"] as? [String: Any] { self.createAccountStatus = try Organizations.CreateAccountStatus(dictionary: createAccountStatus) }
+            if let createAccountStatus = dictionary["CreateAccountStatus"] as? [String: Any] { self.createAccountStatus = try Organizations.CreateAccountStatus(dictionary: createAccountStatus) } else { self.createAccountStatus = nil }
         }
     }
 
@@ -534,11 +496,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of roots that are defined in an organization.
-        public var roots: [Root]? = nil
-
-        public init() {}
+        public let roots: [Root]?
 
         public init(nextToken: String? = nil, roots: [Root]? = nil) {
             self.nextToken = nextToken
@@ -549,6 +509,8 @@ extension Organizations {
             self.nextToken = dictionary["NextToken"] as? String
             if let roots = dictionary["Roots"] as? [[String: Any]] {
                 self.roots = try roots.map({ try Root(dictionary: $0) })
+            } else { 
+                self.roots = nil
             }
         }
     }
@@ -557,13 +519,11 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of one or more states that you want included in the response. If this parameter is not present, then all requests are included in the response.
-        public var states: [String]? = nil
+        public let states: [String]?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(states: [String]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.states = states
@@ -572,9 +532,7 @@ extension Organizations {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let states = dictionary["States"] as? [String] {
-                self.states = states
-            }
+            self.states = dictionary["States"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -584,16 +542,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that contains details about the newly created organization.
-        public var organization: Organization? = nil
-
-        public init() {}
+        public let organization: Organization?
 
         public init(organization: Organization? = nil) {
             self.organization = organization
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let organization = dictionary["Organization"] as? [String: Any] { self.organization = try Organizations.Organization(dictionary: organization) }
+            if let organization = dictionary["Organization"] as? [String: Any] { self.organization = try Organizations.Organization(dictionary: organization) } else { self.organization = nil }
         }
     }
 
@@ -601,13 +557,11 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) of the account that you want to move. The regex pattern for an account ID string requires exactly 12 digits.
-        public var accountId: String = ""
+        public let accountId: String
         /// The unique identifier (ID) of the root or organizational unit that you want to move the account from. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public var sourceParentId: String = ""
+        public let sourceParentId: String
         /// The unique identifier (ID) of the root or organizational unit that you want to move the account to. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public var destinationParentId: String = ""
-
-        public init() {}
+        public let destinationParentId: String
 
         public init(accountId: String, sourceParentId: String, destinationParentId: String) {
             self.accountId = accountId
@@ -629,11 +583,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) of the policy that you want to attach to the target. You can get the ID for the policy by calling the ListPolicies operation. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
-        public var policyId: String = ""
+        public let policyId: String
         /// The unique identifier (ID) of the root, OU, or account that you want to attach the policy to. You can get the ID by calling the ListRoots, ListOrganizationalUnitsForParent, or ListAccounts operations. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public var targetId: String = ""
-
-        public init() {}
+        public let targetId: String
 
         public init(policyId: String, targetId: String) {
             self.policyId = policyId
@@ -652,11 +604,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of parents for the specified child account or OU.
-        public var parents: [Parent]? = nil
-
-        public init() {}
+        public let parents: [Parent]?
 
         public init(nextToken: String? = nil, parents: [Parent]? = nil) {
             self.nextToken = nextToken
@@ -667,6 +617,8 @@ extension Organizations {
             self.nextToken = dictionary["NextToken"] as? String
             if let parents = dictionary["Parents"] as? [[String: Any]] {
                 self.parents = try parents.map({ try Parent(dictionary: $0) })
+            } else { 
+                self.parents = nil
             }
         }
     }
@@ -675,15 +627,13 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// If provided, the new content for the policy. The text must be correctly formatted JSON that complies with the syntax for the policy's type. For more information, see Service Control Policy Syntax in the AWS Organizations User Guide.
-        public var content: String? = nil
+        public let content: String?
         /// The unique identifier (ID) of the policy that you want to update. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
-        public var policyId: String = ""
+        public let policyId: String
         /// If provided, the new name for the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
-        public var name: String? = nil
+        public let name: String?
         /// If provided, the new description for the policy.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(content: String? = nil, policyId: String, name: String? = nil, description: String? = nil) {
             self.content = content
@@ -705,21 +655,19 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The email address that is associated with the AWS account that is designated as the master account for the organization.
-        public var masterAccountEmail: String? = nil
+        public let masterAccountEmail: String?
         /// The Amazon Resource Name (ARN) of an organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
-        public var arn: String? = nil
+        public let arn: String?
         /// A list of policy types that are enabled for this organization. For example, if your organization has all features enabled, then service control policies (SCPs) are included in the list.
-        public var availablePolicyTypes: [PolicyTypeSummary]? = nil
+        public let availablePolicyTypes: [PolicyTypeSummary]?
         /// The Amazon Resource Name (ARN) of the account that is designated as the master account for the organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
-        public var masterAccountArn: String? = nil
+        public let masterAccountArn: String?
         /// Specifies the functionality that currently is available to the organization. If set to "ALL", then all features are enabled and policies can be applied to accounts in the organization. If set to "CONSOLIDATED_BILLING", then only consolidated billing functionality is available. For more information, see Enabling All Features in Your Organization in the AWS Organizations User Guide.
-        public var featureSet: String? = nil
+        public let featureSet: String?
         /// The unique identifier (ID) of the master account of an organization. The regex pattern for an account ID string requires exactly 12 digits.
-        public var masterAccountId: String? = nil
+        public let masterAccountId: String?
         /// The unique identifier (ID) of an organization. The regex pattern for an organization ID string requires "o-" followed by from 10 to 32 lower-case letters or digits.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(masterAccountEmail: String? = nil, arn: String? = nil, availablePolicyTypes: [PolicyTypeSummary]? = nil, masterAccountArn: String? = nil, featureSet: String? = nil, masterAccountId: String? = nil, id: String? = nil) {
             self.masterAccountEmail = masterAccountEmail
@@ -736,6 +684,8 @@ extension Organizations {
             self.arn = dictionary["Arn"] as? String
             if let availablePolicyTypes = dictionary["AvailablePolicyTypes"] as? [[String: Any]] {
                 self.availablePolicyTypes = try availablePolicyTypes.map({ try PolicyTypeSummary(dictionary: $0) })
+            } else { 
+                self.availablePolicyTypes = nil
             }
             self.masterAccountArn = dictionary["MasterAccountArn"] as? String
             self.featureSet = dictionary["FeatureSet"] as? String
@@ -748,11 +698,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of this child entity.
-        public var type: String? = nil
+        public let type: String?
         /// The unique identifier (ID) of this child entity. The regex pattern for a child ID string requires one of the following:   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(type: String? = nil, id: String? = nil) {
             self.type = type
@@ -769,15 +717,13 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// Filters the output to include only the specified child type.
-        public var childType: String = ""
+        public let childType: String
         /// The unique identifier (ID) for the parent root or OU whose children you want to list. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public var parentId: String = ""
+        public let parentId: String
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(childType: String, parentId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.childType = childType
@@ -800,11 +746,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the policy type.
-        public var type: String? = nil
+        public let type: String?
         /// The status of the policy type as it relates to the associated root. To attach a policy of the specified type to a root or to an OU or account in that root, it must be available in the organization and enabled for that root.
-        public var status: String? = nil
-
-        public init() {}
+        public let status: String?
 
         public init(type: String? = nil, status: String? = nil) {
             self.type = type
@@ -821,9 +765,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) of the handshake that you want to decline. You can get the ID from the ListHandshakesForAccount operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
-        public var handshakeId: String = ""
-
-        public init() {}
+        public let handshakeId: String
 
         public init(handshakeId: String) {
             self.handshakeId = handshakeId
@@ -839,9 +781,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) of the handshake that you want to accept. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
-        public var handshakeId: String = ""
-
-        public init() {}
+        public let handshakeId: String
 
         public init(handshakeId: String) {
             self.handshakeId = handshakeId
@@ -857,19 +797,17 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date the account became a part of the organization.
-        public var joinedTimestamp: Date? = nil
+        public let joinedTimestamp: Date?
         /// The status of the account in the organization.
-        public var status: String? = nil
+        public let status: String?
         /// The Amazon Resource Name (ARN) of the account. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
-        public var arn: String? = nil
+        public let arn: String?
         /// The friendly name of the account. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
-        public var name: String? = nil
+        public let name: String?
         /// The method by which the account joined the organization.
-        public var joinedMethod: String? = nil
+        public let joinedMethod: String?
         /// The unique identifier (ID) of the account. The regex pattern for an account ID string requires exactly 12 digits.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(joinedTimestamp: Date? = nil, status: String? = nil, arn: String? = nil, name: String? = nil, joinedMethod: String? = nil, id: String? = nil) {
             self.joinedTimestamp = joinedTimestamp
@@ -894,11 +832,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -915,11 +851,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of party.
-        public var type: String? = nil
+        public let type: String?
         /// The unique identifier (ID) for the party. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(type: String? = nil, id: String? = nil) {
             self.type = type
@@ -936,13 +870,11 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Filters the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE-FULL-CONTROL, or APPROVE-FULL-CONTROL. Alternatively, for the ENABLE-FULL-CONTROL handshake that generates a separate child handshake for each member account, you can specify ParentHandshakeId to see only the handshakes that were generated by that parent request.
-        public var filter: HandshakeFilter? = nil
-
-        public init() {}
+        public let filter: HandshakeFilter?
 
         public init(maxResults: Int32? = nil, nextToken: String? = nil, filter: HandshakeFilter? = nil) {
             self.maxResults = maxResults
@@ -953,7 +885,7 @@ extension Organizations {
         public init(dictionary: [String: Any]) throws {
             self.maxResults = dictionary["MaxResults"] as? Int32
             self.nextToken = dictionary["NextToken"] as? String
-            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try Organizations.HandshakeFilter(dictionary: filter) }
+            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try Organizations.HandshakeFilter(dictionary: filter) } else { self.filter = nil }
         }
     }
 
@@ -961,11 +893,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of objects with details about the requests. Certain elements, such as the accountId number, are present in the output only after the account has been successfully created.
-        public var createAccountStatuses: [CreateAccountStatus]? = nil
+        public let createAccountStatuses: [CreateAccountStatus]?
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(createAccountStatuses: [CreateAccountStatus]? = nil, nextToken: String? = nil) {
             self.createAccountStatuses = createAccountStatuses
@@ -975,6 +905,8 @@ extension Organizations {
         public init(dictionary: [String: Any]) throws {
             if let createAccountStatuses = dictionary["CreateAccountStatuses"] as? [[String: Any]] {
                 self.createAccountStatuses = try createAccountStatuses.map({ try CreateAccountStatus(dictionary: $0) })
+            } else { 
+                self.createAccountStatuses = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -984,11 +916,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of the parent entity.
-        public var type: String? = nil
+        public let type: String?
         /// The unique identifier (ID) of the parent entity. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(type: String? = nil, id: String? = nil) {
             self.type = type
@@ -1005,16 +935,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that contains details about the specified policy.
-        public var policy: Policy? = nil
-
-        public init() {}
+        public let policy: Policy?
 
         public init(policy: Policy? = nil) {
             self.policy = policy
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Organizations.Policy(dictionary: policy) }
+            if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Organizations.Policy(dictionary: policy) } else { self.policy = nil }
         }
     }
 
@@ -1022,11 +950,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) of the OU that you want to rename. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
-        public var organizationalUnitId: String = ""
+        public let organizationalUnitId: String
         /// The new name that you want to assign to the OU. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(organizationalUnitId: String, name: String? = nil) {
             self.organizationalUnitId = organizationalUnitId
@@ -1044,11 +970,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of policies that match the filter criteria in the request. The output list does not include the policy contents. To see the content for a policy, see DescribePolicy.
-        public var policies: [PolicySummary]? = nil
+        public let policies: [PolicySummary]?
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(policies: [PolicySummary]? = nil, nextToken: String? = nil) {
             self.policies = policies
@@ -1058,6 +982,8 @@ extension Organizations {
         public init(dictionary: [String: Any]) throws {
             if let policies = dictionary["Policies"] as? [[String: Any]] {
                 self.policies = try policies.map({ try PolicySummary(dictionary: $0) })
+            } else { 
+                self.policies = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -1067,11 +993,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The list of children of the specified parent container.
-        public var children: [Child]? = nil
-
-        public init() {}
+        public let children: [Child]?
 
         public init(nextToken: String? = nil, children: [Child]? = nil) {
             self.nextToken = nextToken
@@ -1082,6 +1006,8 @@ extension Organizations {
             self.nextToken = dictionary["NextToken"] as? String
             if let children = dictionary["Children"] as? [[String: Any]] {
                 self.children = try children.map({ try Child(dictionary: $0) })
+            } else { 
+                self.children = nil
             }
         }
     }
@@ -1090,11 +1016,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The policy type that you want to disable in this root.
-        public var policyType: String = ""
+        public let policyType: String
         /// The unique identifier (ID) of the root in which you want to disable a policy type. You can get the ID from the ListPolicies operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
-        public var rootId: String = ""
-
-        public init() {}
+        public let rootId: String
 
         public init(policyType: String, rootId: String) {
             self.policyType = policyType
@@ -1113,11 +1037,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) of the policy you want to detach. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
-        public var policyId: String = ""
+        public let policyId: String
         /// The unique identifier (ID) of the root, OU, or account from which you want to detach the policy. You can get the ID from the ListRoots, ListOrganizationalUnitsForParent, or ListAccounts operations. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public var targetId: String = ""
-
-        public init() {}
+        public let targetId: String
 
         public init(policyId: String, targetId: String) {
             self.policyId = policyId
@@ -1136,15 +1058,13 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The friendly name of the member account.
-        public var accountName: String = ""
+        public let accountName: String
         /// The email address of the owner to assign to the new member account. This email address must not already be associated with another AWS account.
-        public var email: String = ""
+        public let email: String
         /// (Optional) The name of an IAM role that Organizations automatically preconfigures in the new member account. This role trusts the master account, allowing users in the master account to assume the role, as permitted by the master account administrator. The role has administrator permissions in the new member account. If you do not specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see Accessing and Administering the Member Accounts in Your Organization in the AWS Organizations User Guide, and steps 2 and 3 in Tutorial: Delegate Access Across AWS Accounts Using IAM Roles in the IAM User Guide. The regex pattern that is used to validate this parameter is a string of characters that can consist of uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
-        public var roleName: String? = nil
+        public let roleName: String?
         /// If set to ALLOW, the new account enables IAM users to access account billing information if they have the required permissions. If set to DENY, then only the root user of the new account can access account billing information. For more information, see Activating Access to the Billing and Cost Management Console in the AWS Billing and Cost Management User Guide.
-        public var iamUserAccessToBilling: String? = nil
-
-        public init() {}
+        public let iamUserAccessToBilling: String?
 
         public init(accountName: String, email: String, roleName: String? = nil, iamUserAccessToBilling: String? = nil) {
             self.accountName = accountName
@@ -1167,13 +1087,11 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) of the OU or account whose parent containers you want to list. Do not specify a root. The regex pattern for a child ID string requires one of the following:   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public var childId: String = ""
+        public let childId: String
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(childId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.childId = childId
@@ -1193,9 +1111,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the operationId that uniquely identifies the request. You can get the ID from the response to an earlier CreateAccount request, or from the ListCreateAccountStatus operation. The regex pattern for an create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
-        public var createAccountRequestId: String = ""
-
-        public init() {}
+        public let createAccountRequestId: String
 
         public init(createAccountRequestId: String) {
             self.createAccountRequestId = createAccountRequestId
@@ -1211,9 +1127,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) of the policy that you want to delete. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
-        public var policyId: String = ""
-
-        public init() {}
+        public let policyId: String
 
         public init(policyId: String) {
             self.policyId = policyId
@@ -1229,16 +1143,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that shows the root with the updated list of enabled policy types.
-        public var root: Root? = nil
-
-        public init() {}
+        public let root: Root?
 
         public init(root: Root? = nil) {
             self.root = root
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let root = dictionary["Root"] as? [String: Any] { self.root = try Organizations.Root(dictionary: root) }
+            if let root = dictionary["Root"] as? [String: Any] { self.root = try Organizations.Root(dictionary: root) } else { self.root = nil }
         }
     }
 
@@ -1246,16 +1158,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that contains details about the newly created OU.
-        public var organizationalUnit: OrganizationalUnit? = nil
-
-        public init() {}
+        public let organizationalUnit: OrganizationalUnit?
 
         public init(organizationalUnit: OrganizationalUnit? = nil) {
             self.organizationalUnit = organizationalUnit
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let organizationalUnit = dictionary["OrganizationalUnit"] as? [String: Any] { self.organizationalUnit = try Organizations.OrganizationalUnit(dictionary: organizationalUnit) }
+            if let organizationalUnit = dictionary["OrganizationalUnit"] as? [String: Any] { self.organizationalUnit = try Organizations.OrganizationalUnit(dictionary: organizationalUnit) } else { self.organizationalUnit = nil }
         }
     }
 
@@ -1263,9 +1173,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) of the handshake that you want information about. You can get the ID from the original call to InviteAccountToOrganization, or from a call to ListHandshakesForAccount or ListHandshakesForOrganization. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
-        public var handshakeId: String = ""
-
-        public init() {}
+        public let handshakeId: String
 
         public init(handshakeId: String) {
             self.handshakeId = handshakeId
@@ -1281,8 +1189,6 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1291,16 +1197,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that contains details about the updated policy, showing the requested changes.
-        public var policy: Policy? = nil
-
-        public init() {}
+        public let policy: Policy?
 
         public init(policy: Policy? = nil) {
             self.policy = policy
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Organizations.Policy(dictionary: policy) }
+            if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Organizations.Policy(dictionary: policy) } else { self.policy = nil }
         }
     }
 
@@ -1308,11 +1212,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of policies that match the criteria in the request.
-        public var policies: [PolicySummary]? = nil
+        public let policies: [PolicySummary]?
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(policies: [PolicySummary]? = nil, nextToken: String? = nil) {
             self.policies = policies
@@ -1322,6 +1224,8 @@ extension Organizations {
         public init(dictionary: [String: Any]) throws {
             if let policies = dictionary["Policies"] as? [[String: Any]] {
                 self.policies = try policies.map({ try PolicySummary(dictionary: $0) })
+            } else { 
+                self.policies = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -1331,11 +1235,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of the accounts in the specified root or OU.
-        public var accounts: [Account]? = nil
-
-        public init() {}
+        public let accounts: [Account]?
 
         public init(nextToken: String? = nil, accounts: [Account]? = nil) {
             self.nextToken = nextToken
@@ -1346,6 +1248,8 @@ extension Organizations {
             self.nextToken = dictionary["NextToken"] as? String
             if let accounts = dictionary["Accounts"] as? [[String: Any]] {
                 self.accounts = try accounts.map({ try Account(dictionary: $0) })
+            } else { 
+                self.accounts = nil
             }
         }
     }
@@ -1354,13 +1258,11 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A filter of the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE-ALL-FEATURES, or APPROVE-ALL-FEATURES. Alternatively, for the ENABLE-ALL-FEATURES handshake that generates a separate child handshake for each member account, you can specify the ParentHandshakeId to see only the handshakes that were generated by that parent request.
-        public var filter: HandshakeFilter? = nil
-
-        public init() {}
+        public let filter: HandshakeFilter?
 
         public init(maxResults: Int32? = nil, nextToken: String? = nil, filter: HandshakeFilter? = nil) {
             self.maxResults = maxResults
@@ -1371,7 +1273,7 @@ extension Organizations {
         public init(dictionary: [String: Any]) throws {
             self.maxResults = dictionary["MaxResults"] as? Int32
             self.nextToken = dictionary["NextToken"] as? String
-            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try Organizations.HandshakeFilter(dictionary: filter) }
+            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try Organizations.HandshakeFilter(dictionary: filter) } else { self.filter = nil }
         }
     }
 
@@ -1379,9 +1281,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) of the member account that you want to remove from the organization. The regex pattern for an account ID string requires exactly 12 digits.
-        public var accountId: String = ""
-
-        public init() {}
+        public let accountId: String
 
         public init(accountId: String) {
             self.accountId = accountId
@@ -1397,15 +1297,13 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The policy content to add to the new policy. For example, if you create a service control policy (SCP), this string must be JSON text that specifies the permissions that admins in attached accounts can delegate to their users, groups, and roles. For more information about the SCP syntax, see Service Control Policy Syntax in the AWS Organizations User Guide.
-        public var content: String = ""
+        public let content: String
         /// The type of policy to create.  In the current release, the only type of policy that you can create is a service control policy (SCP). 
-        public var type: String = ""
+        public let type: String
         /// The friendly name to assign to the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
-        public var name: String = ""
+        public let name: String
         /// An optional description to assign to the policy.
-        public var description: String = ""
-
-        public init() {}
+        public let description: String
 
         public init(content: String, type: String, name: String, description: String) {
             self.content = content
@@ -1430,19 +1328,17 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description of the policy.
-        public var description: String? = nil
+        public let description: String?
         /// The Amazon Resource Name (ARN) of the policy. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
-        public var arn: String? = nil
+        public let arn: String?
         /// A boolean value that indicates whether the specified policy is an AWS managed policy. If true, then you can attach the policy to roots, OUs, or accounts, but you cannot edit it.
-        public var awsManaged: Bool? = nil
+        public let awsManaged: Bool?
         /// The type of policy.
-        public var type: String? = nil
+        public let type: String?
         /// The friendly name of the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
-        public var name: String? = nil
+        public let name: String?
         /// The unique identifier (ID) of the policy. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(description: String? = nil, arn: String? = nil, awsManaged: Bool? = nil, type: String? = nil, name: String? = nil, id: String? = nil) {
             self.description = description
@@ -1467,16 +1363,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that shows the root with the updated list of enabled policy types.
-        public var root: Root? = nil
-
-        public init() {}
+        public let root: Root?
 
         public init(root: Root? = nil) {
             self.root = root
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let root = dictionary["Root"] as? [String: Any] { self.root = try Organizations.Root(dictionary: root) }
+            if let root = dictionary["Root"] as? [String: Any] { self.root = try Organizations.Root(dictionary: root) } else { self.root = nil }
         }
     }
 
@@ -1484,11 +1378,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of Handshake objects with details about each of the handshakes that are associated with an organization.
-        public var handshakes: [Handshake]? = nil
+        public let handshakes: [Handshake]?
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(handshakes: [Handshake]? = nil, nextToken: String? = nil) {
             self.handshakes = handshakes
@@ -1498,6 +1390,8 @@ extension Organizations {
         public init(dictionary: [String: Any]) throws {
             if let handshakes = dictionary["Handshakes"] as? [[String: Any]] {
                 self.handshakes = try handshakes.map({ try Handshake(dictionary: $0) })
+            } else { 
+                self.handshakes = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -1507,23 +1401,21 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date and time that the handshake request was made.
-        public var requestedTimestamp: Date? = nil
+        public let requestedTimestamp: Date?
         /// The Amazon Resource Name (ARN) of a handshake. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
-        public var arn: String? = nil
+        public let arn: String?
         /// The type of handshake, indicating what action occurs when the recipient accepts the handshake.
-        public var action: String? = nil
+        public let action: String?
         /// The current state of the handshake. Use the state to trace the flow of the handshake through the process from its creation to its acceptance. The meaning of each of the valid values is as follows:    REQUESTED: This handshake was sent to multiple recipients (applicable to only some handshake types) and not all recipients have responded yet. The request stays in this state until all recipients respond.    OPEN: This handshake was sent to multiple recipients (applicable to only some policy types) and all recipients have responded, allowing the originator to complete the handshake action.    CANCELED: This handshake is no longer active because it was canceled by the originating account.    ACCEPTED: This handshake is complete because it has been accepted by the recipient.    DECLINED: This handshake is no longer active because it was declined by the recipient account.    EXPIRED: This handshake is no longer active because the originator did not receive a response of any kind from the recipient before the expiration time (15 days).  
-        public var state: String? = nil
+        public let state: String?
         /// The date and time that the handshake expires. If the recipient of the handshake request fails to respond before the specified date and time, the handshake becomes inactive and is no longer valid.
-        public var expirationTimestamp: Date? = nil
+        public let expirationTimestamp: Date?
         /// Additional information that is needed to process the handshake.
-        public var resources: [HandshakeResource]? = nil
+        public let resources: [HandshakeResource]?
         /// Information about the two accounts that are participating in the handshake.
-        public var parties: [HandshakeParty]? = nil
+        public let parties: [HandshakeParty]?
         /// The unique identifier (ID) of a handshake. The originating account creates the ID when it initiates the handshake. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(requestedTimestamp: Date? = nil, arn: String? = nil, action: String? = nil, state: String? = nil, expirationTimestamp: Date? = nil, resources: [HandshakeResource]? = nil, parties: [HandshakeParty]? = nil, id: String? = nil) {
             self.requestedTimestamp = requestedTimestamp
@@ -1544,9 +1436,13 @@ extension Organizations {
             self.expirationTimestamp = dictionary["ExpirationTimestamp"] as? Date
             if let resources = dictionary["Resources"] as? [[String: Any]] {
                 self.resources = try resources.map({ try HandshakeResource(dictionary: $0) })
+            } else { 
+                self.resources = nil
             }
             if let parties = dictionary["Parties"] as? [[String: Any]] {
                 self.parties = try parties.map({ try HandshakeParty(dictionary: $0) })
+            } else { 
+                self.parties = nil
             }
             self.id = dictionary["Id"] as? String
         }
@@ -1556,16 +1452,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that contains information about the specified handshake.
-        public var handshake: Handshake? = nil
-
-        public init() {}
+        public let handshake: Handshake?
 
         public init(handshake: Handshake? = nil) {
             self.handshake = handshake
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) }
+            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) } else { self.handshake = nil }
         }
     }
 
@@ -1573,9 +1467,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) of the handshake that you want to cancel. You can get the ID from the ListHandshakesForOrganization operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
-        public var handshakeId: String = ""
-
-        public init() {}
+        public let handshakeId: String
 
         public init(handshakeId: String) {
             self.handshakeId = handshakeId
@@ -1591,9 +1483,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality.    CONSOLIDATED_BILLING: All member accounts have their bills consolidated to and paid by the master account. For more information, see Consolidated Billing in the AWS Organizations User Guide.    ALL: In addition to all the features supported by the consolidated billing feature set, the master account can also apply any type of policy to any member account in the organization. For more information, see All features in the AWS Organizations User Guide.  
-        public var featureSet: String? = nil
-
-        public init() {}
+        public let featureSet: String?
 
         public init(featureSet: String? = nil) {
             self.featureSet = featureSet
@@ -1608,13 +1498,11 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The unique identifier (ID) of the root or OU whose child OUs you want to list. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public var parentId: String = ""
+        public let parentId: String
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, parentId: String, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -1634,15 +1522,13 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the policy target. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
-        public var arn: String? = nil
+        public let arn: String?
         /// The type of the policy target.
-        public var type: String? = nil
+        public let type: String?
         /// The friendly name of the policy target. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
-        public var name: String? = nil
+        public let name: String?
         /// The unique identifier (ID) of the policy target. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
-        public var targetId: String? = nil
-
-        public init() {}
+        public let targetId: String?
 
         public init(arn: String? = nil, type: String? = nil, name: String? = nil, targetId: String? = nil) {
             self.arn = arn
@@ -1663,16 +1549,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that contains details about the accepted handshake.
-        public var handshake: Handshake? = nil
-
-        public init() {}
+        public let handshake: Handshake?
 
         public init(handshake: Handshake? = nil) {
             self.handshake = handshake
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) }
+            if let handshake = dictionary["Handshake"] as? [String: Any] { self.handshake = try Organizations.Handshake(dictionary: handshake) } else { self.handshake = nil }
         }
     }
 
@@ -1680,11 +1564,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of Handshake objects with details about each of the handshakes that is associated with the specified account.
-        public var handshakes: [Handshake]? = nil
+        public let handshakes: [Handshake]?
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(handshakes: [Handshake]? = nil, nextToken: String? = nil) {
             self.handshakes = handshakes
@@ -1694,6 +1576,8 @@ extension Organizations {
         public init(dictionary: [String: Any]) throws {
             if let handshakes = dictionary["Handshakes"] as? [[String: Any]] {
                 self.handshakes = try handshakes.map({ try Handshake(dictionary: $0) })
+            } else { 
+                self.handshakes = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -1703,13 +1587,11 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The friendly name of this OU. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
-        public var name: String? = nil
+        public let name: String?
         /// The Amazon Resource Name (ARN) of this OU. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
-        public var arn: String? = nil
+        public let arn: String?
         /// The unique identifier (ID) associated with this OU. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(name: String? = nil, arn: String? = nil, id: String? = nil) {
             self.name = name
@@ -1728,9 +1610,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) of the AWS account that you want information about. You can get the ID from the ListAccounts or ListAccountsForParent operations. The regex pattern for an account ID string requires exactly 12 digits.
-        public var accountId: String = ""
-
-        public init() {}
+        public let accountId: String
 
         public init(accountId: String) {
             self.accountId = accountId
@@ -1746,15 +1626,13 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the root. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
-        public var arn: String? = nil
+        public let arn: String?
         /// The types of policies that are currently enabled for the root and therefore can be attached to the root or to its OUs or accounts.
-        public var policyTypes: [PolicyTypeSummary]? = nil
+        public let policyTypes: [PolicyTypeSummary]?
         /// The friendly name of the root. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
-        public var name: String? = nil
+        public let name: String?
         /// The unique identifier (ID) for the root. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(arn: String? = nil, policyTypes: [PolicyTypeSummary]? = nil, name: String? = nil, id: String? = nil) {
             self.arn = arn
@@ -1767,6 +1645,8 @@ extension Organizations {
             self.arn = dictionary["Arn"] as? String
             if let policyTypes = dictionary["PolicyTypes"] as? [[String: Any]] {
                 self.policyTypes = try policyTypes.map({ try PolicyTypeSummary(dictionary: $0) })
+            } else { 
+                self.policyTypes = nil
             }
             self.name = dictionary["Name"] as? String
             self.id = dictionary["Id"] as? String
@@ -1777,16 +1657,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that contains information about the requested account.
-        public var account: Account? = nil
-
-        public init() {}
+        public let account: Account?
 
         public init(account: Account? = nil) {
             self.account = account
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let account = dictionary["Account"] as? [String: Any] { self.account = try Organizations.Account(dictionary: account) }
+            if let account = dictionary["Account"] as? [String: Any] { self.account = try Organizations.Account(dictionary: account) } else { self.account = nil }
         }
     }
 
@@ -1794,9 +1672,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) of the policy that you want details about. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
-        public var policyId: String = ""
-
-        public init() {}
+        public let policyId: String
 
         public init(policyId: String) {
             self.policyId = policyId
@@ -1812,9 +1688,7 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) of the organizational unit that you want to delete. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
-        public var organizationalUnitId: String = ""
-
-        public init() {}
+        public let organizationalUnitId: String
 
         public init(organizationalUnitId: String) {
             self.organizationalUnitId = organizationalUnitId
@@ -1830,13 +1704,11 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The unique identifier (ID) for the parent root or organization unit (OU) whose accounts you want to list.
-        public var parentId: String = ""
+        public let parentId: String
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, parentId: String, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -1856,11 +1728,9 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -1877,16 +1747,14 @@ extension Organizations {
         /// The key for the payload
         public static let payload: String? = nil
         /// A structure that contains information about the organization.
-        public var organization: Organization? = nil
-
-        public init() {}
+        public let organization: Organization?
 
         public init(organization: Organization? = nil) {
             self.organization = organization
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let organization = dictionary["Organization"] as? [String: Any] { self.organization = try Organizations.Organization(dictionary: organization) }
+            if let organization = dictionary["Organization"] as? [String: Any] { self.organization = try Organizations.Organization(dictionary: organization) } else { self.organization = nil }
         }
     }
 

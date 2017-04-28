@@ -33,9 +33,7 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the delivery stream.
-        public var deliveryStreamDescription: DeliveryStreamDescription = DeliveryStreamDescription()
-
-        public init() {}
+        public let deliveryStreamDescription: DeliveryStreamDescription
 
         public init(deliveryStreamDescription: DeliveryStreamDescription) {
             self.deliveryStreamDescription = deliveryStreamDescription
@@ -51,11 +49,9 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The data processors.
-        public var processors: [Processor]? = nil
+        public let processors: [Processor]?
         /// Enables or disables data processing.
-        public var enabled: Bool? = nil
-
-        public init() {}
+        public let enabled: Bool?
 
         public init(processors: [Processor]? = nil, enabled: Bool? = nil) {
             self.processors = processors
@@ -65,6 +61,8 @@ extension Firehose {
         public init(dictionary: [String: Any]) throws {
             if let processors = dictionary["Processors"] as? [[String: Any]] {
                 self.processors = try processors.map({ try Processor(dictionary: $0) })
+            } else { 
+                self.processors = nil
             }
             self.enabled = dictionary["Enabled"] as? Bool
         }
@@ -74,29 +72,27 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The COPY command.
-        public var copyCommand: CopyCommand = CopyCommand()
+        public let copyCommand: CopyCommand
         /// The configuration for the intermediate Amazon S3 location from which Amazon Redshift obtains data. Restrictions are described in the topic for CreateDeliveryStream. The compression formats SNAPPY or ZIP cannot be specified in RedshiftDestinationConfiguration.S3Configuration because the Amazon Redshift COPY operation that reads from the S3 bucket doesn't support these compression formats.
-        public var s3Configuration: S3DestinationConfiguration = S3DestinationConfiguration()
+        public let s3Configuration: S3DestinationConfiguration
         /// The name of the user.
-        public var username: String = ""
+        public let username: String
         /// The configuration for backup in Amazon S3.
-        public var s3BackupConfiguration: S3DestinationConfiguration? = nil
+        public let s3BackupConfiguration: S3DestinationConfiguration?
         /// The database connection string.
-        public var clusterJDBCURL: String = ""
+        public let clusterJDBCURL: String
         /// The ARN of the AWS credentials.
-        public var roleARN: String = ""
+        public let roleARN: String
         /// The data processing configuration.
-        public var processingConfiguration: ProcessingConfiguration? = nil
+        public let processingConfiguration: ProcessingConfiguration?
         /// The user password.
-        public var password: String = ""
+        public let password: String
         /// The CloudWatch logging options for your delivery stream.
-        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The retry behavior in the event that Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
-        public var retryOptions: RedshiftRetryOptions? = nil
+        public let retryOptions: RedshiftRetryOptions?
         /// The Amazon S3 backup mode.
-        public var s3BackupMode: String? = nil
-
-        public init() {}
+        public let s3BackupMode: String?
 
         public init(copyCommand: CopyCommand, s3Configuration: S3DestinationConfiguration, username: String, s3BackupConfiguration: S3DestinationConfiguration? = nil, clusterJDBCURL: String, roleARN: String, processingConfiguration: ProcessingConfiguration? = nil, password: String, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, retryOptions: RedshiftRetryOptions? = nil, s3BackupMode: String? = nil) {
             self.copyCommand = copyCommand
@@ -119,16 +115,16 @@ extension Firehose {
             self.s3Configuration = try Firehose.S3DestinationConfiguration(dictionary: s3Configuration)
             guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
             self.username = username
-            if let s3BackupConfiguration = dictionary["S3BackupConfiguration"] as? [String: Any] { self.s3BackupConfiguration = try Firehose.S3DestinationConfiguration(dictionary: s3BackupConfiguration) }
+            if let s3BackupConfiguration = dictionary["S3BackupConfiguration"] as? [String: Any] { self.s3BackupConfiguration = try Firehose.S3DestinationConfiguration(dictionary: s3BackupConfiguration) } else { self.s3BackupConfiguration = nil }
             guard let clusterJDBCURL = dictionary["ClusterJDBCURL"] as? String else { throw InitializableError.missingRequiredParam("ClusterJDBCURL") }
             self.clusterJDBCURL = clusterJDBCURL
             guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
             self.roleARN = roleARN
-            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) }
+            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) } else { self.processingConfiguration = nil }
             guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
             self.password = password
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
-            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.RedshiftRetryOptions(dictionary: retryOptions) }
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
+            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.RedshiftRetryOptions(dictionary: retryOptions) } else { self.retryOptions = nil }
             self.s3BackupMode = dictionary["S3BackupMode"] as? String
         }
     }
@@ -137,13 +133,11 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the target table. The table must already exist in the database.
-        public var dataTableName: String = ""
+        public let dataTableName: String
         /// A comma-separated list of column names.
-        public var dataTableColumns: String? = nil
+        public let dataTableColumns: String?
         /// Optional parameters to use with the Amazon Redshift COPY command. For more information, see the "Optional Parameters" section of Amazon Redshift COPY command. Some possible examples that would apply to Firehose are as follows:  delimiter '\t' lzop; - fields are delimited with "\t" (TAB character) and compressed using lzop.  delimiter '| - fields are delimited with "|" (this is the default delimiter).  delimiter '|' escape - the delimiter should be escaped.  fixedwidth 'venueid:3,venuename:25,venuecity:12,venuestate:2,venueseats:6' - fields are fixed width in the source, with each width specified after every column in the table.  JSON 's3://mybucket/jsonpaths.txt' - data is in JSON format, and the path specified is the format of the data. For more examples, see Amazon Redshift COPY command examples.
-        public var copyOptions: String? = nil
-
-        public init() {}
+        public let copyOptions: String?
 
         public init(dataTableName: String, dataTableColumns: String? = nil, copyOptions: String? = nil) {
             self.dataTableName = dataTableName
@@ -163,27 +157,25 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the S3 bucket.
-        public var bucketARN: String = ""
+        public let bucketARN: String
         /// The encryption configuration. If no value is specified, the default is no encryption.
-        public var encryptionConfiguration: EncryptionConfiguration? = nil
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The ARN of the AWS credentials.
-        public var roleARN: String = ""
+        public let roleARN: String
         /// The configuration for backup in Amazon S3.
-        public var s3BackupConfiguration: S3DestinationConfiguration? = nil
+        public let s3BackupConfiguration: S3DestinationConfiguration?
         /// The data processing configuration.
-        public var processingConfiguration: ProcessingConfiguration? = nil
+        public let processingConfiguration: ProcessingConfiguration?
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        public var prefix: String? = nil
+        public let prefix: String?
         /// The Amazon S3 backup mode.
-        public var s3BackupMode: String? = nil
+        public let s3BackupMode: String?
         /// The CloudWatch logging options for your delivery stream.
-        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The compression format. If no value is specified, the default is UNCOMPRESSED.
-        public var compressionFormat: String? = nil
+        public let compressionFormat: String?
         /// The buffering option.
-        public var bufferingHints: BufferingHints? = nil
-
-        public init() {}
+        public let bufferingHints: BufferingHints?
 
         public init(bucketARN: String, encryptionConfiguration: EncryptionConfiguration? = nil, roleARN: String, s3BackupConfiguration: S3DestinationConfiguration? = nil, processingConfiguration: ProcessingConfiguration? = nil, prefix: String? = nil, s3BackupMode: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: String? = nil, bufferingHints: BufferingHints? = nil) {
             self.bucketARN = bucketARN
@@ -201,16 +193,16 @@ extension Firehose {
         public init(dictionary: [String: Any]) throws {
             guard let bucketARN = dictionary["BucketARN"] as? String else { throw InitializableError.missingRequiredParam("BucketARN") }
             self.bucketARN = bucketARN
-            if let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] { self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration) }
+            if let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] { self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration) } else { self.encryptionConfiguration = nil }
             guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
             self.roleARN = roleARN
-            if let s3BackupConfiguration = dictionary["S3BackupConfiguration"] as? [String: Any] { self.s3BackupConfiguration = try Firehose.S3DestinationConfiguration(dictionary: s3BackupConfiguration) }
-            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) }
+            if let s3BackupConfiguration = dictionary["S3BackupConfiguration"] as? [String: Any] { self.s3BackupConfiguration = try Firehose.S3DestinationConfiguration(dictionary: s3BackupConfiguration) } else { self.s3BackupConfiguration = nil }
+            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) } else { self.processingConfiguration = nil }
             self.prefix = dictionary["Prefix"] as? String
             self.s3BackupMode = dictionary["S3BackupMode"] as? String
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
             self.compressionFormat = dictionary["CompressionFormat"] as? String
-            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints) }
+            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints) } else { self.bufferingHints = nil }
         }
     }
 
@@ -218,9 +210,7 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// After an initial failure to deliver to Amazon ES, the total amount of time during which Firehose re-attempts delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
-        public var durationInSeconds: Int32? = nil
-
-        public init() {}
+        public let durationInSeconds: Int32?
 
         public init(durationInSeconds: Int32? = nil) {
             self.durationInSeconds = durationInSeconds
@@ -235,9 +225,7 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the record.
-        public var recordId: String = ""
-
-        public init() {}
+        public let recordId: String
 
         public init(recordId: String) {
             self.recordId = recordId
@@ -253,17 +241,15 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// [Deprecated] The destination in Amazon S3.
-        public var s3DestinationDescription: S3DestinationDescription? = nil
+        public let s3DestinationDescription: S3DestinationDescription?
         /// The ID of the destination.
-        public var destinationId: String = ""
+        public let destinationId: String
         /// The destination in Amazon Redshift.
-        public var redshiftDestinationDescription: RedshiftDestinationDescription? = nil
+        public let redshiftDestinationDescription: RedshiftDestinationDescription?
         /// The destination in Amazon S3.
-        public var extendedS3DestinationDescription: ExtendedS3DestinationDescription? = nil
+        public let extendedS3DestinationDescription: ExtendedS3DestinationDescription?
         /// The destination in Amazon ES.
-        public var elasticsearchDestinationDescription: ElasticsearchDestinationDescription? = nil
-
-        public init() {}
+        public let elasticsearchDestinationDescription: ElasticsearchDestinationDescription?
 
         public init(s3DestinationDescription: S3DestinationDescription? = nil, destinationId: String, redshiftDestinationDescription: RedshiftDestinationDescription? = nil, extendedS3DestinationDescription: ExtendedS3DestinationDescription? = nil, elasticsearchDestinationDescription: ElasticsearchDestinationDescription? = nil) {
             self.s3DestinationDescription = s3DestinationDescription
@@ -274,12 +260,12 @@ extension Firehose {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let s3DestinationDescription = dictionary["S3DestinationDescription"] as? [String: Any] { self.s3DestinationDescription = try Firehose.S3DestinationDescription(dictionary: s3DestinationDescription) }
+            if let s3DestinationDescription = dictionary["S3DestinationDescription"] as? [String: Any] { self.s3DestinationDescription = try Firehose.S3DestinationDescription(dictionary: s3DestinationDescription) } else { self.s3DestinationDescription = nil }
             guard let destinationId = dictionary["DestinationId"] as? String else { throw InitializableError.missingRequiredParam("DestinationId") }
             self.destinationId = destinationId
-            if let redshiftDestinationDescription = dictionary["RedshiftDestinationDescription"] as? [String: Any] { self.redshiftDestinationDescription = try Firehose.RedshiftDestinationDescription(dictionary: redshiftDestinationDescription) }
-            if let extendedS3DestinationDescription = dictionary["ExtendedS3DestinationDescription"] as? [String: Any] { self.extendedS3DestinationDescription = try Firehose.ExtendedS3DestinationDescription(dictionary: extendedS3DestinationDescription) }
-            if let elasticsearchDestinationDescription = dictionary["ElasticsearchDestinationDescription"] as? [String: Any] { self.elasticsearchDestinationDescription = try Firehose.ElasticsearchDestinationDescription(dictionary: elasticsearchDestinationDescription) }
+            if let redshiftDestinationDescription = dictionary["RedshiftDestinationDescription"] as? [String: Any] { self.redshiftDestinationDescription = try Firehose.RedshiftDestinationDescription(dictionary: redshiftDestinationDescription) } else { self.redshiftDestinationDescription = nil }
+            if let extendedS3DestinationDescription = dictionary["ExtendedS3DestinationDescription"] as? [String: Any] { self.extendedS3DestinationDescription = try Firehose.ExtendedS3DestinationDescription(dictionary: extendedS3DestinationDescription) } else { self.extendedS3DestinationDescription = nil }
+            if let elasticsearchDestinationDescription = dictionary["ElasticsearchDestinationDescription"] as? [String: Any] { self.elasticsearchDestinationDescription = try Firehose.ElasticsearchDestinationDescription(dictionary: elasticsearchDestinationDescription) } else { self.elasticsearchDestinationDescription = nil }
         }
     }
 
@@ -287,21 +273,19 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// Describes an update for a destination in Amazon ES.
-        public var elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil
+        public let elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate?
         /// The name of the delivery stream.
-        public var deliveryStreamName: String = ""
+        public let deliveryStreamName: String
         /// Obtain this value from the VersionId result of DeliveryStreamDescription. This value is required, and helps the service to perform conditional operations. For example, if there is a interleaving update and this value is null, then the update destination fails. After the update is successful, the VersionId value is updated. The service then performs a merge of the old configuration with the new configuration.
-        public var currentDeliveryStreamVersionId: String = ""
+        public let currentDeliveryStreamVersionId: String
         /// The ID of the destination.
-        public var destinationId: String = ""
+        public let destinationId: String
         /// Describes an update for a destination in Amazon S3.
-        public var extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil
+        public let extendedS3DestinationUpdate: ExtendedS3DestinationUpdate?
         /// Describes an update for a destination in Amazon Redshift.
-        public var redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil
+        public let redshiftDestinationUpdate: RedshiftDestinationUpdate?
         /// [Deprecated] Describes an update for a destination in Amazon S3.
-        public var s3DestinationUpdate: S3DestinationUpdate? = nil
-
-        public init() {}
+        public let s3DestinationUpdate: S3DestinationUpdate?
 
         public init(elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil, deliveryStreamName: String, currentDeliveryStreamVersionId: String, destinationId: String, extendedS3DestinationUpdate: ExtendedS3DestinationUpdate? = nil, redshiftDestinationUpdate: RedshiftDestinationUpdate? = nil, s3DestinationUpdate: S3DestinationUpdate? = nil) {
             self.elasticsearchDestinationUpdate = elasticsearchDestinationUpdate
@@ -314,16 +298,16 @@ extension Firehose {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let elasticsearchDestinationUpdate = dictionary["ElasticsearchDestinationUpdate"] as? [String: Any] { self.elasticsearchDestinationUpdate = try Firehose.ElasticsearchDestinationUpdate(dictionary: elasticsearchDestinationUpdate) }
+            if let elasticsearchDestinationUpdate = dictionary["ElasticsearchDestinationUpdate"] as? [String: Any] { self.elasticsearchDestinationUpdate = try Firehose.ElasticsearchDestinationUpdate(dictionary: elasticsearchDestinationUpdate) } else { self.elasticsearchDestinationUpdate = nil }
             guard let deliveryStreamName = dictionary["DeliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamName") }
             self.deliveryStreamName = deliveryStreamName
             guard let currentDeliveryStreamVersionId = dictionary["CurrentDeliveryStreamVersionId"] as? String else { throw InitializableError.missingRequiredParam("CurrentDeliveryStreamVersionId") }
             self.currentDeliveryStreamVersionId = currentDeliveryStreamVersionId
             guard let destinationId = dictionary["DestinationId"] as? String else { throw InitializableError.missingRequiredParam("DestinationId") }
             self.destinationId = destinationId
-            if let extendedS3DestinationUpdate = dictionary["ExtendedS3DestinationUpdate"] as? [String: Any] { self.extendedS3DestinationUpdate = try Firehose.ExtendedS3DestinationUpdate(dictionary: extendedS3DestinationUpdate) }
-            if let redshiftDestinationUpdate = dictionary["RedshiftDestinationUpdate"] as? [String: Any] { self.redshiftDestinationUpdate = try Firehose.RedshiftDestinationUpdate(dictionary: redshiftDestinationUpdate) }
-            if let s3DestinationUpdate = dictionary["S3DestinationUpdate"] as? [String: Any] { self.s3DestinationUpdate = try Firehose.S3DestinationUpdate(dictionary: s3DestinationUpdate) }
+            if let extendedS3DestinationUpdate = dictionary["ExtendedS3DestinationUpdate"] as? [String: Any] { self.extendedS3DestinationUpdate = try Firehose.ExtendedS3DestinationUpdate(dictionary: extendedS3DestinationUpdate) } else { self.extendedS3DestinationUpdate = nil }
+            if let redshiftDestinationUpdate = dictionary["RedshiftDestinationUpdate"] as? [String: Any] { self.redshiftDestinationUpdate = try Firehose.RedshiftDestinationUpdate(dictionary: redshiftDestinationUpdate) } else { self.redshiftDestinationUpdate = nil }
+            if let s3DestinationUpdate = dictionary["S3DestinationUpdate"] as? [String: Any] { self.s3DestinationUpdate = try Firehose.S3DestinationUpdate(dictionary: s3DestinationUpdate) } else { self.s3DestinationUpdate = nil }
         }
     }
 
@@ -331,11 +315,9 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The names of the delivery streams.
-        public var deliveryStreamNames: [String] = []
+        public let deliveryStreamNames: [String]
         /// Indicates whether there are more delivery streams available to list.
-        public var hasMoreDeliveryStreams: Bool = false
-
-        public init() {}
+        public let hasMoreDeliveryStreams: Bool
 
         public init(deliveryStreamNames: [String], hasMoreDeliveryStreams: Bool) {
             self.deliveryStreamNames = deliveryStreamNames
@@ -354,27 +336,25 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The configuration for backup in Amazon S3.
-        public var s3BackupDescription: S3DestinationDescription? = nil
+        public let s3BackupDescription: S3DestinationDescription?
         /// The COPY command.
-        public var copyCommand: CopyCommand = CopyCommand()
+        public let copyCommand: CopyCommand
         /// The name of the user.
-        public var username: String = ""
+        public let username: String
         /// The Amazon S3 destination.
-        public var s3DestinationDescription: S3DestinationDescription = S3DestinationDescription()
+        public let s3DestinationDescription: S3DestinationDescription
         /// The database connection string.
-        public var clusterJDBCURL: String = ""
+        public let clusterJDBCURL: String
         /// The ARN of the AWS credentials.
-        public var roleARN: String = ""
+        public let roleARN: String
         /// The data processing configuration.
-        public var processingConfiguration: ProcessingConfiguration? = nil
+        public let processingConfiguration: ProcessingConfiguration?
         /// The Amazon S3 backup mode.
-        public var s3BackupMode: String? = nil
+        public let s3BackupMode: String?
         /// The CloudWatch logging options for your delivery stream.
-        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The retry behavior in the event that Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
-        public var retryOptions: RedshiftRetryOptions? = nil
-
-        public init() {}
+        public let retryOptions: RedshiftRetryOptions?
 
         public init(s3BackupDescription: S3DestinationDescription? = nil, copyCommand: CopyCommand, username: String, s3DestinationDescription: S3DestinationDescription, clusterJDBCURL: String, roleARN: String, processingConfiguration: ProcessingConfiguration? = nil, s3BackupMode: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, retryOptions: RedshiftRetryOptions? = nil) {
             self.s3BackupDescription = s3BackupDescription
@@ -390,7 +370,7 @@ extension Firehose {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let s3BackupDescription = dictionary["S3BackupDescription"] as? [String: Any] { self.s3BackupDescription = try Firehose.S3DestinationDescription(dictionary: s3BackupDescription) }
+            if let s3BackupDescription = dictionary["S3BackupDescription"] as? [String: Any] { self.s3BackupDescription = try Firehose.S3DestinationDescription(dictionary: s3BackupDescription) } else { self.s3BackupDescription = nil }
             guard let copyCommand = dictionary["CopyCommand"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CopyCommand") }
             self.copyCommand = try Firehose.CopyCommand(dictionary: copyCommand)
             guard let username = dictionary["Username"] as? String else { throw InitializableError.missingRequiredParam("Username") }
@@ -401,10 +381,10 @@ extension Firehose {
             self.clusterJDBCURL = clusterJDBCURL
             guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
             self.roleARN = roleARN
-            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) }
+            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) } else { self.processingConfiguration = nil }
             self.s3BackupMode = dictionary["S3BackupMode"] as? String
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
-            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.RedshiftRetryOptions(dictionary: retryOptions) }
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
+            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.RedshiftRetryOptions(dictionary: retryOptions) } else { self.retryOptions = nil }
         }
     }
 
@@ -412,11 +392,9 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of delivery streams to list.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The name of the delivery stream to start the list with.
-        public var exclusiveStartDeliveryStreamName: String? = nil
-
-        public init() {}
+        public let exclusiveStartDeliveryStreamName: String?
 
         public init(limit: Int32? = nil, exclusiveStartDeliveryStreamName: String? = nil) {
             self.limit = limit
@@ -433,21 +411,19 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the S3 bucket.
-        public var bucketARN: String = ""
+        public let bucketARN: String
         /// The encryption configuration. If no value is specified, the default is no encryption.
-        public var encryptionConfiguration: EncryptionConfiguration? = nil
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        public var prefix: String? = nil
+        public let prefix: String?
         /// The ARN of the AWS credentials.
-        public var roleARN: String = ""
+        public let roleARN: String
         /// The CloudWatch logging options for your delivery stream.
-        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The compression format. If no value is specified, the default is UNCOMPRESSED. The compression formats SNAPPY or ZIP cannot be specified for Amazon Redshift destinations because they are not supported by the Amazon Redshift COPY operation that reads from the S3 bucket.
-        public var compressionFormat: String? = nil
+        public let compressionFormat: String?
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
-        public var bufferingHints: BufferingHints? = nil
-
-        public init() {}
+        public let bufferingHints: BufferingHints?
 
         public init(bucketARN: String, encryptionConfiguration: EncryptionConfiguration? = nil, prefix: String? = nil, roleARN: String, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: String? = nil, bufferingHints: BufferingHints? = nil) {
             self.bucketARN = bucketARN
@@ -462,13 +438,13 @@ extension Firehose {
         public init(dictionary: [String: Any]) throws {
             guard let bucketARN = dictionary["BucketARN"] as? String else { throw InitializableError.missingRequiredParam("BucketARN") }
             self.bucketARN = bucketARN
-            if let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] { self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration) }
+            if let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] { self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration) } else { self.encryptionConfiguration = nil }
             self.prefix = dictionary["Prefix"] as? String
             guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
             self.roleARN = roleARN
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
             self.compressionFormat = dictionary["CompressionFormat"] as? String
-            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints) }
+            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints) } else { self.bufferingHints = nil }
         }
     }
 
@@ -476,21 +452,19 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the S3 bucket.
-        public var bucketARN: String = ""
+        public let bucketARN: String
         /// The encryption configuration. If no value is specified, the default is no encryption.
-        public var encryptionConfiguration: EncryptionConfiguration = EncryptionConfiguration()
+        public let encryptionConfiguration: EncryptionConfiguration
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        public var prefix: String? = nil
+        public let prefix: String?
         /// The ARN of the AWS credentials.
-        public var roleARN: String = ""
+        public let roleARN: String
         /// The CloudWatch logging options for your delivery stream.
-        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The compression format. If no value is specified, the default is UNCOMPRESSED.
-        public var compressionFormat: String = ""
+        public let compressionFormat: String
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
-        public var bufferingHints: BufferingHints = BufferingHints()
-
-        public init() {}
+        public let bufferingHints: BufferingHints
 
         public init(bucketARN: String, encryptionConfiguration: EncryptionConfiguration, prefix: String? = nil, roleARN: String, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: String, bufferingHints: BufferingHints) {
             self.bucketARN = bucketARN
@@ -510,7 +484,7 @@ extension Firehose {
             self.prefix = dictionary["Prefix"] as? String
             guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
             self.roleARN = roleARN
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
             guard let compressionFormat = dictionary["CompressionFormat"] as? String else { throw InitializableError.missingRequiredParam("CompressionFormat") }
             self.compressionFormat = compressionFormat
             guard let bufferingHints = dictionary["BufferingHints"] as? [String: Any] else { throw InitializableError.missingRequiredParam("BufferingHints") }
@@ -522,9 +496,7 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the delivery stream.
-        public var deliveryStreamName: String = ""
-
-        public init() {}
+        public let deliveryStreamName: String
 
         public init(deliveryStreamName: String) {
             self.deliveryStreamName = deliveryStreamName
@@ -540,8 +512,6 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -550,29 +520,27 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The data processing configuration.
-        public var processingConfiguration: ProcessingConfiguration? = nil
+        public let processingConfiguration: ProcessingConfiguration?
         /// The COPY command.
-        public var copyCommand: CopyCommand? = nil
+        public let copyCommand: CopyCommand?
         /// The name of the user.
-        public var username: String? = nil
+        public let username: String?
         /// The Amazon S3 destination for backup.
-        public var s3BackupUpdate: S3DestinationUpdate? = nil
+        public let s3BackupUpdate: S3DestinationUpdate?
         /// The database connection string.
-        public var clusterJDBCURL: String? = nil
+        public let clusterJDBCURL: String?
         /// The Amazon S3 backup mode.
-        public var s3BackupMode: String? = nil
+        public let s3BackupMode: String?
         /// The ARN of the AWS credentials.
-        public var roleARN: String? = nil
+        public let roleARN: String?
         /// The Amazon S3 destination. The compression formats SNAPPY or ZIP cannot be specified in RedshiftDestinationUpdate.S3Update because the Amazon Redshift COPY operation that reads from the S3 bucket doesn't support these compression formats.
-        public var s3Update: S3DestinationUpdate? = nil
+        public let s3Update: S3DestinationUpdate?
         /// The user password.
-        public var password: String? = nil
+        public let password: String?
         /// The CloudWatch logging options for your delivery stream.
-        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The retry behavior in the event that Firehose is unable to deliver documents to Amazon Redshift. Default value is 3600 (60 minutes).
-        public var retryOptions: RedshiftRetryOptions? = nil
-
-        public init() {}
+        public let retryOptions: RedshiftRetryOptions?
 
         public init(processingConfiguration: ProcessingConfiguration? = nil, copyCommand: CopyCommand? = nil, username: String? = nil, s3BackupUpdate: S3DestinationUpdate? = nil, clusterJDBCURL: String? = nil, s3BackupMode: String? = nil, roleARN: String? = nil, s3Update: S3DestinationUpdate? = nil, password: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, retryOptions: RedshiftRetryOptions? = nil) {
             self.processingConfiguration = processingConfiguration
@@ -589,17 +557,17 @@ extension Firehose {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) }
-            if let copyCommand = dictionary["CopyCommand"] as? [String: Any] { self.copyCommand = try Firehose.CopyCommand(dictionary: copyCommand) }
+            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) } else { self.processingConfiguration = nil }
+            if let copyCommand = dictionary["CopyCommand"] as? [String: Any] { self.copyCommand = try Firehose.CopyCommand(dictionary: copyCommand) } else { self.copyCommand = nil }
             self.username = dictionary["Username"] as? String
-            if let s3BackupUpdate = dictionary["S3BackupUpdate"] as? [String: Any] { self.s3BackupUpdate = try Firehose.S3DestinationUpdate(dictionary: s3BackupUpdate) }
+            if let s3BackupUpdate = dictionary["S3BackupUpdate"] as? [String: Any] { self.s3BackupUpdate = try Firehose.S3DestinationUpdate(dictionary: s3BackupUpdate) } else { self.s3BackupUpdate = nil }
             self.clusterJDBCURL = dictionary["ClusterJDBCURL"] as? String
             self.s3BackupMode = dictionary["S3BackupMode"] as? String
             self.roleARN = dictionary["RoleARN"] as? String
-            if let s3Update = dictionary["S3Update"] as? [String: Any] { self.s3Update = try Firehose.S3DestinationUpdate(dictionary: s3Update) }
+            if let s3Update = dictionary["S3Update"] as? [String: Any] { self.s3Update = try Firehose.S3DestinationUpdate(dictionary: s3Update) } else { self.s3Update = nil }
             self.password = dictionary["Password"] as? String
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
-            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.RedshiftRetryOptions(dictionary: retryOptions) }
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
+            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.RedshiftRetryOptions(dictionary: retryOptions) } else { self.retryOptions = nil }
         }
     }
 
@@ -607,11 +575,9 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300.
-        public var intervalInSeconds: Int32? = nil
+        public let intervalInSeconds: Int32?
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
-        public var sizeInMBs: Int32? = nil
-
-        public init() {}
+        public let sizeInMBs: Int32?
 
         public init(intervalInSeconds: Int32? = nil, sizeInMBs: Int32? = nil) {
             self.intervalInSeconds = intervalInSeconds
@@ -628,9 +594,7 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The length of time during which Firehose retries delivery after a failure, starting from the initial request and including the first attempt. The default value is 3600 seconds (60 minutes). Firehose does not retry if the value of DurationInSeconds is 0 (zero) or if the first delivery attempt takes longer than the current value.
-        public var durationInSeconds: Int32? = nil
-
-        public init() {}
+        public let durationInSeconds: Int32?
 
         public init(durationInSeconds: Int32? = nil) {
             self.durationInSeconds = durationInSeconds
@@ -645,21 +609,19 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the S3 bucket.
-        public var bucketARN: String? = nil
+        public let bucketARN: String?
         /// The encryption configuration. If no value is specified, the default is no encryption.
-        public var encryptionConfiguration: EncryptionConfiguration? = nil
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        public var prefix: String? = nil
+        public let prefix: String?
         /// The ARN of the AWS credentials.
-        public var roleARN: String? = nil
+        public let roleARN: String?
         /// The CloudWatch logging options for your delivery stream.
-        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The compression format. If no value is specified, the default is UNCOMPRESSED. The compression formats SNAPPY or ZIP cannot be specified for Amazon Redshift destinations because they are not supported by the Amazon Redshift COPY operation that reads from the S3 bucket.
-        public var compressionFormat: String? = nil
+        public let compressionFormat: String?
         /// The buffering option. If no value is specified, BufferingHints object default values are used.
-        public var bufferingHints: BufferingHints? = nil
-
-        public init() {}
+        public let bufferingHints: BufferingHints?
 
         public init(bucketARN: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, prefix: String? = nil, roleARN: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: String? = nil, bufferingHints: BufferingHints? = nil) {
             self.bucketARN = bucketARN
@@ -673,12 +635,12 @@ extension Firehose {
 
         public init(dictionary: [String: Any]) throws {
             self.bucketARN = dictionary["BucketARN"] as? String
-            if let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] { self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration) }
+            if let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] { self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration) } else { self.encryptionConfiguration = nil }
             self.prefix = dictionary["Prefix"] as? String
             self.roleARN = dictionary["RoleARN"] as? String
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
             self.compressionFormat = dictionary["CompressionFormat"] as? String
-            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints) }
+            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints) } else { self.bufferingHints = nil }
         }
     }
 
@@ -686,11 +648,9 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The results array. For each record, the index of the response element is the same as the index used in the request array.
-        public var requestResponses: [PutRecordBatchResponseEntry] = []
+        public let requestResponses: [PutRecordBatchResponseEntry]
         /// The number of records that might have failed processing.
-        public var failedPutCount: Int32 = 0
-
-        public init() {}
+        public let failedPutCount: Int32
 
         public init(requestResponses: [PutRecordBatchResponseEntry], failedPutCount: Int32) {
             self.requestResponses = requestResponses
@@ -709,9 +669,7 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the delivery stream.
-        public var deliveryStreamARN: String? = nil
-
-        public init() {}
+        public let deliveryStreamARN: String?
 
         public init(deliveryStreamARN: String? = nil) {
             self.deliveryStreamARN = deliveryStreamARN
@@ -726,27 +684,25 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Elasticsearch type name.
-        public var typeName: String? = nil
+        public let typeName: String?
         /// The Elasticsearch index name.
-        public var indexName: String? = nil
+        public let indexName: String?
         /// The Elasticsearch index rotation period. Index rotation appends a timestamp to IndexName to facilitate the expiration of old data. For more information, see Index Rotation for Amazon Elasticsearch Service Destination. Default value is OneDay.
-        public var indexRotationPeriod: String? = nil
+        public let indexRotationPeriod: String?
         /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the IAM role specified in RoleARN.
-        public var domainARN: String? = nil
+        public let domainARN: String?
         /// The ARN of the IAM role to be assumed by Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see Amazon S3 Bucket Access.
-        public var roleARN: String? = nil
+        public let roleARN: String?
         /// The Amazon S3 destination.
-        public var s3Update: S3DestinationUpdate? = nil
+        public let s3Update: S3DestinationUpdate?
         /// The data processing configuration.
-        public var processingConfiguration: ProcessingConfiguration? = nil
+        public let processingConfiguration: ProcessingConfiguration?
         /// The CloudWatch logging options for your delivery stream.
-        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The retry behavior in the event that Firehose is unable to deliver documents to Amazon ES. Default value is 300 (5 minutes).
-        public var retryOptions: ElasticsearchRetryOptions? = nil
+        public let retryOptions: ElasticsearchRetryOptions?
         /// The buffering options. If no value is specified, ElasticsearchBufferingHints object default values are used. 
-        public var bufferingHints: ElasticsearchBufferingHints? = nil
-
-        public init() {}
+        public let bufferingHints: ElasticsearchBufferingHints?
 
         public init(typeName: String? = nil, indexName: String? = nil, indexRotationPeriod: String? = nil, domainARN: String? = nil, roleARN: String? = nil, s3Update: S3DestinationUpdate? = nil, processingConfiguration: ProcessingConfiguration? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, retryOptions: ElasticsearchRetryOptions? = nil, bufferingHints: ElasticsearchBufferingHints? = nil) {
             self.typeName = typeName
@@ -767,11 +723,11 @@ extension Firehose {
             self.indexRotationPeriod = dictionary["IndexRotationPeriod"] as? String
             self.domainARN = dictionary["DomainARN"] as? String
             self.roleARN = dictionary["RoleARN"] as? String
-            if let s3Update = dictionary["S3Update"] as? [String: Any] { self.s3Update = try Firehose.S3DestinationUpdate(dictionary: s3Update) }
-            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) }
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
-            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.ElasticsearchRetryOptions(dictionary: retryOptions) }
-            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.ElasticsearchBufferingHints(dictionary: bufferingHints) }
+            if let s3Update = dictionary["S3Update"] as? [String: Any] { self.s3Update = try Firehose.S3DestinationUpdate(dictionary: s3Update) } else { self.s3Update = nil }
+            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) } else { self.processingConfiguration = nil }
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
+            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.ElasticsearchRetryOptions(dictionary: retryOptions) } else { self.retryOptions = nil }
+            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.ElasticsearchBufferingHints(dictionary: bufferingHints) } else { self.bufferingHints = nil }
         }
     }
 
@@ -779,17 +735,15 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The destination in Amazon ES. You can specify only one destination.
-        public var elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil
+        public let elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration?
         /// The destination in Amazon S3. You can specify only one destination.
-        public var extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil
+        public let extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration?
         /// [Deprecated] The destination in Amazon S3. You can specify only one destination.
-        public var s3DestinationConfiguration: S3DestinationConfiguration? = nil
+        public let s3DestinationConfiguration: S3DestinationConfiguration?
         /// The destination in Amazon Redshift. You can specify only one destination.
-        public var redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil
+        public let redshiftDestinationConfiguration: RedshiftDestinationConfiguration?
         /// The name of the delivery stream. This name must be unique per AWS account in the same region. You can have multiple delivery streams with the same name if they are in different accounts or different regions.
-        public var deliveryStreamName: String = ""
-
-        public init() {}
+        public let deliveryStreamName: String
 
         public init(elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, s3DestinationConfiguration: S3DestinationConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, deliveryStreamName: String) {
             self.elasticsearchDestinationConfiguration = elasticsearchDestinationConfiguration
@@ -800,10 +754,10 @@ extension Firehose {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let elasticsearchDestinationConfiguration = dictionary["ElasticsearchDestinationConfiguration"] as? [String: Any] { self.elasticsearchDestinationConfiguration = try Firehose.ElasticsearchDestinationConfiguration(dictionary: elasticsearchDestinationConfiguration) }
-            if let extendedS3DestinationConfiguration = dictionary["ExtendedS3DestinationConfiguration"] as? [String: Any] { self.extendedS3DestinationConfiguration = try Firehose.ExtendedS3DestinationConfiguration(dictionary: extendedS3DestinationConfiguration) }
-            if let s3DestinationConfiguration = dictionary["S3DestinationConfiguration"] as? [String: Any] { self.s3DestinationConfiguration = try Firehose.S3DestinationConfiguration(dictionary: s3DestinationConfiguration) }
-            if let redshiftDestinationConfiguration = dictionary["RedshiftDestinationConfiguration"] as? [String: Any] { self.redshiftDestinationConfiguration = try Firehose.RedshiftDestinationConfiguration(dictionary: redshiftDestinationConfiguration) }
+            if let elasticsearchDestinationConfiguration = dictionary["ElasticsearchDestinationConfiguration"] as? [String: Any] { self.elasticsearchDestinationConfiguration = try Firehose.ElasticsearchDestinationConfiguration(dictionary: elasticsearchDestinationConfiguration) } else { self.elasticsearchDestinationConfiguration = nil }
+            if let extendedS3DestinationConfiguration = dictionary["ExtendedS3DestinationConfiguration"] as? [String: Any] { self.extendedS3DestinationConfiguration = try Firehose.ExtendedS3DestinationConfiguration(dictionary: extendedS3DestinationConfiguration) } else { self.extendedS3DestinationConfiguration = nil }
+            if let s3DestinationConfiguration = dictionary["S3DestinationConfiguration"] as? [String: Any] { self.s3DestinationConfiguration = try Firehose.S3DestinationConfiguration(dictionary: s3DestinationConfiguration) } else { self.s3DestinationConfiguration = nil }
+            if let redshiftDestinationConfiguration = dictionary["RedshiftDestinationConfiguration"] as? [String: Any] { self.redshiftDestinationConfiguration = try Firehose.RedshiftDestinationConfiguration(dictionary: redshiftDestinationConfiguration) } else { self.redshiftDestinationConfiguration = nil }
             guard let deliveryStreamName = dictionary["DeliveryStreamName"] as? String else { throw InitializableError.missingRequiredParam("DeliveryStreamName") }
             self.deliveryStreamName = deliveryStreamName
         }
@@ -813,29 +767,27 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Elasticsearch type name.
-        public var typeName: String = ""
+        public let typeName: String
         /// The Elasticsearch index name.
-        public var indexName: String = ""
+        public let indexName: String
         /// The configuration for the intermediate Amazon S3 location from which Amazon ES obtains data.
-        public var s3Configuration: S3DestinationConfiguration = S3DestinationConfiguration()
+        public let s3Configuration: S3DestinationConfiguration
         /// The Elasticsearch index rotation period. Index rotation appends a timestamp to the IndexName to facilitate expiration of old data. For more information, see Index Rotation for Amazon Elasticsearch Service Destination. The default value is OneDay.
-        public var indexRotationPeriod: String? = nil
+        public let indexRotationPeriod: String?
         /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the role specified in RoleARN.
-        public var domainARN: String = ""
+        public let domainARN: String
         /// The ARN of the IAM role to be assumed by Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see Amazon S3 Bucket Access.
-        public var roleARN: String = ""
+        public let roleARN: String
         /// The data processing configuration.
-        public var processingConfiguration: ProcessingConfiguration? = nil
+        public let processingConfiguration: ProcessingConfiguration?
         /// Defines how documents should be delivered to Amazon S3. When set to FailedDocumentsOnly, Firehose writes any documents that could not be indexed to the configured Amazon S3 destination, with elasticsearch-failed/ appended to the key prefix. When set to AllDocuments, Firehose delivers all incoming records to Amazon S3, and also writes failed documents with elasticsearch-failed/ appended to the prefix. For more information, see Amazon S3 Backup for Amazon Elasticsearch Service Destination. Default value is FailedDocumentsOnly.
-        public var s3BackupMode: String? = nil
+        public let s3BackupMode: String?
         /// The CloudWatch logging options for your delivery stream.
-        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The retry behavior in the event that Firehose is unable to deliver documents to Amazon ES. The default value is 300 (5 minutes).
-        public var retryOptions: ElasticsearchRetryOptions? = nil
+        public let retryOptions: ElasticsearchRetryOptions?
         /// The buffering options. If no value is specified, the default values for ElasticsearchBufferingHints are used.
-        public var bufferingHints: ElasticsearchBufferingHints? = nil
-
-        public init() {}
+        public let bufferingHints: ElasticsearchBufferingHints?
 
         public init(typeName: String, indexName: String, s3Configuration: S3DestinationConfiguration, indexRotationPeriod: String? = nil, domainARN: String, roleARN: String, processingConfiguration: ProcessingConfiguration? = nil, s3BackupMode: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, retryOptions: ElasticsearchRetryOptions? = nil, bufferingHints: ElasticsearchBufferingHints? = nil) {
             self.typeName = typeName
@@ -863,11 +815,11 @@ extension Firehose {
             self.domainARN = domainARN
             guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
             self.roleARN = roleARN
-            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) }
+            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) } else { self.processingConfiguration = nil }
             self.s3BackupMode = dictionary["S3BackupMode"] as? String
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
-            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.ElasticsearchRetryOptions(dictionary: retryOptions) }
-            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.ElasticsearchBufferingHints(dictionary: bufferingHints) }
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
+            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.ElasticsearchRetryOptions(dictionary: retryOptions) } else { self.retryOptions = nil }
+            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.ElasticsearchBufferingHints(dictionary: bufferingHints) } else { self.bufferingHints = nil }
         }
     }
 
@@ -875,9 +827,7 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The data blob, which is base64-encoded when the blob is serialized. The maximum size of the data blob, before base64-encoding, is 1,000 KB.
-        public var data: Data = Data()
-
-        public init() {}
+        public let data: Data
 
         public init(data: Data) {
             self.data = data
@@ -893,11 +843,9 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more records.
-        public var records: [Record] = []
+        public let records: [Record]
         /// The name of the delivery stream.
-        public var deliveryStreamName: String = ""
-
-        public init() {}
+        public let deliveryStreamName: String
 
         public init(records: [Record], deliveryStreamName: String) {
             self.records = records
@@ -916,11 +864,9 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the parameter.
-        public var parameterName: String = ""
+        public let parameterName: String
         /// The parameter value.
-        public var parameterValue: String = ""
-
-        public init() {}
+        public let parameterValue: String
 
         public init(parameterName: String, parameterValue: String) {
             self.parameterName = parameterName
@@ -939,9 +885,7 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the encryption key. Must belong to the same region as the destination Amazon S3 bucket.
-        public var aWSKMSKeyARN: String = ""
-
-        public init() {}
+        public let aWSKMSKeyARN: String
 
         public init(aWSKMSKeyARN: String) {
             self.aWSKMSKeyARN = aWSKMSKeyARN
@@ -957,27 +901,25 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The configuration for backup in Amazon S3.
-        public var s3BackupDescription: S3DestinationDescription? = nil
+        public let s3BackupDescription: S3DestinationDescription?
         /// The ARN of the S3 bucket.
-        public var bucketARN: String = ""
+        public let bucketARN: String
         /// The encryption configuration. If no value is specified, the default is no encryption.
-        public var encryptionConfiguration: EncryptionConfiguration = EncryptionConfiguration()
+        public let encryptionConfiguration: EncryptionConfiguration
         /// The ARN of the AWS credentials.
-        public var roleARN: String = ""
+        public let roleARN: String
         /// The data processing configuration.
-        public var processingConfiguration: ProcessingConfiguration? = nil
+        public let processingConfiguration: ProcessingConfiguration?
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        public var prefix: String? = nil
+        public let prefix: String?
         /// The Amazon S3 backup mode.
-        public var s3BackupMode: String? = nil
+        public let s3BackupMode: String?
         /// The CloudWatch logging options for your delivery stream.
-        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The compression format. If no value is specified, the default is UNCOMPRESSED.
-        public var compressionFormat: String = ""
+        public let compressionFormat: String
         /// The buffering option.
-        public var bufferingHints: BufferingHints = BufferingHints()
-
-        public init() {}
+        public let bufferingHints: BufferingHints
 
         public init(s3BackupDescription: S3DestinationDescription? = nil, bucketARN: String, encryptionConfiguration: EncryptionConfiguration, roleARN: String, processingConfiguration: ProcessingConfiguration? = nil, prefix: String? = nil, s3BackupMode: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: String, bufferingHints: BufferingHints) {
             self.s3BackupDescription = s3BackupDescription
@@ -993,17 +935,17 @@ extension Firehose {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let s3BackupDescription = dictionary["S3BackupDescription"] as? [String: Any] { self.s3BackupDescription = try Firehose.S3DestinationDescription(dictionary: s3BackupDescription) }
+            if let s3BackupDescription = dictionary["S3BackupDescription"] as? [String: Any] { self.s3BackupDescription = try Firehose.S3DestinationDescription(dictionary: s3BackupDescription) } else { self.s3BackupDescription = nil }
             guard let bucketARN = dictionary["BucketARN"] as? String else { throw InitializableError.missingRequiredParam("BucketARN") }
             self.bucketARN = bucketARN
             guard let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EncryptionConfiguration") }
             self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration)
             guard let roleARN = dictionary["RoleARN"] as? String else { throw InitializableError.missingRequiredParam("RoleARN") }
             self.roleARN = roleARN
-            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) }
+            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) } else { self.processingConfiguration = nil }
             self.prefix = dictionary["Prefix"] as? String
             self.s3BackupMode = dictionary["S3BackupMode"] as? String
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
             guard let compressionFormat = dictionary["CompressionFormat"] as? String else { throw InitializableError.missingRequiredParam("CompressionFormat") }
             self.compressionFormat = compressionFormat
             guard let bufferingHints = dictionary["BufferingHints"] as? [String: Any] else { throw InitializableError.missingRequiredParam("BufferingHints") }
@@ -1015,11 +957,9 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The record.
-        public var record: Record = Record()
+        public let record: Record
         /// The name of the delivery stream.
-        public var deliveryStreamName: String = ""
-
-        public init() {}
+        public let deliveryStreamName: String
 
         public init(record: Record, deliveryStreamName: String) {
             self.record = record
@@ -1038,8 +978,6 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1048,11 +986,9 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of processor.
-        public var type: String = ""
+        public let type: String
         /// The processor parameters.
-        public var parameters: [ProcessorParameter]? = nil
-
-        public init() {}
+        public let parameters: [ProcessorParameter]?
 
         public init(type: String, parameters: [ProcessorParameter]? = nil) {
             self.type = type
@@ -1064,6 +1000,8 @@ extension Firehose {
             self.type = type
             if let parameters = dictionary["Parameters"] as? [[String: Any]] {
                 self.parameters = try parameters.map({ try ProcessorParameter(dictionary: $0) })
+            } else { 
+                self.parameters = nil
             }
         }
     }
@@ -1072,27 +1010,25 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the S3 bucket.
-        public var bucketARN: String? = nil
+        public let bucketARN: String?
         /// The encryption configuration. If no value is specified, the default is no encryption.
-        public var encryptionConfiguration: EncryptionConfiguration? = nil
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The ARN of the AWS credentials.
-        public var roleARN: String? = nil
+        public let roleARN: String?
         /// The Amazon S3 destination for backup.
-        public var s3BackupUpdate: S3DestinationUpdate? = nil
+        public let s3BackupUpdate: S3DestinationUpdate?
         /// The data processing configuration.
-        public var processingConfiguration: ProcessingConfiguration? = nil
+        public let processingConfiguration: ProcessingConfiguration?
         /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide.
-        public var prefix: String? = nil
+        public let prefix: String?
         /// Enables or disables Amazon S3 backup mode.
-        public var s3BackupMode: String? = nil
+        public let s3BackupMode: String?
         /// The CloudWatch logging options for your delivery stream.
-        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The compression format. If no value is specified, the default is UNCOMPRESSED. 
-        public var compressionFormat: String? = nil
+        public let compressionFormat: String?
         /// The buffering option.
-        public var bufferingHints: BufferingHints? = nil
-
-        public init() {}
+        public let bufferingHints: BufferingHints?
 
         public init(bucketARN: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, roleARN: String? = nil, s3BackupUpdate: S3DestinationUpdate? = nil, processingConfiguration: ProcessingConfiguration? = nil, prefix: String? = nil, s3BackupMode: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, compressionFormat: String? = nil, bufferingHints: BufferingHints? = nil) {
             self.bucketARN = bucketARN
@@ -1109,15 +1045,15 @@ extension Firehose {
 
         public init(dictionary: [String: Any]) throws {
             self.bucketARN = dictionary["BucketARN"] as? String
-            if let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] { self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration) }
+            if let encryptionConfiguration = dictionary["EncryptionConfiguration"] as? [String: Any] { self.encryptionConfiguration = try Firehose.EncryptionConfiguration(dictionary: encryptionConfiguration) } else { self.encryptionConfiguration = nil }
             self.roleARN = dictionary["RoleARN"] as? String
-            if let s3BackupUpdate = dictionary["S3BackupUpdate"] as? [String: Any] { self.s3BackupUpdate = try Firehose.S3DestinationUpdate(dictionary: s3BackupUpdate) }
-            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) }
+            if let s3BackupUpdate = dictionary["S3BackupUpdate"] as? [String: Any] { self.s3BackupUpdate = try Firehose.S3DestinationUpdate(dictionary: s3BackupUpdate) } else { self.s3BackupUpdate = nil }
+            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) } else { self.processingConfiguration = nil }
             self.prefix = dictionary["Prefix"] as? String
             self.s3BackupMode = dictionary["S3BackupMode"] as? String
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
             self.compressionFormat = dictionary["CompressionFormat"] as? String
-            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints) }
+            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.BufferingHints(dictionary: bufferingHints) } else { self.bufferingHints = nil }
         }
     }
 
@@ -1125,13 +1061,11 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The CloudWatch log stream name for logging. This value is required if CloudWatch logging is enabled.
-        public var logStreamName: String? = nil
+        public let logStreamName: String?
         /// The CloudWatch group name for logging. This value is required if CloudWatch logging is enabled.
-        public var logGroupName: String? = nil
+        public let logGroupName: String?
         /// Enables or disables CloudWatch logging.
-        public var enabled: Bool? = nil
-
-        public init() {}
+        public let enabled: Bool?
 
         public init(logStreamName: String? = nil, logGroupName: String? = nil, enabled: Bool? = nil) {
             self.logStreamName = logStreamName
@@ -1150,13 +1084,11 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the destination to start returning the destination information. Currently Firehose supports one destination per delivery stream.
-        public var exclusiveStartDestinationId: String? = nil
+        public let exclusiveStartDestinationId: String?
         /// The limit on the number of destinations to return. Currently, you can have one destination per delivery stream.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The name of the delivery stream.
-        public var deliveryStreamName: String = ""
-
-        public init() {}
+        public let deliveryStreamName: String
 
         public init(exclusiveStartDestinationId: String? = nil, limit: Int32? = nil, deliveryStreamName: String) {
             self.exclusiveStartDestinationId = exclusiveStartDestinationId
@@ -1176,11 +1108,9 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The encryption key.
-        public var kMSEncryptionConfig: KMSEncryptionConfig? = nil
+        public let kMSEncryptionConfig: KMSEncryptionConfig?
         /// Specifically override existing encryption information to ensure no encryption is used.
-        public var noEncryptionConfig: String? = nil
-
-        public init() {}
+        public let noEncryptionConfig: String?
 
         public init(kMSEncryptionConfig: KMSEncryptionConfig? = nil, noEncryptionConfig: String? = nil) {
             self.kMSEncryptionConfig = kMSEncryptionConfig
@@ -1188,7 +1118,7 @@ extension Firehose {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let kMSEncryptionConfig = dictionary["KMSEncryptionConfig"] as? [String: Any] { self.kMSEncryptionConfig = try Firehose.KMSEncryptionConfig(dictionary: kMSEncryptionConfig) }
+            if let kMSEncryptionConfig = dictionary["KMSEncryptionConfig"] as? [String: Any] { self.kMSEncryptionConfig = try Firehose.KMSEncryptionConfig(dictionary: kMSEncryptionConfig) } else { self.kMSEncryptionConfig = nil }
             self.noEncryptionConfig = dictionary["NoEncryptionConfig"] as? String
         }
     }
@@ -1197,23 +1127,21 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The destinations.
-        public var destinations: [DestinationDescription] = []
+        public let destinations: [DestinationDescription]
         /// The status of the delivery stream.
-        public var deliveryStreamStatus: String = ""
+        public let deliveryStreamStatus: String
         /// The date and time that the delivery stream was last updated.
-        public var lastUpdateTimestamp: Date? = nil
+        public let lastUpdateTimestamp: Date?
         /// The name of the delivery stream.
-        public var deliveryStreamName: String = ""
+        public let deliveryStreamName: String
         /// Each time the destination is updated for a delivery stream, the version ID is changed, and the current version ID is required when updating the destination. This is so that the service knows it is applying the changes to the correct version of the delivery stream.
-        public var versionId: String = ""
+        public let versionId: String
         /// The date and time that the delivery stream was created.
-        public var createTimestamp: Date? = nil
+        public let createTimestamp: Date?
         /// The Amazon Resource Name (ARN) of the delivery stream.
-        public var deliveryStreamARN: String = ""
+        public let deliveryStreamARN: String
         /// Indicates whether there are more destinations available to list.
-        public var hasMoreDestinations: Bool = false
-
-        public init() {}
+        public let hasMoreDestinations: Bool
 
         public init(destinations: [DestinationDescription], deliveryStreamStatus: String, lastUpdateTimestamp: Date? = nil, deliveryStreamName: String, versionId: String, createTimestamp: Date? = nil, deliveryStreamARN: String, hasMoreDestinations: Bool) {
             self.destinations = destinations
@@ -1248,29 +1176,27 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Elasticsearch type name.
-        public var typeName: String? = nil
+        public let typeName: String?
         /// The Elasticsearch index name.
-        public var indexName: String? = nil
+        public let indexName: String?
         /// The Elasticsearch index rotation period
-        public var indexRotationPeriod: String? = nil
+        public let indexRotationPeriod: String?
         /// The ARN of the Amazon ES domain.
-        public var domainARN: String? = nil
+        public let domainARN: String?
         /// The ARN of the AWS credentials.
-        public var roleARN: String? = nil
+        public let roleARN: String?
         /// The Amazon S3 destination.
-        public var s3DestinationDescription: S3DestinationDescription? = nil
+        public let s3DestinationDescription: S3DestinationDescription?
         /// The data processing configuration.
-        public var processingConfiguration: ProcessingConfiguration? = nil
+        public let processingConfiguration: ProcessingConfiguration?
         /// The Amazon S3 backup mode.
-        public var s3BackupMode: String? = nil
+        public let s3BackupMode: String?
         /// The CloudWatch logging options.
-        public var cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil
+        public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The Amazon ES retry options.
-        public var retryOptions: ElasticsearchRetryOptions? = nil
+        public let retryOptions: ElasticsearchRetryOptions?
         /// The buffering options.
-        public var bufferingHints: ElasticsearchBufferingHints? = nil
-
-        public init() {}
+        public let bufferingHints: ElasticsearchBufferingHints?
 
         public init(typeName: String? = nil, indexName: String? = nil, indexRotationPeriod: String? = nil, domainARN: String? = nil, roleARN: String? = nil, s3DestinationDescription: S3DestinationDescription? = nil, processingConfiguration: ProcessingConfiguration? = nil, s3BackupMode: String? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, retryOptions: ElasticsearchRetryOptions? = nil, bufferingHints: ElasticsearchBufferingHints? = nil) {
             self.typeName = typeName
@@ -1292,12 +1218,12 @@ extension Firehose {
             self.indexRotationPeriod = dictionary["IndexRotationPeriod"] as? String
             self.domainARN = dictionary["DomainARN"] as? String
             self.roleARN = dictionary["RoleARN"] as? String
-            if let s3DestinationDescription = dictionary["S3DestinationDescription"] as? [String: Any] { self.s3DestinationDescription = try Firehose.S3DestinationDescription(dictionary: s3DestinationDescription) }
-            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) }
+            if let s3DestinationDescription = dictionary["S3DestinationDescription"] as? [String: Any] { self.s3DestinationDescription = try Firehose.S3DestinationDescription(dictionary: s3DestinationDescription) } else { self.s3DestinationDescription = nil }
+            if let processingConfiguration = dictionary["ProcessingConfiguration"] as? [String: Any] { self.processingConfiguration = try Firehose.ProcessingConfiguration(dictionary: processingConfiguration) } else { self.processingConfiguration = nil }
             self.s3BackupMode = dictionary["S3BackupMode"] as? String
-            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) }
-            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.ElasticsearchRetryOptions(dictionary: retryOptions) }
-            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.ElasticsearchBufferingHints(dictionary: bufferingHints) }
+            if let cloudWatchLoggingOptions = dictionary["CloudWatchLoggingOptions"] as? [String: Any] { self.cloudWatchLoggingOptions = try Firehose.CloudWatchLoggingOptions(dictionary: cloudWatchLoggingOptions) } else { self.cloudWatchLoggingOptions = nil }
+            if let retryOptions = dictionary["RetryOptions"] as? [String: Any] { self.retryOptions = try Firehose.ElasticsearchRetryOptions(dictionary: retryOptions) } else { self.retryOptions = nil }
+            if let bufferingHints = dictionary["BufferingHints"] as? [String: Any] { self.bufferingHints = try Firehose.ElasticsearchBufferingHints(dictionary: bufferingHints) } else { self.bufferingHints = nil }
         }
     }
 
@@ -1305,11 +1231,9 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
-        public var sizeInMBs: Int32? = nil
+        public let sizeInMBs: Int32?
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
-        public var intervalInSeconds: Int32? = nil
-
-        public init() {}
+        public let intervalInSeconds: Int32?
 
         public init(sizeInMBs: Int32? = nil, intervalInSeconds: Int32? = nil) {
             self.sizeInMBs = sizeInMBs
@@ -1326,13 +1250,11 @@ extension Firehose {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the record.
-        public var recordId: String? = nil
+        public let recordId: String?
         /// The error code for an individual record result.
-        public var errorCode: String? = nil
+        public let errorCode: String?
         /// The error message for an individual record result.
-        public var errorMessage: String? = nil
-
-        public init() {}
+        public let errorMessage: String?
 
         public init(recordId: String? = nil, errorCode: String? = nil, errorMessage: String? = nil) {
             self.recordId = recordId

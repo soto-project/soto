@@ -35,9 +35,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -53,11 +51,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of tags used when evaluating an AND predicate.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The prefix used when evaluating an AND predicate.
-        public var prefix: String? = nil
-
-        public init() {}
+        public let prefix: String?
 
         public init(tags: [Tag]? = nil, prefix: String? = nil) {
             self.tags = tags
@@ -67,6 +63,8 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.prefix = dictionary["Prefix"] as? String
         }
@@ -76,13 +74,11 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired; if set to false the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy.
-        public var expiredObjectDeleteMarker: Bool? = nil
+        public let expiredObjectDeleteMarker: Bool?
         /// Indicates at what date the object is to be moved or deleted. Should be in GMT ISO 8601 Format.
-        public var date: Date? = nil
+        public let date: Date?
         /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
-        public var days: Int32? = nil
-
-        public init() {}
+        public let days: Int32?
 
         public init(expiredObjectDeleteMarker: Bool? = nil, date: Date? = nil, days: Int32? = nil) {
             self.expiredObjectDeleteMarker = expiredObjectDeleteMarker
@@ -106,11 +102,9 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-        public var cORSConfiguration: CORSConfiguration = CORSConfiguration()
-        public var contentMD5: String? = nil
-
-        public init() {}
+        public let bucket: String
+        public let cORSConfiguration: CORSConfiguration
+        public let contentMD5: String?
 
         public init(bucket: String, cORSConfiguration: CORSConfiguration, contentMD5: String? = nil) {
             self.bucket = bucket
@@ -133,9 +127,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -151,18 +143,16 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
-        public var iD: String? = nil
+        public let iD: String?
         /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
-        public var status: String = ""
-        public var abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil
-        public var noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil
-        public var transition: Transition? = nil
-        public var noncurrentVersionTransition: NoncurrentVersionTransition? = nil
-        public var expiration: LifecycleExpiration? = nil
+        public let status: String
+        public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
+        public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
+        public let transition: Transition?
+        public let noncurrentVersionTransition: NoncurrentVersionTransition?
+        public let expiration: LifecycleExpiration?
         /// Prefix identifying one or more objects to which the rule applies.
-        public var prefix: String = ""
-
-        public init() {}
+        public let prefix: String
 
         public init(iD: String? = nil, status: String, abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, transition: Transition? = nil, noncurrentVersionTransition: NoncurrentVersionTransition? = nil, expiration: LifecycleExpiration? = nil, prefix: String) {
             self.iD = iD
@@ -179,11 +169,11 @@ extension S3 {
             self.iD = dictionary["ID"] as? String
             guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
-            if let abortIncompleteMultipartUpload = dictionary["AbortIncompleteMultipartUpload"] as? [String: Any] { self.abortIncompleteMultipartUpload = try S3.AbortIncompleteMultipartUpload(dictionary: abortIncompleteMultipartUpload) }
-            if let noncurrentVersionExpiration = dictionary["NoncurrentVersionExpiration"] as? [String: Any] { self.noncurrentVersionExpiration = try S3.NoncurrentVersionExpiration(dictionary: noncurrentVersionExpiration) }
-            if let transition = dictionary["Transition"] as? [String: Any] { self.transition = try S3.Transition(dictionary: transition) }
-            if let noncurrentVersionTransition = dictionary["NoncurrentVersionTransition"] as? [String: Any] { self.noncurrentVersionTransition = try S3.NoncurrentVersionTransition(dictionary: noncurrentVersionTransition) }
-            if let expiration = dictionary["Expiration"] as? [String: Any] { self.expiration = try S3.LifecycleExpiration(dictionary: expiration) }
+            if let abortIncompleteMultipartUpload = dictionary["AbortIncompleteMultipartUpload"] as? [String: Any] { self.abortIncompleteMultipartUpload = try S3.AbortIncompleteMultipartUpload(dictionary: abortIncompleteMultipartUpload) } else { self.abortIncompleteMultipartUpload = nil }
+            if let noncurrentVersionExpiration = dictionary["NoncurrentVersionExpiration"] as? [String: Any] { self.noncurrentVersionExpiration = try S3.NoncurrentVersionExpiration(dictionary: noncurrentVersionExpiration) } else { self.noncurrentVersionExpiration = nil }
+            if let transition = dictionary["Transition"] as? [String: Any] { self.transition = try S3.Transition(dictionary: transition) } else { self.transition = nil }
+            if let noncurrentVersionTransition = dictionary["NoncurrentVersionTransition"] as? [String: Any] { self.noncurrentVersionTransition = try S3.NoncurrentVersionTransition(dictionary: noncurrentVersionTransition) } else { self.noncurrentVersionTransition = nil }
+            if let expiration = dictionary["Expiration"] as? [String: Any] { self.expiration = try S3.LifecycleExpiration(dictionary: expiration) } else { self.expiration = nil }
             guard let prefix = dictionary["Prefix"] as? String else { throw InitializableError.missingRequiredParam("Prefix") }
             self.prefix = prefix
         }
@@ -195,9 +185,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -215,9 +203,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -233,10 +219,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// All of these tags must exist in the object's tag set in order for the rule to apply.
-        public var tags: [Tag]? = nil
-        public var prefix: String? = nil
-
-        public init() {}
+        public let tags: [Tag]?
+        public let prefix: String?
 
         public init(tags: [Tag]? = nil, prefix: String? = nil) {
             self.tags = tags
@@ -246,6 +230,8 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.prefix = dictionary["Prefix"] as? String
         }
@@ -257,9 +243,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -274,10 +258,8 @@ extension S3 {
     public struct CopyObjectResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var eTag: String? = nil
-        public var lastModified: Date? = nil
-
-        public init() {}
+        public let eTag: String?
+        public let lastModified: Date?
 
         public init(eTag: String? = nil, lastModified: Date? = nil) {
             self.eTag = eTag
@@ -297,11 +279,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         /// Name of the bucket for which the accelerate configuration is set.
-        public var bucket: String = ""
+        public let bucket: String
         /// Specifies the Accelerate Configuration you want to set for the bucket.
-        public var accelerateConfiguration: AccelerateConfiguration = AccelerateConfiguration()
-
-        public init() {}
+        public let accelerateConfiguration: AccelerateConfiguration
 
         public init(bucket: String, accelerateConfiguration: AccelerateConfiguration) {
             self.bucket = bucket
@@ -319,9 +299,7 @@ extension S3 {
     public struct GetBucketLocationOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var locationConstraint: String? = nil
-
-        public init() {}
+        public let locationConstraint: String?
 
         public init(locationConstraint: String? = nil) {
             self.locationConstraint = locationConstraint
@@ -336,11 +314,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Name of the host where requests will be redirected.
-        public var hostName: String = ""
+        public let hostName: String
         /// Protocol to use (http, https) when redirecting requests. The default is the protocol that is used in the original request.
-        public var `protocol`: String? = nil
-
-        public init() {}
+        public let `protocol`: String?
 
         public init(hostName: String, protocol: String? = nil) {
             self.hostName = hostName
@@ -360,20 +336,18 @@ extension S3 {
         public static var headerParams: [String: String] {
             return ["x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-copy-source-version-id": "CopySourceVersionId", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-charged": "RequestCharged", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5"]
         }
-        public var copyPartResult: CopyPartResult? = nil
+        public let copyPartResult: CopyPartResult?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        public var sSECustomerKeyMD5: String? = nil
+        public let sSECustomerKeyMD5: String?
         /// The version of the source object that was copied, if you have enabled versioning on the source bucket.
-        public var copySourceVersionId: String? = nil
+        public let copySourceVersionId: String?
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        public var sSEKMSKeyId: String? = nil
+        public let sSEKMSKeyId: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        public var sSECustomerAlgorithm: String? = nil
+        public let sSECustomerAlgorithm: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public var serverSideEncryption: String? = nil
-        public var requestCharged: String? = nil
-
-        public init() {}
+        public let serverSideEncryption: String?
+        public let requestCharged: String?
 
         public init(copyPartResult: CopyPartResult? = nil, sSECustomerKeyMD5: String? = nil, copySourceVersionId: String? = nil, sSEKMSKeyId: String? = nil, sSECustomerAlgorithm: String? = nil, serverSideEncryption: String? = nil, requestCharged: String? = nil) {
             self.copyPartResult = copyPartResult
@@ -386,7 +360,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let copyPartResult = dictionary["CopyPartResult"] as? [String: Any] { self.copyPartResult = try S3.CopyPartResult(dictionary: copyPartResult) }
+            if let copyPartResult = dictionary["CopyPartResult"] as? [String: Any] { self.copyPartResult = try S3.CopyPartResult(dictionary: copyPartResult) } else { self.copyPartResult = nil }
             self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
             self.copySourceVersionId = dictionary["CopySourceVersionId"] as? String
             self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
@@ -399,9 +373,7 @@ extension S3 {
     public struct Tagging: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var tagSet: [Tag] = []
-
-        public init() {}
+        public let tagSet: [Tag]
 
         public init(tagSet: [Tag]) {
             self.tagSet = tagSet
@@ -417,26 +389,22 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = "AnalyticsConfiguration"
         /// The configuration and any analyses for the analytics filter.
-        public var analyticsConfiguration: AnalyticsConfiguration? = nil
-
-        public init() {}
+        public let analyticsConfiguration: AnalyticsConfiguration?
 
         public init(analyticsConfiguration: AnalyticsConfiguration? = nil) {
             self.analyticsConfiguration = analyticsConfiguration
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let analyticsConfiguration = dictionary["AnalyticsConfiguration"] as? [String: Any] { self.analyticsConfiguration = try S3.AnalyticsConfiguration(dictionary: analyticsConfiguration) }
+            if let analyticsConfiguration = dictionary["AnalyticsConfiguration"] as? [String: Any] { self.analyticsConfiguration = try S3.AnalyticsConfiguration(dictionary: analyticsConfiguration) } else { self.analyticsConfiguration = nil }
         }
     }
 
     public struct Owner: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var iD: String? = nil
-        public var displayName: String? = nil
-
-        public init() {}
+        public let iD: String?
+        public let displayName: String?
 
         public init(iD: String? = nil, displayName: String? = nil) {
             self.iD = iD
@@ -456,26 +424,24 @@ extension S3 {
             return ["x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-charged": "RequestCharged", "x-amz-abort-date": "AbortDate", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-abort-rule-id": "AbortRuleId"]
         }
         /// Name of the bucket to which the multipart upload was initiated.
-        public var bucket: String? = nil
+        public let bucket: String?
         /// Date when multipart upload will become eligible for abort operation by lifecycle.
-        public var abortDate: Date? = nil
+        public let abortDate: Date?
         /// Id of the lifecycle rule that makes a multipart upload eligible for abort operation.
-        public var abortRuleId: String? = nil
+        public let abortRuleId: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        public var sSECustomerKeyMD5: String? = nil
+        public let sSECustomerKeyMD5: String?
         /// Object key for which the multipart upload was initiated.
-        public var key: String? = nil
+        public let key: String?
         /// ID for the initiated multipart upload.
-        public var uploadId: String? = nil
+        public let uploadId: String?
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        public var sSEKMSKeyId: String? = nil
+        public let sSEKMSKeyId: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        public var sSECustomerAlgorithm: String? = nil
-        public var requestCharged: String? = nil
+        public let sSECustomerAlgorithm: String?
+        public let requestCharged: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public var serverSideEncryption: String? = nil
-
-        public init() {}
+        public let serverSideEncryption: String?
 
         public init(bucket: String? = nil, abortDate: Date? = nil, abortRuleId: String? = nil, sSECustomerKeyMD5: String? = nil, key: String? = nil, uploadId: String? = nil, sSEKMSKeyId: String? = nil, sSECustomerAlgorithm: String? = nil, requestCharged: String? = nil, serverSideEncryption: String? = nil) {
             self.bucket = bucket
@@ -507,15 +473,13 @@ extension S3 {
     public struct Object: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var lastModified: Date? = nil
+        public let lastModified: Date?
         /// The class of storage used to store the object.
-        public var storageClass: String? = nil
-        public var key: String? = nil
-        public var eTag: String? = nil
-        public var owner: Owner? = nil
-        public var size: Int32? = nil
-
-        public init() {}
+        public let storageClass: String?
+        public let key: String?
+        public let eTag: String?
+        public let owner: Owner?
+        public let size: Int32?
 
         public init(lastModified: Date? = nil, storageClass: String? = nil, key: String? = nil, eTag: String? = nil, owner: Owner? = nil, size: Int32? = nil) {
             self.lastModified = lastModified
@@ -531,7 +495,7 @@ extension S3 {
             self.storageClass = dictionary["StorageClass"] as? String
             self.key = dictionary["Key"] as? String
             self.eTag = dictionary["ETag"] as? String
-            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) }
+            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
             self.size = dictionary["Size"] as? Int32
         }
     }
@@ -545,71 +509,69 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
-        public var bucket: String = ""
+        public let bucket: String
         /// The tag-set for the object destination object this value must be used in conjunction with the TaggingDirective. The tag-set must be encoded as URL Query parameters
-        public var tagging: String? = nil
+        public let tagging: String?
         /// Specifies presentational information for the object.
-        public var contentDisposition: String? = nil
+        public let contentDisposition: String?
         /// Copies the object if it has been modified since the specified time.
-        public var copySourceIfModifiedSince: Date? = nil
+        public let copySourceIfModifiedSince: Date?
         /// Copies the object if its entity tag (ETag) is different than the specified ETag.
-        public var copySourceIfNoneMatch: String? = nil
+        public let copySourceIfNoneMatch: String?
         /// Copies the object if its entity tag (ETag) matches the specified tag.
-        public var copySourceIfMatch: String? = nil
+        public let copySourceIfMatch: String?
         /// Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
-        public var copySourceSSECustomerKey: String? = nil
+        public let copySourceSSECustomerKey: String?
         /// The language the content is in.
-        public var contentLanguage: String? = nil
+        public let contentLanguage: String?
         /// Allows grantee to read the object ACL.
-        public var grantReadACP: String? = nil
+        public let grantReadACP: String?
         /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        public var sSECustomerAlgorithm: String? = nil
+        public let sSECustomerAlgorithm: String?
         /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
-        public var sSEKMSKeyId: String? = nil
+        public let sSEKMSKeyId: String?
         /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-        public var contentEncoding: String? = nil
+        public let contentEncoding: String?
         /// Allows grantee to write the ACL for the applicable object.
-        public var grantWriteACP: String? = nil
-        public var key: String = ""
+        public let grantWriteACP: String?
+        public let key: String
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-        public var websiteRedirectLocation: String? = nil
+        public let websiteRedirectLocation: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        public var copySourceSSECustomerKeyMD5: String? = nil
+        public let copySourceSSECustomerKeyMD5: String?
         /// Copies the object if it hasn't been modified since the specified time.
-        public var copySourceIfUnmodifiedSince: Date? = nil
+        public let copySourceIfUnmodifiedSince: Date?
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
-        public var sSECustomerKey: String? = nil
+        public let sSECustomerKey: String?
         /// Specifies caching behavior along the request/reply chain.
-        public var cacheControl: String? = nil
+        public let cacheControl: String?
         /// Specifies whether the object tag-set are copied from the source object or replaced with tag-set provided in the request.
-        public var taggingDirective: String? = nil
-        public var requestPayer: String? = nil
+        public let taggingDirective: String?
+        public let requestPayer: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        public var sSECustomerKeyMD5: String? = nil
+        public let sSECustomerKeyMD5: String?
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
-        public var grantFullControl: String? = nil
+        public let grantFullControl: String?
         /// Specifies whether the metadata is copied from the source object or replaced with metadata provided in the request.
-        public var metadataDirective: String? = nil
+        public let metadataDirective: String?
         /// The name of the source bucket and key name of the source object, separated by a slash (/). Must be URL-encoded.
-        public var copySource: String = ""
+        public let copySource: String
         /// The canned ACL to apply to the object.
-        public var aCL: String? = nil
+        public let aCL: String?
         /// A map of metadata to store with the object in S3.
-        public var metadata: [String: String]? = nil
+        public let metadata: [String: String]?
         /// The date and time at which the object is no longer cacheable.
-        public var expires: Date? = nil
+        public let expires: Date?
         /// A standard MIME type describing the format of the object data.
-        public var contentType: String? = nil
+        public let contentType: String?
         /// The type of storage to use for the object. Defaults to 'STANDARD'.
-        public var storageClass: String? = nil
+        public let storageClass: String?
         /// Specifies the algorithm to use when decrypting the source object (e.g., AES256).
-        public var copySourceSSECustomerAlgorithm: String? = nil
+        public let copySourceSSECustomerAlgorithm: String?
         /// Allows grantee to read the object data and its metadata.
-        public var grantRead: String? = nil
+        public let grantRead: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public var serverSideEncryption: String? = nil
-
-        public init() {}
+        public let serverSideEncryption: String?
 
         public init(bucket: String, tagging: String? = nil, contentDisposition: String? = nil, copySourceIfModifiedSince: Date? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfMatch: String? = nil, copySourceSSECustomerKey: String? = nil, contentLanguage: String? = nil, grantReadACP: String? = nil, sSECustomerAlgorithm: String? = nil, sSEKMSKeyId: String? = nil, contentEncoding: String? = nil, grantWriteACP: String? = nil, key: String, websiteRedirectLocation: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, copySourceIfUnmodifiedSince: Date? = nil, sSECustomerKey: String? = nil, cacheControl: String? = nil, taggingDirective: String? = nil, requestPayer: String? = nil, sSECustomerKeyMD5: String? = nil, grantFullControl: String? = nil, metadataDirective: String? = nil, copySource: String, aCL: String? = nil, metadata: [String: String]? = nil, expires: Date? = nil, contentType: String? = nil, storageClass: String? = nil, copySourceSSECustomerAlgorithm: String? = nil, grantRead: String? = nil, serverSideEncryption: String? = nil) {
             self.bucket = bucket
@@ -679,6 +641,8 @@ extension S3 {
             self.aCL = dictionary["ACL"] as? String
             if let metadata = dictionary["Metadata"] as? [String: String] {
                 self.metadata = metadata
+            } else { 
+                self.metadata = nil
             }
             self.expires = dictionary["Expires"] as? Date
             self.contentType = dictionary["ContentType"] as? String
@@ -695,9 +659,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -713,10 +675,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the permission given to the grantee.
-        public var permission: String? = nil
-        public var grantee: Grantee? = nil
-
-        public init() {}
+        public let permission: String?
+        public let grantee: Grantee?
 
         public init(permission: String? = nil, grantee: Grantee? = nil) {
             self.permission = permission
@@ -725,7 +685,7 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             self.permission = dictionary["Permission"] as? String
-            if let grantee = dictionary["Grantee"] as? [String: Any] { self.grantee = try S3.Grantee(dictionary: grantee) }
+            if let grantee = dictionary["Grantee"] as? [String: Any] { self.grantee = try S3.Grantee(dictionary: grantee) } else { self.grantee = nil }
         }
     }
 
@@ -733,9 +693,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Contains the bucket name, file format, bucket owner (optional), and prefix (optional) where inventory results are published.
-        public var s3BucketDestination: InventoryS3BucketDestination = InventoryS3BucketDestination()
-
-        public init() {}
+        public let s3BucketDestination: InventoryS3BucketDestination
 
         public init(s3BucketDestination: InventoryS3BucketDestination) {
             self.s3BucketDestination = s3BucketDestination
@@ -759,20 +717,18 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
+        public let bucket: String
         /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
-        public var maxKeys: Int32? = nil
+        public let maxKeys: Int32?
         /// Specifies the key to start with when listing objects in a bucket.
-        public var marker: String? = nil
+        public let marker: String?
         /// Confirms that the requester knows that she or he will be charged for the list objects request. Bucket owners need not specify this parameter in their requests.
-        public var requestPayer: String? = nil
+        public let requestPayer: String?
         /// Limits the response to keys that begin with the specified prefix.
-        public var prefix: String? = nil
+        public let prefix: String?
         /// A delimiter is a character you use to group keys.
-        public var delimiter: String? = nil
-        public var encodingType: String? = nil
-
-        public init() {}
+        public let delimiter: String?
+        public let encodingType: String?
 
         public init(bucket: String, maxKeys: Int32? = nil, marker: String? = nil, requestPayer: String? = nil, prefix: String? = nil, delimiter: String? = nil, encodingType: String? = nil) {
             self.bucket = bucket
@@ -806,13 +762,11 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         /// The name of the bucket to which an analytics configuration is stored.
-        public var bucket: String = ""
+        public let bucket: String
         /// The configuration and any analyses for the analytics filter.
-        public var analyticsConfiguration: AnalyticsConfiguration = AnalyticsConfiguration()
+        public let analyticsConfiguration: AnalyticsConfiguration
         /// The identifier used to represent an analytics configuration.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(bucket: String, analyticsConfiguration: AnalyticsConfiguration, id: String) {
             self.bucket = bucket
@@ -833,13 +787,11 @@ extension S3 {
     public struct CloudFunctionConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var cloudFunction: String? = nil
-        public var invocationRole: String? = nil
-        public var events: [String]? = nil
-        public var event: String? = nil
-        public var id: String? = nil
-
-        public init() {}
+        public let cloudFunction: String?
+        public let invocationRole: String?
+        public let events: [String]?
+        public let event: String?
+        public let id: String?
 
         public init(cloudFunction: String? = nil, invocationRole: String? = nil, events: [String]? = nil, event: String? = nil, id: String? = nil) {
             self.cloudFunction = cloudFunction
@@ -852,9 +804,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             self.cloudFunction = dictionary["CloudFunction"] as? String
             self.invocationRole = dictionary["InvocationRole"] as? String
-            if let events = dictionary["Events"] as? [String] {
-                self.events = events
-            }
+            self.events = dictionary["Events"] as? [String]
             self.event = dictionary["Event"] as? String
             self.id = dictionary["Id"] as? String
         }
@@ -872,31 +822,29 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
-        public var bucket: String = ""
+        public let bucket: String
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
-        public var sSECustomerKey: String? = nil
+        public let sSECustomerKey: String?
         /// Return the object only if it has not been modified since the specified time, otherwise return a 412 (precondition failed).
-        public var ifUnmodifiedSince: Date? = nil
+        public let ifUnmodifiedSince: Date?
         /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful querying about the size of the part and the number of parts in this object.
-        public var partNumber: Int32? = nil
+        public let partNumber: Int32?
         /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
-        public var range: String? = nil
-        public var requestPayer: String? = nil
+        public let range: String?
+        public let requestPayer: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        public var sSECustomerKeyMD5: String? = nil
+        public let sSECustomerKeyMD5: String?
         /// VersionId used to reference a specific version of the object.
-        public var versionId: String? = nil
+        public let versionId: String?
         /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        public var sSECustomerAlgorithm: String? = nil
+        public let sSECustomerAlgorithm: String?
         /// Return the object only if its entity tag (ETag) is different from the one specified, otherwise return a 304 (not modified).
-        public var ifNoneMatch: String? = nil
-        public var key: String = ""
+        public let ifNoneMatch: String?
+        public let key: String
         /// Return the object only if it has been modified since the specified time, otherwise return a 304 (not modified).
-        public var ifModifiedSince: Date? = nil
+        public let ifModifiedSince: Date?
         /// Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
-        public var ifMatch: String? = nil
-
-        public init() {}
+        public let ifMatch: String?
 
         public init(bucket: String, sSECustomerKey: String? = nil, ifUnmodifiedSince: Date? = nil, partNumber: Int32? = nil, range: String? = nil, requestPayer: String? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil, sSECustomerAlgorithm: String? = nil, ifNoneMatch: String? = nil, key: String, ifModifiedSince: Date? = nil, ifMatch: String? = nil) {
             self.bucket = bucket
@@ -937,9 +885,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies who pays for the download and request fees.
-        public var payer: String? = nil
-
-        public init() {}
+        public let payer: String?
 
         public init(payer: String? = nil) {
             self.payer = payer
@@ -956,9 +902,7 @@ extension S3 {
         public static var headerParams: [String: String] {
             return ["x-amz-request-charged": "RequestCharged"]
         }
-        public var requestCharged: String? = nil
-
-        public init() {}
+        public let requestCharged: String?
 
         public init(requestCharged: String? = nil) {
             self.requestCharged = requestCharged
@@ -981,13 +925,11 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
-        public var bucket: String = ""
-        public var contentMD5: String? = nil
-        public var tagging: Tagging = Tagging()
-        public var key: String = ""
-        public var versionId: String? = nil
-
-        public init() {}
+        public let bucket: String
+        public let contentMD5: String?
+        public let tagging: Tagging
+        public let key: String
+        public let versionId: String?
 
         public init(bucket: String, contentMD5: String? = nil, tagging: Tagging, key: String, versionId: String? = nil) {
             self.bucket = bucket
@@ -1012,9 +954,7 @@ extension S3 {
     public struct CompletedMultipartUpload: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var parts: [CompletedPart]? = nil
-
-        public init() {}
+        public let parts: [CompletedPart]?
 
         public init(parts: [CompletedPart]? = nil) {
             self.parts = parts
@@ -1023,6 +963,8 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             if let parts = dictionary["Parts"] as? [[String: Any]] {
                 self.parts = try parts.map({ try CompletedPart(dictionary: $0) })
+            } else { 
+                self.parts = nil
             }
         }
     }
@@ -1034,59 +976,57 @@ extension S3 {
             return ["x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-tagging-count": "TagCount", "accept-ranges": "AcceptRanges", "Content-Language": "ContentLanguage", "Content-Type": "ContentType", "x-amz-website-redirect-location": "WebsiteRedirectLocation", "x-amz-server-side-encryption": "ServerSideEncryption", "Content-Disposition": "ContentDisposition", "x-amz-request-charged": "RequestCharged", "ETag": "ETag", "Content-Encoding": "ContentEncoding", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "x-amz-mp-parts-count": "PartsCount", "Content-Length": "ContentLength", "x-amz-version-id": "VersionId", "x-amz-delete-marker": "DeleteMarker", "Last-Modified": "LastModified", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-storage-class": "StorageClass", "Expires": "Expires", "Content-Range": "ContentRange", "x-amz-replication-status": "ReplicationStatus", "x-amz-restore": "Restore", "x-amz-missing-meta": "MissingMeta", "x-amz-expiration": "Expiration", "Cache-Control": "CacheControl"]
         }
         /// The count of parts this object has.
-        public var partsCount: Int32? = nil
+        public let partsCount: Int32?
         /// Specifies presentational information for the object.
-        public var contentDisposition: String? = nil
+        public let contentDisposition: String?
         /// Version of the object.
-        public var versionId: String? = nil
-        public var replicationStatus: String? = nil
+        public let versionId: String?
+        public let replicationStatus: String?
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        public var sSEKMSKeyId: String? = nil
+        public let sSEKMSKeyId: String?
         /// The language the content is in.
-        public var contentLanguage: String? = nil
+        public let contentLanguage: String?
         /// The number of tags, if any, on the object.
-        public var tagCount: Int32? = nil
+        public let tagCount: Int32?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        public var sSECustomerAlgorithm: String? = nil
+        public let sSECustomerAlgorithm: String?
         /// Provides information about object restoration operation and expiration time of the restored object copy.
-        public var restore: String? = nil
+        public let restore: String?
         /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-        public var contentEncoding: String? = nil
+        public let contentEncoding: String?
         /// Size of the body in bytes.
-        public var contentLength: Int64? = nil
+        public let contentLength: Int64?
         /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key value pairs providing object expiration information. The value of the rule-id is URL encoded.
-        public var expiration: String? = nil
+        public let expiration: String?
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-        public var websiteRedirectLocation: String? = nil
+        public let websiteRedirectLocation: String?
         /// An ETag is an opaque identifier assigned by a web server to a specific version of a resource found at a URL
-        public var eTag: String? = nil
+        public let eTag: String?
         /// Object data.
-        public var body: Data? = nil
+        public let body: Data?
         /// This is set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
-        public var missingMeta: Int32? = nil
+        public let missingMeta: Int32?
         /// Specifies caching behavior along the request/reply chain.
-        public var cacheControl: String? = nil
+        public let cacheControl: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        public var sSECustomerKeyMD5: String? = nil
-        public var acceptRanges: String? = nil
+        public let sSECustomerKeyMD5: String?
+        public let acceptRanges: String?
         /// Last modified date of the object
-        public var lastModified: Date? = nil
+        public let lastModified: Date?
         /// A map of metadata to store with the object in S3.
-        public var metadata: [String: String]? = nil
+        public let metadata: [String: String]?
         /// The date and time at which the object is no longer cacheable.
-        public var expires: Date? = nil
+        public let expires: Date?
         /// The portion of the object returned in the response.
-        public var contentRange: String? = nil
+        public let contentRange: String?
         /// A standard MIME type describing the format of the object data.
-        public var contentType: String? = nil
-        public var storageClass: String? = nil
+        public let contentType: String?
+        public let storageClass: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public var serverSideEncryption: String? = nil
-        public var requestCharged: String? = nil
+        public let serverSideEncryption: String?
+        public let requestCharged: String?
         /// Specifies whether the object retrieved was (true) or was not (false) a Delete Marker. If false, this response header does not appear in the response.
-        public var deleteMarker: Bool? = nil
-
-        public init() {}
+        public let deleteMarker: Bool?
 
         public init(partsCount: Int32? = nil, contentDisposition: String? = nil, versionId: String? = nil, replicationStatus: String? = nil, sSEKMSKeyId: String? = nil, contentLanguage: String? = nil, tagCount: Int32? = nil, sSECustomerAlgorithm: String? = nil, restore: String? = nil, contentEncoding: String? = nil, contentLength: Int64? = nil, expiration: String? = nil, websiteRedirectLocation: String? = nil, eTag: String? = nil, body: Data? = nil, missingMeta: Int32? = nil, cacheControl: String? = nil, sSECustomerKeyMD5: String? = nil, acceptRanges: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, expires: Date? = nil, contentRange: String? = nil, contentType: String? = nil, storageClass: String? = nil, serverSideEncryption: String? = nil, requestCharged: String? = nil, deleteMarker: Bool? = nil) {
             self.partsCount = partsCount
@@ -1142,6 +1082,8 @@ extension S3 {
             self.lastModified = dictionary["LastModified"] as? Date
             if let metadata = dictionary["Metadata"] as? [String: String] {
                 self.metadata = metadata
+            } else { 
+                self.metadata = nil
             }
             self.expires = dictionary["Expires"] as? Date
             self.contentRange = dictionary["ContentRange"] as? String
@@ -1156,11 +1098,9 @@ extension S3 {
     public struct NotificationConfigurationDeprecated: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var queueConfiguration: QueueConfigurationDeprecated? = nil
-        public var topicConfiguration: TopicConfigurationDeprecated? = nil
-        public var cloudFunctionConfiguration: CloudFunctionConfiguration? = nil
-
-        public init() {}
+        public let queueConfiguration: QueueConfigurationDeprecated?
+        public let topicConfiguration: TopicConfigurationDeprecated?
+        public let cloudFunctionConfiguration: CloudFunctionConfiguration?
 
         public init(queueConfiguration: QueueConfigurationDeprecated? = nil, topicConfiguration: TopicConfigurationDeprecated? = nil, cloudFunctionConfiguration: CloudFunctionConfiguration? = nil) {
             self.queueConfiguration = queueConfiguration
@@ -1169,9 +1109,9 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let queueConfiguration = dictionary["QueueConfiguration"] as? [String: Any] { self.queueConfiguration = try S3.QueueConfigurationDeprecated(dictionary: queueConfiguration) }
-            if let topicConfiguration = dictionary["TopicConfiguration"] as? [String: Any] { self.topicConfiguration = try S3.TopicConfigurationDeprecated(dictionary: topicConfiguration) }
-            if let cloudFunctionConfiguration = dictionary["CloudFunctionConfiguration"] as? [String: Any] { self.cloudFunctionConfiguration = try S3.CloudFunctionConfiguration(dictionary: cloudFunctionConfiguration) }
+            if let queueConfiguration = dictionary["QueueConfiguration"] as? [String: Any] { self.queueConfiguration = try S3.QueueConfigurationDeprecated(dictionary: queueConfiguration) } else { self.queueConfiguration = nil }
+            if let topicConfiguration = dictionary["TopicConfiguration"] as? [String: Any] { self.topicConfiguration = try S3.TopicConfigurationDeprecated(dictionary: topicConfiguration) } else { self.topicConfiguration = nil }
+            if let cloudFunctionConfiguration = dictionary["CloudFunctionConfiguration"] as? [String: Any] { self.cloudFunctionConfiguration = try S3.CloudFunctionConfiguration(dictionary: cloudFunctionConfiguration) } else { self.cloudFunctionConfiguration = nil }
         }
     }
 
@@ -1179,13 +1119,11 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The class of storage used to store the object.
-        public var storageClass: String? = nil
+        public let storageClass: String?
         /// Indicates at what date the object is to be moved or deleted. Should be in GMT ISO 8601 Format.
-        public var date: Date? = nil
+        public let date: Date?
         /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
-        public var days: Int32? = nil
-
-        public init() {}
+        public let days: Int32?
 
         public init(storageClass: String? = nil, date: Date? = nil, days: Int32? = nil) {
             self.storageClass = storageClass
@@ -1204,11 +1142,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID used to identify the metrics configuration.
-        public var id: String = ""
+        public let id: String
         /// Specifies a metrics configuration filter. The metrics configuration will only include objects that meet the filter's criteria. A filter must be a prefix, a tag, or a conjunction (MetricsAndOperator).
-        public var filter: MetricsFilter? = nil
-
-        public init() {}
+        public let filter: MetricsFilter?
 
         public init(id: String, filter: MetricsFilter? = nil) {
             self.id = id
@@ -1218,7 +1154,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id
-            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.MetricsFilter(dictionary: filter) }
+            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.MetricsFilter(dictionary: filter) } else { self.filter = nil }
         }
     }
 
@@ -1226,11 +1162,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The HTTP error code when the redirect is applied. In the event of an error, if the error code equals this value, then the specified redirect is applied. Required when parent element Condition is specified and sibling KeyPrefixEquals is not specified. If both are specified, then both must be true for the redirect to be applied.
-        public var httpErrorCodeReturnedEquals: String? = nil
+        public let httpErrorCodeReturnedEquals: String?
         /// The object key name prefix when the redirect is applied. For example, to redirect requests for ExamplePage.html, the key prefix will be ExamplePage.html. To redirect request for all pages with the prefix docs/, the key prefix will be /docs, which identifies all objects in the docs/ folder. Required when the parent element Condition is specified and sibling HttpErrorCodeReturnedEquals is not specified. If both conditions are specified, both must be true for the redirect to be applied.
-        public var keyPrefixEquals: String? = nil
-
-        public init() {}
+        public let keyPrefixEquals: String?
 
         public init(httpErrorCodeReturnedEquals: String? = nil, keyPrefixEquals: String? = nil) {
             self.httpErrorCodeReturnedEquals = httpErrorCodeReturnedEquals
@@ -1247,11 +1181,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned.
-        public var mFADelete: String? = nil
+        public let mFADelete: String?
         /// The versioning state of the bucket.
-        public var status: String? = nil
-
-        public init() {}
+        public let status: String?
 
         public init(mFADelete: String? = nil, status: String? = nil) {
             self.mFADelete = mFADelete
@@ -1268,9 +1200,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The accelerate configuration of the bucket.
-        public var status: String? = nil
-
-        public init() {}
+        public let status: String?
 
         public init(status: String? = nil) {
             self.status = status
@@ -1290,11 +1220,9 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var contentMD5: String? = nil
-        public var bucket: String = ""
-        public var bucketLoggingStatus: BucketLoggingStatus = BucketLoggingStatus()
-
-        public init() {}
+        public let contentMD5: String?
+        public let bucket: String
+        public let bucketLoggingStatus: BucketLoggingStatus
 
         public init(contentMD5: String? = nil, bucket: String, bucketLoggingStatus: BucketLoggingStatus) {
             self.contentMD5 = contentMD5
@@ -1315,9 +1243,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = "Policy"
         /// The bucket policy as a JSON document.
-        public var policy: String? = nil
-
-        public init() {}
+        public let policy: String?
 
         public init(policy: String? = nil) {
             self.policy = policy
@@ -1332,11 +1258,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Amazon Resource Name (ARN) of an IAM role for Amazon S3 to assume when replicating the objects.
-        public var role: String = ""
+        public let role: String
         /// Container for information about a particular replication rule. Replication configuration must have at least one rule and can contain up to 1,000 rules.
-        public var rules: [ReplicationRule] = []
-
-        public init() {}
+        public let rules: [ReplicationRule]
 
         public init(role: String, rules: [ReplicationRule]) {
             self.role = role
@@ -1355,21 +1279,19 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Date and time the object was last modified.
-        public var lastModified: Date? = nil
+        public let lastModified: Date?
         /// Size in bytes of the object.
-        public var size: Int32? = nil
+        public let size: Int32?
         /// Version ID of an object.
-        public var versionId: String? = nil
+        public let versionId: String?
         /// The class of storage used to store the object.
-        public var storageClass: String? = nil
+        public let storageClass: String?
         /// The object key.
-        public var key: String? = nil
+        public let key: String?
         /// Specifies whether the object is (true) or is not (false) the latest version of an object.
-        public var isLatest: Bool? = nil
-        public var eTag: String? = nil
-        public var owner: Owner? = nil
-
-        public init() {}
+        public let isLatest: Bool?
+        public let eTag: String?
+        public let owner: Owner?
 
         public init(lastModified: Date? = nil, size: Int32? = nil, versionId: String? = nil, storageClass: String? = nil, key: String? = nil, isLatest: Bool? = nil, eTag: String? = nil, owner: Owner? = nil) {
             self.lastModified = lastModified
@@ -1390,23 +1312,21 @@ extension S3 {
             self.key = dictionary["Key"] as? String
             self.isLatest = dictionary["IsLatest"] as? Bool
             self.eTag = dictionary["ETag"] as? String
-            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) }
+            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
         }
     }
 
     public struct GetBucketReplicationOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = "ReplicationConfiguration"
-        public var replicationConfiguration: ReplicationConfiguration? = nil
-
-        public init() {}
+        public let replicationConfiguration: ReplicationConfiguration?
 
         public init(replicationConfiguration: ReplicationConfiguration? = nil) {
             self.replicationConfiguration = replicationConfiguration
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let replicationConfiguration = dictionary["ReplicationConfiguration"] as? [String: Any] { self.replicationConfiguration = try S3.ReplicationConfiguration(dictionary: replicationConfiguration) }
+            if let replicationConfiguration = dictionary["ReplicationConfiguration"] as? [String: Any] { self.replicationConfiguration = try S3.ReplicationConfiguration(dictionary: replicationConfiguration) } else { self.replicationConfiguration = nil }
         }
     }
 
@@ -1420,13 +1340,11 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         /// The name of the bucket where the inventory configuration will be stored.
-        public var bucket: String = ""
+        public let bucket: String
         /// Specifies the inventory configuration.
-        public var inventoryConfiguration: InventoryConfiguration = InventoryConfiguration()
+        public let inventoryConfiguration: InventoryConfiguration
         /// The ID used to identify the inventory configuration.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(bucket: String, inventoryConfiguration: InventoryConfiguration, id: String) {
             self.bucket = bucket
@@ -1447,21 +1365,19 @@ extension S3 {
     public struct ListObjectsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var maxKeys: Int32? = nil
+        public let maxKeys: Int32?
         /// A flag that indicates whether or not Amazon S3 returned all of the results that satisfied the search criteria.
-        public var isTruncated: Bool? = nil
-        public var marker: String? = nil
-        public var name: String? = nil
-        public var prefix: String? = nil
-        public var commonPrefixes: [CommonPrefix]? = nil
-        public var contents: [Object]? = nil
-        public var delimiter: String? = nil
+        public let isTruncated: Bool?
+        public let marker: String?
+        public let name: String?
+        public let prefix: String?
+        public let commonPrefixes: [CommonPrefix]?
+        public let contents: [Object]?
+        public let delimiter: String?
         /// Encoding type used by Amazon S3 to encode object keys in the response.
-        public var encodingType: String? = nil
+        public let encodingType: String?
         /// When response is truncated (the IsTruncated element value in the response is true), you can use the key name in this field as marker in the subsequent request to get next set of objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if you have delimiter request parameter specified. If response does not include the NextMaker and it is truncated, you can use the value of the last Key in the response as the marker in the subsequent request to get the next set of object keys.
-        public var nextMarker: String? = nil
-
-        public init() {}
+        public let nextMarker: String?
 
         public init(maxKeys: Int32? = nil, isTruncated: Bool? = nil, marker: String? = nil, name: String? = nil, prefix: String? = nil, commonPrefixes: [CommonPrefix]? = nil, contents: [Object]? = nil, delimiter: String? = nil, encodingType: String? = nil, nextMarker: String? = nil) {
             self.maxKeys = maxKeys
@@ -1484,9 +1400,13 @@ extension S3 {
             self.prefix = dictionary["Prefix"] as? String
             if let commonPrefixes = dictionary["CommonPrefixes"] as? [[String: Any]] {
                 self.commonPrefixes = try commonPrefixes.map({ try CommonPrefix(dictionary: $0) })
+            } else { 
+                self.commonPrefixes = nil
             }
             if let contents = dictionary["Contents"] as? [[String: Any]] {
                 self.contents = try contents.map({ try Object(dictionary: $0) })
+            } else { 
+                self.contents = nil
             }
             self.delimiter = dictionary["Delimiter"] as? String
             self.encodingType = dictionary["EncodingType"] as? String
@@ -1500,22 +1420,20 @@ extension S3 {
         public static var headerParams: [String: String] {
             return ["x-amz-version-id": "VersionId", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-charged": "RequestCharged", "x-amz-expiration": "Expiration", "x-amz-server-side-encryption": "ServerSideEncryption"]
         }
-        public var bucket: String? = nil
-        public var location: String? = nil
+        public let bucket: String?
+        public let location: String?
         /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL encoded.
-        public var expiration: String? = nil
+        public let expiration: String?
         /// Version of the object.
-        public var versionId: String? = nil
-        public var key: String? = nil
+        public let versionId: String?
+        public let key: String?
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        public var sSEKMSKeyId: String? = nil
+        public let sSEKMSKeyId: String?
         /// Entity tag of the object.
-        public var eTag: String? = nil
+        public let eTag: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public var serverSideEncryption: String? = nil
-        public var requestCharged: String? = nil
-
-        public init() {}
+        public let serverSideEncryption: String?
+        public let requestCharged: String?
 
         public init(bucket: String? = nil, location: String? = nil, expiration: String? = nil, versionId: String? = nil, key: String? = nil, sSEKMSKeyId: String? = nil, eTag: String? = nil, serverSideEncryption: String? = nil, requestCharged: String? = nil) {
             self.bucket = bucket
@@ -1545,16 +1463,14 @@ extension S3 {
     public struct NotificationConfigurationFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var key: S3KeyFilter? = nil
-
-        public init() {}
+        public let key: S3KeyFilter?
 
         public init(key: S3KeyFilter? = nil) {
             self.key = key
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let key = dictionary["Key"] as? [String: Any] { self.key = try S3.S3KeyFilter(dictionary: key) }
+            if let key = dictionary["Key"] as? [String: Any] { self.key = try S3.S3KeyFilter(dictionary: key) } else { self.key = nil }
         }
     }
 
@@ -1570,27 +1486,25 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
-        public var bucket: String = ""
-        public var contentMD5: String? = nil
-        public var accessControlPolicy: AccessControlPolicy? = nil
+        public let bucket: String
+        public let contentMD5: String?
+        public let accessControlPolicy: AccessControlPolicy?
         /// Allows grantee to write the ACL for the applicable bucket.
-        public var grantWriteACP: String? = nil
-        public var requestPayer: String? = nil
+        public let grantWriteACP: String?
+        public let requestPayer: String?
         /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
-        public var grantFullControl: String? = nil
+        public let grantFullControl: String?
         /// VersionId used to reference a specific version of the object.
-        public var versionId: String? = nil
+        public let versionId: String?
         /// Allows grantee to create, overwrite, and delete any object in the bucket.
-        public var grantWrite: String? = nil
-        public var key: String = ""
+        public let grantWrite: String?
+        public let key: String
         /// Allows grantee to read the bucket ACL.
-        public var grantReadACP: String? = nil
+        public let grantReadACP: String?
         /// Allows grantee to list the objects in the bucket.
-        public var grantRead: String? = nil
+        public let grantRead: String?
         /// The canned ACL to apply to the object.
-        public var aCL: String? = nil
-
-        public init() {}
+        public let aCL: String?
 
         public init(bucket: String, contentMD5: String? = nil, accessControlPolicy: AccessControlPolicy? = nil, grantWriteACP: String? = nil, requestPayer: String? = nil, grantFullControl: String? = nil, versionId: String? = nil, grantWrite: String? = nil, key: String, grantReadACP: String? = nil, grantRead: String? = nil, aCL: String? = nil) {
             self.bucket = bucket
@@ -1611,7 +1525,7 @@ extension S3 {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
             self.contentMD5 = dictionary["ContentMD5"] as? String
-            if let accessControlPolicy = dictionary["AccessControlPolicy"] as? [String: Any] { self.accessControlPolicy = try S3.AccessControlPolicy(dictionary: accessControlPolicy) }
+            if let accessControlPolicy = dictionary["AccessControlPolicy"] as? [String: Any] { self.accessControlPolicy = try S3.AccessControlPolicy(dictionary: accessControlPolicy) } else { self.accessControlPolicy = nil }
             self.grantWriteACP = dictionary["GrantWriteACP"] as? String
             self.requestPayer = dictionary["RequestPayer"] as? String
             self.grantFullControl = dictionary["GrantFullControl"] as? String
@@ -1629,12 +1543,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Amazon SNS topic ARN to which Amazon S3 will publish a message when it detects events of specified type.
-        public var topicArn: String = ""
-        public var filter: NotificationConfigurationFilter? = nil
-        public var events: [String] = []
-        public var id: String? = nil
-
-        public init() {}
+        public let topicArn: String
+        public let filter: NotificationConfigurationFilter?
+        public let events: [String]
+        public let id: String?
 
         public init(topicArn: String, filter: NotificationConfigurationFilter? = nil, events: [String], id: String? = nil) {
             self.topicArn = topicArn
@@ -1646,7 +1558,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
             self.topicArn = topicArn
-            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.NotificationConfigurationFilter(dictionary: filter) }
+            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.NotificationConfigurationFilter(dictionary: filter) } else { self.filter = nil }
             guard let events = dictionary["Events"] as? [String] else { throw InitializableError.missingRequiredParam("Events") }
             self.events = events
             self.id = dictionary["Id"] as? String
@@ -1657,11 +1569,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Container for redirect information. You can redirect requests to another host, to another page, or with another protocol. In the event of an error, you can can specify a different error code to return.
-        public var redirect: Redirect = Redirect()
+        public let redirect: Redirect
         /// A container for describing a condition that must be met for the specified redirect to apply. For example, 1. If request is for pages in the /docs folder, redirect to the /documents folder. 2. If request results in HTTP error 4xx, redirect request to another host where you might process the error.
-        public var condition: Condition? = nil
-
-        public init() {}
+        public let condition: Condition?
 
         public init(redirect: Redirect, condition: Condition? = nil) {
             self.redirect = redirect
@@ -1671,7 +1581,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let redirect = dictionary["Redirect"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Redirect") }
             self.redirect = try S3.Redirect(dictionary: redirect)
-            if let condition = dictionary["Condition"] as? [String: Any] { self.condition = try S3.Condition(dictionary: condition) }
+            if let condition = dictionary["Condition"] as? [String: Any] { self.condition = try S3.Condition(dictionary: condition) } else { self.condition = nil }
         }
     }
 
@@ -1679,12 +1589,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// This tag must exist in the object's tag set in order for the rule to apply.
-        public var tag: Tag? = nil
-        public var and: LifecycleRuleAndOperator? = nil
+        public let tag: Tag?
+        public let and: LifecycleRuleAndOperator?
         /// Prefix identifying one or more objects to which the rule applies.
-        public var prefix: String? = nil
-
-        public init() {}
+        public let prefix: String?
 
         public init(tag: Tag? = nil, and: LifecycleRuleAndOperator? = nil, prefix: String? = nil) {
             self.tag = tag
@@ -1693,8 +1601,8 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let tag = dictionary["Tag"] as? [String: Any] { self.tag = try S3.Tag(dictionary: tag) }
-            if let and = dictionary["And"] as? [String: Any] { self.and = try S3.LifecycleRuleAndOperator(dictionary: and) }
+            if let tag = dictionary["Tag"] as? [String: Any] { self.tag = try S3.Tag(dictionary: tag) } else { self.tag = nil }
+            if let and = dictionary["And"] as? [String: Any] { self.and = try S3.LifecycleRuleAndOperator(dictionary: and) } else { self.and = nil }
             self.prefix = dictionary["Prefix"] as? String
         }
     }
@@ -1703,9 +1611,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A suffix that is appended to a request that is for a directory on the website endpoint (e.g. if the suffix is index.html and you make a request to samplebucket/images/ the data that is returned will be for the object with the key name images/index.html) The suffix must not be empty and must not include a slash character.
-        public var suffix: String = ""
-
-        public init() {}
+        public let suffix: String
 
         public init(suffix: String) {
             self.suffix = suffix
@@ -1724,53 +1630,51 @@ extension S3 {
             return ["x-amz-expiration": "Expiration", "Content-Length": "ContentLength", "Cache-Control": "CacheControl", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "accept-ranges": "AcceptRanges", "x-amz-version-id": "VersionId", "x-amz-delete-marker": "DeleteMarker", "Last-Modified": "LastModified", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "Content-Language": "ContentLanguage", "Content-Type": "ContentType", "x-amz-website-redirect-location": "WebsiteRedirectLocation", "x-amz-storage-class": "StorageClass", "Expires": "Expires", "Content-Disposition": "ContentDisposition", "x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-request-charged": "RequestCharged", "x-amz-replication-status": "ReplicationStatus", "x-amz-restore": "Restore", "x-amz-missing-meta": "MissingMeta", "ETag": "ETag", "Content-Encoding": "ContentEncoding", "x-amz-mp-parts-count": "PartsCount"]
         }
         /// The count of parts this object has.
-        public var partsCount: Int32? = nil
+        public let partsCount: Int32?
         /// Specifies presentational information for the object.
-        public var contentDisposition: String? = nil
+        public let contentDisposition: String?
         /// Version of the object.
-        public var versionId: String? = nil
-        public var replicationStatus: String? = nil
+        public let versionId: String?
+        public let replicationStatus: String?
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        public var sSEKMSKeyId: String? = nil
+        public let sSEKMSKeyId: String?
         /// The language the content is in.
-        public var contentLanguage: String? = nil
+        public let contentLanguage: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        public var sSECustomerAlgorithm: String? = nil
+        public let sSECustomerAlgorithm: String?
         /// Provides information about object restoration operation and expiration time of the restored object copy.
-        public var restore: String? = nil
+        public let restore: String?
         /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-        public var contentEncoding: String? = nil
+        public let contentEncoding: String?
         /// Size of the body in bytes.
-        public var contentLength: Int64? = nil
+        public let contentLength: Int64?
         /// If the object expiration is configured (see PUT Bucket lifecycle), the response includes this header. It includes the expiry-date and rule-id key value pairs providing object expiration information. The value of the rule-id is URL encoded.
-        public var expiration: String? = nil
+        public let expiration: String?
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-        public var websiteRedirectLocation: String? = nil
+        public let websiteRedirectLocation: String?
         /// An ETag is an opaque identifier assigned by a web server to a specific version of a resource found at a URL
-        public var eTag: String? = nil
+        public let eTag: String?
         /// This is set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
-        public var missingMeta: Int32? = nil
+        public let missingMeta: Int32?
         /// Specifies caching behavior along the request/reply chain.
-        public var cacheControl: String? = nil
+        public let cacheControl: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        public var sSECustomerKeyMD5: String? = nil
-        public var acceptRanges: String? = nil
+        public let sSECustomerKeyMD5: String?
+        public let acceptRanges: String?
         /// Last modified date of the object
-        public var lastModified: Date? = nil
+        public let lastModified: Date?
         /// A map of metadata to store with the object in S3.
-        public var metadata: [String: String]? = nil
+        public let metadata: [String: String]?
         /// The date and time at which the object is no longer cacheable.
-        public var expires: Date? = nil
+        public let expires: Date?
         /// A standard MIME type describing the format of the object data.
-        public var contentType: String? = nil
-        public var storageClass: String? = nil
+        public let contentType: String?
+        public let storageClass: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public var serverSideEncryption: String? = nil
-        public var requestCharged: String? = nil
+        public let serverSideEncryption: String?
+        public let requestCharged: String?
         /// Specifies whether the object retrieved was (true) or was not (false) a Delete Marker. If false, this response header does not appear in the response.
-        public var deleteMarker: Bool? = nil
-
-        public init() {}
+        public let deleteMarker: Bool?
 
         public init(partsCount: Int32? = nil, contentDisposition: String? = nil, versionId: String? = nil, replicationStatus: String? = nil, sSEKMSKeyId: String? = nil, contentLanguage: String? = nil, sSECustomerAlgorithm: String? = nil, restore: String? = nil, contentEncoding: String? = nil, contentLength: Int64? = nil, expiration: String? = nil, websiteRedirectLocation: String? = nil, eTag: String? = nil, missingMeta: Int32? = nil, cacheControl: String? = nil, sSECustomerKeyMD5: String? = nil, acceptRanges: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, expires: Date? = nil, contentType: String? = nil, storageClass: String? = nil, serverSideEncryption: String? = nil, requestCharged: String? = nil, deleteMarker: Bool? = nil) {
             self.partsCount = partsCount
@@ -1821,6 +1725,8 @@ extension S3 {
             self.lastModified = dictionary["LastModified"] as? Date
             if let metadata = dictionary["Metadata"] as? [String: String] {
                 self.metadata = metadata
+            } else { 
+                self.metadata = nil
             }
             self.expires = dictionary["Expires"] as? Date
             self.contentType = dictionary["ContentType"] as? String
@@ -1835,11 +1741,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Entity tag returned when the part was uploaded.
-        public var eTag: String? = nil
+        public let eTag: String?
         /// Part number that identifies the part. This is a positive integer between 1 and 10,000.
-        public var partNumber: Int32? = nil
-
-        public init() {}
+        public let partNumber: Int32?
 
         public init(eTag: String? = nil, partNumber: Int32? = nil) {
             self.eTag = eTag
@@ -1858,9 +1762,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -1876,31 +1778,29 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
-        public var maxKeys: Int32? = nil
+        public let maxKeys: Int32?
         /// StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket
-        public var startAfter: String? = nil
+        public let startAfter: String?
         /// A flag that indicates whether or not Amazon S3 returned all of the results that satisfied the search criteria.
-        public var isTruncated: Bool? = nil
+        public let isTruncated: Bool?
         /// ContinuationToken indicates Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key
-        public var continuationToken: String? = nil
+        public let continuationToken: String?
         /// Name of the bucket to list.
-        public var name: String? = nil
+        public let name: String?
         /// Limits the response to keys that begin with the specified prefix.
-        public var prefix: String? = nil
+        public let prefix: String?
         /// NextContinuationToken is sent when isTruncated is true which means there are more keys in the bucket that can be listed. The next list requests to Amazon S3 can be continued with this NextContinuationToken. NextContinuationToken is obfuscated and is not a real key
-        public var nextContinuationToken: String? = nil
+        public let nextContinuationToken: String?
         /// CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by delimiter
-        public var commonPrefixes: [CommonPrefix]? = nil
+        public let commonPrefixes: [CommonPrefix]?
         /// Metadata about each object returned.
-        public var contents: [Object]? = nil
+        public let contents: [Object]?
         /// A delimiter is a character you use to group keys.
-        public var delimiter: String? = nil
+        public let delimiter: String?
         /// Encoding type used by Amazon S3 to encode object keys in the response.
-        public var encodingType: String? = nil
+        public let encodingType: String?
         /// KeyCount is the number of keys returned with this request. KeyCount will always be less than equals to MaxKeys field. Say you ask for 50 keys, your result will include less than equals 50 keys
-        public var keyCount: Int32? = nil
-
-        public init() {}
+        public let keyCount: Int32?
 
         public init(maxKeys: Int32? = nil, startAfter: String? = nil, isTruncated: Bool? = nil, continuationToken: String? = nil, name: String? = nil, prefix: String? = nil, nextContinuationToken: String? = nil, commonPrefixes: [CommonPrefix]? = nil, contents: [Object]? = nil, delimiter: String? = nil, encodingType: String? = nil, keyCount: Int32? = nil) {
             self.maxKeys = maxKeys
@@ -1927,9 +1827,13 @@ extension S3 {
             self.nextContinuationToken = dictionary["NextContinuationToken"] as? String
             if let commonPrefixes = dictionary["CommonPrefixes"] as? [[String: Any]] {
                 self.commonPrefixes = try commonPrefixes.map({ try CommonPrefix(dictionary: $0) })
+            } else { 
+                self.commonPrefixes = nil
             }
             if let contents = dictionary["Contents"] as? [[String: Any]] {
                 self.contents = try contents.map({ try Object(dictionary: $0) })
+            } else { 
+                self.contents = nil
             }
             self.delimiter = dictionary["Delimiter"] as? String
             self.encodingType = dictionary["EncodingType"] as? String
@@ -1941,10 +1845,8 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Logging permissions assigned to the Grantee for the bucket.
-        public var permission: String? = nil
-        public var grantee: Grantee? = nil
-
-        public init() {}
+        public let permission: String?
+        public let grantee: Grantee?
 
         public init(permission: String? = nil, grantee: Grantee? = nil) {
             self.permission = permission
@@ -1953,23 +1855,21 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             self.permission = dictionary["Permission"] as? String
-            if let grantee = dictionary["Grantee"] as? [String: Any] { self.grantee = try S3.Grantee(dictionary: grantee) }
+            if let grantee = dictionary["Grantee"] as? [String: Any] { self.grantee = try S3.Grantee(dictionary: grantee) } else { self.grantee = nil }
         }
     }
 
     public struct BucketLoggingStatus: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var loggingEnabled: LoggingEnabled? = nil
-
-        public init() {}
+        public let loggingEnabled: LoggingEnabled?
 
         public init(loggingEnabled: LoggingEnabled? = nil) {
             self.loggingEnabled = loggingEnabled
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let loggingEnabled = dictionary["LoggingEnabled"] as? [String: Any] { self.loggingEnabled = try S3.LoggingEnabled(dictionary: loggingEnabled) }
+            if let loggingEnabled = dictionary["LoggingEnabled"] as? [String: Any] { self.loggingEnabled = try S3.LoggingEnabled(dictionary: loggingEnabled) } else { self.loggingEnabled = nil }
         }
     }
 
@@ -1977,15 +1877,13 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon resource name (ARN) of the bucket to which data is exported.
-        public var bucket: String = ""
+        public let bucket: String
         /// The file format used when exporting data to Amazon S3.
-        public var format: String = ""
+        public let format: String
         /// The account ID that owns the destination bucket. If no account ID is provided, the owner will not be validated prior to exporting data.
-        public var bucketAccountId: String? = nil
+        public let bucketAccountId: String?
         /// The prefix to use when exporting data. The exported data begins with this prefix.
-        public var prefix: String? = nil
-
-        public init() {}
+        public let prefix: String?
 
         public init(bucket: String, format: String, bucketAccountId: String? = nil, prefix: String? = nil) {
             self.bucket = bucket
@@ -2013,11 +1911,9 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var contentMD5: String? = nil
-        public var bucket: String = ""
-        public var lifecycleConfiguration: LifecycleConfiguration? = nil
-
-        public init() {}
+        public let contentMD5: String?
+        public let bucket: String
+        public let lifecycleConfiguration: LifecycleConfiguration?
 
         public init(contentMD5: String? = nil, bucket: String, lifecycleConfiguration: LifecycleConfiguration? = nil) {
             self.contentMD5 = contentMD5
@@ -2029,19 +1925,17 @@ extension S3 {
             self.contentMD5 = dictionary["ContentMD5"] as? String
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            if let lifecycleConfiguration = dictionary["LifecycleConfiguration"] as? [String: Any] { self.lifecycleConfiguration = try S3.LifecycleConfiguration(dictionary: lifecycleConfiguration) }
+            if let lifecycleConfiguration = dictionary["LifecycleConfiguration"] as? [String: Any] { self.lifecycleConfiguration = try S3.LifecycleConfiguration(dictionary: lifecycleConfiguration) } else { self.lifecycleConfiguration = nil }
         }
     }
 
     public struct WebsiteConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var routingRules: [RoutingRule]? = nil
-        public var indexDocument: IndexDocument? = nil
-        public var errorDocument: ErrorDocument? = nil
-        public var redirectAllRequestsTo: RedirectAllRequestsTo? = nil
-
-        public init() {}
+        public let routingRules: [RoutingRule]?
+        public let indexDocument: IndexDocument?
+        public let errorDocument: ErrorDocument?
+        public let redirectAllRequestsTo: RedirectAllRequestsTo?
 
         public init(routingRules: [RoutingRule]? = nil, indexDocument: IndexDocument? = nil, errorDocument: ErrorDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil) {
             self.routingRules = routingRules
@@ -2053,21 +1947,21 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             if let routingRules = dictionary["RoutingRules"] as? [[String: Any]] {
                 self.routingRules = try routingRules.map({ try RoutingRule(dictionary: $0) })
+            } else { 
+                self.routingRules = nil
             }
-            if let indexDocument = dictionary["IndexDocument"] as? [String: Any] { self.indexDocument = try S3.IndexDocument(dictionary: indexDocument) }
-            if let errorDocument = dictionary["ErrorDocument"] as? [String: Any] { self.errorDocument = try S3.ErrorDocument(dictionary: errorDocument) }
-            if let redirectAllRequestsTo = dictionary["RedirectAllRequestsTo"] as? [String: Any] { self.redirectAllRequestsTo = try S3.RedirectAllRequestsTo(dictionary: redirectAllRequestsTo) }
+            if let indexDocument = dictionary["IndexDocument"] as? [String: Any] { self.indexDocument = try S3.IndexDocument(dictionary: indexDocument) } else { self.indexDocument = nil }
+            if let errorDocument = dictionary["ErrorDocument"] as? [String: Any] { self.errorDocument = try S3.ErrorDocument(dictionary: errorDocument) } else { self.errorDocument = nil }
+            if let redirectAllRequestsTo = dictionary["RedirectAllRequestsTo"] as? [String: Any] { self.redirectAllRequestsTo = try S3.RedirectAllRequestsTo(dictionary: redirectAllRequestsTo) } else { self.redirectAllRequestsTo = nil }
         }
     }
 
     public struct NotificationConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var topicConfigurations: [TopicConfiguration]? = nil
-        public var queueConfigurations: [QueueConfiguration]? = nil
-        public var lambdaFunctionConfigurations: [LambdaFunctionConfiguration]? = nil
-
-        public init() {}
+        public let topicConfigurations: [TopicConfiguration]?
+        public let queueConfigurations: [QueueConfiguration]?
+        public let lambdaFunctionConfigurations: [LambdaFunctionConfiguration]?
 
         public init(topicConfigurations: [TopicConfiguration]? = nil, queueConfigurations: [QueueConfiguration]? = nil, lambdaFunctionConfigurations: [LambdaFunctionConfiguration]? = nil) {
             self.topicConfigurations = topicConfigurations
@@ -2078,12 +1972,18 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             if let topicConfigurations = dictionary["TopicConfigurations"] as? [[String: Any]] {
                 self.topicConfigurations = try topicConfigurations.map({ try TopicConfiguration(dictionary: $0) })
+            } else { 
+                self.topicConfigurations = nil
             }
             if let queueConfigurations = dictionary["QueueConfigurations"] as? [[String: Any]] {
                 self.queueConfigurations = try queueConfigurations.map({ try QueueConfiguration(dictionary: $0) })
+            } else { 
+                self.queueConfigurations = nil
             }
             if let lambdaFunctionConfigurations = dictionary["LambdaFunctionConfigurations"] as? [[String: Any]] {
                 self.lambdaFunctionConfigurations = try lambdaFunctionConfigurations.map({ try LambdaFunctionConfiguration(dictionary: $0) })
+            } else { 
+                self.lambdaFunctionConfigurations = nil
             }
         }
     }
@@ -2092,13 +1992,11 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The tag to use when evaluating an analytics filter.
-        public var tag: Tag? = nil
+        public let tag: Tag?
         /// A conjunction (logical AND) of predicates, which is used in evaluating an analytics filter. The operator must have at least two predicates.
-        public var and: AnalyticsAndOperator? = nil
+        public let and: AnalyticsAndOperator?
         /// The prefix to use when evaluating an analytics filter.
-        public var prefix: String? = nil
-
-        public init() {}
+        public let prefix: String?
 
         public init(tag: Tag? = nil, and: AnalyticsAndOperator? = nil, prefix: String? = nil) {
             self.tag = tag
@@ -2107,8 +2005,8 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let tag = dictionary["Tag"] as? [String: Any] { self.tag = try S3.Tag(dictionary: tag) }
-            if let and = dictionary["And"] as? [String: Any] { self.and = try S3.AnalyticsAndOperator(dictionary: and) }
+            if let tag = dictionary["Tag"] as? [String: Any] { self.tag = try S3.Tag(dictionary: tag) } else { self.tag = nil }
+            if let and = dictionary["And"] as? [String: Any] { self.and = try S3.AnalyticsAndOperator(dictionary: and) } else { self.and = nil }
             self.prefix = dictionary["Prefix"] as? String
         }
     }
@@ -2119,9 +2017,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -2142,11 +2038,9 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
-        public var bucket: String = ""
-        public var versionId: String? = nil
-        public var key: String = ""
-
-        public init() {}
+        public let bucket: String
+        public let versionId: String?
+        public let key: String
 
         public init(bucket: String, versionId: String? = nil, key: String) {
             self.bucket = bucket
@@ -2169,10 +2063,8 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-        public var lifecycleConfiguration: BucketLifecycleConfiguration? = nil
-
-        public init() {}
+        public let bucket: String
+        public let lifecycleConfiguration: BucketLifecycleConfiguration?
 
         public init(bucket: String, lifecycleConfiguration: BucketLifecycleConfiguration? = nil) {
             self.bucket = bucket
@@ -2182,33 +2074,31 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            if let lifecycleConfiguration = dictionary["LifecycleConfiguration"] as? [String: Any] { self.lifecycleConfiguration = try S3.BucketLifecycleConfiguration(dictionary: lifecycleConfiguration) }
+            if let lifecycleConfiguration = dictionary["LifecycleConfiguration"] as? [String: Any] { self.lifecycleConfiguration = try S3.BucketLifecycleConfiguration(dictionary: lifecycleConfiguration) } else { self.lifecycleConfiguration = nil }
         }
     }
 
     public struct ListObjectVersionsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var maxKeys: Int32? = nil
+        public let maxKeys: Int32?
         /// A flag that indicates whether or not Amazon S3 returned all of the results that satisfied the search criteria. If your results were truncated, you can make a follow-up paginated request using the NextKeyMarker and NextVersionIdMarker response parameters as a starting place in another request to return the rest of the results.
-        public var isTruncated: Bool? = nil
-        public var versionIdMarker: String? = nil
+        public let isTruncated: Bool?
+        public let versionIdMarker: String?
         /// Use this value for the next version id marker parameter in a subsequent request.
-        public var nextVersionIdMarker: String? = nil
-        public var commonPrefixes: [CommonPrefix]? = nil
-        public var delimiter: String? = nil
+        public let nextVersionIdMarker: String?
+        public let commonPrefixes: [CommonPrefix]?
+        public let delimiter: String?
         /// Marks the last Key returned in a truncated response.
-        public var keyMarker: String? = nil
+        public let keyMarker: String?
         /// Encoding type used by Amazon S3 to encode object keys in the response.
-        public var encodingType: String? = nil
-        public var name: String? = nil
-        public var prefix: String? = nil
-        public var deleteMarkers: [DeleteMarkerEntry]? = nil
+        public let encodingType: String?
+        public let name: String?
+        public let prefix: String?
+        public let deleteMarkers: [DeleteMarkerEntry]?
         /// Use this value for the key marker request parameter in a subsequent request.
-        public var nextKeyMarker: String? = nil
-        public var versions: [ObjectVersion]? = nil
-
-        public init() {}
+        public let nextKeyMarker: String?
+        public let versions: [ObjectVersion]?
 
         public init(maxKeys: Int32? = nil, isTruncated: Bool? = nil, versionIdMarker: String? = nil, nextVersionIdMarker: String? = nil, commonPrefixes: [CommonPrefix]? = nil, delimiter: String? = nil, keyMarker: String? = nil, encodingType: String? = nil, name: String? = nil, prefix: String? = nil, deleteMarkers: [DeleteMarkerEntry]? = nil, nextKeyMarker: String? = nil, versions: [ObjectVersion]? = nil) {
             self.maxKeys = maxKeys
@@ -2233,6 +2123,8 @@ extension S3 {
             self.nextVersionIdMarker = dictionary["NextVersionIdMarker"] as? String
             if let commonPrefixes = dictionary["CommonPrefixes"] as? [[String: Any]] {
                 self.commonPrefixes = try commonPrefixes.map({ try CommonPrefix(dictionary: $0) })
+            } else { 
+                self.commonPrefixes = nil
             }
             self.delimiter = dictionary["Delimiter"] as? String
             self.keyMarker = dictionary["KeyMarker"] as? String
@@ -2241,10 +2133,14 @@ extension S3 {
             self.prefix = dictionary["Prefix"] as? String
             if let deleteMarkers = dictionary["DeleteMarkers"] as? [[String: Any]] {
                 self.deleteMarkers = try deleteMarkers.map({ try DeleteMarkerEntry(dictionary: $0) })
+            } else { 
+                self.deleteMarkers = nil
             }
             self.nextKeyMarker = dictionary["NextKeyMarker"] as? String
             if let versions = dictionary["Versions"] as? [[String: Any]] {
                 self.versions = try versions.map({ try ObjectVersion(dictionary: $0) })
+            } else { 
+                self.versions = nil
             }
         }
     }
@@ -2253,13 +2149,11 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier used to represent an analytics configuration.
-        public var id: String = ""
+        public let id: String
         /// If present, it indicates that data related to access patterns will be collected and made available to analyze the tradeoffs between different storage classes.
-        public var storageClassAnalysis: StorageClassAnalysis = StorageClassAnalysis()
+        public let storageClassAnalysis: StorageClassAnalysis
         /// The filter used to describe a set of objects for analyses. A filter must have exactly one prefix, one tag, or one conjunction (AnalyticsAndOperator). If no filter is provided, all objects will be considered in any analysis.
-        public var filter: AnalyticsFilter? = nil
-
-        public init() {}
+        public let filter: AnalyticsFilter?
 
         public init(id: String, storageClassAnalysis: StorageClassAnalysis, filter: AnalyticsFilter? = nil) {
             self.id = id
@@ -2272,7 +2166,7 @@ extension S3 {
             self.id = id
             guard let storageClassAnalysis = dictionary["StorageClassAnalysis"] as? [String: Any] else { throw InitializableError.missingRequiredParam("StorageClassAnalysis") }
             self.storageClassAnalysis = try S3.StorageClassAnalysis(dictionary: storageClassAnalysis)
-            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.AnalyticsFilter(dictionary: filter) }
+            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.AnalyticsFilter(dictionary: filter) } else { self.filter = nil }
         }
     }
 
@@ -2280,11 +2174,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned.
-        public var mFADelete: String? = nil
+        public let mFADelete: String?
         /// The versioning state of the bucket.
-        public var status: String? = nil
-
-        public init() {}
+        public let status: String?
 
         public init(mFADelete: String? = nil, status: String? = nil) {
             self.mFADelete = mFADelete
@@ -2301,9 +2193,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The prefix that an object must have to be included in the inventory results.
-        public var prefix: String = ""
-
-        public init() {}
+        public let prefix: String
 
         public init(prefix: String) {
             self.prefix = prefix
@@ -2324,13 +2214,11 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
+        public let bucket: String
         /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
-        public var mFA: String? = nil
-        public var requestPayer: String? = nil
-        public var delete: Delete = Delete()
-
-        public init() {}
+        public let mFA: String?
+        public let requestPayer: String?
+        public let delete: Delete
 
         public init(bucket: String, mFA: String? = nil, requestPayer: String? = nil, delete: Delete) {
             self.bucket = bucket
@@ -2358,13 +2246,11 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-        public var contentMD5: String? = nil
+        public let bucket: String
+        public let contentMD5: String?
         /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
-        public var mFA: String? = nil
-        public var versioningConfiguration: VersioningConfiguration = VersioningConfiguration()
-
-        public init() {}
+        public let mFA: String?
+        public let versioningConfiguration: VersioningConfiguration
 
         public init(bucket: String, contentMD5: String? = nil, mFA: String? = nil, versioningConfiguration: VersioningConfiguration) {
             self.bucket = bucket
@@ -2389,12 +2275,10 @@ extension S3 {
         public static var headerParams: [String: String] {
             return ["x-amz-request-charged": "RequestCharged"]
         }
-        public var owner: Owner? = nil
+        public let owner: Owner?
         /// A list of grants.
-        public var grants: [Grant]? = nil
-        public var requestCharged: String? = nil
-
-        public init() {}
+        public let grants: [Grant]?
+        public let requestCharged: String?
 
         public init(owner: Owner? = nil, grants: [Grant]? = nil, requestCharged: String? = nil) {
             self.owner = owner
@@ -2403,9 +2287,11 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) }
+            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
             if let grants = dictionary["Grants"] as? [[String: Any]] {
                 self.grants = try grants.map({ try Grant(dictionary: $0) })
+            } else { 
+                self.grants = nil
             }
             self.requestCharged = dictionary["RequestCharged"] as? String
         }
@@ -2414,11 +2300,9 @@ extension S3 {
     public struct Delete: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var objects: [ObjectIdentifier] = []
+        public let objects: [ObjectIdentifier]
         /// Element to enable quiet mode for the request. When you add this element, you must set its value to true.
-        public var quiet: Bool? = nil
-
-        public init() {}
+        public let quiet: Bool?
 
         public init(objects: [ObjectIdentifier], quiet: Bool? = nil) {
             self.objects = objects
@@ -2441,20 +2325,18 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
+        public let bucket: String
         /// Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored.
-        public var uploadIdMarker: String? = nil
+        public let uploadIdMarker: String?
         /// Lists in-progress uploads only for those keys that begin with the specified prefix.
-        public var prefix: String? = nil
+        public let prefix: String?
         /// Sets the maximum number of multipart uploads, from 1 to 1,000, to return in the response body. 1,000 is the maximum number of uploads that can be returned in a response.
-        public var maxUploads: Int32? = nil
+        public let maxUploads: Int32?
         /// Character you use to group keys.
-        public var delimiter: String? = nil
-        public var encodingType: String? = nil
+        public let delimiter: String?
+        public let encodingType: String?
         /// Together with upload-id-marker, this parameter specifies the multipart upload after which listing should begin.
-        public var keyMarker: String? = nil
-
-        public init() {}
+        public let keyMarker: String?
 
         public init(bucket: String, uploadIdMarker: String? = nil, prefix: String? = nil, maxUploads: Int32? = nil, delimiter: String? = nil, encodingType: String? = nil, keyMarker: String? = nil) {
             self.bucket = bucket
@@ -2484,11 +2366,9 @@ extension S3 {
         public static var headerParams: [String: String] {
             return ["x-amz-request-charged": "RequestCharged"]
         }
-        public var requestCharged: String? = nil
-        public var errors: [Error]? = nil
-        public var deleted: [DeletedObject]? = nil
-
-        public init() {}
+        public let requestCharged: String?
+        public let errors: [Error]?
+        public let deleted: [DeletedObject]?
 
         public init(requestCharged: String? = nil, errors: [Error]? = nil, deleted: [DeletedObject]? = nil) {
             self.requestCharged = requestCharged
@@ -2500,9 +2380,13 @@ extension S3 {
             self.requestCharged = dictionary["RequestCharged"] as? String
             if let errors = dictionary["Errors"] as? [[String: Any]] {
                 self.errors = try errors.map({ try Error(dictionary: $0) })
+            } else { 
+                self.errors = nil
             }
             if let deleted = dictionary["Deleted"] as? [[String: Any]] {
                 self.deleted = try deleted.map({ try DeletedObject(dictionary: $0) })
+            } else { 
+                self.deleted = nil
             }
         }
     }
@@ -2517,11 +2401,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         /// The name of the bucket from which an analytics configuration is deleted.
-        public var bucket: String = ""
+        public let bucket: String
         /// The identifier used to represent an analytics configuration.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(bucket: String, id: String) {
             self.bucket = bucket
@@ -2542,9 +2424,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -2560,15 +2440,13 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ContinuationToken that represents where this request began.
-        public var continuationToken: String? = nil
+        public let continuationToken: String?
         /// Indicates whether the returned list of analytics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
-        public var isTruncated: Bool? = nil
+        public let isTruncated: Bool?
         /// NextContinuationToken is sent when isTruncated is true, which indicates that there are more analytics configurations to list. The next request must include this NextContinuationToken. The token is obfuscated and is not a usable value.
-        public var nextContinuationToken: String? = nil
+        public let nextContinuationToken: String?
         /// The list of analytics configurations for a bucket.
-        public var analyticsConfigurationList: [AnalyticsConfiguration]? = nil
-
-        public init() {}
+        public let analyticsConfigurationList: [AnalyticsConfiguration]?
 
         public init(continuationToken: String? = nil, isTruncated: Bool? = nil, nextContinuationToken: String? = nil, analyticsConfigurationList: [AnalyticsConfiguration]? = nil) {
             self.continuationToken = continuationToken
@@ -2583,6 +2461,8 @@ extension S3 {
             self.nextContinuationToken = dictionary["NextContinuationToken"] as? String
             if let analyticsConfigurationList = dictionary["AnalyticsConfigurationList"] as? [[String: Any]] {
                 self.analyticsConfigurationList = try analyticsConfigurationList.map({ try AnalyticsConfiguration(dictionary: $0) })
+            } else { 
+                self.analyticsConfigurationList = nil
             }
         }
     }
@@ -2591,9 +2471,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies how frequently inventory results are produced.
-        public var frequency: String = ""
-
-        public init() {}
+        public let frequency: String
 
         public init(frequency: String) {
             self.frequency = frequency
@@ -2609,28 +2487,26 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Name of the bucket to which the multipart upload was initiated.
-        public var bucket: String? = nil
+        public let bucket: String?
         /// Indicates whether the returned list of multipart uploads is truncated. A value of true indicates that the list was truncated. The list can be truncated if the number of multipart uploads exceeds the limit allowed or specified by max uploads.
-        public var isTruncated: Bool? = nil
+        public let isTruncated: Bool?
         /// The key at or after which the listing began.
-        public var keyMarker: String? = nil
+        public let keyMarker: String?
         /// When a prefix is provided in the request, this field contains the specified prefix. The result contains only keys starting with the specified prefix.
-        public var prefix: String? = nil
+        public let prefix: String?
         /// Upload ID after which listing began.
-        public var uploadIdMarker: String? = nil
-        public var commonPrefixes: [CommonPrefix]? = nil
+        public let uploadIdMarker: String?
+        public let commonPrefixes: [CommonPrefix]?
         /// Maximum number of multipart uploads that could have been included in the response.
-        public var maxUploads: Int32? = nil
-        public var uploads: [MultipartUpload]? = nil
-        public var delimiter: String? = nil
+        public let maxUploads: Int32?
+        public let uploads: [MultipartUpload]?
+        public let delimiter: String?
         /// Encoding type used by Amazon S3 to encode object keys in the response.
-        public var encodingType: String? = nil
+        public let encodingType: String?
         /// When a list is truncated, this element specifies the value that should be used for the key-marker request parameter in a subsequent request.
-        public var nextKeyMarker: String? = nil
+        public let nextKeyMarker: String?
         /// When a list is truncated, this element specifies the value that should be used for the upload-id-marker request parameter in a subsequent request.
-        public var nextUploadIdMarker: String? = nil
-
-        public init() {}
+        public let nextUploadIdMarker: String?
 
         public init(bucket: String? = nil, isTruncated: Bool? = nil, keyMarker: String? = nil, prefix: String? = nil, uploadIdMarker: String? = nil, commonPrefixes: [CommonPrefix]? = nil, maxUploads: Int32? = nil, uploads: [MultipartUpload]? = nil, delimiter: String? = nil, encodingType: String? = nil, nextKeyMarker: String? = nil, nextUploadIdMarker: String? = nil) {
             self.bucket = bucket
@@ -2655,10 +2531,14 @@ extension S3 {
             self.uploadIdMarker = dictionary["UploadIdMarker"] as? String
             if let commonPrefixes = dictionary["CommonPrefixes"] as? [[String: Any]] {
                 self.commonPrefixes = try commonPrefixes.map({ try CommonPrefix(dictionary: $0) })
+            } else { 
+                self.commonPrefixes = nil
             }
             self.maxUploads = dictionary["MaxUploads"] as? Int32
             if let uploads = dictionary["Uploads"] as? [[String: Any]] {
                 self.uploads = try uploads.map({ try MultipartUpload(dictionary: $0) })
+            } else { 
+                self.uploads = nil
             }
             self.delimiter = dictionary["Delimiter"] as? String
             self.encodingType = dictionary["EncodingType"] as? String
@@ -2671,16 +2551,14 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = "MetricsConfiguration"
         /// Specifies the metrics configuration.
-        public var metricsConfiguration: MetricsConfiguration? = nil
-
-        public init() {}
+        public let metricsConfiguration: MetricsConfiguration?
 
         public init(metricsConfiguration: MetricsConfiguration? = nil) {
             self.metricsConfiguration = metricsConfiguration
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let metricsConfiguration = dictionary["MetricsConfiguration"] as? [String: Any] { self.metricsConfiguration = try S3.MetricsConfiguration(dictionary: metricsConfiguration) }
+            if let metricsConfiguration = dictionary["MetricsConfiguration"] as? [String: Any] { self.metricsConfiguration = try S3.MetricsConfiguration(dictionary: metricsConfiguration) } else { self.metricsConfiguration = nil }
         }
     }
 
@@ -2688,15 +2566,13 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The marker that is used as a starting point for this metrics configuration list response. This value is present if it was sent in the request.
-        public var continuationToken: String? = nil
+        public let continuationToken: String?
         /// Indicates whether the returned list of metrics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
-        public var isTruncated: Bool? = nil
+        public let isTruncated: Bool?
         /// The list of metrics configurations for a bucket.
-        public var metricsConfigurationList: [MetricsConfiguration]? = nil
+        public let metricsConfigurationList: [MetricsConfiguration]?
         /// The marker used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
-        public var nextContinuationToken: String? = nil
-
-        public init() {}
+        public let nextContinuationToken: String?
 
         public init(continuationToken: String? = nil, isTruncated: Bool? = nil, metricsConfigurationList: [MetricsConfiguration]? = nil, nextContinuationToken: String? = nil) {
             self.continuationToken = continuationToken
@@ -2710,6 +2586,8 @@ extension S3 {
             self.isTruncated = dictionary["IsTruncated"] as? Bool
             if let metricsConfigurationList = dictionary["MetricsConfigurationList"] as? [[String: Any]] {
                 self.metricsConfigurationList = try metricsConfigurationList.map({ try MetricsConfiguration(dictionary: $0) })
+            } else { 
+                self.metricsConfigurationList = nil
             }
             self.nextContinuationToken = dictionary["NextContinuationToken"] as? String
         }
@@ -2718,11 +2596,9 @@ extension S3 {
     public struct GetBucketAclOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var owner: Owner? = nil
+        public let owner: Owner?
         /// A list of grants.
-        public var grants: [Grant]? = nil
-
-        public init() {}
+        public let grants: [Grant]?
 
         public init(owner: Owner? = nil, grants: [Grant]? = nil) {
             self.owner = owner
@@ -2730,9 +2606,11 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) }
+            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
             if let grants = dictionary["Grants"] as? [[String: Any]] {
                 self.grants = try grants.map({ try Grant(dictionary: $0) })
+            } else { 
+                self.grants = nil
             }
         }
     }
@@ -2750,25 +2628,23 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         /// Name of the bucket to list.
-        public var bucket: String = ""
+        public let bucket: String
         /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
-        public var maxKeys: Int32? = nil
+        public let maxKeys: Int32?
         /// StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket
-        public var startAfter: String? = nil
+        public let startAfter: String?
         /// ContinuationToken indicates Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key
-        public var continuationToken: String? = nil
+        public let continuationToken: String?
         /// Confirms that the requester knows that she or he will be charged for the list objects request in V2 style. Bucket owners need not specify this parameter in their requests.
-        public var requestPayer: String? = nil
+        public let requestPayer: String?
         /// Limits the response to keys that begin with the specified prefix.
-        public var prefix: String? = nil
+        public let prefix: String?
         /// The owner field is not present in listV2 by default, if you want to return owner field with each key in the result then set the fetch owner field to true
-        public var fetchOwner: Bool? = nil
+        public let fetchOwner: Bool?
         /// A delimiter is a character you use to group keys.
-        public var delimiter: String? = nil
+        public let delimiter: String?
         /// Encoding type used by Amazon S3 to encode object keys in the response.
-        public var encodingType: String? = nil
-
-        public init() {}
+        public let encodingType: String?
 
         public init(bucket: String, maxKeys: Int32? = nil, startAfter: String? = nil, continuationToken: String? = nil, requestPayer: String? = nil, prefix: String? = nil, fetchOwner: Bool? = nil, delimiter: String? = nil, encodingType: String? = nil) {
             self.bucket = bucket
@@ -2802,9 +2678,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -2825,22 +2699,20 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-        public var createBucketConfiguration: CreateBucketConfiguration? = nil
+        public let bucket: String
+        public let createBucketConfiguration: CreateBucketConfiguration?
         /// Allows grantee to write the ACL for the applicable bucket.
-        public var grantWriteACP: String? = nil
+        public let grantWriteACP: String?
         /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
-        public var grantFullControl: String? = nil
+        public let grantFullControl: String?
         /// Allows grantee to create, overwrite, and delete any object in the bucket.
-        public var grantWrite: String? = nil
+        public let grantWrite: String?
         /// Allows grantee to list the objects in the bucket.
-        public var grantRead: String? = nil
+        public let grantRead: String?
         /// The canned ACL to apply to the bucket.
-        public var aCL: String? = nil
+        public let aCL: String?
         /// Allows grantee to read the bucket ACL.
-        public var grantReadACP: String? = nil
-
-        public init() {}
+        public let grantReadACP: String?
 
         public init(bucket: String, createBucketConfiguration: CreateBucketConfiguration? = nil, grantWriteACP: String? = nil, grantFullControl: String? = nil, grantWrite: String? = nil, grantRead: String? = nil, aCL: String? = nil, grantReadACP: String? = nil) {
             self.bucket = bucket
@@ -2856,7 +2728,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            if let createBucketConfiguration = dictionary["CreateBucketConfiguration"] as? [String: Any] { self.createBucketConfiguration = try S3.CreateBucketConfiguration(dictionary: createBucketConfiguration) }
+            if let createBucketConfiguration = dictionary["CreateBucketConfiguration"] as? [String: Any] { self.createBucketConfiguration = try S3.CreateBucketConfiguration(dictionary: createBucketConfiguration) } else { self.createBucketConfiguration = nil }
             self.grantWriteACP = dictionary["GrantWriteACP"] as? String
             self.grantFullControl = dictionary["GrantFullControl"] as? String
             self.grantWrite = dictionary["GrantWrite"] as? String
@@ -2870,11 +2742,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// If the principal is an AWS account, it provides the Canonical User ID. If the principal is an IAM User, it provides a user ARN value.
-        public var iD: String? = nil
+        public let iD: String?
         /// Name of the Principal.
-        public var displayName: String? = nil
-
-        public init() {}
+        public let displayName: String?
 
         public init(iD: String? = nil, displayName: String? = nil) {
             self.iD = iD
@@ -2894,9 +2764,7 @@ extension S3 {
             return ["x-amz-version-id": "VersionId"]
         }
         /// The versionId of the object the tag-set was removed from.
-        public var versionId: String? = nil
-
-        public init() {}
+        public let versionId: String?
 
         public init(versionId: String? = nil) {
             self.versionId = versionId
@@ -2916,11 +2784,9 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var contentMD5: String? = nil
-        public var bucket: String = ""
-        public var replicationConfiguration: ReplicationConfiguration = ReplicationConfiguration()
-
-        public init() {}
+        public let contentMD5: String?
+        public let bucket: String
+        public let replicationConfiguration: ReplicationConfiguration
 
         public init(contentMD5: String? = nil, bucket: String, replicationConfiguration: ReplicationConfiguration) {
             self.contentMD5 = contentMD5
@@ -2941,17 +2807,15 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more headers in the response that you want customers to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object).
-        public var exposeHeaders: [String]? = nil
+        public let exposeHeaders: [String]?
         /// Identifies HTTP methods that the domain/origin specified in the rule is allowed to execute.
-        public var allowedMethods: [String] = []
+        public let allowedMethods: [String]
         /// The time in seconds that your browser is to cache the preflight response for the specified resource.
-        public var maxAgeSeconds: Int32? = nil
+        public let maxAgeSeconds: Int32?
         /// Specifies which headers are allowed in a pre-flight OPTIONS request.
-        public var allowedHeaders: [String]? = nil
+        public let allowedHeaders: [String]?
         /// One or more origins you want customers to be able to access the bucket from.
-        public var allowedOrigins: [String] = []
-
-        public init() {}
+        public let allowedOrigins: [String]
 
         public init(exposeHeaders: [String]? = nil, allowedMethods: [String], maxAgeSeconds: Int32? = nil, allowedHeaders: [String]? = nil, allowedOrigins: [String]) {
             self.exposeHeaders = exposeHeaders
@@ -2962,15 +2826,11 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let exposeHeaders = dictionary["ExposeHeaders"] as? [String] {
-                self.exposeHeaders = exposeHeaders
-            }
+            self.exposeHeaders = dictionary["ExposeHeaders"] as? [String]
             guard let allowedMethods = dictionary["AllowedMethods"] as? [String] else { throw InitializableError.missingRequiredParam("AllowedMethods") }
             self.allowedMethods = allowedMethods
             self.maxAgeSeconds = dictionary["MaxAgeSeconds"] as? Int32
-            if let allowedHeaders = dictionary["AllowedHeaders"] as? [String] {
-                self.allowedHeaders = allowedHeaders
-            }
+            self.allowedHeaders = dictionary["AllowedHeaders"] as? [String]
             guard let allowedOrigins = dictionary["AllowedOrigins"] as? [String] else { throw InitializableError.missingRequiredParam("AllowedOrigins") }
             self.allowedOrigins = allowedOrigins
         }
@@ -2986,48 +2846,46 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
-        public var sSECustomerKey: String? = nil
+        public let sSECustomerKey: String?
         /// Specifies caching behavior along the request/reply chain.
-        public var cacheControl: String? = nil
-        public var bucket: String = ""
+        public let cacheControl: String?
+        public let bucket: String
         /// Specifies presentational information for the object.
-        public var contentDisposition: String? = nil
-        public var requestPayer: String? = nil
+        public let contentDisposition: String?
+        public let requestPayer: String?
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
-        public var grantFullControl: String? = nil
+        public let grantFullControl: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        public var sSECustomerKeyMD5: String? = nil
+        public let sSECustomerKeyMD5: String?
         /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
-        public var sSEKMSKeyId: String? = nil
+        public let sSEKMSKeyId: String?
         /// Allows grantee to read the object ACL.
-        public var grantReadACP: String? = nil
+        public let grantReadACP: String?
         /// The canned ACL to apply to the object.
-        public var aCL: String? = nil
+        public let aCL: String?
         /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        public var sSECustomerAlgorithm: String? = nil
+        public let sSECustomerAlgorithm: String?
         /// The language the content is in.
-        public var contentLanguage: String? = nil
+        public let contentLanguage: String?
         /// A map of metadata to store with the object in S3.
-        public var metadata: [String: String]? = nil
+        public let metadata: [String: String]?
         /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-        public var contentEncoding: String? = nil
+        public let contentEncoding: String?
         /// The date and time at which the object is no longer cacheable.
-        public var expires: Date? = nil
+        public let expires: Date?
         /// Allows grantee to write the ACL for the applicable object.
-        public var grantWriteACP: String? = nil
+        public let grantWriteACP: String?
         /// A standard MIME type describing the format of the object data.
-        public var contentType: String? = nil
+        public let contentType: String?
         /// The type of storage to use for the object. Defaults to 'STANDARD'.
-        public var storageClass: String? = nil
-        public var key: String = ""
+        public let storageClass: String?
+        public let key: String
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-        public var websiteRedirectLocation: String? = nil
+        public let websiteRedirectLocation: String?
         /// Allows grantee to read the object data and its metadata.
-        public var grantRead: String? = nil
+        public let grantRead: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public var serverSideEncryption: String? = nil
-
-        public init() {}
+        public let serverSideEncryption: String?
 
         public init(sSECustomerKey: String? = nil, cacheControl: String? = nil, bucket: String, contentDisposition: String? = nil, requestPayer: String? = nil, grantFullControl: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, grantReadACP: String? = nil, aCL: String? = nil, sSECustomerAlgorithm: String? = nil, contentLanguage: String? = nil, metadata: [String: String]? = nil, contentEncoding: String? = nil, expires: Date? = nil, grantWriteACP: String? = nil, contentType: String? = nil, storageClass: String? = nil, key: String, websiteRedirectLocation: String? = nil, grantRead: String? = nil, serverSideEncryption: String? = nil) {
             self.sSECustomerKey = sSECustomerKey
@@ -3070,6 +2928,8 @@ extension S3 {
             self.contentLanguage = dictionary["ContentLanguage"] as? String
             if let metadata = dictionary["Metadata"] as? [String: String] {
                 self.metadata = metadata
+            } else { 
+                self.metadata = nil
             }
             self.contentEncoding = dictionary["ContentEncoding"] as? String
             self.expires = dictionary["Expires"] as? Date
@@ -3097,14 +2957,12 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         /// VersionId used to reference a specific version of the object.
-        public var versionId: String? = nil
-        public var bucket: String = ""
-        public var key: String = ""
+        public let versionId: String?
+        public let bucket: String
+        public let key: String
         /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
-        public var mFA: String? = nil
-        public var requestPayer: String? = nil
-
-        public init() {}
+        public let mFA: String?
+        public let requestPayer: String?
 
         public init(versionId: String? = nil, bucket: String, key: String, mFA: String? = nil, requestPayer: String? = nil) {
             self.versionId = versionId
@@ -3131,9 +2989,7 @@ extension S3 {
         public static var headerParams: [String: String] {
             return ["x-amz-request-charged": "RequestCharged"]
         }
-        public var requestCharged: String? = nil
-
-        public init() {}
+        public let requestCharged: String?
 
         public init(requestCharged: String? = nil) {
             self.requestCharged = requestCharged
@@ -3151,32 +3007,30 @@ extension S3 {
             return ["x-amz-abort-date": "AbortDate", "x-amz-request-charged": "RequestCharged", "x-amz-abort-rule-id": "AbortRuleId"]
         }
         /// Part number after which listing begins.
-        public var partNumberMarker: Int32? = nil
+        public let partNumberMarker: Int32?
         /// Name of the bucket to which the multipart upload was initiated.
-        public var bucket: String? = nil
+        public let bucket: String?
         /// Indicates whether the returned list of parts is truncated.
-        public var isTruncated: Bool? = nil
+        public let isTruncated: Bool?
         /// Date when multipart upload will become eligible for abort operation by lifecycle.
-        public var abortDate: Date? = nil
+        public let abortDate: Date?
         /// Upload ID identifying the multipart upload whose parts are being listed.
-        public var uploadId: String? = nil
-        public var owner: Owner? = nil
-        public var parts: [Part]? = nil
+        public let uploadId: String?
+        public let owner: Owner?
+        public let parts: [Part]?
         /// Identifies who initiated the multipart upload.
-        public var initiator: Initiator? = nil
+        public let initiator: Initiator?
         /// Id of the lifecycle rule that makes a multipart upload eligible for abort operation.
-        public var abortRuleId: String? = nil
+        public let abortRuleId: String?
         /// The class of storage used to store the object.
-        public var storageClass: String? = nil
+        public let storageClass: String?
         /// Object key for which the multipart upload was initiated.
-        public var key: String? = nil
+        public let key: String?
         /// Maximum number of parts that were allowed in the response.
-        public var maxParts: Int32? = nil
+        public let maxParts: Int32?
         /// When a list is truncated, this element specifies the last part in the list, as well as the value to use for the part-number-marker request parameter in a subsequent request.
-        public var nextPartNumberMarker: Int32? = nil
-        public var requestCharged: String? = nil
-
-        public init() {}
+        public let nextPartNumberMarker: Int32?
+        public let requestCharged: String?
 
         public init(partNumberMarker: Int32? = nil, bucket: String? = nil, isTruncated: Bool? = nil, abortDate: Date? = nil, uploadId: String? = nil, owner: Owner? = nil, parts: [Part]? = nil, initiator: Initiator? = nil, abortRuleId: String? = nil, storageClass: String? = nil, key: String? = nil, maxParts: Int32? = nil, nextPartNumberMarker: Int32? = nil, requestCharged: String? = nil) {
             self.partNumberMarker = partNumberMarker
@@ -3201,11 +3055,13 @@ extension S3 {
             self.isTruncated = dictionary["IsTruncated"] as? Bool
             self.abortDate = dictionary["AbortDate"] as? Date
             self.uploadId = dictionary["UploadId"] as? String
-            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) }
+            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
             if let parts = dictionary["Parts"] as? [[String: Any]] {
                 self.parts = try parts.map({ try Part(dictionary: $0) })
+            } else { 
+                self.parts = nil
             }
-            if let initiator = dictionary["Initiator"] as? [String: Any] { self.initiator = try S3.Initiator(dictionary: initiator) }
+            if let initiator = dictionary["Initiator"] as? [String: Any] { self.initiator = try S3.Initiator(dictionary: initiator) } else { self.initiator = nil }
             self.abortRuleId = dictionary["AbortRuleId"] as? String
             self.storageClass = dictionary["StorageClass"] as? String
             self.key = dictionary["Key"] as? String
@@ -3219,15 +3075,13 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// If sent in the request, the marker that is used as a starting point for this inventory configuration list response.
-        public var continuationToken: String? = nil
+        public let continuationToken: String?
         /// Indicates whether the returned list of inventory configurations is truncated in this response. A value of true indicates that the list is truncated.
-        public var isTruncated: Bool? = nil
+        public let isTruncated: Bool?
         /// The marker used to continue this inventory configuration listing. Use the NextContinuationToken from this response to continue the listing in a subsequent request. The continuation token is an opaque value that Amazon S3 understands.
-        public var nextContinuationToken: String? = nil
+        public let nextContinuationToken: String?
         /// The list of inventory configurations for a bucket.
-        public var inventoryConfigurationList: [InventoryConfiguration]? = nil
-
-        public init() {}
+        public let inventoryConfigurationList: [InventoryConfiguration]?
 
         public init(continuationToken: String? = nil, isTruncated: Bool? = nil, nextContinuationToken: String? = nil, inventoryConfigurationList: [InventoryConfiguration]? = nil) {
             self.continuationToken = continuationToken
@@ -3242,6 +3096,8 @@ extension S3 {
             self.nextContinuationToken = dictionary["NextContinuationToken"] as? String
             if let inventoryConfigurationList = dictionary["InventoryConfigurationList"] as? [[String: Any]] {
                 self.inventoryConfigurationList = try inventoryConfigurationList.map({ try InventoryConfiguration(dictionary: $0) })
+            } else { 
+                self.inventoryConfigurationList = nil
             }
         }
     }
@@ -3256,11 +3112,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         /// The name of the bucket containing the metrics configurations to retrieve.
-        public var bucket: String = ""
+        public let bucket: String
         /// The marker that is used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
-        public var continuationToken: String? = nil
-
-        public init() {}
+        public let continuationToken: String?
 
         public init(bucket: String, continuationToken: String? = nil) {
             self.bucket = bucket
@@ -3278,13 +3132,11 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Amazon SNS topic to which Amazon S3 will publish a message to report the specified events for the bucket.
-        public var topic: String? = nil
-        public var events: [String]? = nil
+        public let topic: String?
+        public let events: [String]?
         /// Bucket event for which to send notifications.
-        public var event: String? = nil
-        public var id: String? = nil
-
-        public init() {}
+        public let event: String?
+        public let id: String?
 
         public init(topic: String? = nil, events: [String]? = nil, event: String? = nil, id: String? = nil) {
             self.topic = topic
@@ -3295,9 +3147,7 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             self.topic = dictionary["Topic"] as? String
-            if let events = dictionary["Events"] as? [String] {
-                self.events = events
-            }
+            self.events = dictionary["Events"] as? [String]
             self.event = dictionary["Event"] as? String
             self.id = dictionary["Id"] as? String
         }
@@ -3309,9 +3159,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -3327,16 +3175,14 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A container used to describe how data related to the storage class analysis should be exported.
-        public var dataExport: StorageClassAnalysisDataExport? = nil
-
-        public init() {}
+        public let dataExport: StorageClassAnalysisDataExport?
 
         public init(dataExport: StorageClassAnalysisDataExport? = nil) {
             self.dataExport = dataExport
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let dataExport = dictionary["DataExport"] as? [String: Any] { self.dataExport = try S3.StorageClassAnalysisDataExport(dictionary: dataExport) }
+            if let dataExport = dictionary["DataExport"] as? [String: Any] { self.dataExport = try S3.StorageClassAnalysisDataExport(dictionary: dataExport) } else { self.dataExport = nil }
         }
     }
 
@@ -3347,9 +3193,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         /// Name of the bucket to get the notification configuration for.
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -3364,9 +3208,7 @@ extension S3 {
     public struct CommonPrefix: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var prefix: String? = nil
-
-        public init() {}
+        public let prefix: String?
 
         public init(prefix: String? = nil) {
             self.prefix = prefix
@@ -3386,11 +3228,9 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
-        public var bucket: String = ""
-        public var key: String = ""
-        public var requestPayer: String? = nil
-
-        public init() {}
+        public let bucket: String
+        public let key: String
+        public let requestPayer: String?
 
         public init(bucket: String, key: String, requestPayer: String? = nil) {
             self.bucket = bucket
@@ -3411,15 +3251,13 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon resource name (ARN) of the bucket where inventory results will be published.
-        public var bucket: String = ""
+        public let bucket: String
         /// Specifies the output format of the inventory results.
-        public var format: String = ""
+        public let format: String
         /// The ID of the account that owns the destination bucket.
-        public var accountId: String? = nil
+        public let accountId: String?
         /// The prefix that is prepended to all inventory results.
-        public var prefix: String? = nil
-
-        public init() {}
+        public let prefix: String?
 
         public init(bucket: String, format: String, accountId: String? = nil, prefix: String? = nil) {
             self.bucket = bucket
@@ -3450,13 +3288,11 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
-        public var bucket: String = ""
+        public let bucket: String
         /// VersionId used to reference a specific version of the object.
-        public var versionId: String? = nil
-        public var key: String = ""
-        public var requestPayer: String? = nil
-
-        public init() {}
+        public let versionId: String?
+        public let key: String
+        public let requestPayer: String?
 
         public init(bucket: String, versionId: String? = nil, key: String, requestPayer: String? = nil) {
             self.bucket = bucket
@@ -3478,11 +3314,9 @@ extension S3 {
     public struct AccessControlPolicy: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var owner: Owner? = nil
+        public let owner: Owner?
         /// A list of grants.
-        public var grants: [Grant]? = nil
-
-        public init() {}
+        public let grants: [Grant]?
 
         public init(owner: Owner? = nil, grants: [Grant]? = nil) {
             self.owner = owner
@@ -3490,9 +3324,11 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) }
+            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
             if let grants = dictionary["Grants"] as? [[String: Any]] {
                 self.grants = try grants.map({ try Grant(dictionary: $0) })
+            } else { 
+                self.grants = nil
             }
         }
     }
@@ -3503,9 +3339,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -3523,9 +3357,7 @@ extension S3 {
         public static var headerParams: [String: String] {
             return ["Location": "Location"]
         }
-        public var location: String? = nil
-
-        public init() {}
+        public let location: String?
 
         public init(location: String? = nil) {
             self.location = location
@@ -3546,11 +3378,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         /// The name of the bucket containing the inventory configuration to delete.
-        public var bucket: String = ""
+        public let bucket: String
         /// The ID used to identify the inventory configuration.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(bucket: String, id: String) {
             self.bucket = bucket
@@ -3568,12 +3398,10 @@ extension S3 {
     public struct GetBucketWebsiteOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var routingRules: [RoutingRule]? = nil
-        public var indexDocument: IndexDocument? = nil
-        public var errorDocument: ErrorDocument? = nil
-        public var redirectAllRequestsTo: RedirectAllRequestsTo? = nil
-
-        public init() {}
+        public let routingRules: [RoutingRule]?
+        public let indexDocument: IndexDocument?
+        public let errorDocument: ErrorDocument?
+        public let redirectAllRequestsTo: RedirectAllRequestsTo?
 
         public init(routingRules: [RoutingRule]? = nil, indexDocument: IndexDocument? = nil, errorDocument: ErrorDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil) {
             self.routingRules = routingRules
@@ -3585,23 +3413,23 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             if let routingRules = dictionary["RoutingRules"] as? [[String: Any]] {
                 self.routingRules = try routingRules.map({ try RoutingRule(dictionary: $0) })
+            } else { 
+                self.routingRules = nil
             }
-            if let indexDocument = dictionary["IndexDocument"] as? [String: Any] { self.indexDocument = try S3.IndexDocument(dictionary: indexDocument) }
-            if let errorDocument = dictionary["ErrorDocument"] as? [String: Any] { self.errorDocument = try S3.ErrorDocument(dictionary: errorDocument) }
-            if let redirectAllRequestsTo = dictionary["RedirectAllRequestsTo"] as? [String: Any] { self.redirectAllRequestsTo = try S3.RedirectAllRequestsTo(dictionary: redirectAllRequestsTo) }
+            if let indexDocument = dictionary["IndexDocument"] as? [String: Any] { self.indexDocument = try S3.IndexDocument(dictionary: indexDocument) } else { self.indexDocument = nil }
+            if let errorDocument = dictionary["ErrorDocument"] as? [String: Any] { self.errorDocument = try S3.ErrorDocument(dictionary: errorDocument) } else { self.errorDocument = nil }
+            if let redirectAllRequestsTo = dictionary["RedirectAllRequestsTo"] as? [String: Any] { self.redirectAllRequestsTo = try S3.RedirectAllRequestsTo(dictionary: redirectAllRequestsTo) } else { self.redirectAllRequestsTo = nil }
         }
     }
 
     public struct LoggingEnabled: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var targetGrants: [TargetGrant]? = nil
+        public let targetGrants: [TargetGrant]?
         /// This element lets you specify a prefix for the keys that the log files will be stored under.
-        public var targetPrefix: String? = nil
+        public let targetPrefix: String?
         /// Specifies the bucket where you want Amazon S3 to store server access logs. You can have your logs delivered to any bucket that you own, including the same bucket that is being logged. You can also configure multiple buckets to deliver their logs to the same target bucket. In this case you should choose a different TargetPrefix for each source bucket so that the delivered log files can be distinguished by key.
-        public var targetBucket: String? = nil
-
-        public init() {}
+        public let targetBucket: String?
 
         public init(targetGrants: [TargetGrant]? = nil, targetPrefix: String? = nil, targetBucket: String? = nil) {
             self.targetGrants = targetGrants
@@ -3612,6 +3440,8 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             if let targetGrants = dictionary["TargetGrants"] as? [[String: Any]] {
                 self.targetGrants = try targetGrants.map({ try TargetGrant(dictionary: $0) })
+            } else { 
+                self.targetGrants = nil
             }
             self.targetPrefix = dictionary["TargetPrefix"] as? String
             self.targetBucket = dictionary["TargetBucket"] as? String
@@ -3621,9 +3451,7 @@ extension S3 {
     public struct CORSConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var cORSRules: [CORSRule] = []
-
-        public init() {}
+        public let cORSRules: [CORSRule]
 
         public init(cORSRules: [CORSRule]) {
             self.cORSRules = cORSRules
@@ -3639,11 +3467,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// VersionId for the specific version of the object to delete.
-        public var versionId: String? = nil
+        public let versionId: String?
         /// Key name of the object to delete.
-        public var key: String = ""
-
-        public init() {}
+        public let key: String
 
         public init(versionId: String? = nil, key: String) {
             self.versionId = versionId
@@ -3661,11 +3487,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The place to store the data for an analysis.
-        public var destination: AnalyticsExportDestination = AnalyticsExportDestination()
+        public let destination: AnalyticsExportDestination
         /// The version of the output schema to use when exporting data. Must be V_1.
-        public var outputSchemaVersion: String = ""
-
-        public init() {}
+        public let outputSchemaVersion: String
 
         public init(destination: AnalyticsExportDestination, outputSchemaVersion: String) {
             self.destination = destination
@@ -3684,11 +3508,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Value of the tag.
-        public var value: String = ""
+        public let value: String
         /// Name of the tag.
-        public var key: String = ""
-
-        public init() {}
+        public let key: String
 
         public init(value: String, key: String) {
             self.value = value
@@ -3709,9 +3531,7 @@ extension S3 {
         public static var headerParams: [String: String] {
             return ["x-amz-request-charged": "RequestCharged"]
         }
-        public var requestCharged: String? = nil
-
-        public init() {}
+        public let requestCharged: String?
 
         public init(requestCharged: String? = nil) {
             self.requestCharged = requestCharged
@@ -3725,9 +3545,7 @@ extension S3 {
     public struct BucketLifecycleConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var rules: [LifecycleRule] = []
-
-        public init() {}
+        public let rules: [LifecycleRule]
 
         public init(rules: [LifecycleRule]) {
             self.rules = rules
@@ -3749,11 +3567,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         /// The name of the bucket containing the metrics configuration to retrieve.
-        public var bucket: String = ""
+        public let bucket: String
         /// The ID used to identify the metrics configuration.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(bucket: String, id: String) {
             self.bucket = bucket
@@ -3772,19 +3588,17 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
-        public var iD: String? = nil
+        public let iD: String?
         /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
-        public var status: String = ""
-        public var noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil
-        public var abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil
-        public var expiration: LifecycleExpiration? = nil
+        public let status: String
+        public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
+        public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
+        public let expiration: LifecycleExpiration?
         /// Prefix identifying one or more objects to which the rule applies. This is deprecated; use Filter instead.
-        public var prefix: String? = nil
-        public var transitions: [Transition]? = nil
-        public var filter: LifecycleRuleFilter? = nil
-        public var noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil
-
-        public init() {}
+        public let prefix: String?
+        public let transitions: [Transition]?
+        public let filter: LifecycleRuleFilter?
+        public let noncurrentVersionTransitions: [NoncurrentVersionTransition]?
 
         public init(iD: String? = nil, status: String, noncurrentVersionExpiration: NoncurrentVersionExpiration? = nil, abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload? = nil, expiration: LifecycleExpiration? = nil, prefix: String? = nil, transitions: [Transition]? = nil, filter: LifecycleRuleFilter? = nil, noncurrentVersionTransitions: [NoncurrentVersionTransition]? = nil) {
             self.iD = iD
@@ -3802,16 +3616,20 @@ extension S3 {
             self.iD = dictionary["ID"] as? String
             guard let status = dictionary["Status"] as? String else { throw InitializableError.missingRequiredParam("Status") }
             self.status = status
-            if let noncurrentVersionExpiration = dictionary["NoncurrentVersionExpiration"] as? [String: Any] { self.noncurrentVersionExpiration = try S3.NoncurrentVersionExpiration(dictionary: noncurrentVersionExpiration) }
-            if let abortIncompleteMultipartUpload = dictionary["AbortIncompleteMultipartUpload"] as? [String: Any] { self.abortIncompleteMultipartUpload = try S3.AbortIncompleteMultipartUpload(dictionary: abortIncompleteMultipartUpload) }
-            if let expiration = dictionary["Expiration"] as? [String: Any] { self.expiration = try S3.LifecycleExpiration(dictionary: expiration) }
+            if let noncurrentVersionExpiration = dictionary["NoncurrentVersionExpiration"] as? [String: Any] { self.noncurrentVersionExpiration = try S3.NoncurrentVersionExpiration(dictionary: noncurrentVersionExpiration) } else { self.noncurrentVersionExpiration = nil }
+            if let abortIncompleteMultipartUpload = dictionary["AbortIncompleteMultipartUpload"] as? [String: Any] { self.abortIncompleteMultipartUpload = try S3.AbortIncompleteMultipartUpload(dictionary: abortIncompleteMultipartUpload) } else { self.abortIncompleteMultipartUpload = nil }
+            if let expiration = dictionary["Expiration"] as? [String: Any] { self.expiration = try S3.LifecycleExpiration(dictionary: expiration) } else { self.expiration = nil }
             self.prefix = dictionary["Prefix"] as? String
             if let transitions = dictionary["Transitions"] as? [[String: Any]] {
                 self.transitions = try transitions.map({ try Transition(dictionary: $0) })
+            } else { 
+                self.transitions = nil
             }
-            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.LifecycleRuleFilter(dictionary: filter) }
+            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.LifecycleRuleFilter(dictionary: filter) } else { self.filter = nil }
             if let noncurrentVersionTransitions = dictionary["NoncurrentVersionTransitions"] as? [[String: Any]] {
                 self.noncurrentVersionTransitions = try noncurrentVersionTransitions.map({ try NoncurrentVersionTransition(dictionary: $0) })
+            } else { 
+                self.noncurrentVersionTransitions = nil
             }
         }
     }
@@ -3822,9 +3640,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -3840,11 +3656,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the bucket.
-        public var name: String? = nil
+        public let name: String?
         /// Date the bucket was created.
-        public var creationDate: Date? = nil
-
-        public init() {}
+        public let creationDate: Date?
 
         public init(name: String? = nil, creationDate: Date? = nil) {
             self.name = name
@@ -3861,11 +3675,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Amazon resource name (ARN) of the bucket where you want Amazon S3 to store replicas of the object identified by the rule.
-        public var bucket: String = ""
+        public let bucket: String
         /// The class of storage used to store the object.
-        public var storageClass: String? = nil
-
-        public init() {}
+        public let storageClass: String?
 
         public init(bucket: String, storageClass: String? = nil) {
             self.bucket = bucket
@@ -3883,9 +3695,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Glacier retrieval tier at which the restore will be processed.
-        public var tier: String = ""
-
-        public init() {}
+        public let tier: String
 
         public init(tier: String) {
             self.tier = tier
@@ -3906,11 +3716,9 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var contentMD5: String? = nil
-        public var bucket: String = ""
-        public var notificationConfiguration: NotificationConfigurationDeprecated = NotificationConfigurationDeprecated()
-
-        public init() {}
+        public let contentMD5: String?
+        public let bucket: String
+        public let notificationConfiguration: NotificationConfigurationDeprecated
 
         public init(contentMD5: String? = nil, bucket: String, notificationConfiguration: NotificationConfigurationDeprecated) {
             self.contentMD5 = contentMD5
@@ -3939,13 +3747,11 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
-        public var bucket: String = ""
-        public var multipartUpload: CompletedMultipartUpload? = nil
-        public var key: String = ""
-        public var uploadId: String = ""
-        public var requestPayer: String? = nil
-
-        public init() {}
+        public let bucket: String
+        public let multipartUpload: CompletedMultipartUpload?
+        public let key: String
+        public let uploadId: String
+        public let requestPayer: String?
 
         public init(bucket: String, multipartUpload: CompletedMultipartUpload? = nil, key: String, uploadId: String, requestPayer: String? = nil) {
             self.bucket = bucket
@@ -3958,7 +3764,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            if let multipartUpload = dictionary["MultipartUpload"] as? [String: Any] { self.multipartUpload = try S3.CompletedMultipartUpload(dictionary: multipartUpload) }
+            if let multipartUpload = dictionary["MultipartUpload"] as? [String: Any] { self.multipartUpload = try S3.CompletedMultipartUpload(dictionary: multipartUpload) } else { self.multipartUpload = nil }
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
             guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
@@ -3977,13 +3783,11 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         /// The name of the bucket for which the metrics configuration is set.
-        public var bucket: String = ""
+        public let bucket: String
         /// Specifies the metrics configuration.
-        public var metricsConfiguration: MetricsConfiguration = MetricsConfiguration()
+        public let metricsConfiguration: MetricsConfiguration
         /// The ID used to identify the metrics configuration.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(bucket: String, metricsConfiguration: MetricsConfiguration, id: String) {
             self.bucket = bucket
@@ -4005,15 +3809,13 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Date and time at which the part was uploaded.
-        public var lastModified: Date? = nil
+        public let lastModified: Date?
         /// Part number identifying the part. This is a positive integer between 1 and 10,000.
-        public var partNumber: Int32? = nil
+        public let partNumber: Int32?
         /// Entity tag returned when the part was uploaded.
-        public var eTag: String? = nil
+        public let eTag: String?
         /// Size of the uploaded part data.
-        public var size: Int32? = nil
-
-        public init() {}
+        public let size: Int32?
 
         public init(lastModified: Date? = nil, partNumber: Int32? = nil, eTag: String? = nil, size: Int32? = nil) {
             self.lastModified = lastModified
@@ -4033,10 +3835,8 @@ extension S3 {
     public struct ListBucketsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var buckets: [Bucket]? = nil
-        public var owner: Owner? = nil
-
-        public init() {}
+        public let buckets: [Bucket]?
+        public let owner: Owner?
 
         public init(buckets: [Bucket]? = nil, owner: Owner? = nil) {
             self.buckets = buckets
@@ -4046,8 +3846,10 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             if let buckets = dictionary["Buckets"] as? [[String: Any]] {
                 self.buckets = try buckets.map({ try Bucket(dictionary: $0) })
+            } else { 
+                self.buckets = nil
             }
-            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) }
+            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
         }
     }
 
@@ -4055,9 +3857,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The accelerate configuration of the bucket.
-        public var status: String? = nil
-
-        public init() {}
+        public let status: String?
 
         public init(status: String? = nil) {
             self.status = status
@@ -4072,11 +3872,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Entity tag of the object.
-        public var eTag: String? = nil
+        public let eTag: String?
         /// Date and time at which the object was uploaded.
-        public var lastModified: Date? = nil
-
-        public init() {}
+        public let lastModified: Date?
 
         public init(eTag: String? = nil, lastModified: Date? = nil) {
             self.eTag = eTag
@@ -4093,9 +3891,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
-        public var noncurrentDays: Int32? = nil
-
-        public init() {}
+        public let noncurrentDays: Int32?
 
         public init(noncurrentDays: Int32? = nil) {
             self.noncurrentDays = noncurrentDays
@@ -4110,9 +3906,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// A destination signifying output to an S3 bucket.
-        public var s3BucketDestination: AnalyticsS3BucketDestination = AnalyticsS3BucketDestination()
-
-        public init() {}
+        public let s3BucketDestination: AnalyticsS3BucketDestination
 
         public init(s3BucketDestination: AnalyticsS3BucketDestination) {
             self.s3BucketDestination = s3BucketDestination
@@ -4127,11 +3921,9 @@ extension S3 {
     public struct FilterRule: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var value: String? = nil
+        public let value: String?
         /// Object key name prefix or suffix identifying one or more objects to which the filtering rule applies. Maximum prefix length can be up to 1,024 characters. Overlapping prefixes and suffixes are not supported. For more information, go to Configuring Event Notifications in the Amazon Simple Storage Service Developer Guide.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(value: String? = nil, name: String? = nil) {
             self.value = value
@@ -4154,11 +3946,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         /// The name of the bucket containing the inventory configurations to retrieve.
-        public var bucket: String = ""
+        public let bucket: String
         /// The marker used to continue an inventory configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
-        public var continuationToken: String? = nil
-
-        public init() {}
+        public let continuationToken: String?
 
         public init(bucket: String, continuationToken: String? = nil) {
             self.bucket = bucket
@@ -4181,12 +3971,10 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var contentMD5: String? = nil
-        public var bucket: String = ""
+        public let contentMD5: String?
+        public let bucket: String
         /// The bucket policy as a JSON document.
-        public var policy: String = ""
-
-        public init() {}
+        public let policy: String
 
         public init(contentMD5: String? = nil, bucket: String, policy: String) {
             self.contentMD5 = contentMD5
@@ -4215,43 +4003,41 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
-        public var bucket: String = ""
+        public let bucket: String
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
-        public var sSECustomerKey: String? = nil
+        public let sSECustomerKey: String?
         /// Return the object only if it has not been modified since the specified time, otherwise return a 412 (precondition failed).
-        public var ifUnmodifiedSince: Date? = nil
+        public let ifUnmodifiedSince: Date?
         /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful for downloading just a part of an object.
-        public var partNumber: Int32? = nil
+        public let partNumber: Int32?
         /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
-        public var range: String? = nil
+        public let range: String?
         /// Sets the Content-Encoding header of the response.
-        public var responseContentEncoding: String? = nil
-        public var requestPayer: String? = nil
+        public let responseContentEncoding: String?
+        public let requestPayer: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        public var sSECustomerKeyMD5: String? = nil
+        public let sSECustomerKeyMD5: String?
         /// Sets the Content-Language header of the response.
-        public var responseContentLanguage: String? = nil
+        public let responseContentLanguage: String?
         /// Sets the Expires header of the response.
-        public var responseExpires: Date? = nil
+        public let responseExpires: Date?
         /// VersionId used to reference a specific version of the object.
-        public var versionId: String? = nil
+        public let versionId: String?
         /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        public var sSECustomerAlgorithm: String? = nil
+        public let sSECustomerAlgorithm: String?
         /// Return the object only if its entity tag (ETag) is different from the one specified, otherwise return a 304 (not modified).
-        public var ifNoneMatch: String? = nil
+        public let ifNoneMatch: String?
         /// Sets the Content-Disposition header of the response
-        public var responseContentDisposition: String? = nil
-        public var key: String = ""
+        public let responseContentDisposition: String?
+        public let key: String
         /// Sets the Cache-Control header of the response.
-        public var responseCacheControl: String? = nil
+        public let responseCacheControl: String?
         /// Sets the Content-Type header of the response.
-        public var responseContentType: String? = nil
+        public let responseContentType: String?
         /// Return the object only if it has been modified since the specified time, otherwise return a 304 (not modified).
-        public var ifModifiedSince: Date? = nil
+        public let ifModifiedSince: Date?
         /// Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
-        public var ifMatch: String? = nil
-
-        public init() {}
+        public let ifMatch: String?
 
         public init(bucket: String, sSECustomerKey: String? = nil, ifUnmodifiedSince: Date? = nil, partNumber: Int32? = nil, range: String? = nil, responseContentEncoding: String? = nil, requestPayer: String? = nil, sSECustomerKeyMD5: String? = nil, responseContentLanguage: String? = nil, responseExpires: Date? = nil, versionId: String? = nil, sSECustomerAlgorithm: String? = nil, ifNoneMatch: String? = nil, responseContentDisposition: String? = nil, key: String, responseCacheControl: String? = nil, responseContentType: String? = nil, ifModifiedSince: Date? = nil, ifMatch: String? = nil) {
             self.bucket = bucket
@@ -4312,12 +4098,10 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
-        public var bucket: String = ""
-        public var key: String = ""
-        public var uploadId: String = ""
-        public var requestPayer: String? = nil
-
-        public init() {}
+        public let bucket: String
+        public let key: String
+        public let uploadId: String
+        public let requestPayer: String?
 
         public init(bucket: String, key: String, uploadId: String, requestPayer: String? = nil) {
             self.bucket = bucket
@@ -4343,10 +4127,8 @@ extension S3 {
         public static var headerParams: [String: String] {
             return ["x-amz-request-charged": "RequestCharged"]
         }
-        public var body: Data? = nil
-        public var requestCharged: String? = nil
-
-        public init() {}
+        public let body: Data?
+        public let requestCharged: String?
 
         public init(body: Data? = nil, requestCharged: String? = nil) {
             self.body = body
@@ -4363,11 +4145,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
-        public var noncurrentDays: Int32? = nil
+        public let noncurrentDays: Int32?
         /// The class of storage used to store the object.
-        public var storageClass: String? = nil
-
-        public init() {}
+        public let storageClass: String?
 
         public init(noncurrentDays: Int32? = nil, storageClass: String? = nil) {
             self.noncurrentDays = noncurrentDays
@@ -4392,39 +4172,37 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
-        public var bucket: String = ""
+        public let bucket: String
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
-        public var sSECustomerKey: String? = nil
+        public let sSECustomerKey: String?
         /// Part number of part being copied. This is a positive integer between 1 and 10,000.
-        public var partNumber: Int32 = 0
+        public let partNumber: Int32
         /// Copies the object if it has been modified since the specified time.
-        public var copySourceIfModifiedSince: Date? = nil
-        public var requestPayer: String? = nil
+        public let copySourceIfModifiedSince: Date?
+        public let requestPayer: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        public var sSECustomerKeyMD5: String? = nil
+        public let sSECustomerKeyMD5: String?
         /// Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
-        public var copySourceSSECustomerKey: String? = nil
+        public let copySourceSSECustomerKey: String?
         /// The name of the source bucket and key name of the source object, separated by a slash (/). Must be URL-encoded.
-        public var copySource: String = ""
+        public let copySource: String
         /// Copies the object if its entity tag (ETag) is different than the specified ETag.
-        public var copySourceIfNoneMatch: String? = nil
+        public let copySourceIfNoneMatch: String?
         /// Upload ID identifying the multipart upload whose part is being copied.
-        public var uploadId: String = ""
+        public let uploadId: String
         /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        public var sSECustomerAlgorithm: String? = nil
+        public let sSECustomerAlgorithm: String?
         /// Copies the object if its entity tag (ETag) matches the specified tag.
-        public var copySourceIfMatch: String? = nil
+        public let copySourceIfMatch: String?
         /// The range of bytes to copy from the source object. The range value must use the form bytes=first-last, where the first and last are the zero-based byte offsets to copy. For example, bytes=0-9 indicates that you want to copy the first ten bytes of the source. You can copy a range only if the source object is greater than 5 GB.
-        public var copySourceRange: String? = nil
-        public var key: String = ""
+        public let copySourceRange: String?
+        public let key: String
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        public var copySourceSSECustomerKeyMD5: String? = nil
+        public let copySourceSSECustomerKeyMD5: String?
         /// Specifies the algorithm to use when decrypting the source object (e.g., AES256).
-        public var copySourceSSECustomerAlgorithm: String? = nil
+        public let copySourceSSECustomerAlgorithm: String?
         /// Copies the object if it hasn't been modified since the specified time.
-        public var copySourceIfUnmodifiedSince: Date? = nil
-
-        public init() {}
+        public let copySourceIfUnmodifiedSince: Date?
 
         public init(bucket: String, sSECustomerKey: String? = nil, partNumber: Int32, copySourceIfModifiedSince: Date? = nil, requestPayer: String? = nil, sSECustomerKeyMD5: String? = nil, copySourceSSECustomerKey: String? = nil, copySource: String, copySourceIfNoneMatch: String? = nil, uploadId: String, sSECustomerAlgorithm: String? = nil, copySourceIfMatch: String? = nil, copySourceRange: String? = nil, key: String, copySourceSSECustomerKeyMD5: String? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceIfUnmodifiedSince: Date? = nil) {
             self.bucket = bucket
@@ -4481,23 +4259,21 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-        public var contentMD5: String? = nil
-        public var accessControlPolicy: AccessControlPolicy? = nil
+        public let bucket: String
+        public let contentMD5: String?
+        public let accessControlPolicy: AccessControlPolicy?
         /// Allows grantee to write the ACL for the applicable bucket.
-        public var grantWriteACP: String? = nil
+        public let grantWriteACP: String?
         /// Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
-        public var grantFullControl: String? = nil
+        public let grantFullControl: String?
         /// Allows grantee to create, overwrite, and delete any object in the bucket.
-        public var grantWrite: String? = nil
+        public let grantWrite: String?
         /// Allows grantee to list the objects in the bucket.
-        public var grantRead: String? = nil
+        public let grantRead: String?
         /// The canned ACL to apply to the bucket.
-        public var aCL: String? = nil
+        public let aCL: String?
         /// Allows grantee to read the bucket ACL.
-        public var grantReadACP: String? = nil
-
-        public init() {}
+        public let grantReadACP: String?
 
         public init(bucket: String, contentMD5: String? = nil, accessControlPolicy: AccessControlPolicy? = nil, grantWriteACP: String? = nil, grantFullControl: String? = nil, grantWrite: String? = nil, grantRead: String? = nil, aCL: String? = nil, grantReadACP: String? = nil) {
             self.bucket = bucket
@@ -4515,7 +4291,7 @@ extension S3 {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
             self.contentMD5 = dictionary["ContentMD5"] as? String
-            if let accessControlPolicy = dictionary["AccessControlPolicy"] as? [String: Any] { self.accessControlPolicy = try S3.AccessControlPolicy(dictionary: accessControlPolicy) }
+            if let accessControlPolicy = dictionary["AccessControlPolicy"] as? [String: Any] { self.accessControlPolicy = try S3.AccessControlPolicy(dictionary: accessControlPolicy) } else { self.accessControlPolicy = nil }
             self.grantWriteACP = dictionary["GrantWriteACP"] as? String
             self.grantFullControl = dictionary["GrantFullControl"] as? String
             self.grantWrite = dictionary["GrantWrite"] as? String
@@ -4529,17 +4305,15 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The object key prefix to use in the redirect request. For example, to redirect requests for all pages with prefix docs/ (objects in the docs/ folder) to documents/, you can set a condition block with KeyPrefixEquals set to docs/ and in the Redirect set ReplaceKeyPrefixWith to /documents. Not required if one of the siblings is present. Can be present only if ReplaceKeyWith is not provided.
-        public var replaceKeyPrefixWith: String? = nil
+        public let replaceKeyPrefixWith: String?
         /// The HTTP redirect code to use on the response. Not required if one of the siblings is present.
-        public var httpRedirectCode: String? = nil
+        public let httpRedirectCode: String?
         /// The host name to use in the redirect request.
-        public var hostName: String? = nil
+        public let hostName: String?
         /// Protocol to use (http, https) when redirecting requests. The default is the protocol that is used in the original request.
-        public var `protocol`: String? = nil
+        public let `protocol`: String?
         /// The specific object key to use in the redirect request. For example, redirect request to error.html. Not required if one of the sibling is present. Can be present only if ReplaceKeyPrefixWith is not provided.
-        public var replaceKeyWith: String? = nil
-
-        public init() {}
+        public let replaceKeyWith: String?
 
         public init(replaceKeyPrefixWith: String? = nil, httpRedirectCode: String? = nil, hostName: String? = nil, protocol: String? = nil, replaceKeyWith: String? = nil) {
             self.replaceKeyPrefixWith = replaceKeyPrefixWith
@@ -4562,18 +4336,16 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The class of storage used to store the object.
-        public var storageClass: String? = nil
+        public let storageClass: String?
         /// Key of the object for which the multipart upload was initiated.
-        public var key: String? = nil
+        public let key: String?
         /// Upload ID that identifies the multipart upload.
-        public var uploadId: String? = nil
-        public var owner: Owner? = nil
+        public let uploadId: String?
+        public let owner: Owner?
         /// Date and time at which the multipart upload was initiated.
-        public var initiated: Date? = nil
+        public let initiated: Date?
         /// Identifies who initiated the multipart upload.
-        public var initiator: Initiator? = nil
-
-        public init() {}
+        public let initiator: Initiator?
 
         public init(storageClass: String? = nil, key: String? = nil, uploadId: String? = nil, owner: Owner? = nil, initiated: Date? = nil, initiator: Initiator? = nil) {
             self.storageClass = storageClass
@@ -4588,9 +4360,9 @@ extension S3 {
             self.storageClass = dictionary["StorageClass"] as? String
             self.key = dictionary["Key"] as? String
             self.uploadId = dictionary["UploadId"] as? String
-            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) }
+            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
             self.initiated = dictionary["Initiated"] as? Date
-            if let initiator = dictionary["Initiator"] as? [String: Any] { self.initiator = try S3.Initiator(dictionary: initiator) }
+            if let initiator = dictionary["Initiator"] as? [String: Any] { self.initiator = try S3.Initiator(dictionary: initiator) } else { self.initiator = nil }
         }
     }
 
@@ -4604,11 +4376,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         /// The name of the bucket from which analytics configurations are retrieved.
-        public var bucket: String = ""
+        public let bucket: String
         /// The ContinuationToken that represents a placeholder from where this request should begin.
-        public var continuationToken: String? = nil
-
-        public init() {}
+        public let continuationToken: String?
 
         public init(bucket: String, continuationToken: String? = nil) {
             self.bucket = bucket
@@ -4625,9 +4395,7 @@ extension S3 {
     public struct GetBucketLifecycleConfigurationOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var rules: [LifecycleRule]? = nil
-
-        public init() {}
+        public let rules: [LifecycleRule]?
 
         public init(rules: [LifecycleRule]? = nil) {
             self.rules = rules
@@ -4636,6 +4404,8 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             if let rules = dictionary["Rules"] as? [[String: Any]] {
                 self.rules = try rules.map({ try LifecycleRule(dictionary: $0) })
+            } else { 
+                self.rules = nil
             }
         }
     }
@@ -4646,9 +4416,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -4664,9 +4432,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies who pays for the download and request fees.
-        public var payer: String = ""
-
-        public init() {}
+        public let payer: String
 
         public init(payer: String) {
             self.payer = payer
@@ -4685,12 +4451,10 @@ extension S3 {
             return ["x-amz-version-id": "VersionId", "x-amz-request-charged": "RequestCharged", "x-amz-delete-marker": "DeleteMarker"]
         }
         /// Returns the version ID of the delete marker created as a result of the DELETE operation.
-        public var versionId: String? = nil
-        public var requestCharged: String? = nil
+        public let versionId: String?
+        public let requestCharged: String?
         /// Specifies whether the versioned object that was permanently deleted was (true) or was not (false) a delete marker.
-        public var deleteMarker: Bool? = nil
-
-        public init() {}
+        public let deleteMarker: Bool?
 
         public init(versionId: String? = nil, requestCharged: String? = nil, deleteMarker: Bool? = nil) {
             self.versionId = versionId
@@ -4708,13 +4472,11 @@ extension S3 {
     public struct QueueConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var filter: NotificationConfigurationFilter? = nil
+        public let filter: NotificationConfigurationFilter?
         /// Amazon SQS queue ARN to which Amazon S3 will publish a message when it detects events of specified type.
-        public var queueArn: String = ""
-        public var events: [String] = []
-        public var id: String? = nil
-
-        public init() {}
+        public let queueArn: String
+        public let events: [String]
+        public let id: String?
 
         public init(filter: NotificationConfigurationFilter? = nil, queueArn: String, events: [String], id: String? = nil) {
             self.filter = filter
@@ -4724,7 +4486,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.NotificationConfigurationFilter(dictionary: filter) }
+            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.NotificationConfigurationFilter(dictionary: filter) } else { self.filter = nil }
             guard let queueArn = dictionary["QueueArn"] as? String else { throw InitializableError.missingRequiredParam("QueueArn") }
             self.queueArn = queueArn
             guard let events = dictionary["Events"] as? [String] else { throw InitializableError.missingRequiredParam("Events") }
@@ -4736,9 +4498,7 @@ extension S3 {
     public struct GetBucketTaggingOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var tagSet: [Tag] = []
-
-        public init() {}
+        public let tagSet: [Tag]
 
         public init(tagSet: [Tag]) {
             self.tagSet = tagSet
@@ -4754,9 +4514,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The object key name to use when a 4XX class error occurs.
-        public var key: String = ""
-
-        public init() {}
+        public let key: String
 
         public init(key: String) {
             self.key = key
@@ -4772,21 +4530,19 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Contains the optional fields that are included in the inventory results.
-        public var optionalFields: [String]? = nil
+        public let optionalFields: [String]?
         /// Contains information about where to publish the inventory results.
-        public var destination: InventoryDestination = InventoryDestination()
+        public let destination: InventoryDestination
         /// Specifies whether the inventory is enabled or disabled.
-        public var isEnabled: Bool = false
+        public let isEnabled: Bool
         /// Specifies the schedule for generating inventory results.
-        public var schedule: InventorySchedule = InventorySchedule()
+        public let schedule: InventorySchedule
         /// Specifies an inventory filter. The inventory only includes objects that meet the filter's criteria.
-        public var filter: InventoryFilter? = nil
+        public let filter: InventoryFilter?
         /// Specifies which object version(s) to included in the inventory results.
-        public var includedObjectVersions: String = ""
+        public let includedObjectVersions: String
         /// The ID used to identify the inventory configuration.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(optionalFields: [String]? = nil, destination: InventoryDestination, isEnabled: Bool, schedule: InventorySchedule, filter: InventoryFilter? = nil, includedObjectVersions: String, id: String) {
             self.optionalFields = optionalFields
@@ -4799,16 +4555,14 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let optionalFields = dictionary["OptionalFields"] as? [String] {
-                self.optionalFields = optionalFields
-            }
+            self.optionalFields = dictionary["OptionalFields"] as? [String]
             guard let destination = dictionary["Destination"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Destination") }
             self.destination = try S3.InventoryDestination(dictionary: destination)
             guard let isEnabled = dictionary["IsEnabled"] as? Bool else { throw InitializableError.missingRequiredParam("IsEnabled") }
             self.isEnabled = isEnabled
             guard let schedule = dictionary["Schedule"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Schedule") }
             self.schedule = try S3.InventorySchedule(dictionary: schedule)
-            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.InventoryFilter(dictionary: filter) }
+            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.InventoryFilter(dictionary: filter) } else { self.filter = nil }
             guard let includedObjectVersions = dictionary["IncludedObjectVersions"] as? String else { throw InitializableError.missingRequiredParam("IncludedObjectVersions") }
             self.includedObjectVersions = includedObjectVersions
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
@@ -4820,13 +4574,11 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The tag used when evaluating a metrics filter.
-        public var tag: Tag? = nil
+        public let tag: Tag?
         /// A conjunction (logical AND) of predicates, which is used in evaluating a metrics filter. The operator must have at least two predicates, and an object must match all of the predicates in order for the filter to apply.
-        public var and: MetricsAndOperator? = nil
+        public let and: MetricsAndOperator?
         /// The prefix used when evaluating a metrics filter.
-        public var prefix: String? = nil
-
-        public init() {}
+        public let prefix: String?
 
         public init(tag: Tag? = nil, and: MetricsAndOperator? = nil, prefix: String? = nil) {
             self.tag = tag
@@ -4835,8 +4587,8 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let tag = dictionary["Tag"] as? [String: Any] { self.tag = try S3.Tag(dictionary: tag) }
-            if let and = dictionary["And"] as? [String: Any] { self.and = try S3.MetricsAndOperator(dictionary: and) }
+            if let tag = dictionary["Tag"] as? [String: Any] { self.tag = try S3.Tag(dictionary: tag) } else { self.tag = nil }
+            if let and = dictionary["And"] as? [String: Any] { self.and = try S3.MetricsAndOperator(dictionary: and) } else { self.and = nil }
             self.prefix = dictionary["Prefix"] as? String
         }
     }
@@ -4850,11 +4602,9 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var contentMD5: String? = nil
-        public var bucket: String = ""
-        public var tagging: Tagging = Tagging()
-
-        public init() {}
+        public let contentMD5: String?
+        public let bucket: String
+        public let tagging: Tagging
 
         public init(contentMD5: String? = nil, bucket: String, tagging: Tagging) {
             self.contentMD5 = contentMD5
@@ -4875,11 +4625,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of tags to use when evaluating an AND predicate.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The prefix to use when evaluating an AND predicate.
-        public var prefix: String? = nil
-
-        public init() {}
+        public let prefix: String?
 
         public init(tags: [Tag]? = nil, prefix: String? = nil) {
             self.tags = tags
@@ -4889,6 +4637,8 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.prefix = dictionary["Prefix"] as? String
         }
@@ -4903,20 +4653,18 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
+        public let bucket: String
         /// Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
-        public var maxKeys: Int32? = nil
+        public let maxKeys: Int32?
         /// Limits the response to keys that begin with the specified prefix.
-        public var prefix: String? = nil
+        public let prefix: String?
         /// A delimiter is a character you use to group keys.
-        public var delimiter: String? = nil
-        public var encodingType: String? = nil
+        public let delimiter: String?
+        public let encodingType: String?
         /// Specifies the key to start with when listing objects in a bucket.
-        public var keyMarker: String? = nil
+        public let keyMarker: String?
         /// Specifies the object version you want to start listing from.
-        public var versionIdMarker: String? = nil
-
-        public init() {}
+        public let versionIdMarker: String?
 
         public init(bucket: String, maxKeys: Int32? = nil, prefix: String? = nil, delimiter: String? = nil, encodingType: String? = nil, keyMarker: String? = nil, versionIdMarker: String? = nil) {
             self.bucket = bucket
@@ -4943,9 +4691,7 @@ extension S3 {
     public struct GetBucketLifecycleOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var rules: [Rule]? = nil
-
-        public init() {}
+        public let rules: [Rule]?
 
         public init(rules: [Rule]? = nil) {
             self.rules = rules
@@ -4954,6 +4700,8 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             if let rules = dictionary["Rules"] as? [[String: Any]] {
                 self.rules = try rules.map({ try Rule(dictionary: $0) })
+            } else { 
+                self.rules = nil
             }
         }
     }
@@ -4962,16 +4710,14 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether the object is (true) or is not (false) the latest version of an object.
-        public var isLatest: Bool? = nil
+        public let isLatest: Bool?
         /// Date and time the object was last modified.
-        public var lastModified: Date? = nil
+        public let lastModified: Date?
         /// The object key.
-        public var key: String? = nil
+        public let key: String?
         /// Version ID of an object.
-        public var versionId: String? = nil
-        public var owner: Owner? = nil
-
-        public init() {}
+        public let versionId: String?
+        public let owner: Owner?
 
         public init(isLatest: Bool? = nil, lastModified: Date? = nil, key: String? = nil, versionId: String? = nil, owner: Owner? = nil) {
             self.isLatest = isLatest
@@ -4986,7 +4732,7 @@ extension S3 {
             self.lastModified = dictionary["LastModified"] as? Date
             self.key = dictionary["Key"] as? String
             self.versionId = dictionary["VersionId"] as? String
-            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) }
+            if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
         }
     }
 
@@ -4996,9 +4742,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -5014,14 +4758,12 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
-        public var iD: String? = nil
+        public let iD: String?
         /// The rule is ignored if status is not Enabled.
-        public var status: String = ""
-        public var destination: Destination = Destination()
+        public let status: String
+        public let destination: Destination
         /// Object keyname prefix identifying one or more objects to which the rule applies. Maximum prefix length can be up to 1,024 characters. Overlapping prefixes are not supported.
-        public var prefix: String = ""
-
-        public init() {}
+        public let prefix: String
 
         public init(iD: String? = nil, status: String, destination: Destination, prefix: String) {
             self.iD = iD
@@ -5050,12 +4792,10 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
-        public var bucket: String = ""
+        public let bucket: String
         /// The versionId of the object that the tag-set will be removed from.
-        public var versionId: String? = nil
-        public var key: String = ""
-
-        public init() {}
+        public let versionId: String?
+        public let key: String
 
         public init(bucket: String, versionId: String? = nil, key: String) {
             self.bucket = bucket
@@ -5076,12 +4816,10 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Lambda cloud function ARN that Amazon S3 can invoke when it detects events of the specified type.
-        public var lambdaFunctionArn: String = ""
-        public var events: [String] = []
-        public var filter: NotificationConfigurationFilter? = nil
-        public var id: String? = nil
-
-        public init() {}
+        public let lambdaFunctionArn: String
+        public let events: [String]
+        public let filter: NotificationConfigurationFilter?
+        public let id: String?
 
         public init(lambdaFunctionArn: String, events: [String], filter: NotificationConfigurationFilter? = nil, id: String? = nil) {
             self.lambdaFunctionArn = lambdaFunctionArn
@@ -5095,7 +4833,7 @@ extension S3 {
             self.lambdaFunctionArn = lambdaFunctionArn
             guard let events = dictionary["Events"] as? [String] else { throw InitializableError.missingRequiredParam("Events") }
             self.events = events
-            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.NotificationConfigurationFilter(dictionary: filter) }
+            if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.NotificationConfigurationFilter(dictionary: filter) } else { self.filter = nil }
             self.id = dictionary["Id"] as? String
         }
     }
@@ -5103,16 +4841,14 @@ extension S3 {
     public struct GetBucketLoggingOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var loggingEnabled: LoggingEnabled? = nil
-
-        public init() {}
+        public let loggingEnabled: LoggingEnabled?
 
         public init(loggingEnabled: LoggingEnabled? = nil) {
             self.loggingEnabled = loggingEnabled
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let loggingEnabled = dictionary["LoggingEnabled"] as? [String: Any] { self.loggingEnabled = try S3.LoggingEnabled(dictionary: loggingEnabled) }
+            if let loggingEnabled = dictionary["LoggingEnabled"] as? [String: Any] { self.loggingEnabled = try S3.LoggingEnabled(dictionary: loggingEnabled) } else { self.loggingEnabled = nil }
         }
     }
 
@@ -5123,18 +4859,16 @@ extension S3 {
             return ["x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "ETag": "ETag", "x-amz-request-charged": "RequestCharged", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5"]
         }
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        public var sSECustomerKeyMD5: String? = nil
+        public let sSECustomerKeyMD5: String?
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        public var sSEKMSKeyId: String? = nil
+        public let sSEKMSKeyId: String?
         /// Entity tag for the uploaded object.
-        public var eTag: String? = nil
+        public let eTag: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        public var sSECustomerAlgorithm: String? = nil
-        public var requestCharged: String? = nil
+        public let sSECustomerAlgorithm: String?
+        public let requestCharged: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public var serverSideEncryption: String? = nil
-
-        public init() {}
+        public let serverSideEncryption: String?
 
         public init(sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, eTag: String? = nil, sSECustomerAlgorithm: String? = nil, requestCharged: String? = nil, serverSideEncryption: String? = nil) {
             self.sSECustomerKeyMD5 = sSECustomerKeyMD5
@@ -5161,10 +4895,8 @@ extension S3 {
         public static var headerParams: [String: String] {
             return ["x-amz-version-id": "VersionId"]
         }
-        public var versionId: String? = nil
-        public var tagSet: [Tag] = []
-
-        public init() {}
+        public let versionId: String?
+        public let tagSet: [Tag]
 
         public init(versionId: String? = nil, tagSet: [Tag]) {
             self.versionId = versionId
@@ -5181,9 +4913,7 @@ extension S3 {
     public struct GetBucketCorsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var cORSRules: [CORSRule]? = nil
-
-        public init() {}
+        public let cORSRules: [CORSRule]?
 
         public init(cORSRules: [CORSRule]? = nil) {
             self.cORSRules = cORSRules
@@ -5192,6 +4922,8 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             if let cORSRules = dictionary["CORSRules"] as? [[String: Any]] {
                 self.cORSRules = try cORSRules.map({ try CORSRule(dictionary: $0) })
+            } else { 
+                self.cORSRules = nil
             }
         }
     }
@@ -5199,12 +4931,10 @@ extension S3 {
     public struct Error: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var versionId: String? = nil
-        public var key: String? = nil
-        public var code: String? = nil
-        public var message: String? = nil
-
-        public init() {}
+        public let versionId: String?
+        public let key: String?
+        public let code: String?
+        public let message: String?
 
         public init(versionId: String? = nil, key: String? = nil, code: String? = nil, message: String? = nil) {
             self.versionId = versionId
@@ -5231,58 +4961,56 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         /// Name of the bucket to which the PUT operation was initiated.
-        public var bucket: String = ""
+        public let bucket: String
         /// The tag-set for the object. The tag-set must be encoded as URL Query parameters
-        public var tagging: String? = nil
+        public let tagging: String?
         /// Specifies presentational information for the object.
-        public var contentDisposition: String? = nil
+        public let contentDisposition: String?
         /// Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
-        public var sSEKMSKeyId: String? = nil
+        public let sSEKMSKeyId: String?
         /// Allows grantee to read the object ACL.
-        public var grantReadACP: String? = nil
+        public let grantReadACP: String?
         /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        public var sSECustomerAlgorithm: String? = nil
+        public let sSECustomerAlgorithm: String?
         /// The language the content is in.
-        public var contentLanguage: String? = nil
+        public let contentLanguage: String?
         /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-        public var contentEncoding: String? = nil
+        public let contentEncoding: String?
         /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
-        public var contentLength: Int64? = nil
+        public let contentLength: Int64?
         /// Allows grantee to write the ACL for the applicable object.
-        public var grantWriteACP: String? = nil
+        public let grantWriteACP: String?
         /// Object key for which the PUT operation was initiated.
-        public var key: String = ""
+        public let key: String
         /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-        public var websiteRedirectLocation: String? = nil
+        public let websiteRedirectLocation: String?
         /// Object data.
-        public var body: Data? = nil
+        public let body: Data?
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
-        public var sSECustomerKey: String? = nil
+        public let sSECustomerKey: String?
         /// The base64-encoded 128-bit MD5 digest of the part data.
-        public var contentMD5: String? = nil
+        public let contentMD5: String?
         /// Specifies caching behavior along the request/reply chain.
-        public var cacheControl: String? = nil
-        public var requestPayer: String? = nil
+        public let cacheControl: String?
+        public let requestPayer: String?
         /// Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
-        public var grantFullControl: String? = nil
+        public let grantFullControl: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        public var sSECustomerKeyMD5: String? = nil
+        public let sSECustomerKeyMD5: String?
         /// The canned ACL to apply to the object.
-        public var aCL: String? = nil
+        public let aCL: String?
         /// A map of metadata to store with the object in S3.
-        public var metadata: [String: String]? = nil
+        public let metadata: [String: String]?
         /// The date and time at which the object is no longer cacheable.
-        public var expires: Date? = nil
+        public let expires: Date?
         /// A standard MIME type describing the format of the object data.
-        public var contentType: String? = nil
+        public let contentType: String?
         /// The type of storage to use for the object. Defaults to 'STANDARD'.
-        public var storageClass: String? = nil
+        public let storageClass: String?
         /// Allows grantee to read the object data and its metadata.
-        public var grantRead: String? = nil
+        public let grantRead: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public var serverSideEncryption: String? = nil
-
-        public init() {}
+        public let serverSideEncryption: String?
 
         public init(bucket: String, tagging: String? = nil, contentDisposition: String? = nil, sSEKMSKeyId: String? = nil, grantReadACP: String? = nil, sSECustomerAlgorithm: String? = nil, contentLanguage: String? = nil, contentEncoding: String? = nil, contentLength: Int64? = nil, grantWriteACP: String? = nil, key: String, websiteRedirectLocation: String? = nil, body: Data? = nil, sSECustomerKey: String? = nil, contentMD5: String? = nil, cacheControl: String? = nil, requestPayer: String? = nil, grantFullControl: String? = nil, sSECustomerKeyMD5: String? = nil, aCL: String? = nil, metadata: [String: String]? = nil, expires: Date? = nil, contentType: String? = nil, storageClass: String? = nil, grantRead: String? = nil, serverSideEncryption: String? = nil) {
             self.bucket = bucket
@@ -5338,6 +5066,8 @@ extension S3 {
             self.aCL = dictionary["ACL"] as? String
             if let metadata = dictionary["Metadata"] as? [String: String] {
                 self.metadata = metadata
+            } else { 
+                self.metadata = nil
             }
             self.expires = dictionary["Expires"] as? Date
             self.contentType = dictionary["ContentType"] as? String
@@ -5351,9 +5081,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the region where the bucket will be created. If you don't specify a region, the bucket will be created in US Standard.
-        public var locationConstraint: String? = nil
-
-        public init() {}
+        public let locationConstraint: String?
 
         public init(locationConstraint: String? = nil) {
             self.locationConstraint = locationConstraint
@@ -5370,9 +5098,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -5397,28 +5123,26 @@ extension S3 {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
         /// Name of the bucket to which the multipart upload was initiated.
-        public var bucket: String = ""
+        public let bucket: String
         /// Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
-        public var sSECustomerKey: String? = nil
+        public let sSECustomerKey: String?
         /// The base64-encoded 128-bit MD5 digest of the part data.
-        public var contentMD5: String? = nil
+        public let contentMD5: String?
         /// Part number of part being uploaded. This is a positive integer between 1 and 10,000.
-        public var partNumber: Int32 = 0
+        public let partNumber: Int32
         /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
-        public var contentLength: Int64? = nil
-        public var requestPayer: String? = nil
+        public let contentLength: Int64?
+        public let requestPayer: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.
-        public var sSECustomerKeyMD5: String? = nil
+        public let sSECustomerKeyMD5: String?
         /// Object key for which the multipart upload was initiated.
-        public var key: String = ""
+        public let key: String
         /// Upload ID identifying the multipart upload whose part is being uploaded.
-        public var uploadId: String = ""
+        public let uploadId: String
         /// Object data.
-        public var body: Data? = nil
+        public let body: Data?
         /// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        public var sSECustomerAlgorithm: String? = nil
-
-        public init() {}
+        public let sSECustomerAlgorithm: String?
 
         public init(bucket: String, sSECustomerKey: String? = nil, contentMD5: String? = nil, partNumber: Int32, contentLength: Int64? = nil, requestPayer: String? = nil, sSECustomerKeyMD5: String? = nil, key: String, uploadId: String, body: Data? = nil, sSECustomerAlgorithm: String? = nil) {
             self.bucket = bucket
@@ -5456,12 +5180,10 @@ extension S3 {
     public struct DeletedObject: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var deleteMarkerVersionId: String? = nil
-        public var versionId: String? = nil
-        public var key: String? = nil
-        public var deleteMarker: Bool? = nil
-
-        public init() {}
+        public let deleteMarkerVersionId: String?
+        public let versionId: String?
+        public let key: String?
+        public let deleteMarker: Bool?
 
         public init(deleteMarkerVersionId: String? = nil, versionId: String? = nil, key: String? = nil, deleteMarker: Bool? = nil) {
             self.deleteMarkerVersionId = deleteMarkerVersionId
@@ -5484,9 +5206,7 @@ extension S3 {
         public static var headerParams: [String: String] {
             return ["x-amz-version-id": "VersionId"]
         }
-        public var versionId: String? = nil
-
-        public init() {}
+        public let versionId: String?
 
         public init(versionId: String? = nil) {
             self.versionId = versionId
@@ -5503,9 +5223,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -5523,9 +5241,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -5540,9 +5256,7 @@ extension S3 {
     public struct S3KeyFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var filterRules: [FilterRule]? = nil
-
-        public init() {}
+        public let filterRules: [FilterRule]?
 
         public init(filterRules: [FilterRule]? = nil) {
             self.filterRules = filterRules
@@ -5551,6 +5265,8 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             if let filterRules = dictionary["FilterRules"] as? [[String: Any]] {
                 self.filterRules = try filterRules.map({ try FilterRule(dictionary: $0) })
+            } else { 
+                self.filterRules = nil
             }
         }
     }
@@ -5564,11 +5280,9 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var contentMD5: String? = nil
-        public var bucket: String = ""
-        public var websiteConfiguration: WebsiteConfiguration = WebsiteConfiguration()
-
-        public init() {}
+        public let contentMD5: String?
+        public let bucket: String
+        public let websiteConfiguration: WebsiteConfiguration
 
         public init(contentMD5: String? = nil, bucket: String, websiteConfiguration: WebsiteConfiguration) {
             self.contentMD5 = contentMD5
@@ -5591,10 +5305,8 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-        public var notificationConfiguration: NotificationConfiguration = NotificationConfiguration()
-
-        public init() {}
+        public let bucket: String
+        public let notificationConfiguration: NotificationConfiguration
 
         public init(bucket: String, notificationConfiguration: NotificationConfiguration) {
             self.bucket = bucket
@@ -5619,11 +5331,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         /// The name of the bucket containing the metrics configuration to delete.
-        public var bucket: String = ""
+        public let bucket: String
         /// The ID used to identify the metrics configuration.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(bucket: String, id: String) {
             self.bucket = bucket
@@ -5642,9 +5352,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates the number of days that must pass since initiation for Lifecycle to abort an Incomplete Multipart Upload.
-        public var daysAfterInitiation: Int32? = nil
-
-        public init() {}
+        public let daysAfterInitiation: Int32?
 
         public init(daysAfterInitiation: Int32? = nil) {
             self.daysAfterInitiation = daysAfterInitiation
@@ -5659,11 +5367,9 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Glacier related prameters pertaining to this job.
-        public var glacierJobParameters: GlacierJobParameters? = nil
+        public let glacierJobParameters: GlacierJobParameters?
         /// Lifetime of the active copy in days
-        public var days: Int32 = 0
-
-        public init() {}
+        public let days: Int32
 
         public init(glacierJobParameters: GlacierJobParameters? = nil, days: Int32) {
             self.glacierJobParameters = glacierJobParameters
@@ -5671,7 +5377,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let glacierJobParameters = dictionary["GlacierJobParameters"] as? [String: Any] { self.glacierJobParameters = try S3.GlacierJobParameters(dictionary: glacierJobParameters) }
+            if let glacierJobParameters = dictionary["GlacierJobParameters"] as? [String: Any] { self.glacierJobParameters = try S3.GlacierJobParameters(dictionary: glacierJobParameters) } else { self.glacierJobParameters = nil }
             guard let days = dictionary["Days"] as? Int32 else { throw InitializableError.missingRequiredParam("Days") }
             self.days = days
         }
@@ -5687,11 +5393,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         /// The name of the bucket containing the inventory configuration to retrieve.
-        public var bucket: String = ""
+        public let bucket: String
         /// The ID used to identify the inventory configuration.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(bucket: String, id: String) {
             self.bucket = bucket
@@ -5709,9 +5413,7 @@ extension S3 {
     public struct LifecycleConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var rules: [Rule] = []
-
-        public init() {}
+        public let rules: [Rule]
 
         public init(rules: [Rule]) {
             self.rules = rules
@@ -5733,11 +5435,9 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         /// The name of the bucket from which an analytics configuration is retrieved.
-        public var bucket: String = ""
+        public let bucket: String
         /// The identifier used to represent an analytics configuration.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(bucket: String, id: String) {
             self.bucket = bucket
@@ -5759,9 +5459,7 @@ extension S3 {
             return ["Bucket": "Bucket"]
         }
         /// Name of the bucket for which the accelerate configuration is retrieved.
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -5777,16 +5475,14 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = "InventoryConfiguration"
         /// Specifies the inventory configuration.
-        public var inventoryConfiguration: InventoryConfiguration? = nil
-
-        public init() {}
+        public let inventoryConfiguration: InventoryConfiguration?
 
         public init(inventoryConfiguration: InventoryConfiguration? = nil) {
             self.inventoryConfiguration = inventoryConfiguration
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let inventoryConfiguration = dictionary["InventoryConfiguration"] as? [String: Any] { self.inventoryConfiguration = try S3.InventoryConfiguration(dictionary: inventoryConfiguration) }
+            if let inventoryConfiguration = dictionary["InventoryConfiguration"] as? [String: Any] { self.inventoryConfiguration = try S3.InventoryConfiguration(dictionary: inventoryConfiguration) } else { self.inventoryConfiguration = nil }
         }
     }
 
@@ -5802,17 +5498,15 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
-        public var bucket: String = ""
+        public let bucket: String
         /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed.
-        public var partNumberMarker: Int32? = nil
-        public var key: String = ""
+        public let partNumberMarker: Int32?
+        public let key: String
         /// Upload ID identifying the multipart upload whose parts are being listed.
-        public var uploadId: String = ""
+        public let uploadId: String
         /// Sets the maximum number of parts to return.
-        public var maxParts: Int32? = nil
-        public var requestPayer: String? = nil
-
-        public init() {}
+        public let maxParts: Int32?
+        public let requestPayer: String?
 
         public init(bucket: String, partNumberMarker: Int32? = nil, key: String, uploadId: String, maxParts: Int32? = nil, requestPayer: String? = nil) {
             self.bucket = bucket
@@ -5848,13 +5542,11 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket", "Key": "Key"]
         }
-        public var bucket: String = ""
-        public var restoreRequest: RestoreRequest? = nil
-        public var key: String = ""
-        public var versionId: String? = nil
-        public var requestPayer: String? = nil
-
-        public init() {}
+        public let bucket: String
+        public let restoreRequest: RestoreRequest?
+        public let key: String
+        public let versionId: String?
+        public let requestPayer: String?
 
         public init(bucket: String, restoreRequest: RestoreRequest? = nil, key: String, versionId: String? = nil, requestPayer: String? = nil) {
             self.bucket = bucket
@@ -5867,7 +5559,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            if let restoreRequest = dictionary["RestoreRequest"] as? [String: Any] { self.restoreRequest = try S3.RestoreRequest(dictionary: restoreRequest) }
+            if let restoreRequest = dictionary["RestoreRequest"] as? [String: Any] { self.restoreRequest = try S3.RestoreRequest(dictionary: restoreRequest) } else { self.restoreRequest = nil }
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
             self.versionId = dictionary["VersionId"] as? String
@@ -5879,17 +5571,15 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The canonical user ID of the grantee.
-        public var iD: String? = nil
+        public let iD: String?
         /// Email address of the grantee.
-        public var emailAddress: String? = nil
+        public let emailAddress: String?
         /// Type of grantee
-        public var type: String = ""
+        public let type: String
         /// Screen name of the grantee.
-        public var displayName: String? = nil
+        public let displayName: String?
         /// URI of the grantee group.
-        public var uRI: String? = nil
-
-        public init() {}
+        public let uRI: String?
 
         public init(iD: String? = nil, emailAddress: String? = nil, type: String, displayName: String? = nil, uRI: String? = nil) {
             self.iD = iD
@@ -5912,12 +5602,10 @@ extension S3 {
     public struct QueueConfigurationDeprecated: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var queue: String? = nil
-        public var events: [String]? = nil
-        public var event: String? = nil
-        public var id: String? = nil
-
-        public init() {}
+        public let queue: String?
+        public let events: [String]?
+        public let event: String?
+        public let id: String?
 
         public init(queue: String? = nil, events: [String]? = nil, event: String? = nil, id: String? = nil) {
             self.queue = queue
@@ -5928,9 +5616,7 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             self.queue = dictionary["Queue"] as? String
-            if let events = dictionary["Events"] as? [String] {
-                self.events = events
-            }
+            self.events = dictionary["Events"] as? [String]
             self.event = dictionary["Event"] as? String
             self.id = dictionary["Id"] as? String
         }
@@ -5942,9 +5628,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -5962,9 +5646,7 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var bucket: String = ""
-
-        public init() {}
+        public let bucket: String
 
         public init(bucket: String) {
             self.bucket = bucket
@@ -5985,11 +5667,9 @@ extension S3 {
         public static var pathParams: [String: String] {
             return ["Bucket": "Bucket"]
         }
-        public var contentMD5: String? = nil
-        public var bucket: String = ""
-        public var requestPaymentConfiguration: RequestPaymentConfiguration = RequestPaymentConfiguration()
-
-        public init() {}
+        public let contentMD5: String?
+        public let bucket: String
+        public let requestPaymentConfiguration: RequestPaymentConfiguration
 
         public init(contentMD5: String? = nil, bucket: String, requestPaymentConfiguration: RequestPaymentConfiguration) {
             self.contentMD5 = contentMD5
@@ -6013,22 +5693,20 @@ extension S3 {
             return ["x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-charged": "RequestCharged", "x-amz-version-id": "VersionId", "ETag": "ETag", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-expiration": "Expiration"]
         }
         /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL encoded.
-        public var expiration: String? = nil
+        public let expiration: String?
         /// Version of the object.
-        public var versionId: String? = nil
+        public let versionId: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        public var sSECustomerKeyMD5: String? = nil
+        public let sSECustomerKeyMD5: String?
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        public var sSEKMSKeyId: String? = nil
+        public let sSEKMSKeyId: String?
         /// Entity tag for the uploaded object.
-        public var eTag: String? = nil
+        public let eTag: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        public var sSECustomerAlgorithm: String? = nil
-        public var requestCharged: String? = nil
+        public let sSECustomerAlgorithm: String?
+        public let requestCharged: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public var serverSideEncryption: String? = nil
-
-        public init() {}
+        public let serverSideEncryption: String?
 
         public init(expiration: String? = nil, versionId: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSKeyId: String? = nil, eTag: String? = nil, sSECustomerAlgorithm: String? = nil, requestCharged: String? = nil, serverSideEncryption: String? = nil) {
             self.expiration = expiration
@@ -6059,23 +5737,21 @@ extension S3 {
         public static var headerParams: [String: String] {
             return ["x-amz-server-side-encryption-customer-key-MD5": "SSECustomerKeyMD5", "x-amz-copy-source-version-id": "CopySourceVersionId", "x-amz-server-side-encryption": "ServerSideEncryption", "x-amz-server-side-encryption-aws-kms-key-id": "SSEKMSKeyId", "x-amz-request-charged": "RequestCharged", "x-amz-version-id": "VersionId", "x-amz-server-side-encryption-customer-algorithm": "SSECustomerAlgorithm", "x-amz-expiration": "Expiration"]
         }
-        public var copyObjectResult: CopyObjectResult? = nil
+        public let copyObjectResult: CopyObjectResult?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide round trip message integrity verification of the customer-provided encryption key.
-        public var sSECustomerKeyMD5: String? = nil
+        public let sSECustomerKeyMD5: String?
         /// Version ID of the newly created copy.
-        public var versionId: String? = nil
-        public var copySourceVersionId: String? = nil
+        public let versionId: String?
+        public let copySourceVersionId: String?
         /// If present, specifies the ID of the AWS Key Management Service (KMS) master encryption key that was used for the object.
-        public var sSEKMSKeyId: String? = nil
+        public let sSEKMSKeyId: String?
         /// If the object expiration is configured, the response includes this header.
-        public var expiration: String? = nil
+        public let expiration: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header confirming the encryption algorithm used.
-        public var sSECustomerAlgorithm: String? = nil
+        public let sSECustomerAlgorithm: String?
         /// The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        public var serverSideEncryption: String? = nil
-        public var requestCharged: String? = nil
-
-        public init() {}
+        public let serverSideEncryption: String?
+        public let requestCharged: String?
 
         public init(copyObjectResult: CopyObjectResult? = nil, sSECustomerKeyMD5: String? = nil, versionId: String? = nil, copySourceVersionId: String? = nil, sSEKMSKeyId: String? = nil, expiration: String? = nil, sSECustomerAlgorithm: String? = nil, serverSideEncryption: String? = nil, requestCharged: String? = nil) {
             self.copyObjectResult = copyObjectResult
@@ -6090,7 +5766,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let copyObjectResult = dictionary["CopyObjectResult"] as? [String: Any] { self.copyObjectResult = try S3.CopyObjectResult(dictionary: copyObjectResult) }
+            if let copyObjectResult = dictionary["CopyObjectResult"] as? [String: Any] { self.copyObjectResult = try S3.CopyObjectResult(dictionary: copyObjectResult) } else { self.copyObjectResult = nil }
             self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
             self.versionId = dictionary["VersionId"] as? String
             self.copySourceVersionId = dictionary["CopySourceVersionId"] as? String

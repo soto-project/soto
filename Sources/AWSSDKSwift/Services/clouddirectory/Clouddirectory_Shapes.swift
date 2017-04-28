@@ -33,15 +33,13 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// A facet attribute consists of either a definition or a reference. This structure contains the attribute definition. See Attribute References for more information.
-        public var attributeDefinition: FacetAttributeDefinition? = nil
+        public let attributeDefinition: FacetAttributeDefinition?
         /// Attribute reference associated with the attribute. See Attribute References for more information.
-        public var attributeReference: FacetAttributeReference? = nil
+        public let attributeReference: FacetAttributeReference?
         /// The name of the facet attribute.
-        public var name: String = ""
+        public let name: String
         /// The required behavior of the FacetAttribute.
-        public var requiredBehavior: String? = nil
-
-        public init() {}
+        public let requiredBehavior: String?
 
         public init(attributeDefinition: FacetAttributeDefinition? = nil, attributeReference: FacetAttributeReference? = nil, name: String, requiredBehavior: String? = nil) {
             self.attributeDefinition = attributeDefinition
@@ -51,8 +49,8 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let attributeDefinition = dictionary["AttributeDefinition"] as? [String: Any] { self.attributeDefinition = try Clouddirectory.FacetAttributeDefinition(dictionary: attributeDefinition) }
-            if let attributeReference = dictionary["AttributeReference"] as? [String: Any] { self.attributeReference = try Clouddirectory.FacetAttributeReference(dictionary: attributeReference) }
+            if let attributeDefinition = dictionary["AttributeDefinition"] as? [String: Any] { self.attributeDefinition = try Clouddirectory.FacetAttributeDefinition(dictionary: attributeDefinition) } else { self.attributeDefinition = nil }
+            if let attributeReference = dictionary["AttributeReference"] as? [String: Any] { self.attributeReference = try Clouddirectory.FacetAttributeReference(dictionary: attributeReference) } else { self.attributeReference = nil }
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
             self.requiredBehavior = dictionary["RequiredBehavior"] as? String
@@ -63,11 +61,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// ARN of the resource. Tagging is only supported for directories.
-        public var resourceArn: String = ""
+        public let resourceArn: String
         /// List of tag key value pairs.
-        public var tags: [Tag] = []
-
-        public init() {}
+        public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
@@ -86,9 +82,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// ARN associated with the updated schema. For more information, see arns.
-        public var schemaArn: String? = nil
-
-        public init() {}
+        public let schemaArn: String?
 
         public init(schemaArn: String? = nil) {
             self.schemaArn = schemaArn
@@ -103,11 +97,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of attribute validation rule.
-        public var type: String? = nil
+        public let type: String?
         /// Min and max parameters associated with the rule.
-        public var parameters: [String: String]? = nil
-
-        public init() {}
+        public let parameters: [String: String]?
 
         public init(type: String? = nil, parameters: [String: String]? = nil) {
             self.type = type
@@ -118,6 +110,8 @@ extension Clouddirectory {
             self.type = dictionary["Type"] as? String
             if let parameters = dictionary["Parameters"] as? [String: String] {
                 self.parameters = parameters
+            } else { 
+                self.parameters = nil
             }
         }
     }
@@ -129,9 +123,7 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// The ARN of the directory.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
@@ -147,11 +139,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Children structure, which is a map with key as the LinkName and ObjectIdentifier as the value.
-        public var children: [String: String]? = nil
-
-        public init() {}
+        public let children: [String: String]?
 
         public init(nextToken: String? = nil, children: [String: String]? = nil) {
             self.nextToken = nextToken
@@ -162,6 +152,8 @@ extension Clouddirectory {
             self.nextToken = dictionary["NextToken"] as? String
             if let children = dictionary["Children"] as? [String: String] {
                 self.children = children
+            } else { 
+                self.children = nil
             }
         }
     }
@@ -169,8 +161,6 @@ extension Clouddirectory {
     public struct AddFacetToObjectResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -180,15 +170,13 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The attribute value to terminate the range at.
-        public var endValue: TypedAttributeValue? = nil
+        public let endValue: TypedAttributeValue?
         /// Inclusive or exclusive range end.
-        public var endMode: String = ""
+        public let endMode: String
         /// The value to start the range at.
-        public var startValue: TypedAttributeValue? = nil
+        public let startValue: TypedAttributeValue?
         /// Inclusive or exclusive range start.
-        public var startMode: String = ""
-
-        public init() {}
+        public let startMode: String
 
         public init(endValue: TypedAttributeValue? = nil, endMode: String, startValue: TypedAttributeValue? = nil, startMode: String) {
             self.endValue = endValue
@@ -198,10 +186,10 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let endValue = dictionary["EndValue"] as? [String: Any] { self.endValue = try Clouddirectory.TypedAttributeValue(dictionary: endValue) }
+            if let endValue = dictionary["EndValue"] as? [String: Any] { self.endValue = try Clouddirectory.TypedAttributeValue(dictionary: endValue) } else { self.endValue = nil }
             guard let endMode = dictionary["EndMode"] as? String else { throw InitializableError.missingRequiredParam("EndMode") }
             self.endMode = endMode
-            if let startValue = dictionary["StartValue"] as? [String: Any] { self.startValue = try Clouddirectory.TypedAttributeValue(dictionary: startValue) }
+            if let startValue = dictionary["StartValue"] as? [String: Any] { self.startValue = try Clouddirectory.TypedAttributeValue(dictionary: startValue) } else { self.startValue = nil }
             guard let startMode = dictionary["StartMode"] as? String else { throw InitializableError.missingRequiredParam("StartMode") }
             self.startMode = startMode
         }
@@ -211,11 +199,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The JSON representation of the schema document.
-        public var document: String? = nil
+        public let document: String?
         /// The name of the retrieved schema.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(document: String? = nil, name: String? = nil) {
             self.document = document
@@ -235,15 +221,13 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// ARN associated with the Directory where the object resides. For more information, see arns.
-        public var directoryArn: String = ""
+        public let directoryArn: String
         /// Identifiers for the facet that you are adding to the object.
-        public var schemaFacet: SchemaFacet = SchemaFacet()
+        public let schemaFacet: SchemaFacet
         /// Attributes on the facet you are adding to the object.
-        public var objectAttributeList: [AttributeKeyAndValue]? = nil
+        public let objectAttributeList: [AttributeKeyAndValue]?
         /// A reference to the object you are adding the specified facet to.
-        public var objectReference: ObjectReference = ObjectReference()
-
-        public init() {}
+        public let objectReference: ObjectReference
 
         public init(directoryArn: String, schemaFacet: SchemaFacet, objectAttributeList: [AttributeKeyAndValue]? = nil, objectReference: ObjectReference) {
             self.directoryArn = directoryArn
@@ -259,6 +243,8 @@ extension Clouddirectory {
             self.schemaFacet = try Clouddirectory.SchemaFacet(dictionary: schemaFacet)
             if let objectAttributeList = dictionary["ObjectAttributeList"] as? [[String: Any]] {
                 self.objectAttributeList = try objectAttributeList.map({ try AttributeKeyAndValue(dictionary: $0) })
+            } else { 
+                self.objectAttributeList = nil
             }
             guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
             self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
@@ -269,11 +255,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to retrieve.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -290,15 +274,13 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date and time when the directory was created.
-        public var creationDateTime: Date? = nil
+        public let creationDateTime: Date?
         /// ARN associated with the directory. For more information, see arns.
-        public var directoryArn: String? = nil
+        public let directoryArn: String?
         /// The name of the directory.
-        public var name: String? = nil
+        public let name: String?
         /// The state of the directory. Can be either Enabled, Disabled, or Deleted.
-        public var state: String? = nil
-
-        public init() {}
+        public let state: String?
 
         public init(creationDateTime: Date? = nil, directoryArn: String? = nil, name: String? = nil, state: String? = nil) {
             self.creationDateTime = creationDateTime
@@ -319,11 +301,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Provides list of path to policies. Policies contain PolicyId, ObjectIdentifier, and PolicyType.
-        public var policyToPathList: [PolicyToPath]? = nil
+        public let policyToPathList: [PolicyToPath]?
         /// The pagination token.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(policyToPathList: [PolicyToPath]? = nil, nextToken: String? = nil) {
             self.policyToPathList = policyToPathList
@@ -333,6 +313,8 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             if let policyToPathList = dictionary["PolicyToPathList"] as? [[String: Any]] {
                 self.policyToPathList = try policyToPathList.map({ try PolicyToPath(dictionary: $0) })
+            } else { 
+                self.policyToPathList = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -342,8 +324,6 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -352,9 +332,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// ARN associated with the schema. For more information, see arns.
-        public var schemaArn: String? = nil
-
-        public init() {}
+        public let schemaArn: String?
 
         public init(schemaArn: String? = nil) {
             self.schemaArn = schemaArn
@@ -372,13 +350,11 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// The facet to remove.
-        public var schemaFacet: SchemaFacet = SchemaFacet()
+        public let schemaFacet: SchemaFacet
         /// A reference to the object to remove the facet from.
-        public var objectReference: ObjectReference = ObjectReference()
+        public let objectReference: ObjectReference
         /// The ARN of the directory in which the object resides.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(schemaFacet: SchemaFacet, objectReference: ObjectReference, directoryArn: String) {
             self.schemaFacet = schemaFacet
@@ -400,11 +376,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The range of attribute values being selected.
-        public var range: TypedAttributeValueRange? = nil
+        public let range: TypedAttributeValueRange?
         /// The key of the attribute the attribute range covers.
-        public var attributeKey: AttributeKey? = nil
-
-        public init() {}
+        public let attributeKey: AttributeKey?
 
         public init(range: TypedAttributeValueRange? = nil, attributeKey: AttributeKey? = nil) {
             self.range = range
@@ -412,8 +386,8 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let range = dictionary["Range"] as? [String: Any] { self.range = try Clouddirectory.TypedAttributeValueRange(dictionary: range) }
-            if let attributeKey = dictionary["AttributeKey"] as? [String: Any] { self.attributeKey = try Clouddirectory.AttributeKey(dictionary: attributeKey) }
+            if let range = dictionary["Range"] as? [String: Any] { self.range = try Clouddirectory.TypedAttributeValueRange(dictionary: range) } else { self.range = nil }
+            if let attributeKey = dictionary["AttributeKey"] as? [String: Any] { self.attributeKey = try Clouddirectory.AttributeKey(dictionary: attributeKey) } else { self.attributeKey = nil }
         }
     }
 
@@ -421,11 +395,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Value associated with the tag.
-        public var value: String? = nil
+        public let value: String?
         /// Key associated with the tag.
-        public var key: String? = nil
-
-        public init() {}
+        public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
             self.value = value
@@ -442,21 +414,19 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Result of an add facet to object batch operation.
-        public var addFacetToObject: BatchAddFacetToObjectResponse? = nil
+        public let addFacetToObject: BatchAddFacetToObjectResponse?
         /// Updates a given object’s attributes.
-        public var updateObjectAttributes: BatchUpdateObjectAttributesResponse? = nil
+        public let updateObjectAttributes: BatchUpdateObjectAttributesResponse?
         /// Detaches an object from a Directory.
-        public var detachObject: BatchDetachObjectResponse? = nil
+        public let detachObject: BatchDetachObjectResponse?
         /// Attaches an object to a Directory.
-        public var attachObject: BatchAttachObjectResponse? = nil
+        public let attachObject: BatchAttachObjectResponse?
         /// Creates an object in a Directory.
-        public var createObject: BatchCreateObjectResponse? = nil
+        public let createObject: BatchCreateObjectResponse?
         /// Deletes an object in a Directory.
-        public var deleteObject: BatchDeleteObjectResponse? = nil
+        public let deleteObject: BatchDeleteObjectResponse?
         /// Result of a batch remove facet from object operation.
-        public var removeFacetFromObject: BatchRemoveFacetFromObjectResponse? = nil
-
-        public init() {}
+        public let removeFacetFromObject: BatchRemoveFacetFromObjectResponse?
 
         public init(addFacetToObject: BatchAddFacetToObjectResponse? = nil, updateObjectAttributes: BatchUpdateObjectAttributesResponse? = nil, detachObject: BatchDetachObjectResponse? = nil, attachObject: BatchAttachObjectResponse? = nil, createObject: BatchCreateObjectResponse? = nil, deleteObject: BatchDeleteObjectResponse? = nil, removeFacetFromObject: BatchRemoveFacetFromObjectResponse? = nil) {
             self.addFacetToObject = addFacetToObject
@@ -469,13 +439,13 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let addFacetToObject = dictionary["AddFacetToObject"] as? [String: Any] { self.addFacetToObject = try Clouddirectory.BatchAddFacetToObjectResponse(dictionary: addFacetToObject) }
-            if let updateObjectAttributes = dictionary["UpdateObjectAttributes"] as? [String: Any] { self.updateObjectAttributes = try Clouddirectory.BatchUpdateObjectAttributesResponse(dictionary: updateObjectAttributes) }
-            if let detachObject = dictionary["DetachObject"] as? [String: Any] { self.detachObject = try Clouddirectory.BatchDetachObjectResponse(dictionary: detachObject) }
-            if let attachObject = dictionary["AttachObject"] as? [String: Any] { self.attachObject = try Clouddirectory.BatchAttachObjectResponse(dictionary: attachObject) }
-            if let createObject = dictionary["CreateObject"] as? [String: Any] { self.createObject = try Clouddirectory.BatchCreateObjectResponse(dictionary: createObject) }
-            if let deleteObject = dictionary["DeleteObject"] as? [String: Any] { self.deleteObject = try Clouddirectory.BatchDeleteObjectResponse(dictionary: deleteObject) }
-            if let removeFacetFromObject = dictionary["RemoveFacetFromObject"] as? [String: Any] { self.removeFacetFromObject = try Clouddirectory.BatchRemoveFacetFromObjectResponse(dictionary: removeFacetFromObject) }
+            if let addFacetToObject = dictionary["AddFacetToObject"] as? [String: Any] { self.addFacetToObject = try Clouddirectory.BatchAddFacetToObjectResponse(dictionary: addFacetToObject) } else { self.addFacetToObject = nil }
+            if let updateObjectAttributes = dictionary["UpdateObjectAttributes"] as? [String: Any] { self.updateObjectAttributes = try Clouddirectory.BatchUpdateObjectAttributesResponse(dictionary: updateObjectAttributes) } else { self.updateObjectAttributes = nil }
+            if let detachObject = dictionary["DetachObject"] as? [String: Any] { self.detachObject = try Clouddirectory.BatchDetachObjectResponse(dictionary: detachObject) } else { self.detachObject = nil }
+            if let attachObject = dictionary["AttachObject"] as? [String: Any] { self.attachObject = try Clouddirectory.BatchAttachObjectResponse(dictionary: attachObject) } else { self.attachObject = nil }
+            if let createObject = dictionary["CreateObject"] as? [String: Any] { self.createObject = try Clouddirectory.BatchCreateObjectResponse(dictionary: createObject) } else { self.createObject = nil }
+            if let deleteObject = dictionary["DeleteObject"] as? [String: Any] { self.deleteObject = try Clouddirectory.BatchDeleteObjectResponse(dictionary: deleteObject) } else { self.deleteObject = nil }
+            if let removeFacetFromObject = dictionary["RemoveFacetFromObject"] as? [String: Any] { self.removeFacetFromObject = try Clouddirectory.BatchRemoveFacetFromObjectResponse(dictionary: removeFacetFromObject) } else { self.removeFacetFromObject = nil }
         }
     }
 
@@ -486,11 +456,9 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// Published schema ARN that needs to be copied. For more information, see arns.
-        public var publishedSchemaArn: String = ""
+        public let publishedSchemaArn: String
         /// ARN associated with the Directory into which the schema is copied. For more information, see arns.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(publishedSchemaArn: String, directoryArn: String) {
             self.publishedSchemaArn = publishedSchemaArn
@@ -512,19 +480,17 @@ extension Clouddirectory {
             return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
         }
         /// The reference to the index to list.
-        public var indexReference: ObjectReference = ObjectReference()
+        public let indexReference: ObjectReference
         /// The ARN of the directory that the index exists in.
-        public var directoryArn: String = ""
+        public let directoryArn: String
         /// The consistency level to execute the request at.
-        public var consistencyLevel: String? = nil
+        public let consistencyLevel: String?
         /// Specifies the ranges of indexed values that you want to query.
-        public var rangesOnIndexedValues: [ObjectAttributeRange]? = nil
+        public let rangesOnIndexedValues: [ObjectAttributeRange]?
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to retrieve from the index.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(indexReference: ObjectReference, directoryArn: String, consistencyLevel: String? = nil, rangesOnIndexedValues: [ObjectAttributeRange]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.indexReference = indexReference
@@ -543,6 +509,8 @@ extension Clouddirectory {
             self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
             if let rangesOnIndexedValues = dictionary["RangesOnIndexedValues"] as? [[String: Any]] {
                 self.rangesOnIndexedValues = try rangesOnIndexedValues.map({ try ObjectAttributeRange(dictionary: $0) })
+            } else { 
+                self.rangesOnIndexedValues = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
@@ -556,13 +524,11 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// A reference to the object that you are attaching to the index.
-        public var targetReference: ObjectReference = ObjectReference()
+        public let targetReference: ObjectReference
         /// A reference to the index that you are attaching the object to.
-        public var indexReference: ObjectReference = ObjectReference()
+        public let indexReference: ObjectReference
         /// The ARN of the directory where the object and index exist.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(targetReference: ObjectReference, indexReference: ObjectReference, directoryArn: String) {
             self.targetReference = targetReference
@@ -584,11 +550,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Attributes map associated with the object. AttributeArn is the key; attribute value is the value.
-        public var attributes: [AttributeKeyAndValue]? = nil
-
-        public init() {}
+        public let attributes: [AttributeKeyAndValue]?
 
         public init(nextToken: String? = nil, attributes: [AttributeKeyAndValue]? = nil) {
             self.nextToken = nextToken
@@ -599,6 +563,8 @@ extension Clouddirectory {
             self.nextToken = dictionary["NextToken"] as? String
             if let attributes = dictionary["Attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try AttributeKeyAndValue(dictionary: $0) })
+            } else { 
+                self.attributes = nil
             }
         }
     }
@@ -610,9 +576,7 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// The ARN of the directory to delete.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
@@ -628,8 +592,6 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -638,9 +600,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of all the responses for each batch write.
-        public var responses: [BatchWriteOperationResponse]? = nil
-
-        public init() {}
+        public let responses: [BatchWriteOperationResponse]?
 
         public init(responses: [BatchWriteOperationResponse]? = nil) {
             self.responses = responses
@@ -649,6 +609,8 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             if let responses = dictionary["Responses"] as? [[String: Any]] {
                 self.responses = try responses.map({ try BatchWriteOperationResponse(dictionary: $0) })
+            } else { 
+                self.responses = nil
             }
         }
     }
@@ -657,9 +619,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the deleted directory.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
@@ -678,15 +638,13 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// Parent object reference.
-        public var parentReference: ObjectReference = ObjectReference()
+        public let parentReference: ObjectReference
         /// Child object reference to be attached to the object.
-        public var childReference: ObjectReference = ObjectReference()
+        public let childReference: ObjectReference
         /// ARN associated with the Directory where both objects reside. For more information, see arns.
-        public var directoryArn: String = ""
+        public let directoryArn: String
         /// Link name with which the child object is attached to the parent.
-        public var linkName: String = ""
-
-        public init() {}
+        public let linkName: String
 
         public init(parentReference: ObjectReference, childReference: ObjectReference, directoryArn: String, linkName: String) {
             self.parentReference = parentReference
@@ -714,13 +672,11 @@ extension Clouddirectory {
             return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
         }
         /// The consistency level at which to retrieve the object information.
-        public var consistencyLevel: String? = nil
+        public let consistencyLevel: String?
         /// A reference to the object.
-        public var objectReference: ObjectReference = ObjectReference()
+        public let objectReference: ObjectReference
         /// The ARN of the directory being retrieved.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(consistencyLevel: String? = nil, objectReference: ObjectReference, directoryArn: String) {
             self.consistencyLevel = consistencyLevel
@@ -741,8 +697,6 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -754,17 +708,15 @@ extension Clouddirectory {
             return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
         }
         /// The ARN of the directory.
-        public var directoryArn: String = ""
+        public let directoryArn: String
         /// A reference to the object to that has indices attached.
-        public var targetReference: ObjectReference = ObjectReference()
+        public let targetReference: ObjectReference
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The consistency level to use for this operation.
-        public var consistencyLevel: String? = nil
+        public let consistencyLevel: String?
         /// The maximum number of results to retrieve.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(directoryArn: String, targetReference: ObjectReference, nextToken: String? = nil, consistencyLevel: String? = nil, maxResults: Int32? = nil) {
             self.directoryArn = directoryArn
@@ -789,9 +741,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ObjectIdentifier of the index created by this operation.
-        public var objectIdentifier: String? = nil
-
-        public init() {}
+        public let objectIdentifier: String?
 
         public init(objectIdentifier: String? = nil) {
             self.objectIdentifier = objectIdentifier
@@ -806,13 +756,11 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of policy that can be associated with PolicyAttachment.
-        public var policyType: String? = nil
+        public let policyType: String?
         /// The ObjectIdentifier associated with PolicyAttachment.
-        public var objectIdentifier: String? = nil
+        public let objectIdentifier: String?
         /// The ID of PolicyAttachment.
-        public var policyId: String? = nil
-
-        public init() {}
+        public let policyId: String?
 
         public init(policyType: String? = nil, objectIdentifier: String? = nil, policyId: String? = nil) {
             self.policyType = policyType
@@ -831,11 +779,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARNs of schemas that are applied to the directory.
-        public var schemaArns: [String]? = nil
+        public let schemaArns: [String]?
         /// The pagination token.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(schemaArns: [String]? = nil, nextToken: String? = nil) {
             self.schemaArns = schemaArns
@@ -843,9 +789,7 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let schemaArns = dictionary["SchemaArns"] as? [String] {
-                self.schemaArns = schemaArns
-            }
+            self.schemaArns = dictionary["SchemaArns"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
         }
     }
@@ -854,9 +798,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the enabled directory.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
@@ -872,13 +814,11 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// ARN of the resource. Tagging is only supported for directories.
-        public var resourceArn: String = ""
+        public let resourceArn: String
         /// The pagination token. This is for future use. Currently pagination is not supported for tagging.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The MaxResults parameter sets the maximum number of results returned in a single page. This is for future use and is not supported currently.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(resourceArn: String, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.resourceArn = resourceArn
@@ -898,11 +838,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// List of tag key value pairs associated with the response.
-        public var tags: [Tag]? = nil
-
-        public init() {}
+        public let tags: [Tag]?
 
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
@@ -913,6 +851,8 @@ extension Clouddirectory {
             self.nextToken = dictionary["NextToken"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
         }
     }
@@ -921,11 +861,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// List of ObjectIdentifiers to which the policy is attached.
-        public var objectIdentifiers: [String]? = nil
-
-        public init() {}
+        public let objectIdentifiers: [String]?
 
         public init(nextToken: String? = nil, objectIdentifiers: [String]? = nil) {
             self.nextToken = nextToken
@@ -934,9 +872,7 @@ extension Clouddirectory {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["NextToken"] as? String
-            if let objectIdentifiers = dictionary["ObjectIdentifiers"] as? [String] {
-                self.objectIdentifiers = objectIdentifiers
-            }
+            self.objectIdentifiers = dictionary["ObjectIdentifiers"] as? [String]
         }
     }
 
@@ -947,17 +883,15 @@ extension Clouddirectory {
             return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
         }
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// ARN associated with the Directory where the object resides. For more information, see arns.
-        public var directoryArn: String = ""
+        public let directoryArn: String
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        public var consistencyLevel: String? = nil
+        public let consistencyLevel: String?
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Reference that identifies the object for which parent objects are being listed.
-        public var objectReference: ObjectReference = ObjectReference()
-
-        public init() {}
+        public let objectReference: ObjectReference
 
         public init(maxResults: Int32? = nil, directoryArn: String, consistencyLevel: String? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
@@ -985,11 +919,9 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "SchemaArn"]
         }
         /// The replacement JSON schema.
-        public var document: String = ""
+        public let document: String
         /// The ARN of the schema to update.
-        public var schemaArn: String = ""
-
-        public init() {}
+        public let schemaArn: String
 
         public init(document: String, schemaArn: String) {
             self.document = document
@@ -1008,13 +940,11 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of results to retrieve.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The ARN of the directory you are listing.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(maxResults: Int32? = nil, nextToken: String? = nil, directoryArn: String) {
             self.maxResults = maxResults
@@ -1034,11 +964,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Type can be either Update or Delete.
-        public var objectAttributeActionType: String? = nil
+        public let objectAttributeActionType: String?
         /// The value that you want to update to.
-        public var objectAttributeUpdateValue: TypedAttributeValue? = nil
-
-        public init() {}
+        public let objectAttributeUpdateValue: TypedAttributeValue?
 
         public init(objectAttributeActionType: String? = nil, objectAttributeUpdateValue: TypedAttributeValue? = nil) {
             self.objectAttributeActionType = objectAttributeActionType
@@ -1047,7 +975,7 @@ extension Clouddirectory {
 
         public init(dictionary: [String: Any]) throws {
             self.objectAttributeActionType = dictionary["ObjectAttributeActionType"] as? String
-            if let objectAttributeUpdateValue = dictionary["ObjectAttributeUpdateValue"] as? [String: Any] { self.objectAttributeUpdateValue = try Clouddirectory.TypedAttributeValue(dictionary: objectAttributeUpdateValue) }
+            if let objectAttributeUpdateValue = dictionary["ObjectAttributeUpdateValue"] as? [String: Any] { self.objectAttributeUpdateValue = try Clouddirectory.TypedAttributeValue(dictionary: objectAttributeUpdateValue) } else { self.objectAttributeUpdateValue = nil }
         }
     }
 
@@ -1058,13 +986,11 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// Link name associated with the object that needs to be detached.
-        public var linkName: String = ""
+        public let linkName: String
         /// Parent reference from which the object with the specified link name is detached.
-        public var parentReference: ObjectReference = ObjectReference()
+        public let parentReference: ObjectReference
         /// ARN associated with the Directory where objects reside. For more information, see arns.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(linkName: String, parentReference: ObjectReference, directoryArn: String) {
             self.linkName = linkName
@@ -1089,13 +1015,11 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// Reference that identifies the policy object.
-        public var policyReference: ObjectReference = ObjectReference()
+        public let policyReference: ObjectReference
         /// Reference that identifies the object whose policy object will be detached.
-        public var objectReference: ObjectReference = ObjectReference()
+        public let objectReference: ObjectReference
         /// ARN associated with the Directory where both objects reside. For more information, see arns.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(policyReference: ObjectReference, objectReference: ObjectReference, directoryArn: String) {
             self.policyReference = policyReference
@@ -1117,11 +1041,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the schema that contains the facet.
-        public var schemaArn: String? = nil
+        public let schemaArn: String?
         /// The name of the facet.
-        public var facetName: String? = nil
-
-        public init() {}
+        public let facetName: String?
 
         public init(schemaArn: String? = nil, facetName: String? = nil) {
             self.schemaArn = schemaArn
@@ -1141,13 +1063,11 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DevelopmentSchemaArn"]
         }
         /// ARN associated with the development schema. For more information, see arns.
-        public var developmentSchemaArn: String = ""
+        public let developmentSchemaArn: String
         /// New name under which the schema will be published. If this is not provided, the development schema is considered.
-        public var name: String? = nil
+        public let name: String?
         /// Version under which the schema will be published.
-        public var version: String = ""
-
-        public init() {}
+        public let version: String
 
         public init(developmentSchemaArn: String, name: String? = nil, version: String) {
             self.developmentSchemaArn = developmentSchemaArn
@@ -1168,9 +1088,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Metadata about the directory.
-        public var directory: Directory = Directory()
-
-        public init() {}
+        public let directory: Directory
 
         public init(directory: Directory) {
             self.directory = directory
@@ -1186,9 +1104,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of all the responses for each batch read.
-        public var responses: [BatchReadOperationResponse]? = nil
-
-        public init() {}
+        public let responses: [BatchReadOperationResponse]?
 
         public init(responses: [BatchReadOperationResponse]? = nil) {
             self.responses = responses
@@ -1197,6 +1113,8 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             if let responses = dictionary["Responses"] as? [[String: Any]] {
                 self.responses = try responses.map({ try BatchReadOperationResponse(dictionary: $0) })
+            } else { 
+                self.responses = nil
             }
         }
     }
@@ -1205,9 +1123,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ObjectIdentifier of the detached object.
-        public var detachedObjectIdentifier: String? = nil
-
-        public init() {}
+        public let detachedObjectIdentifier: String?
 
         public init(detachedObjectIdentifier: String? = nil) {
             self.detachedObjectIdentifier = detachedObjectIdentifier
@@ -1222,11 +1138,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Target attribute name associated with the facet reference. See Attribute References for more information.
-        public var targetAttributeName: String = ""
+        public let targetAttributeName: String
         /// Target facet name associated with the facet reference. See Attribute References for more information.
-        public var targetFacetName: String = ""
-
-        public init() {}
+        public let targetFacetName: String
 
         public init(targetAttributeName: String, targetFacetName: String) {
             self.targetAttributeName = targetAttributeName
@@ -1245,9 +1159,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Reference that identifies the object.
-        public var objectReference: ObjectReference = ObjectReference()
-
-        public init() {}
+        public let objectReference: ObjectReference
 
         public init(objectReference: ObjectReference) {
             self.objectReference = objectReference
@@ -1266,17 +1178,15 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// List of facet ARNs to be associated with the object. For more information, see arns.
-        public var schemaFacets: [SchemaFacet] = []
+        public let schemaFacets: [SchemaFacet]
         /// If specified, the parent reference to which this object will be attached.
-        public var parentReference: ObjectReference? = nil
+        public let parentReference: ObjectReference?
         /// ARN associated with the Directory in which the object will be created. For more information, see arns.
-        public var directoryArn: String = ""
+        public let directoryArn: String
         /// Attribute map whose attribute ARN contains the key and attribute value as the map value.
-        public var objectAttributeList: [AttributeKeyAndValue]? = nil
+        public let objectAttributeList: [AttributeKeyAndValue]?
         /// The name of link that is used to attach this object to a parent.
-        public var linkName: String? = nil
-
-        public init() {}
+        public let linkName: String?
 
         public init(schemaFacets: [SchemaFacet], parentReference: ObjectReference? = nil, directoryArn: String, objectAttributeList: [AttributeKeyAndValue]? = nil, linkName: String? = nil) {
             self.schemaFacets = schemaFacets
@@ -1289,11 +1199,13 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             guard let schemaFacets = dictionary["SchemaFacets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("SchemaFacets") }
             self.schemaFacets = try schemaFacets.map({ try SchemaFacet(dictionary: $0) })
-            if let parentReference = dictionary["ParentReference"] as? [String: Any] { self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference) }
+            if let parentReference = dictionary["ParentReference"] as? [String: Any] { self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference) } else { self.parentReference = nil }
             guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
             self.directoryArn = directoryArn
             if let objectAttributeList = dictionary["ObjectAttributeList"] as? [[String: Any]] {
                 self.objectAttributeList = try objectAttributeList.map({ try AttributeKeyAndValue(dictionary: $0) })
+            } else { 
+                self.objectAttributeList = nil
             }
             self.linkName = dictionary["LinkName"] as? String
         }
@@ -1303,11 +1215,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Applied schema ARN associated with the copied schema in the Directory. You can use this ARN to describe the schema information applied on this directory. For more information, see arns.
-        public var appliedSchemaArn: String? = nil
+        public let appliedSchemaArn: String?
         /// ARN associated with the Directory. For more information, see arns.
-        public var directoryArn: String? = nil
-
-        public init() {}
+        public let directoryArn: String?
 
         public init(appliedSchemaArn: String? = nil, directoryArn: String? = nil) {
             self.appliedSchemaArn = appliedSchemaArn
@@ -1324,8 +1234,6 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1337,15 +1245,13 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// ARN associated with the Directory. For more information, see arns.
-        public var directoryArn: String = ""
+        public let directoryArn: String
         /// The token to request the next page of results.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Reference that identifies the object whose policies will be looked up.
-        public var objectReference: ObjectReference = ObjectReference()
-
-        public init() {}
+        public let objectReference: ObjectReference
 
         public init(maxResults: Int32? = nil, directoryArn: String, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
@@ -1368,11 +1274,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Identifies which operation in a batch has failed.
-        public var exceptionResponse: BatchReadException? = nil
+        public let exceptionResponse: BatchReadException?
         /// Identifies which operation in a batch has succeeded.
-        public var successfulResponse: BatchReadSuccessfulResponse? = nil
-
-        public init() {}
+        public let successfulResponse: BatchReadSuccessfulResponse?
 
         public init(exceptionResponse: BatchReadException? = nil, successfulResponse: BatchReadSuccessfulResponse? = nil) {
             self.exceptionResponse = exceptionResponse
@@ -1380,8 +1284,8 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let exceptionResponse = dictionary["ExceptionResponse"] as? [String: Any] { self.exceptionResponse = try Clouddirectory.BatchReadException(dictionary: exceptionResponse) }
-            if let successfulResponse = dictionary["SuccessfulResponse"] as? [String: Any] { self.successfulResponse = try Clouddirectory.BatchReadSuccessfulResponse(dictionary: successfulResponse) }
+            if let exceptionResponse = dictionary["ExceptionResponse"] as? [String: Any] { self.exceptionResponse = try Clouddirectory.BatchReadException(dictionary: exceptionResponse) } else { self.exceptionResponse = nil }
+            if let successfulResponse = dictionary["SuccessfulResponse"] as? [String: Any] { self.successfulResponse = try Clouddirectory.BatchReadSuccessfulResponse(dictionary: successfulResponse) } else { self.successfulResponse = nil }
         }
     }
 
@@ -1389,11 +1293,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The indices attached to the specified object.
-        public var indexAttachments: [IndexAttachment]? = nil
+        public let indexAttachments: [IndexAttachment]?
         /// The pagination token.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(indexAttachments: [IndexAttachment]? = nil, nextToken: String? = nil) {
             self.indexAttachments = indexAttachments
@@ -1403,6 +1305,8 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             if let indexAttachments = dictionary["IndexAttachments"] as? [[String: Any]] {
                 self.indexAttachments = try indexAttachments.map({ try IndexAttachment(dictionary: $0) })
+            } else { 
+                self.indexAttachments = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -1412,13 +1316,11 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Represents the facet being added to the object.
-        public var schemaFacet: SchemaFacet = SchemaFacet()
+        public let schemaFacet: SchemaFacet
         /// The attributes to set on the object.
-        public var objectAttributeList: [AttributeKeyAndValue] = []
+        public let objectAttributeList: [AttributeKeyAndValue]
         /// A reference to the object being mutated.
-        public var objectReference: ObjectReference = ObjectReference()
-
-        public init() {}
+        public let objectReference: ObjectReference
 
         public init(schemaFacet: SchemaFacet, objectAttributeList: [AttributeKeyAndValue], objectReference: ObjectReference) {
             self.schemaFacet = schemaFacet
@@ -1440,11 +1342,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Attributes map associated with the object. AttributeArn is the key, and attribute value is the value.
-        public var attributes: [AttributeKeyAndValue]? = nil
-
-        public init() {}
+        public let attributes: [AttributeKeyAndValue]?
 
         public init(nextToken: String? = nil, attributes: [AttributeKeyAndValue]? = nil) {
             self.nextToken = nextToken
@@ -1455,6 +1355,8 @@ extension Clouddirectory {
             self.nextToken = dictionary["NextToken"] as? String
             if let attributes = dictionary["Attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try AttributeKeyAndValue(dictionary: $0) })
+            } else { 
+                self.attributes = nil
             }
         }
     }
@@ -1463,11 +1365,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Attributes update structure.
-        public var attributeUpdates: [ObjectAttributeUpdate] = []
+        public let attributeUpdates: [ObjectAttributeUpdate]
         /// Reference that identifies the object.
-        public var objectReference: ObjectReference = ObjectReference()
-
-        public init() {}
+        public let objectReference: ObjectReference
 
         public init(attributeUpdates: [ObjectAttributeUpdate], objectReference: ObjectReference) {
             self.attributeUpdates = attributeUpdates
@@ -1489,15 +1389,13 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "SchemaArn"]
         }
         /// Specifies whether a given object created from this facet is of type Node, Leaf Node, Policy or Index.   Node: Can have multiple children but one parent.     Leaf Node: Cannot have children but can have multiple parents.     Policy: Allows you to store a policy document and policy type. For more information, see Policies.     Index: Can be created with the Index API.  
-        public var objectType: String = ""
+        public let objectType: String
         /// Attributes associated with the Facet.e
-        public var attributes: [FacetAttribute]? = nil
+        public let attributes: [FacetAttribute]?
         /// Name of the Facet, which is unique for a given schema.
-        public var name: String = ""
+        public let name: String
         /// Schema ARN in which the new Facet will be created. For more information, see arns.
-        public var schemaArn: String = ""
-
-        public init() {}
+        public let schemaArn: String
 
         public init(objectType: String, attributes: [FacetAttribute]? = nil, name: String, schemaArn: String) {
             self.objectType = objectType
@@ -1511,6 +1409,8 @@ extension Clouddirectory {
             self.objectType = objectType
             if let attributes = dictionary["Attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try FacetAttribute(dictionary: $0) })
+            } else { 
+                self.attributes = nil
             }
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
@@ -1523,8 +1423,6 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1533,11 +1431,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The names of facets that exist within the schema.
-        public var facetNames: [String]? = nil
-
-        public init() {}
+        public let facetNames: [String]?
 
         public init(nextToken: String? = nil, facetNames: [String]? = nil) {
             self.nextToken = nextToken
@@ -1546,9 +1442,7 @@ extension Clouddirectory {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["NextToken"] as? String
-            if let facetNames = dictionary["FacetNames"] as? [String] {
-                self.facetNames = facetNames
-            }
+            self.facetNames = dictionary["FacetNames"] as? [String]
         }
     }
 
@@ -1556,15 +1450,13 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// ARN associated with the Directory. For more information, see arns.
-        public var directoryArn: String = ""
+        public let directoryArn: String
         /// Name of the Directory.
-        public var name: String = ""
+        public let name: String
         /// The root object node of the created directory.
-        public var objectIdentifier: String = ""
+        public let objectIdentifier: String
         /// ARN of the published schema in the Directory. Once a published schema is copied into the directory, it has its own ARN which is referred to applied schema ARN. For more information, see arns.
-        public var appliedSchemaArn: String = ""
-
-        public init() {}
+        public let appliedSchemaArn: String
 
         public init(directoryArn: String, name: String, objectIdentifier: String, appliedSchemaArn: String) {
             self.directoryArn = directoryArn
@@ -1589,8 +1481,6 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1599,17 +1489,15 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// If specified, the parent reference to which this object will be attached.
-        public var parentReference: ObjectReference = ObjectReference()
+        public let parentReference: ObjectReference
         /// List of FacetArns that will be associated with the object. For more information, see arns.
-        public var schemaFacet: [SchemaFacet] = []
+        public let schemaFacet: [SchemaFacet]
         /// The batch reference name. See Batches for more information.
-        public var batchReferenceName: String = ""
+        public let batchReferenceName: String
         /// Attribute map, which contains an attribute ARN as the key and attribute value as the map value.
-        public var objectAttributeList: [AttributeKeyAndValue] = []
+        public let objectAttributeList: [AttributeKeyAndValue]
         /// The name of the link.
-        public var linkName: String = ""
-
-        public init() {}
+        public let linkName: String
 
         public init(parentReference: ObjectReference, schemaFacet: [SchemaFacet], batchReferenceName: String, objectAttributeList: [AttributeKeyAndValue], linkName: String) {
             self.parentReference = parentReference
@@ -1637,11 +1525,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// ARN of the resource. Tagging is only supported for directories.
-        public var resourceArn: String = ""
+        public let resourceArn: String
         /// Keys of the tag that needs to be removed from the resource.
-        public var tagKeys: [String] = []
-
-        public init() {}
+        public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
@@ -1660,11 +1546,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Lists all directories associated with your account in pagination fashion.
-        public var directories: [Directory] = []
+        public let directories: [Directory]
         /// The pagination token.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(directories: [Directory], nextToken: String? = nil) {
             self.directories = directories
@@ -1682,11 +1566,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Children structure, which is a map with key as the LinkName and ObjectIdentifier as the value.
-        public var children: [String: String]? = nil
-
-        public init() {}
+        public let children: [String: String]?
 
         public init(nextToken: String? = nil, children: [String: String]? = nil) {
             self.nextToken = nextToken
@@ -1697,6 +1579,8 @@ extension Clouddirectory {
             self.nextToken = dictionary["NextToken"] as? String
             if let children = dictionary["Children"] as? [String: String] {
                 self.children = children
+            } else { 
+                self.children = nil
             }
         }
     }
@@ -1708,17 +1592,15 @@ extension Clouddirectory {
             return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
         }
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// ARN associated with the Directory where objects reside. For more information, see arns.
-        public var directoryArn: String = ""
+        public let directoryArn: String
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        public var consistencyLevel: String? = nil
+        public let consistencyLevel: String?
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Reference that identifies the object for which policies will be listed.
-        public var objectReference: ObjectReference = ObjectReference()
-
-        public init() {}
+        public let objectReference: ObjectReference
 
         public init(maxResults: Int32? = nil, directoryArn: String, consistencyLevel: String? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
@@ -1746,9 +1628,7 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// The ARN of the directory to disable.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
@@ -1764,9 +1644,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ObjectIdentifier of the object that was detached from the index.
-        public var detachedObjectIdentifier: String? = nil
-
-        public init() {}
+        public let detachedObjectIdentifier: String?
 
         public init(detachedObjectIdentifier: String? = nil) {
             self.detachedObjectIdentifier = detachedObjectIdentifier
@@ -1781,8 +1659,6 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1791,13 +1667,11 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Reference of the object whose attributes need to be listed.
-        public var objectReference: ObjectReference = ObjectReference()
+        public let objectReference: ObjectReference
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(objectReference: ObjectReference, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.objectReference = objectReference
@@ -1817,9 +1691,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Attached ObjectIdentifier, which is the child ObjectIdentifier.
-        public var attachedObjectIdentifier: String? = nil
-
-        public init() {}
+        public let attachedObjectIdentifier: String?
 
         public init(attachedObjectIdentifier: String? = nil) {
             self.attachedObjectIdentifier = attachedObjectIdentifier
@@ -1837,15 +1709,13 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// The ARN of the directory to which the parent path applies.
-        public var directoryArn: String = ""
+        public let directoryArn: String
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Reference that identifies the object whose parent paths are listed.
-        public var objectReference: ObjectReference = ObjectReference()
-
-        public init() {}
+        public let objectReference: ObjectReference
 
         public init(maxResults: Int32? = nil, directoryArn: String, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
@@ -1871,11 +1741,9 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "SchemaArn"]
         }
         /// Name of the Directory. Should be unique per account, per region.
-        public var name: String = ""
+        public let name: String
         /// ARN of the published schema that will be copied into the data Directory. For more information, see arns.
-        public var schemaArn: String = ""
-
-        public init() {}
+        public let schemaArn: String
 
         public init(name: String, schemaArn: String) {
             self.name = name
@@ -1897,9 +1765,7 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "SchemaArn"]
         }
         /// The ARN of the schema to retrieve.
-        public var schemaArn: String = ""
-
-        public init() {}
+        public let schemaArn: String
 
         public init(schemaArn: String) {
             self.schemaArn = schemaArn
@@ -1918,15 +1784,13 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "SchemaArn"]
         }
         /// Object type associated with the facet. See CreateFacetRequest$ObjectType for more details.
-        public var objectType: String? = nil
+        public let objectType: String?
         /// List of attributes that need to be updated in a given schema Facet. Each attribute is followed by AttributeAction, which specifies the type of update operation to perform. 
-        public var attributeUpdates: [FacetAttributeUpdate]? = nil
+        public let attributeUpdates: [FacetAttributeUpdate]?
         ///  
-        public var name: String = ""
+        public let name: String
         /// ARN associated with the Facet. For more information, see arns.
-        public var schemaArn: String = ""
-
-        public init() {}
+        public let schemaArn: String
 
         public init(objectType: String? = nil, attributeUpdates: [FacetAttributeUpdate]? = nil, name: String, schemaArn: String) {
             self.objectType = objectType
@@ -1939,6 +1803,8 @@ extension Clouddirectory {
             self.objectType = dictionary["ObjectType"] as? String
             if let attributeUpdates = dictionary["AttributeUpdates"] as? [[String: Any]] {
                 self.attributeUpdates = try attributeUpdates.map({ try FacetAttributeUpdate(dictionary: $0) })
+            } else { 
+                self.attributeUpdates = nil
             }
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
@@ -1951,9 +1817,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the directory that has been disabled.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
@@ -1972,13 +1836,11 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// Reference associated with the policy object.
-        public var policyReference: ObjectReference = ObjectReference()
+        public let policyReference: ObjectReference
         /// Reference that identifies the object to which the policy will be attached.
-        public var objectReference: ObjectReference = ObjectReference()
+        public let objectReference: ObjectReference
         /// ARN associated with the Directory where both objects reside. For more information, see arns.
-        public var directoryArn: String? = nil
-
-        public init() {}
+        public let directoryArn: String?
 
         public init(policyReference: ObjectReference, objectReference: ObjectReference, directoryArn: String? = nil) {
             self.policyReference = policyReference
@@ -1999,11 +1861,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARNs of retrieved development schemas.
-        public var schemaArns: [String]? = nil
+        public let schemaArns: [String]?
         /// The pagination token.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(schemaArns: [String]? = nil, nextToken: String? = nil) {
             self.schemaArns = schemaArns
@@ -2011,9 +1871,7 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let schemaArns = dictionary["SchemaArns"] as? [String] {
-                self.schemaArns = schemaArns
-            }
+            self.schemaArns = dictionary["SchemaArns"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
         }
     }
@@ -2025,11 +1883,9 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// List of operations that are part of the batch.
-        public var operations: [BatchWriteOperation] = []
+        public let operations: [BatchWriteOperation]
         /// ARN associated with the Directory. For more information, see arns.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(operations: [BatchWriteOperation], directoryArn: String) {
             self.operations = operations
@@ -2048,9 +1904,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// ID associated with the object.
-        public var objectIdentifier: String? = nil
-
-        public init() {}
+        public let objectIdentifier: String?
 
         public init(objectIdentifier: String? = nil) {
             self.objectIdentifier = objectIdentifier
@@ -2065,9 +1919,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// ID associated with the object.
-        public var objectIdentifier: String? = nil
-
-        public init() {}
+        public let objectIdentifier: String?
 
         public init(objectIdentifier: String? = nil) {
             self.objectIdentifier = objectIdentifier
@@ -2085,13 +1937,11 @@ extension Clouddirectory {
             return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
         }
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        public var consistencyLevel: String? = nil
+        public let consistencyLevel: String?
         /// List of operations that are part of the batch.
-        public var operations: [BatchReadOperation] = []
+        public let operations: [BatchReadOperation]
         /// ARN associated with the Directory. For more information, see arns.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(consistencyLevel: String? = nil, operations: [BatchReadOperation], directoryArn: String) {
             self.consistencyLevel = consistencyLevel
@@ -2112,11 +1962,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARNs of published schemas.
-        public var schemaArns: [String]? = nil
+        public let schemaArns: [String]?
         /// The pagination token.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(schemaArns: [String]? = nil, nextToken: String? = nil) {
             self.schemaArns = schemaArns
@@ -2124,9 +1972,7 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let schemaArns = dictionary["SchemaArns"] as? [String] {
-                self.schemaArns = schemaArns
-            }
+            self.schemaArns = dictionary["SchemaArns"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
         }
     }
@@ -2135,11 +1981,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns a paginated list of child objects associated with a given object.
-        public var listObjectChildren: BatchListObjectChildrenResponse? = nil
+        public let listObjectChildren: BatchListObjectChildrenResponse?
         /// Lists all attributes associated with an object.
-        public var listObjectAttributes: BatchListObjectAttributesResponse? = nil
-
-        public init() {}
+        public let listObjectAttributes: BatchListObjectAttributesResponse?
 
         public init(listObjectChildren: BatchListObjectChildrenResponse? = nil, listObjectAttributes: BatchListObjectAttributesResponse? = nil) {
             self.listObjectChildren = listObjectChildren
@@ -2147,8 +1991,8 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let listObjectChildren = dictionary["ListObjectChildren"] as? [String: Any] { self.listObjectChildren = try Clouddirectory.BatchListObjectChildrenResponse(dictionary: listObjectChildren) }
-            if let listObjectAttributes = dictionary["ListObjectAttributes"] as? [String: Any] { self.listObjectAttributes = try Clouddirectory.BatchListObjectAttributesResponse(dictionary: listObjectAttributes) }
+            if let listObjectChildren = dictionary["ListObjectChildren"] as? [String: Any] { self.listObjectChildren = try Clouddirectory.BatchListObjectChildrenResponse(dictionary: listObjectChildren) } else { self.listObjectChildren = nil }
+            if let listObjectAttributes = dictionary["ListObjectAttributes"] as? [String: Any] { self.listObjectAttributes = try Clouddirectory.BatchListObjectAttributesResponse(dictionary: listObjectAttributes) } else { self.listObjectAttributes = nil }
         }
     }
 
@@ -2156,17 +2000,15 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// A string data value.
-        public var stringValue: String? = nil
+        public let stringValue: String?
         /// A binary data value.
-        public var binaryValue: Data? = nil
+        public let binaryValue: Data?
         /// A Boolean data value.
-        public var booleanValue: Bool? = nil
+        public let booleanValue: Bool?
         /// A date and time value.
-        public var datetimeValue: Date? = nil
+        public let datetimeValue: Date?
         /// A number data value.
-        public var numberValue: String? = nil
-
-        public init() {}
+        public let numberValue: String?
 
         public init(stringValue: String? = nil, binaryValue: Data? = nil, booleanValue: Bool? = nil, datetimeValue: Date? = nil, numberValue: String? = nil) {
             self.stringValue = stringValue
@@ -2189,11 +2031,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Returns the path to the ObjectIdentifiers associated with the directory.
-        public var pathToObjectIdentifiersList: [PathToObjectIdentifiers]? = nil
-
-        public init() {}
+        public let pathToObjectIdentifiersList: [PathToObjectIdentifiers]?
 
         public init(nextToken: String? = nil, pathToObjectIdentifiersList: [PathToObjectIdentifiers]? = nil) {
             self.nextToken = nextToken
@@ -2204,6 +2044,8 @@ extension Clouddirectory {
             self.nextToken = dictionary["NextToken"] as? String
             if let pathToObjectIdentifiersList = dictionary["PathToObjectIdentifiersList"] as? [[String: Any]] {
                 self.pathToObjectIdentifiersList = try pathToObjectIdentifiersList.map({ try PathToObjectIdentifiers(dictionary: $0) })
+            } else { 
+                self.pathToObjectIdentifiersList = nil
             }
         }
     }
@@ -2212,13 +2054,11 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the attribute.
-        public var name: String = ""
+        public let name: String
         /// The ARN of the schema that contains the facet and attribute.
-        public var schemaArn: String = ""
+        public let schemaArn: String
         /// The name of the facet the attribute exists within.
-        public var facetName: String = ""
-
-        public init() {}
+        public let facetName: String
 
         public init(name: String, schemaArn: String, facetName: String) {
             self.name = name
@@ -2240,11 +2080,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Lists ObjectIdentifiers starting from directory root to the object in the request.
-        public var objectIdentifiers: [String]? = nil
+        public let objectIdentifiers: [String]?
         /// The path used to identify the object starting from directory root.
-        public var path: String? = nil
-
-        public init() {}
+        public let path: String?
 
         public init(objectIdentifiers: [String]? = nil, path: String? = nil) {
             self.objectIdentifiers = objectIdentifiers
@@ -2252,9 +2090,7 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let objectIdentifiers = dictionary["ObjectIdentifiers"] as? [String] {
-                self.objectIdentifiers = objectIdentifiers
-            }
+            self.objectIdentifiers = dictionary["ObjectIdentifiers"] as? [String]
             self.path = dictionary["Path"] as? String
         }
     }
@@ -2263,13 +2099,11 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The batch reference name. See Batches for more information.
-        public var batchReferenceName: String = ""
+        public let batchReferenceName: String
         /// Parent reference from which the object with the specified link name is detached.
-        public var parentReference: ObjectReference = ObjectReference()
+        public let parentReference: ObjectReference
         /// The name of the link.
-        public var linkName: String = ""
-
-        public init() {}
+        public let linkName: String
 
         public init(batchReferenceName: String, parentReference: ObjectReference, linkName: String) {
             self.batchReferenceName = batchReferenceName
@@ -2294,11 +2128,9 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "SchemaArn"]
         }
         /// The name of the facet to retrieve.
-        public var name: String = ""
+        public let name: String
         /// ARN associated with the Facet. For more information, see arns.
-        public var schemaArn: String = ""
-
-        public init() {}
+        public let schemaArn: String
 
         public init(name: String, schemaArn: String) {
             self.name = name
@@ -2320,11 +2152,9 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "SchemaArn"]
         }
         /// Name of the schema.
-        public var name: String = ""
+        public let name: String
         /// ARN of the development schema. For more information, see arns.
-        public var schemaArn: String = ""
-
-        public init() {}
+        public let schemaArn: String
 
         public init(name: String, schemaArn: String) {
             self.name = name
@@ -2343,11 +2173,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The indexed attribute values.
-        public var indexedAttributes: [AttributeKeyAndValue]? = nil
+        public let indexedAttributes: [AttributeKeyAndValue]?
         /// The ObjectIdentifier of the object attached to the index.
-        public var objectIdentifier: String? = nil
-
-        public init() {}
+        public let objectIdentifier: String?
 
         public init(indexedAttributes: [AttributeKeyAndValue]? = nil, objectIdentifier: String? = nil) {
             self.indexedAttributes = indexedAttributes
@@ -2357,6 +2185,8 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             if let indexedAttributes = dictionary["IndexedAttributes"] as? [[String: Any]] {
                 self.indexedAttributes = try indexedAttributes.map({ try AttributeKeyAndValue(dictionary: $0) })
+            } else { 
+                self.indexedAttributes = nil
             }
             self.objectIdentifier = dictionary["ObjectIdentifier"] as? String
         }
@@ -2366,11 +2196,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The key of the attribute being updated.
-        public var objectAttributeKey: AttributeKey? = nil
+        public let objectAttributeKey: AttributeKey?
         /// The action to perform as part of the attribute update.
-        public var objectAttributeAction: ObjectAttributeAction? = nil
-
-        public init() {}
+        public let objectAttributeAction: ObjectAttributeAction?
 
         public init(objectAttributeKey: AttributeKey? = nil, objectAttributeAction: ObjectAttributeAction? = nil) {
             self.objectAttributeKey = objectAttributeKey
@@ -2378,8 +2206,8 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let objectAttributeKey = dictionary["ObjectAttributeKey"] as? [String: Any] { self.objectAttributeKey = try Clouddirectory.AttributeKey(dictionary: objectAttributeKey) }
-            if let objectAttributeAction = dictionary["ObjectAttributeAction"] as? [String: Any] { self.objectAttributeAction = try Clouddirectory.ObjectAttributeAction(dictionary: objectAttributeAction) }
+            if let objectAttributeKey = dictionary["ObjectAttributeKey"] as? [String: Any] { self.objectAttributeKey = try Clouddirectory.AttributeKey(dictionary: objectAttributeKey) } else { self.objectAttributeKey = nil }
+            if let objectAttributeAction = dictionary["ObjectAttributeAction"] as? [String: Any] { self.objectAttributeAction = try Clouddirectory.ObjectAttributeAction(dictionary: objectAttributeAction) } else { self.objectAttributeAction = nil }
         }
     }
 
@@ -2390,17 +2218,15 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// Specifies the Attributes that should be indexed on. Currently only a single attribute is supported.
-        public var orderedIndexedAttributeList: [AttributeKey] = []
+        public let orderedIndexedAttributeList: [AttributeKey]
         /// Indicates whether objects with the same indexed attribute value can be added to the index.
-        public var isUnique: Bool = false
+        public let isUnique: Bool
         /// A reference to the parent object that contains the index object.
-        public var parentReference: ObjectReference? = nil
+        public let parentReference: ObjectReference?
         /// The ARN of the directory where the index should be created.
-        public var directoryArn: String = ""
+        public let directoryArn: String
         /// The name of the link between the parent object and the index object.
-        public var linkName: String? = nil
-
-        public init() {}
+        public let linkName: String?
 
         public init(orderedIndexedAttributeList: [AttributeKey], isUnique: Bool, parentReference: ObjectReference? = nil, directoryArn: String, linkName: String? = nil) {
             self.orderedIndexedAttributeList = orderedIndexedAttributeList
@@ -2415,7 +2241,7 @@ extension Clouddirectory {
             self.orderedIndexedAttributeList = try orderedIndexedAttributeList.map({ try AttributeKey(dictionary: $0) })
             guard let isUnique = dictionary["IsUnique"] as? Bool else { throw InitializableError.missingRequiredParam("IsUnique") }
             self.isUnique = isUnique
-            if let parentReference = dictionary["ParentReference"] as? [String: Any] { self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference) }
+            if let parentReference = dictionary["ParentReference"] as? [String: Any] { self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference) } else { self.parentReference = nil }
             guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
             self.directoryArn = directoryArn
             self.linkName = dictionary["LinkName"] as? String
@@ -2426,11 +2252,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Object type associated with the facet. See CreateFacetRequest$ObjectType for more details.
-        public var objectType: String? = nil
+        public let objectType: String?
         /// The name of the Facet.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(objectType: String? = nil, name: String? = nil) {
             self.objectType = objectType
@@ -2447,13 +2271,11 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the directories in the list. Can be either Enabled, Disabled, or Deleted.
-        public var state: String? = nil
+        public let state: String?
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to retrieve.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(state: String? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.state = state
@@ -2472,15 +2294,13 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Whether the attribute is mutable or not.
-        public var isImmutable: Bool? = nil
+        public let isImmutable: Bool?
         /// Validation rules attached to the attribute definition.
-        public var rules: [String: Rule]? = nil
+        public let rules: [String: Rule]?
         /// The type of the attribute.
-        public var type: String = ""
+        public let type: String
         /// The default value of the attribute (if configured).
-        public var defaultValue: TypedAttributeValue? = nil
-
-        public init() {}
+        public let defaultValue: TypedAttributeValue?
 
         public init(isImmutable: Bool? = nil, rules: [String: Rule]? = nil, type: String, defaultValue: TypedAttributeValue? = nil) {
             self.isImmutable = isImmutable
@@ -2498,18 +2318,18 @@ extension Clouddirectory {
                     rulesDict[key] = try Rule(dictionary: ruleDict)
                 }
                 self.rules = rulesDict
+            } else { 
+                self.rules = nil
             }
             guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
             self.type = type
-            if let defaultValue = dictionary["DefaultValue"] as? [String: Any] { self.defaultValue = try Clouddirectory.TypedAttributeValue(dictionary: defaultValue) }
+            if let defaultValue = dictionary["DefaultValue"] as? [String: Any] { self.defaultValue = try Clouddirectory.TypedAttributeValue(dictionary: defaultValue) } else { self.defaultValue = nil }
         }
     }
 
     public struct DetachPolicyResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -2522,17 +2342,15 @@ extension Clouddirectory {
             return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
         }
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// ARN associated with the Directory where the object resides. For more information, see arns.
-        public var directoryArn: String = ""
+        public let directoryArn: String
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        public var consistencyLevel: String? = nil
+        public let consistencyLevel: String?
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Reference that identifies the object whose attributes will be listed.
-        public var objectReference: ObjectReference = ObjectReference()
-
-        public init() {}
+        public let objectReference: ObjectReference
 
         public init(maxResults: Int32? = nil, directoryArn: String, consistencyLevel: String? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
@@ -2557,9 +2375,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// ARN associated with the published schema. For more information, see arns.
-        public var publishedSchemaArn: String? = nil
-
-        public init() {}
+        public let publishedSchemaArn: String?
 
         public init(publishedSchemaArn: String? = nil) {
             self.publishedSchemaArn = publishedSchemaArn
@@ -2574,9 +2390,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Identifier associated with the object.
-        public var objectIdentifier: String? = nil
-
-        public init() {}
+        public let objectIdentifier: String?
 
         public init(objectIdentifier: String? = nil) {
             self.objectIdentifier = objectIdentifier
@@ -2594,9 +2408,7 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "SchemaArn"]
         }
         /// ARN of the development schema. For more information, see arns.
-        public var schemaArn: String = ""
-
-        public init() {}
+        public let schemaArn: String
 
         public init(schemaArn: String) {
             self.schemaArn = schemaArn
@@ -2612,11 +2424,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The facets attached to the specified object.
-        public var schemaFacets: [SchemaFacet]? = nil
+        public let schemaFacets: [SchemaFacet]?
         /// The ObjectIdentifier of the specified object.
-        public var objectIdentifier: String? = nil
-
-        public init() {}
+        public let objectIdentifier: String?
 
         public init(schemaFacets: [SchemaFacet]? = nil, objectIdentifier: String? = nil) {
             self.schemaFacets = schemaFacets
@@ -2626,6 +2436,8 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             if let schemaFacets = dictionary["SchemaFacets"] as? [[String: Any]] {
                 self.schemaFacets = try schemaFacets.map({ try SchemaFacet(dictionary: $0) })
+            } else { 
+                self.schemaFacets = nil
             }
             self.objectIdentifier = dictionary["ObjectIdentifier"] as? String
         }
@@ -2635,8 +2447,6 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -2645,11 +2455,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The objects and indexed values attached to the index.
-        public var indexAttachments: [IndexAttachment]? = nil
+        public let indexAttachments: [IndexAttachment]?
         /// The pagination token.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(indexAttachments: [IndexAttachment]? = nil, nextToken: String? = nil) {
             self.indexAttachments = indexAttachments
@@ -2659,6 +2467,8 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             if let indexAttachments = dictionary["IndexAttachments"] as? [[String: Any]] {
                 self.indexAttachments = try indexAttachments.map({ try IndexAttachment(dictionary: $0) })
+            } else { 
+                self.indexAttachments = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -2671,13 +2481,11 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// Reference that identifies the object.
-        public var objectReference: ObjectReference = ObjectReference()
+        public let objectReference: ObjectReference
         /// Attributes update structure.
-        public var attributeUpdates: [ObjectAttributeUpdate] = []
+        public let attributeUpdates: [ObjectAttributeUpdate]
         /// ARN associated with the Directory where the object resides. For more information, see arns.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(objectReference: ObjectReference, attributeUpdates: [ObjectAttributeUpdate], directoryArn: String) {
             self.objectReference = objectReference
@@ -2699,21 +2507,19 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Batch operation adding a facet to an object.
-        public var addFacetToObject: BatchAddFacetToObject? = nil
+        public let addFacetToObject: BatchAddFacetToObject?
         /// Update a given object's attributes.
-        public var updateObjectAttributes: BatchUpdateObjectAttributes? = nil
+        public let updateObjectAttributes: BatchUpdateObjectAttributes?
         /// Detaches an object from a Directory.
-        public var detachObject: BatchDetachObject? = nil
+        public let detachObject: BatchDetachObject?
         /// Attaches an object to a Directory.
-        public var attachObject: BatchAttachObject? = nil
+        public let attachObject: BatchAttachObject?
         /// Creates an object.
-        public var createObject: BatchCreateObject? = nil
+        public let createObject: BatchCreateObject?
         /// Deletes an object in a Directory.
-        public var deleteObject: BatchDeleteObject? = nil
+        public let deleteObject: BatchDeleteObject?
         /// Batch operation removing a facet from an object.
-        public var removeFacetFromObject: BatchRemoveFacetFromObject? = nil
-
-        public init() {}
+        public let removeFacetFromObject: BatchRemoveFacetFromObject?
 
         public init(addFacetToObject: BatchAddFacetToObject? = nil, updateObjectAttributes: BatchUpdateObjectAttributes? = nil, detachObject: BatchDetachObject? = nil, attachObject: BatchAttachObject? = nil, createObject: BatchCreateObject? = nil, deleteObject: BatchDeleteObject? = nil, removeFacetFromObject: BatchRemoveFacetFromObject? = nil) {
             self.addFacetToObject = addFacetToObject
@@ -2726,13 +2532,13 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let addFacetToObject = dictionary["AddFacetToObject"] as? [String: Any] { self.addFacetToObject = try Clouddirectory.BatchAddFacetToObject(dictionary: addFacetToObject) }
-            if let updateObjectAttributes = dictionary["UpdateObjectAttributes"] as? [String: Any] { self.updateObjectAttributes = try Clouddirectory.BatchUpdateObjectAttributes(dictionary: updateObjectAttributes) }
-            if let detachObject = dictionary["DetachObject"] as? [String: Any] { self.detachObject = try Clouddirectory.BatchDetachObject(dictionary: detachObject) }
-            if let attachObject = dictionary["AttachObject"] as? [String: Any] { self.attachObject = try Clouddirectory.BatchAttachObject(dictionary: attachObject) }
-            if let createObject = dictionary["CreateObject"] as? [String: Any] { self.createObject = try Clouddirectory.BatchCreateObject(dictionary: createObject) }
-            if let deleteObject = dictionary["DeleteObject"] as? [String: Any] { self.deleteObject = try Clouddirectory.BatchDeleteObject(dictionary: deleteObject) }
-            if let removeFacetFromObject = dictionary["RemoveFacetFromObject"] as? [String: Any] { self.removeFacetFromObject = try Clouddirectory.BatchRemoveFacetFromObject(dictionary: removeFacetFromObject) }
+            if let addFacetToObject = dictionary["AddFacetToObject"] as? [String: Any] { self.addFacetToObject = try Clouddirectory.BatchAddFacetToObject(dictionary: addFacetToObject) } else { self.addFacetToObject = nil }
+            if let updateObjectAttributes = dictionary["UpdateObjectAttributes"] as? [String: Any] { self.updateObjectAttributes = try Clouddirectory.BatchUpdateObjectAttributes(dictionary: updateObjectAttributes) } else { self.updateObjectAttributes = nil }
+            if let detachObject = dictionary["DetachObject"] as? [String: Any] { self.detachObject = try Clouddirectory.BatchDetachObject(dictionary: detachObject) } else { self.detachObject = nil }
+            if let attachObject = dictionary["AttachObject"] as? [String: Any] { self.attachObject = try Clouddirectory.BatchAttachObject(dictionary: attachObject) } else { self.attachObject = nil }
+            if let createObject = dictionary["CreateObject"] as? [String: Any] { self.createObject = try Clouddirectory.BatchCreateObject(dictionary: createObject) } else { self.createObject = nil }
+            if let deleteObject = dictionary["DeleteObject"] as? [String: Any] { self.deleteObject = try Clouddirectory.BatchDeleteObject(dictionary: deleteObject) } else { self.deleteObject = nil }
+            if let removeFacetFromObject = dictionary["RemoveFacetFromObject"] as? [String: Any] { self.removeFacetFromObject = try Clouddirectory.BatchRemoveFacetFromObject(dictionary: removeFacetFromObject) } else { self.removeFacetFromObject = nil }
         }
     }
 
@@ -2740,9 +2546,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Input ARN that is returned as part of the response. For more information, see arns.
-        public var schemaArn: String? = nil
-
-        public init() {}
+        public let schemaArn: String?
 
         public init(schemaArn: String? = nil) {
             self.schemaArn = schemaArn
@@ -2760,17 +2564,15 @@ extension Clouddirectory {
             return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
         }
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// ARN associated with the Directory where the object resides. For more information, see arns.
-        public var directoryArn: String = ""
+        public let directoryArn: String
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        public var consistencyLevel: String? = nil
+        public let consistencyLevel: String?
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Reference that identifies the object for which child objects are being listed.
-        public var objectReference: ObjectReference = ObjectReference()
-
-        public init() {}
+        public let objectReference: ObjectReference
 
         public init(maxResults: Int32? = nil, directoryArn: String, consistencyLevel: String? = nil, nextToken: String? = nil, objectReference: ObjectReference) {
             self.maxResults = maxResults
@@ -2795,11 +2597,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results to retrieve.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -2816,9 +2616,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Name associated with the schema. This is unique to each account and in each region.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -2834,16 +2632,14 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Facet structure associated with the facet.
-        public var facet: Facet? = nil
-
-        public init() {}
+        public let facet: Facet?
 
         public init(facet: Facet? = nil) {
             self.facet = facet
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let facet = dictionary["Facet"] as? [String: Any] { self.facet = try Clouddirectory.Facet(dictionary: facet) }
+            if let facet = dictionary["Facet"] as? [String: Any] { self.facet = try Clouddirectory.Facet(dictionary: facet) } else { self.facet = nil }
         }
     }
 
@@ -2851,11 +2647,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of policy ObjectIdentifiers, that are attached to the object.
-        public var attachedPolicyIds: [String]? = nil
+        public let attachedPolicyIds: [String]?
         /// The pagination token.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(attachedPolicyIds: [String]? = nil, nextToken: String? = nil) {
             self.attachedPolicyIds = attachedPolicyIds
@@ -2863,9 +2657,7 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let attachedPolicyIds = dictionary["AttachedPolicyIds"] as? [String] {
-                self.attachedPolicyIds = attachedPolicyIds
-            }
+            self.attachedPolicyIds = dictionary["AttachedPolicyIds"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
         }
     }
@@ -2874,9 +2666,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the schema to update.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(arn: String? = nil) {
             self.arn = arn
@@ -2891,13 +2681,11 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Child object reference to be attached to the object.
-        public var childReference: ObjectReference = ObjectReference()
+        public let childReference: ObjectReference
         /// Parent object reference.
-        public var parentReference: ObjectReference = ObjectReference()
+        public let parentReference: ObjectReference
         /// The name of the link.
-        public var linkName: String = ""
-
-        public init() {}
+        public let linkName: String
 
         public init(childReference: ObjectReference, parentReference: ObjectReference, linkName: String) {
             self.childReference = childReference
@@ -2919,9 +2707,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ObjectIdentifier that was detached from the object.
-        public var detachedObjectIdentifier: String? = nil
-
-        public init() {}
+        public let detachedObjectIdentifier: String?
 
         public init(detachedObjectIdentifier: String? = nil) {
             self.detachedObjectIdentifier = detachedObjectIdentifier
@@ -2936,11 +2722,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the attribute.
-        public var value: TypedAttributeValue = TypedAttributeValue()
+        public let value: TypedAttributeValue
         /// The key of the attribute.
-        public var key: AttributeKey = AttributeKey()
-
-        public init() {}
+        public let key: AttributeKey
 
         public init(value: TypedAttributeValue, key: AttributeKey) {
             self.value = value
@@ -2962,9 +2746,7 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// The ARN of the directory to enable.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(directoryArn: String) {
             self.directoryArn = directoryArn
@@ -2980,11 +2762,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The attributes attached to the facet.
-        public var attributes: [FacetAttribute]? = nil
-
-        public init() {}
+        public let attributes: [FacetAttribute]?
 
         public init(nextToken: String? = nil, attributes: [FacetAttribute]? = nil) {
             self.nextToken = nextToken
@@ -2995,6 +2775,8 @@ extension Clouddirectory {
             self.nextToken = dictionary["NextToken"] as? String
             if let attributes = dictionary["Attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try FacetAttribute(dictionary: $0) })
+            } else { 
+                self.attributes = nil
             }
         }
     }
@@ -3003,11 +2785,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns a paginated list of child objects that are associated with a given object.
-        public var listObjectChildren: BatchListObjectChildren? = nil
+        public let listObjectChildren: BatchListObjectChildren?
         /// Lists all attributes associated with an object.
-        public var listObjectAttributes: BatchListObjectAttributes? = nil
-
-        public init() {}
+        public let listObjectAttributes: BatchListObjectAttributes?
 
         public init(listObjectChildren: BatchListObjectChildren? = nil, listObjectAttributes: BatchListObjectAttributes? = nil) {
             self.listObjectChildren = listObjectChildren
@@ -3015,8 +2795,8 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let listObjectChildren = dictionary["ListObjectChildren"] as? [String: Any] { self.listObjectChildren = try Clouddirectory.BatchListObjectChildren(dictionary: listObjectChildren) }
-            if let listObjectAttributes = dictionary["ListObjectAttributes"] as? [String: Any] { self.listObjectAttributes = try Clouddirectory.BatchListObjectAttributes(dictionary: listObjectAttributes) }
+            if let listObjectChildren = dictionary["ListObjectChildren"] as? [String: Any] { self.listObjectChildren = try Clouddirectory.BatchListObjectChildren(dictionary: listObjectChildren) } else { self.listObjectChildren = nil }
+            if let listObjectAttributes = dictionary["ListObjectAttributes"] as? [String: Any] { self.listObjectAttributes = try Clouddirectory.BatchListObjectAttributes(dictionary: listObjectAttributes) } else { self.listObjectAttributes = nil }
         }
     }
 
@@ -3027,15 +2807,13 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "SchemaArn"]
         }
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The name of the facet whose attributes will be retrieved.
-        public var name: String = ""
+        public let name: String
         /// The ARN of the schema where the facet resides.
-        public var schemaArn: String = ""
+        public let schemaArn: String
         /// The maximum number of results to retrieve.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, name: String, schemaArn: String, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -3058,11 +2836,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Type of exception, such as InvalidArnException.
-        public var type: String? = nil
+        public let type: String?
         /// Exception message associated with the failure.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(type: String? = nil, message: String? = nil) {
             self.type = type
@@ -3082,11 +2858,9 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// Reference that identifies the object.
-        public var objectReference: ObjectReference = ObjectReference()
+        public let objectReference: ObjectReference
         /// ARN associated with the Directory where the object resides. For more information, see arns.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(objectReference: ObjectReference, directoryArn: String) {
             self.objectReference = objectReference
@@ -3105,13 +2879,11 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Reference of the object for which child objects are being listed.
-        public var objectReference: ObjectReference = ObjectReference()
+        public let objectReference: ObjectReference
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(objectReference: ObjectReference, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.objectReference = objectReference
@@ -3131,8 +2903,6 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -3141,11 +2911,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of policy objects.
-        public var policies: [PolicyAttachment]? = nil
+        public let policies: [PolicyAttachment]?
         /// The path that is referenced from the root.
-        public var path: String? = nil
-
-        public init() {}
+        public let path: String?
 
         public init(policies: [PolicyAttachment]? = nil, path: String? = nil) {
             self.policies = policies
@@ -3155,6 +2923,8 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             if let policies = dictionary["Policies"] as? [[String: Any]] {
                 self.policies = try policies.map({ try PolicyAttachment(dictionary: $0) })
+            } else { 
+                self.policies = nil
             }
             self.path = dictionary["Path"] as? String
         }
@@ -3164,9 +2934,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// Allows you to specify an object. You can identify an object in one of the following ways:    $ObjectIdentifier - Identifies the object by ObjectIdentifier     /some/path - Identifies the object based on path    #SomeBatchReference - Identifies the object in a batch call  
-        public var selector: String? = nil
-
-        public init() {}
+        public let selector: String?
 
         public init(selector: String? = nil) {
             self.selector = selector
@@ -3181,8 +2949,6 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -3191,9 +2957,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ObjectIdentifier of the object that was attached to the index.
-        public var attachedObjectIdentifier: String? = nil
-
-        public init() {}
+        public let attachedObjectIdentifier: String?
 
         public init(attachedObjectIdentifier: String? = nil) {
             self.attachedObjectIdentifier = attachedObjectIdentifier
@@ -3211,13 +2975,11 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "DirectoryArn"]
         }
         /// A reference to the object being detached from the index.
-        public var targetReference: ObjectReference = ObjectReference()
+        public let targetReference: ObjectReference
         /// A reference to the index object.
-        public var indexReference: ObjectReference = ObjectReference()
+        public let indexReference: ObjectReference
         /// The ARN of the directory the index and object exist in.
-        public var directoryArn: String = ""
-
-        public init() {}
+        public let directoryArn: String
 
         public init(targetReference: ObjectReference, indexReference: ObjectReference, directoryArn: String) {
             self.targetReference = targetReference
@@ -3239,11 +3001,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The facet to remove from the object.
-        public var schemaFacet: SchemaFacet = SchemaFacet()
+        public let schemaFacet: SchemaFacet
         /// A reference to the object whose facet will be removed.
-        public var objectReference: ObjectReference = ObjectReference()
-
-        public init() {}
+        public let objectReference: ObjectReference
 
         public init(schemaFacet: SchemaFacet, objectReference: ObjectReference) {
             self.schemaFacet = schemaFacet
@@ -3265,13 +3025,11 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "SchemaArn"]
         }
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The ARN to retrieve facet names from.
-        public var schemaArn: String = ""
+        public let schemaArn: String
         /// The maximum number of results to retrieve
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, schemaArn: String, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -3291,9 +3049,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ObjectIdentifier of the object that has been attached.
-        public var attachedObjectIdentifier: String? = nil
-
-        public init() {}
+        public let attachedObjectIdentifier: String?
 
         public init(attachedObjectIdentifier: String? = nil) {
             self.attachedObjectIdentifier = attachedObjectIdentifier
@@ -3308,11 +3064,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The action to perform when updating the attribute.
-        public var action: String? = nil
+        public let action: String?
         /// The attribute to update.
-        public var attribute: FacetAttribute? = nil
-
-        public init() {}
+        public let attribute: FacetAttribute?
 
         public init(action: String? = nil, attribute: FacetAttribute? = nil) {
             self.action = action
@@ -3321,7 +3075,7 @@ extension Clouddirectory {
 
         public init(dictionary: [String: Any]) throws {
             self.action = dictionary["Action"] as? String
-            if let attribute = dictionary["Attribute"] as? [String: Any] { self.attribute = try Clouddirectory.FacetAttribute(dictionary: attribute) }
+            if let attribute = dictionary["Attribute"] as? [String: Any] { self.attribute = try Clouddirectory.FacetAttribute(dictionary: attribute) } else { self.attribute = nil }
         }
     }
 
@@ -3329,9 +3083,7 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         ///  ObjectIdentifier of the updated object.
-        public var objectIdentifier: String? = nil
-
-        public init() {}
+        public let objectIdentifier: String?
 
         public init(objectIdentifier: String? = nil) {
             self.objectIdentifier = objectIdentifier
@@ -3346,8 +3098,6 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -3359,17 +3109,15 @@ extension Clouddirectory {
             return ["x-amz-consistency-level": "ConsistencyLevel", "x-amz-data-partition": "DirectoryArn"]
         }
         /// Reference that identifies the policy object.
-        public var policyReference: ObjectReference = ObjectReference()
+        public let policyReference: ObjectReference
         /// ARN associated with the Directory where objects reside. For more information, see arns.
-        public var directoryArn: String = ""
+        public let directoryArn: String
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
-        public var consistencyLevel: String? = nil
+        public let consistencyLevel: String?
         /// Maximum number of items to be retrieved in a single call. This is an approximate number.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(policyReference: ObjectReference, directoryArn: String, nextToken: String? = nil, consistencyLevel: String? = nil, maxResults: Int32? = nil) {
             self.policyReference = policyReference
@@ -3394,11 +3142,9 @@ extension Clouddirectory {
         /// The key for the payload
         public static let payload: String? = nil
         /// The pagination token.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Parent structure, which is a map with key as the ObjectIdentifier and LinkName as the value.
-        public var parents: [String: String]? = nil
-
-        public init() {}
+        public let parents: [String: String]?
 
         public init(nextToken: String? = nil, parents: [String: String]? = nil) {
             self.nextToken = nextToken
@@ -3409,6 +3155,8 @@ extension Clouddirectory {
             self.nextToken = dictionary["NextToken"] as? String
             if let parents = dictionary["Parents"] as? [String: String] {
                 self.parents = parents
+            } else { 
+                self.parents = nil
             }
         }
     }
@@ -3420,11 +3168,9 @@ extension Clouddirectory {
             return ["x-amz-data-partition": "SchemaArn"]
         }
         /// The name of the facet to delete.
-        public var name: String = ""
+        public let name: String
         /// ARN associated with the Facet. For more information, see arns.
-        public var schemaArn: String = ""
-
-        public init() {}
+        public let schemaArn: String
 
         public init(name: String, schemaArn: String) {
             self.name = name

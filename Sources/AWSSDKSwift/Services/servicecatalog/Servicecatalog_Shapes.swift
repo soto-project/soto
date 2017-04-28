@@ -33,13 +33,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The account ID associated with the share to delete.
-        public var accountId: String = ""
+        public let accountId: String
         /// The portfolio identifier.
-        public var portfolioId: String = ""
+        public let portfolioId: String
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
-
-        public init() {}
+        public let acceptLanguage: String?
 
         public init(accountId: String, portfolioId: String, acceptLanguage: String? = nil) {
             self.accountId = accountId
@@ -60,13 +58,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN representing the principal (IAM user, role, or group).
-        public var principalARN: String = ""
+        public let principalARN: String
         /// The portfolio identifier.
-        public var portfolioId: String = ""
+        public let portfolioId: String
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
-
-        public init() {}
+        public let acceptLanguage: String?
 
         public init(principalARN: String, portfolioId: String, acceptLanguage: String? = nil) {
             self.principalARN = principalARN
@@ -87,11 +83,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The identifier of the portfolio for the delete request.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
@@ -109,13 +103,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// Any additional metadata specifically related to the provisioning of the product. For example, see the Version field of the CloudFormation template.
-        public var usageInstructions: [UsageInstruction]? = nil
+        public let usageInstructions: [UsageInstruction]?
         /// The list of parameters used to successfully provision the product. Each parameter includes a list of allowable values and additional metadata about each parameter.
-        public var provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil
+        public let provisioningArtifactParameters: [ProvisioningArtifactParameter]?
         /// The list of constraint summaries that apply to provisioning this product.
-        public var constraintSummaries: [ConstraintSummary]? = nil
-
-        public init() {}
+        public let constraintSummaries: [ConstraintSummary]?
 
         public init(usageInstructions: [UsageInstruction]? = nil, provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil, constraintSummaries: [ConstraintSummary]? = nil) {
             self.usageInstructions = usageInstructions
@@ -126,12 +118,18 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             if let usageInstructions = dictionary["UsageInstructions"] as? [[String: Any]] {
                 self.usageInstructions = try usageInstructions.map({ try UsageInstruction(dictionary: $0) })
+            } else { 
+                self.usageInstructions = nil
             }
             if let provisioningArtifactParameters = dictionary["ProvisioningArtifactParameters"] as? [[String: Any]] {
                 self.provisioningArtifactParameters = try provisioningArtifactParameters.map({ try ProvisioningArtifactParameter(dictionary: $0) })
+            } else { 
+                self.provisioningArtifactParameters = nil
             }
             if let constraintSummaries = dictionary["ConstraintSummaries"] as? [[String: Any]] {
                 self.constraintSummaries = try constraintSummaries.map({ try ConstraintSummary(dictionary: $0) })
+            } else { 
+                self.constraintSummaries = nil
             }
         }
     }
@@ -140,15 +138,13 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The text description of the provisioning artifact properties.
-        public var description: String? = nil
+        public let description: String?
         /// The type of the provisioning artifact properties.
-        public var type: String? = nil
+        public let type: String?
         /// The name assigned to the provisioning artifact properties.
-        public var name: String? = nil
+        public let name: String?
         /// Additional information about the provisioning artifact properties.
-        public var info: [String: String] = [:]
-
-        public init() {}
+        public let info: [String: String]
 
         public init(description: String? = nil, type: String? = nil, name: String? = nil, info: [String: String]) {
             self.description = description
@@ -170,11 +166,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// Tags associated with the product.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// Detailed product view information.
-        public var productViewDetail: ProductViewDetail? = nil
-
-        public init() {}
+        public let productViewDetail: ProductViewDetail?
 
         public init(tags: [Tag]? = nil, productViewDetail: ProductViewDetail? = nil) {
             self.tags = tags
@@ -184,8 +178,10 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
-            if let productViewDetail = dictionary["ProductViewDetail"] as? [String: Any] { self.productViewDetail = try Servicecatalog.ProductViewDetail(dictionary: productViewDetail) }
+            if let productViewDetail = dictionary["ProductViewDetail"] as? [String: Any] { self.productViewDetail = try Servicecatalog.ProductViewDetail(dictionary: productViewDetail) } else { self.productViewDetail = nil }
         }
     }
 
@@ -193,11 +189,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public var nextPageToken: String? = nil
+        public let nextPageToken: String?
         /// List of account IDs associated with access to the portfolio.
-        public var accountIds: [String]? = nil
-
-        public init() {}
+        public let accountIds: [String]?
 
         public init(nextPageToken: String? = nil, accountIds: [String]? = nil) {
             self.nextPageToken = nextPageToken
@@ -206,9 +200,7 @@ extension Servicecatalog {
 
         public init(dictionary: [String: Any]) throws {
             self.nextPageToken = dictionary["NextPageToken"] as? String
-            if let accountIds = dictionary["AccountIds"] as? [String] {
-                self.accountIds = accountIds
-            }
+            self.accountIds = dictionary["AccountIds"] as? [String]
         }
     }
 
@@ -216,13 +208,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// Tags successfully associated with the new product.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The resulting detailed product view information.
-        public var productViewDetail: ProductViewDetail? = nil
+        public let productViewDetail: ProductViewDetail?
         /// The resulting detailed provisioning artifact information.
-        public var provisioningArtifactDetail: ProvisioningArtifactDetail? = nil
-
-        public init() {}
+        public let provisioningArtifactDetail: ProvisioningArtifactDetail?
 
         public init(tags: [Tag]? = nil, productViewDetail: ProductViewDetail? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil) {
             self.tags = tags
@@ -233,9 +223,11 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
-            if let productViewDetail = dictionary["ProductViewDetail"] as? [String: Any] { self.productViewDetail = try Servicecatalog.ProductViewDetail(dictionary: productViewDetail) }
-            if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) }
+            if let productViewDetail = dictionary["ProductViewDetail"] as? [String: Any] { self.productViewDetail = try Servicecatalog.ProductViewDetail(dictionary: productViewDetail) } else { self.productViewDetail = nil }
+            if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) } else { self.provisioningArtifactDetail = nil }
         }
     }
 
@@ -243,11 +235,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The usage instruction type for the value.
-        public var type: String? = nil
+        public let type: String?
         /// The usage instruction value for this type.
-        public var value: String? = nil
-
-        public init() {}
+        public let value: String?
 
         public init(type: String? = nil, value: String? = nil) {
             self.type = type
@@ -264,13 +254,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The account ID with which to share the portfolio.
-        public var accountId: String = ""
+        public let accountId: String
         /// The portfolio identifier.
-        public var portfolioId: String = ""
+        public let portfolioId: String
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
-
-        public init() {}
+        public let acceptLanguage: String?
 
         public init(accountId: String, portfolioId: String, acceptLanguage: String? = nil) {
             self.accountId = accountId
@@ -291,11 +279,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The summary metadata about the specified product.
-        public var productViewSummary: ProductViewSummary? = nil
+        public let productViewSummary: ProductViewSummary?
         /// A list of provisioning artifact objects for the specified product. The ProvisioningArtifacts represent the ways in which the specified product can be provisioned.
-        public var provisioningArtifacts: [ProvisioningArtifact]? = nil
-
-        public init() {}
+        public let provisioningArtifacts: [ProvisioningArtifact]?
 
         public init(productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
             self.productViewSummary = productViewSummary
@@ -303,9 +289,11 @@ extension Servicecatalog {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let productViewSummary = dictionary["ProductViewSummary"] as? [String: Any] { self.productViewSummary = try Servicecatalog.ProductViewSummary(dictionary: productViewSummary) }
+            if let productViewSummary = dictionary["ProductViewSummary"] as? [String: Any] { self.productViewSummary = try Servicecatalog.ProductViewSummary(dictionary: productViewSummary) } else { self.productViewSummary = nil }
             if let provisioningArtifacts = dictionary["ProvisioningArtifacts"] as? [[String: Any]] {
                 self.provisioningArtifacts = try provisioningArtifacts.map({ try ProvisioningArtifact(dictionary: $0) })
+            } else { 
+                self.provisioningArtifacts = nil
             }
         }
     }
@@ -314,11 +302,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of ProvisionedProduct detail objects.
-        public var provisionedProducts: [ProvisionedProductDetail]? = nil
+        public let provisionedProducts: [ProvisionedProductDetail]?
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public var nextPageToken: String? = nil
-
-        public init() {}
+        public let nextPageToken: String?
 
         public init(provisionedProducts: [ProvisionedProductDetail]? = nil, nextPageToken: String? = nil) {
             self.provisionedProducts = provisionedProducts
@@ -328,6 +314,8 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             if let provisionedProducts = dictionary["ProvisionedProducts"] as? [[String: Any]] {
                 self.provisionedProducts = try provisionedProducts.map({ try ProvisionedProductDetail(dictionary: $0) })
+            } else { 
+                self.provisionedProducts = nil
             }
             self.nextPageToken = dictionary["NextPageToken"] as? String
         }
@@ -337,11 +325,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The identifier of the constraint.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
@@ -359,15 +345,13 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the constraint.
-        public var constraintId: String? = nil
+        public let constraintId: String?
         /// The type of the constraint.
-        public var type: String? = nil
+        public let type: String?
         /// The owner of the constraint.
-        public var owner: String? = nil
+        public let owner: String?
         /// The text description of the constraint.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(constraintId: String? = nil, type: String? = nil, owner: String? = nil, description: String? = nil) {
             self.constraintId = constraintId
@@ -388,11 +372,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The resulting detailed portfolio information.
-        public var portfolioDetail: PortfolioDetail? = nil
+        public let portfolioDetail: PortfolioDetail?
         /// Tags associated with the portfolio.
-        public var tags: [Tag]? = nil
-
-        public init() {}
+        public let tags: [Tag]?
 
         public init(portfolioDetail: PortfolioDetail? = nil, tags: [Tag]? = nil) {
             self.portfolioDetail = portfolioDetail
@@ -400,9 +382,11 @@ extension Servicecatalog {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let portfolioDetail = dictionary["PortfolioDetail"] as? [String: Any] { self.portfolioDetail = try Servicecatalog.PortfolioDetail(dictionary: portfolioDetail) }
+            if let portfolioDetail = dictionary["PortfolioDetail"] as? [String: Any] { self.portfolioDetail = try Servicecatalog.PortfolioDetail(dictionary: portfolioDetail) } else { self.portfolioDetail = nil }
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
         }
     }
@@ -411,11 +395,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The esired value for this key.
-        public var value: String = ""
+        public let value: String
         /// The ProvisioningArtifactParameter.TagKey parameter from DescribeProvisioningParameters.
-        public var key: String = ""
-
-        public init() {}
+        public let key: String
 
         public init(value: String, key: String) {
             self.value = value
@@ -434,11 +416,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The ProductId of the product to describe.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
@@ -456,11 +436,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of record detail objects, listed in reverse chronological order.
-        public var recordDetails: [RecordDetail]? = nil
+        public let recordDetails: [RecordDetail]?
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public var nextPageToken: String? = nil
-
-        public init() {}
+        public let nextPageToken: String?
 
         public init(recordDetails: [RecordDetail]? = nil, nextPageToken: String? = nil) {
             self.recordDetails = recordDetails
@@ -470,6 +448,8 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             if let recordDetails = dictionary["RecordDetails"] as? [[String: Any]] {
                 self.recordDetails = try recordDetails.map({ try RecordDetail(dictionary: $0) })
+            } else { 
+                self.recordDetails = nil
             }
             self.nextPageToken = dictionary["NextPageToken"] as? String
         }
@@ -479,15 +459,13 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The access level for obtaining results. If left unspecified, User level access is used.
-        public var accessLevelFilter: AccessLevelFilter? = nil
+        public let accessLevelFilter: AccessLevelFilter?
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        public var pageToken: String? = nil
-
-        public init() {}
+        public let pageToken: String?
 
         public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, pageToken: String? = nil) {
             self.pageSize = pageSize
@@ -499,7 +477,7 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             self.pageSize = dictionary["PageSize"] as? Int32
             self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            if let accessLevelFilter = dictionary["AccessLevelFilter"] as? [String: Any] { self.accessLevelFilter = try Servicecatalog.AccessLevelFilter(dictionary: accessLevelFilter) }
+            if let accessLevelFilter = dictionary["AccessLevelFilter"] as? [String: Any] { self.accessLevelFilter = try Servicecatalog.AccessLevelFilter(dictionary: accessLevelFilter) } else { self.accessLevelFilter = nil }
             self.pageToken = dictionary["PageToken"] as? String
         }
     }
@@ -508,19 +486,17 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The text description of the portfolio.
-        public var description: String? = nil
+        public let description: String?
         /// The name of the portfolio provider.
-        public var providerName: String = ""
+        public let providerName: String
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// Tags to associate with the new portfolio.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The name to use for display purposes.
-        public var displayName: String = ""
+        public let displayName: String
         /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
-        public var idempotencyToken: String = ""
-
-        public init() {}
+        public let idempotencyToken: String
 
         public init(description: String? = nil, providerName: String, acceptLanguage: String? = nil, tags: [Tag]? = nil, displayName: String, idempotencyToken: String) {
             self.description = description
@@ -538,6 +514,8 @@ extension Servicecatalog {
             self.acceptLanguage = dictionary["AcceptLanguage"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let displayName = dictionary["DisplayName"] as? String else { throw InitializableError.missingRequiredParam("DisplayName") }
             self.displayName = displayName
@@ -550,11 +528,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The filter value for Key.
-        public var value: String? = nil
+        public let value: String?
         /// The filter key.
-        public var key: String? = nil
-
-        public init() {}
+        public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
             self.value = value
@@ -571,13 +547,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        public var pageToken: String? = nil
-
-        public init() {}
+        public let pageToken: String?
 
         public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, pageToken: String? = nil) {
             self.pageSize = pageSize
@@ -596,8 +570,6 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -606,11 +578,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of launch path information summaries for the specified PageToken.
-        public var launchPathSummaries: [LaunchPathSummary]? = nil
+        public let launchPathSummaries: [LaunchPathSummary]?
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public var nextPageToken: String? = nil
-
-        public init() {}
+        public let nextPageToken: String?
 
         public init(launchPathSummaries: [LaunchPathSummary]? = nil, nextPageToken: String? = nil) {
             self.launchPathSummaries = launchPathSummaries
@@ -620,6 +590,8 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             if let launchPathSummaries = dictionary["LaunchPathSummaries"] as? [[String: Any]] {
                 self.launchPathSummaries = try launchPathSummaries.map({ try LaunchPathSummary(dictionary: $0) })
+            } else { 
+                self.launchPathSummaries = nil
             }
             self.nextPageToken = dictionary["NextPageToken"] as? String
         }
@@ -629,11 +601,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of detailed constraint information objects.
-        public var constraintDetails: [ConstraintDetail]? = nil
+        public let constraintDetails: [ConstraintDetail]?
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public var nextPageToken: String? = nil
-
-        public init() {}
+        public let nextPageToken: String?
 
         public init(constraintDetails: [ConstraintDetail]? = nil, nextPageToken: String? = nil) {
             self.constraintDetails = constraintDetails
@@ -643,6 +613,8 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             if let constraintDetails = dictionary["ConstraintDetails"] as? [[String: Any]] {
                 self.constraintDetails = try constraintDetails.map({ try ConstraintDetail(dictionary: $0) })
+            } else { 
+                self.constraintDetails = nil
             }
             self.nextPageToken = dictionary["NextPageToken"] as? String
         }
@@ -652,11 +624,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// Tags associated with the product.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The resulting detailed product view information.
-        public var productViewDetail: ProductViewDetail? = nil
-
-        public init() {}
+        public let productViewDetail: ProductViewDetail?
 
         public init(tags: [Tag]? = nil, productViewDetail: ProductViewDetail? = nil) {
             self.tags = tags
@@ -666,8 +636,10 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
-            if let productViewDetail = dictionary["ProductViewDetail"] as? [String: Any] { self.productViewDetail = try Servicecatalog.ProductViewDetail(dictionary: productViewDetail) }
+            if let productViewDetail = dictionary["ProductViewDetail"] as? [String: Any] { self.productViewDetail = try Servicecatalog.ProductViewDetail(dictionary: productViewDetail) } else { self.productViewDetail = nil }
         }
     }
 
@@ -675,23 +647,21 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The sort field specifier. If no value is specified, results are not sorted.
-        public var sortBy: String? = nil
+        public let sortBy: String?
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// Access level of the source of the product.
-        public var productSource: String? = nil
+        public let productSource: String?
         /// The portfolio identifier.
-        public var portfolioId: String? = nil
+        public let portfolioId: String?
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        public var pageToken: String? = nil
+        public let pageToken: String?
         /// The sort order specifier. If no value is specified, results are not sorted.
-        public var sortOrder: String? = nil
+        public let sortOrder: String?
         /// The list of filters with which to limit search results. If no search filters are specified, the output is all the products to which the administrator has access.
-        public var filters: [String: [String]]? = nil
-
-        public init() {}
+        public let filters: [String: [String]]?
 
         public init(sortBy: String? = nil, pageSize: Int32? = nil, acceptLanguage: String? = nil, productSource: String? = nil, portfolioId: String? = nil, pageToken: String? = nil, sortOrder: String? = nil, filters: [String: [String]]? = nil) {
             self.sortBy = sortBy
@@ -719,6 +689,8 @@ extension Servicecatalog {
                     filtersDict[key] = productViewFilterValues
                 }
                 self.filters = filtersDict
+            } else { 
+                self.filters = nil
             }
         }
     }
@@ -727,25 +699,23 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The provisioning artifact identifier for this product.
-        public var provisioningArtifactId: String = ""
+        public let provisioningArtifactId: String
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
-        public var notificationArns: [String]? = nil
+        public let notificationArns: [String]?
         /// A list of tags to use as provisioning options.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// An idempotency token that uniquely identifies the provisioning request. 
-        public var provisionToken: String = ""
+        public let provisionToken: String
         /// The identifier of the path for this product's provisioning. This value is optional if the product has a default path, and is required if there is more than one path for the specified product.
-        public var pathId: String? = nil
+        public let pathId: String?
         /// Parameters specified by the administrator that are required for provisioning the product.
-        public var provisioningParameters: [ProvisioningParameter]? = nil
+        public let provisioningParameters: [ProvisioningParameter]?
         /// The product identifier.
-        public var productId: String = ""
+        public let productId: String
         /// A user-friendly name to identify the ProvisionedProduct object. This value must be unique for the AWS account and cannot be updated after the product is provisioned.
-        public var provisionedProductName: String = ""
-
-        public init() {}
+        public let provisionedProductName: String
 
         public init(provisioningArtifactId: String, acceptLanguage: String? = nil, notificationArns: [String]? = nil, tags: [Tag]? = nil, provisionToken: String, pathId: String? = nil, provisioningParameters: [ProvisioningParameter]? = nil, productId: String, provisionedProductName: String) {
             self.provisioningArtifactId = provisioningArtifactId
@@ -763,17 +733,19 @@ extension Servicecatalog {
             guard let provisioningArtifactId = dictionary["ProvisioningArtifactId"] as? String else { throw InitializableError.missingRequiredParam("ProvisioningArtifactId") }
             self.provisioningArtifactId = provisioningArtifactId
             self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            if let notificationArns = dictionary["NotificationArns"] as? [String] {
-                self.notificationArns = notificationArns
-            }
+            self.notificationArns = dictionary["NotificationArns"] as? [String]
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let provisionToken = dictionary["ProvisionToken"] as? String else { throw InitializableError.missingRequiredParam("ProvisionToken") }
             self.provisionToken = provisionToken
             self.pathId = dictionary["PathId"] as? String
             if let provisioningParameters = dictionary["ProvisioningParameters"] as? [[String: Any]] {
                 self.provisioningParameters = try provisioningParameters.map({ try ProvisioningParameter(dictionary: $0) })
+            } else { 
+                self.provisioningParameters = nil
             }
             guard let productId = dictionary["ProductId"] as? String else { throw InitializableError.missingRequiredParam("ProductId") }
             self.productId = productId
@@ -786,13 +758,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value to use for updating the product provisioning. Any constraints on this value can be found in the ProvisioningArtifactParameter parameter for Key.
-        public var value: String? = nil
+        public let value: String?
         /// The ProvisioningArtifactParameter.ParameterKey parameter from DescribeProvisioningParameters.
-        public var key: String? = nil
+        public let key: String?
         /// If true, uses the currently set value for Key, ignoring UpdateProvisioningParameter.Value.
-        public var usePreviousValue: Bool? = nil
-
-        public init() {}
+        public let usePreviousValue: Bool?
 
         public init(value: String? = nil, key: String? = nil, usePreviousValue: Bool? = nil) {
             self.value = value
@@ -811,21 +781,19 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The portfolio identifier.
-        public var portfolioId: String = ""
+        public let portfolioId: String
         /// The constraint parameters.
-        public var parameters: String = ""
+        public let parameters: String
         /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
-        public var idempotencyToken: String = ""
+        public let idempotencyToken: String
         /// The type of the constraint.
-        public var type: String = ""
+        public let type: String
         /// The product identifier.
-        public var productId: String = ""
+        public let productId: String
         /// The text description of the constraint.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(acceptLanguage: String? = nil, portfolioId: String, parameters: String, idempotencyToken: String, type: String, productId: String, description: String? = nil) {
             self.acceptLanguage = acceptLanguage
@@ -857,15 +825,13 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of constraints on the portfolio-product relationship.
-        public var constraintSummaries: [ConstraintSummary]? = nil
+        public let constraintSummaries: [ConstraintSummary]?
         /// List of tags used by this launch path.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// Corresponds to the name of the portfolio to which the user was assigned.
-        public var name: String? = nil
+        public let name: String?
         /// The unique identifier of the product path.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(constraintSummaries: [ConstraintSummary]? = nil, tags: [Tag]? = nil, name: String? = nil, id: String? = nil) {
             self.constraintSummaries = constraintSummaries
@@ -877,9 +843,13 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             if let constraintSummaries = dictionary["ConstraintSummaries"] as? [[String: Any]] {
                 self.constraintSummaries = try constraintSummaries.map({ try ConstraintSummary(dictionary: $0) })
+            } else { 
+                self.constraintSummaries = nil
             }
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.name = dictionary["Name"] as? String
             self.id = dictionary["Id"] as? String
@@ -890,8 +860,6 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -900,23 +868,21 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The provisioning artifact identifier for this product.
-        public var provisioningArtifactId: String? = nil
+        public let provisioningArtifactId: String?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The idempotency token that uniquely identifies the provisioning update request.
-        public var updateToken: String = ""
+        public let updateToken: String
         /// The identifier of the ProvisionedProduct object to update. You must specify either ProvisionedProductName or ProvisionedProductId, but not both.
-        public var provisionedProductId: String? = nil
+        public let provisionedProductId: String?
         /// The identifier of the path to use in the updated ProvisionedProduct object. This value is optional if the product has a default path, and is required if there is more than one path for the specified product.
-        public var pathId: String? = nil
+        public let pathId: String?
         /// A list of ProvisioningParameter objects used to update the ProvisionedProduct object.
-        public var provisioningParameters: [UpdateProvisioningParameter]? = nil
+        public let provisioningParameters: [UpdateProvisioningParameter]?
         /// The identifier of the ProvisionedProduct object.
-        public var productId: String? = nil
+        public let productId: String?
         /// The updated name of the ProvisionedProduct object . You must specify either ProvisionedProductName or ProvisionedProductId, but not both.
-        public var provisionedProductName: String? = nil
-
-        public init() {}
+        public let provisionedProductName: String?
 
         public init(provisioningArtifactId: String? = nil, acceptLanguage: String? = nil, updateToken: String, provisionedProductId: String? = nil, pathId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, productId: String? = nil, provisionedProductName: String? = nil) {
             self.provisioningArtifactId = provisioningArtifactId
@@ -938,6 +904,8 @@ extension Servicecatalog {
             self.pathId = dictionary["PathId"] as? String
             if let provisioningParameters = dictionary["ProvisioningParameters"] as? [[String: Any]] {
                 self.provisioningParameters = try provisioningParameters.map({ try UpdateProvisioningParameter(dictionary: $0) })
+            } else { 
+                self.provisioningParameters = nil
             }
             self.productId = dictionary["ProductId"] as? String
             self.provisionedProductName = dictionary["ProvisionedProductName"] as? String
@@ -948,8 +916,6 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -957,8 +923,6 @@ extension Servicecatalog {
     public struct DisassociateProductFromPortfolioOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -968,19 +932,17 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The parameter type.
-        public var parameterType: String? = nil
+        public let parameterType: String?
         /// The text description of the parameter.
-        public var description: String? = nil
+        public let description: String?
         /// The list of constraints that the administrator has put on the parameter.
-        public var parameterConstraints: ParameterConstraints? = nil
+        public let parameterConstraints: ParameterConstraints?
         /// The default value for this parameter.
-        public var defaultValue: String? = nil
+        public let defaultValue: String?
         /// If this value is true, the value for this parameter is obfuscated from view when the parameter is retrieved. This parameter is used to hide sensitive information.
-        public var isNoEcho: Bool? = nil
+        public let isNoEcho: Bool?
         /// The parameter key. 
-        public var parameterKey: String? = nil
-
-        public init() {}
+        public let parameterKey: String?
 
         public init(parameterType: String? = nil, description: String? = nil, parameterConstraints: ParameterConstraints? = nil, defaultValue: String? = nil, isNoEcho: Bool? = nil, parameterKey: String? = nil) {
             self.parameterType = parameterType
@@ -994,7 +956,7 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             self.parameterType = dictionary["ParameterType"] as? String
             self.description = dictionary["Description"] as? String
-            if let parameterConstraints = dictionary["ParameterConstraints"] as? [String: Any] { self.parameterConstraints = try Servicecatalog.ParameterConstraints(dictionary: parameterConstraints) }
+            if let parameterConstraints = dictionary["ParameterConstraints"] as? [String: Any] { self.parameterConstraints = try Servicecatalog.ParameterConstraints(dictionary: parameterConstraints) } else { self.parameterConstraints = nil }
             self.defaultValue = dictionary["DefaultValue"] as? String
             self.isNoEcho = dictionary["IsNoEcho"] as? Bool
             self.parameterKey = dictionary["ParameterKey"] as? String
@@ -1005,11 +967,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IAM principals (users or roles) associated with the portfolio.
-        public var principals: [Principal]? = nil
+        public let principals: [Principal]?
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public var nextPageToken: String? = nil
-
-        public init() {}
+        public let nextPageToken: String?
 
         public init(principals: [Principal]? = nil, nextPageToken: String? = nil) {
             self.principals = principals
@@ -1019,6 +979,8 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             if let principals = dictionary["Principals"] as? [[String: Any]] {
                 self.principals = try principals.map({ try Principal(dictionary: $0) })
+            } else { 
+                self.principals = nil
             }
             self.nextPageToken = dictionary["NextPageToken"] as? String
         }
@@ -1028,15 +990,13 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        public var pageToken: String? = nil
+        public let pageToken: String?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The record identifier of the ProvisionedProduct object for which to retrieve output information. This is the RecordDetail.RecordId obtained from the request operation's response.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(pageSize: Int32? = nil, pageToken: String? = nil, acceptLanguage: String? = nil, id: String) {
             self.pageSize = pageSize
@@ -1058,11 +1018,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of detailed portfolio information objects.
-        public var portfolioDetails: [PortfolioDetail]? = nil
+        public let portfolioDetails: [PortfolioDetail]?
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public var nextPageToken: String? = nil
-
-        public init() {}
+        public let nextPageToken: String?
 
         public init(portfolioDetails: [PortfolioDetail]? = nil, nextPageToken: String? = nil) {
             self.portfolioDetails = portfolioDetails
@@ -1072,6 +1030,8 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             if let portfolioDetails = dictionary["PortfolioDetails"] as? [[String: Any]] {
                 self.portfolioDetails = try portfolioDetails.map({ try PortfolioDetail(dictionary: $0) })
+            } else { 
+                self.portfolioDetails = nil
             }
             self.nextPageToken = dictionary["NextPageToken"] as? String
         }
@@ -1081,13 +1041,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The resulting detailed constraint information.
-        public var constraintDetail: ConstraintDetail? = nil
+        public let constraintDetail: ConstraintDetail?
         /// The status of the current request.
-        public var status: String? = nil
+        public let status: String?
         /// The resulting constraint parameters.
-        public var constraintParameters: String? = nil
-
-        public init() {}
+        public let constraintParameters: String?
 
         public init(constraintDetail: ConstraintDetail? = nil, status: String? = nil, constraintParameters: String? = nil) {
             self.constraintDetail = constraintDetail
@@ -1096,7 +1054,7 @@ extension Servicecatalog {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let constraintDetail = dictionary["ConstraintDetail"] as? [String: Any] { self.constraintDetail = try Servicecatalog.ConstraintDetail(dictionary: constraintDetail) }
+            if let constraintDetail = dictionary["ConstraintDetail"] as? [String: Any] { self.constraintDetail = try Servicecatalog.ConstraintDetail(dictionary: constraintDetail) } else { self.constraintDetail = nil }
             self.status = dictionary["Status"] as? String
             self.constraintParameters = dictionary["ConstraintParameters"] as? String
         }
@@ -1106,15 +1064,13 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// Current status of the product.
-        public var status: String? = nil
+        public let status: String?
         /// The ARN associated with the product.
-        public var productARN: String? = nil
+        public let productARN: String?
         /// The summary metadata about the specified product view.
-        public var productViewSummary: ProductViewSummary? = nil
+        public let productViewSummary: ProductViewSummary?
         /// The UTC timestamp of the creation time.
-        public var createdTime: Date? = nil
-
-        public init() {}
+        public let createdTime: Date?
 
         public init(status: String? = nil, productARN: String? = nil, productViewSummary: ProductViewSummary? = nil, createdTime: Date? = nil) {
             self.status = status
@@ -1126,7 +1082,7 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             self.status = dictionary["Status"] as? String
             self.productARN = dictionary["ProductARN"] as? String
-            if let productViewSummary = dictionary["ProductViewSummary"] as? [String: Any] { self.productViewSummary = try Servicecatalog.ProductViewSummary(dictionary: productViewSummary) }
+            if let productViewSummary = dictionary["ProductViewSummary"] as? [String: Any] { self.productViewSummary = try Servicecatalog.ProductViewSummary(dictionary: productViewSummary) } else { self.productViewSummary = nil }
             self.createdTime = dictionary["CreatedTime"] as? Date
         }
     }
@@ -1135,15 +1091,13 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The parameters to use when creating the new provisioning artifact.
-        public var parameters: ProvisioningArtifactProperties = ProvisioningArtifactProperties()
+        public let parameters: ProvisioningArtifactProperties
         /// The product identifier.
-        public var productId: String = ""
+        public let productId: String
         /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
-        public var idempotencyToken: String = ""
-
-        public init() {}
+        public let idempotencyToken: String
 
         public init(acceptLanguage: String? = nil, parameters: ProvisioningArtifactProperties, productId: String, idempotencyToken: String) {
             self.acceptLanguage = acceptLanguage
@@ -1167,13 +1121,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the provisioning artifact.
-        public var provisioningArtifactId: String = ""
+        public let provisioningArtifactId: String
         /// The product identifier.
-        public var productId: String = ""
+        public let productId: String
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
-
-        public init() {}
+        public let acceptLanguage: String?
 
         public init(provisioningArtifactId: String, productId: String, acceptLanguage: String? = nil) {
             self.provisioningArtifactId = provisioningArtifactId
@@ -1194,13 +1146,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The resulting detailed constraint information.
-        public var constraintDetail: ConstraintDetail? = nil
+        public let constraintDetail: ConstraintDetail?
         /// The status of the current request.
-        public var status: String? = nil
+        public let status: String?
         /// The resulting updated constraint parameters.
-        public var constraintParameters: String? = nil
-
-        public init() {}
+        public let constraintParameters: String?
 
         public init(constraintDetail: ConstraintDetail? = nil, status: String? = nil, constraintParameters: String? = nil) {
             self.constraintDetail = constraintDetail
@@ -1209,7 +1159,7 @@ extension Servicecatalog {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let constraintDetail = dictionary["ConstraintDetail"] as? [String: Any] { self.constraintDetail = try Servicecatalog.ConstraintDetail(dictionary: constraintDetail) }
+            if let constraintDetail = dictionary["ConstraintDetail"] as? [String: Any] { self.constraintDetail = try Servicecatalog.ConstraintDetail(dictionary: constraintDetail) } else { self.constraintDetail = nil }
             self.status = dictionary["Status"] as? String
             self.constraintParameters = dictionary["ConstraintParameters"] as? String
         }
@@ -1219,13 +1169,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// Detailed record information for the specified product. 
-        public var recordDetail: RecordDetail? = nil
+        public let recordDetail: RecordDetail?
         /// A list of outputs for the specified Product object created as the result of a request. For example, a CloudFormation-backed product that creates an S3 bucket would have an output for the S3 bucket URL.
-        public var recordOutputs: [RecordOutput]? = nil
+        public let recordOutputs: [RecordOutput]?
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public var nextPageToken: String? = nil
-
-        public init() {}
+        public let nextPageToken: String?
 
         public init(recordDetail: RecordDetail? = nil, recordOutputs: [RecordOutput]? = nil, nextPageToken: String? = nil) {
             self.recordDetail = recordDetail
@@ -1234,9 +1182,11 @@ extension Servicecatalog {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let recordDetail = dictionary["RecordDetail"] as? [String: Any] { self.recordDetail = try Servicecatalog.RecordDetail(dictionary: recordDetail) }
+            if let recordDetail = dictionary["RecordDetail"] as? [String: Any] { self.recordDetail = try Servicecatalog.RecordDetail(dictionary: recordDetail) } else { self.recordDetail = nil }
             if let recordOutputs = dictionary["RecordOutputs"] as? [[String: Any]] {
                 self.recordOutputs = try recordOutputs.map({ try RecordOutput(dictionary: $0) })
+            } else { 
+                self.recordOutputs = nil
             }
             self.nextPageToken = dictionary["NextPageToken"] as? String
         }
@@ -1246,16 +1196,14 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The detailed result of the UpdateProvisionedProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object that the request is modifying, and a list of any errors that the request encountered.
-        public var recordDetail: RecordDetail? = nil
-
-        public init() {}
+        public let recordDetail: RecordDetail?
 
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let recordDetail = dictionary["RecordDetail"] as? [String: Any] { self.recordDetail = try Servicecatalog.RecordDetail(dictionary: recordDetail) }
+            if let recordDetail = dictionary["RecordDetail"] as? [String: Any] { self.recordDetail = try Servicecatalog.RecordDetail(dictionary: recordDetail) } else { self.recordDetail = nil }
         }
     }
 
@@ -1263,11 +1211,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of detailed provisioning artifact information objects.
-        public var provisioningArtifactDetails: [ProvisioningArtifactDetail]? = nil
+        public let provisioningArtifactDetails: [ProvisioningArtifactDetail]?
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public var nextPageToken: String? = nil
-
-        public init() {}
+        public let nextPageToken: String?
 
         public init(provisioningArtifactDetails: [ProvisioningArtifactDetail]? = nil, nextPageToken: String? = nil) {
             self.provisioningArtifactDetails = provisioningArtifactDetails
@@ -1277,6 +1223,8 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             if let provisioningArtifactDetails = dictionary["ProvisioningArtifactDetails"] as? [[String: Any]] {
                 self.provisioningArtifactDetails = try provisioningArtifactDetails.map({ try ProvisioningArtifactDetail(dictionary: $0) })
+            } else { 
+                self.provisioningArtifactDetails = nil
             }
             self.nextPageToken = dictionary["NextPageToken"] as? String
         }
@@ -1286,16 +1234,14 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The detailed result of the TerminateProvisionedProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object that the request is modifying, and a list of any errors that the request encountered.
-        public var recordDetail: RecordDetail? = nil
-
-        public init() {}
+        public let recordDetail: RecordDetail?
 
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let recordDetail = dictionary["RecordDetail"] as? [String: Any] { self.recordDetail = try Servicecatalog.RecordDetail(dictionary: recordDetail) }
+            if let recordDetail = dictionary["RecordDetail"] as? [String: Any] { self.recordDetail = try Servicecatalog.RecordDetail(dictionary: recordDetail) } else { self.recordDetail = nil }
         }
     }
 
@@ -1303,11 +1249,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value to use for provisioning. Any constraints on this value can be found in ProvisioningArtifactParameter for Key.
-        public var value: String? = nil
+        public let value: String?
         /// The ProvisioningArtifactParameter.ParameterKey parameter from DescribeProvisioningParameters.
-        public var key: String? = nil
-
-        public init() {}
+        public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
             self.value = value
@@ -1324,13 +1268,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The output value.
-        public var outputValue: String? = nil
+        public let outputValue: String?
         /// The output key.
-        public var outputKey: String? = nil
+        public let outputKey: String?
         /// The text description of the output.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(outputValue: String? = nil, outputKey: String? = nil, description: String? = nil) {
             self.outputValue = outputValue
@@ -1349,15 +1291,13 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The text description of the artifact.
-        public var description: String? = nil
+        public let description: String?
         /// The name of the artifact.
-        public var name: String? = nil
+        public let name: String?
         /// The UTC timestamp of the creation time.
-        public var createdTime: Date? = nil
+        public let createdTime: Date?
         /// The identifier for the artifact.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(description: String? = nil, name: String? = nil, createdTime: Date? = nil, id: String? = nil) {
             self.description = description
@@ -1378,8 +1318,6 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1388,15 +1326,13 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The product identifier.. Identifies the product for which to retrieve LaunchPathSummaries information.
-        public var productId: String = ""
+        public let productId: String
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        public var pageToken: String? = nil
-
-        public init() {}
+        public let pageToken: String?
 
         public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, productId: String, pageToken: String? = nil) {
             self.pageSize = pageSize
@@ -1418,8 +1354,6 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1428,13 +1362,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of the product view aggregation value objects.
-        public var productViewAggregations: [String: [ProductViewAggregationValue]]? = nil
+        public let productViewAggregations: [String: [ProductViewAggregationValue]]?
         /// A list of the product view summary objects.
-        public var productViewSummaries: [ProductViewSummary]? = nil
+        public let productViewSummaries: [ProductViewSummary]?
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public var nextPageToken: String? = nil
-
-        public init() {}
+        public let nextPageToken: String?
 
         public init(productViewAggregations: [String: [ProductViewAggregationValue]]? = nil, productViewSummaries: [ProductViewSummary]? = nil, nextPageToken: String? = nil) {
             self.productViewAggregations = productViewAggregations
@@ -1451,9 +1383,13 @@ extension Servicecatalog {
                     productViewAggregationsDict[key] = productViewAggregationValueList
                 }
                 self.productViewAggregations = productViewAggregationsDict
+            } else { 
+                self.productViewAggregations = nil
             }
             if let productViewSummaries = dictionary["ProductViewSummaries"] as? [[String: Any]] {
                 self.productViewSummaries = try productViewSummaries.map({ try ProductViewSummary(dictionary: $0) })
+            } else { 
+                self.productViewSummaries = nil
             }
             self.nextPageToken = dictionary["NextPageToken"] as? String
         }
@@ -1463,8 +1399,6 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1473,11 +1407,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The identifier of the constraint to delete.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
@@ -1495,11 +1427,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The ProductViewId of the product to describe.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
@@ -1517,13 +1447,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the provisioning artifact for the delete request.
-        public var provisioningArtifactId: String = ""
+        public let provisioningArtifactId: String
         /// The product identifier.
-        public var productId: String = ""
+        public let productId: String
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
-
-        public init() {}
+        public let acceptLanguage: String?
 
         public init(provisioningArtifactId: String, productId: String, acceptLanguage: String? = nil) {
             self.provisioningArtifactId = provisioningArtifactId
@@ -1544,18 +1472,14 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The values that the administrator has allowed for the parameter.
-        public var allowedValues: [String]? = nil
-
-        public init() {}
+        public let allowedValues: [String]?
 
         public init(allowedValues: [String]? = nil) {
             self.allowedValues = allowedValues
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let allowedValues = dictionary["AllowedValues"] as? [String] {
-                self.allowedValues = allowedValues
-            }
+            self.allowedValues = dictionary["AllowedValues"] as? [String]
         }
     }
 
@@ -1563,15 +1487,13 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The product identifier.
-        public var productId: String = ""
+        public let productId: String
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        public var pageToken: String? = nil
-
-        public init() {}
+        public let pageToken: String?
 
         public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, productId: String, pageToken: String? = nil) {
             self.pageSize = pageSize
@@ -1593,19 +1515,17 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name to use for display purposes.
-        public var displayName: String? = nil
+        public let displayName: String?
         /// The name of the portfolio provider.
-        public var providerName: String? = nil
+        public let providerName: String?
         /// The ARN assigned to the portfolio.
-        public var aRN: String? = nil
+        public let aRN: String?
         /// The text description of the portfolio.
-        public var description: String? = nil
+        public let description: String?
         /// The UTC timestamp of the creation time.
-        public var createdTime: Date? = nil
+        public let createdTime: Date?
         /// The identifier for the portfolio.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(displayName: String? = nil, providerName: String? = nil, aRN: String? = nil, description: String? = nil, createdTime: Date? = nil, id: String? = nil) {
             self.displayName = displayName
@@ -1630,15 +1550,13 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The provisioning artifact identifier for this product.
-        public var provisioningArtifactId: String = ""
+        public let provisioningArtifactId: String
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The product identifier.
-        public var productId: String = ""
+        public let productId: String
         /// The identifier of the path for this product's provisioning. This value is optional if the product has a default path, and is required if there is more than one path for the specified product.
-        public var pathId: String? = nil
-
-        public init() {}
+        public let pathId: String?
 
         public init(provisioningArtifactId: String, acceptLanguage: String? = nil, productId: String, pathId: String? = nil) {
             self.provisioningArtifactId = provisioningArtifactId
@@ -1661,11 +1579,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of detailed product view information objects.
-        public var productViewDetails: [ProductViewDetail]? = nil
+        public let productViewDetails: [ProductViewDetail]?
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public var nextPageToken: String? = nil
-
-        public init() {}
+        public let nextPageToken: String?
 
         public init(productViewDetails: [ProductViewDetail]? = nil, nextPageToken: String? = nil) {
             self.productViewDetails = productViewDetails
@@ -1675,6 +1591,8 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             if let productViewDetails = dictionary["ProductViewDetails"] as? [[String: Any]] {
                 self.productViewDetails = try productViewDetails.map({ try ProductViewDetail(dictionary: $0) })
+            } else { 
+                self.productViewDetails = nil
             }
             self.nextPageToken = dictionary["NextPageToken"] as? String
         }
@@ -1684,11 +1602,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the product view aggregation.
-        public var value: String? = nil
+        public let value: String?
         /// An approximate count of the products that match the value.
-        public var approximateCount: Int32? = nil
-
-        public init() {}
+        public let approximateCount: Int32?
 
         public init(value: String? = nil, approximateCount: Int32? = nil) {
             self.value = value
@@ -1705,13 +1621,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        public var pageToken: String? = nil
-
-        public init() {}
+        public let pageToken: String?
 
         public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, pageToken: String? = nil) {
             self.pageSize = pageSize
@@ -1730,19 +1644,17 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// The sort field specifier. If no value is specified, results are not sorted.
-        public var sortBy: String? = nil
+        public let sortBy: String?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The list of filters with which to limit search results. If no search filters are specified, the output is all the products to which the calling user has access. 
-        public var filters: [String: [String]]? = nil
+        public let filters: [String: [String]]?
         /// The sort order specifier. If no value is specified, results are not sorted.
-        public var sortOrder: String? = nil
+        public let sortOrder: String?
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        public var pageToken: String? = nil
-
-        public init() {}
+        public let pageToken: String?
 
         public init(pageSize: Int32? = nil, sortBy: String? = nil, acceptLanguage: String? = nil, filters: [String: [String]]? = nil, sortOrder: String? = nil, pageToken: String? = nil) {
             self.pageSize = pageSize
@@ -1764,6 +1676,8 @@ extension Servicecatalog {
                     filtersDict[key] = productViewFilterValues
                 }
                 self.filters = filtersDict
+            } else { 
+                self.filters = nil
             }
             self.sortOrder = dictionary["SortOrder"] as? String
             self.pageToken = dictionary["PageToken"] as? String
@@ -1774,11 +1688,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The numeric value of the error.
-        public var code: String? = nil
+        public let code: String?
         /// The text description of the error.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(code: String? = nil, description: String? = nil) {
             self.code = code
@@ -1795,13 +1707,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The updated text description of the constraint.
-        public var description: String? = nil
+        public let description: String?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The identifier of the constraint to update.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(description: String? = nil, acceptLanguage: String? = nil, id: String) {
             self.description = description
@@ -1821,25 +1731,23 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current status of the ProvisionedProduct.
-        public var status: String? = nil
+        public let status: String?
         /// The ARN associated with the ProvisionedProduct object.
-        public var arn: String? = nil
+        public let arn: String?
         /// The record identifier of the last request performed on this ProvisionedProduct object.
-        public var lastRecordId: String? = nil
+        public let lastRecordId: String?
         /// The user-friendly name of the ProvisionedProduct object.
-        public var name: String? = nil
+        public let name: String?
         /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
-        public var idempotencyToken: String? = nil
+        public let idempotencyToken: String?
         /// The type of the ProvisionedProduct object.
-        public var type: String? = nil
+        public let type: String?
         /// The current status message of the ProvisionedProduct.
-        public var statusMessage: String? = nil
+        public let statusMessage: String?
         /// The UTC timestamp of the creation time.
-        public var createdTime: Date? = nil
+        public let createdTime: Date?
         /// The identifier of the ProvisionedProduct object.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(status: String? = nil, arn: String? = nil, lastRecordId: String? = nil, name: String? = nil, idempotencyToken: String? = nil, type: String? = nil, statusMessage: String? = nil, createdTime: Date? = nil, id: String? = nil) {
             self.status = status
@@ -1870,16 +1778,14 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The detailed result of the ProvisionProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object of the request, and a list of any errors that the request encountered. 
-        public var recordDetail: RecordDetail? = nil
-
-        public init() {}
+        public let recordDetail: RecordDetail?
 
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let recordDetail = dictionary["RecordDetail"] as? [String: Any] { self.recordDetail = try Servicecatalog.RecordDetail(dictionary: recordDetail) }
+            if let recordDetail = dictionary["RecordDetail"] as? [String: Any] { self.recordDetail = try Servicecatalog.RecordDetail(dictionary: recordDetail) } else { self.recordDetail = nil }
         }
     }
 
@@ -1887,11 +1793,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The identifier of the product for the delete request.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
@@ -1909,11 +1813,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The product identifier.
-        public var productId: String = ""
+        public let productId: String
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
-
-        public init() {}
+        public let acceptLanguage: String?
 
         public init(productId: String, acceptLanguage: String? = nil) {
             self.productId = productId
@@ -1931,17 +1833,15 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The access level for obtaining results. If left unspecified, User level access is used.
-        public var accessLevelFilter: AccessLevelFilter? = nil
+        public let accessLevelFilter: AccessLevelFilter?
         /// The filter to limit search results. 
-        public var searchFilter: ListRecordHistorySearchFilter? = nil
+        public let searchFilter: ListRecordHistorySearchFilter?
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        public var pageToken: String? = nil
-
-        public init() {}
+        public let pageToken: String?
 
         public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, searchFilter: ListRecordHistorySearchFilter? = nil, pageToken: String? = nil) {
             self.pageSize = pageSize
@@ -1954,8 +1854,8 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             self.pageSize = dictionary["PageSize"] as? Int32
             self.acceptLanguage = dictionary["AcceptLanguage"] as? String
-            if let accessLevelFilter = dictionary["AccessLevelFilter"] as? [String: Any] { self.accessLevelFilter = try Servicecatalog.AccessLevelFilter(dictionary: accessLevelFilter) }
-            if let searchFilter = dictionary["SearchFilter"] as? [String: Any] { self.searchFilter = try Servicecatalog.ListRecordHistorySearchFilter(dictionary: searchFilter) }
+            if let accessLevelFilter = dictionary["AccessLevelFilter"] as? [String: Any] { self.accessLevelFilter = try Servicecatalog.AccessLevelFilter(dictionary: accessLevelFilter) } else { self.accessLevelFilter = nil }
+            if let searchFilter = dictionary["SearchFilter"] as? [String: Any] { self.searchFilter = try Servicecatalog.ListRecordHistorySearchFilter(dictionary: searchFilter) } else { self.searchFilter = nil }
             self.pageToken = dictionary["PageToken"] as? String
         }
     }
@@ -1964,15 +1864,13 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The identifier of the source portfolio to use with this association.
-        public var sourcePortfolioId: String? = nil
+        public let sourcePortfolioId: String?
         /// The portfolio identifier.
-        public var portfolioId: String = ""
+        public let portfolioId: String
         /// The product identifier.
-        public var productId: String = ""
-
-        public init() {}
+        public let productId: String
 
         public init(acceptLanguage: String? = nil, sourcePortfolioId: String? = nil, portfolioId: String, productId: String) {
             self.acceptLanguage = acceptLanguage
@@ -1995,29 +1893,27 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the product for the update request.
-        public var id: String = ""
+        public let id: String
         /// Tags to remove from the existing list of tags associated with the product.
-        public var removeTags: [String]? = nil
+        public let removeTags: [String]?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The updated support email for the product.
-        public var supportEmail: String? = nil
+        public let supportEmail: String?
         /// The updated product name.
-        public var name: String? = nil
+        public let name: String?
         /// The updated distributor of the product.
-        public var distributor: String? = nil
+        public let distributor: String?
         /// Tags to add to the existing list of tags associated with the product.
-        public var addTags: [Tag]? = nil
+        public let addTags: [Tag]?
         /// The updated support URL for the product.
-        public var supportUrl: String? = nil
+        public let supportUrl: String?
         /// The updated owner of the product.
-        public var owner: String? = nil
+        public let owner: String?
         /// The updated support description for the product.
-        public var supportDescription: String? = nil
+        public let supportDescription: String?
         /// The updated text description of the product.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(id: String, removeTags: [String]? = nil, acceptLanguage: String? = nil, supportEmail: String? = nil, name: String? = nil, distributor: String? = nil, addTags: [Tag]? = nil, supportUrl: String? = nil, owner: String? = nil, supportDescription: String? = nil, description: String? = nil) {
             self.id = id
@@ -2036,15 +1932,15 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id
-            if let removeTags = dictionary["RemoveTags"] as? [String] {
-                self.removeTags = removeTags
-            }
+            self.removeTags = dictionary["RemoveTags"] as? [String]
             self.acceptLanguage = dictionary["AcceptLanguage"] as? String
             self.supportEmail = dictionary["SupportEmail"] as? String
             self.name = dictionary["Name"] as? String
             self.distributor = dictionary["Distributor"] as? String
             if let addTags = dictionary["AddTags"] as? [[String: Any]] {
                 self.addTags = try addTags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.addTags = nil
             }
             self.supportUrl = dictionary["SupportUrl"] as? String
             self.owner = dictionary["Owner"] as? String
@@ -2057,17 +1953,15 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// If set to true, AWS Service Catalog stops managing the specified ProvisionedProduct object even if it cannot delete the underlying resources.
-        public var ignoreErrors: Bool? = nil
+        public let ignoreErrors: Bool?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// An idempotency token that uniquely identifies the termination request. This token is only valid during the termination process. After the ProvisionedProduct object is terminated, further requests to terminate the same ProvisionedProduct object always return ResourceNotFound regardless of the value of TerminateToken.
-        public var terminateToken: String = ""
+        public let terminateToken: String
         /// The identifier of the ProvisionedProduct object to terminate. You must specify either ProvisionedProductName or ProvisionedProductId, but not both.
-        public var provisionedProductId: String? = nil
+        public let provisionedProductId: String?
         /// The name of the ProvisionedProduct object to terminate. You must specify either ProvisionedProductName or ProvisionedProductId, but not both.
-        public var provisionedProductName: String? = nil
-
-        public init() {}
+        public let provisionedProductName: String?
 
         public init(ignoreErrors: Bool? = nil, acceptLanguage: String? = nil, terminateToken: String, provisionedProductId: String? = nil, provisionedProductName: String? = nil) {
             self.ignoreErrors = ignoreErrors
@@ -2091,8 +1985,6 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -2101,17 +1993,15 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the provisioning artifact for the update request.
-        public var provisioningArtifactId: String = ""
+        public let provisioningArtifactId: String
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The product identifier.
-        public var productId: String = ""
+        public let productId: String
         /// The updated name of the provisioning artifact.
-        public var name: String? = nil
+        public let name: String?
         /// The updated text description of the provisioning artifact.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(provisioningArtifactId: String, acceptLanguage: String? = nil, productId: String, name: String? = nil, description: String? = nil) {
             self.provisioningArtifactId = provisioningArtifactId
@@ -2136,11 +2026,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// Detailed portfolio information.
-        public var portfolioDetail: PortfolioDetail? = nil
+        public let portfolioDetail: PortfolioDetail?
         /// Tags associated with the portfolio.
-        public var tags: [Tag]? = nil
-
-        public init() {}
+        public let tags: [Tag]?
 
         public init(portfolioDetail: PortfolioDetail? = nil, tags: [Tag]? = nil) {
             self.portfolioDetail = portfolioDetail
@@ -2148,9 +2036,11 @@ extension Servicecatalog {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let portfolioDetail = dictionary["PortfolioDetail"] as? [String: Any] { self.portfolioDetail = try Servicecatalog.PortfolioDetail(dictionary: portfolioDetail) }
+            if let portfolioDetail = dictionary["PortfolioDetail"] as? [String: Any] { self.portfolioDetail = try Servicecatalog.PortfolioDetail(dictionary: portfolioDetail) } else { self.portfolioDetail = nil }
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
         }
     }
@@ -2159,11 +2049,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The resulting detailed portfolio information.
-        public var portfolioDetail: PortfolioDetail? = nil
+        public let portfolioDetail: PortfolioDetail?
         /// Tags successfully associated with the new portfolio.
-        public var tags: [Tag]? = nil
-
-        public init() {}
+        public let tags: [Tag]?
 
         public init(portfolioDetail: PortfolioDetail? = nil, tags: [Tag]? = nil) {
             self.portfolioDetail = portfolioDetail
@@ -2171,9 +2059,11 @@ extension Servicecatalog {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let portfolioDetail = dictionary["PortfolioDetail"] as? [String: Any] { self.portfolioDetail = try Servicecatalog.PortfolioDetail(dictionary: portfolioDetail) }
+            if let portfolioDetail = dictionary["PortfolioDetail"] as? [String: Any] { self.portfolioDetail = try Servicecatalog.PortfolioDetail(dictionary: portfolioDetail) } else { self.portfolioDetail = nil }
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
         }
     }
@@ -2182,11 +2072,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the user to which the access level applies. A value of Self is currently supported.
-        public var value: String? = nil
+        public let value: String?
         /// Specifies the access level.  Account allows results at the account level.   Role allows results based on the federated role of the specified user.  User allows results limited to the specified user. 
-        public var key: String? = nil
-
-        public init() {}
+        public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
             self.value = value
@@ -2203,11 +2091,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of the constraint. 
-        public var type: String? = nil
+        public let type: String?
         /// The text description of the constraint.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(type: String? = nil, description: String? = nil) {
             self.type = type
@@ -2224,29 +2110,27 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// A value of false indicates that the product does not have a default path, while a value of true indicates that it does. If it's false, call ListLaunchPaths to disambiguate between paths. If true, ListLaunchPaths is not required, and the output of the ProductViewSummary operation can be used directly with DescribeProvisioningParameters.
-        public var hasDefaultPath: Bool? = nil
+        public let hasDefaultPath: Bool?
         /// Short description of the product.
-        public var shortDescription: String? = nil
+        public let shortDescription: String?
         /// The product view identifier.
-        public var id: String? = nil
+        public let id: String?
         /// The email contact information to obtain support for this Product.
-        public var supportEmail: String? = nil
+        public let supportEmail: String?
         /// The name of the product.
-        public var name: String? = nil
+        public let name: String?
         /// The distributor of the product. Contact the product administrator for the significance of this value.
-        public var distributor: String? = nil
+        public let distributor: String?
         /// The URL information to obtain support for this Product.
-        public var supportUrl: String? = nil
+        public let supportUrl: String?
         /// The owner of the product. Contact the product administrator for the significance of this value.
-        public var owner: String? = nil
+        public let owner: String?
         /// The product identifier.
-        public var productId: String? = nil
+        public let productId: String?
         /// The description of the support for this Product.
-        public var supportDescription: String? = nil
+        public let supportDescription: String?
         /// The product type. Contact the product administrator for the significance of this value.
-        public var type: String? = nil
-
-        public init() {}
+        public let type: String?
 
         public init(hasDefaultPath: Bool? = nil, shortDescription: String? = nil, id: String? = nil, supportEmail: String? = nil, name: String? = nil, distributor: String? = nil, supportUrl: String? = nil, owner: String? = nil, productId: String? = nil, supportDescription: String? = nil, type: String? = nil) {
             self.hasDefaultPath = hasDefaultPath
@@ -2281,11 +2165,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The portfolio identifier.
-        public var portfolioId: String = ""
+        public let portfolioId: String
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
-
-        public init() {}
+        public let acceptLanguage: String?
 
         public init(portfolioId: String, acceptLanguage: String? = nil) {
             self.portfolioId = portfolioId
@@ -2303,13 +2185,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the current request.
-        public var status: String? = nil
+        public let status: String?
         /// The resulting detailed provisioning artifact information.
-        public var provisioningArtifactDetail: ProvisioningArtifactDetail? = nil
+        public let provisioningArtifactDetail: ProvisioningArtifactDetail?
         /// Additional information about the provisioning artifact update request.
-        public var info: [String: String]? = nil
-
-        public init() {}
+        public let info: [String: String]?
 
         public init(status: String? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, info: [String: String]? = nil) {
             self.status = status
@@ -2319,9 +2199,11 @@ extension Servicecatalog {
 
         public init(dictionary: [String: Any]) throws {
             self.status = dictionary["Status"] as? String
-            if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) }
+            if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) } else { self.provisioningArtifactDetail = nil }
             if let info = dictionary["Info"] as? [String: String] {
                 self.info = info
+            } else { 
+                self.info = nil
             }
         }
     }
@@ -2330,13 +2212,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// Detailed constraint information.
-        public var constraintDetail: ConstraintDetail? = nil
+        public let constraintDetail: ConstraintDetail?
         /// The status of the current request.
-        public var status: String? = nil
+        public let status: String?
         /// The current parameters associated with the specified constraint.
-        public var constraintParameters: String? = nil
-
-        public init() {}
+        public let constraintParameters: String?
 
         public init(constraintDetail: ConstraintDetail? = nil, status: String? = nil, constraintParameters: String? = nil) {
             self.constraintDetail = constraintDetail
@@ -2345,7 +2225,7 @@ extension Servicecatalog {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let constraintDetail = dictionary["ConstraintDetail"] as? [String: Any] { self.constraintDetail = try Servicecatalog.ConstraintDetail(dictionary: constraintDetail) }
+            if let constraintDetail = dictionary["ConstraintDetail"] as? [String: Any] { self.constraintDetail = try Servicecatalog.ConstraintDetail(dictionary: constraintDetail) } else { self.constraintDetail = nil }
             self.status = dictionary["Status"] as? String
             self.constraintParameters = dictionary["ConstraintParameters"] as? String
         }
@@ -2355,11 +2235,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN representing the principal (IAM user, role, or group).
-        public var principalARN: String? = nil
+        public let principalARN: String?
         /// The principal type. Must be IAM 
-        public var principalType: String? = nil
-
-        public init() {}
+        public let principalType: String?
 
         public init(principalARN: String? = nil, principalType: String? = nil) {
             self.principalARN = principalARN
@@ -2376,17 +2254,15 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The text description of the provisioning artifact.
-        public var description: String? = nil
+        public let description: String?
         /// The type of the provisioning artifact.
-        public var type: String? = nil
+        public let type: String?
         /// The name assigned to the provisioning artifact.
-        public var name: String? = nil
+        public let name: String?
         /// The UTC timestamp of the creation time.
-        public var createdTime: Date? = nil
+        public let createdTime: Date?
         /// The identifier of the provisioning artifact.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(description: String? = nil, type: String? = nil, name: String? = nil, createdTime: Date? = nil, id: String? = nil) {
             self.description = description
@@ -2409,17 +2285,15 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The portfolio identifier.
-        public var portfolioId: String = ""
+        public let portfolioId: String
         /// The product identifier.
-        public var productId: String? = nil
+        public let productId: String?
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        public var pageToken: String? = nil
-
-        public init() {}
+        public let pageToken: String?
 
         public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, portfolioId: String, productId: String? = nil, pageToken: String? = nil) {
             self.pageSize = pageSize
@@ -2443,13 +2317,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The portfolio identifier.
-        public var portfolioId: String = ""
+        public let portfolioId: String
         /// The product identifier.
-        public var productId: String = ""
+        public let productId: String
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
-
-        public init() {}
+        public let acceptLanguage: String?
 
         public init(portfolioId: String, productId: String, acceptLanguage: String? = nil) {
             self.portfolioId = portfolioId
@@ -2470,11 +2342,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of detailed portfolio information objects.
-        public var portfolioDetails: [PortfolioDetail]? = nil
+        public let portfolioDetails: [PortfolioDetail]?
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public var nextPageToken: String? = nil
-
-        public init() {}
+        public let nextPageToken: String?
 
         public init(portfolioDetails: [PortfolioDetail]? = nil, nextPageToken: String? = nil) {
             self.portfolioDetails = portfolioDetails
@@ -2484,6 +2354,8 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             if let portfolioDetails = dictionary["PortfolioDetails"] as? [[String: Any]] {
                 self.portfolioDetails = try portfolioDetails.map({ try PortfolioDetail(dictionary: $0) })
+            } else { 
+                self.portfolioDetails = nil
             }
             self.nextPageToken = dictionary["NextPageToken"] as? String
         }
@@ -2493,8 +2365,6 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -2503,15 +2373,13 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
-        public var pageSize: Int32? = nil
+        public let pageSize: Int32?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The portfolio identifier.
-        public var portfolioId: String = ""
+        public let portfolioId: String
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
-        public var pageToken: String? = nil
-
-        public init() {}
+        public let pageToken: String?
 
         public init(pageSize: Int32? = nil, acceptLanguage: String? = nil, portfolioId: String, pageToken: String? = nil) {
             self.pageSize = pageSize
@@ -2533,8 +2401,6 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -2542,8 +2408,6 @@ extension Servicecatalog {
     public struct DeletePortfolioShareOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -2553,11 +2417,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The summary metadata about the specified product.
-        public var productViewSummary: ProductViewSummary? = nil
+        public let productViewSummary: ProductViewSummary?
         /// A list of provisioning artifact objects for the specified product. The ProvisioningArtifacts parameter represent the ways the specified product can be provisioned.
-        public var provisioningArtifacts: [ProvisioningArtifact]? = nil
-
-        public init() {}
+        public let provisioningArtifacts: [ProvisioningArtifact]?
 
         public init(productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
             self.productViewSummary = productViewSummary
@@ -2565,9 +2427,11 @@ extension Servicecatalog {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let productViewSummary = dictionary["ProductViewSummary"] as? [String: Any] { self.productViewSummary = try Servicecatalog.ProductViewSummary(dictionary: productViewSummary) }
+            if let productViewSummary = dictionary["ProductViewSummary"] as? [String: Any] { self.productViewSummary = try Servicecatalog.ProductViewSummary(dictionary: productViewSummary) } else { self.productViewSummary = nil }
             if let provisioningArtifacts = dictionary["ProvisioningArtifacts"] as? [[String: Any]] {
                 self.provisioningArtifacts = try provisioningArtifacts.map({ try ProvisioningArtifact(dictionary: $0) })
+            } else { 
+                self.provisioningArtifacts = nil
             }
         }
     }
@@ -2576,33 +2440,31 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The provisioning artifact identifier for this product.
-        public var provisioningArtifactId: String? = nil
+        public let provisioningArtifactId: String?
         /// The time when the record for the ProvisionedProduct object was last updated.
-        public var updatedTime: Date? = nil
+        public let updatedTime: Date?
         /// The user-friendly name of the ProvisionedProduct object.
-        public var provisionedProductName: String? = nil
+        public let provisionedProductName: String?
         /// The identifier of the path for this product's provisioning.
-        public var pathId: String? = nil
+        public let pathId: String?
         /// The product identifier.
-        public var productId: String? = nil
+        public let productId: String?
         /// The UTC timestamp of the creation time.
-        public var createdTime: Date? = nil
+        public let createdTime: Date?
         /// A list of errors that occurred while processing the request.
-        public var recordErrors: [RecordError]? = nil
+        public let recordErrors: [RecordError]?
         /// The status of the ProvisionedProduct object.
-        public var status: String? = nil
+        public let status: String?
         /// The identifier of the ProvisionedProduct object.
-        public var provisionedProductId: String? = nil
+        public let provisionedProductId: String?
         /// The record type for this record.
-        public var recordType: String? = nil
+        public let recordType: String?
         /// The identifier of the ProvisionedProduct object record.
-        public var recordId: String? = nil
+        public let recordId: String?
         /// The type of the ProvisionedProduct object.
-        public var provisionedProductType: String? = nil
+        public let provisionedProductType: String?
         /// List of tags associated with this record.
-        public var recordTags: [RecordTag]? = nil
-
-        public init() {}
+        public let recordTags: [RecordTag]?
 
         public init(provisioningArtifactId: String? = nil, updatedTime: Date? = nil, provisionedProductName: String? = nil, pathId: String? = nil, productId: String? = nil, createdTime: Date? = nil, recordErrors: [RecordError]? = nil, status: String? = nil, provisionedProductId: String? = nil, recordType: String? = nil, recordId: String? = nil, provisionedProductType: String? = nil, recordTags: [RecordTag]? = nil) {
             self.provisioningArtifactId = provisioningArtifactId
@@ -2629,6 +2491,8 @@ extension Servicecatalog {
             self.createdTime = dictionary["CreatedTime"] as? Date
             if let recordErrors = dictionary["RecordErrors"] as? [[String: Any]] {
                 self.recordErrors = try recordErrors.map({ try RecordError(dictionary: $0) })
+            } else { 
+                self.recordErrors = nil
             }
             self.status = dictionary["Status"] as? String
             self.provisionedProductId = dictionary["ProvisionedProductId"] as? String
@@ -2637,6 +2501,8 @@ extension Servicecatalog {
             self.provisionedProductType = dictionary["ProvisionedProductType"] as? String
             if let recordTags = dictionary["RecordTags"] as? [[String: Any]] {
                 self.recordTags = try recordTags.map({ try RecordTag(dictionary: $0) })
+            } else { 
+                self.recordTags = nil
             }
         }
     }
@@ -2645,13 +2511,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the current request.
-        public var status: String? = nil
+        public let status: String?
         /// Detailed provisioning artifact information.
-        public var provisioningArtifactDetail: ProvisioningArtifactDetail? = nil
+        public let provisioningArtifactDetail: ProvisioningArtifactDetail?
         /// Additional information about the provisioning artifact.
-        public var info: [String: String]? = nil
-
-        public init() {}
+        public let info: [String: String]?
 
         public init(status: String? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, info: [String: String]? = nil) {
             self.status = status
@@ -2661,9 +2525,11 @@ extension Servicecatalog {
 
         public init(dictionary: [String: Any]) throws {
             self.status = dictionary["Status"] as? String
-            if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) }
+            if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) } else { self.provisioningArtifactDetail = nil }
             if let info = dictionary["Info"] as? [String: String] {
                 self.info = info
+            } else { 
+                self.info = nil
             }
         }
     }
@@ -2672,11 +2538,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The portfolio identifier.
-        public var portfolioId: String = ""
+        public let portfolioId: String
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
-
-        public init() {}
+        public let acceptLanguage: String?
 
         public init(portfolioId: String, acceptLanguage: String? = nil) {
             self.portfolioId = portfolioId
@@ -2694,11 +2558,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value for this tag.
-        public var value: String? = nil
+        public let value: String?
         /// The key for this tag.
-        public var key: String? = nil
-
-        public init() {}
+        public let key: String?
 
         public init(value: String? = nil, key: String? = nil) {
             self.value = value
@@ -2715,11 +2577,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of detailed portfolio information objects.
-        public var portfolioDetails: [PortfolioDetail]? = nil
+        public let portfolioDetails: [PortfolioDetail]?
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
-        public var nextPageToken: String? = nil
-
-        public init() {}
+        public let nextPageToken: String?
 
         public init(portfolioDetails: [PortfolioDetail]? = nil, nextPageToken: String? = nil) {
             self.portfolioDetails = portfolioDetails
@@ -2729,6 +2589,8 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             if let portfolioDetails = dictionary["PortfolioDetails"] as? [[String: Any]] {
                 self.portfolioDetails = try portfolioDetails.map({ try PortfolioDetail(dictionary: $0) })
+            } else { 
+                self.portfolioDetails = nil
             }
             self.nextPageToken = dictionary["NextPageToken"] as? String
         }
@@ -2738,21 +2600,19 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the portfolio for the update request.
-        public var id: String = ""
+        public let id: String
         /// Tags to remove from the existing list of tags associated with the portfolio.
-        public var removeTags: [String]? = nil
+        public let removeTags: [String]?
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The name to use for display purposes.
-        public var displayName: String? = nil
+        public let displayName: String?
         /// Tags to add to the existing list of tags associated with the portfolio.
-        public var addTags: [Tag]? = nil
+        public let addTags: [Tag]?
         /// The updated name of the portfolio provider.
-        public var providerName: String? = nil
+        public let providerName: String?
         /// The updated text description of the portfolio.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(id: String, removeTags: [String]? = nil, acceptLanguage: String? = nil, displayName: String? = nil, addTags: [Tag]? = nil, providerName: String? = nil, description: String? = nil) {
             self.id = id
@@ -2767,13 +2627,13 @@ extension Servicecatalog {
         public init(dictionary: [String: Any]) throws {
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id
-            if let removeTags = dictionary["RemoveTags"] as? [String] {
-                self.removeTags = removeTags
-            }
+            self.removeTags = dictionary["RemoveTags"] as? [String]
             self.acceptLanguage = dictionary["AcceptLanguage"] as? String
             self.displayName = dictionary["DisplayName"] as? String
             if let addTags = dictionary["AddTags"] as? [[String: Any]] {
                 self.addTags = try addTags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.addTags = nil
             }
             self.providerName = dictionary["ProviderName"] as? String
             self.description = dictionary["Description"] as? String
@@ -2784,8 +2644,6 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -2794,15 +2652,13 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN representing the principal (IAM user, role, or group).
-        public var principalARN: String = ""
+        public let principalARN: String
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The principal type. Must be IAM 
-        public var principalType: String = ""
+        public let principalType: String
         /// The portfolio identifier.
-        public var portfolioId: String = ""
-
-        public init() {}
+        public let portfolioId: String
 
         public init(principalARN: String, acceptLanguage: String? = nil, principalType: String, portfolioId: String) {
             self.principalARN = principalARN
@@ -2826,11 +2682,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The identifier of the product for which to retrieve information.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
@@ -2848,11 +2702,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// The identifier of the portfolio for which to retrieve information.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
@@ -2870,31 +2722,29 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
+        public let acceptLanguage: String?
         /// Contact email for product support.
-        public var supportEmail: String? = nil
+        public let supportEmail: String?
         /// The name of the product.
-        public var name: String = ""
+        public let name: String
         /// The distributor of the product.
-        public var distributor: String? = nil
+        public let distributor: String?
         /// A token to disambiguate duplicate requests. You can create multiple resources using the same input in multiple requests, provided that you also specify a different idempotency token for each request.
-        public var idempotencyToken: String = ""
+        public let idempotencyToken: String
         /// The type of the product to create.
-        public var productType: String = ""
+        public let productType: String
         /// Tags to associate with the new product.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// Parameters for the provisioning artifact.
-        public var provisioningArtifactParameters: ProvisioningArtifactProperties = ProvisioningArtifactProperties()
+        public let provisioningArtifactParameters: ProvisioningArtifactProperties
         /// Contact URL for product support.
-        public var supportUrl: String? = nil
+        public let supportUrl: String?
         /// The owner of the product.
-        public var owner: String = ""
+        public let owner: String
         /// Support information about the product.
-        public var supportDescription: String? = nil
+        public let supportDescription: String?
         /// The text description of the product.
-        public var description: String? = nil
-
-        public init() {}
+        public let description: String?
 
         public init(acceptLanguage: String? = nil, supportEmail: String? = nil, name: String, distributor: String? = nil, idempotencyToken: String, productType: String, tags: [Tag]? = nil, provisioningArtifactParameters: ProvisioningArtifactProperties, supportUrl: String? = nil, owner: String, supportDescription: String? = nil, description: String? = nil) {
             self.acceptLanguage = acceptLanguage
@@ -2923,6 +2773,8 @@ extension Servicecatalog {
             self.productType = productType
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let provisioningArtifactParameters = dictionary["ProvisioningArtifactParameters"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ProvisioningArtifactParameters") }
             self.provisioningArtifactParameters = try Servicecatalog.ProvisioningArtifactProperties(dictionary: provisioningArtifactParameters)
@@ -2938,13 +2790,11 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the current request.
-        public var status: String? = nil
+        public let status: String?
         /// The resulting detailed provisioning artifact information.
-        public var provisioningArtifactDetail: ProvisioningArtifactDetail? = nil
+        public let provisioningArtifactDetail: ProvisioningArtifactDetail?
         /// Additional information about the provisioning artifact create request.
-        public var info: [String: String]? = nil
-
-        public init() {}
+        public let info: [String: String]?
 
         public init(status: String? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, info: [String: String]? = nil) {
             self.status = status
@@ -2954,9 +2804,11 @@ extension Servicecatalog {
 
         public init(dictionary: [String: Any]) throws {
             self.status = dictionary["Status"] as? String
-            if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) }
+            if let provisioningArtifactDetail = dictionary["ProvisioningArtifactDetail"] as? [String: Any] { self.provisioningArtifactDetail = try Servicecatalog.ProvisioningArtifactDetail(dictionary: provisioningArtifactDetail) } else { self.provisioningArtifactDetail = nil }
             if let info = dictionary["Info"] as? [String: String] {
                 self.info = info
+            } else { 
+                self.info = nil
             }
         }
     }
@@ -2965,11 +2817,9 @@ extension Servicecatalog {
         /// The key for the payload
         public static let payload: String? = nil
         /// The portfolio identifier.
-        public var portfolioId: String = ""
+        public let portfolioId: String
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
-        public var acceptLanguage: String? = nil
-
-        public init() {}
+        public let acceptLanguage: String?
 
         public init(portfolioId: String, acceptLanguage: String? = nil) {
             self.portfolioId = portfolioId

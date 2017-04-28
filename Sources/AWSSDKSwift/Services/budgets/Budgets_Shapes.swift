@@ -32,10 +32,8 @@ extension Budgets {
     public struct DeleteBudgetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var accountId: String = ""
-        public var budgetName: String = ""
-
-        public init() {}
+        public let accountId: String
+        public let budgetName: String
 
         public init(accountId: String, budgetName: String) {
             self.accountId = accountId
@@ -53,10 +51,8 @@ extension Budgets {
     public struct DescribeBudgetsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var budgets: [Budget]? = nil
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let budgets: [Budget]?
+        public let nextToken: String?
 
         public init(budgets: [Budget]? = nil, nextToken: String? = nil) {
             self.budgets = budgets
@@ -66,6 +62,8 @@ extension Budgets {
         public init(dictionary: [String: Any]) throws {
             if let budgets = dictionary["Budgets"] as? [[String: Any]] {
                 self.budgets = try budgets.map({ try Budget(dictionary: $0) })
+            } else { 
+                self.budgets = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -74,10 +72,8 @@ extension Budgets {
     public struct DescribeBudgetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var accountId: String = ""
-        public var budgetName: String = ""
-
-        public init() {}
+        public let accountId: String
+        public let budgetName: String
 
         public init(accountId: String, budgetName: String) {
             self.accountId = accountId
@@ -95,27 +91,23 @@ extension Budgets {
     public struct DescribeBudgetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var budget: Budget? = nil
-
-        public init() {}
+        public let budget: Budget?
 
         public init(budget: Budget? = nil) {
             self.budget = budget
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let budget = dictionary["Budget"] as? [String: Any] { self.budget = try Budgets.Budget(dictionary: budget) }
+            if let budget = dictionary["Budget"] as? [String: Any] { self.budget = try Budgets.Budget(dictionary: budget) } else { self.budget = nil }
         }
     }
 
     public struct DeleteNotificationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var accountId: String = ""
-        public var notification: Notification = Notification()
-        public var budgetName: String = ""
-
-        public init() {}
+        public let accountId: String
+        public let notification: Notification
+        public let budgetName: String
 
         public init(accountId: String, notification: Notification, budgetName: String) {
             self.accountId = accountId
@@ -136,10 +128,8 @@ extension Budgets {
     public struct NotificationWithSubscribers: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var subscribers: [Subscriber] = []
-        public var notification: Notification = Notification()
-
-        public init() {}
+        public let subscribers: [Subscriber]
+        public let notification: Notification
 
         public init(subscribers: [Subscriber], notification: Notification) {
             self.subscribers = subscribers
@@ -157,13 +147,11 @@ extension Budgets {
     public struct UpdateSubscriberRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var accountId: String = ""
-        public var notification: Notification = Notification()
-        public var oldSubscriber: Subscriber = Subscriber()
-        public var budgetName: String = ""
-        public var newSubscriber: Subscriber = Subscriber()
-
-        public init() {}
+        public let accountId: String
+        public let notification: Notification
+        public let oldSubscriber: Subscriber
+        public let budgetName: String
+        public let newSubscriber: Subscriber
 
         public init(accountId: String, notification: Notification, oldSubscriber: Subscriber, budgetName: String, newSubscriber: Subscriber) {
             self.accountId = accountId
@@ -191,8 +179,6 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -200,12 +186,10 @@ extension Budgets {
     public struct CreateNotificationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var accountId: String = ""
-        public var notification: Notification = Notification()
-        public var subscribers: [Subscriber] = []
-        public var budgetName: String = ""
-
-        public init() {}
+        public let accountId: String
+        public let notification: Notification
+        public let subscribers: [Subscriber]
+        public let budgetName: String
 
         public init(accountId: String, notification: Notification, subscribers: [Subscriber], budgetName: String) {
             self.accountId = accountId
@@ -230,8 +214,6 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -239,10 +221,8 @@ extension Budgets {
     public struct DescribeNotificationsForBudgetResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var notifications: [Notification]? = nil
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let notifications: [Notification]?
+        public let nextToken: String?
 
         public init(notifications: [Notification]? = nil, nextToken: String? = nil) {
             self.notifications = notifications
@@ -252,6 +232,8 @@ extension Budgets {
         public init(dictionary: [String: Any]) throws {
             if let notifications = dictionary["Notifications"] as? [[String: Any]] {
                 self.notifications = try notifications.map({ try Notification(dictionary: $0) })
+            } else { 
+                self.notifications = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -260,12 +242,10 @@ extension Budgets {
     public struct DeleteSubscriberRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var accountId: String = ""
-        public var subscriber: Subscriber = Subscriber()
-        public var notification: Notification = Notification()
-        public var budgetName: String = ""
-
-        public init() {}
+        public let accountId: String
+        public let subscriber: Subscriber
+        public let notification: Notification
+        public let budgetName: String
 
         public init(accountId: String, subscriber: Subscriber, notification: Notification, budgetName: String) {
             self.accountId = accountId
@@ -290,8 +270,6 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -299,11 +277,9 @@ extension Budgets {
     public struct CostTypes: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var includeSubscription: Bool = false
-        public var useBlended: Bool = false
-        public var includeTax: Bool = false
-
-        public init() {}
+        public let includeSubscription: Bool
+        public let useBlended: Bool
+        public let includeTax: Bool
 
         public init(includeSubscription: Bool, useBlended: Bool, includeTax: Bool) {
             self.includeSubscription = includeSubscription
@@ -325,8 +301,6 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -334,11 +308,9 @@ extension Budgets {
     public struct DescribeBudgetsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var accountId: String = ""
-        public var nextToken: String? = nil
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let accountId: String
+        public let nextToken: String?
+        public let maxResults: Int32?
 
         public init(accountId: String, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.accountId = accountId
@@ -358,8 +330,6 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -367,11 +337,9 @@ extension Budgets {
     public struct CreateBudgetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var accountId: String = ""
-        public var budget: Budget = Budget()
-        public var notificationsWithSubscribers: [NotificationWithSubscribers]? = nil
-
-        public init() {}
+        public let accountId: String
+        public let budget: Budget
+        public let notificationsWithSubscribers: [NotificationWithSubscribers]?
 
         public init(accountId: String, budget: Budget, notificationsWithSubscribers: [NotificationWithSubscribers]? = nil) {
             self.accountId = accountId
@@ -386,6 +354,8 @@ extension Budgets {
             self.budget = try Budgets.Budget(dictionary: budget)
             if let notificationsWithSubscribers = dictionary["NotificationsWithSubscribers"] as? [[String: Any]] {
                 self.notificationsWithSubscribers = try notificationsWithSubscribers.map({ try NotificationWithSubscribers(dictionary: $0) })
+            } else { 
+                self.notificationsWithSubscribers = nil
             }
         }
     }
@@ -394,8 +364,6 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -403,12 +371,10 @@ extension Budgets {
     public struct UpdateNotificationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var accountId: String = ""
-        public var oldNotification: Notification = Notification()
-        public var newNotification: Notification = Notification()
-        public var budgetName: String = ""
-
-        public init() {}
+        public let accountId: String
+        public let oldNotification: Notification
+        public let newNotification: Notification
+        public let budgetName: String
 
         public init(accountId: String, oldNotification: Notification, newNotification: Notification, budgetName: String) {
             self.accountId = accountId
@@ -433,8 +399,6 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -443,8 +407,6 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -452,13 +414,11 @@ extension Budgets {
     public struct DescribeSubscribersForNotificationRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var accountId: String = ""
-        public var notification: Notification = Notification()
-        public var nextToken: String? = nil
-        public var budgetName: String = ""
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let accountId: String
+        public let notification: Notification
+        public let nextToken: String?
+        public let budgetName: String
+        public let maxResults: Int32?
 
         public init(accountId: String, notification: Notification, nextToken: String? = nil, budgetName: String, maxResults: Int32? = nil) {
             self.accountId = accountId
@@ -483,12 +443,10 @@ extension Budgets {
     public struct CreateSubscriberRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var accountId: String = ""
-        public var subscriber: Subscriber = Subscriber()
-        public var notification: Notification = Notification()
-        public var budgetName: String = ""
-
-        public init() {}
+        public let accountId: String
+        public let subscriber: Subscriber
+        public let notification: Notification
+        public let budgetName: String
 
         public init(accountId: String, subscriber: Subscriber, notification: Notification, budgetName: String) {
             self.accountId = accountId
@@ -513,8 +471,6 @@ extension Budgets {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -522,11 +478,9 @@ extension Budgets {
     public struct Notification: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var comparisonOperator: String = ""
-        public var threshold: Double = 0
-        public var notificationType: String = ""
-
-        public init() {}
+        public let comparisonOperator: String
+        public let threshold: Double
+        public let notificationType: String
 
         public init(comparisonOperator: String, threshold: Double, notificationType: String) {
             self.comparisonOperator = comparisonOperator
@@ -547,10 +501,8 @@ extension Budgets {
     public struct Subscriber: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var address: String = ""
-        public var subscriptionType: String = ""
-
-        public init() {}
+        public let address: String
+        public let subscriptionType: String
 
         public init(address: String, subscriptionType: String) {
             self.address = address
@@ -568,12 +520,10 @@ extension Budgets {
     public struct DescribeNotificationsForBudgetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var accountId: String = ""
-        public var nextToken: String? = nil
-        public var budgetName: String = ""
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let accountId: String
+        public let nextToken: String?
+        public let budgetName: String
+        public let maxResults: Int32?
 
         public init(accountId: String, nextToken: String? = nil, budgetName: String, maxResults: Int32? = nil) {
             self.accountId = accountId
@@ -595,10 +545,8 @@ extension Budgets {
     public struct UpdateBudgetRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var accountId: String = ""
-        public var newBudget: Budget = Budget()
-
-        public init() {}
+        public let accountId: String
+        public let newBudget: Budget
 
         public init(accountId: String, newBudget: Budget) {
             self.accountId = accountId
@@ -616,16 +564,14 @@ extension Budgets {
     public struct Budget: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var timeUnit: String = ""
-        public var budgetLimit: Spend = Spend()
-        public var budgetName: String = ""
-        public var timePeriod: TimePeriod = TimePeriod()
-        public var budgetType: String = ""
-        public var costFilters: [String: [String]]? = nil
-        public var calculatedSpend: CalculatedSpend? = nil
-        public var costTypes: CostTypes = CostTypes()
-
-        public init() {}
+        public let timeUnit: String
+        public let budgetLimit: Spend
+        public let budgetName: String
+        public let timePeriod: TimePeriod
+        public let budgetType: String
+        public let costFilters: [String: [String]]?
+        public let calculatedSpend: CalculatedSpend?
+        public let costTypes: CostTypes
 
         public init(timeUnit: String, budgetLimit: Spend, budgetName: String, timePeriod: TimePeriod, budgetType: String, costFilters: [String: [String]]? = nil, calculatedSpend: CalculatedSpend? = nil, costTypes: CostTypes) {
             self.timeUnit = timeUnit
@@ -656,8 +602,10 @@ extension Budgets {
                     costFiltersDict[key] = dimensionValues
                 }
                 self.costFilters = costFiltersDict
+            } else { 
+                self.costFilters = nil
             }
-            if let calculatedSpend = dictionary["CalculatedSpend"] as? [String: Any] { self.calculatedSpend = try Budgets.CalculatedSpend(dictionary: calculatedSpend) }
+            if let calculatedSpend = dictionary["CalculatedSpend"] as? [String: Any] { self.calculatedSpend = try Budgets.CalculatedSpend(dictionary: calculatedSpend) } else { self.calculatedSpend = nil }
             guard let costTypes = dictionary["CostTypes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CostTypes") }
             self.costTypes = try Budgets.CostTypes(dictionary: costTypes)
         }
@@ -666,10 +614,8 @@ extension Budgets {
     public struct TimePeriod: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var start: Date = Date()
-        public var end: Date = Date()
-
-        public init() {}
+        public let start: Date
+        public let end: Date
 
         public init(start: Date, end: Date) {
             self.start = start
@@ -687,10 +633,8 @@ extension Budgets {
     public struct CalculatedSpend: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var forecastedSpend: Spend? = nil
-        public var actualSpend: Spend = Spend()
-
-        public init() {}
+        public let forecastedSpend: Spend?
+        public let actualSpend: Spend
 
         public init(forecastedSpend: Spend? = nil, actualSpend: Spend) {
             self.forecastedSpend = forecastedSpend
@@ -698,7 +642,7 @@ extension Budgets {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let forecastedSpend = dictionary["ForecastedSpend"] as? [String: Any] { self.forecastedSpend = try Budgets.Spend(dictionary: forecastedSpend) }
+            if let forecastedSpend = dictionary["ForecastedSpend"] as? [String: Any] { self.forecastedSpend = try Budgets.Spend(dictionary: forecastedSpend) } else { self.forecastedSpend = nil }
             guard let actualSpend = dictionary["ActualSpend"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ActualSpend") }
             self.actualSpend = try Budgets.Spend(dictionary: actualSpend)
         }
@@ -707,10 +651,8 @@ extension Budgets {
     public struct Spend: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var unit: String = ""
-        public var amount: String = ""
-
-        public init() {}
+        public let unit: String
+        public let amount: String
 
         public init(unit: String, amount: String) {
             self.unit = unit
@@ -728,10 +670,8 @@ extension Budgets {
     public struct DescribeSubscribersForNotificationResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var subscribers: [Subscriber]? = nil
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let subscribers: [Subscriber]?
+        public let nextToken: String?
 
         public init(subscribers: [Subscriber]? = nil, nextToken: String? = nil) {
             self.subscribers = subscribers
@@ -741,6 +681,8 @@ extension Budgets {
         public init(dictionary: [String: Any]) throws {
             if let subscribers = dictionary["Subscribers"] as? [[String: Any]] {
                 self.subscribers = try subscribers.map({ try Subscriber(dictionary: $0) })
+            } else { 
+                self.subscribers = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }

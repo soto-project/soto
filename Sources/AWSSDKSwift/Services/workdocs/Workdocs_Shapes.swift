@@ -39,17 +39,15 @@ extension Workdocs {
             return ["DocumentId": "DocumentId"]
         }
         /// Specify "SOURCE" to include initialized versions and a URL for the source document.
-        public var fields: String? = nil
+        public let fields: String?
         /// The maximum number of versions to return with this call.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The marker for the next set of results. (You received this marker from a previous call.)
-        public var marker: String? = nil
+        public let marker: String?
         /// The ID of the document.
-        public var documentId: String = ""
+        public let documentId: String
         /// A comma-separated list of values. Specify "INITIALIZED" to include incomplete versions.
-        public var include: String? = nil
-
-        public init() {}
+        public let include: String?
 
         public init(fields: String? = nil, limit: Int32? = nil, marker: String? = nil, documentId: String, include: String? = nil) {
             self.fields = fields
@@ -76,15 +74,13 @@ extension Workdocs {
             return ["OrganizationId": "OrganizationId"]
         }
         /// The ID of the organization.
-        public var organizationId: String = ""
+        public let organizationId: String
         /// The notification type.
-        public var subscriptionType: String = ""
+        public let subscriptionType: String
         /// The protocol to use. The supported value is https, which delivers JSON-encoded messasges using HTTPS POST.
-        public var `protocol`: String = ""
+        public let `protocol`: String
         /// The endpoint to receive the notifications. If the protocol is HTTPS, the endpoint is a URL that begins with "https://".
-        public var endpoint: String = ""
-
-        public init() {}
+        public let endpoint: String
 
         public init(organizationId: String, subscriptionType: String, protocol: String, endpoint: String) {
             self.organizationId = organizationId
@@ -109,17 +105,15 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The role.
-        public var role: String? = nil
+        public let role: String?
         /// The status.
-        public var status: String? = nil
+        public let status: String?
         /// The ID of the principal.
-        public var principalId: String? = nil
+        public let principalId: String?
         /// The status message.
-        public var statusMessage: String? = nil
+        public let statusMessage: String?
         /// The ID of the resource that was shared.
-        public var shareId: String? = nil
-
-        public init() {}
+        public let shareId: String?
 
         public init(role: String? = nil, status: String? = nil, principalId: String? = nil, statusMessage: String? = nil, shareId: String? = nil) {
             self.role = role
@@ -148,13 +142,11 @@ extension Workdocs {
             return ["VersionId": "VersionId", "DocumentId": "DocumentId"]
         }
         /// A comma-separated list of values. Specify "SOURCE" to include a URL for the source document.
-        public var fields: String? = nil
+        public let fields: String?
         /// The version ID of the document.
-        public var versionId: String = ""
+        public let versionId: String
         /// The ID of the document.
-        public var documentId: String = ""
-
-        public init() {}
+        public let documentId: String
 
         public init(fields: String? = nil, versionId: String, documentId: String) {
             self.fields = fields
@@ -175,11 +167,9 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of permissions.
-        public var type: String? = nil
+        public let type: String?
         /// The role of the user.
-        public var role: String? = nil
-
-        public init() {}
+        public let role: String?
 
         public init(type: String? = nil, role: String? = nil) {
             self.type = type
@@ -196,16 +186,14 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user information.
-        public var user: User? = nil
-
-        public init() {}
+        public let user: User?
 
         public init(user: User? = nil) {
             self.user = user
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let user = dictionary["User"] as? [String: Any] { self.user = try Workdocs.User(dictionary: user) }
+            if let user = dictionary["User"] as? [String: Any] { self.user = try Workdocs.User(dictionary: user) } else { self.user = nil }
         }
     }
 
@@ -213,13 +201,11 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public var marker: String? = nil
+        public let marker: String?
         /// The users.
-        public var users: [User]? = nil
+        public let users: [User]?
         /// The total number of users included in the results.
-        public var totalNumberOfUsers: Int64? = nil
-
-        public init() {}
+        public let totalNumberOfUsers: Int64?
 
         public init(marker: String? = nil, users: [User]? = nil, totalNumberOfUsers: Int64? = nil) {
             self.marker = marker
@@ -231,6 +217,8 @@ extension Workdocs {
             self.marker = dictionary["Marker"] as? String
             if let users = dictionary["Users"] as? [[String: Any]] {
                 self.users = try users.map({ try User(dictionary: $0) })
+            } else { 
+                self.users = nil
             }
             self.totalNumberOfUsers = dictionary["TotalNumberOfUsers"] as? Int64
         }
@@ -240,13 +228,11 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the subscription.
-        public var subscriptionId: String? = nil
+        public let subscriptionId: String?
         /// The endpoint of the subscription.
-        public var endPoint: String? = nil
+        public let endPoint: String?
         /// The protocol of the subscription.
-        public var `protocol`: String? = nil
-
-        public init() {}
+        public let `protocol`: String?
 
         public init(subscriptionId: String? = nil, endPoint: String? = nil, protocol: String? = nil) {
             self.subscriptionId = subscriptionId
@@ -265,13 +251,11 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public var marker: String? = nil
+        public let marker: String?
         /// The documents in the specified folder.
-        public var documents: [DocumentMetadata]? = nil
+        public let documents: [DocumentMetadata]?
         /// The sub-folders in the specified folder.
-        public var folders: [FolderMetadata]? = nil
-
-        public init() {}
+        public let folders: [FolderMetadata]?
 
         public init(marker: String? = nil, documents: [DocumentMetadata]? = nil, folders: [FolderMetadata]? = nil) {
             self.marker = marker
@@ -283,9 +267,13 @@ extension Workdocs {
             self.marker = dictionary["Marker"] as? String
             if let documents = dictionary["Documents"] as? [[String: Any]] {
                 self.documents = try documents.map({ try DocumentMetadata(dictionary: $0) })
+            } else { 
+                self.documents = nil
             }
             if let folders = dictionary["Folders"] as? [[String: Any]] {
                 self.folders = try folders.map({ try FolderMetadata(dictionary: $0) })
+            } else { 
+                self.folders = nil
             }
         }
     }
@@ -294,11 +282,9 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the resource path.
-        public var name: String? = nil
+        public let name: String?
         /// The ID of the resource path.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(name: String? = nil, id: String? = nil) {
             self.name = name
@@ -315,11 +301,9 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public var marker: String? = nil
+        public let marker: String?
         /// The principals.
-        public var principals: [Principal]? = nil
-
-        public init() {}
+        public let principals: [Principal]?
 
         public init(marker: String? = nil, principals: [Principal]? = nil) {
             self.marker = marker
@@ -330,6 +314,8 @@ extension Workdocs {
             self.marker = dictionary["Marker"] as? String
             if let principals = dictionary["Principals"] as? [[String: Any]] {
                 self.principals = try principals.map({ try Principal(dictionary: $0) })
+            } else { 
+                self.principals = nil
             }
         }
     }
@@ -341,9 +327,7 @@ extension Workdocs {
             return ["DocumentId": "DocumentId"]
         }
         /// The ID of the document.
-        public var documentId: String = ""
-
-        public init() {}
+        public let documentId: String
 
         public init(documentId: String) {
             self.documentId = documentId
@@ -362,15 +346,13 @@ extension Workdocs {
             return ["DocumentId": "DocumentId"]
         }
         /// The ID of the parent folder.
-        public var parentFolderId: String? = nil
+        public let parentFolderId: String?
         /// The resource state of the document. Note that only ACTIVE and RECYCLED are supported.
-        public var resourceState: String? = nil
+        public let resourceState: String?
         /// The ID of the document.
-        public var documentId: String = ""
+        public let documentId: String
         /// The name of the document.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(parentFolderId: String? = nil, resourceState: String? = nil, documentId: String, name: String? = nil) {
             self.parentFolderId = parentFolderId
@@ -395,9 +377,7 @@ extension Workdocs {
             return ["DocumentId": "DocumentId"]
         }
         /// The ID of the document object.
-        public var documentId: String = ""
-
-        public init() {}
+        public let documentId: String
 
         public init(documentId: String) {
             self.documentId = documentId
@@ -413,21 +393,19 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the document.
-        public var id: String? = nil
+        public let id: String?
         /// The time stamp when the content of the document was modified.
-        public var contentModifiedTimestamp: Date? = nil
+        public let contentModifiedTimestamp: Date?
         /// The name of the document.
-        public var name: String? = nil
+        public let name: String?
         /// The content type of the document.
-        public var contentType: String? = nil
+        public let contentType: String?
         /// The ID of the parent folder.
-        public var parentFolderId: String = ""
+        public let parentFolderId: String
         /// The time stamp when the content of the document was originally created.
-        public var contentCreatedTimestamp: Date? = nil
+        public let contentCreatedTimestamp: Date?
         /// The size of the document, in bytes.
-        public var documentSizeInBytes: Int64? = nil
-
-        public init() {}
+        public let documentSizeInBytes: Int64?
 
         public init(id: String? = nil, contentModifiedTimestamp: Date? = nil, name: String? = nil, contentType: String? = nil, parentFolderId: String, contentCreatedTimestamp: Date? = nil, documentSizeInBytes: Int64? = nil) {
             self.id = id
@@ -455,9 +433,7 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The share results.
-        public var shareResults: [ShareResult]? = nil
-
-        public init() {}
+        public let shareResults: [ShareResult]?
 
         public init(shareResults: [ShareResult]? = nil) {
             self.shareResults = shareResults
@@ -466,6 +442,8 @@ extension Workdocs {
         public init(dictionary: [String: Any]) throws {
             if let shareResults = dictionary["ShareResults"] as? [[String: Any]] {
                 self.shareResults = try shareResults.map({ try ShareResult(dictionary: $0) })
+            } else { 
+                self.shareResults = nil
             }
         }
     }
@@ -474,23 +452,21 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier created from the subfolders and documents of the folder.
-        public var signature: String? = nil
+        public let signature: String?
         /// The resource state of the folder.
-        public var resourceState: String? = nil
+        public let resourceState: String?
         /// The name of the folder.
-        public var name: String? = nil
+        public let name: String?
         /// The ID of the creator.
-        public var creatorId: String? = nil
+        public let creatorId: String?
         /// The time when the folder was updated.
-        public var modifiedTimestamp: Date? = nil
+        public let modifiedTimestamp: Date?
         /// The ID of the parent folder.
-        public var parentFolderId: String? = nil
+        public let parentFolderId: String?
         /// The time when the folder was created.
-        public var createdTimestamp: Date? = nil
+        public let createdTimestamp: Date?
         /// The ID of the folder.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(signature: String? = nil, resourceState: String? = nil, name: String? = nil, creatorId: String? = nil, modifiedTimestamp: Date? = nil, parentFolderId: String? = nil, createdTimestamp: Date? = nil, id: String? = nil) {
             self.signature = signature
@@ -519,33 +495,31 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time stamp when the content of the document was modified.
-        public var contentModifiedTimestamp: Date? = nil
+        public let contentModifiedTimestamp: Date?
         /// The signature of the document.
-        public var signature: String? = nil
+        public let signature: String?
         /// The time stamp when the document was last uploaded.
-        public var modifiedTimestamp: Date? = nil
+        public let modifiedTimestamp: Date?
         /// The source of the document.
-        public var source: [String: String]? = nil
+        public let source: [String: String]?
         /// The time stamp when the document was first uploaded.
-        public var createdTimestamp: Date? = nil
+        public let createdTimestamp: Date?
         /// The ID of the version.
-        public var id: String? = nil
+        public let id: String?
         /// The status of the document.
-        public var status: String? = nil
+        public let status: String?
         /// The name of the version.
-        public var name: String? = nil
+        public let name: String?
         /// The size of the document, in bytes.
-        public var size: Int64? = nil
+        public let size: Int64?
         /// The content type of the document.
-        public var contentType: String? = nil
+        public let contentType: String?
         /// The ID of the creator.
-        public var creatorId: String? = nil
+        public let creatorId: String?
         /// The thumbnail of the document.
-        public var thumbnail: [String: String]? = nil
+        public let thumbnail: [String: String]?
         /// The time stamp when the content of the document was originally created.
-        public var contentCreatedTimestamp: Date? = nil
-
-        public init() {}
+        public let contentCreatedTimestamp: Date?
 
         public init(contentModifiedTimestamp: Date? = nil, signature: String? = nil, modifiedTimestamp: Date? = nil, source: [String: String]? = nil, createdTimestamp: Date? = nil, id: String? = nil, status: String? = nil, name: String? = nil, size: Int64? = nil, contentType: String? = nil, creatorId: String? = nil, thumbnail: [String: String]? = nil, contentCreatedTimestamp: Date? = nil) {
             self.contentModifiedTimestamp = contentModifiedTimestamp
@@ -569,6 +543,8 @@ extension Workdocs {
             self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? Date
             if let source = dictionary["Source"] as? [String: String] {
                 self.source = source
+            } else { 
+                self.source = nil
             }
             self.createdTimestamp = dictionary["CreatedTimestamp"] as? Date
             self.id = dictionary["Id"] as? String
@@ -579,6 +555,8 @@ extension Workdocs {
             self.creatorId = dictionary["CreatorId"] as? String
             if let thumbnail = dictionary["Thumbnail"] as? [String: String] {
                 self.thumbnail = thumbnail
+            } else { 
+                self.thumbnail = nil
             }
             self.contentCreatedTimestamp = dictionary["ContentCreatedTimestamp"] as? Date
         }
@@ -588,11 +566,9 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The storage for a user.
-        public var storageRule: StorageRuleType? = nil
+        public let storageRule: StorageRuleType?
         /// The amount of storage utilized, in bytes.
-        public var storageUtilizedInBytes: Int64? = nil
-
-        public init() {}
+        public let storageUtilizedInBytes: Int64?
 
         public init(storageRule: StorageRuleType? = nil, storageUtilizedInBytes: Int64? = nil) {
             self.storageRule = storageRule
@@ -600,7 +576,7 @@ extension Workdocs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let storageRule = dictionary["StorageRule"] as? [String: Any] { self.storageRule = try Workdocs.StorageRuleType(dictionary: storageRule) }
+            if let storageRule = dictionary["StorageRule"] as? [String: Any] { self.storageRule = try Workdocs.StorageRuleType(dictionary: storageRule) } else { self.storageRule = nil }
             self.storageUtilizedInBytes = dictionary["StorageUtilizedInBytes"] as? Int64
         }
     }
@@ -609,16 +585,14 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The path information.
-        public var path: ResourcePath? = nil
-
-        public init() {}
+        public let path: ResourcePath?
 
         public init(path: ResourcePath? = nil) {
             self.path = path
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let path = dictionary["Path"] as? [String: Any] { self.path = try Workdocs.ResourcePath(dictionary: path) }
+            if let path = dictionary["Path"] as? [String: Any] { self.path = try Workdocs.ResourcePath(dictionary: path) } else { self.path = nil }
         }
     }
 
@@ -626,16 +600,14 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The metadata of the folder.
-        public var metadata: FolderMetadata? = nil
-
-        public init() {}
+        public let metadata: FolderMetadata?
 
         public init(metadata: FolderMetadata? = nil) {
             self.metadata = metadata
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.FolderMetadata(dictionary: metadata) }
+            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.FolderMetadata(dictionary: metadata) } else { self.metadata = nil }
         }
     }
 
@@ -643,21 +615,19 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time zone ID of the user.
-        public var timeZoneId: String? = nil
+        public let timeZoneId: String?
         /// The given name of the user.
-        public var givenName: String = ""
+        public let givenName: String
         /// The login name of the user.
-        public var username: String = ""
+        public let username: String
         /// The surname of the user.
-        public var surname: String = ""
+        public let surname: String
         /// The ID of the organization.
-        public var organizationId: String? = nil
+        public let organizationId: String?
         /// The password of the user.
-        public var password: String = ""
+        public let password: String
         /// The amount of storage for the user.
-        public var storageRule: StorageRuleType? = nil
-
-        public init() {}
+        public let storageRule: StorageRuleType?
 
         public init(timeZoneId: String? = nil, givenName: String, username: String, surname: String, organizationId: String? = nil, password: String, storageRule: StorageRuleType? = nil) {
             self.timeZoneId = timeZoneId
@@ -680,7 +650,7 @@ extension Workdocs {
             self.organizationId = dictionary["OrganizationId"] as? String
             guard let password = dictionary["Password"] as? String else { throw InitializableError.missingRequiredParam("Password") }
             self.password = password
-            if let storageRule = dictionary["StorageRule"] as? [String: Any] { self.storageRule = try Workdocs.StorageRuleType(dictionary: storageRule) }
+            if let storageRule = dictionary["StorageRule"] as? [String: Any] { self.storageRule = try Workdocs.StorageRuleType(dictionary: storageRule) } else { self.storageRule = nil }
         }
     }
 
@@ -688,16 +658,14 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user information.
-        public var user: User? = nil
-
-        public init() {}
+        public let user: User?
 
         public init(user: User? = nil) {
             self.user = user
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let user = dictionary["User"] as? [String: Any] { self.user = try Workdocs.User(dictionary: user) }
+            if let user = dictionary["User"] as? [String: Any] { self.user = try Workdocs.User(dictionary: user) } else { self.user = nil }
         }
     }
 
@@ -708,9 +676,7 @@ extension Workdocs {
             return ["FolderId": "FolderId"]
         }
         /// The ID of the folder.
-        public var folderId: String = ""
-
-        public init() {}
+        public let folderId: String
 
         public init(folderId: String) {
             self.folderId = folderId
@@ -726,16 +692,14 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The document object.
-        public var metadata: DocumentMetadata? = nil
-
-        public init() {}
+        public let metadata: DocumentMetadata?
 
         public init(metadata: DocumentMetadata? = nil) {
             self.metadata = metadata
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.DocumentMetadata(dictionary: metadata) }
+            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.DocumentMetadata(dictionary: metadata) } else { self.metadata = nil }
         }
     }
 
@@ -746,11 +710,9 @@ extension Workdocs {
             return ["ResourceId": "ResourceId"]
         }
         /// The ID of the resource.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// The users, groups, or organization being granted permission.
-        public var principals: [SharePrincipal] = []
-
-        public init() {}
+        public let principals: [SharePrincipal]
 
         public init(resourceId: String, principals: [SharePrincipal]) {
             self.resourceId = resourceId
@@ -772,9 +734,7 @@ extension Workdocs {
             return ["UserId": "UserId"]
         }
         /// The ID of the user.
-        public var userId: String = ""
-
-        public init() {}
+        public let userId: String
 
         public init(userId: String) {
             self.userId = userId
@@ -790,11 +750,9 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The URL of the upload.
-        public var uploadUrl: String? = nil
+        public let uploadUrl: String?
         /// The signed headers.
-        public var signedHeaders: [String: String]? = nil
-
-        public init() {}
+        public let signedHeaders: [String: String]?
 
         public init(uploadUrl: String? = nil, signedHeaders: [String: String]? = nil) {
             self.uploadUrl = uploadUrl
@@ -805,6 +763,8 @@ extension Workdocs {
             self.uploadUrl = dictionary["UploadUrl"] as? String
             if let signedHeaders = dictionary["SignedHeaders"] as? [String: String] {
                 self.signedHeaders = signedHeaders
+            } else { 
+                self.signedHeaders = nil
             }
         }
     }
@@ -813,16 +773,14 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The subscription.
-        public var subscription: Subscription? = nil
-
-        public init() {}
+        public let subscription: Subscription?
 
         public init(subscription: Subscription? = nil) {
             self.subscription = subscription
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let subscription = dictionary["Subscription"] as? [String: Any] { self.subscription = try Workdocs.Subscription(dictionary: subscription) }
+            if let subscription = dictionary["Subscription"] as? [String: Any] { self.subscription = try Workdocs.Subscription(dictionary: subscription) } else { self.subscription = nil }
         }
     }
 
@@ -833,15 +791,13 @@ extension Workdocs {
             return ["FolderId": "FolderId"]
         }
         /// The ID of the parent folder.
-        public var parentFolderId: String? = nil
+        public let parentFolderId: String?
         /// The ID of the folder.
-        public var folderId: String = ""
+        public let folderId: String
         /// The resource state of the folder. Note that only ACTIVE and RECYCLED are accepted values from the API.
-        public var resourceState: String? = nil
+        public let resourceState: String?
         /// The name of the folder.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(parentFolderId: String? = nil, folderId: String, resourceState: String? = nil, name: String? = nil) {
             self.parentFolderId = parentFolderId
@@ -869,13 +825,11 @@ extension Workdocs {
             return ["OrganizationId": "OrganizationId"]
         }
         /// The ID of the organization.
-        public var organizationId: String = ""
+        public let organizationId: String
         /// The marker for the next set of results. (You received this marker from a previous call.)
-        public var marker: String? = nil
+        public let marker: String?
         /// The maximum number of items to return with this call.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(organizationId: String, marker: String? = nil, limit: Int32? = nil) {
             self.organizationId = organizationId
@@ -898,9 +852,7 @@ extension Workdocs {
             return ["ResourceId": "ResourceId"]
         }
         /// The ID of the resource.
-        public var resourceId: String = ""
-
-        public init() {}
+        public let resourceId: String
 
         public init(resourceId: String) {
             self.resourceId = resourceId
@@ -916,16 +868,14 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The path information.
-        public var path: ResourcePath? = nil
-
-        public init() {}
+        public let path: ResourcePath?
 
         public init(path: ResourcePath? = nil) {
             self.path = path
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let path = dictionary["Path"] as? [String: Any] { self.path = try Workdocs.ResourcePath(dictionary: path) }
+            if let path = dictionary["Path"] as? [String: Any] { self.path = try Workdocs.ResourcePath(dictionary: path) } else { self.path = nil }
         }
     }
 
@@ -936,21 +886,19 @@ extension Workdocs {
             return ["UserId": "UserId"]
         }
         /// The locale of the user.
-        public var locale: String? = nil
+        public let locale: String?
         /// The ID of the user.
-        public var userId: String = ""
+        public let userId: String
         /// The given name of the user.
-        public var givenName: String? = nil
+        public let givenName: String?
         /// The time zone ID of the user.
-        public var timeZoneId: String? = nil
+        public let timeZoneId: String?
         /// The surname of the user.
-        public var surname: String? = nil
+        public let surname: String?
         /// The type of the user.
-        public var type: String? = nil
+        public let type: String?
         /// The amount of storage for the user.
-        public var storageRule: StorageRuleType? = nil
-
-        public init() {}
+        public let storageRule: StorageRuleType?
 
         public init(locale: String? = nil, userId: String, givenName: String? = nil, timeZoneId: String? = nil, surname: String? = nil, type: String? = nil, storageRule: StorageRuleType? = nil) {
             self.locale = locale
@@ -970,7 +918,7 @@ extension Workdocs {
             self.timeZoneId = dictionary["TimeZoneId"] as? String
             self.surname = dictionary["Surname"] as? String
             self.type = dictionary["Type"] as? String
-            if let storageRule = dictionary["StorageRule"] as? [String: Any] { self.storageRule = try Workdocs.StorageRuleType(dictionary: storageRule) }
+            if let storageRule = dictionary["StorageRule"] as? [String: Any] { self.storageRule = try Workdocs.StorageRuleType(dictionary: storageRule) } else { self.storageRule = nil }
         }
     }
 
@@ -981,9 +929,7 @@ extension Workdocs {
             return ["FolderId": "FolderId"]
         }
         /// The ID of the folder.
-        public var folderId: String = ""
-
-        public init() {}
+        public let folderId: String
 
         public init(folderId: String) {
             self.folderId = folderId
@@ -999,11 +945,9 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the new folder.
-        public var name: String? = nil
+        public let name: String?
         /// The ID of the parent folder.
-        public var parentFolderId: String = ""
-
-        public init() {}
+        public let parentFolderId: String
 
         public init(name: String? = nil, parentFolderId: String) {
             self.name = name
@@ -1021,21 +965,19 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The resource state.
-        public var resourceState: String? = nil
+        public let resourceState: String?
         /// The ID of the creator.
-        public var creatorId: String? = nil
+        public let creatorId: String?
         /// The time when the document was updated.
-        public var modifiedTimestamp: Date? = nil
+        public let modifiedTimestamp: Date?
         /// The ID of the parent folder.
-        public var parentFolderId: String? = nil
+        public let parentFolderId: String?
         /// The latest version of the document.
-        public var latestVersionMetadata: DocumentVersionMetadata? = nil
+        public let latestVersionMetadata: DocumentVersionMetadata?
         /// The time when the document was created.
-        public var createdTimestamp: Date? = nil
+        public let createdTimestamp: Date?
         /// The ID of the document.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(resourceState: String? = nil, creatorId: String? = nil, modifiedTimestamp: Date? = nil, parentFolderId: String? = nil, latestVersionMetadata: DocumentVersionMetadata? = nil, createdTimestamp: Date? = nil, id: String? = nil) {
             self.resourceState = resourceState
@@ -1052,7 +994,7 @@ extension Workdocs {
             self.creatorId = dictionary["CreatorId"] as? String
             self.modifiedTimestamp = dictionary["ModifiedTimestamp"] as? Date
             self.parentFolderId = dictionary["ParentFolderId"] as? String
-            if let latestVersionMetadata = dictionary["LatestVersionMetadata"] as? [String: Any] { self.latestVersionMetadata = try Workdocs.DocumentVersionMetadata(dictionary: latestVersionMetadata) }
+            if let latestVersionMetadata = dictionary["LatestVersionMetadata"] as? [String: Any] { self.latestVersionMetadata = try Workdocs.DocumentVersionMetadata(dictionary: latestVersionMetadata) } else { self.latestVersionMetadata = nil }
             self.createdTimestamp = dictionary["CreatedTimestamp"] as? Date
             self.id = dictionary["Id"] as? String
         }
@@ -1068,13 +1010,11 @@ extension Workdocs {
             return ["ResourceId": "ResourceId"]
         }
         /// The ID of the resource.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// The marker for the next set of results. (You received this marker from a previous call)
-        public var marker: String? = nil
+        public let marker: String?
         /// The maximum number of items to return with this call.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(resourceId: String, marker: String? = nil, limit: Int32? = nil) {
             self.resourceId = resourceId
@@ -1094,13 +1034,11 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of resource.
-        public var type: String? = nil
+        public let type: String?
         /// The permission information for the resource.
-        public var roles: [PermissionInfo]? = nil
+        public let roles: [PermissionInfo]?
         /// The ID of the resource.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(type: String? = nil, roles: [PermissionInfo]? = nil, id: String? = nil) {
             self.type = type
@@ -1112,6 +1050,8 @@ extension Workdocs {
             self.type = dictionary["Type"] as? String
             if let roles = dictionary["Roles"] as? [[String: Any]] {
                 self.roles = try roles.map({ try PermissionInfo(dictionary: $0) })
+            } else { 
+                self.roles = nil
             }
             self.id = dictionary["Id"] as? String
         }
@@ -1121,11 +1061,9 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public var marker: String? = nil
+        public let marker: String?
         /// The subscriptions.
-        public var subscriptions: [Subscription]? = nil
-
-        public init() {}
+        public let subscriptions: [Subscription]?
 
         public init(marker: String? = nil, subscriptions: [Subscription]? = nil) {
             self.marker = marker
@@ -1136,6 +1074,8 @@ extension Workdocs {
             self.marker = dictionary["Marker"] as? String
             if let subscriptions = dictionary["Subscriptions"] as? [[String: Any]] {
                 self.subscriptions = try subscriptions.map({ try Subscription(dictionary: $0) })
+            } else { 
+                self.subscriptions = nil
             }
         }
     }
@@ -1147,13 +1087,11 @@ extension Workdocs {
             return ["VersionId": "VersionId", "DocumentId": "DocumentId"]
         }
         /// The status of the version.
-        public var versionStatus: String? = nil
+        public let versionStatus: String?
         /// The version ID of the document.
-        public var versionId: String = ""
+        public let versionId: String
         /// The ID of the document.
-        public var documentId: String = ""
-
-        public init() {}
+        public let documentId: String
 
         public init(versionStatus: String? = nil, versionId: String, documentId: String) {
             self.versionStatus = versionStatus
@@ -1180,15 +1118,13 @@ extension Workdocs {
             return ["DocumentId": "DocumentId"]
         }
         /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders.
-        public var fields: String? = nil
+        public let fields: String?
         /// The ID of the document.
-        public var documentId: String = ""
+        public let documentId: String
         /// This value is not supported.
-        public var marker: String? = nil
+        public let marker: String?
         /// The maximum number of levels in the hierarchy to return.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(fields: String? = nil, documentId: String, marker: String? = nil, limit: Int32? = nil) {
             self.fields = fields
@@ -1216,13 +1152,11 @@ extension Workdocs {
             return ["ResourceId": "ResourceId", "PrincipalId": "PrincipalId"]
         }
         /// The ID of the resource.
-        public var resourceId: String = ""
+        public let resourceId: String
         /// The principal type of the resource.
-        public var principalType: String? = nil
+        public let principalType: String?
         /// The principal ID of the resource.
-        public var principalId: String = ""
-
-        public init() {}
+        public let principalId: String
 
         public init(resourceId: String, principalType: String? = nil, principalId: String) {
             self.resourceId = resourceId
@@ -1243,16 +1177,14 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The user information.
-        public var user: User? = nil
-
-        public init() {}
+        public let user: User?
 
         public init(user: User? = nil) {
             self.user = user
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let user = dictionary["User"] as? [String: Any] { self.user = try Workdocs.User(dictionary: user) }
+            if let user = dictionary["User"] as? [String: Any] { self.user = try Workdocs.User(dictionary: user) } else { self.user = nil }
         }
     }
 
@@ -1260,11 +1192,9 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The document versions.
-        public var documentVersions: [DocumentVersionMetadata]? = nil
+        public let documentVersions: [DocumentVersionMetadata]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
-        public var marker: String? = nil
-
-        public init() {}
+        public let marker: String?
 
         public init(documentVersions: [DocumentVersionMetadata]? = nil, marker: String? = nil) {
             self.documentVersions = documentVersions
@@ -1274,6 +1204,8 @@ extension Workdocs {
         public init(dictionary: [String: Any]) throws {
             if let documentVersions = dictionary["DocumentVersions"] as? [[String: Any]] {
                 self.documentVersions = try documentVersions.map({ try DocumentVersionMetadata(dictionary: $0) })
+            } else { 
+                self.documentVersions = nil
             }
             self.marker = dictionary["Marker"] as? String
         }
@@ -1283,37 +1215,35 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The email address of the user.
-        public var emailAddress: String? = nil
+        public let emailAddress: String?
         /// The ID of the recycle bin folder.
-        public var recycleBinFolderId: String? = nil
+        public let recycleBinFolderId: String?
         /// The login name of the user.
-        public var username: String? = nil
+        public let username: String?
         /// The time when the user was modified.
-        public var modifiedTimestamp: Date? = nil
+        public let modifiedTimestamp: Date?
         /// The ID of the organization.
-        public var organizationId: String? = nil
+        public let organizationId: String?
         /// The time when the user was created.
-        public var createdTimestamp: Date? = nil
+        public let createdTimestamp: Date?
         /// The ID of the user.
-        public var id: String? = nil
+        public let id: String?
         /// The time zone ID of the user.
-        public var timeZoneId: String? = nil
+        public let timeZoneId: String?
         /// The locale of the user.
-        public var locale: String? = nil
+        public let locale: String?
         /// The status of the user.
-        public var status: String? = nil
+        public let status: String?
         /// The given name of the user.
-        public var givenName: String? = nil
+        public let givenName: String?
         /// The storage for the user.
-        public var storage: UserStorageMetadata? = nil
+        public let storage: UserStorageMetadata?
         /// The surname of the user.
-        public var surname: String? = nil
+        public let surname: String?
         /// The ID of the root folder.
-        public var rootFolderId: String? = nil
+        public let rootFolderId: String?
         /// The type of user.
-        public var type: String? = nil
-
-        public init() {}
+        public let type: String?
 
         public init(emailAddress: String? = nil, recycleBinFolderId: String? = nil, username: String? = nil, modifiedTimestamp: Date? = nil, organizationId: String? = nil, createdTimestamp: Date? = nil, id: String? = nil, timeZoneId: String? = nil, locale: String? = nil, status: String? = nil, givenName: String? = nil, storage: UserStorageMetadata? = nil, surname: String? = nil, rootFolderId: String? = nil, type: String? = nil) {
             self.emailAddress = emailAddress
@@ -1345,7 +1275,7 @@ extension Workdocs {
             self.locale = dictionary["Locale"] as? String
             self.status = dictionary["Status"] as? String
             self.givenName = dictionary["GivenName"] as? String
-            if let storage = dictionary["Storage"] as? [String: Any] { self.storage = try Workdocs.UserStorageMetadata(dictionary: storage) }
+            if let storage = dictionary["Storage"] as? [String: Any] { self.storage = try Workdocs.UserStorageMetadata(dictionary: storage) } else { self.storage = nil }
             self.surname = dictionary["Surname"] as? String
             self.rootFolderId = dictionary["RootFolderId"] as? String
             self.type = dictionary["Type"] as? String
@@ -1356,11 +1286,9 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of storage.
-        public var storageType: String? = nil
+        public let storageType: String?
         /// The amount of storage allocated, in bytes.
-        public var storageAllocatedInBytes: Int64? = nil
-
-        public init() {}
+        public let storageAllocatedInBytes: Int64?
 
         public init(storageType: String? = nil, storageAllocatedInBytes: Int64? = nil) {
             self.storageType = storageType
@@ -1377,16 +1305,14 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The metadata of the folder.
-        public var metadata: FolderMetadata? = nil
-
-        public init() {}
+        public let metadata: FolderMetadata?
 
         public init(metadata: FolderMetadata? = nil) {
             self.metadata = metadata
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.FolderMetadata(dictionary: metadata) }
+            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.FolderMetadata(dictionary: metadata) } else { self.metadata = nil }
         }
     }
 
@@ -1394,13 +1320,11 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The role of the recipient.
-        public var role: String = ""
+        public let role: String
         /// The type of the recipient.
-        public var type: String = ""
+        public let type: String
         /// The ID of the recipient.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(role: String, type: String, id: String) {
             self.role = role
@@ -1428,15 +1352,13 @@ extension Workdocs {
             return ["FolderId": "FolderId"]
         }
         /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders.
-        public var fields: String? = nil
+        public let fields: String?
         /// The ID of the folder.
-        public var folderId: String = ""
+        public let folderId: String
         /// The maximum number of levels in the hierarchy to return.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// This value is not supported.
-        public var marker: String? = nil
-
-        public init() {}
+        public let marker: String?
 
         public init(fields: String? = nil, folderId: String, limit: Int32? = nil, marker: String? = nil) {
             self.fields = fields
@@ -1461,9 +1383,7 @@ extension Workdocs {
             return ["UserId": "UserId"]
         }
         /// The ID of the user.
-        public var userId: String = ""
-
-        public init() {}
+        public let userId: String
 
         public init(userId: String) {
             self.userId = userId
@@ -1479,9 +1399,7 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The components of the resource path.
-        public var components: [ResourcePathComponent]? = nil
-
-        public init() {}
+        public let components: [ResourcePathComponent]?
 
         public init(components: [ResourcePathComponent]? = nil) {
             self.components = components
@@ -1490,6 +1408,8 @@ extension Workdocs {
         public init(dictionary: [String: Any]) throws {
             if let components = dictionary["Components"] as? [[String: Any]] {
                 self.components = try components.map({ try ResourcePathComponent(dictionary: $0) })
+            } else { 
+                self.components = nil
             }
         }
     }
@@ -1501,9 +1421,7 @@ extension Workdocs {
             return ["FolderId": "FolderId"]
         }
         /// The ID of the folder.
-        public var folderId: String = ""
-
-        public init() {}
+        public let folderId: String
 
         public init(folderId: String) {
             self.folderId = folderId
@@ -1522,25 +1440,23 @@ extension Workdocs {
             return ["fields": "Fields", "marker": "Marker", "userIds": "UserIds", "limit": "Limit", "organizationId": "OrganizationId", "sort": "Sort", "include": "Include", "query": "Query", "order": "Order"]
         }
         /// A comma-separated list of values. Specify "STORAGE_METADATA" to include the user storage quota and utilization information.
-        public var fields: String? = nil
+        public let fields: String?
         /// The IDs of the users.
-        public var userIds: String? = nil
+        public let userIds: String?
         /// The sorting criteria.
-        public var sort: String? = nil
+        public let sort: String?
         /// The marker for the next set of results. (You received this marker from a previous call.)
-        public var marker: String? = nil
+        public let marker: String?
         /// A query to filter users by user name.
-        public var query: String? = nil
+        public let query: String?
         /// The maximum number of items to return.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The ID of the organization.
-        public var organizationId: String? = nil
+        public let organizationId: String?
         /// The order for the results.
-        public var order: String? = nil
+        public let order: String?
         /// The state of the users. Specify "ALL" to include inactive users.
-        public var include: String? = nil
-
-        public init() {}
+        public let include: String?
 
         public init(fields: String? = nil, userIds: String? = nil, sort: String? = nil, marker: String? = nil, query: String? = nil, limit: Int32? = nil, organizationId: String? = nil, order: String? = nil, include: String? = nil) {
             self.fields = fields
@@ -1571,11 +1487,9 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The document metadata.
-        public var metadata: DocumentMetadata? = nil
+        public let metadata: DocumentMetadata?
         /// The upload metadata.
-        public var uploadMetadata: UploadMetadata? = nil
-
-        public init() {}
+        public let uploadMetadata: UploadMetadata?
 
         public init(metadata: DocumentMetadata? = nil, uploadMetadata: UploadMetadata? = nil) {
             self.metadata = metadata
@@ -1583,8 +1497,8 @@ extension Workdocs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.DocumentMetadata(dictionary: metadata) }
-            if let uploadMetadata = dictionary["UploadMetadata"] as? [String: Any] { self.uploadMetadata = try Workdocs.UploadMetadata(dictionary: uploadMetadata) }
+            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.DocumentMetadata(dictionary: metadata) } else { self.metadata = nil }
+            if let uploadMetadata = dictionary["UploadMetadata"] as? [String: Any] { self.uploadMetadata = try Workdocs.UploadMetadata(dictionary: uploadMetadata) } else { self.uploadMetadata = nil }
         }
     }
 
@@ -1598,21 +1512,19 @@ extension Workdocs {
             return ["FolderId": "FolderId"]
         }
         /// The sorting criteria.
-        public var sort: String? = nil
+        public let sort: String?
         /// The marker for the next set of results. (You received this marker from a previous call.)
-        public var marker: String? = nil
+        public let marker: String?
         /// The ID of the folder.
-        public var folderId: String = ""
+        public let folderId: String
         /// The maximum number of items to return with this call.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The order for the contents of the folder.
-        public var order: String? = nil
+        public let order: String?
         /// The type of items.
-        public var type: String? = nil
+        public let type: String?
         /// The contents to include. Specify "INITIALIZED" to include initialized documents.
-        public var include: String? = nil
-
-        public init() {}
+        public let include: String?
 
         public init(sort: String? = nil, marker: String? = nil, folderId: String, limit: Int32? = nil, order: String? = nil, type: String? = nil, include: String? = nil) {
             self.sort = sort
@@ -1643,11 +1555,9 @@ extension Workdocs {
             return ["VersionId": "VersionId", "DocumentId": "DocumentId"]
         }
         /// The ID of the version.
-        public var versionId: String = ""
+        public let versionId: String
         /// The ID of the document.
-        public var documentId: String = ""
-
-        public init() {}
+        public let documentId: String
 
         public init(versionId: String, documentId: String) {
             self.versionId = versionId
@@ -1666,16 +1576,14 @@ extension Workdocs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The version metadata.
-        public var metadata: DocumentVersionMetadata? = nil
-
-        public init() {}
+        public let metadata: DocumentVersionMetadata?
 
         public init(metadata: DocumentVersionMetadata? = nil) {
             self.metadata = metadata
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.DocumentVersionMetadata(dictionary: metadata) }
+            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Workdocs.DocumentVersionMetadata(dictionary: metadata) } else { self.metadata = nil }
         }
     }
 
@@ -1686,11 +1594,9 @@ extension Workdocs {
             return ["OrganizationId": "OrganizationId", "SubscriptionId": "SubscriptionId"]
         }
         /// The ID of the organization.
-        public var organizationId: String = ""
+        public let organizationId: String
         /// The ID of the subscription.
-        public var subscriptionId: String = ""
-
-        public init() {}
+        public let subscriptionId: String
 
         public init(organizationId: String, subscriptionId: String) {
             self.organizationId = organizationId
@@ -1712,9 +1618,7 @@ extension Workdocs {
             return ["UserId": "UserId"]
         }
         /// The ID of the user.
-        public var userId: String = ""
-
-        public init() {}
+        public let userId: String
 
         public init(userId: String) {
             self.userId = userId

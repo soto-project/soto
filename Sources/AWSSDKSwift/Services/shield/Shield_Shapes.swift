@@ -33,13 +33,11 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN (Amazon Resource Name) of the AWS resource that is protected.
-        public var resourceArn: String? = nil
+        public let resourceArn: String?
         /// The friendly name of the protection. For example, My CloudFront distributions.
-        public var name: String? = nil
+        public let name: String?
         /// The unique identifier (ID) of the protection.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(resourceArn: String? = nil, name: String? = nil, id: String? = nil) {
             self.resourceArn = resourceArn
@@ -58,8 +56,6 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -68,17 +64,15 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The start time of the attack, in the format 2016-12-16T13:50Z.
-        public var startTime: Date? = nil
+        public let startTime: Date?
         /// The end time of the attack, in the format 2016-12-16T13:50Z.
-        public var endTime: Date? = nil
+        public let endTime: Date?
         /// The ARN (Amazon Resource Name) of the resource that was attacked.
-        public var resourceArn: String? = nil
+        public let resourceArn: String?
         /// The list of attacks for a specified time period.
-        public var attackVectors: [AttackVectorDescription]? = nil
+        public let attackVectors: [AttackVectorDescription]?
         /// The unique identifier (ID) of the attack.
-        public var attackId: String? = nil
-
-        public init() {}
+        public let attackId: String?
 
         public init(startTime: Date? = nil, endTime: Date? = nil, resourceArn: String? = nil, attackVectors: [AttackVectorDescription]? = nil, attackId: String? = nil) {
             self.startTime = startTime
@@ -94,6 +88,8 @@ extension Shield {
             self.resourceArn = dictionary["ResourceArn"] as? String
             if let attackVectors = dictionary["AttackVectors"] as? [[String: Any]] {
                 self.attackVectors = try attackVectors.map({ try AttackVectorDescription(dictionary: $0) })
+            } else { 
+                self.attackVectors = nil
             }
             self.attackId = dictionary["AttackId"] as? String
         }
@@ -103,11 +99,9 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The start time of the subscription, in the format "2016-12-16T13:50Z".
-        public var startTime: Date? = nil
+        public let startTime: Date?
         /// The length, in seconds, of the AWS Shield Advanced subscription for the account.
-        public var timeCommitmentInSeconds: Int64? = nil
-
-        public init() {}
+        public let timeCommitmentInSeconds: Int64?
 
         public init(startTime: Date? = nil, timeCommitmentInSeconds: Int64? = nil) {
             self.startTime = startTime
@@ -124,21 +118,19 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time the attack started, in the format 2016-12-16T13:50Z.
-        public var startTime: Date? = nil
+        public let startTime: Date?
         /// List of mitigation actions taken for the attack.
-        public var mitigations: [Mitigation]? = nil
+        public let mitigations: [Mitigation]?
         /// The ARN (Amazon Resource Name) of the resource that was attacked.
-        public var resourceArn: String? = nil
+        public let resourceArn: String?
         /// The time the attack ended, in the format 2016-12-16T13:50Z.
-        public var endTime: Date? = nil
+        public let endTime: Date?
         /// If applicable, additional detail about the resource being attacked, for example, IP address or URL.
-        public var subResources: [SubResourceSummary]? = nil
+        public let subResources: [SubResourceSummary]?
         /// List of counters that describe the attack for the specified time period.
-        public var attackCounters: [SummarizedCounter]? = nil
+        public let attackCounters: [SummarizedCounter]?
         /// The unique identifier (ID) of the attack.
-        public var attackId: String? = nil
-
-        public init() {}
+        public let attackId: String?
 
         public init(startTime: Date? = nil, mitigations: [Mitigation]? = nil, resourceArn: String? = nil, endTime: Date? = nil, subResources: [SubResourceSummary]? = nil, attackCounters: [SummarizedCounter]? = nil, attackId: String? = nil) {
             self.startTime = startTime
@@ -154,14 +146,20 @@ extension Shield {
             self.startTime = dictionary["StartTime"] as? Date
             if let mitigations = dictionary["Mitigations"] as? [[String: Any]] {
                 self.mitigations = try mitigations.map({ try Mitigation(dictionary: $0) })
+            } else { 
+                self.mitigations = nil
             }
             self.resourceArn = dictionary["ResourceArn"] as? String
             self.endTime = dictionary["EndTime"] as? Date
             if let subResources = dictionary["SubResources"] as? [[String: Any]] {
                 self.subResources = try subResources.map({ try SubResourceSummary(dictionary: $0) })
+            } else { 
+                self.subResources = nil
             }
             if let attackCounters = dictionary["AttackCounters"] as? [[String: Any]] {
                 self.attackCounters = try attackCounters.map({ try SummarizedCounter(dictionary: $0) })
+            } else { 
+                self.attackCounters = nil
             }
             self.attackId = dictionary["AttackId"] as? String
         }
@@ -171,11 +169,9 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token returned by a previous call to indicate that there is more data available. If not null, more results are available. Pass this value for the NextMarker parameter in a subsequent call to ListAttacks to retrieve the next set of items.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The attack information for the specified time range.
-        public var attackSummaries: [AttackSummary]? = nil
-
-        public init() {}
+        public let attackSummaries: [AttackSummary]?
 
         public init(nextToken: String? = nil, attackSummaries: [AttackSummary]? = nil) {
             self.nextToken = nextToken
@@ -186,6 +182,8 @@ extension Shield {
             self.nextToken = dictionary["NextToken"] as? String
             if let attackSummaries = dictionary["AttackSummaries"] as? [[String: Any]] {
                 self.attackSummaries = try attackSummaries.map({ try AttackSummary(dictionary: $0) })
+            } else { 
+                self.attackSummaries = nil
             }
         }
     }
@@ -194,16 +192,14 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The attack that is described.
-        public var attack: AttackDetail? = nil
-
-        public init() {}
+        public let attack: AttackDetail?
 
         public init(attack: AttackDetail? = nil) {
             self.attack = attack
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let attack = dictionary["Attack"] as? [String: Any] { self.attack = try Shield.AttackDetail(dictionary: attack) }
+            if let attack = dictionary["Attack"] as? [String: Any] { self.attack = try Shield.AttackDetail(dictionary: attack) } else { self.attack = nil }
         }
     }
 
@@ -211,11 +207,9 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// If you specify a value for MaxResults and you have more Protections than the value of MaxResults, AWS Shield Advanced returns a NextToken value in the response that allows you to list another group of Protections. For the second and subsequent ListProtections requests, specify the value of NextToken from the previous response to get information about another batch of Protections.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The array of enabled Protection objects.
-        public var protections: [Protection]? = nil
-
-        public init() {}
+        public let protections: [Protection]?
 
         public init(nextToken: String? = nil, protections: [Protection]? = nil) {
             self.nextToken = nextToken
@@ -226,6 +220,8 @@ extension Shield {
             self.nextToken = dictionary["NextToken"] as? String
             if let protections = dictionary["Protections"] as? [[String: Any]] {
                 self.protections = try protections.map({ try Protection(dictionary: $0) })
+            } else { 
+                self.protections = nil
             }
         }
     }
@@ -234,19 +230,17 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unit of the counters.
-        public var unit: String? = nil
+        public let unit: String?
         /// The average value of the counter for a specified time period.
-        public var average: Double? = nil
+        public let average: Double?
         /// The number of counters for a specified time period.
-        public var n: Int32? = nil
+        public let n: Int32?
         /// The maximum value of the counter for a specified time period.
-        public var max: Double? = nil
+        public let max: Double?
         /// The counter name.
-        public var name: String? = nil
+        public let name: String?
         /// The total of counter values for a specified time period.
-        public var sum: Double? = nil
-
-        public init() {}
+        public let sum: Double?
 
         public init(unit: String? = nil, average: Double? = nil, n: Int32? = nil, max: Double? = nil, name: String? = nil, sum: Double? = nil) {
             self.unit = unit
@@ -271,11 +265,9 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// Friendly name for the Protection you are creating.
-        public var name: String = ""
+        public let name: String
         /// The ARN (Amazon Resource Name) of the resource to be protected.
-        public var resourceArn: String = ""
-
-        public init() {}
+        public let resourceArn: String
 
         public init(name: String, resourceArn: String) {
             self.name = name
@@ -294,9 +286,7 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) for the Protection object that is described.
-        public var protectionId: String = ""
-
-        public init() {}
+        public let protectionId: String
 
         public init(protectionId: String) {
             self.protectionId = protectionId
@@ -312,9 +302,7 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) for the attack that to be described.
-        public var attackId: String = ""
-
-        public init() {}
+        public let attackId: String
 
         public init(attackId: String) {
             self.attackId = attackId
@@ -330,16 +318,14 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Protection object that is described.
-        public var protection: Protection? = nil
-
-        public init() {}
+        public let protection: Protection?
 
         public init(protection: Protection? = nil) {
             self.protection = protection
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let protection = dictionary["Protection"] as? [String: Any] { self.protection = try Shield.Protection(dictionary: protection) }
+            if let protection = dictionary["Protection"] as? [String: Any] { self.protection = try Shield.Protection(dictionary: protection) } else { self.protection = nil }
         }
     }
 
@@ -347,9 +333,7 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) for the Protection object to be deleted.
-        public var protectionId: String = ""
-
-        public init() {}
+        public let protectionId: String
 
         public init(protectionId: String) {
             self.protectionId = protectionId
@@ -365,8 +349,6 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -375,11 +357,9 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The end time, in the format 2016-12-16T15:50Z.
-        public var toExclusive: Date? = nil
+        public let toExclusive: Date?
         /// The start time, in the format 2016-12-16T13:50Z.
-        public var fromInclusive: Date? = nil
-
-        public init() {}
+        public let fromInclusive: Date?
 
         public init(toExclusive: Date? = nil, fromInclusive: Date? = nil) {
             self.toExclusive = toExclusive
@@ -396,8 +376,6 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -406,9 +384,7 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier (ID) for the Protection object that is created.
-        public var protectionId: String? = nil
-
-        public init() {}
+        public let protectionId: String?
 
         public init(protectionId: String? = nil) {
             self.protectionId = protectionId
@@ -423,11 +399,9 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of counters that describe the details of the attack.
-        public var vectorCounters: [SummarizedCounter]? = nil
+        public let vectorCounters: [SummarizedCounter]?
         /// The attack type, for example, SNMP reflection or SYN flood.
-        public var vectorType: String = ""
-
-        public init() {}
+        public let vectorType: String
 
         public init(vectorCounters: [SummarizedCounter]? = nil, vectorType: String) {
             self.vectorCounters = vectorCounters
@@ -437,6 +411,8 @@ extension Shield {
         public init(dictionary: [String: Any]) throws {
             if let vectorCounters = dictionary["VectorCounters"] as? [[String: Any]] {
                 self.vectorCounters = try vectorCounters.map({ try SummarizedCounter(dictionary: $0) })
+            } else { 
+                self.vectorCounters = nil
             }
             guard let vectorType = dictionary["VectorType"] as? String else { throw InitializableError.missingRequiredParam("VectorType") }
             self.vectorType = vectorType
@@ -447,9 +423,7 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the mitigation taken for this attack.
-        public var mitigationName: String? = nil
-
-        public init() {}
+        public let mitigationName: String?
 
         public init(mitigationName: String? = nil) {
             self.mitigationName = mitigationName
@@ -464,24 +438,20 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS Shield Advanced subscription details for an account.
-        public var subscription: Subscription? = nil
-
-        public init() {}
+        public let subscription: Subscription?
 
         public init(subscription: Subscription? = nil) {
             self.subscription = subscription
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let subscription = dictionary["Subscription"] as? [String: Any] { self.subscription = try Shield.Subscription(dictionary: subscription) }
+            if let subscription = dictionary["Subscription"] as? [String: Any] { self.subscription = try Shield.Subscription(dictionary: subscription) } else { self.subscription = nil }
         }
     }
 
     public struct CreateSubscriptionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -491,17 +461,15 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time period for the attacks.
-        public var startTime: TimeRange? = nil
+        public let startTime: TimeRange?
         /// The ARN (Amazon Resource Name) of the resource that was attacked. If this is left blank, all applicable resources for this account will be included.
-        public var resourceArns: [String]? = nil
+        public let resourceArns: [String]?
         /// The end of the time period for the attacks.
-        public var endTime: TimeRange? = nil
+        public let endTime: TimeRange?
         /// The ListAttacksRequest.NextMarker value from a previous call to ListAttacksRequest. Pass null if this is the first call.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of AttackSummary objects to be returned. If this is left blank, the first 20 results will be returned.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(startTime: TimeRange? = nil, resourceArns: [String]? = nil, endTime: TimeRange? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.startTime = startTime
@@ -512,11 +480,9 @@ extension Shield {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let startTime = dictionary["StartTime"] as? [String: Any] { self.startTime = try Shield.TimeRange(dictionary: startTime) }
-            if let resourceArns = dictionary["ResourceArns"] as? [String] {
-                self.resourceArns = resourceArns
-            }
-            if let endTime = dictionary["EndTime"] as? [String: Any] { self.endTime = try Shield.TimeRange(dictionary: endTime) }
+            if let startTime = dictionary["StartTime"] as? [String: Any] { self.startTime = try Shield.TimeRange(dictionary: startTime) } else { self.startTime = nil }
+            self.resourceArns = dictionary["ResourceArns"] as? [String]
+            if let endTime = dictionary["EndTime"] as? [String: Any] { self.endTime = try Shield.TimeRange(dictionary: endTime) } else { self.endTime = nil }
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -526,9 +492,7 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The attack type, for example, SNMP reflection or SYN flood.
-        public var vectorType: String = ""
-
-        public init() {}
+        public let vectorType: String
 
         public init(vectorType: String) {
             self.vectorType = vectorType
@@ -544,15 +508,13 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The counters that describe the details of the attack.
-        public var counters: [SummarizedCounter]? = nil
+        public let counters: [SummarizedCounter]?
         /// The SubResource type.
-        public var type: String? = nil
+        public let type: String?
         /// The list of attack types and associated counters.
-        public var attackVectors: [SummarizedAttackVector]? = nil
+        public let attackVectors: [SummarizedAttackVector]?
         /// The unique identifier (ID) of the SubResource.
-        public var id: String? = nil
-
-        public init() {}
+        public let id: String?
 
         public init(counters: [SummarizedCounter]? = nil, type: String? = nil, attackVectors: [SummarizedAttackVector]? = nil, id: String? = nil) {
             self.counters = counters
@@ -564,10 +526,14 @@ extension Shield {
         public init(dictionary: [String: Any]) throws {
             if let counters = dictionary["Counters"] as? [[String: Any]] {
                 self.counters = try counters.map({ try SummarizedCounter(dictionary: $0) })
+            } else { 
+                self.counters = nil
             }
             self.type = dictionary["Type"] as? String
             if let attackVectors = dictionary["AttackVectors"] as? [[String: Any]] {
                 self.attackVectors = try attackVectors.map({ try SummarizedAttackVector(dictionary: $0) })
+            } else { 
+                self.attackVectors = nil
             }
             self.id = dictionary["Id"] as? String
         }
@@ -577,11 +543,9 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ListProtectionsRequest.NextToken value from a previous call to ListProtections. Pass null if this is the first call.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of Protection objects to be returned. If this is left blank the first 20 results will be returned.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -598,8 +562,6 @@ extension Shield {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -607,8 +569,6 @@ extension Shield {
     public struct DeleteProtectionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }

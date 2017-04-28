@@ -33,13 +33,11 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the object.
-        public var id: String = ""
+        public let id: String
         /// The name of the object.
-        public var name: String = ""
+        public let name: String
         /// Key-value pairs that define the properties of the object.
-        public var fields: [Field] = []
-
-        public init() {}
+        public let fields: [Field]
 
         public init(id: String, name: String, fields: [Field]) {
             self.id = id
@@ -61,9 +59,7 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the pipelines to describe. You can pass as many as 25 identifiers in a single call. To obtain pipeline IDs, call ListPipelines.
-        public var pipelineIds: [String] = []
-
-        public init() {}
+        public let pipelineIds: [String]
 
         public init(pipelineIds: [String]) {
             self.pipelineIds = pipelineIds
@@ -79,11 +75,9 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the pipeline.
-        public var pipelineId: String = ""
+        public let pipelineId: String
         /// The keys of the tags to remove.
-        public var tagKeys: [String] = []
-
-        public init() {}
+        public let tagKeys: [String]
 
         public init(pipelineId: String, tagKeys: [String]) {
             self.pipelineId = pipelineId
@@ -102,13 +96,11 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether there were validation errors, and the pipeline definition is stored but cannot be activated until you correct the pipeline and call PutPipelineDefinition to commit the corrected pipeline.
-        public var errored: Bool = false
+        public let errored: Bool
         /// The validation errors that are associated with the objects defined in pipelineObjects.
-        public var validationErrors: [ValidationError]? = nil
+        public let validationErrors: [ValidationError]?
         /// The validation warnings that are associated with the objects defined in pipelineObjects.
-        public var validationWarnings: [ValidationWarning]? = nil
-
-        public init() {}
+        public let validationWarnings: [ValidationWarning]?
 
         public init(errored: Bool, validationErrors: [ValidationError]? = nil, validationWarnings: [ValidationWarning]? = nil) {
             self.errored = errored
@@ -121,9 +113,13 @@ extension Datapipeline {
             self.errored = errored
             if let validationErrors = dictionary["validationErrors"] as? [[String: Any]] {
                 self.validationErrors = try validationErrors.map({ try ValidationError(dictionary: $0) })
+            } else { 
+                self.validationErrors = nil
             }
             if let validationWarnings = dictionary["validationWarnings"] as? [[String: Any]] {
                 self.validationWarnings = try validationWarnings.map({ try ValidationWarning(dictionary: $0) })
+            } else { 
+                self.validationWarnings = nil
             }
         }
     }
@@ -132,11 +128,9 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the parameter value.
-        public var id: String = ""
+        public let id: String
         /// The field value, expressed as a String.
-        public var stringValue: String = ""
-
-        public init() {}
+        public let stringValue: String
 
         public init(id: String, stringValue: String) {
             self.id = id
@@ -155,15 +149,13 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the pipeline that provided the task.
-        public var pipelineId: String? = nil
+        public let pipelineId: String?
         /// Connection information for the location where the task runner will publish the output of the task.
-        public var objects: [String: PipelineObject]? = nil
+        public let objects: [String: PipelineObject]?
         /// An internal identifier for the task. This ID is passed to the SetTaskStatus and ReportTaskProgress actions.
-        public var taskId: String? = nil
+        public let taskId: String?
         /// The ID of the pipeline task attempt object. AWS Data Pipeline uses this value to track how many times a task is attempted.
-        public var attemptId: String? = nil
-
-        public init() {}
+        public let attemptId: String?
 
         public init(pipelineId: String? = nil, objects: [String: PipelineObject]? = nil, taskId: String? = nil, attemptId: String? = nil) {
             self.pipelineId = pipelineId
@@ -181,6 +173,8 @@ extension Datapipeline {
                     objectsDict[key] = try PipelineObject(dictionary: pipelineObjectDict)
                 }
                 self.objects = objectsDict
+            } else { 
+                self.objects = nil
             }
             self.taskId = dictionary["taskId"] as? String
             self.attemptId = dictionary["attemptId"] as? String
@@ -191,15 +185,13 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call DescribeObjects with the marker value from the previous call to retrieve the next set of results.
-        public var marker: String? = nil
+        public let marker: String?
         /// The ID of the pipeline that contains the object definitions.
-        public var pipelineId: String = ""
+        public let pipelineId: String
         /// Indicates whether any expressions in the object should be evaluated when the object descriptions are returned.
-        public var evaluateExpressions: Bool? = nil
+        public let evaluateExpressions: Bool?
         /// The IDs of the pipeline objects that contain the definitions to be described. You can pass as many as 25 identifiers in a single call to DescribeObjects.
-        public var objectIds: [String] = []
-
-        public init() {}
+        public let objectIds: [String]
 
         public init(marker: String? = nil, pipelineId: String, evaluateExpressions: Bool? = nil, objectIds: [String]) {
             self.marker = marker
@@ -222,9 +214,7 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The evaluated expression.
-        public var evaluatedExpression: String = ""
-
-        public init() {}
+        public let evaluatedExpression: String
 
         public init(evaluatedExpression: String) {
             self.evaluatedExpression = evaluatedExpression
@@ -240,16 +230,14 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The information needed to complete the task that is being assigned to the task runner. One of the fields returned in this object is taskId, which contains an identifier for the task being assigned. The calling task runner uses taskId in subsequent calls to ReportTaskProgress and SetTaskStatus.
-        public var taskObject: TaskObject? = nil
-
-        public init() {}
+        public let taskObject: TaskObject?
 
         public init(taskObject: TaskObject? = nil) {
             self.taskObject = taskObject
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let taskObject = dictionary["taskObject"] as? [String: Any] { self.taskObject = try Datapipeline.TaskObject(dictionary: taskObject) }
+            if let taskObject = dictionary["taskObject"] as? [String: Any] { self.taskObject = try Datapipeline.TaskObject(dictionary: taskObject) } else { self.taskObject = nil }
         }
     }
 
@@ -257,17 +245,15 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of read-only fields that contain metadata about the pipeline: @userId, @accountId, and @pipelineState.
-        public var fields: [Field] = []
+        public let fields: [Field]
         /// The name of the pipeline.
-        public var name: String = ""
+        public let name: String
         /// The pipeline identifier that was assigned by AWS Data Pipeline. This is a string of the form df-297EG78HU43EEXAMPLE.
-        public var pipelineId: String = ""
+        public let pipelineId: String
         /// Description of the pipeline.
-        public var description: String? = nil
+        public let description: String?
         /// A list of tags to associated with a pipeline. Tags let you control access to pipelines. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
-        public var tags: [Tag]? = nil
-
-        public init() {}
+        public let tags: [Tag]?
 
         public init(fields: [Field], name: String, pipelineId: String, description: String? = nil, tags: [Tag]? = nil) {
             self.fields = fields
@@ -287,6 +273,8 @@ extension Datapipeline {
             self.description = dictionary["description"] as? String
             if let tags = dictionary["tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
         }
     }
@@ -295,15 +283,13 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The parameter values used with the pipeline.
-        public var parameterValues: [ParameterValue]? = nil
+        public let parameterValues: [ParameterValue]?
         /// The ID of the pipeline.
-        public var pipelineId: String = ""
+        public let pipelineId: String
         /// The objects that define the pipeline changes to validate against the pipeline.
-        public var pipelineObjects: [PipelineObject] = []
+        public let pipelineObjects: [PipelineObject]
         /// The parameter objects used with the pipeline.
-        public var parameterObjects: [ParameterObject]? = nil
-
-        public init() {}
+        public let parameterObjects: [ParameterObject]?
 
         public init(parameterValues: [ParameterValue]? = nil, pipelineId: String, pipelineObjects: [PipelineObject], parameterObjects: [ParameterObject]? = nil) {
             self.parameterValues = parameterValues
@@ -315,6 +301,8 @@ extension Datapipeline {
         public init(dictionary: [String: Any]) throws {
             if let parameterValues = dictionary["parameterValues"] as? [[String: Any]] {
                 self.parameterValues = try parameterValues.map({ try ParameterValue(dictionary: $0) })
+            } else { 
+                self.parameterValues = nil
             }
             guard let pipelineId = dictionary["pipelineId"] as? String else { throw InitializableError.missingRequiredParam("pipelineId") }
             self.pipelineId = pipelineId
@@ -322,6 +310,8 @@ extension Datapipeline {
             self.pipelineObjects = try pipelineObjects.map({ try PipelineObject(dictionary: $0) })
             if let parameterObjects = dictionary["parameterObjects"] as? [[String: Any]] {
                 self.parameterObjects = try parameterObjects.map({ try ParameterObject(dictionary: $0) })
+            } else { 
+                self.parameterObjects = nil
             }
         }
     }
@@ -330,13 +320,11 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether there were validation errors.
-        public var errored: Bool = false
+        public let errored: Bool
         /// Any validation errors that were found.
-        public var validationErrors: [ValidationError]? = nil
+        public let validationErrors: [ValidationError]?
         /// Any validation warnings that were found.
-        public var validationWarnings: [ValidationWarning]? = nil
-
-        public init() {}
+        public let validationWarnings: [ValidationWarning]?
 
         public init(errored: Bool, validationErrors: [ValidationError]? = nil, validationWarnings: [ValidationWarning]? = nil) {
             self.errored = errored
@@ -349,9 +337,13 @@ extension Datapipeline {
             self.errored = errored
             if let validationErrors = dictionary["validationErrors"] as? [[String: Any]] {
                 self.validationErrors = try validationErrors.map({ try ValidationError(dictionary: $0) })
+            } else { 
+                self.validationErrors = nil
             }
             if let validationWarnings = dictionary["validationWarnings"] as? [[String: Any]] {
                 self.validationWarnings = try validationWarnings.map({ try ValidationWarning(dictionary: $0) })
+            } else { 
+                self.validationWarnings = nil
             }
         }
     }
@@ -360,13 +352,11 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of parameter values to pass to the pipeline at activation.
-        public var parameterValues: [ParameterValue]? = nil
+        public let parameterValues: [ParameterValue]?
         /// The ID of the pipeline.
-        public var pipelineId: String = ""
+        public let pipelineId: String
         /// The date and time to resume the pipeline. By default, the pipeline resumes from the last completed execution.
-        public var startTimestamp: Date? = nil
-
-        public init() {}
+        public let startTimestamp: Date?
 
         public init(parameterValues: [ParameterValue]? = nil, pipelineId: String, startTimestamp: Date? = nil) {
             self.parameterValues = parameterValues
@@ -377,6 +367,8 @@ extension Datapipeline {
         public init(dictionary: [String: Any]) throws {
             if let parameterValues = dictionary["parameterValues"] as? [[String: Any]] {
                 self.parameterValues = try parameterValues.map({ try ParameterValue(dictionary: $0) })
+            } else { 
+                self.parameterValues = nil
             }
             guard let pipelineId = dictionary["pipelineId"] as? String else { throw InitializableError.missingRequiredParam("pipelineId") }
             self.pipelineId = pipelineId
@@ -388,11 +380,9 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The field identifier.
-        public var key: String = ""
+        public let key: String
         /// The field value, expressed as a String.
-        public var stringValue: String = ""
-
-        public init() {}
+        public let stringValue: String
 
         public init(key: String, stringValue: String) {
             self.key = key
@@ -411,9 +401,7 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// If true, the calling task runner should cancel processing of the task. The task runner does not need to call SetTaskStatus for canceled tasks.
-        public var canceled: Bool = false
-
-        public init() {}
+        public let canceled: Bool
 
         public init(canceled: Bool) {
             self.canceled = canceled
@@ -429,11 +417,9 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         ///  The logical operation to be performed: equal (EQ), equal reference (REF_EQ), less than or equal (LE), greater than or equal (GE), or between (BETWEEN). Equal reference (REF_EQ) can be used only with reference fields. The other comparison types can be used only with String fields. The comparison types you can use apply only to certain object fields, as detailed below.   The comparison operators EQ and REF_EQ act on the following fields:   name @sphere parent @componentParent @instanceParent @status @scheduledStartTime @scheduledEndTime @actualStartTime @actualEndTime   The comparison operators GE, LE, and BETWEEN act on the following fields:   @scheduledStartTime @scheduledEndTime @actualStartTime @actualEndTime  Note that fields beginning with the at sign (@) are read-only and set by the web service. When you name fields, you should choose names containing only alpha-numeric values, as symbols may be reserved by AWS Data Pipeline. User-defined fields that you add to a pipeline should prefix their name with the string "my".
-        public var type: String? = nil
+        public let type: String?
         /// The value that the actual field value will be compared with.
-        public var values: [String]? = nil
-
-        public init() {}
+        public let values: [String]?
 
         public init(type: String? = nil, values: [String]? = nil) {
             self.type = type
@@ -442,9 +428,7 @@ extension Datapipeline {
 
         public init(dictionary: [String: Any]) throws {
             self.type = dictionary["type"] as? String
-            if let values = dictionary["values"] as? [String] {
-                self.values = values
-            }
+            self.values = dictionary["values"] as? [String]
         }
     }
 
@@ -452,13 +436,11 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The public DNS name of the calling task runner.
-        public var hostname: String? = nil
+        public let hostname: String?
         /// The type of task the task runner is configured to accept and process. The worker group is set as a field on objects in the pipeline when they are created. You can only specify a single value for workerGroup in the call to PollForTask. There are no wildcard values permitted in workerGroup; the string must be an exact, case-sensitive, match.
-        public var workerGroup: String = ""
+        public let workerGroup: String
         /// Identity information for the EC2 instance that is hosting the task runner. You can get this value from the instance using http://169.254.169.254/latest/meta-data/instance-id. For more information, see Instance Metadata in the Amazon Elastic Compute Cloud User Guide. Passing in this value proves that your task runner is running on an EC2 instance, and ensures the proper AWS Data Pipeline service charges are applied to your pipeline.
-        public var instanceIdentity: InstanceIdentity? = nil
-
-        public init() {}
+        public let instanceIdentity: InstanceIdentity?
 
         public init(hostname: String? = nil, workerGroup: String, instanceIdentity: InstanceIdentity? = nil) {
             self.hostname = hostname
@@ -470,15 +452,13 @@ extension Datapipeline {
             self.hostname = dictionary["hostname"] as? String
             guard let workerGroup = dictionary["workerGroup"] as? String else { throw InitializableError.missingRequiredParam("workerGroup") }
             self.workerGroup = workerGroup
-            if let instanceIdentity = dictionary["instanceIdentity"] as? [String: Any] { self.instanceIdentity = try Datapipeline.InstanceIdentity(dictionary: instanceIdentity) }
+            if let instanceIdentity = dictionary["instanceIdentity"] as? [String: Any] { self.instanceIdentity = try Datapipeline.InstanceIdentity(dictionary: instanceIdentity) } else { self.instanceIdentity = nil }
         }
     }
 
     public struct SetTaskStatusOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -488,9 +468,7 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID that AWS Data Pipeline assigns the newly created pipeline. For example, df-06372391ZG65EXAMPLE.
-        public var pipelineId: String = ""
-
-        public init() {}
+        public let pipelineId: String
 
         public init(pipelineId: String) {
             self.pipelineId = pipelineId
@@ -506,17 +484,15 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether the query applies to components or instances. The possible values are: COMPONENT, INSTANCE, and ATTEMPT.
-        public var sphere: String = ""
+        public let sphere: String
         /// The ID of the pipeline.
-        public var pipelineId: String = ""
+        public let pipelineId: String
         /// The maximum number of object names that QueryObjects will return in a single call. The default value is 100. 
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The query that defines the objects to be returned. The Query object can contain a maximum of ten selectors. The conditions in the query are limited to top-level String fields in the object. These filters can be applied to components, instances, and attempts.
-        public var query: Query? = nil
+        public let query: Query?
         /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call QueryObjects with the marker value from the previous call to retrieve the next set of results.
-        public var marker: String? = nil
-
-        public init() {}
+        public let marker: String?
 
         public init(sphere: String, pipelineId: String, limit: Int32? = nil, query: Query? = nil, marker: String? = nil) {
             self.sphere = sphere
@@ -532,7 +508,7 @@ extension Datapipeline {
             guard let pipelineId = dictionary["pipelineId"] as? String else { throw InitializableError.missingRequiredParam("pipelineId") }
             self.pipelineId = pipelineId
             self.limit = dictionary["limit"] as? Int32
-            if let query = dictionary["query"] as? [String: Any] { self.query = try Datapipeline.Query(dictionary: query) }
+            if let query = dictionary["query"] as? [String: Any] { self.query = try Datapipeline.Query(dictionary: query) } else { self.query = nil }
             self.marker = dictionary["marker"] as? String
         }
     }
@@ -541,11 +517,9 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the object that contains the validation warning.
-        public var id: String? = nil
+        public let id: String?
         /// A description of the validation warning.
-        public var warnings: [String]? = nil
-
-        public init() {}
+        public let warnings: [String]?
 
         public init(id: String? = nil, warnings: [String]? = nil) {
             self.id = id
@@ -554,9 +528,7 @@ extension Datapipeline {
 
         public init(dictionary: [String: Any]) throws {
             self.id = dictionary["id"] as? String
-            if let warnings = dictionary["warnings"] as? [String] {
-                self.warnings = warnings
-            }
+            self.warnings = dictionary["warnings"] as? [String]
         }
     }
 
@@ -564,11 +536,9 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The version of the pipeline definition to retrieve. Set this parameter to latest (default) to use the last definition saved to the pipeline or active to use the last definition that was activated.
-        public var version: String? = nil
+        public let version: String?
         /// The ID of the pipeline.
-        public var pipelineId: String = ""
-
-        public init() {}
+        public let pipelineId: String
 
         public init(version: String? = nil, pipelineId: String) {
             self.version = version
@@ -586,13 +556,11 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The starting point for the next page of results. To view the next page of results, call DescribeObjects again with this marker value. If the value is null, there are no more results.
-        public var marker: String? = nil
+        public let marker: String?
         /// Indicates whether there are more results to return.
-        public var hasMoreResults: Bool? = nil
+        public let hasMoreResults: Bool?
         /// An array of object definitions.
-        public var pipelineObjects: [PipelineObject] = []
-
-        public init() {}
+        public let pipelineObjects: [PipelineObject]
 
         public init(marker: String? = nil, hasMoreResults: Bool? = nil, pipelineObjects: [PipelineObject]) {
             self.marker = marker
@@ -612,8 +580,6 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -622,13 +588,11 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The parameter values used in the pipeline definition.
-        public var parameterValues: [ParameterValue]? = nil
+        public let parameterValues: [ParameterValue]?
         /// The parameter objects used in the pipeline definition.
-        public var parameterObjects: [ParameterObject]? = nil
+        public let parameterObjects: [ParameterObject]?
         /// The objects defined in the pipeline.
-        public var pipelineObjects: [PipelineObject]? = nil
-
-        public init() {}
+        public let pipelineObjects: [PipelineObject]?
 
         public init(parameterValues: [ParameterValue]? = nil, parameterObjects: [ParameterObject]? = nil, pipelineObjects: [PipelineObject]? = nil) {
             self.parameterValues = parameterValues
@@ -639,12 +603,18 @@ extension Datapipeline {
         public init(dictionary: [String: Any]) throws {
             if let parameterValues = dictionary["parameterValues"] as? [[String: Any]] {
                 self.parameterValues = try parameterValues.map({ try ParameterValue(dictionary: $0) })
+            } else { 
+                self.parameterValues = nil
             }
             if let parameterObjects = dictionary["parameterObjects"] as? [[String: Any]] {
                 self.parameterObjects = try parameterObjects.map({ try ParameterObject(dictionary: $0) })
+            } else { 
+                self.parameterObjects = nil
             }
             if let pipelineObjects = dictionary["pipelineObjects"] as? [[String: Any]] {
                 self.pipelineObjects = try pipelineObjects.map({ try PipelineObject(dictionary: $0) })
+            } else { 
+                self.pipelineObjects = nil
             }
         }
     }
@@ -653,11 +623,9 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the parameter object. 
-        public var id: String = ""
+        public let id: String
         /// The attributes of the parameter object.
-        public var attributes: [ParameterAttribute] = []
-
-        public init() {}
+        public let attributes: [ParameterAttribute]
 
         public init(id: String, attributes: [ParameterAttribute]) {
             self.id = id
@@ -676,11 +644,9 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The key name of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
-        public var key: String = ""
+        public let key: String
         /// The optional value portion of a tag defined by a user. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
-        public var value: String = ""
-
-        public init() {}
+        public let value: String
 
         public init(key: String, value: String) {
             self.key = key
@@ -698,11 +664,9 @@ extension Datapipeline {
     public struct Selector: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var `operator`: Operator? = nil
+        public let `operator`: Operator?
         /// The name of the field that the operator will be applied to. The field name is the "key" portion of the field definition in the pipeline definition syntax that is used by the AWS Data Pipeline API. If the field is not set on the object, the condition fails.
-        public var fieldName: String? = nil
-
-        public init() {}
+        public let fieldName: String?
 
         public init(operator: Operator? = nil, fieldName: String? = nil) {
             self.`operator` = `operator`
@@ -710,7 +674,7 @@ extension Datapipeline {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let `operator` = dictionary["operator"] as? [String: Any] { self.`operator` = try Datapipeline.Operator(dictionary: `operator`) }
+            if let `operator` = dictionary["operator"] as? [String: Any] { self.`operator` = try Datapipeline.Operator(dictionary: `operator`) } else { self.`operator` = nil }
             self.fieldName = dictionary["fieldName"] as? String
         }
     }
@@ -719,11 +683,9 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the pipeline that was assigned by AWS Data Pipeline. This is a string of the form df-297EG78HU43EEXAMPLE.
-        public var id: String? = nil
+        public let id: String?
         /// The name of the pipeline.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(id: String? = nil, name: String? = nil) {
             self.id = id
@@ -740,9 +702,7 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the pipeline.
-        public var pipelineId: String = ""
-
-        public init() {}
+        public let pipelineId: String
 
         public init(pipelineId: String) {
             self.pipelineId = pipelineId
@@ -758,13 +718,11 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the object.
-        public var objectId: String = ""
+        public let objectId: String
         /// The expression to evaluate.
-        public var expression: String = ""
+        public let expression: String
         /// The ID of the pipeline.
-        public var pipelineId: String = ""
-
-        public init() {}
+        public let pipelineId: String
 
         public init(objectId: String, expression: String, pipelineId: String) {
             self.objectId = objectId
@@ -786,9 +744,7 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of descriptions for the specified pipelines.
-        public var pipelineDescriptionList: [PipelineDescription] = []
-
-        public init() {}
+        public let pipelineDescriptionList: [PipelineDescription]
 
         public init(pipelineDescriptionList: [PipelineDescription]) {
             self.pipelineDescriptionList = pipelineDescriptionList
@@ -804,11 +760,9 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the pipeline.
-        public var pipelineId: String = ""
+        public let pipelineId: String
         /// Indicates whether to cancel any running objects. The default is true, which sets the state of any running objects to CANCELED. If this value is false, the pipeline is deactivated after all running objects finish.
-        public var cancelActive: Bool? = nil
-
-        public init() {}
+        public let cancelActive: Bool?
 
         public init(pipelineId: String, cancelActive: Bool? = nil) {
             self.pipelineId = pipelineId
@@ -826,8 +780,6 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -836,11 +788,9 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// Key-value pairs that define the properties of the ReportTaskProgressInput object.
-        public var fields: [Field]? = nil
+        public let fields: [Field]?
         /// The ID of the task assigned to the task runner. This value is provided in the response for PollForTask.
-        public var taskId: String = ""
-
-        public init() {}
+        public let taskId: String
 
         public init(fields: [Field]? = nil, taskId: String) {
             self.fields = fields
@@ -850,6 +800,8 @@ extension Datapipeline {
         public init(dictionary: [String: Any]) throws {
             if let fields = dictionary["fields"] as? [[String: Any]] {
                 self.fields = try fields.map({ try Field(dictionary: $0) })
+            } else { 
+                self.fields = nil
             }
             guard let taskId = dictionary["taskId"] as? String else { throw InitializableError.missingRequiredParam("taskId") }
             self.taskId = taskId
@@ -860,15 +812,13 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description for the pipeline.
-        public var description: String? = nil
+        public let description: String?
         /// The name for the pipeline. You can use the same name for multiple pipelines associated with your AWS account, because AWS Data Pipeline assigns each pipeline a unique pipeline identifier.
-        public var name: String = ""
+        public let name: String
         /// A list of tags to associate with the pipeline at creation. Tags let you control access to pipelines. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// A unique identifier. This identifier is not the same as the pipeline identifier assigned by AWS Data Pipeline. You are responsible for defining the format and ensuring the uniqueness of this identifier. You use this parameter to ensure idempotency during repeated calls to CreatePipeline. For example, if the first call to CreatePipeline does not succeed, you can pass in the same unique identifier and pipeline name combination on a subsequent call to CreatePipeline. CreatePipeline ensures that if a pipeline already exists with the same name and unique identifier, a new pipeline is not created. Instead, you'll receive the pipeline identifier from the previous attempt. The uniqueness of the name and unique identifier combination is scoped to the AWS account or IAM user credentials.
-        public var uniqueId: String = ""
-
-        public init() {}
+        public let uniqueId: String
 
         public init(description: String? = nil, name: String, tags: [Tag]? = nil, uniqueId: String) {
             self.description = description
@@ -883,6 +833,8 @@ extension Datapipeline {
             self.name = name
             if let tags = dictionary["tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             guard let uniqueId = dictionary["uniqueId"] as? String else { throw InitializableError.missingRequiredParam("uniqueId") }
             self.uniqueId = uniqueId
@@ -893,9 +845,7 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// List of selectors that define the query. An object must satisfy all of the selectors to match the query.
-        public var selectors: [Selector]? = nil
-
-        public init() {}
+        public let selectors: [Selector]?
 
         public init(selectors: [Selector]? = nil) {
             self.selectors = selectors
@@ -904,6 +854,8 @@ extension Datapipeline {
         public init(dictionary: [String: Any]) throws {
             if let selectors = dictionary["selectors"] as? [[String: Any]] {
                 self.selectors = try selectors.map({ try Selector(dictionary: $0) })
+            } else { 
+                self.selectors = nil
             }
         }
     }
@@ -912,9 +864,7 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call ListPipelines with the marker value from the previous call to retrieve the next set of results.
-        public var marker: String? = nil
-
-        public init() {}
+        public let marker: String?
 
         public init(marker: String? = nil) {
             self.marker = marker
@@ -929,13 +879,11 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the objects. The corresponding objects can be either physical or components, but not a mix of both types.
-        public var objectIds: [String] = []
+        public let objectIds: [String]
         /// The status to be set on all the objects specified in objectIds. For components, use PAUSE or RESUME. For instances, use TRY_CANCEL, RERUN, or MARK_FINISHED.
-        public var status: String = ""
+        public let status: String
         /// The ID of the pipeline that contains the objects.
-        public var pipelineId: String = ""
-
-        public init() {}
+        public let pipelineId: String
 
         public init(objectIds: [String], status: String, pipelineId: String) {
             self.objectIds = objectIds
@@ -957,13 +905,11 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The public DNS name of the task runner.
-        public var hostname: String? = nil
+        public let hostname: String?
         /// The type of task the task runner is configured to accept and process. The worker group is set as a field on objects in the pipeline when they are created. You can only specify a single value for workerGroup. There are no wildcard values permitted in workerGroup; the string must be an exact, case-sensitive, match.
-        public var workerGroup: String? = nil
+        public let workerGroup: String?
         /// The ID of the task runner. This value should be unique across your AWS account. In the case of AWS Data Pipeline Task Runner launched on a resource managed by AWS Data Pipeline, the web service provides a unique identifier when it launches the application. If you have written a custom task runner, you should assign a unique identifier for the task runner.
-        public var taskrunnerId: String = ""
-
-        public init() {}
+        public let taskrunnerId: String
 
         public init(hostname: String? = nil, workerGroup: String? = nil, taskrunnerId: String) {
             self.hostname = hostname
@@ -983,9 +929,7 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether the calling task runner should terminate.
-        public var terminate: Bool = false
-
-        public init() {}
+        public let terminate: Bool
 
         public init(terminate: Bool) {
             self.terminate = terminate
@@ -1001,11 +945,9 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The tags to add, as key/value pairs.
-        public var tags: [Tag] = []
+        public let tags: [Tag]
         /// The ID of the pipeline.
-        public var pipelineId: String = ""
-
-        public init() {}
+        public let pipelineId: String
 
         public init(tags: [Tag], pipelineId: String) {
             self.tags = tags
@@ -1024,11 +966,9 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// A description of an EC2 instance that is generated when the instance is launched and exposed to the instance via the instance metadata service in the form of a JSON representation of an object.
-        public var document: String? = nil
+        public let document: String?
         /// A signature which can be used to verify the accuracy and authenticity of the information provided in the instance identity document.
-        public var signature: String? = nil
-
-        public init() {}
+        public let signature: String?
 
         public init(document: String? = nil, signature: String? = nil) {
             self.document = document
@@ -1045,17 +985,15 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// If an error occurred during the task, this value specifies a text description of the error. This value is set on the physical attempt object. It is used to display error information to the user. The web service does not parse this value.
-        public var errorMessage: String? = nil
+        public let errorMessage: String?
         /// The ID of the task assigned to the task runner. This value is provided in the response for PollForTask.
-        public var taskId: String = ""
+        public let taskId: String
         /// If an error occurred during the task, this value specifies the stack trace associated with the error. This value is set on the physical attempt object. It is used to display error information to the user. The web service does not parse this value.
-        public var errorStackTrace: String? = nil
+        public let errorStackTrace: String?
         /// If an error occurred during the task, this value specifies the error code. This value is set on the physical attempt object. It is used to display error information to the user. It should not start with string "Service_" which is reserved by the system.
-        public var errorId: String? = nil
+        public let errorId: String?
         /// If FINISHED, the task successfully completed. If FAILED, the task ended unsuccessfully. Preconditions use false.
-        public var taskStatus: String = ""
-
-        public init() {}
+        public let taskStatus: String
 
         public init(errorMessage: String? = nil, taskId: String, errorStackTrace: String? = nil, errorId: String? = nil, taskStatus: String) {
             self.errorMessage = errorMessage
@@ -1080,11 +1018,9 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identifier of the object that contains the validation error.
-        public var id: String? = nil
+        public let id: String?
         /// A description of the validation error.
-        public var errors: [String]? = nil
-
-        public init() {}
+        public let errors: [String]?
 
         public init(id: String? = nil, errors: [String]? = nil) {
             self.id = id
@@ -1093,17 +1029,13 @@ extension Datapipeline {
 
         public init(dictionary: [String: Any]) throws {
             self.id = dictionary["id"] as? String
-            if let errors = dictionary["errors"] as? [String] {
-                self.errors = errors
-            }
+            self.errors = dictionary["errors"] as? [String]
         }
     }
 
     public struct ActivatePipelineOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -1113,8 +1045,6 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1123,15 +1053,13 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The parameter values used with the pipeline.
-        public var parameterValues: [ParameterValue]? = nil
+        public let parameterValues: [ParameterValue]?
         /// The ID of the pipeline.
-        public var pipelineId: String = ""
+        public let pipelineId: String
         /// The objects that define the pipeline. These objects overwrite the existing pipeline definition.
-        public var pipelineObjects: [PipelineObject] = []
+        public let pipelineObjects: [PipelineObject]
         /// The parameter objects used with the pipeline.
-        public var parameterObjects: [ParameterObject]? = nil
-
-        public init() {}
+        public let parameterObjects: [ParameterObject]?
 
         public init(parameterValues: [ParameterValue]? = nil, pipelineId: String, pipelineObjects: [PipelineObject], parameterObjects: [ParameterObject]? = nil) {
             self.parameterValues = parameterValues
@@ -1143,6 +1071,8 @@ extension Datapipeline {
         public init(dictionary: [String: Any]) throws {
             if let parameterValues = dictionary["parameterValues"] as? [[String: Any]] {
                 self.parameterValues = try parameterValues.map({ try ParameterValue(dictionary: $0) })
+            } else { 
+                self.parameterValues = nil
             }
             guard let pipelineId = dictionary["pipelineId"] as? String else { throw InitializableError.missingRequiredParam("pipelineId") }
             self.pipelineId = pipelineId
@@ -1150,6 +1080,8 @@ extension Datapipeline {
             self.pipelineObjects = try pipelineObjects.map({ try PipelineObject(dictionary: $0) })
             if let parameterObjects = dictionary["parameterObjects"] as? [[String: Any]] {
                 self.parameterObjects = try parameterObjects.map({ try ParameterObject(dictionary: $0) })
+            } else { 
+                self.parameterObjects = nil
             }
         }
     }
@@ -1158,13 +1090,11 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The starting point for the next page of results. To view the next page of results, call QueryObjects again with this marker value. If the value is null, there are no more results.
-        public var marker: String? = nil
+        public let marker: String?
         /// Indicates whether there are more results that can be obtained by a subsequent call.
-        public var hasMoreResults: Bool? = nil
+        public let hasMoreResults: Bool?
         /// The identifiers that match the query selectors.
-        public var ids: [String]? = nil
-
-        public init() {}
+        public let ids: [String]?
 
         public init(marker: String? = nil, hasMoreResults: Bool? = nil, ids: [String]? = nil) {
             self.marker = marker
@@ -1175,9 +1105,7 @@ extension Datapipeline {
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["marker"] as? String
             self.hasMoreResults = dictionary["hasMoreResults"] as? Bool
-            if let ids = dictionary["ids"] as? [String] {
-                self.ids = ids
-            }
+            self.ids = dictionary["ids"] as? [String]
         }
     }
 
@@ -1185,13 +1113,11 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The starting point for the next page of results. To view the next page of results, call ListPipelinesOutput again with this marker value. If the value is null, there are no more results.
-        public var marker: String? = nil
+        public let marker: String?
         /// Indicates whether there are more results that can be obtained by a subsequent call.
-        public var hasMoreResults: Bool? = nil
+        public let hasMoreResults: Bool?
         /// The pipeline identifiers. If you require additional information about the pipelines, you can use these identifiers to call DescribePipelines and GetPipelineDefinition.
-        public var pipelineIdList: [PipelineIdName] = []
-
-        public init() {}
+        public let pipelineIdList: [PipelineIdName]
 
         public init(marker: String? = nil, hasMoreResults: Bool? = nil, pipelineIdList: [PipelineIdName]) {
             self.marker = marker
@@ -1211,13 +1137,11 @@ extension Datapipeline {
         /// The key for the payload
         public static let payload: String? = nil
         /// The field identifier.
-        public var key: String = ""
+        public let key: String
         /// The field value, expressed as the identifier of another object.
-        public var refValue: String? = nil
+        public let refValue: String?
         /// The field value, expressed as a String.
-        public var stringValue: String? = nil
-
-        public init() {}
+        public let stringValue: String?
 
         public init(key: String, refValue: String? = nil, stringValue: String? = nil) {
             self.key = key

@@ -33,9 +33,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token used for advancing to the next page of results from your get operations request.
-        public var pageToken: String? = nil
-
-        public init() {}
+        public let pageToken: String?
 
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
@@ -50,16 +48,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the instance.
-        public var state: InstanceState? = nil
-
-        public init() {}
+        public let state: InstanceState?
 
         public init(state: InstanceState? = nil) {
             self.state = state
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["state"] as? [String: Any] { self.state = try Lightsail.InstanceState(dictionary: state) }
+            if let state = dictionary["state"] as? [String: Any] { self.state = try Lightsail.InstanceState(dictionary: state) } else { self.state = nil }
         }
     }
 
@@ -67,11 +63,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about each of the domain entries in the user's account.
-        public var domains: [Domain]? = nil
+        public let domains: [Domain]?
         /// A token used for advancing to the next page of results from your get active names request.
-        public var nextPageToken: String? = nil
-
-        public init() {}
+        public let nextPageToken: String?
 
         public init(domains: [Domain]? = nil, nextPageToken: String? = nil) {
             self.domains = domains
@@ -81,6 +75,8 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let domains = dictionary["domains"] as? [[String: Any]] {
                 self.domains = try domains.map({ try Domain(dictionary: $0) })
+            } else { 
+                self.domains = nil
             }
             self.nextPageToken = dictionary["nextPageToken"] as? String
         }
@@ -90,11 +86,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the results of your get instance metric data request.
-        public var metricData: [MetricDatapoint]? = nil
+        public let metricData: [MetricDatapoint]?
         /// The metric name to return data for. 
-        public var metricName: String? = nil
-
-        public init() {}
+        public let metricName: String?
 
         public init(metricData: [MetricDatapoint]? = nil, metricName: String? = nil) {
             self.metricData = metricData
@@ -104,6 +98,8 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let metricData = dictionary["metricData"] as? [[String: Any]] {
                 self.metricData = try metricData.map({ try MetricDatapoint(dictionary: $0) })
+            } else { 
+                self.metricData = nil
             }
             self.metricName = dictionary["metricName"] as? String
         }
@@ -113,24 +109,20 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the domain resource you created.
-        public var operation: Operation? = nil
-
-        public init() {}
+        public let operation: Operation?
 
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
         }
     }
 
     public struct UnpeerVpcRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -140,16 +132,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the results of your delete domain request.
-        public var operation: Operation? = nil
-
-        public init() {}
+        public let operation: Operation?
 
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
         }
     }
 
@@ -157,15 +147,13 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the new key pair you just created.
-        public var keyPair: KeyPair? = nil
+        public let keyPair: KeyPair?
         /// A base64-encoded public key of the ssh-rsa type.
-        public var publicKeyBase64: String? = nil
+        public let publicKeyBase64: String?
         /// A base64-encoded RSA private key.
-        public var privateKeyBase64: String? = nil
+        public let privateKeyBase64: String?
         /// An array of key-value pairs containing information about the results of your create key pair request.
-        public var operation: Operation? = nil
-
-        public init() {}
+        public let operation: Operation?
 
         public init(keyPair: KeyPair? = nil, publicKeyBase64: String? = nil, privateKeyBase64: String? = nil, operation: Operation? = nil) {
             self.keyPair = keyPair
@@ -175,10 +163,10 @@ extension Lightsail {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let keyPair = dictionary["keyPair"] as? [String: Any] { self.keyPair = try Lightsail.KeyPair(dictionary: keyPair) }
+            if let keyPair = dictionary["keyPair"] as? [String: Any] { self.keyPair = try Lightsail.KeyPair(dictionary: keyPair) } else { self.keyPair = nil }
             self.publicKeyBase64 = dictionary["publicKeyBase64"] as? String
             self.privateKeyBase64 = dictionary["privateKeyBase64"] as? String
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
         }
     }
 
@@ -186,11 +174,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token used for advancing to the next page of results from your get operations for resource request.
-        public var pageToken: String? = nil
+        public let pageToken: String?
         /// The name of the resource for which you are requesting information.
-        public var resourceName: String = ""
-
-        public init() {}
+        public let resourceName: String
 
         public init(pageToken: String? = nil, resourceName: String) {
             self.pageToken = pageToken
@@ -208,11 +194,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the static IP.
-        public var staticIpName: String = ""
+        public let staticIpName: String
         /// The instance name to which you want to attach the static IP address.
-        public var instanceName: String = ""
-
-        public init() {}
+        public let instanceName: String
 
         public init(staticIpName: String, instanceName: String) {
             self.staticIpName = staticIpName
@@ -231,33 +215,31 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state the snapshot is in.
-        public var state: String? = nil
+        public let state: String?
         /// The name of the snapshot.
-        public var name: String? = nil
+        public let name: String?
         /// The type of resource (usually InstanceSnapshot).
-        public var resourceType: String? = nil
+        public let resourceType: String?
         /// The timestamp when the snapshot was created (e.g., 1479907467.024).
-        public var createdAt: Date? = nil
+        public let createdAt: Date?
         /// The bundle ID from which you created the snapshot (e.g., micro_1_0).
-        public var fromBundleId: String? = nil
+        public let fromBundleId: String?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        public var supportCode: String? = nil
+        public let supportCode: String?
         /// The Amazon Resource Name (ARN) of the instance from which the snapshot was created (e.g., arn:aws:lightsail:us-east-1:123456789101:Instance/64b8404c-ccb1-430b-8daf-12345EXAMPLE).
-        public var fromInstanceArn: String? = nil
+        public let fromInstanceArn: String?
         /// The Amazon Resource Name (ARN) of the snapshot (e.g., arn:aws:lightsail:us-east-1:123456789101:InstanceSnapshot/d23b5706-3322-4d83-81e5-12345EXAMPLE).
-        public var arn: String? = nil
+        public let arn: String?
         /// The blueprint ID from which you created the snapshot (e.g., os_debian_8_3). A blueprint is a virtual private server (or instance) image used to create instances quickly.
-        public var fromBlueprintId: String? = nil
+        public let fromBlueprintId: String?
         /// The size in GB of the SSD.
-        public var sizeInGb: Int32? = nil
+        public let sizeInGb: Int32?
         /// The region name and availability zone where you created the snapshot.
-        public var location: ResourceLocation? = nil
+        public let location: ResourceLocation?
         /// The instance from which the snapshot was created.
-        public var fromInstanceName: String? = nil
+        public let fromInstanceName: String?
         /// The progress of the snapshot.
-        public var progress: String? = nil
-
-        public init() {}
+        public let progress: String?
 
         public init(state: String? = nil, name: String? = nil, resourceType: String? = nil, createdAt: Date? = nil, fromBundleId: String? = nil, supportCode: String? = nil, fromInstanceArn: String? = nil, arn: String? = nil, fromBlueprintId: String? = nil, sizeInGb: Int32? = nil, location: ResourceLocation? = nil, fromInstanceName: String? = nil, progress: String? = nil) {
             self.state = state
@@ -286,7 +268,7 @@ extension Lightsail {
             self.arn = dictionary["arn"] as? String
             self.fromBlueprintId = dictionary["fromBlueprintId"] as? String
             self.sizeInGb = dictionary["sizeInGb"] as? Int32
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) }
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) } else { self.location = nil }
             self.fromInstanceName = dictionary["fromInstanceName"] as? String
             self.progress = dictionary["progress"] as? String
         }
@@ -296,23 +278,21 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// For SSH access, the temporary private key. For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey).
-        public var privateKey: String? = nil
+        public let privateKey: String?
         /// The public IP address of the Amazon Lightsail instance.
-        public var ipAddress: String? = nil
+        public let ipAddress: String?
         /// The name of this Amazon Lightsail instance.
-        public var instanceName: String? = nil
+        public let instanceName: String?
         /// The protocol for these Amazon Lightsail instance access details.
-        public var `protocol`: String? = nil
+        public let `protocol`: String?
         /// For RDP access, the temporary password of the Amazon EC2 instance.
-        public var password: String? = nil
+        public let password: String?
         /// For SSH access, the public key to use when accessing your instance For OpenSSH clients (e.g., command line SSH), you should save this value to tempkey-cert.pub.
-        public var certKey: String? = nil
+        public let certKey: String?
         /// For SSH access, the date on which the temporary keys expire.
-        public var expiresAt: Date? = nil
+        public let expiresAt: Date?
         /// The user name to use when logging in to the Amazon Lightsail instance.
-        public var username: String? = nil
-
-        public init() {}
+        public let username: String?
 
         public init(privateKey: String? = nil, ipAddress: String? = nil, instanceName: String? = nil, protocol: String? = nil, password: String? = nil, certKey: String? = nil, expiresAt: Date? = nil, username: String? = nil) {
             self.privateKey = privateKey
@@ -341,11 +321,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token used for advancing to the next page of results from your get bundles request.
-        public var pageToken: String? = nil
+        public let pageToken: String?
         /// A Boolean value that indicates whether to include inactive bundle results in your request.
-        public var includeInactive: Bool? = nil
-
-        public init() {}
+        public let includeInactive: Bool?
 
         public init(pageToken: String? = nil, includeInactive: Bool? = nil) {
             self.pageToken = pageToken
@@ -362,16 +340,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the results of your delete domain entry request.
-        public var operation: Operation? = nil
-
-        public init() {}
+        public let operation: Operation?
 
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
         }
     }
 
@@ -379,9 +355,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about your get regions request.
-        public var regions: [Region]? = nil
-
-        public init() {}
+        public let regions: [Region]?
 
         public init(regions: [Region]? = nil) {
             self.regions = regions
@@ -390,6 +364,8 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let regions = dictionary["regions"] as? [[String: Any]] {
                 self.regions = try regions.map({ try Region(dictionary: $0) })
+            } else { 
+                self.regions = nil
             }
         }
     }
@@ -398,16 +374,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the specified instance.
-        public var instance: Instance? = nil
-
-        public init() {}
+        public let instance: Instance?
 
         public init(instance: Instance? = nil) {
             self.instance = instance
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let instance = dictionary["instance"] as? [String: Any] { self.instance = try Lightsail.Instance(dictionary: instance) }
+            if let instance = dictionary["instance"] as? [String: Any] { self.instance = try Lightsail.Instance(dictionary: instance) } else { self.instance = nil }
         }
     }
 
@@ -415,9 +389,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the results of your delete instance request.
-        public var operations: [Operation]? = nil
-
-        public init() {}
+        public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
@@ -426,6 +398,8 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let operations = dictionary["operations"] as? [[String: Any]] {
                 self.operations = try operations.map({ try Operation(dictionary: $0) })
+            } else { 
+                self.operations = nil
             }
         }
     }
@@ -434,11 +408,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The protocol to use to connect to your instance. Defaults to ssh.
-        public var `protocol`: String? = nil
+        public let `protocol`: String?
         /// The name of the instance to access.
-        public var instanceName: String = ""
-
-        public init() {}
+        public let instanceName: String
 
         public init(protocol: String? = nil, instanceName: String) {
             self.`protocol` = `protocol`
@@ -456,11 +428,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token used for advancing to the next page of results from your get instance snapshots request.
-        public var nextPageToken: String? = nil
+        public let nextPageToken: String?
         /// An array of key-value pairs containing information about the results of your get instance snapshots request.
-        public var instanceSnapshots: [InstanceSnapshot]? = nil
-
-        public init() {}
+        public let instanceSnapshots: [InstanceSnapshot]?
 
         public init(nextPageToken: String? = nil, instanceSnapshots: [InstanceSnapshot]? = nil) {
             self.nextPageToken = nextPageToken
@@ -471,6 +441,8 @@ extension Lightsail {
             self.nextPageToken = dictionary["nextPageToken"] as? String
             if let instanceSnapshots = dictionary["instanceSnapshots"] as? [[String: Any]] {
                 self.instanceSnapshots = try instanceSnapshots.map({ try InstanceSnapshot(dictionary: $0) })
+            } else { 
+                self.instanceSnapshots = nil
             }
         }
     }
@@ -479,25 +451,23 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The instance where the static IP is attached (e.g., Amazon_Linux-1GB-Virginia-1).
-        public var attachedTo: String? = nil
+        public let attachedTo: String?
         /// A Boolean value indicating whether the static IP is attached.
-        public var isAttached: Bool? = nil
+        public let isAttached: Bool?
         /// The region and Availability Zone where the static IP was created.
-        public var location: ResourceLocation? = nil
+        public let location: ResourceLocation?
         /// The resource type (usually StaticIp).
-        public var resourceType: String? = nil
+        public let resourceType: String?
         /// The static IP address.
-        public var ipAddress: String? = nil
+        public let ipAddress: String?
         /// The name of the static IP (e.g., StaticIP-Virginia-EXAMPLE).
-        public var name: String? = nil
+        public let name: String?
         /// The timestamp when the static IP was created (e.g., 1479735304.222).
-        public var createdAt: Date? = nil
+        public let createdAt: Date?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        public var supportCode: String? = nil
+        public let supportCode: String?
         /// The Amazon Resource Name (ARN) of the static IP (e.g., arn:aws:lightsail:us-east-1:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE).
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(attachedTo: String? = nil, isAttached: Bool? = nil, location: ResourceLocation? = nil, resourceType: String? = nil, ipAddress: String? = nil, name: String? = nil, createdAt: Date? = nil, supportCode: String? = nil, arn: String? = nil) {
             self.attachedTo = attachedTo
@@ -514,7 +484,7 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             self.attachedTo = dictionary["attachedTo"] as? String
             self.isAttached = dictionary["isAttached"] as? Bool
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) }
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) } else { self.location = nil }
             self.resourceType = dictionary["resourceType"] as? String
             self.ipAddress = dictionary["ipAddress"] as? String
             self.name = dictionary["name"] as? String
@@ -528,18 +498,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the port states resulting from your request.
-        public var portStates: [String]? = nil
-
-        public init() {}
+        public let portStates: [String]?
 
         public init(portStates: [String]? = nil) {
             self.portStates = portStates
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let portStates = dictionary["portStates"] as? [String] {
-                self.portStates = portStates
-            }
+            self.portStates = dictionary["portStates"] as? [String]
         }
     }
 
@@ -547,21 +513,19 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The friendly name of the SSH key pair.
-        public var name: String? = nil
+        public let name: String?
         /// The region name and Availability Zone where the key pair was created.
-        public var location: ResourceLocation? = nil
+        public let location: ResourceLocation?
         /// The resource type (usually KeyPair).
-        public var resourceType: String? = nil
+        public let resourceType: String?
         /// The timestamp when the key pair was created (e.g., 1479816991.349).
-        public var createdAt: Date? = nil
+        public let createdAt: Date?
         /// The RSA fingerprint of the key pair.
-        public var fingerprint: String? = nil
+        public let fingerprint: String?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        public var supportCode: String? = nil
+        public let supportCode: String?
         /// The Amazon Resource Name (ARN) of the key pair (e.g., arn:aws:lightsail:us-east-1:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE).
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(name: String? = nil, location: ResourceLocation? = nil, resourceType: String? = nil, createdAt: Date? = nil, fingerprint: String? = nil, supportCode: String? = nil, arn: String? = nil) {
             self.name = name
@@ -575,7 +539,7 @@ extension Lightsail {
 
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["name"] as? String
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) }
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) } else { self.location = nil }
             self.resourceType = dictionary["resourceType"] as? String
             self.createdAt = dictionary["createdAt"] as? Date
             self.fingerprint = dictionary["fingerprint"] as? String
@@ -588,9 +552,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the static IP in Lightsail.
-        public var staticIpName: String = ""
-
-        public init() {}
+        public let staticIpName: String
 
         public init(staticIpName: String) {
             self.staticIpName = staticIpName
@@ -606,11 +568,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token used for advancing to the next page of results from your get key pairs request.
-        public var nextPageToken: String? = nil
+        public let nextPageToken: String?
         /// An array of key-value pairs containing information about the key pairs.
-        public var keyPairs: [KeyPair]? = nil
-
-        public init() {}
+        public let keyPairs: [KeyPair]?
 
         public init(nextPageToken: String? = nil, keyPairs: [KeyPair]? = nil) {
             self.nextPageToken = nextPageToken
@@ -621,6 +581,8 @@ extension Lightsail {
             self.nextPageToken = dictionary["nextPageToken"] as? String
             if let keyPairs = dictionary["keyPairs"] as? [[String: Any]] {
                 self.keyPairs = try keyPairs.map({ try KeyPair(dictionary: $0) })
+            } else { 
+                self.keyPairs = nil
             }
         }
     }
@@ -629,27 +591,25 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A friendly name for the bundle (e.g., Micro).
-        public var name: String? = nil
+        public let name: String?
         /// The Amazon EC2 instance type (e.g., t2.micro).
-        public var instanceType: String? = nil
+        public let instanceType: String?
         /// A Boolean value indicating whether the bundle is active.
-        public var isActive: Bool? = nil
+        public let isActive: Bool?
         /// The power of the bundle (e.g., 500).
-        public var power: Int32? = nil
+        public let power: Int32?
         /// The number of vCPUs included in the bundle (e.g., 2).
-        public var cpuCount: Int32? = nil
+        public let cpuCount: Int32?
         /// The amount of RAM in GB (e.g., 2.0).
-        public var ramSizeInGb: Float? = nil
+        public let ramSizeInGb: Float?
         /// The bundle ID (e.g., micro_1_0).
-        public var bundleId: String? = nil
+        public let bundleId: String?
         /// The data transfer rate per month in GB (e.g., 2000).
-        public var transferPerMonthInGb: Int32? = nil
+        public let transferPerMonthInGb: Int32?
         /// The size of the SSD (e.g., 30).
-        public var diskSizeInGb: Int32? = nil
+        public let diskSizeInGb: Int32?
         /// The price in US dollars (e.g., 5.0).
-        public var price: Float? = nil
-
-        public init() {}
+        public let price: Float?
 
         public init(name: String? = nil, instanceType: String? = nil, isActive: Bool? = nil, power: Int32? = nil, cpuCount: Int32? = nil, ramSizeInGb: Float? = nil, bundleId: String? = nil, transferPerMonthInGb: Int32? = nil, diskSizeInGb: Int32? = nil, price: Float? = nil) {
             self.name = name
@@ -682,8 +642,6 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -692,9 +650,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the request operation.
-        public var operations: [Operation]? = nil
-
-        public init() {}
+        public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
@@ -703,6 +659,8 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let operations = dictionary["operations"] as? [[String: Any]] {
                 self.operations = try operations.map({ try Operation(dictionary: $0) })
+            } else { 
+                self.operations = nil
             }
         }
     }
@@ -711,19 +669,17 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Availability Zone where you want to create your instances. Use the following formatting: us-east-1a (case sensitive).
-        public var availabilityZone: String = ""
+        public let availabilityZone: String
         /// The names for your new instances.
-        public var instanceNames: [String] = []
+        public let instanceNames: [String]
         /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (e.g., micro_1_0).
-        public var bundleId: String = ""
+        public let bundleId: String
         /// The name of the instance snapshot on which you are basing your new instances. Use the get instance snapshots operation to return information about your existing snapshots.
-        public var instanceSnapshotName: String = ""
+        public let instanceSnapshotName: String
         /// You can create a launch script that configures a server with additional user data. For example, apt-get –y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide. 
-        public var userData: String? = nil
+        public let userData: String?
         /// The name for your key pair.
-        public var keyPairName: String? = nil
-
-        public init() {}
+        public let keyPairName: String?
 
         public init(availabilityZone: String, instanceNames: [String], bundleId: String, instanceSnapshotName: String, userData: String? = nil, keyPairName: String? = nil) {
             self.availabilityZone = availabilityZone
@@ -752,9 +708,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A GUID used to identify the operation.
-        public var operationId: String = ""
-
-        public init() {}
+        public let operationId: String
 
         public init(operationId: String) {
             self.operationId = operationId
@@ -770,16 +724,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the request operation.
-        public var operation: Operation? = nil
-
-        public init() {}
+        public let operation: Operation?
 
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
         }
     }
 
@@ -787,9 +739,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The specific domain name to delete.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
@@ -805,9 +755,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the key pair for which you are requesting information.
-        public var keyPairName: String = ""
-
-        public init() {}
+        public let keyPairName: String
 
         public init(keyPairName: String) {
             self.keyPairName = keyPairName
@@ -823,9 +771,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the static IP to delete.
-        public var staticIpName: String = ""
-
-        public init() {}
+        public let staticIpName: String
 
         public init(staticIpName: String) {
             self.staticIpName = staticIpName
@@ -841,9 +787,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns true if the Lightsail VPC is peered; otherwise, false.
-        public var isPeered: Bool? = nil
-
-        public init() {}
+        public let isPeered: Bool?
 
         public init(isPeered: Bool? = nil) {
             self.isPeered = isPeered
@@ -858,11 +802,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the instance for which you want to open the public ports.
-        public var instanceName: String = ""
+        public let instanceName: String
         /// An array of key-value pairs containing information about the port mappings.
-        public var portInfo: PortInfo = PortInfo()
-
-        public init() {}
+        public let portInfo: PortInfo
 
         public init(instanceName: String, portInfo: PortInfo) {
             self.instanceName = instanceName
@@ -881,9 +823,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the results of your create instances request.
-        public var operations: [Operation]? = nil
-
-        public init() {}
+        public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
@@ -892,6 +832,8 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let operations = dictionary["operations"] as? [[String: Any]] {
                 self.operations = try operations.map({ try Operation(dictionary: $0) })
+            } else { 
+                self.operations = nil
             }
         }
     }
@@ -900,9 +842,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the instance.
-        public var instanceName: String = ""
-
-        public init() {}
+        public let instanceName: String
 
         public init(instanceName: String) {
             self.instanceName = instanceName
@@ -918,11 +858,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the instance on which you're attempting to close the public ports.
-        public var instanceName: String = ""
+        public let instanceName: String
         /// Information about the public port you are trying to close.
-        public var portInfo: PortInfo = PortInfo()
-
-        public init() {}
+        public let portInfo: PortInfo
 
         public init(instanceName: String, portInfo: PortInfo) {
             self.instanceName = instanceName
@@ -941,43 +879,41 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status code and the state (e.g., running) for the instance.
-        public var state: InstanceState? = nil
+        public let state: InstanceState?
         /// The name the user gave the instance (e.g., Amazon_Linux-1GB-Virginia-1).
-        public var name: String? = nil
+        public let name: String?
         /// The type of resource (usually Instance).
-        public var resourceType: String? = nil
+        public let resourceType: String?
         /// The public IP address of the instance.
-        public var publicIpAddress: String? = nil
+        public let publicIpAddress: String?
         /// The private IP address of the instance.
-        public var privateIpAddress: String? = nil
+        public let privateIpAddress: String?
         /// The timestamp when the instance was created (e.g., 1479734909.17).
-        public var createdAt: Date? = nil
+        public let createdAt: Date?
         /// The name of the SSH key being used to connect to the instance (e.g., LightsailDefaultKeyPair).
-        public var sshKeyName: String? = nil
+        public let sshKeyName: String?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        public var supportCode: String? = nil
+        public let supportCode: String?
         /// The bundle for the instance (e.g., micro_1_0).
-        public var bundleId: String? = nil
+        public let bundleId: String?
         /// A Boolean value indicating whether this instance has a static IP assigned to it.
-        public var isStaticIp: Bool? = nil
+        public let isStaticIp: Bool?
         /// The friendly name of the blueprint (e.g., Amazon Linux).
-        public var blueprintName: String? = nil
+        public let blueprintName: String?
         /// The user name for connecting to the instance (e.g., ec2-user).
-        public var username: String? = nil
+        public let username: String?
         /// The IPv6 address of the instance.
-        public var ipv6Address: String? = nil
+        public let ipv6Address: String?
         /// The size of the vCPU and the amount of RAM for the instance.
-        public var hardware: InstanceHardware? = nil
+        public let hardware: InstanceHardware?
         /// The blueprint ID (e.g., os_amlinux_2016_03).
-        public var blueprintId: String? = nil
+        public let blueprintId: String?
         /// The region name and availability zone where the instance is located.
-        public var location: ResourceLocation? = nil
+        public let location: ResourceLocation?
         /// The Amazon Resource Name (ARN) of the instance (e.g., arn:aws:lightsail:us-east-1:123456789101:Instance/244ad76f-8aad-4741-809f-12345EXAMPLE).
-        public var arn: String? = nil
+        public let arn: String?
         /// Information about the public ports and monthly data transfer rates for the instance.
-        public var networking: InstanceNetworking? = nil
-
-        public init() {}
+        public let networking: InstanceNetworking?
 
         public init(state: InstanceState? = nil, name: String? = nil, resourceType: String? = nil, publicIpAddress: String? = nil, privateIpAddress: String? = nil, createdAt: Date? = nil, sshKeyName: String? = nil, supportCode: String? = nil, bundleId: String? = nil, isStaticIp: Bool? = nil, blueprintName: String? = nil, username: String? = nil, ipv6Address: String? = nil, hardware: InstanceHardware? = nil, blueprintId: String? = nil, location: ResourceLocation? = nil, arn: String? = nil, networking: InstanceNetworking? = nil) {
             self.state = state
@@ -1001,7 +937,7 @@ extension Lightsail {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let state = dictionary["state"] as? [String: Any] { self.state = try Lightsail.InstanceState(dictionary: state) }
+            if let state = dictionary["state"] as? [String: Any] { self.state = try Lightsail.InstanceState(dictionary: state) } else { self.state = nil }
             self.name = dictionary["name"] as? String
             self.resourceType = dictionary["resourceType"] as? String
             self.publicIpAddress = dictionary["publicIpAddress"] as? String
@@ -1014,11 +950,11 @@ extension Lightsail {
             self.blueprintName = dictionary["blueprintName"] as? String
             self.username = dictionary["username"] as? String
             self.ipv6Address = dictionary["ipv6Address"] as? String
-            if let hardware = dictionary["hardware"] as? [String: Any] { self.hardware = try Lightsail.InstanceHardware(dictionary: hardware) }
+            if let hardware = dictionary["hardware"] as? [String: Any] { self.hardware = try Lightsail.InstanceHardware(dictionary: hardware) } else { self.hardware = nil }
             self.blueprintId = dictionary["blueprintId"] as? String
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) }
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) } else { self.location = nil }
             self.arn = dictionary["arn"] as? String
-            if let networking = dictionary["networking"] as? [String: Any] { self.networking = try Lightsail.InstanceNetworking(dictionary: networking) }
+            if let networking = dictionary["networking"] as? [String: Any] { self.networking = try Lightsail.InstanceNetworking(dictionary: networking) } else { self.networking = nil }
         }
     }
 
@@ -1026,21 +962,19 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the domain.
-        public var name: String? = nil
+        public let name: String?
         /// The AWS Region and Availability Zones where the domain recordset was created.
-        public var location: ResourceLocation? = nil
+        public let location: ResourceLocation?
         /// The resource type. 
-        public var resourceType: String? = nil
+        public let resourceType: String?
         /// An array of key-value pairs containing information about the domain entries.
-        public var domainEntries: [DomainEntry]? = nil
+        public let domainEntries: [DomainEntry]?
         /// The date when the domain recordset was created.
-        public var createdAt: Date? = nil
+        public let createdAt: Date?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        public var supportCode: String? = nil
+        public let supportCode: String?
         /// The Amazon Resource Name (ARN) of the domain recordset (e.g., arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE).
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(name: String? = nil, location: ResourceLocation? = nil, resourceType: String? = nil, domainEntries: [DomainEntry]? = nil, createdAt: Date? = nil, supportCode: String? = nil, arn: String? = nil) {
             self.name = name
@@ -1054,10 +988,12 @@ extension Lightsail {
 
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["name"] as? String
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) }
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) } else { self.location = nil }
             self.resourceType = dictionary["resourceType"] as? String
             if let domainEntries = dictionary["domainEntries"] as? [[String: Any]] {
                 self.domainEntries = try domainEntries.map({ try DomainEntry(dictionary: $0) })
+            } else { 
+                self.domainEntries = nil
             }
             self.createdAt = dictionary["createdAt"] as? Date
             self.supportCode = dictionary["supportCode"] as? String
@@ -1069,16 +1005,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the requested static IP.
-        public var staticIp: StaticIp? = nil
-
-        public init() {}
+        public let staticIp: StaticIp?
 
         public init(staticIp: StaticIp? = nil) {
             self.staticIp = staticIp
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let staticIp = dictionary["staticIp"] as? [String: Any] { self.staticIp = try Lightsail.StaticIp(dictionary: staticIp) }
+            if let staticIp = dictionary["staticIp"] as? [String: Any] { self.staticIp = try Lightsail.StaticIp(dictionary: staticIp) } else { self.staticIp = nil }
         }
     }
 
@@ -1086,9 +1020,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the static IP to detach from the instance.
-        public var staticIpName: String = ""
-
-        public init() {}
+        public let staticIpName: String
 
         public init(staticIpName: String) {
             self.staticIpName = staticIpName
@@ -1104,11 +1036,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token used for advancing to the next page of results from your get active names request.
-        public var nextPageToken: String? = nil
+        public let nextPageToken: String?
         /// The list of active names returned by the get active names request.
-        public var activeNames: [String]? = nil
-
-        public init() {}
+        public let activeNames: [String]?
 
         public init(nextPageToken: String? = nil, activeNames: [String]? = nil) {
             self.nextPageToken = nextPageToken
@@ -1117,9 +1047,7 @@ extension Lightsail {
 
         public init(dictionary: [String: Any]) throws {
             self.nextPageToken = dictionary["nextPageToken"] as? String
-            if let activeNames = dictionary["activeNames"] as? [String] {
-                self.activeNames = activeNames
-            }
+            self.activeNames = dictionary["activeNames"] as? [String]
         }
     }
 
@@ -1127,9 +1055,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the instance to delete.
-        public var instanceName: String = ""
-
-        public init() {}
+        public let instanceName: String
 
         public init(instanceName: String) {
             self.instanceName = instanceName
@@ -1145,11 +1071,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns the number of pages of results that remain.
-        public var nextPageCount: String? = nil
+        public let nextPageCount: String?
         /// An array of key-value pairs containing information about the results of your get operations for resource request.
-        public var operations: [Operation]? = nil
-
-        public init() {}
+        public let operations: [Operation]?
 
         public init(nextPageCount: String? = nil, operations: [Operation]? = nil) {
             self.nextPageCount = nextPageCount
@@ -1160,6 +1084,8 @@ extension Lightsail {
             self.nextPageCount = dictionary["nextPageCount"] as? String
             if let operations = dictionary["operations"] as? [[String: Any]] {
                 self.operations = try operations.map({ try Operation(dictionary: $0) })
+            } else { 
+                self.operations = nil
             }
         }
     }
@@ -1168,35 +1094,33 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A Boolean value indicating whether the disk is attached.
-        public var isAttached: Bool? = nil
+        public let isAttached: Bool?
         /// The name of the disk.
-        public var name: String? = nil
+        public let name: String?
         /// The resource type of the disk. 
-        public var resourceType: String? = nil
+        public let resourceType: String?
         /// The date when the disk was created.
-        public var createdAt: Date? = nil
+        public let createdAt: Date?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
-        public var supportCode: String? = nil
+        public let supportCode: String?
         /// A Boolean value indicating whether this disk is a system disk (has an operating system loaded on it).
-        public var isSystemDisk: Bool? = nil
+        public let isSystemDisk: Bool?
         /// The attachment state of the disk.
-        public var attachmentState: String? = nil
+        public let attachmentState: String?
         /// The Amazon Resource Name (ARN) of the disk.
-        public var arn: String? = nil
+        public let arn: String?
         /// The resources to which the disk is attached.
-        public var attachedTo: String? = nil
+        public let attachedTo: String?
         /// The size of the disk in GB.
-        public var sizeInGb: Int32? = nil
+        public let sizeInGb: Int32?
         /// The region and Availability Zone where the disk is located.
-        public var location: ResourceLocation? = nil
+        public let location: ResourceLocation?
         /// The disk path.
-        public var path: String? = nil
+        public let path: String?
         /// The number of GB in use by the disk.
-        public var gbInUse: Int32? = nil
+        public let gbInUse: Int32?
         /// The input/output operations per second (IOPS) of the disk.
-        public var iops: Int32? = nil
-
-        public init() {}
+        public let iops: Int32?
 
         public init(isAttached: Bool? = nil, name: String? = nil, resourceType: String? = nil, createdAt: Date? = nil, supportCode: String? = nil, isSystemDisk: Bool? = nil, attachmentState: String? = nil, arn: String? = nil, attachedTo: String? = nil, sizeInGb: Int32? = nil, location: ResourceLocation? = nil, path: String? = nil, gbInUse: Int32? = nil, iops: Int32? = nil) {
             self.isAttached = isAttached
@@ -1226,7 +1150,7 @@ extension Lightsail {
             self.arn = dictionary["arn"] as? String
             self.attachedTo = dictionary["attachedTo"] as? String
             self.sizeInGb = dictionary["sizeInGb"] as? Int32
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) }
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) } else { self.location = nil }
             self.path = dictionary["path"] as? String
             self.gbInUse = dictionary["gbInUse"] as? Int32
             self.iops = dictionary["iops"] as? Int32
@@ -1237,9 +1161,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token used for advancing to the next page of results from your get domains request.
-        public var pageToken: String? = nil
-
-        public init() {}
+        public let pageToken: String?
 
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
@@ -1254,9 +1176,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the request operation.
-        public var operations: [Operation]? = nil
-
-        public init() {}
+        public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
@@ -1265,6 +1185,8 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let operations = dictionary["operations"] as? [[String: Any]] {
                 self.operations = try operations.map({ try Operation(dictionary: $0) })
+            } else { 
+                self.operations = nil
             }
         }
     }
@@ -1273,9 +1195,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token used for advancing to the next page of results from your get key pairs request.
-        public var pageToken: String? = nil
-
-        public init() {}
+        public let pageToken: String?
 
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
@@ -1290,17 +1210,15 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The options for the domain entry.
-        public var options: [String: String]? = nil
+        public let options: [String: String]?
         /// The name of the domain.
-        public var name: String? = nil
+        public let name: String?
         /// The target AWS name server (e.g., ns-111.awsdns-22.com.).
-        public var target: String? = nil
+        public let target: String?
         /// The ID of the domain recordset entry.
-        public var id: String? = nil
+        public let id: String?
         /// The type of domain entry (e.g., SOA or NS).
-        public var type: String? = nil
-
-        public init() {}
+        public let type: String?
 
         public init(options: [String: String]? = nil, name: String? = nil, target: String? = nil, id: String? = nil, type: String? = nil) {
             self.options = options
@@ -1313,6 +1231,8 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let options = dictionary["options"] as? [String: String] {
                 self.options = options
+            } else { 
+                self.options = nil
             }
             self.name = dictionary["name"] as? String
             self.target = dictionary["target"] as? String
@@ -1325,11 +1245,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A base64-encoded RSA private key.
-        public var privateKeyBase64: String? = nil
+        public let privateKeyBase64: String?
         /// A base64-encoded public key of the ssh-rsa type.
-        public var publicKeyBase64: String? = nil
-
-        public init() {}
+        public let publicKeyBase64: String?
 
         public init(privateKeyBase64: String? = nil, publicKeyBase64: String? = nil) {
             self.privateKeyBase64 = privateKeyBase64
@@ -1346,9 +1264,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the results of your create instances from snapshot request.
-        public var operations: [Operation]? = nil
-
-        public init() {}
+        public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
@@ -1357,6 +1273,8 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let operations = dictionary["operations"] as? [[String: Any]] {
                 self.operations = try operations.map({ try Operation(dictionary: $0) })
+            } else { 
+                self.operations = nil
             }
         }
     }
@@ -1365,11 +1283,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the Availability Zone.
-        public var state: String? = nil
+        public let state: String?
         /// The name of the Availability Zone.
-        public var zoneName: String? = nil
-
-        public init() {}
+        public let zoneName: String?
 
         public init(state: String? = nil, zoneName: String? = nil) {
             self.state = state
@@ -1386,8 +1302,6 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1396,11 +1310,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the domain entry request.
-        public var domainEntry: DomainEntry = DomainEntry()
+        public let domainEntry: DomainEntry
         /// The domain name (e.g., example.com) for which you want to create the domain entry.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainEntry: DomainEntry, domainName: String) {
             self.domainEntry = domainEntry
@@ -1419,11 +1331,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name for your new snapshot.
-        public var instanceSnapshotName: String = ""
+        public let instanceSnapshotName: String
         /// The Lightsail instance on which to base your snapshot.
-        public var instanceName: String = ""
-
-        public init() {}
+        public let instanceName: String
 
         public init(instanceSnapshotName: String, instanceName: String) {
             self.instanceSnapshotName = instanceSnapshotName
@@ -1442,9 +1352,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the request operation.
-        public var operations: [Operation]? = nil
-
-        public init() {}
+        public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
@@ -1453,6 +1361,8 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let operations = dictionary["operations"] as? [[String: Any]] {
                 self.operations = try operations.map({ try Operation(dictionary: $0) })
+            } else { 
+                self.operations = nil
             }
         }
     }
@@ -1461,11 +1371,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token used for advancing to the next page of results from your get instances request.
-        public var nextPageToken: String? = nil
+        public let nextPageToken: String?
         /// An array of key-value pairs containing information about your instances.
-        public var instances: [Instance]? = nil
-
-        public init() {}
+        public let instances: [Instance]?
 
         public init(nextPageToken: String? = nil, instances: [Instance]? = nil) {
             self.nextPageToken = nextPageToken
@@ -1476,6 +1384,8 @@ extension Lightsail {
             self.nextPageToken = dictionary["nextPageToken"] as? String
             if let instances = dictionary["instances"] as? [[String: Any]] {
                 self.instances = try instances.map({ try Instance(dictionary: $0) })
+            } else { 
+                self.instances = nil
             }
         }
     }
@@ -1484,11 +1394,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The state of the instance (e.g., running or pending).
-        public var name: String? = nil
+        public let name: String?
         /// The status code for the instance.
-        public var code: Int32? = nil
-
-        public init() {}
+        public let code: Int32?
 
         public init(name: String? = nil, code: Int32? = nil) {
             self.name = name
@@ -1505,16 +1413,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the request operation.
-        public var operation: Operation? = nil
-
-        public init() {}
+        public let operation: Operation?
 
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
         }
     }
 
@@ -1522,9 +1428,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the snapshot for which you are requesting information.
-        public var instanceSnapshotName: String = ""
-
-        public init() {}
+        public let instanceSnapshotName: String
 
         public init(instanceSnapshotName: String) {
             self.instanceSnapshotName = instanceSnapshotName
@@ -1540,9 +1444,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the static IP address you allocated.
-        public var operations: [Operation]? = nil
-
-        public init() {}
+        public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
@@ -1551,6 +1453,8 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let operations = dictionary["operations"] as? [[String: Any]] {
                 self.operations = try operations.map({ try Operation(dictionary: $0) })
+            } else { 
+                self.operations = nil
             }
         }
     }
@@ -1559,16 +1463,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the results of your delete key pair request.
-        public var operation: Operation? = nil
-
-        public init() {}
+        public let operation: Operation?
 
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
         }
     }
 
@@ -1576,16 +1478,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the key pair.
-        public var keyPair: KeyPair? = nil
-
-        public init() {}
+        public let keyPair: KeyPair?
 
         public init(keyPair: KeyPair? = nil) {
             self.keyPair = keyPair
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let keyPair = dictionary["keyPair"] as? [String: Any] { self.keyPair = try Lightsail.KeyPair(dictionary: keyPair) }
+            if let keyPair = dictionary["keyPair"] as? [String: Any] { self.keyPair = try Lightsail.KeyPair(dictionary: keyPair) } else { self.keyPair = nil }
         }
     }
 
@@ -1593,9 +1493,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: e.g., us-east-1a.
-        public var includeAvailabilityZones: Bool? = nil
-
-        public init() {}
+        public let includeAvailabilityZones: Bool?
 
         public init(includeAvailabilityZones: Bool? = nil) {
             self.includeAvailabilityZones = includeAvailabilityZones
@@ -1610,9 +1508,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about your API operations.
-        public var operations: [Operation]? = nil
-
-        public init() {}
+        public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
@@ -1621,6 +1517,8 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let operations = dictionary["operations"] as? [[String: Any]] {
                 self.operations = try operations.map({ try Operation(dictionary: $0) })
+            } else { 
+                self.operations = nil
             }
         }
     }
@@ -1629,16 +1527,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about a get instance access request.
-        public var accessDetails: InstanceAccessDetails? = nil
-
-        public init() {}
+        public let accessDetails: InstanceAccessDetails?
 
         public init(accessDetails: InstanceAccessDetails? = nil) {
             self.accessDetails = accessDetails
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let accessDetails = dictionary["accessDetails"] as? [String: Any] { self.accessDetails = try Lightsail.InstanceAccessDetails(dictionary: accessDetails) }
+            if let accessDetails = dictionary["accessDetails"] as? [String: Any] { self.accessDetails = try Lightsail.InstanceAccessDetails(dictionary: accessDetails) } else { self.accessDetails = nil }
         }
     }
 
@@ -1646,11 +1542,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS Region name.
-        public var regionName: String? = nil
+        public let regionName: String?
         /// The Availability Zone.
-        public var availabilityZone: String? = nil
-
-        public init() {}
+        public let availabilityZone: String?
 
         public init(regionName: String? = nil, availabilityZone: String? = nil) {
             self.regionName = regionName
@@ -1667,13 +1561,11 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The protocol. 
-        public var `protocol`: String? = nil
+        public let `protocol`: String?
         /// The first port in the range.
-        public var fromPort: Int32? = nil
+        public let fromPort: Int32?
         /// The last port in the range.
-        public var toPort: Int32? = nil
-
-        public init() {}
+        public let toPort: Int32?
 
         public init(protocol: String? = nil, fromPort: Int32? = nil, toPort: Int32? = nil) {
             self.`protocol` = `protocol`
@@ -1692,9 +1584,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token used for paginating results from your get active names request.
-        public var pageToken: String? = nil
-
-        public init() {}
+        public let pageToken: String?
 
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
@@ -1709,9 +1599,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the instance to reboot.
-        public var instanceName: String = ""
-
-        public init() {}
+        public let instanceName: String
 
         public init(instanceName: String) {
             self.instanceName = instanceName
@@ -1727,21 +1615,19 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The sample count.
-        public var sampleCount: Double? = nil
+        public let sampleCount: Double?
         /// The unit. 
-        public var unit: String? = nil
+        public let unit: String?
         /// The average.
-        public var average: Double? = nil
+        public let average: Double?
         /// The maximum.
-        public var maximum: Double? = nil
+        public let maximum: Double?
         /// The minimum.
-        public var minimum: Double? = nil
+        public let minimum: Double?
         /// The sum.
-        public var sum: Double? = nil
+        public let sum: Double?
         /// The timestamp (e.g., 1479816991.349).
-        public var timestamp: Date? = nil
-
-        public init() {}
+        public let timestamp: Date?
 
         public init(sampleCount: Double? = nil, unit: String? = nil, average: Double? = nil, maximum: Double? = nil, minimum: Double? = nil, sum: Double? = nil, timestamp: Date? = nil) {
             self.sampleCount = sampleCount
@@ -1768,9 +1654,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token used for advancing to the next page of results from your get instances request.
-        public var pageToken: String? = nil
-
-        public init() {}
+        public let pageToken: String?
 
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
@@ -1785,11 +1669,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the ports on the instance.
-        public var ports: [InstancePortInfo]? = nil
+        public let ports: [InstancePortInfo]?
         /// The amount of data in GB allocated for monthly data transfers.
-        public var monthlyTransfer: MonthlyTransfer? = nil
-
-        public init() {}
+        public let monthlyTransfer: MonthlyTransfer?
 
         public init(ports: [InstancePortInfo]? = nil, monthlyTransfer: MonthlyTransfer? = nil) {
             self.ports = ports
@@ -1799,16 +1681,16 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let ports = dictionary["ports"] as? [[String: Any]] {
                 self.ports = try ports.map({ try InstancePortInfo(dictionary: $0) })
+            } else { 
+                self.ports = nil
             }
-            if let monthlyTransfer = dictionary["monthlyTransfer"] as? [String: Any] { self.monthlyTransfer = try Lightsail.MonthlyTransfer(dictionary: monthlyTransfer) }
+            if let monthlyTransfer = dictionary["monthlyTransfer"] as? [String: Any] { self.monthlyTransfer = try Lightsail.MonthlyTransfer(dictionary: monthlyTransfer) } else { self.monthlyTransfer = nil }
         }
     }
 
     public struct DownloadDefaultKeyPairRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -1818,9 +1700,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token used for advancing to the next page of results from your get instance snapshots request.
-        public var pageToken: String? = nil
-
-        public init() {}
+        public let pageToken: String?
 
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
@@ -1835,16 +1715,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the results of your get instance snapshot request.
-        public var instanceSnapshot: InstanceSnapshot? = nil
-
-        public init() {}
+        public let instanceSnapshot: InstanceSnapshot?
 
         public init(instanceSnapshot: InstanceSnapshot? = nil) {
             self.instanceSnapshot = instanceSnapshot
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let instanceSnapshot = dictionary["instanceSnapshot"] as? [String: Any] { self.instanceSnapshot = try Lightsail.InstanceSnapshot(dictionary: instanceSnapshot) }
+            if let instanceSnapshot = dictionary["instanceSnapshot"] as? [String: Any] { self.instanceSnapshot = try Lightsail.InstanceSnapshot(dictionary: instanceSnapshot) } else { self.instanceSnapshot = nil }
         }
     }
 
@@ -1852,11 +1730,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about your domain entries.
-        public var domainEntry: DomainEntry = DomainEntry()
+        public let domainEntry: DomainEntry
         /// The name of the domain entry to delete.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainEntry: DomainEntry, domainName: String) {
             self.domainEntry = domainEntry
@@ -1875,31 +1751,29 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of operation. 
-        public var operationType: String? = nil
+        public let operationType: String?
         /// A Boolean value indicating whether the operation is terminal.
-        public var isTerminal: Bool? = nil
+        public let isTerminal: Bool?
         /// The region and Availability Zone.
-        public var location: ResourceLocation? = nil
+        public let location: ResourceLocation?
         /// The resource type. 
-        public var resourceType: String? = nil
+        public let resourceType: String?
         /// The ID of the operation.
-        public var id: String? = nil
+        public let id: String?
         /// The error code.
-        public var errorCode: String? = nil
+        public let errorCode: String?
         /// The resource name.
-        public var resourceName: String? = nil
+        public let resourceName: String?
         /// The error details.
-        public var errorDetails: String? = nil
+        public let errorDetails: String?
         /// The timestamp when the operation was initialized (e.g., 1479816991.349).
-        public var createdAt: Date? = nil
+        public let createdAt: Date?
         /// The status of the operation. 
-        public var status: String? = nil
+        public let status: String?
         /// The timestamp when the status was changed (e.g., 1479816991.349).
-        public var statusChangedAt: Date? = nil
+        public let statusChangedAt: Date?
         /// Details about the operation (e.g., Debian-1GB-Virginia-1).
-        public var operationDetails: String? = nil
-
-        public init() {}
+        public let operationDetails: String?
 
         public init(operationType: String? = nil, isTerminal: Bool? = nil, location: ResourceLocation? = nil, resourceType: String? = nil, id: String? = nil, errorCode: String? = nil, resourceName: String? = nil, errorDetails: String? = nil, createdAt: Date? = nil, status: String? = nil, statusChangedAt: Date? = nil, operationDetails: String? = nil) {
             self.operationType = operationType
@@ -1919,7 +1793,7 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             self.operationType = dictionary["operationType"] as? String
             self.isTerminal = dictionary["isTerminal"] as? Bool
-            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) }
+            if let location = dictionary["location"] as? [String: Any] { self.location = try Lightsail.ResourceLocation(dictionary: location) } else { self.location = nil }
             self.resourceType = dictionary["resourceType"] as? String
             self.id = dictionary["id"] as? String
             self.errorCode = dictionary["errorCode"] as? String
@@ -1936,11 +1810,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token used for advancing to the next page of results from your get operations request.
-        public var nextPageToken: String? = nil
+        public let nextPageToken: String?
         /// An array of key-value pairs containing information about the results of your get operations request.
-        public var operations: [Operation]? = nil
-
-        public init() {}
+        public let operations: [Operation]?
 
         public init(nextPageToken: String? = nil, operations: [Operation]? = nil) {
             self.nextPageToken = nextPageToken
@@ -1951,6 +1823,8 @@ extension Lightsail {
             self.nextPageToken = dictionary["nextPageToken"] as? String
             if let operations = dictionary["operations"] as? [[String: Any]] {
                 self.operations = try operations.map({ try Operation(dictionary: $0) })
+            } else { 
+                self.operations = nil
             }
         }
     }
@@ -1959,11 +1833,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token used for advancing to the next page of results from your get blueprints request.
-        public var nextPageToken: String? = nil
+        public let nextPageToken: String?
         /// An array of key-value pairs that contains information about the available blueprints.
-        public var blueprints: [Blueprint]? = nil
-
-        public init() {}
+        public let blueprints: [Blueprint]?
 
         public init(nextPageToken: String? = nil, blueprints: [Blueprint]? = nil) {
             self.nextPageToken = nextPageToken
@@ -1974,6 +1846,8 @@ extension Lightsail {
             self.nextPageToken = dictionary["nextPageToken"] as? String
             if let blueprints = dictionary["blueprints"] as? [[String: Any]] {
                 self.blueprints = try blueprints.map({ try Blueprint(dictionary: $0) })
+            } else { 
+                self.blueprints = nil
             }
         }
     }
@@ -1982,9 +1856,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name for your new key pair.
-        public var keyPairName: String = ""
-
-        public init() {}
+        public let keyPairName: String
 
         public init(keyPairName: String) {
             self.keyPairName = keyPairName
@@ -2000,9 +1872,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the request operation.
-        public var operations: [Operation]? = nil
-
-        public init() {}
+        public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
@@ -2011,6 +1881,8 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let operations = dictionary["operations"] as? [[String: Any]] {
                 self.operations = try operations.map({ try Operation(dictionary: $0) })
+            } else { 
+                self.operations = nil
             }
         }
     }
@@ -2019,9 +1891,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the results of your detach static IP request.
-        public var operations: [Operation]? = nil
-
-        public init() {}
+        public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
@@ -2030,6 +1900,8 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let operations = dictionary["operations"] as? [[String: Any]] {
                 self.operations = try operations.map({ try Operation(dictionary: $0) })
+            } else { 
+                self.operations = nil
             }
         }
     }
@@ -2038,11 +1910,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the key pair for which you want to import the public key.
-        public var keyPairName: String = ""
+        public let keyPairName: String
         /// A base64-encoded public key of the ssh-rsa type.
-        public var publicKeyBase64: String = ""
-
-        public init() {}
+        public let publicKeyBase64: String
 
         public init(keyPairName: String, publicKeyBase64: String) {
             self.keyPairName = keyPairName
@@ -2061,11 +1931,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token used for advancing to the next page of results from your get blueprints request.
-        public var pageToken: String? = nil
+        public let pageToken: String?
         /// A Boolean value indicating whether to include inactive results in your request.
-        public var includeInactive: Bool? = nil
-
-        public init() {}
+        public let includeInactive: Bool?
 
         public init(pageToken: String? = nil, includeInactive: Bool? = nil) {
             self.pageToken = pageToken
@@ -2082,9 +1950,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the key pair to delete.
-        public var keyPairName: String = ""
-
-        public init() {}
+        public let keyPairName: String
 
         public init(keyPairName: String) {
             self.keyPairName = keyPairName
@@ -2100,21 +1966,19 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The location from which access is allowed (e.g., Anywhere (0.0.0.0/0)).
-        public var accessFrom: String? = nil
+        public let accessFrom: String?
         /// The first port in the range.
-        public var fromPort: Int32? = nil
+        public let fromPort: Int32?
         /// The common name.
-        public var commonName: String? = nil
+        public let commonName: String?
         /// The protocol. 
-        public var `protocol`: String? = nil
+        public let `protocol`: String?
         /// The access direction (inbound or outbound).
-        public var accessDirection: String? = nil
+        public let accessDirection: String?
         /// The type of access (Public or Private).
-        public var accessType: String? = nil
+        public let accessType: String?
         /// The last port in the range.
-        public var toPort: Int32? = nil
-
-        public init() {}
+        public let toPort: Int32?
 
         public init(accessFrom: String? = nil, fromPort: Int32? = nil, commonName: String? = nil, protocol: String? = nil, accessDirection: String? = nil, accessType: String? = nil, toPort: Int32? = nil) {
             self.accessFrom = accessFrom
@@ -2141,9 +2005,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The domain name for which your want to return information about.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
@@ -2159,9 +2021,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the instance.
-        public var instanceName: String = ""
-
-        public init() {}
+        public let instanceName: String
 
         public init(instanceName: String) {
             self.instanceName = instanceName
@@ -2177,9 +2037,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the instance to get state information about.
-        public var instanceName: String = ""
-
-        public init() {}
+        public let instanceName: String
 
         public init(instanceName: String) {
             self.instanceName = instanceName
@@ -2195,9 +2053,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the results of your delete instance snapshot request.
-        public var operations: [Operation]? = nil
-
-        public init() {}
+        public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
@@ -2206,6 +2062,8 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let operations = dictionary["operations"] as? [[String: Any]] {
                 self.operations = try operations.map({ try Operation(dictionary: $0) })
+            } else { 
+                self.operations = nil
             }
         }
     }
@@ -2214,21 +2072,19 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Availability Zone in which to create your instance. Use the following format: us-east-1a (case sensitive).
-        public var availabilityZone: String = ""
+        public let availabilityZone: String
         /// The name of your key pair.
-        public var keyPairName: String? = nil
+        public let keyPairName: String?
         /// The name for your custom image.
-        public var customImageName: String? = nil
+        public let customImageName: String?
         /// The names to use for your new Lightsail instances. Separate multiple values using quotation marks and commas, for example: ["MyFirstInstance","MySecondInstance"] 
-        public var instanceNames: [String] = []
+        public let instanceNames: [String]
         /// The bundle of specification information for your virtual private server (or instance), including the pricing plan (e.g., micro_1_0).
-        public var bundleId: String = ""
+        public let bundleId: String
         /// A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get –y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide. 
-        public var userData: String? = nil
+        public let userData: String?
         /// The ID for a virtual private server image (e.g., app_wordpress_4_4 or app_lamp_7_0). Use the get blueprints operation to return a list of available images (or blueprints).
-        public var blueprintId: String = ""
-
-        public init() {}
+        public let blueprintId: String
 
         public init(availabilityZone: String, keyPairName: String? = nil, customImageName: String? = nil, instanceNames: [String], bundleId: String, userData: String? = nil, blueprintId: String) {
             self.availabilityZone = availabilityZone
@@ -2259,29 +2115,27 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of the blueprint (e.g., os or app).
-        public var type: String? = nil
+        public let type: String?
         /// A Boolean value indicating whether the blueprint is active. When you update your blueprints, you will inactivate old blueprints and keep the most recent versions active.
-        public var isActive: Bool? = nil
+        public let isActive: Bool?
         /// The product URL to learn more about the image or blueprint.
-        public var productUrl: String? = nil
+        public let productUrl: String?
         /// The friendly name of the blueprint (e.g., Amazon Linux).
-        public var name: String? = nil
+        public let name: String?
         /// The description of the blueprint.
-        public var description: String? = nil
+        public let description: String?
         /// The version number of the operating system, application, or stack (e.g., 2016.03.0).
-        public var version: String? = nil
+        public let version: String?
         /// The end-user license agreement URL for the image or blueprint.
-        public var licenseUrl: String? = nil
+        public let licenseUrl: String?
         /// The version code.
-        public var versionCode: String? = nil
+        public let versionCode: String?
         /// The group name of the blueprint (e.g., amazon-linux).
-        public var group: String? = nil
+        public let group: String?
         /// The minimum machine size required to run this blueprint. 0 indicates that the blueprint runs on all instances.
-        public var minPower: Int32? = nil
+        public let minPower: Int32?
         /// The ID for the virtual private server image (e.g., app_wordpress_4_4 or app_lamp_7_0).
-        public var blueprintId: String? = nil
-
-        public init() {}
+        public let blueprintId: String?
 
         public init(type: String? = nil, isActive: Bool? = nil, productUrl: String? = nil, name: String? = nil, description: String? = nil, version: String? = nil, licenseUrl: String? = nil, versionCode: String? = nil, group: String? = nil, minPower: Int32? = nil, blueprintId: String? = nil) {
             self.type = type
@@ -2316,9 +2170,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the snapshot to delete.
-        public var instanceSnapshotName: String = ""
-
-        public init() {}
+        public let instanceSnapshotName: String
 
         public init(instanceSnapshotName: String) {
             self.instanceSnapshotName = instanceSnapshotName
@@ -2334,11 +2186,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token used for advancing to the next page of results from your get active names request.
-        public var nextPageToken: String? = nil
+        public let nextPageToken: String?
         /// An array of key-value pairs that contains information about the available bundles.
-        public var bundles: [Bundle]? = nil
-
-        public init() {}
+        public let bundles: [Bundle]?
 
         public init(nextPageToken: String? = nil, bundles: [Bundle]? = nil) {
             self.nextPageToken = nextPageToken
@@ -2349,6 +2199,8 @@ extension Lightsail {
             self.nextPageToken = dictionary["nextPageToken"] as? String
             if let bundles = dictionary["bundles"] as? [[String: Any]] {
                 self.bundles = try bundles.map({ try Bundle(dictionary: $0) })
+            } else { 
+                self.bundles = nil
             }
         }
     }
@@ -2357,17 +2209,15 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description of the AWS Region (e.g., This region is recommended to serve users in the eastern United States and eastern Canada).
-        public var description: String? = nil
+        public let description: String?
         /// The display name (e.g., Virginia).
-        public var displayName: String? = nil
+        public let displayName: String?
         /// The region name (e.g., us-east-1).
-        public var name: String? = nil
+        public let name: String?
         /// The continent code (e.g., NA, meaning North America).
-        public var continentCode: String? = nil
+        public let continentCode: String?
         /// The Availability Zones.
-        public var availabilityZones: [AvailabilityZone]? = nil
-
-        public init() {}
+        public let availabilityZones: [AvailabilityZone]?
 
         public init(description: String? = nil, displayName: String? = nil, name: String? = nil, continentCode: String? = nil, availabilityZones: [AvailabilityZone]? = nil) {
             self.description = description
@@ -2384,6 +2234,8 @@ extension Lightsail {
             self.continentCode = dictionary["continentCode"] as? String
             if let availabilityZones = dictionary["availabilityZones"] as? [[String: Any]] {
                 self.availabilityZones = try availabilityZones.map({ try AvailabilityZone(dictionary: $0) })
+            } else { 
+                self.availabilityZones = nil
             }
         }
     }
@@ -2392,16 +2244,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the operation.
-        public var operation: Operation? = nil
-
-        public init() {}
+        public let operation: Operation?
 
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
         }
     }
 
@@ -2409,11 +2259,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the domain entry.
-        public var domainEntry: DomainEntry = DomainEntry()
+        public let domainEntry: DomainEntry
         /// The name of the domain recordset to update.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainEntry: DomainEntry, domainName: String) {
             self.domainEntry = domainEntry
@@ -2432,16 +2280,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about your get domain request.
-        public var domain: Domain? = nil
-
-        public init() {}
+        public let domain: Domain?
 
         public init(domain: Domain? = nil) {
             self.domain = domain
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let domain = dictionary["domain"] as? [String: Any] { self.domain = try Lightsail.Domain(dictionary: domain) }
+            if let domain = dictionary["domain"] as? [String: Any] { self.domain = try Lightsail.Domain(dictionary: domain) } else { self.domain = nil }
         }
     }
 
@@ -2449,16 +2295,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs that contains information about the operation.
-        public var operation: Operation? = nil
-
-        public init() {}
+        public let operation: Operation?
 
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
         }
     }
 
@@ -2466,16 +2310,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the results of your get operation request.
-        public var operation: Operation? = nil
-
-        public init() {}
+        public let operation: Operation?
 
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
         }
     }
 
@@ -2483,9 +2325,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the static IP address.
-        public var staticIpName: String = ""
-
-        public init() {}
+        public let staticIpName: String
 
         public init(staticIpName: String) {
             self.staticIpName = staticIpName
@@ -2501,9 +2341,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The amount allocated per month (in GB).
-        public var gbPerMonthAllocated: Int32? = nil
-
-        public init() {}
+        public let gbPerMonthAllocated: Int32?
 
         public init(gbPerMonthAllocated: Int32? = nil) {
             self.gbPerMonthAllocated = gbPerMonthAllocated
@@ -2518,16 +2356,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the request operation.
-        public var operation: Operation? = nil
-
-        public init() {}
+        public let operation: Operation?
 
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
         }
     }
 
@@ -2535,9 +2371,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the instance (a virtual private server) to start.
-        public var instanceName: String = ""
-
-        public init() {}
+        public let instanceName: String
 
         public init(instanceName: String) {
             self.instanceName = instanceName
@@ -2553,16 +2387,14 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the request operation.
-        public var operation: Operation? = nil
-
-        public init() {}
+        public let operation: Operation?
 
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) }
+            if let operation = dictionary["operation"] as? [String: Any] { self.operation = try Lightsail.Operation(dictionary: operation) } else { self.operation = nil }
         }
     }
 
@@ -2570,9 +2402,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the results of your create instances snapshot request.
-        public var operations: [Operation]? = nil
-
-        public init() {}
+        public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
@@ -2581,6 +2411,8 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let operations = dictionary["operations"] as? [[String: Any]] {
                 self.operations = try operations.map({ try Operation(dictionary: $0) })
+            } else { 
+                self.operations = nil
             }
         }
     }
@@ -2589,9 +2421,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of key-value pairs containing information about the request operation.
-        public var operations: [Operation]? = nil
-
-        public init() {}
+        public let operations: [Operation]?
 
         public init(operations: [Operation]? = nil) {
             self.operations = operations
@@ -2600,6 +2430,8 @@ extension Lightsail {
         public init(dictionary: [String: Any]) throws {
             if let operations = dictionary["operations"] as? [[String: Any]] {
                 self.operations = try operations.map({ try Operation(dictionary: $0) })
+            } else { 
+                self.operations = nil
             }
         }
     }
@@ -2608,11 +2440,9 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token used for advancing to the next page of results from your get static IPs request.
-        public var nextPageToken: String? = nil
+        public let nextPageToken: String?
         /// An array of key-value pairs containing information about your get static IPs request.
-        public var staticIps: [StaticIp]? = nil
-
-        public init() {}
+        public let staticIps: [StaticIp]?
 
         public init(nextPageToken: String? = nil, staticIps: [StaticIp]? = nil) {
             self.nextPageToken = nextPageToken
@@ -2623,6 +2453,8 @@ extension Lightsail {
             self.nextPageToken = dictionary["nextPageToken"] as? String
             if let staticIps = dictionary["staticIps"] as? [[String: Any]] {
                 self.staticIps = try staticIps.map({ try StaticIp(dictionary: $0) })
+            } else { 
+                self.staticIps = nil
             }
         }
     }
@@ -2631,21 +2463,19 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the instance for which you want to get metrics data.
-        public var instanceName: String = ""
+        public let instanceName: String
         /// The unit. The list of valid values is below.
-        public var unit: String = ""
+        public let unit: String
         /// The instance statistics. 
-        public var statistics: [String] = []
+        public let statistics: [String]
         /// The end time of the time period.
-        public var endTime: Date = Date()
+        public let endTime: Date
         /// The time period for which you are requesting data.
-        public var period: Int32 = 0
+        public let period: Int32
         /// The start time of the time period.
-        public var startTime: Date = Date()
+        public let startTime: Date
         /// The metric name to get data about. 
-        public var metricName: String = ""
-
-        public init() {}
+        public let metricName: String
 
         public init(instanceName: String, unit: String, statistics: [String], endTime: Date, period: Int32, startTime: Date, metricName: String) {
             self.instanceName = instanceName
@@ -2679,9 +2509,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the instance (a virtual private server) to stop.
-        public var instanceName: String = ""
-
-        public init() {}
+        public let instanceName: String
 
         public init(instanceName: String) {
             self.instanceName = instanceName
@@ -2697,13 +2525,11 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of vCPUs the instance has.
-        public var cpuCount: Int32? = nil
+        public let cpuCount: Int32?
         /// The disks attached to the instance.
-        public var disks: [Disk]? = nil
+        public let disks: [Disk]?
         /// The amount of RAM in GB on the instance (e.g., 1.0).
-        public var ramSizeInGb: Float? = nil
-
-        public init() {}
+        public let ramSizeInGb: Float?
 
         public init(cpuCount: Int32? = nil, disks: [Disk]? = nil, ramSizeInGb: Float? = nil) {
             self.cpuCount = cpuCount
@@ -2715,6 +2541,8 @@ extension Lightsail {
             self.cpuCount = dictionary["cpuCount"] as? Int32
             if let disks = dictionary["disks"] as? [[String: Any]] {
                 self.disks = try disks.map({ try Disk(dictionary: $0) })
+            } else { 
+                self.disks = nil
             }
             self.ramSizeInGb = dictionary["ramSizeInGb"] as? Float
         }
@@ -2724,9 +2552,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token used for advancing to the next page of results from your get static IPs request.
-        public var pageToken: String? = nil
-
-        public init() {}
+        public let pageToken: String?
 
         public init(pageToken: String? = nil) {
             self.pageToken = pageToken
@@ -2741,9 +2567,7 @@ extension Lightsail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The domain name to manage (e.g., example.com).  You cannot register a new domain name using Lightsail. You must register a domain name using Amazon Route 53 or another domain name registrar. If you have already registered your domain, you can enter its name in this parameter to manage the DNS records for that domain. 
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName

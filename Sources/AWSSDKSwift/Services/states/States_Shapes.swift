@@ -33,11 +33,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the state.
-        public var name: String = ""
+        public let name: String
         /// The JSON input data to the state.
-        public var input: String? = nil
-
-        public init() {}
+        public let input: String?
 
         public init(name: String, input: String? = nil) {
             self.name = name
@@ -55,8 +53,6 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -65,9 +61,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date the execution was stopped.
-        public var stopDate: Date = Date()
-
-        public init() {}
+        public let stopDate: Date
 
         public init(stopDate: Date) {
             self.stopDate = stopDate
@@ -83,11 +77,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) that identifies the created activity.
-        public var activityArn: String = ""
+        public let activityArn: String
         /// The date the activity was created.
-        public var creationDate: Date = Date()
-
-        public init() {}
+        public let creationDate: Date
 
         public init(activityArn: String, creationDate: Date) {
             self.activityArn = activityArn
@@ -106,11 +98,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of results that will be returned per call. nextToken can be used to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// If a nextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
@@ -127,11 +117,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of events that occurred in the execution.
-        public var events: [HistoryEvent] = []
+        public let events: [HistoryEvent]
         /// If a nextToken is returned, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(events: [HistoryEvent], nextToken: String? = nil) {
             self.events = events
@@ -149,11 +137,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// A more detailed explanation of the cause of the failure.
-        public var cause: String? = nil
+        public let cause: String?
         /// The error code of the failure.
-        public var error: String? = nil
-
-        public init() {}
+        public let error: String?
 
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
@@ -170,13 +156,11 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) that identifies the activity.
-        public var activityArn: String = ""
+        public let activityArn: String
         /// The name of the activity.
-        public var name: String = ""
+        public let name: String
         /// The date the activity was created.
-        public var creationDate: Date = Date()
-
-        public init() {}
+        public let creationDate: Date
 
         public init(activityArn: String, name: String, creationDate: Date) {
             self.activityArn = activityArn
@@ -198,13 +182,11 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) that identifies the activity.
-        public var activityArn: String = ""
+        public let activityArn: String
         /// The name of the activity.
-        public var name: String = ""
+        public let name: String
         /// The date the activity was created.
-        public var creationDate: Date = Date()
-
-        public init() {}
+        public let creationDate: Date
 
         public init(activityArn: String, name: String, creationDate: Date) {
             self.activityArn = activityArn
@@ -226,19 +208,17 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current status of the execution.
-        public var status: String = ""
+        public let status: String
         /// The name of the execution.
-        public var name: String = ""
+        public let name: String
         /// The Amazon Resource Name (ARN) of the executed state machine.
-        public var stateMachineArn: String = ""
+        public let stateMachineArn: String
         /// The date the execution started.
-        public var startDate: Date = Date()
+        public let startDate: Date
         /// If the execution already ended, the date the execution stopped.
-        public var stopDate: Date? = nil
+        public let stopDate: Date?
         /// The Amazon Resource Name (ARN) that identifies the execution.
-        public var executionArn: String = ""
-
-        public init() {}
+        public let executionArn: String
 
         public init(status: String, name: String, stateMachineArn: String, startDate: Date, stopDate: Date? = nil, executionArn: String) {
             self.status = status
@@ -268,13 +248,11 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the execution. This name must be unique for your AWS account and region.
-        public var name: String? = nil
+        public let name: String?
         /// The JSON input data for the execution.
-        public var input: String? = nil
+        public let input: String?
         /// The Amazon Resource Name (ARN) of the state machine to execute.
-        public var stateMachineArn: String = ""
-
-        public init() {}
+        public let stateMachineArn: String
 
         public init(name: String? = nil, input: String? = nil, stateMachineArn: String) {
             self.name = name
@@ -294,8 +272,6 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -304,19 +280,17 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current status of the state machine.
-        public var status: String? = nil
+        public let status: String?
         /// The name of the state machine.
-        public var name: String = ""
+        public let name: String
         /// The Amazon Resource Name (ARN) that identifies the state machine.
-        public var stateMachineArn: String = ""
+        public let stateMachineArn: String
         /// The date the state machine was created.
-        public var creationDate: Date = Date()
+        public let creationDate: Date
         /// The Amazon States Language definition of the state machine.
-        public var definition: String = ""
+        public let definition: String
         /// The Amazon Resource Name (ARN) of the IAM role used for executing this state machine.
-        public var roleArn: String = ""
-
-        public init() {}
+        public let roleArn: String
 
         public init(status: String? = nil, name: String, stateMachineArn: String, creationDate: Date, definition: String, roleArn: String) {
             self.status = status
@@ -346,11 +320,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// A more detailed explanation of the cause of the failure.
-        public var cause: String? = nil
+        public let cause: String?
         /// The error code of the failure.
-        public var error: String? = nil
-
-        public init() {}
+        public let error: String?
 
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
@@ -367,11 +339,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// A more detailed explanation of the cause of the timeout.
-        public var cause: String? = nil
+        public let cause: String?
         /// The error code of the failure.
-        public var error: String? = nil
-
-        public init() {}
+        public let error: String?
 
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
@@ -388,11 +358,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The date the execution was started.
-        public var startDate: Date = Date()
+        public let startDate: Date
         /// The Amazon Resource Name (ARN) that identifies the execution.
-        public var executionArn: String = ""
-
-        public init() {}
+        public let executionArn: String
 
         public init(startDate: Date, executionArn: String) {
             self.startDate = startDate
@@ -410,35 +378,33 @@ extension States {
     public struct HistoryEvent: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil
-        public var lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil
-        public var executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil
-        public var activityFailedEventDetails: ActivityFailedEventDetails? = nil
-        public var executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil
-        public var lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil
-        public var executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil
-        public var executionFailedEventDetails: ExecutionFailedEventDetails? = nil
-        public var activityScheduledEventDetails: ActivityScheduledEventDetails? = nil
-        public var activityStartedEventDetails: ActivityStartedEventDetails? = nil
+        public let lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails?
+        public let lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails?
+        public let executionSucceededEventDetails: ExecutionSucceededEventDetails?
+        public let activityFailedEventDetails: ActivityFailedEventDetails?
+        public let executionTimedOutEventDetails: ExecutionTimedOutEventDetails?
+        public let lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails?
+        public let executionAbortedEventDetails: ExecutionAbortedEventDetails?
+        public let executionFailedEventDetails: ExecutionFailedEventDetails?
+        public let activityScheduledEventDetails: ActivityScheduledEventDetails?
+        public let activityStartedEventDetails: ActivityStartedEventDetails?
         /// The type of the event.
-        public var type: String = ""
-        public var stateEnteredEventDetails: StateEnteredEventDetails? = nil
-        public var executionStartedEventDetails: ExecutionStartedEventDetails? = nil
-        public var activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil
+        public let type: String
+        public let stateEnteredEventDetails: StateEnteredEventDetails?
+        public let executionStartedEventDetails: ExecutionStartedEventDetails?
+        public let activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails?
         /// The date the event occured.
-        public var timestamp: Date = Date()
+        public let timestamp: Date
         /// The id of the previous event.
-        public var previousEventId: Int64? = nil
+        public let previousEventId: Int64?
         /// The id of the event. Events are numbered sequentially, starting at one.
-        public var id: Int64 = 0
-        public var activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil
-        public var lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil
-        public var activitySucceededEventDetails: ActivitySucceededEventDetails? = nil
-        public var stateExitedEventDetails: StateExitedEventDetails? = nil
-        public var lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil
-        public var lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil
-
-        public init() {}
+        public let id: Int64
+        public let activityTimedOutEventDetails: ActivityTimedOutEventDetails?
+        public let lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails?
+        public let activitySucceededEventDetails: ActivitySucceededEventDetails?
+        public let stateExitedEventDetails: StateExitedEventDetails?
+        public let lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails?
+        public let lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails?
 
         public init(lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, activityFailedEventDetails: ActivityFailedEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, type: String, stateEnteredEventDetails: StateEnteredEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, timestamp: Date, previousEventId: Int64? = nil, id: Int64, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil) {
             self.lambdaFunctionSucceededEventDetails = lambdaFunctionSucceededEventDetails
@@ -467,32 +433,32 @@ extension States {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let lambdaFunctionSucceededEventDetails = dictionary["lambdaFunctionSucceededEventDetails"] as? [String: Any] { self.lambdaFunctionSucceededEventDetails = try States.LambdaFunctionSucceededEventDetails(dictionary: lambdaFunctionSucceededEventDetails) }
-            if let lambdaFunctionFailedEventDetails = dictionary["lambdaFunctionFailedEventDetails"] as? [String: Any] { self.lambdaFunctionFailedEventDetails = try States.LambdaFunctionFailedEventDetails(dictionary: lambdaFunctionFailedEventDetails) }
-            if let executionSucceededEventDetails = dictionary["executionSucceededEventDetails"] as? [String: Any] { self.executionSucceededEventDetails = try States.ExecutionSucceededEventDetails(dictionary: executionSucceededEventDetails) }
-            if let activityFailedEventDetails = dictionary["activityFailedEventDetails"] as? [String: Any] { self.activityFailedEventDetails = try States.ActivityFailedEventDetails(dictionary: activityFailedEventDetails) }
-            if let executionTimedOutEventDetails = dictionary["executionTimedOutEventDetails"] as? [String: Any] { self.executionTimedOutEventDetails = try States.ExecutionTimedOutEventDetails(dictionary: executionTimedOutEventDetails) }
-            if let lambdaFunctionTimedOutEventDetails = dictionary["lambdaFunctionTimedOutEventDetails"] as? [String: Any] { self.lambdaFunctionTimedOutEventDetails = try States.LambdaFunctionTimedOutEventDetails(dictionary: lambdaFunctionTimedOutEventDetails) }
-            if let executionAbortedEventDetails = dictionary["executionAbortedEventDetails"] as? [String: Any] { self.executionAbortedEventDetails = try States.ExecutionAbortedEventDetails(dictionary: executionAbortedEventDetails) }
-            if let executionFailedEventDetails = dictionary["executionFailedEventDetails"] as? [String: Any] { self.executionFailedEventDetails = try States.ExecutionFailedEventDetails(dictionary: executionFailedEventDetails) }
-            if let activityScheduledEventDetails = dictionary["activityScheduledEventDetails"] as? [String: Any] { self.activityScheduledEventDetails = try States.ActivityScheduledEventDetails(dictionary: activityScheduledEventDetails) }
-            if let activityStartedEventDetails = dictionary["activityStartedEventDetails"] as? [String: Any] { self.activityStartedEventDetails = try States.ActivityStartedEventDetails(dictionary: activityStartedEventDetails) }
+            if let lambdaFunctionSucceededEventDetails = dictionary["lambdaFunctionSucceededEventDetails"] as? [String: Any] { self.lambdaFunctionSucceededEventDetails = try States.LambdaFunctionSucceededEventDetails(dictionary: lambdaFunctionSucceededEventDetails) } else { self.lambdaFunctionSucceededEventDetails = nil }
+            if let lambdaFunctionFailedEventDetails = dictionary["lambdaFunctionFailedEventDetails"] as? [String: Any] { self.lambdaFunctionFailedEventDetails = try States.LambdaFunctionFailedEventDetails(dictionary: lambdaFunctionFailedEventDetails) } else { self.lambdaFunctionFailedEventDetails = nil }
+            if let executionSucceededEventDetails = dictionary["executionSucceededEventDetails"] as? [String: Any] { self.executionSucceededEventDetails = try States.ExecutionSucceededEventDetails(dictionary: executionSucceededEventDetails) } else { self.executionSucceededEventDetails = nil }
+            if let activityFailedEventDetails = dictionary["activityFailedEventDetails"] as? [String: Any] { self.activityFailedEventDetails = try States.ActivityFailedEventDetails(dictionary: activityFailedEventDetails) } else { self.activityFailedEventDetails = nil }
+            if let executionTimedOutEventDetails = dictionary["executionTimedOutEventDetails"] as? [String: Any] { self.executionTimedOutEventDetails = try States.ExecutionTimedOutEventDetails(dictionary: executionTimedOutEventDetails) } else { self.executionTimedOutEventDetails = nil }
+            if let lambdaFunctionTimedOutEventDetails = dictionary["lambdaFunctionTimedOutEventDetails"] as? [String: Any] { self.lambdaFunctionTimedOutEventDetails = try States.LambdaFunctionTimedOutEventDetails(dictionary: lambdaFunctionTimedOutEventDetails) } else { self.lambdaFunctionTimedOutEventDetails = nil }
+            if let executionAbortedEventDetails = dictionary["executionAbortedEventDetails"] as? [String: Any] { self.executionAbortedEventDetails = try States.ExecutionAbortedEventDetails(dictionary: executionAbortedEventDetails) } else { self.executionAbortedEventDetails = nil }
+            if let executionFailedEventDetails = dictionary["executionFailedEventDetails"] as? [String: Any] { self.executionFailedEventDetails = try States.ExecutionFailedEventDetails(dictionary: executionFailedEventDetails) } else { self.executionFailedEventDetails = nil }
+            if let activityScheduledEventDetails = dictionary["activityScheduledEventDetails"] as? [String: Any] { self.activityScheduledEventDetails = try States.ActivityScheduledEventDetails(dictionary: activityScheduledEventDetails) } else { self.activityScheduledEventDetails = nil }
+            if let activityStartedEventDetails = dictionary["activityStartedEventDetails"] as? [String: Any] { self.activityStartedEventDetails = try States.ActivityStartedEventDetails(dictionary: activityStartedEventDetails) } else { self.activityStartedEventDetails = nil }
             guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
             self.type = type
-            if let stateEnteredEventDetails = dictionary["stateEnteredEventDetails"] as? [String: Any] { self.stateEnteredEventDetails = try States.StateEnteredEventDetails(dictionary: stateEnteredEventDetails) }
-            if let executionStartedEventDetails = dictionary["executionStartedEventDetails"] as? [String: Any] { self.executionStartedEventDetails = try States.ExecutionStartedEventDetails(dictionary: executionStartedEventDetails) }
-            if let activityScheduleFailedEventDetails = dictionary["activityScheduleFailedEventDetails"] as? [String: Any] { self.activityScheduleFailedEventDetails = try States.ActivityScheduleFailedEventDetails(dictionary: activityScheduleFailedEventDetails) }
+            if let stateEnteredEventDetails = dictionary["stateEnteredEventDetails"] as? [String: Any] { self.stateEnteredEventDetails = try States.StateEnteredEventDetails(dictionary: stateEnteredEventDetails) } else { self.stateEnteredEventDetails = nil }
+            if let executionStartedEventDetails = dictionary["executionStartedEventDetails"] as? [String: Any] { self.executionStartedEventDetails = try States.ExecutionStartedEventDetails(dictionary: executionStartedEventDetails) } else { self.executionStartedEventDetails = nil }
+            if let activityScheduleFailedEventDetails = dictionary["activityScheduleFailedEventDetails"] as? [String: Any] { self.activityScheduleFailedEventDetails = try States.ActivityScheduleFailedEventDetails(dictionary: activityScheduleFailedEventDetails) } else { self.activityScheduleFailedEventDetails = nil }
             guard let timestamp = dictionary["timestamp"] as? Date else { throw InitializableError.missingRequiredParam("timestamp") }
             self.timestamp = timestamp
             self.previousEventId = dictionary["previousEventId"] as? Int64
             guard let id = dictionary["id"] as? Int64 else { throw InitializableError.missingRequiredParam("id") }
             self.id = id
-            if let activityTimedOutEventDetails = dictionary["activityTimedOutEventDetails"] as? [String: Any] { self.activityTimedOutEventDetails = try States.ActivityTimedOutEventDetails(dictionary: activityTimedOutEventDetails) }
-            if let lambdaFunctionScheduledEventDetails = dictionary["lambdaFunctionScheduledEventDetails"] as? [String: Any] { self.lambdaFunctionScheduledEventDetails = try States.LambdaFunctionScheduledEventDetails(dictionary: lambdaFunctionScheduledEventDetails) }
-            if let activitySucceededEventDetails = dictionary["activitySucceededEventDetails"] as? [String: Any] { self.activitySucceededEventDetails = try States.ActivitySucceededEventDetails(dictionary: activitySucceededEventDetails) }
-            if let stateExitedEventDetails = dictionary["stateExitedEventDetails"] as? [String: Any] { self.stateExitedEventDetails = try States.StateExitedEventDetails(dictionary: stateExitedEventDetails) }
-            if let lambdaFunctionScheduleFailedEventDetails = dictionary["lambdaFunctionScheduleFailedEventDetails"] as? [String: Any] { self.lambdaFunctionScheduleFailedEventDetails = try States.LambdaFunctionScheduleFailedEventDetails(dictionary: lambdaFunctionScheduleFailedEventDetails) }
-            if let lambdaFunctionStartFailedEventDetails = dictionary["lambdaFunctionStartFailedEventDetails"] as? [String: Any] { self.lambdaFunctionStartFailedEventDetails = try States.LambdaFunctionStartFailedEventDetails(dictionary: lambdaFunctionStartFailedEventDetails) }
+            if let activityTimedOutEventDetails = dictionary["activityTimedOutEventDetails"] as? [String: Any] { self.activityTimedOutEventDetails = try States.ActivityTimedOutEventDetails(dictionary: activityTimedOutEventDetails) } else { self.activityTimedOutEventDetails = nil }
+            if let lambdaFunctionScheduledEventDetails = dictionary["lambdaFunctionScheduledEventDetails"] as? [String: Any] { self.lambdaFunctionScheduledEventDetails = try States.LambdaFunctionScheduledEventDetails(dictionary: lambdaFunctionScheduledEventDetails) } else { self.lambdaFunctionScheduledEventDetails = nil }
+            if let activitySucceededEventDetails = dictionary["activitySucceededEventDetails"] as? [String: Any] { self.activitySucceededEventDetails = try States.ActivitySucceededEventDetails(dictionary: activitySucceededEventDetails) } else { self.activitySucceededEventDetails = nil }
+            if let stateExitedEventDetails = dictionary["stateExitedEventDetails"] as? [String: Any] { self.stateExitedEventDetails = try States.StateExitedEventDetails(dictionary: stateExitedEventDetails) } else { self.stateExitedEventDetails = nil }
+            if let lambdaFunctionScheduleFailedEventDetails = dictionary["lambdaFunctionScheduleFailedEventDetails"] as? [String: Any] { self.lambdaFunctionScheduleFailedEventDetails = try States.LambdaFunctionScheduleFailedEventDetails(dictionary: lambdaFunctionScheduleFailedEventDetails) } else { self.lambdaFunctionScheduleFailedEventDetails = nil }
+            if let lambdaFunctionStartFailedEventDetails = dictionary["lambdaFunctionStartFailedEventDetails"] as? [String: Any] { self.lambdaFunctionStartFailedEventDetails = try States.LambdaFunctionStartFailedEventDetails(dictionary: lambdaFunctionStartFailedEventDetails) } else { self.lambdaFunctionStartFailedEventDetails = nil }
         }
     }
 
@@ -500,11 +466,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of activities.
-        public var activities: [ActivityListItem] = []
+        public let activities: [ActivityListItem]
         /// If a nextToken is returned, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(activities: [ActivityListItem], nextToken: String? = nil) {
             self.activities = activities
@@ -522,8 +486,6 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -532,11 +494,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of results that will be returned per call. nextToken can be used to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// If a nextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(maxResults: Int32? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
@@ -553,11 +513,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of matching executions.
-        public var executions: [ExecutionListItem] = []
+        public let executions: [ExecutionListItem]
         /// If a nextToken is returned, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(executions: [ExecutionListItem], nextToken: String? = nil) {
             self.executions = executions
@@ -575,13 +533,11 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the state machine. This name must be unique for your AWS account and region.
-        public var name: String = ""
+        public let name: String
         /// The Amazon States Language definition of the state machine.
-        public var definition: String = ""
+        public let definition: String
         /// The Amazon Resource Name (ARN) of the IAM role to use for this state machine.
-        public var roleArn: String = ""
-
-        public init() {}
+        public let roleArn: String
 
         public init(name: String, definition: String, roleArn: String) {
             self.name = name
@@ -603,9 +559,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTask::taskToken).
-        public var taskToken: String = ""
-
-        public init() {}
+        public let taskToken: String
 
         public init(taskToken: String) {
             self.taskToken = taskToken
@@ -621,11 +575,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// A more detailed explanation of the cause of the failure.
-        public var cause: String? = nil
+        public let cause: String?
         /// The error code of the failure.
-        public var error: String? = nil
-
-        public init() {}
+        public let error: String?
 
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
@@ -642,9 +594,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The JSON data output by the activity task.
-        public var output: String? = nil
-
-        public init() {}
+        public let output: String?
 
         public init(output: String? = nil) {
             self.output = output
@@ -659,13 +609,11 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTask::taskToken).
-        public var taskToken: String = ""
+        public let taskToken: String
         /// A more detailed explanation of the cause of the failure.
-        public var cause: String? = nil
+        public let cause: String?
         /// An arbitrary error code that identifies the cause of the failure.
-        public var error: String? = nil
-
-        public init() {}
+        public let error: String?
 
         public init(taskToken: String, cause: String? = nil, error: String? = nil) {
             self.taskToken = taskToken
@@ -685,11 +633,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// An arbitrary name may be provided in order to identify the worker that the task is assigned to. This name will be used when it is logged in the execution history.
-        public var workerName: String? = nil
+        public let workerName: String?
         /// The Amazon Resource Name (ARN) of the activity to retrieve tasks from.
-        public var activityArn: String = ""
-
-        public init() {}
+        public let activityArn: String
 
         public init(workerName: String? = nil, activityArn: String) {
             self.workerName = workerName
@@ -707,9 +653,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the activity to describe.
-        public var activityArn: String = ""
-
-        public init() {}
+        public let activityArn: String
 
         public init(activityArn: String) {
             self.activityArn = activityArn
@@ -725,13 +669,11 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum allowed duration of the lambda function.
-        public var timeoutInSeconds: Int64? = nil
+        public let timeoutInSeconds: Int64?
         /// The JSON data input to the lambda function.
-        public var input: String? = nil
+        public let input: String?
         /// The Amazon Resource Name (ARN) of the scheduled lambda function.
-        public var resource: String = ""
-
-        public init() {}
+        public let resource: String
 
         public init(timeoutInSeconds: Int64? = nil, input: String? = nil, resource: String) {
             self.timeoutInSeconds = timeoutInSeconds
@@ -751,8 +693,6 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -761,11 +701,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token that identifies the scheduled task. This token must be copied and included in subsequent calls to SendTaskHeartbeat, SendTaskSuccess or SendTaskFailure in order to report the progress or completion of the task.
-        public var taskToken: String? = nil
+        public let taskToken: String?
         /// The JSON input data for the task.
-        public var input: String? = nil
-
-        public init() {}
+        public let input: String?
 
         public init(taskToken: String? = nil, input: String? = nil) {
             self.taskToken = taskToken
@@ -782,11 +720,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The JSON output data of the state.
-        public var output: String? = nil
+        public let output: String?
         /// The name of the state.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(output: String? = nil, name: String) {
             self.output = output
@@ -804,9 +740,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The JSON data output by the lambda function.
-        public var output: String? = nil
-
-        public init() {}
+        public let output: String?
 
         public init(output: String? = nil) {
             self.output = output
@@ -821,15 +755,13 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum allowed duration of the activity task.
-        public var timeoutInSeconds: Int64? = nil
+        public let timeoutInSeconds: Int64?
         /// The JSON data input to the activity task.
-        public var input: String? = nil
+        public let input: String?
         /// The maximum allowed duration between two heartbeats for the activity task.
-        public var heartbeatInSeconds: Int64? = nil
+        public let heartbeatInSeconds: Int64?
         /// The Amazon Resource Name (ARN) of the scheduled activity.
-        public var resource: String = ""
-
-        public init() {}
+        public let resource: String
 
         public init(timeoutInSeconds: Int64? = nil, input: String? = nil, heartbeatInSeconds: Int64? = nil, resource: String) {
             self.timeoutInSeconds = timeoutInSeconds
@@ -851,11 +783,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) that identifies the created state machine.
-        public var stateMachineArn: String = ""
+        public let stateMachineArn: String
         /// The date the state machine was created.
-        public var creationDate: Date = Date()
-
-        public init() {}
+        public let creationDate: Date
 
         public init(stateMachineArn: String, creationDate: Date) {
             self.stateMachineArn = stateMachineArn
@@ -874,9 +804,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the execution to describe.
-        public var executionArn: String = ""
-
-        public init() {}
+        public let executionArn: String
 
         public init(executionArn: String) {
             self.executionArn = executionArn
@@ -892,9 +820,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the activity to delete.
-        public var activityArn: String = ""
-
-        public init() {}
+        public let activityArn: String
 
         public init(activityArn: String) {
             self.activityArn = activityArn
@@ -910,9 +836,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the state machine to delete.
-        public var stateMachineArn: String = ""
-
-        public init() {}
+        public let stateMachineArn: String
 
         public init(stateMachineArn: String) {
             self.stateMachineArn = stateMachineArn
@@ -928,9 +852,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the state machine to describe.
-        public var stateMachineArn: String = ""
-
-        public init() {}
+        public let stateMachineArn: String
 
         public init(stateMachineArn: String) {
             self.stateMachineArn = stateMachineArn
@@ -946,11 +868,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The JSON output of the task.
-        public var output: String = ""
+        public let output: String
         /// The token that represents this task. Task tokens are generated by the service when the tasks are assigned to a worker (see GetActivityTask::taskToken).
-        public var taskToken: String = ""
-
-        public init() {}
+        public let taskToken: String
 
         public init(output: String, taskToken: String) {
             self.output = output
@@ -969,11 +889,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// A more detailed explanation of the cause of the failure.
-        public var cause: String? = nil
+        public let cause: String?
         /// The error code of the failure.
-        public var error: String? = nil
-
-        public init() {}
+        public let error: String?
 
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
@@ -990,11 +908,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// A more detailed explanation of the cause of the failure.
-        public var cause: String? = nil
+        public let cause: String?
         /// The error code of the failure.
-        public var error: String? = nil
-
-        public init() {}
+        public let error: String?
 
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
@@ -1011,10 +927,8 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// If a nextToken is returned, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        public var nextToken: String? = nil
-        public var stateMachines: [StateMachineListItem] = []
-
-        public init() {}
+        public let nextToken: String?
+        public let stateMachines: [StateMachineListItem]
 
         public init(nextToken: String? = nil, stateMachines: [StateMachineListItem]) {
             self.nextToken = nextToken
@@ -1032,9 +946,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the activity to create. This name must be unique for your AWS account and region.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -1050,15 +962,13 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// If specified, only list the executions whose current execution status matches the given filter.
-        public var statusFilter: String? = nil
+        public let statusFilter: String?
         /// The maximum number of results that will be returned per call. nextToken can be used to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// The Amazon Resource Name (ARN) of the state machine whose executions will be listed.
-        public var stateMachineArn: String = ""
+        public let stateMachineArn: String
         /// If a nextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(statusFilter: String? = nil, maxResults: Int32? = nil, stateMachineArn: String, nextToken: String? = nil) {
             self.statusFilter = statusFilter
@@ -1080,11 +990,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// A more detailed explanation of the cause of the timeout.
-        public var cause: String? = nil
+        public let cause: String?
         /// The error code of the failure.
-        public var error: String? = nil
-
-        public init() {}
+        public let error: String?
 
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
@@ -1101,15 +1009,13 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// If a nextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextToken. Keep all other arguments unchanged. The configured maxResults determines how many results can be returned in a single call.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of results that will be returned per call. nextToken can be used to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
-        public var maxResults: Int32? = nil
+        public let maxResults: Int32?
         /// Lists events in descending order of their timeStamp.
-        public var reverseOrder: Bool? = nil
+        public let reverseOrder: Bool?
         /// The Amazon Resource Name (ARN) of the execution.
-        public var executionArn: String = ""
-
-        public init() {}
+        public let executionArn: String
 
         public init(nextToken: String? = nil, maxResults: Int32? = nil, reverseOrder: Bool? = nil, executionArn: String) {
             self.nextToken = nextToken
@@ -1131,11 +1037,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the IAM role used for executing AWS Lambda tasks.
-        public var roleArn: String? = nil
+        public let roleArn: String?
         /// The JSON data input to the execution.
-        public var input: String? = nil
-
-        public init() {}
+        public let input: String?
 
         public init(roleArn: String? = nil, input: String? = nil) {
             self.roleArn = roleArn
@@ -1152,11 +1056,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// A more detailed explanation of the cause of the failure.
-        public var cause: String? = nil
+        public let cause: String?
         /// The error code of the failure.
-        public var error: String? = nil
-
-        public init() {}
+        public let error: String?
 
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
@@ -1173,9 +1075,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the worker that the task was assigned to. These names are provided by the workers when calling GetActivityTask.
-        public var workerName: String? = nil
-
-        public init() {}
+        public let workerName: String?
 
         public init(workerName: String? = nil) {
             self.workerName = workerName
@@ -1190,13 +1090,11 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) that identifies the state machine.
-        public var stateMachineArn: String = ""
+        public let stateMachineArn: String
         /// The name of the state machine.
-        public var name: String = ""
+        public let name: String
         /// The date the state machine was created.
-        public var creationDate: Date = Date()
-
-        public init() {}
+        public let creationDate: Date
 
         public init(stateMachineArn: String, name: String, creationDate: Date) {
             self.stateMachineArn = stateMachineArn
@@ -1218,8 +1116,6 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1228,11 +1124,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// A more detailed explanation of the cause of the timeout.
-        public var cause: String? = nil
+        public let cause: String?
         /// The error code of the failure.
-        public var error: String? = nil
-
-        public init() {}
+        public let error: String?
 
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
@@ -1249,11 +1143,9 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// A more detailed explanation of the cause of the failure.
-        public var cause: String? = nil
+        public let cause: String?
         /// The error code of the failure.
-        public var error: String? = nil
-
-        public init() {}
+        public let error: String?
 
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
@@ -1270,9 +1162,7 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The JSON data output by the execution.
-        public var output: String? = nil
-
-        public init() {}
+        public let output: String?
 
         public init(output: String? = nil) {
             self.output = output
@@ -1287,23 +1177,21 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current status of the execution.
-        public var status: String = ""
+        public let status: String
         /// The name of the execution.
-        public var name: String? = nil
+        public let name: String?
         /// If the execution has already ended, the date the execution stopped.
-        public var stopDate: Date? = nil
+        public let stopDate: Date?
         /// The date the execution was started.
-        public var startDate: Date = Date()
+        public let startDate: Date
         /// The JSON output data of the execution.
-        public var output: String? = nil
+        public let output: String?
         /// The Amazon Resource Name (ARN) that identifies the execution.
-        public var executionArn: String = ""
+        public let executionArn: String
         /// The JSON input data of the execution.
-        public var input: String = ""
+        public let input: String
         /// The Amazon Resource Name (ARN) of the executed stated machine.
-        public var stateMachineArn: String = ""
-
-        public init() {}
+        public let stateMachineArn: String
 
         public init(status: String, name: String? = nil, stopDate: Date? = nil, startDate: Date, output: String? = nil, executionArn: String, input: String, stateMachineArn: String) {
             self.status = status
@@ -1337,13 +1225,11 @@ extension States {
         /// The key for the payload
         public static let payload: String? = nil
         /// An arbitrary error code that identifies the cause of the termination.
-        public var error: String? = nil
+        public let error: String?
         /// The Amazon Resource Name (ARN) of the execution to stop.
-        public var executionArn: String = ""
+        public let executionArn: String
         /// A more detailed explanation of the cause of the termination.
-        public var cause: String? = nil
-
-        public init() {}
+        public let cause: String?
 
         public init(error: String? = nil, executionArn: String, cause: String? = nil) {
             self.error = error

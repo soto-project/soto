@@ -33,13 +33,11 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// x-coordinate from the top left of the landmark expressed as the ration of the width of the image. For example, if the images is 700x200 and the x-coordinate of the landmark is at 350 pixels, this value is 0.5. 
-        public var x: Float? = nil
+        public let x: Float?
         /// Type of the landmark.
-        public var type: String? = nil
+        public let type: String?
         /// y-coordinate from the top left of the landmark expressed as the ration of the height of the image. For example, if the images is 700x200 and the y-coordinate of the landmark is at 100 pixels, this value is 0.5.
-        public var y: Float? = nil
-
-        public init() {}
+        public let y: Float?
 
         public init(x: Float? = nil, type: String? = nil, y: Float? = nil) {
             self.x = x
@@ -58,13 +56,11 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// The level of confidence that the searchedFaceBoundingBox, contains a face.
-        public var searchedFaceConfidence: Float? = nil
+        public let searchedFaceConfidence: Float?
         /// An array of faces that match the input face, along with the confidence in the match.
-        public var faceMatches: [FaceMatch]? = nil
+        public let faceMatches: [FaceMatch]?
         /// The bounding box around the face in the input image that Amazon Rekognition used for the search.
-        public var searchedFaceBoundingBox: BoundingBox? = nil
-
-        public init() {}
+        public let searchedFaceBoundingBox: BoundingBox?
 
         public init(searchedFaceConfidence: Float? = nil, faceMatches: [FaceMatch]? = nil, searchedFaceBoundingBox: BoundingBox? = nil) {
             self.searchedFaceConfidence = searchedFaceConfidence
@@ -76,8 +72,10 @@ extension Rekognition {
             self.searchedFaceConfidence = dictionary["SearchedFaceConfidence"] as? Float
             if let faceMatches = dictionary["FaceMatches"] as? [[String: Any]] {
                 self.faceMatches = try faceMatches.map({ try FaceMatch(dictionary: $0) })
+            } else { 
+                self.faceMatches = nil
             }
-            if let searchedFaceBoundingBox = dictionary["SearchedFaceBoundingBox"] as? [String: Any] { self.searchedFaceBoundingBox = try Rekognition.BoundingBox(dictionary: searchedFaceBoundingBox) }
+            if let searchedFaceBoundingBox = dictionary["SearchedFaceBoundingBox"] as? [String: Any] { self.searchedFaceBoundingBox = try Rekognition.BoundingBox(dictionary: searchedFaceBoundingBox) } else { self.searchedFaceBoundingBox = nil }
         }
     }
 
@@ -85,9 +83,7 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// HTTP status code that indicates the result of the operation.
-        public var statusCode: Int32? = nil
-
-        public init() {}
+        public let statusCode: Int32?
 
         public init(statusCode: Int32? = nil) {
             self.statusCode = statusCode
@@ -102,11 +98,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of collection IDs.
-        public var collectionIds: [String]? = nil
+        public let collectionIds: [String]?
         /// If the result is truncated, the response provides a NextToken that you can use in the subsequent request to fetch the next set of collection IDs.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(collectionIds: [String]? = nil, nextToken: String? = nil) {
             self.collectionIds = collectionIds
@@ -114,9 +108,7 @@ extension Rekognition {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let collectionIds = dictionary["CollectionIds"] as? [String] {
-                self.collectionIds = collectionIds
-            }
+            self.collectionIds = dictionary["CollectionIds"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
         }
     }
@@ -125,11 +117,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Level of confidence in the determination.
-        public var confidence: Float? = nil
+        public let confidence: Float?
         /// Type of emotion detected.
-        public var type: String? = nil
-
-        public init() {}
+        public let type: String?
 
         public init(confidence: Float? = nil, type: String? = nil) {
             self.confidence = confidence
@@ -146,11 +136,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of face IDs to delete.
-        public var faceIds: [String] = []
+        public let faceIds: [String]
         /// Collection from which to remove the specific faces.
-        public var collectionId: String = ""
-
-        public init() {}
+        public let collectionId: String
 
         public init(faceIds: [String], collectionId: String) {
             self.faceIds = faceIds
@@ -169,18 +157,14 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of strings (face IDs) of the faces that were deleted.
-        public var deletedFaces: [String]? = nil
-
-        public init() {}
+        public let deletedFaces: [String]?
 
         public init(deletedFaces: [String]? = nil) {
             self.deletedFaces = deletedFaces
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let deletedFaces = dictionary["DeletedFaces"] as? [String] {
-                self.deletedFaces = deletedFaces
-            }
+            self.deletedFaces = dictionary["DeletedFaces"] as? [String]
         }
     }
 
@@ -188,15 +172,13 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Height of the bounding box as a ratio of the overall image height.
-        public var height: Float? = nil
+        public let height: Float?
         /// Top coordinate of the bounding box as a ratio of overall image height.
-        public var top: Float? = nil
+        public let top: Float?
         /// Left coordinate of the bounding box as a ratio of overall image width.
-        public var left: Float? = nil
+        public let left: Float?
         /// Width of the bounding box as a ratio of the overall image width.
-        public var width: Float? = nil
-
-        public init() {}
+        public let width: Float?
 
         public init(height: Float? = nil, top: Float? = nil, left: Float? = nil, width: Float? = nil) {
             self.height = height
@@ -217,13 +199,11 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Value representing the face rotation on the yaw axis.
-        public var yaw: Float? = nil
+        public let yaw: Float?
         /// Value representing the face rotation on the roll axis.
-        public var roll: Float? = nil
+        public let roll: Float?
         /// Value representing the face rotation on the pitch axis.
-        public var pitch: Float? = nil
-
-        public init() {}
+        public let pitch: Float?
 
         public init(yaw: Float? = nil, roll: Float? = nil, pitch: Float? = nil) {
             self.yaw = yaw
@@ -242,10 +222,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Level of confidence that what the bounding box contains is a face.
-        public var confidence: Float? = nil
-        public var boundingBox: BoundingBox? = nil
-
-        public init() {}
+        public let confidence: Float?
+        public let boundingBox: BoundingBox?
 
         public init(confidence: Float? = nil, boundingBox: BoundingBox? = nil) {
             self.confidence = confidence
@@ -254,22 +232,20 @@ extension Rekognition {
 
         public init(dictionary: [String: Any]) throws {
             self.confidence = dictionary["Confidence"] as? Float
-            if let boundingBox = dictionary["BoundingBox"] as? [String: Any] { self.boundingBox = try Rekognition.BoundingBox(dictionary: boundingBox) }
+            if let boundingBox = dictionary["BoundingBox"] as? [String: Any] { self.boundingBox = try Rekognition.BoundingBox(dictionary: boundingBox) } else { self.boundingBox = nil }
         }
     }
 
     public struct SearchFacesByImageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var image: Image = Image()
+        public let image: Image
         /// (Optional) Specifies the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%.
-        public var faceMatchThreshold: Float? = nil
+        public let faceMatchThreshold: Float?
         /// Maximum number of faces to return. The operation returns the maximum number of faces with the highest confidence in the match.
-        public var maxFaces: Int32? = nil
+        public let maxFaces: Int32?
         /// ID of the collection to search.
-        public var collectionId: String = ""
-
-        public init() {}
+        public let collectionId: String
 
         public init(image: Image, faceMatchThreshold: Float? = nil, maxFaces: Int32? = nil, collectionId: String) {
             self.image = image
@@ -291,11 +267,9 @@ extension Rekognition {
     public struct FaceMatch: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var face: Face? = nil
+        public let face: Face?
         /// Confidence in the match of this face with the input face.
-        public var similarity: Float? = nil
-
-        public init() {}
+        public let similarity: Float?
 
         public init(face: Face? = nil, similarity: Float? = nil) {
             self.face = face
@@ -303,7 +277,7 @@ extension Rekognition {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let face = dictionary["Face"] as? [String: Any] { self.face = try Rekognition.Face(dictionary: face) }
+            if let face = dictionary["Face"] as? [String: Any] { self.face = try Rekognition.Face(dictionary: face) } else { self.face = nil }
             self.similarity = dictionary["Similarity"] as? Float
         }
     }
@@ -312,11 +286,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Level of confidence in the determination.
-        public var confidence: Float? = nil
+        public let confidence: Float?
         /// Gender of the face.
-        public var value: String? = nil
-
-        public init() {}
+        public let value: String?
 
         public init(confidence: Float? = nil, value: String? = nil) {
             self.confidence = confidence
@@ -333,11 +305,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Level of confidence in the determination.
-        public var confidence: Float? = nil
+        public let confidence: Float?
         /// Boolean value that indicates whether the face is smiling or not.
-        public var value: Bool? = nil
-
-        public init() {}
+        public let value: Bool?
 
         public init(confidence: Float? = nil, value: Bool? = nil) {
             self.confidence = confidence
@@ -354,13 +324,11 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Name of the S3 bucket.
-        public var bucket: String? = nil
+        public let bucket: String?
         /// S3 object key name.
-        public var name: String? = nil
+        public let name: String?
         /// If the bucket is versioning enabled, you can specify the object version. 
-        public var version: String? = nil
-
-        public init() {}
+        public let version: String?
 
         public init(bucket: String? = nil, name: String? = nil, version: String? = nil) {
             self.bucket = bucket
@@ -379,11 +347,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// The algorithm detects the image orientation. If it detects that the image was rotated, it returns the degrees of rotation. If your application is displaying the image, you can use this value to adjust the orientation.  For example, if the service detects that the input image was rotated by 90 degrees, it corrects orientation, performs face detection, and then returns the faces. That is, the bounding box coordinates in the response are based on the corrected orientation.   If the source image Exif metadata populates the orientation field, Amazon Rekognition does not perform orientation correction and the value of OrientationCorrection will be nil. 
-        public var orientationCorrection: String? = nil
+        public let orientationCorrection: String?
         /// Details of each face found in the image. 
-        public var faceDetails: [FaceDetail]? = nil
-
-        public init() {}
+        public let faceDetails: [FaceDetail]?
 
         public init(orientationCorrection: String? = nil, faceDetails: [FaceDetail]? = nil) {
             self.orientationCorrection = orientationCorrection
@@ -394,6 +360,8 @@ extension Rekognition {
             self.orientationCorrection = dictionary["OrientationCorrection"] as? String
             if let faceDetails = dictionary["FaceDetails"] as? [[String: Any]] {
                 self.faceDetails = try faceDetails.map({ try FaceDetail(dictionary: $0) })
+            } else { 
+                self.faceDetails = nil
             }
         }
     }
@@ -402,11 +370,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// The algorithm detects the image orientation. If it detects that the image was rotated, it returns the degree of rotation. You can use this value to correct the orientation and also appropriately analyze the bounding box coordinates that are returned.   If the source image Exif metadata populates the orientation field, Amazon Rekognition does not perform orientation correction and the value of OrientationCorrection will be nil. 
-        public var orientationCorrection: String? = nil
+        public let orientationCorrection: String?
         /// An array of faces detected and added to the collection. For more information, see howitworks-index-faces. 
-        public var faceRecords: [FaceRecord]? = nil
-
-        public init() {}
+        public let faceRecords: [FaceRecord]?
 
         public init(orientationCorrection: String? = nil, faceRecords: [FaceRecord]? = nil) {
             self.orientationCorrection = orientationCorrection
@@ -417,6 +383,8 @@ extension Rekognition {
             self.orientationCorrection = dictionary["OrientationCorrection"] as? String
             if let faceRecords = dictionary["FaceRecords"] as? [[String: Any]] {
                 self.faceRecords = try faceRecords.map({ try FaceRecord(dictionary: $0) })
+            } else { 
+                self.faceRecords = nil
             }
         }
     }
@@ -425,11 +393,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Level of confidence.
-        public var confidence: Float? = nil
+        public let confidence: Float?
         /// The name (label) of the object.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(confidence: Float? = nil, name: String? = nil) {
             self.confidence = confidence
@@ -446,37 +412,35 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether or not the face is wearing sunglasses, and the confidence level in the determination.
-        public var sunglasses: Sunglasses? = nil
+        public let sunglasses: Sunglasses?
         /// Gender of the face and the confidence level in the determination.
-        public var gender: Gender? = nil
+        public let gender: Gender?
         /// Indicates whether or not the eyes on the face are open, and the confidence level in the determination.
-        public var eyesOpen: EyeOpen? = nil
+        public let eyesOpen: EyeOpen?
         /// Indicates whether or not the face is smiling, and the confidence level in the determination.
-        public var smile: Smile? = nil
+        public let smile: Smile?
         /// Indicates whether or not the mouth on the face is open, and the confidence level in the determination.
-        public var mouthOpen: MouthOpen? = nil
+        public let mouthOpen: MouthOpen?
         /// Bounding box of the face.
-        public var boundingBox: BoundingBox? = nil
+        public let boundingBox: BoundingBox?
         /// Indicates the pose of the face as determined by pitch, roll, and the yaw.
-        public var pose: Pose? = nil
+        public let pose: Pose?
         /// The estimated age range, in years, for the face. Low represents the lowest estimated age and High represents the highest estimated age.
-        public var ageRange: AgeRange? = nil
+        public let ageRange: AgeRange?
         /// Indicates whether or not the face is wearing eye glasses, and the confidence level in the determination.
-        public var eyeglasses: Eyeglasses? = nil
+        public let eyeglasses: Eyeglasses?
         /// Indicates the location of the landmark on the face.
-        public var landmarks: [Landmark]? = nil
+        public let landmarks: [Landmark]?
         /// Indicates whether or not the face has a beard, and the confidence level in the determination.
-        public var beard: Beard? = nil
+        public let beard: Beard?
         /// Identifies image brightness and sharpness.
-        public var quality: ImageQuality? = nil
+        public let quality: ImageQuality?
         /// Confidence level that the bounding box contains a face (and not a different object such as a tree).
-        public var confidence: Float? = nil
+        public let confidence: Float?
         /// Indicates whether or not the face has a mustache, and the confidence level in the determination.
-        public var mustache: Mustache? = nil
+        public let mustache: Mustache?
         /// The emotions detected on the face, and the confidence level in the determination. For example, HAPPY, SAD, and ANGRY. 
-        public var emotions: [Emotion]? = nil
-
-        public init() {}
+        public let emotions: [Emotion]?
 
         public init(sunglasses: Sunglasses? = nil, gender: Gender? = nil, eyesOpen: EyeOpen? = nil, smile: Smile? = nil, mouthOpen: MouthOpen? = nil, boundingBox: BoundingBox? = nil, pose: Pose? = nil, ageRange: AgeRange? = nil, eyeglasses: Eyeglasses? = nil, landmarks: [Landmark]? = nil, beard: Beard? = nil, quality: ImageQuality? = nil, confidence: Float? = nil, mustache: Mustache? = nil, emotions: [Emotion]? = nil) {
             self.sunglasses = sunglasses
@@ -497,24 +461,28 @@ extension Rekognition {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let sunglasses = dictionary["Sunglasses"] as? [String: Any] { self.sunglasses = try Rekognition.Sunglasses(dictionary: sunglasses) }
-            if let gender = dictionary["Gender"] as? [String: Any] { self.gender = try Rekognition.Gender(dictionary: gender) }
-            if let eyesOpen = dictionary["EyesOpen"] as? [String: Any] { self.eyesOpen = try Rekognition.EyeOpen(dictionary: eyesOpen) }
-            if let smile = dictionary["Smile"] as? [String: Any] { self.smile = try Rekognition.Smile(dictionary: smile) }
-            if let mouthOpen = dictionary["MouthOpen"] as? [String: Any] { self.mouthOpen = try Rekognition.MouthOpen(dictionary: mouthOpen) }
-            if let boundingBox = dictionary["BoundingBox"] as? [String: Any] { self.boundingBox = try Rekognition.BoundingBox(dictionary: boundingBox) }
-            if let pose = dictionary["Pose"] as? [String: Any] { self.pose = try Rekognition.Pose(dictionary: pose) }
-            if let ageRange = dictionary["AgeRange"] as? [String: Any] { self.ageRange = try Rekognition.AgeRange(dictionary: ageRange) }
-            if let eyeglasses = dictionary["Eyeglasses"] as? [String: Any] { self.eyeglasses = try Rekognition.Eyeglasses(dictionary: eyeglasses) }
+            if let sunglasses = dictionary["Sunglasses"] as? [String: Any] { self.sunglasses = try Rekognition.Sunglasses(dictionary: sunglasses) } else { self.sunglasses = nil }
+            if let gender = dictionary["Gender"] as? [String: Any] { self.gender = try Rekognition.Gender(dictionary: gender) } else { self.gender = nil }
+            if let eyesOpen = dictionary["EyesOpen"] as? [String: Any] { self.eyesOpen = try Rekognition.EyeOpen(dictionary: eyesOpen) } else { self.eyesOpen = nil }
+            if let smile = dictionary["Smile"] as? [String: Any] { self.smile = try Rekognition.Smile(dictionary: smile) } else { self.smile = nil }
+            if let mouthOpen = dictionary["MouthOpen"] as? [String: Any] { self.mouthOpen = try Rekognition.MouthOpen(dictionary: mouthOpen) } else { self.mouthOpen = nil }
+            if let boundingBox = dictionary["BoundingBox"] as? [String: Any] { self.boundingBox = try Rekognition.BoundingBox(dictionary: boundingBox) } else { self.boundingBox = nil }
+            if let pose = dictionary["Pose"] as? [String: Any] { self.pose = try Rekognition.Pose(dictionary: pose) } else { self.pose = nil }
+            if let ageRange = dictionary["AgeRange"] as? [String: Any] { self.ageRange = try Rekognition.AgeRange(dictionary: ageRange) } else { self.ageRange = nil }
+            if let eyeglasses = dictionary["Eyeglasses"] as? [String: Any] { self.eyeglasses = try Rekognition.Eyeglasses(dictionary: eyeglasses) } else { self.eyeglasses = nil }
             if let landmarks = dictionary["Landmarks"] as? [[String: Any]] {
                 self.landmarks = try landmarks.map({ try Landmark(dictionary: $0) })
+            } else { 
+                self.landmarks = nil
             }
-            if let beard = dictionary["Beard"] as? [String: Any] { self.beard = try Rekognition.Beard(dictionary: beard) }
-            if let quality = dictionary["Quality"] as? [String: Any] { self.quality = try Rekognition.ImageQuality(dictionary: quality) }
+            if let beard = dictionary["Beard"] as? [String: Any] { self.beard = try Rekognition.Beard(dictionary: beard) } else { self.beard = nil }
+            if let quality = dictionary["Quality"] as? [String: Any] { self.quality = try Rekognition.ImageQuality(dictionary: quality) } else { self.quality = nil }
             self.confidence = dictionary["Confidence"] as? Float
-            if let mustache = dictionary["Mustache"] as? [String: Any] { self.mustache = try Rekognition.Mustache(dictionary: mustache) }
+            if let mustache = dictionary["Mustache"] as? [String: Any] { self.mustache = try Rekognition.Mustache(dictionary: mustache) } else { self.mustache = nil }
             if let emotions = dictionary["Emotions"] as? [[String: Any]] {
                 self.emotions = try emotions.map({ try Emotion(dictionary: $0) })
+            } else { 
+                self.emotions = nil
             }
         }
     }
@@ -523,11 +491,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Provides face metadata (bounding box and confidence that the bounding box actually contains a face).
-        public var face: ComparedFace? = nil
+        public let face: ComparedFace?
         /// Level of confidence that the faces match.
-        public var similarity: Float? = nil
-
-        public init() {}
+        public let similarity: Float?
 
         public init(face: ComparedFace? = nil, similarity: Float? = nil) {
             self.face = face
@@ -535,7 +501,7 @@ extension Rekognition {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let face = dictionary["Face"] as? [String: Any] { self.face = try Rekognition.ComparedFace(dictionary: face) }
+            if let face = dictionary["Face"] as? [String: Any] { self.face = try Rekognition.ComparedFace(dictionary: face) } else { self.face = nil }
             self.similarity = dictionary["Similarity"] as? Float
         }
     }
@@ -544,11 +510,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of faces that matched the input face, along with the confidence in the match.
-        public var faceMatches: [FaceMatch]? = nil
+        public let faceMatches: [FaceMatch]?
         /// ID of the face that was searched for matches in a collection.
-        public var searchedFaceId: String? = nil
-
-        public init() {}
+        public let searchedFaceId: String?
 
         public init(faceMatches: [FaceMatch]? = nil, searchedFaceId: String? = nil) {
             self.faceMatches = faceMatches
@@ -558,6 +522,8 @@ extension Rekognition {
         public init(dictionary: [String: Any]) throws {
             if let faceMatches = dictionary["FaceMatches"] as? [[String: Any]] {
                 self.faceMatches = try faceMatches.map({ try FaceMatch(dictionary: $0) })
+            } else { 
+                self.faceMatches = nil
             }
             self.searchedFaceId = dictionary["SearchedFaceId"] as? String
         }
@@ -567,15 +533,13 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Optional value specifying the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%.
-        public var faceMatchThreshold: Float? = nil
+        public let faceMatchThreshold: Float?
         /// Maximum number of faces to return. The operation returns the maximum number of faces with the highest confidence in the match.
-        public var maxFaces: Int32? = nil
+        public let maxFaces: Int32?
         /// ID of the collection the face belongs to.
-        public var collectionId: String = ""
+        public let collectionId: String
         /// ID of a face to find matches for in the collection.
-        public var faceId: String = ""
-
-        public init() {}
+        public let faceId: String
 
         public init(faceMatchThreshold: Float? = nil, maxFaces: Int32? = nil, collectionId: String, faceId: String) {
             self.faceMatchThreshold = faceMatchThreshold
@@ -598,11 +562,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Level of confidence in the determination.
-        public var confidence: Float? = nil
+        public let confidence: Float?
         /// Boolean value that indicates whether the face has mustache or not.
-        public var value: Bool? = nil
-
-        public init() {}
+        public let value: Bool?
 
         public init(confidence: Float? = nil, value: Bool? = nil) {
             self.confidence = confidence
@@ -619,11 +581,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Pagination token from the previous response.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Maximum number of collection IDs to return.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -640,11 +600,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Level of confidence in the determination.
-        public var confidence: Float? = nil
+        public let confidence: Float?
         /// Boolean value that indicates whether the eyes on the face are open.
-        public var value: Bool? = nil
-
-        public init() {}
+        public let value: Bool?
 
         public init(confidence: Float? = nil, value: Bool? = nil) {
             self.confidence = confidence
@@ -661,13 +619,11 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// The input image. You can provide a blob of image bytes or an S3 object.
-        public var image: Image = Image()
+        public let image: Image
         /// Maximum number of labels you want the service to return in the response. The service returns the specified number of highest confidence labels. 
-        public var maxLabels: Int32? = nil
+        public let maxLabels: Int32?
         /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with confidence lower than this specified value. If minConfidence is not specified, the operation returns labels with a confidence values greater than or equal to 50 percent.
-        public var minConfidence: Float? = nil
-
-        public init() {}
+        public let minConfidence: Float?
 
         public init(image: Image, maxLabels: Int32? = nil, minConfidence: Float? = nil) {
             self.image = image
@@ -687,11 +643,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Amazon Resource Name (ARN) of the collection. You can use this to manage permissions on your resources. 
-        public var collectionArn: String? = nil
+        public let collectionArn: String?
         /// HTTP status code indicating the result of the operation.
-        public var statusCode: Int32? = nil
-
-        public init() {}
+        public let statusCode: Int32?
 
         public init(collectionArn: String? = nil, statusCode: Int32? = nil) {
             self.collectionArn = collectionArn
@@ -708,11 +662,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// The image in which you want to detect faces. You can specify a blob or an S3 object. 
-        public var image: Image = Image()
+        public let image: Image
         /// A list of facial attributes you would like to be returned. By default, the API returns subset of facial attributes.  For example, you can specify the value as, ["ALL"] or ["DEFAULT"]. If you provide both, ["ALL", "DEFAULT"], the service uses a logical AND operator to determine which attributes to return (in this case, it is all attributes). If you specify all attributes, Amazon Rekognition performs additional detection. 
-        public var attributes: [String]? = nil
-
-        public init() {}
+        public let attributes: [String]?
 
         public init(image: Image, attributes: [String]? = nil) {
             self.image = image
@@ -722,19 +674,15 @@ extension Rekognition {
         public init(dictionary: [String: Any]) throws {
             guard let image = dictionary["Image"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Image") }
             self.image = try Rekognition.Image(dictionary: image)
-            if let attributes = dictionary["Attributes"] as? [String] {
-                self.attributes = attributes
-            }
+            self.attributes = dictionary["Attributes"] as? [String]
         }
     }
 
     public struct FaceRecord: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var face: Face? = nil
-        public var faceDetail: FaceDetail? = nil
-
-        public init() {}
+        public let face: Face?
+        public let faceDetail: FaceDetail?
 
         public init(face: Face? = nil, faceDetail: FaceDetail? = nil) {
             self.face = face
@@ -742,8 +690,8 @@ extension Rekognition {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let face = dictionary["Face"] as? [String: Any] { self.face = try Rekognition.Face(dictionary: face) }
-            if let faceDetail = dictionary["FaceDetail"] as? [String: Any] { self.faceDetail = try Rekognition.FaceDetail(dictionary: faceDetail) }
+            if let face = dictionary["Face"] as? [String: Any] { self.face = try Rekognition.Face(dictionary: face) } else { self.face = nil }
+            if let faceDetail = dictionary["FaceDetail"] as? [String: Any] { self.faceDetail = try Rekognition.FaceDetail(dictionary: faceDetail) } else { self.faceDetail = nil }
         }
     }
 
@@ -751,11 +699,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Level of confidence in the determination.
-        public var confidence: Float? = nil
+        public let confidence: Float?
         /// Boolean value that indicates whether the face has beard or not.
-        public var value: Bool? = nil
-
-        public init() {}
+        public let value: Bool?
 
         public init(confidence: Float? = nil, value: Bool? = nil) {
             self.confidence = confidence
@@ -771,17 +717,15 @@ extension Rekognition {
     public struct Face: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var boundingBox: BoundingBox? = nil
+        public let boundingBox: BoundingBox?
         /// Identifier that you assign to all the faces in the input image.
-        public var externalImageId: String? = nil
+        public let externalImageId: String?
         /// Confidence level that the bounding box contains a face (and not a different object such as a tree).
-        public var confidence: Float? = nil
+        public let confidence: Float?
         /// Unique identifier that Amazon Rekognition assigns to the face.
-        public var faceId: String? = nil
+        public let faceId: String?
         /// Unique identifier that Amazon Rekognition assigns to the source image.
-        public var imageId: String? = nil
-
-        public init() {}
+        public let imageId: String?
 
         public init(boundingBox: BoundingBox? = nil, externalImageId: String? = nil, confidence: Float? = nil, faceId: String? = nil, imageId: String? = nil) {
             self.boundingBox = boundingBox
@@ -792,7 +736,7 @@ extension Rekognition {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let boundingBox = dictionary["BoundingBox"] as? [String: Any] { self.boundingBox = try Rekognition.BoundingBox(dictionary: boundingBox) }
+            if let boundingBox = dictionary["BoundingBox"] as? [String: Any] { self.boundingBox = try Rekognition.BoundingBox(dictionary: boundingBox) } else { self.boundingBox = nil }
             self.externalImageId = dictionary["ExternalImageId"] as? String
             self.confidence = dictionary["Confidence"] as? Float
             self.faceId = dictionary["FaceId"] as? String
@@ -804,13 +748,11 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Source image either as bytes or an S3 object
-        public var sourceImage: Image = Image()
+        public let sourceImage: Image
         /// Target image either as bytes or an S3 object
-        public var targetImage: Image = Image()
+        public let targetImage: Image
         /// The minimum level of confidence in the match you want included in the result.
-        public var similarityThreshold: Float? = nil
-
-        public init() {}
+        public let similarityThreshold: Float?
 
         public init(sourceImage: Image, targetImage: Image, similarityThreshold: Float? = nil) {
             self.sourceImage = sourceImage
@@ -831,11 +773,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Level of confidence in the determination.
-        public var confidence: Float? = nil
+        public let confidence: Float?
         /// Boolean value that indicates whether the face is wearing sunglasses or not.
-        public var value: Bool? = nil
-
-        public init() {}
+        public let value: Bool?
 
         public init(confidence: Float? = nil, value: Bool? = nil) {
             self.confidence = confidence
@@ -852,11 +792,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Level of confidence in the determination.
-        public var confidence: Float? = nil
+        public let confidence: Float?
         /// Boolean value that indicates whether the mouth on the face is open or not.
-        public var value: Bool? = nil
-
-        public init() {}
+        public let value: Bool?
 
         public init(confidence: Float? = nil, value: Bool? = nil) {
             self.confidence = confidence
@@ -873,11 +811,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Blob of image bytes up to 5 MBs.
-        public var bytes: Data? = nil
+        public let bytes: Data?
         /// Identifies an S3 object as the image source.
-        public var s3Object: S3Object? = nil
-
-        public init() {}
+        public let s3Object: S3Object?
 
         public init(bytes: Data? = nil, s3Object: S3Object? = nil) {
             self.bytes = bytes
@@ -886,7 +822,7 @@ extension Rekognition {
 
         public init(dictionary: [String: Any]) throws {
             self.bytes = dictionary["Bytes"] as? Data
-            if let s3Object = dictionary["S3Object"] as? [String: Any] { self.s3Object = try Rekognition.S3Object(dictionary: s3Object) }
+            if let s3Object = dictionary["S3Object"] as? [String: Any] { self.s3Object = try Rekognition.S3Object(dictionary: s3Object) } else { self.s3Object = nil }
         }
     }
 
@@ -894,11 +830,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Provides an array of CompareFacesMatch objects. Each object provides the bounding box, confidence that the bounding box contains a face, and the similarity between the face in the bounding box and the face in the source image.
-        public var faceMatches: [CompareFacesMatch]? = nil
+        public let faceMatches: [CompareFacesMatch]?
         /// The face from the source image that was used for comparison.
-        public var sourceImageFace: ComparedSourceImageFace? = nil
-
-        public init() {}
+        public let sourceImageFace: ComparedSourceImageFace?
 
         public init(faceMatches: [CompareFacesMatch]? = nil, sourceImageFace: ComparedSourceImageFace? = nil) {
             self.faceMatches = faceMatches
@@ -908,8 +842,10 @@ extension Rekognition {
         public init(dictionary: [String: Any]) throws {
             if let faceMatches = dictionary["FaceMatches"] as? [[String: Any]] {
                 self.faceMatches = try faceMatches.map({ try CompareFacesMatch(dictionary: $0) })
+            } else { 
+                self.faceMatches = nil
             }
-            if let sourceImageFace = dictionary["SourceImageFace"] as? [String: Any] { self.sourceImageFace = try Rekognition.ComparedSourceImageFace(dictionary: sourceImageFace) }
+            if let sourceImageFace = dictionary["SourceImageFace"] as? [String: Any] { self.sourceImageFace = try Rekognition.ComparedSourceImageFace(dictionary: sourceImageFace) } else { self.sourceImageFace = nil }
         }
     }
 
@@ -917,11 +853,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// The highest estimated age.
-        public var high: Int32? = nil
+        public let high: Int32?
         /// The lowest estimated age.
-        public var low: Int32? = nil
-
-        public init() {}
+        public let low: Int32?
 
         public init(high: Int32? = nil, low: Int32? = nil) {
             self.high = high
@@ -938,11 +872,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Level of confidence in the determination.
-        public var confidence: Float? = nil
+        public let confidence: Float?
         /// Boolean value that indicates whether the face is wearing eye glasses or not.
-        public var value: Bool? = nil
-
-        public init() {}
+        public let value: Bool?
 
         public init(confidence: Float? = nil, value: Bool? = nil) {
             self.confidence = confidence
@@ -959,9 +891,7 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// ID of the collection to delete.
-        public var collectionId: String = ""
-
-        public init() {}
+        public let collectionId: String
 
         public init(collectionId: String) {
             self.collectionId = collectionId
@@ -977,9 +907,7 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// ID for the collection that you are creating.
-        public var collectionId: String = ""
-
-        public init() {}
+        public let collectionId: String
 
         public init(collectionId: String) {
             self.collectionId = collectionId
@@ -995,13 +923,11 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// If the previous response was incomplete (because there is more data to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of faces.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// ID of the collection from which to list the faces.
-        public var collectionId: String = ""
+        public let collectionId: String
         /// Maximum number of faces to return.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(nextToken: String? = nil, collectionId: String, maxResults: Int32? = nil) {
             self.nextToken = nextToken
@@ -1021,11 +947,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Value representing sharpness of the face.
-        public var sharpness: Float? = nil
+        public let sharpness: Float?
         /// Value representing brightness of the face. The service returns a value between 0 and 1 (inclusive).
-        public var brightness: Float? = nil
-
-        public init() {}
+        public let brightness: Float?
 
         public init(sharpness: Float? = nil, brightness: Float? = nil) {
             self.sharpness = sharpness
@@ -1042,11 +966,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Amazon Rekognition returns the orientation of the input image that was detected (clockwise direction). If your application displays the image, you can use this value to correct the orientation. If Amazon Rekognition detects that the input image was rotated (for example, by 90 degrees), it first corrects the orientation before detecting the labels.   If the source image Exif metadata populates the orientation field, Amazon Rekognition does not perform orientation correction and the value of OrientationCorrection will be nil. 
-        public var orientationCorrection: String? = nil
+        public let orientationCorrection: String?
         /// An array of labels for the real-world objects detected. 
-        public var labels: [Label]? = nil
-
-        public init() {}
+        public let labels: [Label]?
 
         public init(orientationCorrection: String? = nil, labels: [Label]? = nil) {
             self.orientationCorrection = orientationCorrection
@@ -1057,6 +979,8 @@ extension Rekognition {
             self.orientationCorrection = dictionary["OrientationCorrection"] as? String
             if let labels = dictionary["Labels"] as? [[String: Any]] {
                 self.labels = try labels.map({ try Label(dictionary: $0) })
+            } else { 
+                self.labels = nil
             }
         }
     }
@@ -1065,11 +989,9 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of Face objects. 
-        public var faces: [Face]? = nil
+        public let faces: [Face]?
         /// If the response is truncated, Amazon Rekognition returns this token that you can use in the subsequent request to retrieve the next set of faces.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(faces: [Face]? = nil, nextToken: String? = nil) {
             self.faces = faces
@@ -1079,6 +1001,8 @@ extension Rekognition {
         public init(dictionary: [String: Any]) throws {
             if let faces = dictionary["Faces"] as? [[String: Any]] {
                 self.faces = try faces.map({ try Face(dictionary: $0) })
+            } else { 
+                self.faces = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -1087,15 +1011,13 @@ extension Rekognition {
     public struct IndexFacesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var image: Image = Image()
+        public let image: Image
         /// ID you want to assign to all the faces detected in the image.
-        public var externalImageId: String? = nil
+        public let externalImageId: String?
         /// ID of an existing collection to which you want to add the faces that are detected in the input images.
-        public var collectionId: String = ""
+        public let collectionId: String
         /// (Optional) Returns detailed attributes of indexed faces. By default, the operation returns a subset of the facial attributes.  For example, you can specify the value as, ["ALL"] or ["DEFAULT"]. If you provide both, ["ALL", "DEFAULT"], Amazon Rekognition uses the logical AND operator to determine which attributes to return (in this case, it is all attributes). If you specify all attributes, the service performs additional detection, in addition to the default. 
-        public var detectionAttributes: [String]? = nil
-
-        public init() {}
+        public let detectionAttributes: [String]?
 
         public init(image: Image, externalImageId: String? = nil, collectionId: String, detectionAttributes: [String]? = nil) {
             self.image = image
@@ -1110,9 +1032,7 @@ extension Rekognition {
             self.externalImageId = dictionary["ExternalImageId"] as? String
             guard let collectionId = dictionary["CollectionId"] as? String else { throw InitializableError.missingRequiredParam("CollectionId") }
             self.collectionId = collectionId
-            if let detectionAttributes = dictionary["DetectionAttributes"] as? [String] {
-                self.detectionAttributes = detectionAttributes
-            }
+            self.detectionAttributes = dictionary["DetectionAttributes"] as? [String]
         }
     }
 
@@ -1120,10 +1040,8 @@ extension Rekognition {
         /// The key for the payload
         public static let payload: String? = nil
         /// Confidence level that the selected bounding box contains a face.
-        public var confidence: Float? = nil
-        public var boundingBox: BoundingBox? = nil
-
-        public init() {}
+        public let confidence: Float?
+        public let boundingBox: BoundingBox?
 
         public init(confidence: Float? = nil, boundingBox: BoundingBox? = nil) {
             self.confidence = confidence
@@ -1132,7 +1050,7 @@ extension Rekognition {
 
         public init(dictionary: [String: Any]) throws {
             self.confidence = dictionary["Confidence"] as? Float
-            if let boundingBox = dictionary["BoundingBox"] as? [String: Any] { self.boundingBox = try Rekognition.BoundingBox(dictionary: boundingBox) }
+            if let boundingBox = dictionary["BoundingBox"] as? [String: Any] { self.boundingBox = try Rekognition.BoundingBox(dictionary: boundingBox) } else { self.boundingBox = nil }
         }
     }
 

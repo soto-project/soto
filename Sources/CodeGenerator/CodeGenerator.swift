@@ -223,7 +223,7 @@ extension AWSService {
                     code += "\n"
                     code += indt(3)+substituting
                 } else {
-                    code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.name)\"] as? [String: Any] { \(substituting) }"
+                    code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.name)\"] as? [String: Any] { \(substituting) } else { self.\(member.variableName) = nil }"
                 }
                 code += "\n"
             case .map(_, let valueShape):
@@ -288,6 +288,7 @@ extension AWSService {
                         
                     case .list(_):
                         // TODO implement here
+                        code += "\(indt(3))self.\(member.variableName) = [:]\n"
                         break
                         
                     default:
@@ -340,6 +341,8 @@ extension AWSService {
                     } else {
                         code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.name)\"] as? \(firstElementType) {\n"
                         code += decodingCode(4)
+                        code += "\(indt(3))} else { \n"
+                        code += "\(indt(4))self.\(member.variableName) = nil\n"
                         code += "\(indt(3))}\n"
                     }
                 }
@@ -353,6 +356,8 @@ extension AWSService {
                     } else {
                         code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.name)\"] as? [[String: Any]] {\n"
                         code += "\(indt(4))self.\(member.variableName) = try \(member.variableName).map({ try \(shape.swiftTypeName)(dictionary: $0) })\n"
+                        code += "\(indt(3))} else { \n"
+                        code += "\(indt(4))self.\(member.variableName) = nil\n"
                         code += "\(indt(3))}\n"
                     }
                     
@@ -379,6 +384,8 @@ extension AWSService {
                         } else {
                             code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.name)\"] as? [[String: [String: Any]]] {\n"
                                 code += decodingCode(4)
+                            code += "\(indt(3))} else { \n"
+                                code += "\(indt(4))self.\(member.variableName) = nil\n"
                             code += "\(indt(3))}\n"
                         }
                     case .map, .list:
@@ -389,9 +396,7 @@ extension AWSService {
                             code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.name)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(member.name)\") }\n"
                             code += "\(indt(3))self.\(member.variableName) = \(member.variableName)\n"
                         } else {
-                            code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.name)\"] as? \(member.swiftTypeName) {\n"
-                            code += "\(indt(4))self.\(member.variableName) = \(member.variableName)\n"
-                            code += "\(indt(3))}\n"
+                            code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(member.name)\"] as? \(member.swiftTypeName)\n"
                         }
                     }
                 case .list(let childShape):
@@ -404,9 +409,7 @@ extension AWSService {
                             code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.name)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(member.name)\") }\n"
                             code += "\(indt(3))self.\(member.variableName) = \(member.variableName)\n"
                         } else {
-                            code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.name)\"] as? \(member.swiftTypeName) {\n"
-                            code += "\(indt(4))self.\(member.variableName) = \(member.variableName)\n"
-                            code += "\(indt(3))}\n"
+                            code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(member.name)\"] as? \(member.swiftTypeName)\n"
                         }
                     }
                 default:
@@ -414,9 +417,7 @@ extension AWSService {
                         code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.name)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(member.name)\") }\n"
                         code += "\(indt(3))self.\(member.variableName) = \(member.variableName)\n"
                     } else {
-                        code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.name)\"] as? \(member.swiftTypeName) {\n"
-                        code += "\(indt(4))self.\(member.variableName) = \(member.variableName)\n"
-                        code += "\(indt(3))}\n"
+                        code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(member.name)\"] as? \(member.swiftTypeName)\n"
                     }
                 }
                 
@@ -477,10 +478,9 @@ extension AWSService {
                     if let comment = shapeDoc[shape.name]?[member.name], !comment.isEmpty {
                         code += "\(indt(2))/// \(comment)\n"
                     }
-                    code += "\(indt(2))public \(member.toSwiftMutableMemberSyntax())\n"
+                    code += "\(indt(2))public \(member.toSwiftImmutableMemberSyntax())\n"
                 }
                 code += "\n"
-                code += "\(indt(2))public init() {}\n\n"
                 if type.members.count > 0 {
                     code += "\(indt(2))public init(\(type.members.toSwiftArgumentSyntax())) {\n"
                     for member in type.members {

@@ -33,17 +33,15 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS Direct Connect location in which the LAG should be allocated. Example: EqSV5 Default: None
-        public var location: String = ""
+        public let location: String
         /// The bandwidth of the individual physical connections bundled by the LAG. Default: None Available values: 1Gbps, 10Gbps
-        public var connectionsBandwidth: String = ""
+        public let connectionsBandwidth: String
         /// The ID of an existing connection to migrate to the LAG. Default: None
-        public var connectionId: String? = nil
+        public let connectionId: String?
         /// The number of physical connections initially provisioned and bundled by the LAG. Default: None
-        public var numberOfConnections: Int32 = 0
+        public let numberOfConnections: Int32
         /// The name of the LAG. Example: "3x10G LAG to AWS" Default: None
-        public var lagName: String = ""
-
-        public init() {}
+        public let lagName: String
 
         public init(location: String, connectionsBandwidth: String, connectionId: String? = nil, numberOfConnections: Int32, lagName: String) {
             self.location = location
@@ -70,9 +68,7 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the tags.
-        public var resourceTags: [ResourceTag]? = nil
-
-        public init() {}
+        public let resourceTags: [ResourceTag]?
 
         public init(resourceTags: [ResourceTag]? = nil) {
             self.resourceTags = resourceTags
@@ -81,6 +77,8 @@ extension Directconnect {
         public init(dictionary: [String: Any]) throws {
             if let resourceTags = dictionary["resourceTags"] as? [[String: Any]] {
                 self.resourceTags = try resourceTags.map({ try ResourceTag(dictionary: $0) })
+            } else { 
+                self.resourceTags = nil
             }
         }
     }
@@ -89,9 +87,7 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of virtual private gateways.
-        public var virtualGateways: [VirtualGateway]? = nil
-
-        public init() {}
+        public let virtualGateways: [VirtualGateway]?
 
         public init(virtualGateways: [VirtualGateway]? = nil) {
             self.virtualGateways = virtualGateways
@@ -100,6 +96,8 @@ extension Directconnect {
         public init(dictionary: [String: Any]) throws {
             if let virtualGateways = dictionary["virtualGateways"] as? [[String: Any]] {
                 self.virtualGateways = try virtualGateways.map({ try VirtualGateway(dictionary: $0) })
+            } else { 
+                self.virtualGateways = nil
             }
         }
     }
@@ -108,11 +106,9 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the Direct Connect resource. Example: arn:aws:directconnect:us-east-1:123456789012:dxcon/dxcon-fg5678gh
-        public var resourceArn: String = ""
+        public let resourceArn: String
         /// The list of tags to add.
-        public var tags: [Tag] = []
-
-        public init() {}
+        public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
@@ -131,17 +127,15 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The numeric account ID of the customer for whom the connection will be provisioned. Example: 123443215678 Default: None
-        public var ownerAccount: String = ""
+        public let ownerAccount: String
         /// The name of the provisioned connection. Example: "500M Connection to AWS" Default: None
-        public var connectionName: String = ""
+        public let connectionName: String
         /// The ID of the interconnect or LAG on which the connection will be provisioned. Example: dxcon-456abc78 or dxlag-abc123 Default: None
-        public var connectionId: String = ""
+        public let connectionId: String
         /// The dedicated VLAN provisioned to the hosted connection. Example: 101 Default: None
-        public var vlan: Int32 = 0
+        public let vlan: Int32
         /// The bandwidth of the connection. Example: 500Mbps  Default: None Values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, or 500Mbps
-        public var bandwidth: String = ""
-
-        public init() {}
+        public let bandwidth: String
 
         public init(ownerAccount: String, connectionName: String, connectionId: String, vlan: Int32, bandwidth: String) {
             self.ownerAccount = ownerAccount
@@ -169,27 +163,25 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of connections bundled by this LAG.
-        public var connections: [Connection]? = nil
-        public var location: String? = nil
-        public var lagId: String? = nil
-        public var lagState: String? = nil
+        public let connections: [Connection]?
+        public let location: String?
+        public let lagId: String?
+        public let lagState: String?
         /// The AWS Direct Connection endpoint that hosts the LAG.
-        public var awsDevice: String? = nil
+        public let awsDevice: String?
         /// The number of physical connections bundled by the LAG, up to a maximum of 10.
-        public var numberOfConnections: Int32? = nil
+        public let numberOfConnections: Int32?
         /// The owner of the LAG.
-        public var ownerAccount: String? = nil
-        public var region: String? = nil
+        public let ownerAccount: String?
+        public let region: String?
         /// The minimum number of physical connections that must be operational for the LAG itself to be operational. If the number of operational connections drops below this setting, the LAG state changes to down. This value can help to ensure that a LAG is not overutilized if a significant number of its bundled connections go down.
-        public var minimumLinks: Int32? = nil
+        public let minimumLinks: Int32?
         /// Indicates whether the LAG can host other connections.  This is intended for use by AWS Direct Connect partners only. 
-        public var allowsHostedConnections: Bool? = nil
+        public let allowsHostedConnections: Bool?
         /// The individual bandwidth of the physical connections bundled by the LAG. Available values: 1Gbps, 10Gbps
-        public var connectionsBandwidth: String? = nil
+        public let connectionsBandwidth: String?
         /// The name of the LAG.
-        public var lagName: String? = nil
-
-        public init() {}
+        public let lagName: String?
 
         public init(connections: [Connection]? = nil, location: String? = nil, lagId: String? = nil, lagState: String? = nil, awsDevice: String? = nil, numberOfConnections: Int32? = nil, ownerAccount: String? = nil, region: String? = nil, minimumLinks: Int32? = nil, allowsHostedConnections: Bool? = nil, connectionsBandwidth: String? = nil, lagName: String? = nil) {
             self.connections = connections
@@ -209,6 +201,8 @@ extension Directconnect {
         public init(dictionary: [String: Any]) throws {
             if let connections = dictionary["connections"] as? [[String: Any]] {
                 self.connections = try connections.map({ try Connection(dictionary: $0) })
+            } else { 
+                self.connections = nil
             }
             self.location = dictionary["location"] as? String
             self.lagId = dictionary["lagId"] as? String
@@ -227,9 +221,7 @@ extension Directconnect {
     public struct DeleteVirtualInterfaceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var virtualInterfaceState: String? = nil
-
-        public init() {}
+        public let virtualInterfaceState: String?
 
         public init(virtualInterfaceState: String? = nil) {
             self.virtualInterfaceState = virtualInterfaceState
@@ -244,11 +236,9 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the virtual interface. Example: dxvif-123dfg56 Default: None
-        public var virtualInterfaceId: String = ""
+        public let virtualInterfaceId: String
         /// The ID of the LAG or connection with which to associate the virtual interface. Example: dxlag-abc123 or dxcon-abc123 Default: None
-        public var connectionId: String = ""
-
-        public init() {}
+        public let connectionId: String
 
         public init(virtualInterfaceId: String, connectionId: String) {
             self.virtualInterfaceId = virtualInterfaceId
@@ -266,16 +256,14 @@ extension Directconnect {
     public struct CreateBGPPeerResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var virtualInterface: VirtualInterface? = nil
-
-        public init() {}
+        public let virtualInterface: VirtualInterface?
 
         public init(virtualInterface: VirtualInterface? = nil) {
             self.virtualInterface = virtualInterface
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let virtualInterface = dictionary["virtualInterface"] as? [String: Any] { self.virtualInterface = try Directconnect.VirtualInterface(dictionary: virtualInterface) }
+            if let virtualInterface = dictionary["virtualInterface"] as? [String: Any] { self.virtualInterface = try Directconnect.VirtualInterface(dictionary: virtualInterface) } else { self.virtualInterface = nil }
         }
     }
 
@@ -283,9 +271,7 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the LAG. Example: dxlag-abc123 Default: None
-        public var lagId: String? = nil
-
-        public init() {}
+        public let lagId: String?
 
         public init(lagId: String? = nil) {
             self.lagId = lagId
@@ -300,9 +286,7 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Names (ARNs) of the Direct Connect resources.
-        public var resourceArns: [String] = []
-
-        public init() {}
+        public let resourceArns: [String]
 
         public init(resourceArns: [String]) {
             self.resourceArns = resourceArns
@@ -317,32 +301,28 @@ extension Directconnect {
     public struct DescribeConnectionLoaResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var loa: Loa? = nil
-
-        public init() {}
+        public let loa: Loa?
 
         public init(loa: Loa? = nil) {
             self.loa = loa
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let loa = dictionary["loa"] as? [String: Any] { self.loa = try Directconnect.Loa(dictionary: loa) }
+            if let loa = dictionary["loa"] as? [String: Any] { self.loa = try Directconnect.Loa(dictionary: loa) } else { self.loa = nil }
         }
     }
 
     public struct NewPublicVirtualInterfaceAllocation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var customerAddress: String? = nil
-        public var virtualInterfaceName: String = ""
-        public var authKey: String? = nil
-        public var amazonAddress: String? = nil
-        public var asn: Int32 = 0
-        public var addressFamily: String? = nil
-        public var routeFilterPrefixes: [RouteFilterPrefix]? = nil
-        public var vlan: Int32 = 0
-
-        public init() {}
+        public let customerAddress: String?
+        public let virtualInterfaceName: String
+        public let authKey: String?
+        public let amazonAddress: String?
+        public let asn: Int32
+        public let addressFamily: String?
+        public let routeFilterPrefixes: [RouteFilterPrefix]?
+        public let vlan: Int32
 
         public init(customerAddress: String? = nil, virtualInterfaceName: String, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32, addressFamily: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, vlan: Int32) {
             self.customerAddress = customerAddress
@@ -366,6 +346,8 @@ extension Directconnect {
             self.addressFamily = dictionary["addressFamily"] as? String
             if let routeFilterPrefixes = dictionary["routeFilterPrefixes"] as? [[String: Any]] {
                 self.routeFilterPrefixes = try routeFilterPrefixes.map({ try RouteFilterPrefix(dictionary: $0) })
+            } else { 
+                self.routeFilterPrefixes = nil
             }
             guard let vlan = dictionary["vlan"] as? Int32 else { throw InitializableError.missingRequiredParam("vlan") }
             self.vlan = vlan
@@ -376,11 +358,9 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The key of the tag.
-        public var key: String = ""
+        public let key: String
         /// The value of the tag.
-        public var value: String? = nil
-
-        public init() {}
+        public let value: String?
 
         public init(key: String, value: String? = nil) {
             self.key = key
@@ -397,11 +377,9 @@ extension Directconnect {
     public struct CreatePrivateVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var connectionId: String = ""
+        public let connectionId: String
         /// Detailed information for the private virtual interface to be created. Default: None
-        public var newPrivateVirtualInterface: NewPrivateVirtualInterface = NewPrivateVirtualInterface()
-
-        public init() {}
+        public let newPrivateVirtualInterface: NewPrivateVirtualInterface
 
         public init(connectionId: String, newPrivateVirtualInterface: NewPrivateVirtualInterface) {
             self.connectionId = connectionId
@@ -420,11 +398,9 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the hosted connection. Example: dxcon-abc123 Default: None
-        public var connectionId: String = ""
+        public let connectionId: String
         /// The ID of the interconnect or the LAG. Example: dxcon-abc123 or dxlag-abc123 Default: None
-        public var parentConnectionId: String = ""
-
-        public init() {}
+        public let parentConnectionId: String
 
         public init(connectionId: String, parentConnectionId: String) {
             self.connectionId = connectionId
@@ -442,9 +418,7 @@ extension Directconnect {
     public struct DeleteInterconnectRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var interconnectId: String = ""
-
-        public init() {}
+        public let interconnectId: String
 
         public init(interconnectId: String) {
             self.interconnectId = interconnectId
@@ -460,11 +434,9 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect. Default: None
-        public var providerName: String? = nil
-        public var loaContentType: String? = nil
-        public var interconnectId: String = ""
-
-        public init() {}
+        public let providerName: String?
+        public let loaContentType: String?
+        public let interconnectId: String
 
         public init(providerName: String? = nil, loaContentType: String? = nil, interconnectId: String) {
             self.providerName = providerName
@@ -483,16 +455,14 @@ extension Directconnect {
     public struct NewPublicVirtualInterface: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var customerAddress: String? = nil
-        public var virtualInterfaceName: String = ""
-        public var authKey: String? = nil
-        public var amazonAddress: String? = nil
-        public var asn: Int32 = 0
-        public var addressFamily: String? = nil
-        public var routeFilterPrefixes: [RouteFilterPrefix]? = nil
-        public var vlan: Int32 = 0
-
-        public init() {}
+        public let customerAddress: String?
+        public let virtualInterfaceName: String
+        public let authKey: String?
+        public let amazonAddress: String?
+        public let asn: Int32
+        public let addressFamily: String?
+        public let routeFilterPrefixes: [RouteFilterPrefix]?
+        public let vlan: Int32
 
         public init(customerAddress: String? = nil, virtualInterfaceName: String, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32, addressFamily: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, vlan: Int32) {
             self.customerAddress = customerAddress
@@ -516,6 +486,8 @@ extension Directconnect {
             self.addressFamily = dictionary["addressFamily"] as? String
             if let routeFilterPrefixes = dictionary["routeFilterPrefixes"] as? [[String: Any]] {
                 self.routeFilterPrefixes = try routeFilterPrefixes.map({ try RouteFilterPrefix(dictionary: $0) })
+            } else { 
+                self.routeFilterPrefixes = nil
             }
             guard let vlan = dictionary["vlan"] as? Int32 else { throw InitializableError.missingRequiredParam("vlan") }
             self.vlan = vlan
@@ -526,9 +498,7 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of interconnects.
-        public var interconnects: [Interconnect]? = nil
-
-        public init() {}
+        public let interconnects: [Interconnect]?
 
         public init(interconnects: [Interconnect]? = nil) {
             self.interconnects = interconnects
@@ -537,6 +507,8 @@ extension Directconnect {
         public init(dictionary: [String: Any]) throws {
             if let interconnects = dictionary["interconnects"] as? [[String: Any]] {
                 self.interconnects = try interconnects.map({ try Interconnect(dictionary: $0) })
+            } else { 
+                self.interconnects = nil
             }
         }
     }
@@ -545,13 +517,11 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The connection ID on which the private virtual interface is provisioned. Default: None
-        public var connectionId: String = ""
+        public let connectionId: String
         /// Detailed information for the private virtual interface to be provisioned. Default: None
-        public var newPrivateVirtualInterfaceAllocation: NewPrivateVirtualInterfaceAllocation = NewPrivateVirtualInterfaceAllocation()
+        public let newPrivateVirtualInterfaceAllocation: NewPrivateVirtualInterfaceAllocation
         /// The AWS account that will own the new private virtual interface. Default: None
-        public var ownerAccount: String = ""
-
-        public init() {}
+        public let ownerAccount: String
 
         public init(connectionId: String, newPrivateVirtualInterfaceAllocation: NewPrivateVirtualInterfaceAllocation, ownerAccount: String) {
             self.connectionId = connectionId
@@ -573,9 +543,7 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the LAG to delete. Example: dxlag-abc123 Default: None
-        public var lagId: String = ""
-
-        public init() {}
+        public let lagId: String
 
         public init(lagId: String) {
             self.lagId = lagId
@@ -591,13 +559,11 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The minimum number of physical connections that must be operational for the LAG itself to be operational. Default: None
-        public var minimumLinks: Int32? = nil
+        public let minimumLinks: Int32?
         /// The ID of the LAG to update. Example: dxlag-abc123 Default: None
-        public var lagId: String = ""
+        public let lagId: String
         /// The name for the LAG. Example: "3x10G LAG to AWS" Default: None
-        public var lagName: String? = nil
-
-        public init() {}
+        public let lagName: String?
 
         public init(minimumLinks: Int32? = nil, lagId: String, lagName: String? = nil) {
             self.minimumLinks = minimumLinks
@@ -616,16 +582,14 @@ extension Directconnect {
     public struct NewPrivateVirtualInterface: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var customerAddress: String? = nil
-        public var virtualInterfaceName: String = ""
-        public var authKey: String? = nil
-        public var amazonAddress: String? = nil
-        public var asn: Int32 = 0
-        public var addressFamily: String? = nil
-        public var virtualGatewayId: String = ""
-        public var vlan: Int32 = 0
-
-        public init() {}
+        public let customerAddress: String?
+        public let virtualInterfaceName: String
+        public let authKey: String?
+        public let amazonAddress: String?
+        public let asn: Int32
+        public let addressFamily: String?
+        public let virtualGatewayId: String
+        public let vlan: Int32
 
         public init(customerAddress: String? = nil, virtualInterfaceName: String, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32, addressFamily: String? = nil, virtualGatewayId: String, vlan: Int32) {
             self.customerAddress = customerAddress
@@ -658,9 +622,7 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the interconnect or LAG on which the hosted connections are provisioned. Example: dxcon-abc123 or dxlag-abc123 Default: None
-        public var connectionId: String = ""
-
-        public init() {}
+        public let connectionId: String
 
         public init(connectionId: String) {
             self.connectionId = connectionId
@@ -675,9 +637,7 @@ extension Directconnect {
     public struct DeleteConnectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var connectionId: String = ""
-
-        public init() {}
+        public let connectionId: String
 
         public init(connectionId: String) {
             self.connectionId = connectionId
@@ -692,15 +652,13 @@ extension Directconnect {
     public struct NewPrivateVirtualInterfaceAllocation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var customerAddress: String? = nil
-        public var virtualInterfaceName: String = ""
-        public var authKey: String? = nil
-        public var amazonAddress: String? = nil
-        public var asn: Int32 = 0
-        public var addressFamily: String? = nil
-        public var vlan: Int32 = 0
-
-        public init() {}
+        public let customerAddress: String?
+        public let virtualInterfaceName: String
+        public let authKey: String?
+        public let amazonAddress: String?
+        public let asn: Int32
+        public let addressFamily: String?
+        public let vlan: Int32
 
         public init(customerAddress: String? = nil, virtualInterfaceName: String, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32, addressFamily: String? = nil, vlan: Int32) {
             self.customerAddress = customerAddress
@@ -729,11 +687,9 @@ extension Directconnect {
     public struct CreatePublicVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var connectionId: String = ""
+        public let connectionId: String
         /// Detailed information for the public virtual interface to be created. Default: None
-        public var newPublicVirtualInterface: NewPublicVirtualInterface = NewPublicVirtualInterface()
-
-        public init() {}
+        public let newPublicVirtualInterface: NewPublicVirtualInterface
 
         public init(connectionId: String, newPublicVirtualInterface: NewPublicVirtualInterface) {
             self.connectionId = connectionId
@@ -751,9 +707,7 @@ extension Directconnect {
     public struct DescribeInterconnectsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var interconnectId: String? = nil
-
-        public init() {}
+        public let interconnectId: String?
 
         public init(interconnectId: String? = nil) {
             self.interconnectId = interconnectId
@@ -768,11 +722,9 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the Direct Connect resource.
-        public var resourceArn: String? = nil
+        public let resourceArn: String?
         /// The tags.
-        public var tags: [Tag]? = nil
-
-        public init() {}
+        public let tags: [Tag]?
 
         public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
             self.resourceArn = resourceArn
@@ -783,6 +735,8 @@ extension Directconnect {
             self.resourceArn = dictionary["resourceArn"] as? String
             if let tags = dictionary["tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
         }
     }
@@ -790,9 +744,7 @@ extension Directconnect {
     public struct ConfirmConnectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var connectionId: String = ""
-
-        public init() {}
+        public let connectionId: String
 
         public init(connectionId: String) {
             self.connectionId = connectionId
@@ -808,11 +760,9 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the connection. Example: dxcon-abc123 Default: None
-        public var connectionId: String = ""
+        public let connectionId: String
         /// The ID of the LAG with which to associate the connection. Example: dxlag-abc123 Default: None
-        public var lagId: String = ""
-
-        public init() {}
+        public let lagId: String
 
         public init(connectionId: String, lagId: String) {
             self.connectionId = connectionId
@@ -831,13 +781,11 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// Detailed information for the public virtual interface to be provisioned. Default: None
-        public var newPublicVirtualInterfaceAllocation: NewPublicVirtualInterfaceAllocation = NewPublicVirtualInterfaceAllocation()
+        public let newPublicVirtualInterfaceAllocation: NewPublicVirtualInterfaceAllocation
         /// The connection ID on which the public virtual interface is provisioned. Default: None
-        public var connectionId: String = ""
+        public let connectionId: String
         /// The AWS account that will own the new public virtual interface. Default: None
-        public var ownerAccount: String = ""
-
-        public init() {}
+        public let ownerAccount: String
 
         public init(newPublicVirtualInterfaceAllocation: NewPublicVirtualInterfaceAllocation, connectionId: String, ownerAccount: String) {
             self.newPublicVirtualInterfaceAllocation = newPublicVirtualInterfaceAllocation
@@ -858,9 +806,7 @@ extension Directconnect {
     public struct ConfirmPublicVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var virtualInterfaceId: String = ""
-
-        public init() {}
+        public let virtualInterfaceId: String
 
         public init(virtualInterfaceId: String) {
             self.virtualInterfaceId = virtualInterfaceId
@@ -876,14 +822,12 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// Where the interconnect is located Example: EqSV5 Default: None
-        public var location: String = ""
-        public var lagId: String? = nil
+        public let location: String
+        public let lagId: String?
         /// The name of the interconnect. Example: "1G Interconnect to AWS" Default: None
-        public var interconnectName: String = ""
+        public let interconnectName: String
         /// The port bandwidth Example: 1Gbps Default: None Available values: 1Gbps,10Gbps
-        public var bandwidth: String = ""
-
-        public init() {}
+        public let bandwidth: String
 
         public init(location: String, lagId: String? = nil, interconnectName: String, bandwidth: String) {
             self.location = location
@@ -907,9 +851,7 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of connections.
-        public var connections: [Connection]? = nil
-
-        public init() {}
+        public let connections: [Connection]?
 
         public init(connections: [Connection]? = nil) {
             self.connections = connections
@@ -918,6 +860,8 @@ extension Directconnect {
         public init(dictionary: [String: Any]) throws {
             if let connections = dictionary["connections"] as? [[String: Any]] {
                 self.connections = try connections.map({ try Connection(dictionary: $0) })
+            } else { 
+                self.connections = nil
             }
         }
     }
@@ -925,16 +869,14 @@ extension Directconnect {
     public struct DescribeInterconnectLoaResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var loa: Loa? = nil
-
-        public init() {}
+        public let loa: Loa?
 
         public init(loa: Loa? = nil) {
             self.loa = loa
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let loa = dictionary["loa"] as? [String: Any] { self.loa = try Directconnect.Loa(dictionary: loa) }
+            if let loa = dictionary["loa"] as? [String: Any] { self.loa = try Directconnect.Loa(dictionary: loa) } else { self.loa = nil }
         }
     }
 
@@ -942,24 +884,22 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time of the most recent call to DescribeLoa for this connection.
-        public var loaIssueTime: Date? = nil
+        public let loaIssueTime: Date?
         /// Bandwidth of the connection. Example: 1Gbps (for regular connections), or 500Mbps (for hosted connections) Default: None
-        public var bandwidth: String? = nil
-        public var location: String? = nil
-        public var lagId: String? = nil
+        public let bandwidth: String?
+        public let location: String?
+        public let lagId: String?
         /// The Direct Connection endpoint which the physical connection terminates on.
-        public var awsDevice: String? = nil
-        public var connectionId: String? = nil
-        public var region: String? = nil
+        public let awsDevice: String?
+        public let connectionId: String?
+        public let region: String?
         /// The AWS account that will own the new connection.
-        public var ownerAccount: String? = nil
-        public var connectionState: String? = nil
-        public var connectionName: String? = nil
-        public var vlan: Int32? = nil
+        public let ownerAccount: String?
+        public let connectionState: String?
+        public let connectionName: String?
+        public let vlan: Int32?
         /// The name of the AWS Direct Connect service provider associated with the connection.
-        public var partnerName: String? = nil
-
-        public init() {}
+        public let partnerName: String?
 
         public init(loaIssueTime: Date? = nil, bandwidth: String? = nil, location: String? = nil, lagId: String? = nil, awsDevice: String? = nil, connectionId: String? = nil, region: String? = nil, ownerAccount: String? = nil, connectionState: String? = nil, connectionName: String? = nil, vlan: Int32? = nil, partnerName: String? = nil) {
             self.loaIssueTime = loaIssueTime
@@ -995,9 +935,7 @@ extension Directconnect {
     public struct DescribeConnectionsRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var connectionId: String? = nil
-
-        public init() {}
+        public let connectionId: String?
 
         public init(connectionId: String? = nil) {
             self.connectionId = connectionId
@@ -1012,9 +950,7 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of LAGs.
-        public var lags: [Lag]? = nil
-
-        public init() {}
+        public let lags: [Lag]?
 
         public init(lags: [Lag]? = nil) {
             self.lags = lags
@@ -1023,6 +959,8 @@ extension Directconnect {
         public init(dictionary: [String: Any]) throws {
             if let lags = dictionary["lags"] as? [[String: Any]] {
                 self.lags = try lags.map({ try Lag(dictionary: $0) })
+            } else { 
+                self.lags = nil
             }
         }
     }
@@ -1030,9 +968,7 @@ extension Directconnect {
     public struct DeleteInterconnectResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var interconnectState: String? = nil
-
-        public init() {}
+        public let interconnectState: String?
 
         public init(interconnectState: String? = nil) {
             self.interconnectState = interconnectState
@@ -1047,8 +983,6 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1056,15 +990,13 @@ extension Directconnect {
     public struct BGPPeer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var bgpPeerState: String? = nil
-        public var customerAddress: String? = nil
-        public var bgpStatus: String? = nil
-        public var authKey: String? = nil
-        public var amazonAddress: String? = nil
-        public var asn: Int32? = nil
-        public var addressFamily: String? = nil
-
-        public init() {}
+        public let bgpPeerState: String?
+        public let customerAddress: String?
+        public let bgpStatus: String?
+        public let authKey: String?
+        public let amazonAddress: String?
+        public let asn: Int32?
+        public let addressFamily: String?
 
         public init(bgpPeerState: String? = nil, customerAddress: String? = nil, bgpStatus: String? = nil, authKey: String? = nil, amazonAddress: String? = nil, asn: Int32? = nil, addressFamily: String? = nil) {
             self.bgpPeerState = bgpPeerState
@@ -1091,11 +1023,9 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the connection to disassociate from the LAG. Example: dxcon-abc123 Default: None
-        public var connectionId: String = ""
+        public let connectionId: String
         /// The ID of the LAG. Example: dxlag-abc123 Default: None
-        public var lagId: String = ""
-
-        public init() {}
+        public let lagId: String
 
         public init(connectionId: String, lagId: String) {
             self.connectionId = connectionId
@@ -1114,11 +1044,9 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the virtual interface on which the BGP peer will be provisioned. Example: dxvif-456abc78 Default: None
-        public var virtualInterfaceId: String? = nil
+        public let virtualInterfaceId: String?
         /// Detailed information for the BGP peer to be created. Default: None
-        public var newBGPPeer: NewBGPPeer? = nil
-
-        public init() {}
+        public let newBGPPeer: NewBGPPeer?
 
         public init(virtualInterfaceId: String? = nil, newBGPPeer: NewBGPPeer? = nil) {
             self.virtualInterfaceId = virtualInterfaceId
@@ -1127,16 +1055,14 @@ extension Directconnect {
 
         public init(dictionary: [String: Any]) throws {
             self.virtualInterfaceId = dictionary["virtualInterfaceId"] as? String
-            if let newBGPPeer = dictionary["newBGPPeer"] as? [String: Any] { self.newBGPPeer = try Directconnect.NewBGPPeer(dictionary: newBGPPeer) }
+            if let newBGPPeer = dictionary["newBGPPeer"] as? [String: Any] { self.newBGPPeer = try Directconnect.NewBGPPeer(dictionary: newBGPPeer) } else { self.newBGPPeer = nil }
         }
     }
 
     public struct ConfirmPrivateVirtualInterfaceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var virtualInterfaceState: String? = nil
-
-        public init() {}
+        public let virtualInterfaceState: String?
 
         public init(virtualInterfaceState: String? = nil) {
             self.virtualInterfaceState = virtualInterfaceState
@@ -1150,26 +1076,22 @@ extension Directconnect {
     public struct DeleteBGPPeerResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var virtualInterface: VirtualInterface? = nil
-
-        public init() {}
+        public let virtualInterface: VirtualInterface?
 
         public init(virtualInterface: VirtualInterface? = nil) {
             self.virtualInterface = virtualInterface
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let virtualInterface = dictionary["virtualInterface"] as? [String: Any] { self.virtualInterface = try Directconnect.VirtualInterface(dictionary: virtualInterface) }
+            if let virtualInterface = dictionary["virtualInterface"] as? [String: Any] { self.virtualInterface = try Directconnect.VirtualInterface(dictionary: virtualInterface) } else { self.virtualInterface = nil }
         }
     }
 
     public struct DescribeVirtualInterfacesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var virtualInterfaceId: String? = nil
-        public var connectionId: String? = nil
-
-        public init() {}
+        public let virtualInterfaceId: String?
+        public let connectionId: String?
 
         public init(virtualInterfaceId: String? = nil, connectionId: String? = nil) {
             self.virtualInterfaceId = virtualInterfaceId
@@ -1186,13 +1108,11 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect. Default: None
-        public var providerName: String? = nil
+        public let providerName: String?
         /// The ID of a connection, LAG, or interconnect for which to get the LOA-CFA information. Example: dxcon-abc123 or dxlag-abc123 Default: None
-        public var connectionId: String = ""
+        public let connectionId: String
         /// A standard media type indicating the content type of the LOA-CFA document. Currently, the only supported value is "application/pdf". Default: application/pdf
-        public var loaContentType: String? = nil
-
-        public init() {}
+        public let loaContentType: String?
 
         public init(providerName: String? = nil, connectionId: String, loaContentType: String? = nil) {
             self.providerName = providerName
@@ -1212,11 +1132,9 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the virtual interface from which the BGP peer will be deleted. Example: dxvif-456abc78 Default: None
-        public var virtualInterfaceId: String? = nil
-        public var asn: Int32? = nil
-        public var customerAddress: String? = nil
-
-        public init() {}
+        public let virtualInterfaceId: String?
+        public let asn: Int32?
+        public let customerAddress: String?
 
         public init(virtualInterfaceId: String? = nil, asn: Int32? = nil, customerAddress: String? = nil) {
             self.virtualInterfaceId = virtualInterfaceId
@@ -1235,18 +1153,16 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time of the most recent call to DescribeInterconnectLoa for this Interconnect.
-        public var loaIssueTime: Date? = nil
-        public var interconnectState: String? = nil
-        public var location: String? = nil
+        public let loaIssueTime: Date?
+        public let interconnectState: String?
+        public let location: String?
         /// The Direct Connection endpoint which the physical connection terminates on.
-        public var awsDevice: String? = nil
-        public var lagId: String? = nil
-        public var region: String? = nil
-        public var interconnectName: String? = nil
-        public var interconnectId: String? = nil
-        public var bandwidth: String? = nil
-
-        public init() {}
+        public let awsDevice: String?
+        public let lagId: String?
+        public let region: String?
+        public let interconnectName: String?
+        public let interconnectId: String?
+        public let bandwidth: String?
 
         public init(loaIssueTime: Date? = nil, interconnectState: String? = nil, location: String? = nil, awsDevice: String? = nil, lagId: String? = nil, region: String? = nil, interconnectName: String? = nil, interconnectId: String? = nil, bandwidth: String? = nil) {
             self.loaIssueTime = loaIssueTime
@@ -1277,17 +1193,15 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// Bandwidth of the connection. Example: "500Mbps" Default: None Values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, or 500Mbps
-        public var bandwidth: String = ""
+        public let bandwidth: String
         /// Name of the provisioned connection. Example: "500M Connection to AWS" Default: None
-        public var connectionName: String = ""
+        public let connectionName: String
         /// ID of the interconnect on which the connection will be provisioned. Example: dxcon-456abc78 Default: None
-        public var interconnectId: String = ""
+        public let interconnectId: String
         /// The dedicated VLAN provisioned to the connection. Example: 101 Default: None
-        public var vlan: Int32 = 0
+        public let vlan: Int32
         /// Numeric account Id of the customer for whom the connection will be provisioned. Example: 123443215678 Default: None
-        public var ownerAccount: String = ""
-
-        public init() {}
+        public let ownerAccount: String
 
         public init(bandwidth: String, connectionName: String, interconnectId: String, vlan: Int32, ownerAccount: String) {
             self.bandwidth = bandwidth
@@ -1315,9 +1229,7 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// ID of the interconnect on which a list of connection is provisioned. Example: dxcon-abc123 Default: None
-        public var interconnectId: String = ""
-
-        public init() {}
+        public let interconnectId: String
 
         public init(interconnectId: String) {
             self.interconnectId = interconnectId
@@ -1333,9 +1245,7 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of virtual interfaces.
-        public var virtualInterfaces: [VirtualInterface]? = nil
-
-        public init() {}
+        public let virtualInterfaces: [VirtualInterface]?
 
         public init(virtualInterfaces: [VirtualInterface]? = nil) {
             self.virtualInterfaces = virtualInterfaces
@@ -1344,6 +1254,8 @@ extension Directconnect {
         public init(dictionary: [String: Any]) throws {
             if let virtualInterfaces = dictionary["virtualInterfaces"] as? [[String: Any]] {
                 self.virtualInterfaces = try virtualInterfaces.map({ try VirtualInterface(dictionary: $0) })
+            } else { 
+                self.virtualInterfaces = nil
             }
         }
     }
@@ -1351,8 +1263,6 @@ extension Directconnect {
     public struct UntagResourceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -1362,11 +1272,9 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The code used to indicate the AWS Direct Connect location.
-        public var locationCode: String? = nil
+        public let locationCode: String?
         /// The name of the AWS Direct Connect location. The name includes the colocation partner name and the physical site of the lit building.
-        public var locationName: String? = nil
-
-        public init() {}
+        public let locationName: String?
 
         public init(locationCode: String? = nil, locationName: String? = nil) {
             self.locationCode = locationCode
@@ -1382,10 +1290,8 @@ extension Directconnect {
     public struct Loa: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var loaContentType: String? = nil
-        public var loaContent: Data? = nil
-
-        public init() {}
+        public let loaContentType: String?
+        public let loaContent: Data?
 
         public init(loaContentType: String? = nil, loaContent: Data? = nil) {
             self.loaContentType = loaContentType
@@ -1401,27 +1307,25 @@ extension Directconnect {
     public struct VirtualInterface: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var customerAddress: String? = nil
-        public var virtualInterfaceType: String? = nil
-        public var connectionId: String? = nil
+        public let customerAddress: String?
+        public let virtualInterfaceType: String?
+        public let connectionId: String?
         /// The AWS account that will own the new virtual interface.
-        public var ownerAccount: String? = nil
-        public var asn: Int32? = nil
-        public var addressFamily: String? = nil
-        public var routeFilterPrefixes: [RouteFilterPrefix]? = nil
-        public var location: String? = nil
-        public var virtualInterfaceName: String? = nil
-        public var authKey: String? = nil
-        public var amazonAddress: String? = nil
+        public let ownerAccount: String?
+        public let asn: Int32?
+        public let addressFamily: String?
+        public let routeFilterPrefixes: [RouteFilterPrefix]?
+        public let location: String?
+        public let virtualInterfaceName: String?
+        public let authKey: String?
+        public let amazonAddress: String?
         /// Information for generating the customer router configuration.
-        public var customerRouterConfig: String? = nil
-        public var bgpPeers: [BGPPeer]? = nil
-        public var virtualGatewayId: String? = nil
-        public var virtualInterfaceId: String? = nil
-        public var virtualInterfaceState: String? = nil
-        public var vlan: Int32? = nil
-
-        public init() {}
+        public let customerRouterConfig: String?
+        public let bgpPeers: [BGPPeer]?
+        public let virtualGatewayId: String?
+        public let virtualInterfaceId: String?
+        public let virtualInterfaceState: String?
+        public let vlan: Int32?
 
         public init(customerAddress: String? = nil, virtualInterfaceType: String? = nil, connectionId: String? = nil, ownerAccount: String? = nil, asn: Int32? = nil, addressFamily: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, location: String? = nil, virtualInterfaceName: String? = nil, authKey: String? = nil, amazonAddress: String? = nil, customerRouterConfig: String? = nil, bgpPeers: [BGPPeer]? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceState: String? = nil, vlan: Int32? = nil) {
             self.customerAddress = customerAddress
@@ -1452,6 +1356,8 @@ extension Directconnect {
             self.addressFamily = dictionary["addressFamily"] as? String
             if let routeFilterPrefixes = dictionary["routeFilterPrefixes"] as? [[String: Any]] {
                 self.routeFilterPrefixes = try routeFilterPrefixes.map({ try RouteFilterPrefix(dictionary: $0) })
+            } else { 
+                self.routeFilterPrefixes = nil
             }
             self.location = dictionary["location"] as? String
             self.virtualInterfaceName = dictionary["virtualInterfaceName"] as? String
@@ -1460,6 +1366,8 @@ extension Directconnect {
             self.customerRouterConfig = dictionary["customerRouterConfig"] as? String
             if let bgpPeers = dictionary["bgpPeers"] as? [[String: Any]] {
                 self.bgpPeers = try bgpPeers.map({ try BGPPeer(dictionary: $0) })
+            } else { 
+                self.bgpPeers = nil
             }
             self.virtualGatewayId = dictionary["virtualGatewayId"] as? String
             self.virtualInterfaceId = dictionary["virtualInterfaceId"] as? String
@@ -1471,9 +1379,7 @@ extension Directconnect {
     public struct ConfirmPublicVirtualInterfaceResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var virtualInterfaceState: String? = nil
-
-        public init() {}
+        public let virtualInterfaceState: String?
 
         public init(virtualInterfaceState: String? = nil) {
             self.virtualInterfaceState = virtualInterfaceState
@@ -1488,9 +1394,7 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of colocation hubs where network providers have equipment. Most regions have multiple locations available.
-        public var locations: [Location]? = nil
-
-        public init() {}
+        public let locations: [Location]?
 
         public init(locations: [Location]? = nil) {
             self.locations = locations
@@ -1499,6 +1403,8 @@ extension Directconnect {
         public init(dictionary: [String: Any]) throws {
             if let locations = dictionary["locations"] as? [[String: Any]] {
                 self.locations = try locations.map({ try Location(dictionary: $0) })
+            } else { 
+                self.locations = nil
             }
         }
     }
@@ -1506,12 +1412,10 @@ extension Directconnect {
     public struct CreateConnectionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var connectionName: String = ""
-        public var location: String = ""
-        public var lagId: String? = nil
-        public var bandwidth: String = ""
-
-        public init() {}
+        public let connectionName: String
+        public let location: String
+        public let lagId: String?
+        public let bandwidth: String
 
         public init(connectionName: String, location: String, lagId: String? = nil, bandwidth: String) {
             self.connectionName = connectionName
@@ -1535,11 +1439,9 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the APN partner or service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect. Default: None
-        public var providerName: String? = nil
-        public var connectionId: String = ""
-        public var loaContentType: String? = nil
-
-        public init() {}
+        public let providerName: String?
+        public let connectionId: String
+        public let loaContentType: String?
 
         public init(providerName: String? = nil, connectionId: String, loaContentType: String? = nil) {
             self.providerName = providerName
@@ -1558,11 +1460,9 @@ extension Directconnect {
     public struct ConfirmPrivateVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var virtualInterfaceId: String = ""
+        public let virtualInterfaceId: String
         /// ID of the virtual private gateway that will be attached to the virtual interface.  A virtual private gateway can be managed via the Amazon Virtual Private Cloud (VPC) console or the EC2 CreateVpnGateway action. Default: None
-        public var virtualGatewayId: String = ""
-
-        public init() {}
+        public let virtualGatewayId: String
 
         public init(virtualInterfaceId: String, virtualGatewayId: String) {
             self.virtualInterfaceId = virtualInterfaceId
@@ -1580,13 +1480,11 @@ extension Directconnect {
     public struct NewBGPPeer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var amazonAddress: String? = nil
-        public var customerAddress: String? = nil
-        public var addressFamily: String? = nil
-        public var asn: Int32? = nil
-        public var authKey: String? = nil
-
-        public init() {}
+        public let amazonAddress: String?
+        public let customerAddress: String?
+        public let addressFamily: String?
+        public let asn: Int32?
+        public let authKey: String?
 
         public init(amazonAddress: String? = nil, customerAddress: String? = nil, addressFamily: String? = nil, asn: Int32? = nil, authKey: String? = nil) {
             self.amazonAddress = amazonAddress
@@ -1608,9 +1506,7 @@ extension Directconnect {
     public struct ConfirmConnectionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var connectionState: String? = nil
-
-        public init() {}
+        public let connectionState: String?
 
         public init(connectionState: String? = nil) {
             self.connectionState = connectionState
@@ -1625,9 +1521,7 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// CIDR notation for the advertised route. Multiple routes are separated by commas. IPv6 CIDRs must be at least a /64 or shorter Example: 10.10.10.0/24,10.10.11.0/24,2001:db8::/64
-        public var cidr: String? = nil
-
-        public init() {}
+        public let cidr: String?
 
         public init(cidr: String? = nil) {
             self.cidr = cidr
@@ -1641,9 +1535,7 @@ extension Directconnect {
     public struct DeleteVirtualInterfaceRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var virtualInterfaceId: String = ""
-
-        public init() {}
+        public let virtualInterfaceId: String
 
         public init(virtualInterfaceId: String) {
             self.virtualInterfaceId = virtualInterfaceId
@@ -1659,11 +1551,9 @@ extension Directconnect {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the Direct Connect resource.
-        public var resourceArn: String = ""
+        public let resourceArn: String
         /// The list of tag keys to remove.
-        public var tagKeys: [String] = []
-
-        public init() {}
+        public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
@@ -1681,10 +1571,8 @@ extension Directconnect {
     public struct VirtualGateway: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var virtualGatewayState: String? = nil
-        public var virtualGatewayId: String? = nil
-
-        public init() {}
+        public let virtualGatewayState: String?
+        public let virtualGatewayId: String?
 
         public init(virtualGatewayState: String? = nil, virtualGatewayId: String? = nil) {
             self.virtualGatewayState = virtualGatewayState

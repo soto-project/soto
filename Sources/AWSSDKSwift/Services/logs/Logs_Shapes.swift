@@ -33,11 +33,9 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the log group.
-        public var logGroupName: String = ""
+        public let logGroupName: String
         /// The name of the log stream.
-        public var logStreamName: String = ""
-
-        public init() {}
+        public let logStreamName: String
 
         public init(logGroupName: String, logStreamName: String) {
             self.logGroupName = logGroupName
@@ -55,11 +53,9 @@ extension Logs {
     public struct DescribeDestinationsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The destinations.
-        public var destinations: [Destination]? = nil
-
-        public init() {}
+        public let destinations: [Destination]?
 
         public init(nextToken: String? = nil, destinations: [Destination]? = nil) {
             self.nextToken = nextToken
@@ -70,6 +66,8 @@ extension Logs {
             self.nextToken = dictionary["nextToken"] as? String
             if let destinations = dictionary["destinations"] as? [[String: Any]] {
                 self.destinations = try destinations.map({ try Destination(dictionary: $0) })
+            } else { 
+                self.destinations = nil
             }
         }
     }
@@ -78,9 +76,7 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The matched events.
-        public var matches: [MetricFilterMatchRecord]? = nil
-
-        public init() {}
+        public let matches: [MetricFilterMatchRecord]?
 
         public init(matches: [MetricFilterMatchRecord]? = nil) {
             self.matches = matches
@@ -89,6 +85,8 @@ extension Logs {
         public init(dictionary: [String: Any]) throws {
             if let matches = dictionary["matches"] as? [[String: Any]] {
                 self.matches = try matches.map({ try MetricFilterMatchRecord(dictionary: $0) })
+            } else { 
+                self.matches = nil
             }
         }
     }
@@ -97,23 +95,21 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of bytes stored.
-        public var storedBytes: Int64? = nil
+        public let storedBytes: Int64?
         /// The time of the last event, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        public var lastEventTimestamp: Int64? = nil
+        public let lastEventTimestamp: Int64?
         /// The name of the log stream.
-        public var logStreamName: String? = nil
+        public let logStreamName: String?
         /// The creation time of the stream.
-        public var creationTime: Int64? = nil
+        public let creationTime: Int64?
         /// The ingestion time.
-        public var lastIngestionTime: Int64? = nil
+        public let lastIngestionTime: Int64?
         /// The time of the first event, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        public var firstEventTimestamp: Int64? = nil
+        public let firstEventTimestamp: Int64?
         /// The sequence token.
-        public var uploadSequenceToken: String? = nil
+        public let uploadSequenceToken: String?
         /// The Amazon Resource Name (ARN) of the log stream.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(storedBytes: Int64? = nil, lastEventTimestamp: Int64? = nil, logStreamName: String? = nil, creationTime: Int64? = nil, lastIngestionTime: Int64? = nil, firstEventTimestamp: Int64? = nil, uploadSequenceToken: String? = nil, arn: String? = nil) {
             self.storedBytes = storedBytes
@@ -142,11 +138,9 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time the event occurred, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        public var timestamp: Int64 = 0
+        public let timestamp: Int64
         /// The raw event message.
-        public var message: String = ""
-
-        public init() {}
+        public let message: String
 
         public init(timestamp: Int64, message: String) {
             self.timestamp = timestamp
@@ -165,17 +159,15 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the event.
-        public var eventId: String? = nil
+        public let eventId: String?
         /// The data contained in the log event.
-        public var message: String? = nil
+        public let message: String?
         /// The time the event occurred, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        public var timestamp: Int64? = nil
+        public let timestamp: Int64?
         /// The name of the log stream this event belongs to.
-        public var logStreamName: String? = nil
+        public let logStreamName: String?
         /// The time the event was ingested.
-        public var ingestionTime: Int64? = nil
-
-        public init() {}
+        public let ingestionTime: Int64?
 
         public init(eventId: String? = nil, message: String? = nil, timestamp: Int64? = nil, logStreamName: String? = nil, ingestionTime: Int64? = nil) {
             self.eventId = eventId
@@ -198,15 +190,13 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The log events.
-        public var logEvents: [InputLogEvent] = []
+        public let logEvents: [InputLogEvent]
         /// The sequence token.
-        public var sequenceToken: String? = nil
+        public let sequenceToken: String?
         /// The name of the log stream.
-        public var logStreamName: String = ""
+        public let logStreamName: String
         /// The name of the log group.
-        public var logGroupName: String = ""
-
-        public init() {}
+        public let logGroupName: String
 
         public init(logEvents: [InputLogEvent], sequenceToken: String? = nil, logStreamName: String, logGroupName: String) {
             self.logEvents = logEvents
@@ -230,11 +220,9 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The creation time of the export task.
-        public var creationTime: Int64? = nil
+        public let creationTime: Int64?
         /// The completion time of the export task.
-        public var completionTime: Int64? = nil
-
-        public init() {}
+        public let completionTime: Int64?
 
         public init(creationTime: Int64? = nil, completionTime: Int64? = nil) {
             self.creationTime = creationTime
@@ -251,19 +239,17 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// If the value is true, results are returned in descending order. If the value is to false, results are returned in ascending order. The default value is false.
-        public var descending: Bool? = nil
+        public let descending: Bool?
         /// The prefix to match. You cannot specify this parameter if orderBy is LastEventTime.
-        public var logStreamNamePrefix: String? = nil
+        public let logStreamNamePrefix: String?
         /// If the value is LogStreamName, the results are ordered by log stream name. If the value is LastEventTime, the results are ordered by the event time. The default value is LogStreamName. If you order the results by event time, you cannot specify the logStreamNamePrefix parameter.
-        public var orderBy: String? = nil
+        public let orderBy: String?
         /// The name of the log group.
-        public var logGroupName: String = ""
-
-        public init() {}
+        public let logGroupName: String
 
         public init(nextToken: String? = nil, limit: Int32? = nil, descending: Bool? = nil, logStreamNamePrefix: String? = nil, orderBy: String? = nil, logGroupName: String) {
             self.nextToken = nextToken
@@ -289,10 +275,8 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The log streams.
-        public var logStreams: [LogStream]? = nil
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let logStreams: [LogStream]?
+        public let nextToken: String?
 
         public init(logStreams: [LogStream]? = nil, nextToken: String? = nil) {
             self.logStreams = logStreams
@@ -302,6 +286,8 @@ extension Logs {
         public init(dictionary: [String: Any]) throws {
             if let logStreams = dictionary["logStreams"] as? [[String: Any]] {
                 self.logStreams = try logStreams.map({ try LogStream(dictionary: $0) })
+            } else { 
+                self.logStreams = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -311,9 +297,7 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the log group.
-        public var logGroupName: String = ""
-
-        public init() {}
+        public let logGroupName: String
 
         public init(logGroupName: String) {
             self.logGroupName = logGroupName
@@ -329,15 +313,13 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value to publish to the CloudWatch metric when a filter pattern matches a log event.
-        public var metricValue: String = ""
+        public let metricValue: String
         /// (Optional) The value to emit when a filter pattern does not match a log event. This value can be null.
-        public var defaultValue: Double? = nil
+        public let defaultValue: Double?
         /// The name of the CloudWatch metric.
-        public var metricName: String = ""
+        public let metricName: String
         /// The namespace of the CloudWatch metric.
-        public var metricNamespace: String = ""
-
-        public init() {}
+        public let metricNamespace: String
 
         public init(metricValue: String, defaultValue: Double? = nil, metricName: String, metricNamespace: String) {
             self.metricValue = metricValue
@@ -361,19 +343,17 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A name for the subscription filter.
-        public var filterName: String = ""
+        public let filterName: String
         /// The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery.   An Amazon Kinesis Firehose stream belonging to the same account as the subscription filter, for same-account delivery.   An AWS Lambda function belonging to the same account as the subscription filter, for same-account delivery.  
-        public var destinationArn: String = ""
+        public let destinationArn: String
         /// The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destination for cross-account delivery.
-        public var roleArn: String? = nil
+        public let roleArn: String?
         /// The method used to distribute log data to the destination, when the destination is an Amazon Kinesis stream. By default, log data is grouped by log stream. For a more even distribution, you can group log data randomly.
-        public var distribution: String? = nil
+        public let distribution: String?
         /// The name of the log group.
-        public var logGroupName: String = ""
+        public let logGroupName: String
         /// A filter pattern for subscribing to a filtered stream of log events.
-        public var filterPattern: String = ""
-
-        public init() {}
+        public let filterPattern: String
 
         public init(filterName: String, destinationArn: String, roleArn: String? = nil, distribution: String? = nil, logGroupName: String, filterPattern: String) {
             self.filterName = filterName
@@ -402,13 +382,11 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The expired log events.
-        public var expiredLogEventEndIndex: Int32? = nil
+        public let expiredLogEventEndIndex: Int32?
         /// The log events that are too old.
-        public var tooOldLogEventEndIndex: Int32? = nil
+        public let tooOldLogEventEndIndex: Int32?
         /// The log events that are too new.
-        public var tooNewLogEventStartIndex: Int32? = nil
-
-        public init() {}
+        public let tooNewLogEventStartIndex: Int32?
 
         public init(expiredLogEventEndIndex: Int32? = nil, tooOldLogEventEndIndex: Int32? = nil, tooNewLogEventStartIndex: Int32? = nil) {
             self.expiredLogEventEndIndex = expiredLogEventEndIndex
@@ -427,9 +405,7 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the destination.
-        public var destinationName: String = ""
-
-        public init() {}
+        public let destinationName: String
 
         public init(destinationName: String) {
             self.destinationName = destinationName
@@ -445,15 +421,13 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A name for the metric filter.
-        public var filterName: String = ""
+        public let filterName: String
         /// A collection of information needed to define how metric data gets emitted.
-        public var metricTransformations: [MetricTransformation] = []
+        public let metricTransformations: [MetricTransformation]
         /// The name of the log group.
-        public var logGroupName: String = ""
+        public let logGroupName: String
         /// A filter pattern for extracting metric data out of ingested log events.
-        public var filterPattern: String = ""
-
-        public init() {}
+        public let filterPattern: String
 
         public init(filterName: String, metricTransformations: [MetricTransformation], logGroupName: String, filterPattern: String) {
             self.filterName = filterName
@@ -478,10 +452,8 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The log groups.
-        public var logGroups: [LogGroup]? = nil
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let logGroups: [LogGroup]?
+        public let nextToken: String?
 
         public init(logGroups: [LogGroup]? = nil, nextToken: String? = nil) {
             self.logGroups = logGroups
@@ -491,6 +463,8 @@ extension Logs {
         public init(dictionary: [String: Any]) throws {
             if let logGroups = dictionary["logGroups"] as? [[String: Any]] {
                 self.logGroups = try logGroups.map({ try LogGroup(dictionary: $0) })
+            } else { 
+                self.logGroups = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -500,13 +474,11 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A name for the destination.
-        public var destinationName: String = ""
+        public let destinationName: String
         /// The ARN of an IAM role that grants CloudWatch Logs permissions to call Amazon Kinesis PutRecord on the destination stream.
-        public var roleArn: String = ""
+        public let roleArn: String
         /// The ARN of an Amazon Kinesis stream to deliver matching log events to.
-        public var targetArn: String = ""
-
-        public init() {}
+        public let targetArn: String
 
         public init(destinationName: String, roleArn: String, targetArn: String) {
             self.destinationName = destinationName
@@ -528,13 +500,11 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The time the event occurred, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        public var timestamp: Int64? = nil
+        public let timestamp: Int64?
         /// The data contained in the log event.
-        public var message: String? = nil
+        public let message: String?
         /// The time the event was ingested.
-        public var ingestionTime: Int64? = nil
-
-        public init() {}
+        public let ingestionTime: Int64?
 
         public init(timestamp: Int64? = nil, message: String? = nil, ingestionTime: Int64? = nil) {
             self.timestamp = timestamp
@@ -553,11 +523,9 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the log group.
-        public var logGroupName: String = ""
+        public let logGroupName: String
         /// The name of the log stream.
-        public var logStreamName: String = ""
-
-        public init() {}
+        public let logStreamName: String
 
         public init(logGroupName: String, logStreamName: String) {
             self.logGroupName = logGroupName
@@ -576,15 +544,13 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The prefix to match. If you don't specify a value, no prefix filter is applied.
-        public var filterNamePrefix: String? = nil
+        public let filterNamePrefix: String?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The name of the log group.
-        public var logGroupName: String = ""
-
-        public init() {}
+        public let logGroupName: String
 
         public init(filterNamePrefix: String? = nil, limit: Int32? = nil, nextToken: String? = nil, logGroupName: String) {
             self.filterNamePrefix = filterNamePrefix
@@ -606,13 +572,11 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The prefix to match.
-        public var logGroupNamePrefix: String? = nil
+        public let logGroupNamePrefix: String?
         /// The token for the next set of items to return. (You received this token from a previous call.)
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(limit: Int32? = nil, logGroupNamePrefix: String? = nil, nextToken: String? = nil) {
             self.limit = limit
@@ -631,19 +595,17 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The token for the next set of items to return. (You received this token from a previous call.)
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The prefix to match.
-        public var filterNamePrefix: String? = nil
+        public let filterNamePrefix: String?
         /// The name of the log group.
-        public var logGroupName: String? = nil
+        public let logGroupName: String?
         /// The name of the CloudWatch metric.
-        public var metricName: String? = nil
+        public let metricName: String?
         /// The namespace of the CloudWatch metric.
-        public var metricNamespace: String? = nil
-
-        public init() {}
+        public let metricNamespace: String?
 
         public init(limit: Int32? = nil, nextToken: String? = nil, filterNamePrefix: String? = nil, logGroupName: String? = nil, metricName: String? = nil, metricNamespace: String? = nil) {
             self.limit = limit
@@ -668,11 +630,9 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the subscription filter.
-        public var filterName: String = ""
+        public let filterName: String
         /// The name of the log group.
-        public var logGroupName: String = ""
-
-        public init() {}
+        public let logGroupName: String
 
         public init(filterName: String, logGroupName: String) {
             self.filterName = filterName
@@ -691,15 +651,13 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The status code of the export task. Specifying a status code filters the results to zero or more export tasks.
-        public var statusCode: String? = nil
+        public let statusCode: String?
         /// The ID of the export task. Specifying a task ID filters the results to zero or one export tasks.
-        public var taskId: String? = nil
+        public let taskId: String?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public var limit: Int32? = nil
-
-        public init() {}
+        public let limit: Int32?
 
         public init(nextToken: String? = nil, statusCode: String? = nil, taskId: String? = nil, limit: Int32? = nil) {
             self.nextToken = nextToken
@@ -720,21 +678,19 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs.
-        public var destinationPrefix: String? = nil
+        public let destinationPrefix: String?
         /// The name of S3 bucket for the exported log data. The bucket must be in the same AWS region.
-        public var destination: String = ""
+        public let destination: String
         /// The start time of the range for the request, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp earlier than this time are not exported.
-        public var from: Int64 = 0
+        public let from: Int64
         /// The name of the export task.
-        public var taskName: String? = nil
+        public let taskName: String?
         /// The name of the log group.
-        public var logGroupName: String = ""
+        public let logGroupName: String
         /// The end time of the range for the request, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not exported.
-        public var to: Int64 = 0
+        public let to: Int64
         /// Export only log streams that match the provided prefix. If you don't specify a value, no prefix filter is applied.
-        public var logStreamNamePrefix: String? = nil
-
-        public init() {}
+        public let logStreamNamePrefix: String?
 
         public init(destinationPrefix: String? = nil, destination: String, from: Int64, taskName: String? = nil, logGroupName: String, to: Int64, logStreamNamePrefix: String? = nil) {
             self.destinationPrefix = destinationPrefix
@@ -765,16 +721,14 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The metric transformations.
-        public var metricTransformations: [MetricTransformation]? = nil
+        public let metricTransformations: [MetricTransformation]?
         /// The name of the metric filter.
-        public var filterName: String? = nil
+        public let filterName: String?
         /// The name of the log group.
-        public var logGroupName: String? = nil
+        public let logGroupName: String?
         /// The creation time of the metric filter.
-        public var creationTime: Int64? = nil
-        public var filterPattern: String? = nil
-
-        public init() {}
+        public let creationTime: Int64?
+        public let filterPattern: String?
 
         public init(metricTransformations: [MetricTransformation]? = nil, filterName: String? = nil, logGroupName: String? = nil, creationTime: Int64? = nil, filterPattern: String? = nil) {
             self.metricTransformations = metricTransformations
@@ -787,6 +741,8 @@ extension Logs {
         public init(dictionary: [String: Any]) throws {
             if let metricTransformations = dictionary["metricTransformations"] as? [[String: Any]] {
                 self.metricTransformations = try metricTransformations.map({ try MetricTransformation(dictionary: $0) })
+            } else { 
+                self.metricTransformations = nil
             }
             self.filterName = dictionary["filterName"] as? String
             self.logGroupName = dictionary["logGroupName"] as? String
@@ -798,11 +754,9 @@ extension Logs {
     public struct TestMetricFilterRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var filterPattern: String = ""
+        public let filterPattern: String
         /// The log event messages to test.
-        public var logEventMessages: [String] = []
-
-        public init() {}
+        public let logEventMessages: [String]
 
         public init(filterPattern: String, logEventMessages: [String]) {
             self.filterPattern = filterPattern
@@ -821,9 +775,7 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the log group.
-        public var logGroupName: String = ""
-
-        public init() {}
+        public let logGroupName: String
 
         public init(logGroupName: String) {
             self.logGroupName = logGroupName
@@ -839,13 +791,11 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token for the next set of items in the forward direction. The token expires after 24 hours.
-        public var nextForwardToken: String? = nil
+        public let nextForwardToken: String?
         /// The token for the next set of items in the backward direction. The token expires after 24 hours.
-        public var nextBackwardToken: String? = nil
+        public let nextBackwardToken: String?
         /// The events.
-        public var events: [OutputLogEvent]? = nil
-
-        public init() {}
+        public let events: [OutputLogEvent]?
 
         public init(nextForwardToken: String? = nil, nextBackwardToken: String? = nil, events: [OutputLogEvent]? = nil) {
             self.nextForwardToken = nextForwardToken
@@ -858,6 +808,8 @@ extension Logs {
             self.nextBackwardToken = dictionary["nextBackwardToken"] as? String
             if let events = dictionary["events"] as? [[String: Any]] {
                 self.events = try events.map({ try OutputLogEvent(dictionary: $0) })
+            } else { 
+                self.events = nil
             }
         }
     }
@@ -866,11 +818,9 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status code of the export task.
-        public var code: String? = nil
+        public let code: String?
         /// The status message related to the status code.
-        public var message: String? = nil
-
-        public init() {}
+        public let message: String?
 
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
@@ -887,19 +837,17 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// An IAM policy document that governs which AWS accounts can create subscription filters against this destination.
-        public var accessPolicy: String? = nil
+        public let accessPolicy: String?
         /// The name of the destination.
-        public var destinationName: String? = nil
+        public let destinationName: String?
         /// A role for impersonation, used when delivering log events to the target.
-        public var roleArn: String? = nil
+        public let roleArn: String?
         /// The creation time of the destination.
-        public var creationTime: Int64? = nil
+        public let creationTime: Int64?
         /// The Amazon Resource Name (ARN) of the physical target where the log events will be delivered (for example, a Kinesis stream).
-        public var targetArn: String? = nil
+        public let targetArn: String?
         /// The ARN of this destination.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(accessPolicy: String? = nil, destinationName: String? = nil, roleArn: String? = nil, creationTime: Int64? = nil, targetArn: String? = nil, arn: String? = nil) {
             self.accessPolicy = accessPolicy
@@ -924,11 +872,9 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The key-value pairs to use for the tags.
-        public var tags: [String: String]? = nil
+        public let tags: [String: String]?
         /// The name of the log group.
-        public var logGroupName: String = ""
-
-        public init() {}
+        public let logGroupName: String
 
         public init(tags: [String: String]? = nil, logGroupName: String) {
             self.tags = tags
@@ -938,6 +884,8 @@ extension Logs {
         public init(dictionary: [String: Any]) throws {
             if let tags = dictionary["tags"] as? [String: String] {
                 self.tags = tags
+            } else { 
+                self.tags = nil
             }
             guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
             self.logGroupName = logGroupName
@@ -947,11 +895,9 @@ extension Logs {
     public struct DescribeExportTasksResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The export tasks.
-        public var exportTasks: [ExportTask]? = nil
-
-        public init() {}
+        public let exportTasks: [ExportTask]?
 
         public init(nextToken: String? = nil, exportTasks: [ExportTask]? = nil) {
             self.nextToken = nextToken
@@ -962,6 +908,8 @@ extension Logs {
             self.nextToken = dictionary["nextToken"] as? String
             if let exportTasks = dictionary["exportTasks"] as? [[String: Any]] {
                 self.exportTasks = try exportTasks.map({ try ExportTask(dictionary: $0) })
+            } else { 
+                self.exportTasks = nil
             }
         }
     }
@@ -970,9 +918,7 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the export task.
-        public var taskId: String = ""
-
-        public init() {}
+        public let taskId: String
 
         public init(taskId: String) {
             self.taskId = taskId
@@ -988,11 +934,9 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The tag keys. The corresponding tags are removed from the log group.
-        public var tags: [String] = []
+        public let tags: [String]
         /// The name of the log group.
-        public var logGroupName: String = ""
-
-        public init() {}
+        public let logGroupName: String
 
         public init(tags: [String], logGroupName: String) {
             self.tags = tags
@@ -1011,9 +955,7 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The tags.
-        public var tags: [String: String]? = nil
-
-        public init() {}
+        public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
             self.tags = tags
@@ -1022,6 +964,8 @@ extension Logs {
         public init(dictionary: [String: Any]) throws {
             if let tags = dictionary["tags"] as? [String: String] {
                 self.tags = tags
+            } else { 
+                self.tags = nil
             }
         }
     }
@@ -1030,11 +974,9 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the metric filter.
-        public var filterName: String = ""
+        public let filterName: String
         /// The name of the log group.
-        public var logGroupName: String = ""
-
-        public init() {}
+        public let logGroupName: String
 
         public init(filterName: String, logGroupName: String) {
             self.filterName = filterName
@@ -1053,18 +995,16 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The number of bytes stored.
-        public var storedBytes: Int64? = nil
+        public let storedBytes: Int64?
         /// The Amazon Resource Name (ARN) of the log group.
-        public var arn: String? = nil
+        public let arn: String?
         /// The name of the log group.
-        public var logGroupName: String? = nil
+        public let logGroupName: String?
         /// The creation time of the log group.
-        public var creationTime: Int64? = nil
-        public var retentionInDays: Int32? = nil
+        public let creationTime: Int64?
+        public let retentionInDays: Int32?
         /// The number of metric filters.
-        public var metricFilterCount: Int32? = nil
-
-        public init() {}
+        public let metricFilterCount: Int32?
 
         public init(storedBytes: Int64? = nil, arn: String? = nil, logGroupName: String? = nil, creationTime: Int64? = nil, retentionInDays: Int32? = nil, metricFilterCount: Int32? = nil) {
             self.storedBytes = storedBytes
@@ -1089,11 +1029,9 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The key-value pairs to use for the tags.
-        public var tags: [String: String] = [:]
+        public let tags: [String: String]
         /// The name of the log group.
-        public var logGroupName: String = ""
-
-        public init() {}
+        public let logGroupName: String
 
         public init(tags: [String: String], logGroupName: String) {
             self.tags = tags
@@ -1112,10 +1050,8 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The subscription filters.
-        public var subscriptionFilters: [SubscriptionFilter]? = nil
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let subscriptionFilters: [SubscriptionFilter]?
+        public let nextToken: String?
 
         public init(subscriptionFilters: [SubscriptionFilter]? = nil, nextToken: String? = nil) {
             self.subscriptionFilters = subscriptionFilters
@@ -1125,6 +1061,8 @@ extension Logs {
         public init(dictionary: [String: Any]) throws {
             if let subscriptionFilters = dictionary["subscriptionFilters"] as? [[String: Any]] {
                 self.subscriptionFilters = try subscriptionFilters.map({ try SubscriptionFilter(dictionary: $0) })
+            } else { 
+                self.subscriptionFilters = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -1134,21 +1072,19 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of log events returned. If you don't specify a value, the maximum is as many log events as can fit in a response size of 1MB, up to 10,000 log events.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The name of the log stream.
-        public var logStreamName: String = ""
+        public let logStreamName: String
         /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is false.
-        public var startFromHead: Bool? = nil
+        public let startFromHead: Bool?
         /// The end of the time range, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not included.
-        public var endTime: Int64? = nil
+        public let endTime: Int64?
         /// The name of the log group.
-        public var logGroupName: String = ""
+        public let logGroupName: String
         /// The start of the time range, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp earlier than this time are not included.
-        public var startTime: Int64? = nil
-
-        public init() {}
+        public let startTime: Int64?
 
         public init(nextToken: String? = nil, limit: Int32? = nil, logStreamName: String, startFromHead: Bool? = nil, endTime: Int64? = nil, logGroupName: String, startTime: Int64? = nil) {
             self.nextToken = nextToken
@@ -1177,13 +1113,11 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates which log streams have been searched and whether each has been searched completely.
-        public var searchedLogStreams: [SearchedLogStream]? = nil
+        public let searchedLogStreams: [SearchedLogStream]?
         /// The matched events.
-        public var events: [FilteredLogEvent]? = nil
+        public let events: [FilteredLogEvent]?
         /// The token to use when requesting the next set of items. The token expires after 24 hours.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(searchedLogStreams: [SearchedLogStream]? = nil, events: [FilteredLogEvent]? = nil, nextToken: String? = nil) {
             self.searchedLogStreams = searchedLogStreams
@@ -1194,9 +1128,13 @@ extension Logs {
         public init(dictionary: [String: Any]) throws {
             if let searchedLogStreams = dictionary["searchedLogStreams"] as? [[String: Any]] {
                 self.searchedLogStreams = try searchedLogStreams.map({ try SearchedLogStream(dictionary: $0) })
+            } else { 
+                self.searchedLogStreams = nil
             }
             if let events = dictionary["events"] as? [[String: Any]] {
                 self.events = try events.map({ try FilteredLogEvent(dictionary: $0) })
+            } else { 
+                self.events = nil
             }
             self.nextToken = dictionary["nextToken"] as? String
         }
@@ -1206,11 +1144,9 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// An IAM policy document that authorizes cross-account users to deliver their log events to the associated destination.
-        public var accessPolicy: String = ""
+        public let accessPolicy: String
         /// A name for an existing destination.
-        public var destinationName: String = ""
-
-        public init() {}
+        public let destinationName: String
 
         public init(accessPolicy: String, destinationName: String) {
             self.accessPolicy = accessPolicy
@@ -1229,9 +1165,7 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the log group.
-        public var logGroupName: String = ""
-
-        public init() {}
+        public let logGroupName: String
 
         public init(logGroupName: String) {
             self.logGroupName = logGroupName
@@ -1247,11 +1181,9 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the log stream.
-        public var logStreamName: String? = nil
+        public let logStreamName: String?
         /// Indicates whether all the events in this log stream were searched.
-        public var searchedCompletely: Bool? = nil
-
-        public init() {}
+        public let searchedCompletely: Bool?
 
         public init(logStreamName: String? = nil, searchedCompletely: Bool? = nil) {
             self.logStreamName = logStreamName
@@ -1268,10 +1200,8 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the log group.
-        public var logGroupName: String = ""
-        public var retentionInDays: Int32 = 0
-
-        public init() {}
+        public let logGroupName: String
+        public let retentionInDays: Int32
 
         public init(logGroupName: String, retentionInDays: Int32) {
             self.logGroupName = logGroupName
@@ -1290,23 +1220,21 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token for the next set of events to return. (You received this token from a previous call.)
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of events to return. The default is 10,000 events.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The filter pattern to use. If not provided, all the events are matched.
-        public var filterPattern: String? = nil
+        public let filterPattern: String?
         /// The end of the time range, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not returned.
-        public var endTime: Int64? = nil
+        public let endTime: Int64?
         /// The name of the log group.
-        public var logGroupName: String = ""
+        public let logGroupName: String
         /// Optional list of log stream names.
-        public var logStreamNames: [String]? = nil
+        public let logStreamNames: [String]?
         /// The start of the time range, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp prior to this time are not returned.
-        public var startTime: Int64? = nil
+        public let startTime: Int64?
         /// If the value is true, the operation makes a best effort to provide responses that contain events from multiple log streams within the log group interleaved in a single response. If the value is false all the matched log events in the first log stream are searched first, then those in the next log stream, and so on. The default is false.
-        public var interleaved: Bool? = nil
-
-        public init() {}
+        public let interleaved: Bool?
 
         public init(nextToken: String? = nil, limit: Int32? = nil, filterPattern: String? = nil, endTime: Int64? = nil, logGroupName: String, logStreamNames: [String]? = nil, startTime: Int64? = nil, interleaved: Bool? = nil) {
             self.nextToken = nextToken
@@ -1326,9 +1254,7 @@ extension Logs {
             self.endTime = dictionary["endTime"] as? Int64
             guard let logGroupName = dictionary["logGroupName"] as? String else { throw InitializableError.missingRequiredParam("logGroupName") }
             self.logGroupName = logGroupName
-            if let logStreamNames = dictionary["logStreamNames"] as? [String] {
-                self.logStreamNames = logStreamNames
-            }
+            self.logStreamNames = dictionary["logStreamNames"] as? [String]
             self.startTime = dictionary["startTime"] as? Int64
             self.interleaved = dictionary["interleaved"] as? Bool
         }
@@ -1338,9 +1264,7 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the export task.
-        public var taskId: String? = nil
-
-        public init() {}
+        public let taskId: String?
 
         public init(taskId: String? = nil) {
             self.taskId = taskId
@@ -1355,13 +1279,11 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The values extracted from the event data by the filter.
-        public var extractedValues: [String: String]? = nil
+        public let extractedValues: [String: String]?
         /// The event number.
-        public var eventNumber: Int64? = nil
+        public let eventNumber: Int64?
         /// The raw event data.
-        public var eventMessage: String? = nil
-
-        public init() {}
+        public let eventMessage: String?
 
         public init(extractedValues: [String: String]? = nil, eventNumber: Int64? = nil, eventMessage: String? = nil) {
             self.extractedValues = extractedValues
@@ -1372,6 +1294,8 @@ extension Logs {
         public init(dictionary: [String: Any]) throws {
             if let extractedValues = dictionary["extractedValues"] as? [String: String] {
                 self.extractedValues = extractedValues
+            } else { 
+                self.extractedValues = nil
             }
             self.eventNumber = dictionary["eventNumber"] as? Int64
             self.eventMessage = dictionary["eventMessage"] as? String
@@ -1382,16 +1306,14 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The destination.
-        public var destination: Destination? = nil
-
-        public init() {}
+        public let destination: Destination?
 
         public init(destination: Destination? = nil) {
             self.destination = destination
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let destination = dictionary["destination"] as? [String: Any] { self.destination = try Logs.Destination(dictionary: destination) }
+            if let destination = dictionary["destination"] as? [String: Any] { self.destination = try Logs.Destination(dictionary: destination) } else { self.destination = nil }
         }
     }
 
@@ -1399,19 +1321,17 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The method used to distribute log data to the destination, when the destination is an Amazon Kinesis stream.
-        public var distribution: String? = nil
-        public var roleArn: String? = nil
+        public let distribution: String?
+        public let roleArn: String?
         /// The Amazon Resource Name (ARN) of the destination.
-        public var destinationArn: String? = nil
+        public let destinationArn: String?
         /// The creation time of the subscription filter.
-        public var creationTime: Int64? = nil
-        public var filterPattern: String? = nil
+        public let creationTime: Int64?
+        public let filterPattern: String?
         /// The name of the subscription filter.
-        public var filterName: String? = nil
+        public let filterName: String?
         /// The name of the log group.
-        public var logGroupName: String? = nil
-
-        public init() {}
+        public let logGroupName: String?
 
         public init(distribution: String? = nil, roleArn: String? = nil, destinationArn: String? = nil, creationTime: Int64? = nil, filterPattern: String? = nil, filterName: String? = nil, logGroupName: String? = nil) {
             self.distribution = distribution
@@ -1437,11 +1357,9 @@ extension Logs {
     public struct DescribeMetricFiltersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The metric filters.
-        public var metricFilters: [MetricFilter]? = nil
-
-        public init() {}
+        public let metricFilters: [MetricFilter]?
 
         public init(nextToken: String? = nil, metricFilters: [MetricFilter]? = nil) {
             self.nextToken = nextToken
@@ -1452,6 +1370,8 @@ extension Logs {
             self.nextToken = dictionary["nextToken"] as? String
             if let metricFilters = dictionary["metricFilters"] as? [[String: Any]] {
                 self.metricFilters = try metricFilters.map({ try MetricFilter(dictionary: $0) })
+            } else { 
+                self.metricFilters = nil
             }
         }
     }
@@ -1460,25 +1380,23 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status of the export task.
-        public var status: ExportTaskStatus? = nil
+        public let status: ExportTaskStatus?
         /// The name of Amazon S3 bucket to which the log data was exported.
-        public var destination: String? = nil
+        public let destination: String?
         /// The ID of the export task.
-        public var taskId: String? = nil
+        public let taskId: String?
         /// The prefix that was used as the start of Amazon S3 key for every object exported.
-        public var destinationPrefix: String? = nil
+        public let destinationPrefix: String?
         /// The start time, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp prior to this time are not exported.
-        public var from: Int64? = nil
+        public let from: Int64?
         /// The name of the export task.
-        public var taskName: String? = nil
+        public let taskName: String?
         /// Execution info about the export task.
-        public var executionInfo: ExportTaskExecutionInfo? = nil
+        public let executionInfo: ExportTaskExecutionInfo?
         /// The name of the log group from which logs data was exported.
-        public var logGroupName: String? = nil
+        public let logGroupName: String?
         /// The end time, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not exported.
-        public var to: Int64? = nil
-
-        public init() {}
+        public let to: Int64?
 
         public init(status: ExportTaskStatus? = nil, destination: String? = nil, taskId: String? = nil, destinationPrefix: String? = nil, from: Int64? = nil, taskName: String? = nil, executionInfo: ExportTaskExecutionInfo? = nil, logGroupName: String? = nil, to: Int64? = nil) {
             self.status = status
@@ -1493,13 +1411,13 @@ extension Logs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let status = dictionary["status"] as? [String: Any] { self.status = try Logs.ExportTaskStatus(dictionary: status) }
+            if let status = dictionary["status"] as? [String: Any] { self.status = try Logs.ExportTaskStatus(dictionary: status) } else { self.status = nil }
             self.destination = dictionary["destination"] as? String
             self.taskId = dictionary["taskId"] as? String
             self.destinationPrefix = dictionary["destinationPrefix"] as? String
             self.from = dictionary["from"] as? Int64
             self.taskName = dictionary["taskName"] as? String
-            if let executionInfo = dictionary["executionInfo"] as? [String: Any] { self.executionInfo = try Logs.ExportTaskExecutionInfo(dictionary: executionInfo) }
+            if let executionInfo = dictionary["executionInfo"] as? [String: Any] { self.executionInfo = try Logs.ExportTaskExecutionInfo(dictionary: executionInfo) } else { self.executionInfo = nil }
             self.logGroupName = dictionary["logGroupName"] as? String
             self.to = dictionary["to"] as? Int64
         }
@@ -1509,11 +1427,9 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The rejected events.
-        public var rejectedLogEventsInfo: RejectedLogEventsInfo? = nil
+        public let rejectedLogEventsInfo: RejectedLogEventsInfo?
         /// The next sequence token.
-        public var nextSequenceToken: String? = nil
-
-        public init() {}
+        public let nextSequenceToken: String?
 
         public init(rejectedLogEventsInfo: RejectedLogEventsInfo? = nil, nextSequenceToken: String? = nil) {
             self.rejectedLogEventsInfo = rejectedLogEventsInfo
@@ -1521,7 +1437,7 @@ extension Logs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let rejectedLogEventsInfo = dictionary["rejectedLogEventsInfo"] as? [String: Any] { self.rejectedLogEventsInfo = try Logs.RejectedLogEventsInfo(dictionary: rejectedLogEventsInfo) }
+            if let rejectedLogEventsInfo = dictionary["rejectedLogEventsInfo"] as? [String: Any] { self.rejectedLogEventsInfo = try Logs.RejectedLogEventsInfo(dictionary: rejectedLogEventsInfo) } else { self.rejectedLogEventsInfo = nil }
             self.nextSequenceToken = dictionary["nextSequenceToken"] as? String
         }
     }
@@ -1530,13 +1446,11 @@ extension Logs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// The prefix to match. If you don't specify a value, no prefix filter is applied.
-        public var destinationNamePrefix: String? = nil
+        public let destinationNamePrefix: String?
         /// The token for the next set of items to return. (You received this token from a previous call.)
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(limit: Int32? = nil, destinationNamePrefix: String? = nil, nextToken: String? = nil) {
             self.limit = limit

@@ -33,11 +33,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Returns true if there are more applications to retrieve.
-        public var hasMoreApplications: Bool = false
+        public let hasMoreApplications: Bool
         /// List of ApplicationSummary objects. 
-        public var applicationSummaries: [ApplicationSummary] = []
-
-        public init() {}
+        public let applicationSummaries: [ApplicationSummary]
 
         public init(hasMoreApplications: Bool, applicationSummaries: [ApplicationSummary]) {
             self.hasMoreApplications = hasMoreApplications
@@ -56,8 +54,6 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -66,9 +62,7 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Number of in-application streams to create for the specified streaming source.
-        public var countUpdate: Int32? = nil
-
-        public init() {}
+        public let countUpdate: Int32?
 
         public init(countUpdate: Int32? = nil) {
             self.countUpdate = countUpdate
@@ -83,8 +77,6 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -93,11 +85,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// ARN of the destination Amazon Kinesis stream to write to.
-        public var resourceARN: String = ""
+        public let resourceARN: String
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination stream on your behalf. You need to grant the necessary permissions to this role.
-        public var roleARN: String = ""
-
-        public init() {}
+        public let roleARN: String
 
         public init(resourceARN: String, roleARN: String) {
             self.resourceARN = resourceARN
@@ -116,19 +106,17 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Name prefix for in-application stream(s) that Kinesis Analytics creates for the specific streaming source.
-        public var namePrefixUpdate: String? = nil
+        public let namePrefixUpdate: String?
         /// Describes the parallelism updates (the number in-application streams Kinesis Analytics creates for the specific streaming source).
-        public var inputParallelismUpdate: InputParallelismUpdate? = nil
+        public let inputParallelismUpdate: InputParallelismUpdate?
         /// Input ID of the application input to be updated.
-        public var inputId: String = ""
+        public let inputId: String
         /// If a Amazon Kinesis stream is the streaming source to be updated, provides an updated stream ARN and IAM role ARN.
-        public var kinesisStreamsInputUpdate: KinesisStreamsInputUpdate? = nil
+        public let kinesisStreamsInputUpdate: KinesisStreamsInputUpdate?
         /// If an Amazon Kinesis Firehose delivery stream is the streaming source to be updated, provides an updated stream Amazon Resource Name (ARN) and IAM role ARN.
-        public var kinesisFirehoseInputUpdate: KinesisFirehoseInputUpdate? = nil
+        public let kinesisFirehoseInputUpdate: KinesisFirehoseInputUpdate?
         /// Describes the data format on the streaming source, and how record elements on the streaming source map to columns of the in-application stream that is created.
-        public var inputSchemaUpdate: InputSchemaUpdate? = nil
-
-        public init() {}
+        public let inputSchemaUpdate: InputSchemaUpdate?
 
         public init(namePrefixUpdate: String? = nil, inputParallelismUpdate: InputParallelismUpdate? = nil, inputId: String, kinesisStreamsInputUpdate: KinesisStreamsInputUpdate? = nil, kinesisFirehoseInputUpdate: KinesisFirehoseInputUpdate? = nil, inputSchemaUpdate: InputSchemaUpdate? = nil) {
             self.namePrefixUpdate = namePrefixUpdate
@@ -141,12 +129,12 @@ extension Kinesisanalytics {
 
         public init(dictionary: [String: Any]) throws {
             self.namePrefixUpdate = dictionary["NamePrefixUpdate"] as? String
-            if let inputParallelismUpdate = dictionary["InputParallelismUpdate"] as? [String: Any] { self.inputParallelismUpdate = try Kinesisanalytics.InputParallelismUpdate(dictionary: inputParallelismUpdate) }
+            if let inputParallelismUpdate = dictionary["InputParallelismUpdate"] as? [String: Any] { self.inputParallelismUpdate = try Kinesisanalytics.InputParallelismUpdate(dictionary: inputParallelismUpdate) } else { self.inputParallelismUpdate = nil }
             guard let inputId = dictionary["InputId"] as? String else { throw InitializableError.missingRequiredParam("InputId") }
             self.inputId = inputId
-            if let kinesisStreamsInputUpdate = dictionary["KinesisStreamsInputUpdate"] as? [String: Any] { self.kinesisStreamsInputUpdate = try Kinesisanalytics.KinesisStreamsInputUpdate(dictionary: kinesisStreamsInputUpdate) }
-            if let kinesisFirehoseInputUpdate = dictionary["KinesisFirehoseInputUpdate"] as? [String: Any] { self.kinesisFirehoseInputUpdate = try Kinesisanalytics.KinesisFirehoseInputUpdate(dictionary: kinesisFirehoseInputUpdate) }
-            if let inputSchemaUpdate = dictionary["InputSchemaUpdate"] as? [String: Any] { self.inputSchemaUpdate = try Kinesisanalytics.InputSchemaUpdate(dictionary: inputSchemaUpdate) }
+            if let kinesisStreamsInputUpdate = dictionary["KinesisStreamsInputUpdate"] as? [String: Any] { self.kinesisStreamsInputUpdate = try Kinesisanalytics.KinesisStreamsInputUpdate(dictionary: kinesisStreamsInputUpdate) } else { self.kinesisStreamsInputUpdate = nil }
+            if let kinesisFirehoseInputUpdate = dictionary["KinesisFirehoseInputUpdate"] as? [String: Any] { self.kinesisFirehoseInputUpdate = try Kinesisanalytics.KinesisFirehoseInputUpdate(dictionary: kinesisFirehoseInputUpdate) } else { self.kinesisFirehoseInputUpdate = nil }
+            if let inputSchemaUpdate = dictionary["InputSchemaUpdate"] as? [String: Any] { self.inputSchemaUpdate = try Kinesisanalytics.InputSchemaUpdate(dictionary: inputSchemaUpdate) } else { self.inputSchemaUpdate = nil }
         }
     }
 
@@ -154,11 +142,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
-        public var resourceARN: String? = nil
+        public let resourceARN: String?
         /// ARN of the IAM role that Amazon Kinesis Analytics assumes to access the stream.
-        public var roleARN: String? = nil
-
-        public init() {}
+        public let roleARN: String?
 
         public init(resourceARN: String? = nil, roleARN: String? = nil) {
             self.resourceARN = resourceARN
@@ -175,11 +161,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
-        public var roleARNUpdate: String? = nil
+        public let roleARNUpdate: String?
         /// Amazon Resource Name (ARN) of the Amazon Kinesis stream where you want to write the output.
-        public var resourceARNUpdate: String? = nil
-
-        public init() {}
+        public let resourceARNUpdate: String?
 
         public init(roleARNUpdate: String? = nil, resourceARNUpdate: String? = nil) {
             self.roleARNUpdate = roleARNUpdate
@@ -196,13 +180,11 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Version of the application for which you are adding the reference data source. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
-        public var currentApplicationVersionId: Int64 = 0
+        public let currentApplicationVersionId: Int64
         /// The reference data source can be an object in your Amazon S3 bucket. Amazon Kinesis Analytics reads the object and copies the data into the in-application table that is created. You provide an S3 bucket, object key name, and the resulting in-application table that is created. You must also provide an IAM role with the necessary permissions that Amazon Kinesis Analytics can assume to read the object from your S3 bucket on your behalf.
-        public var referenceDataSource: ReferenceDataSource = ReferenceDataSource()
+        public let referenceDataSource: ReferenceDataSource
         /// Name of an existing application.
-        public var applicationName: String = ""
-
-        public init() {}
+        public let applicationName: String
 
         public init(currentApplicationVersionId: Int64, referenceDataSource: ReferenceDataSource, applicationName: String) {
             self.currentApplicationVersionId = currentApplicationVersionId
@@ -224,11 +206,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Amazon Resource Name (ARN) of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant necessary permissions to this role.
-        public var roleARNUpdate: String? = nil
+        public let roleARNUpdate: String?
         /// ARN of the input Amazon Kinesis Firehose delivery stream to read.
-        public var resourceARNUpdate: String? = nil
-
-        public init() {}
+        public let resourceARNUpdate: String?
 
         public init(roleARNUpdate: String? = nil, resourceARNUpdate: String? = nil) {
             self.roleARNUpdate = roleARNUpdate
@@ -245,8 +225,6 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -255,9 +233,7 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// In response to your CreateApplication request, Amazon Kinesis Analytics returns a response with a summary of the application it created, including the application Amazon Resource Name (ARN), name, and status.
-        public var applicationSummary: ApplicationSummary = ApplicationSummary()
-
-        public init() {}
+        public let applicationSummary: ApplicationSummary
 
         public init(applicationSummary: ApplicationSummary) {
             self.applicationSummary = applicationSummary
@@ -273,11 +249,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Identifies the specific input, by ID, that the application starts consuming. Amazon Kinesis Analytics starts reading the streaming source associated with the input. You can also specify where in the streaming source you want Amazon Kinesis Analytics to start reading.
-        public var inputConfigurations: [InputConfiguration] = []
+        public let inputConfigurations: [InputConfiguration]
         /// Name of the application.
-        public var applicationName: String = ""
-
-        public init() {}
+        public let applicationName: String
 
         public init(inputConfigurations: [InputConfiguration], applicationName: String) {
             self.inputConfigurations = inputConfigurations
@@ -296,9 +270,7 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Name of the running application to stop.
-        public var applicationName: String = ""
-
-        public init() {}
+        public let applicationName: String
 
         public init(applicationName: String) {
             self.applicationName = applicationName
@@ -314,13 +286,11 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// ARN of the IAM role that the service can assume to read data on your behalf. This role must have permission for the s3:GetObject action on the object and trust policy that allows Amazon Kinesis Analytics service principal to assume this role.
-        public var referenceRoleARN: String = ""
+        public let referenceRoleARN: String
         /// Amazon Resource Name (ARN) of the S3 bucket.
-        public var bucketARN: String = ""
+        public let bucketARN: String
         /// Object key name containing reference data.
-        public var fileKey: String = ""
-
-        public init() {}
+        public let fileKey: String
 
         public init(referenceRoleARN: String, bucketARN: String, fileKey: String) {
             self.referenceRoleARN = referenceRoleARN
@@ -342,11 +312,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant necessary permissions to this role.
-        public var roleARNUpdate: String? = nil
+        public let roleARNUpdate: String?
         /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream to write to.
-        public var resourceARNUpdate: String? = nil
-
-        public init() {}
+        public let resourceARNUpdate: String?
 
         public init(roleARNUpdate: String? = nil, resourceARNUpdate: String? = nil) {
             self.roleARNUpdate = roleARNUpdate
@@ -363,9 +331,7 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// The starting position on the stream.    LATEST - Start reading just after the most recent record in the stream.    TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Firehose delivery stream.    LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.  
-        public var inputStartingPosition: String? = nil
-
-        public init() {}
+        public let inputStartingPosition: String?
 
         public init(inputStartingPosition: String? = nil) {
             self.inputStartingPosition = inputStartingPosition
@@ -380,13 +346,11 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Amazon Resource Name (ARN) of the S3 bucket.
-        public var bucketARNUpdate: String? = nil
+        public let bucketARNUpdate: String?
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object and populate the in-application.
-        public var referenceRoleARNUpdate: String? = nil
+        public let referenceRoleARNUpdate: String?
         /// Object key name.
-        public var fileKeyUpdate: String? = nil
-
-        public init() {}
+        public let fileKeyUpdate: String?
 
         public init(bucketARNUpdate: String? = nil, referenceRoleARNUpdate: String? = nil, fileKeyUpdate: String? = nil) {
             self.bucketARNUpdate = bucketARNUpdate
@@ -405,8 +369,6 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -415,10 +377,8 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of record format.
-        public var recordFormatType: String = ""
-        public var mappingParameters: MappingParameters? = nil
-
-        public init() {}
+        public let recordFormatType: String
+        public let mappingParameters: MappingParameters?
 
         public init(recordFormatType: String, mappingParameters: MappingParameters? = nil) {
             self.recordFormatType = recordFormatType
@@ -428,7 +388,7 @@ extension Kinesisanalytics {
         public init(dictionary: [String: Any]) throws {
             guard let recordFormatType = dictionary["RecordFormatType"] as? String else { throw InitializableError.missingRequiredParam("RecordFormatType") }
             self.recordFormatType = recordFormatType
-            if let mappingParameters = dictionary["MappingParameters"] as? [String: Any] { self.mappingParameters = try Kinesisanalytics.MappingParameters(dictionary: mappingParameters) }
+            if let mappingParameters = dictionary["MappingParameters"] as? [String: Any] { self.mappingParameters = try Kinesisanalytics.MappingParameters(dictionary: mappingParameters) } else { self.mappingParameters = nil }
         }
     }
 
@@ -436,17 +396,15 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Use this parameter to configure the application input. You can configure your application to receive input from a single streaming source. In this configuration, you map this streaming source to an in-application stream that is created. Your application code can then query the in-application stream like a table (you can think of it as a constantly updating table). For the streaming source, you provide its Amazon Resource Name (ARN) and format of data on the stream (for example, JSON, CSV, etc). You also must provide an IAM role that Amazon Kinesis Analytics can assume to read this stream on your behalf. To create the in-application stream, you need to specify a schema to transform your data into a schematized version used in SQL. In the schema, you provide the necessary mapping of the data elements in the streaming source to record columns in the in-app stream.
-        public var inputs: [Input]? = nil
+        public let inputs: [Input]?
         /// Name of your Amazon Kinesis Analytics application (for example, sample-app).
-        public var applicationName: String = ""
+        public let applicationName: String
         /// You can configure application output to write data from any of the in-application streams to up to five destinations. These destinations can be Amazon Kinesis streams, Amazon Kinesis Firehose delivery streams, or both. In the configuration, you specify the in-application stream name, the destination stream Amazon Resource Name (ARN), and the format to use when writing data. You must also provide an IAM role that Amazon Kinesis Analytics can assume to write to the destination stream on your behalf. In the output configuration, you also provide the output stream Amazon Resource Name (ARN) and the format of data in the stream (for example, JSON, CSV). You also must provide an IAM role that Amazon Kinesis Analytics can assume to write to this stream on your behalf.
-        public var outputs: [Output]? = nil
+        public let outputs: [Output]?
         /// One or more SQL statements that read input data, transform it, and generate output. For example, you can write a SQL statement that reads input data and generates a running average of the number of advertisement clicks by vendor. You can also provide a series of SQL statements, where output of one statement can be used as the input for the next statement. Note that the application code must create the streams with names specified in the Outputs. For example, if your Outputs defines output streams named ExampleOutputStream1 and ExampleOutputStream2, then your application code must create these streams. 
-        public var applicationCode: String? = nil
+        public let applicationCode: String?
         /// Summary description of the application.
-        public var applicationDescription: String? = nil
-
-        public init() {}
+        public let applicationDescription: String?
 
         public init(inputs: [Input]? = nil, applicationName: String, outputs: [Output]? = nil, applicationCode: String? = nil, applicationDescription: String? = nil) {
             self.inputs = inputs
@@ -459,11 +417,15 @@ extension Kinesisanalytics {
         public init(dictionary: [String: Any]) throws {
             if let inputs = dictionary["Inputs"] as? [[String: Any]] {
                 self.inputs = try inputs.map({ try Input(dictionary: $0) })
+            } else { 
+                self.inputs = nil
             }
             guard let applicationName = dictionary["ApplicationName"] as? String else { throw InitializableError.missingRequiredParam("ApplicationName") }
             self.applicationName = applicationName
             if let outputs = dictionary["Outputs"] as? [[String: Any]] {
                 self.outputs = try outputs.map({ try Output(dictionary: $0) })
+            } else { 
+                self.outputs = nil
             }
             self.applicationCode = dictionary["ApplicationCode"] as? String
             self.applicationDescription = dictionary["ApplicationDescription"] as? String
@@ -474,9 +436,7 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the format of the records on the output stream.
-        public var recordFormatType: String? = nil
-
-        public init() {}
+        public let recordFormatType: String?
 
         public init(recordFormatType: String? = nil) {
             self.recordFormatType = recordFormatType
@@ -491,11 +451,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         ///  You can use the DescribeApplication operation to get this value. 
-        public var createTimestamp: Date = Date()
+        public let createTimestamp: Date
         /// Name of the Amazon Kinesis Analytics application to delete.
-        public var applicationName: String = ""
-
-        public init() {}
+        public let applicationName: String
 
         public init(createTimestamp: Date, applicationName: String) {
             self.createTimestamp = createTimestamp
@@ -514,8 +472,6 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -524,13 +480,11 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Amazon Resource Name (ARN) of the streaming source.
-        public var resourceARN: String = ""
+        public let resourceARN: String
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf.
-        public var roleARN: String = ""
+        public let roleARN: String
         /// Point at which you want Amazon Kinesis Analytics to start reading records from the specified streaming source discovery purposes.
-        public var inputStartingPositionConfiguration: InputStartingPositionConfiguration = InputStartingPositionConfiguration()
-
-        public init() {}
+        public let inputStartingPositionConfiguration: InputStartingPositionConfiguration
 
         public init(resourceARN: String, roleARN: String, inputStartingPositionConfiguration: InputStartingPositionConfiguration) {
             self.resourceARN = resourceARN
@@ -552,13 +506,11 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Amazon Kinesis Analytics application version. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. 
-        public var currentApplicationVersionId: Int64 = 0
+        public let currentApplicationVersionId: Int64
         /// The ID of the configuration to delete. Each output configuration that is added to the application, either when the application is created or later using the AddApplicationOutput operation, has a unique ID. You need to provide the ID to uniquely identify the output configuration that you want to delete from the application configuration. You can use the DescribeApplication operation to get the specific OutputId. 
-        public var outputId: String = ""
+        public let outputId: String
         /// Amazon Kinesis Analytics application name.
-        public var applicationName: String = ""
-
-        public init() {}
+        public let applicationName: String
 
         public init(currentApplicationVersionId: Int64, outputId: String, applicationName: String) {
             self.currentApplicationVersionId = currentApplicationVersionId
@@ -580,22 +532,20 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// If an Amazon Kinesis Firehose delivery stream is configured as a streaming source, provides the Firehose delivery stream's Amazon Resource Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
-        public var kinesisFirehoseInputDescription: KinesisFirehoseInputDescription? = nil
+        public let kinesisFirehoseInputDescription: KinesisFirehoseInputDescription?
         /// If an Amazon Kinesis stream is configured as streaming source, provides Amazon Kinesis stream's ARN and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
-        public var kinesisStreamsInputDescription: KinesisStreamsInputDescription? = nil
+        public let kinesisStreamsInputDescription: KinesisStreamsInputDescription?
         /// Describes the configured parallelism (number of in-application streams mapped to the streaming source).
-        public var inputParallelism: InputParallelism? = nil
+        public let inputParallelism: InputParallelism?
         /// In-application name prefix.
-        public var namePrefix: String? = nil
+        public let namePrefix: String?
         /// Returns the in-application stream names that are mapped to the stream source.
-        public var inAppStreamNames: [String]? = nil
+        public let inAppStreamNames: [String]?
         /// Point at which the application is configured to read from the input stream.
-        public var inputStartingPositionConfiguration: InputStartingPositionConfiguration? = nil
-        public var inputSchema: SourceSchema? = nil
+        public let inputStartingPositionConfiguration: InputStartingPositionConfiguration?
+        public let inputSchema: SourceSchema?
         /// Input ID associated with the application input. This is the ID that Amazon Kinesis Analytics assigns to each input configuration you add to your application. 
-        public var inputId: String? = nil
-
-        public init() {}
+        public let inputId: String?
 
         public init(kinesisFirehoseInputDescription: KinesisFirehoseInputDescription? = nil, kinesisStreamsInputDescription: KinesisStreamsInputDescription? = nil, inputParallelism: InputParallelism? = nil, namePrefix: String? = nil, inAppStreamNames: [String]? = nil, inputStartingPositionConfiguration: InputStartingPositionConfiguration? = nil, inputSchema: SourceSchema? = nil, inputId: String? = nil) {
             self.kinesisFirehoseInputDescription = kinesisFirehoseInputDescription
@@ -609,15 +559,13 @@ extension Kinesisanalytics {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let kinesisFirehoseInputDescription = dictionary["KinesisFirehoseInputDescription"] as? [String: Any] { self.kinesisFirehoseInputDescription = try Kinesisanalytics.KinesisFirehoseInputDescription(dictionary: kinesisFirehoseInputDescription) }
-            if let kinesisStreamsInputDescription = dictionary["KinesisStreamsInputDescription"] as? [String: Any] { self.kinesisStreamsInputDescription = try Kinesisanalytics.KinesisStreamsInputDescription(dictionary: kinesisStreamsInputDescription) }
-            if let inputParallelism = dictionary["InputParallelism"] as? [String: Any] { self.inputParallelism = try Kinesisanalytics.InputParallelism(dictionary: inputParallelism) }
+            if let kinesisFirehoseInputDescription = dictionary["KinesisFirehoseInputDescription"] as? [String: Any] { self.kinesisFirehoseInputDescription = try Kinesisanalytics.KinesisFirehoseInputDescription(dictionary: kinesisFirehoseInputDescription) } else { self.kinesisFirehoseInputDescription = nil }
+            if let kinesisStreamsInputDescription = dictionary["KinesisStreamsInputDescription"] as? [String: Any] { self.kinesisStreamsInputDescription = try Kinesisanalytics.KinesisStreamsInputDescription(dictionary: kinesisStreamsInputDescription) } else { self.kinesisStreamsInputDescription = nil }
+            if let inputParallelism = dictionary["InputParallelism"] as? [String: Any] { self.inputParallelism = try Kinesisanalytics.InputParallelism(dictionary: inputParallelism) } else { self.inputParallelism = nil }
             self.namePrefix = dictionary["NamePrefix"] as? String
-            if let inAppStreamNames = dictionary["InAppStreamNames"] as? [String] {
-                self.inAppStreamNames = inAppStreamNames
-            }
-            if let inputStartingPositionConfiguration = dictionary["InputStartingPositionConfiguration"] as? [String: Any] { self.inputStartingPositionConfiguration = try Kinesisanalytics.InputStartingPositionConfiguration(dictionary: inputStartingPositionConfiguration) }
-            if let inputSchema = dictionary["InputSchema"] as? [String: Any] { self.inputSchema = try Kinesisanalytics.SourceSchema(dictionary: inputSchema) }
+            self.inAppStreamNames = dictionary["InAppStreamNames"] as? [String]
+            if let inputStartingPositionConfiguration = dictionary["InputStartingPositionConfiguration"] as? [String: Any] { self.inputStartingPositionConfiguration = try Kinesisanalytics.InputStartingPositionConfiguration(dictionary: inputStartingPositionConfiguration) } else { self.inputStartingPositionConfiguration = nil }
+            if let inputSchema = dictionary["InputSchema"] as? [String: Any] { self.inputSchema = try Kinesisanalytics.SourceSchema(dictionary: inputSchema) } else { self.inputSchema = nil }
             self.inputId = dictionary["InputId"] as? String
         }
     }
@@ -626,13 +574,11 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// ARN of the application.
-        public var applicationARN: String = ""
+        public let applicationARN: String
         /// Name of the application.
-        public var applicationName: String = ""
+        public let applicationName: String
         /// Status of the application.
-        public var applicationStatus: String = ""
-
-        public init() {}
+        public let applicationStatus: String
 
         public init(applicationARN: String, applicationName: String, applicationStatus: String) {
             self.applicationARN = applicationARN
@@ -654,9 +600,7 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Path to the top-level parent that contains the records. For example, consider the following JSON record: In the RecordRowPath, "$" refers to the root and path "$.vehicle.Model" refers to the specific "Model" key in the JSON.
-        public var recordRowPath: String = ""
-
-        public init() {}
+        public let recordRowPath: String
 
         public init(recordRowPath: String) {
             self.recordRowPath = recordRowPath
@@ -672,13 +616,11 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Version of the application to which you want add the output configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned. 
-        public var currentApplicationVersionId: Int64 = 0
+        public let currentApplicationVersionId: Int64
         /// Name of the application to which you want to add the output configuration.
-        public var applicationName: String = ""
+        public let applicationName: String
         /// An array of objects, each describing one output configuration. In the output configuration, you specify the name of an in-application stream, a destination (that is, an Amazon Kinesis stream or an Amazon Kinesis Firehose delivery stream), and record the formation to use when writing to the destination.
-        public var output: Output = Output()
-
-        public init() {}
+        public let output: Output
 
         public init(currentApplicationVersionId: Int64, applicationName: String, output: Output) {
             self.currentApplicationVersionId = currentApplicationVersionId
@@ -700,11 +642,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Row delimiter. For example, in a CSV format, '\n' is the typical row delimiter.
-        public var recordRowDelimiter: String = ""
+        public let recordRowDelimiter: String
         /// Column delimiter. For example, in a CSV format, a comma (",") is the typical column delimiter.
-        public var recordColumnDelimiter: String = ""
-
-        public init() {}
+        public let recordColumnDelimiter: String
 
         public init(recordRowDelimiter: String, recordColumnDelimiter: String) {
             self.recordRowDelimiter = recordRowDelimiter
@@ -723,11 +663,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
-        public var resourceARN: String? = nil
+        public let resourceARN: String?
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream.
-        public var roleARN: String? = nil
-
-        public init() {}
+        public let roleARN: String?
 
         public init(resourceARN: String? = nil, roleARN: String? = nil) {
             self.resourceARN = resourceARN
@@ -744,17 +682,15 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// If the streaming source is an Amazon Kinesis Firehose delivery stream, identifies the Firehose delivery stream's ARN and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
-        public var kinesisFirehoseInput: KinesisFirehoseInput? = nil
+        public let kinesisFirehoseInput: KinesisFirehoseInput?
         /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns in the in-application stream that is being created. Also used to describe the format of the reference data source.
-        public var inputSchema: SourceSchema = SourceSchema()
+        public let inputSchema: SourceSchema
         /// Name prefix to use when creating in-application stream. Suppose you specify a prefix "MyInApplicationStream". Kinesis Analytics will then create one or more (as per the InputParallelism count you specified) in-application streams with names "MyInApplicationStream_001", "MyInApplicationStream_002" and so on. 
-        public var namePrefix: String = ""
+        public let namePrefix: String
         /// If the streaming source is an Amazon Kinesis stream, identifies the stream's Amazon Resource Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
-        public var kinesisStreamsInput: KinesisStreamsInput? = nil
+        public let kinesisStreamsInput: KinesisStreamsInput?
         /// Describes the number of in-application streams to create.  Data from your source will be routed to these in-application input streams.  (see Configuring Application Input.
-        public var inputParallelism: InputParallelism? = nil
-
-        public init() {}
+        public let inputParallelism: InputParallelism?
 
         public init(kinesisFirehoseInput: KinesisFirehoseInput? = nil, inputSchema: SourceSchema, namePrefix: String, kinesisStreamsInput: KinesisStreamsInput? = nil, inputParallelism: InputParallelism? = nil) {
             self.kinesisFirehoseInput = kinesisFirehoseInput
@@ -765,13 +701,13 @@ extension Kinesisanalytics {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let kinesisFirehoseInput = dictionary["KinesisFirehoseInput"] as? [String: Any] { self.kinesisFirehoseInput = try Kinesisanalytics.KinesisFirehoseInput(dictionary: kinesisFirehoseInput) }
+            if let kinesisFirehoseInput = dictionary["KinesisFirehoseInput"] as? [String: Any] { self.kinesisFirehoseInput = try Kinesisanalytics.KinesisFirehoseInput(dictionary: kinesisFirehoseInput) } else { self.kinesisFirehoseInput = nil }
             guard let inputSchema = dictionary["InputSchema"] as? [String: Any] else { throw InitializableError.missingRequiredParam("InputSchema") }
             self.inputSchema = try Kinesisanalytics.SourceSchema(dictionary: inputSchema)
             guard let namePrefix = dictionary["NamePrefix"] as? String else { throw InitializableError.missingRequiredParam("NamePrefix") }
             self.namePrefix = namePrefix
-            if let kinesisStreamsInput = dictionary["KinesisStreamsInput"] as? [String: Any] { self.kinesisStreamsInput = try Kinesisanalytics.KinesisStreamsInput(dictionary: kinesisStreamsInput) }
-            if let inputParallelism = dictionary["InputParallelism"] as? [String: Any] { self.inputParallelism = try Kinesisanalytics.InputParallelism(dictionary: inputParallelism) }
+            if let kinesisStreamsInput = dictionary["KinesisStreamsInput"] as? [String: Any] { self.kinesisStreamsInput = try Kinesisanalytics.KinesisStreamsInput(dictionary: kinesisStreamsInput) } else { self.kinesisStreamsInput = nil }
+            if let inputParallelism = dictionary["InputParallelism"] as? [String: Any] { self.inputParallelism = try Kinesisanalytics.InputParallelism(dictionary: inputParallelism) } else { self.inputParallelism = nil }
         }
     }
 
@@ -779,11 +715,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
-        public var resourceARN: String? = nil
+        public let resourceARN: String?
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream.
-        public var roleARN: String? = nil
-
-        public init() {}
+        public let roleARN: String?
 
         public init(resourceARN: String? = nil, roleARN: String? = nil) {
             self.resourceARN = resourceARN
@@ -800,8 +734,6 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -810,13 +742,11 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the format of the records on the streaming source.
-        public var recordFormat: RecordFormat = RecordFormat()
+        public let recordFormat: RecordFormat
         /// Specifies the encoding of the records in the streaming source. For example, UTF-8.
-        public var recordEncoding: String? = nil
+        public let recordEncoding: String?
         /// A list of RecordColumn objects.
-        public var recordColumns: [RecordColumn] = []
-
-        public init() {}
+        public let recordColumns: [RecordColumn]
 
         public init(recordFormat: RecordFormat, recordEncoding: String? = nil, recordColumns: [RecordColumn]) {
             self.recordFormat = recordFormat
@@ -837,11 +767,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// ARN of the input Firehose delivery stream.
-        public var resourceARN: String = ""
+        public let resourceARN: String
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to make sure the role has necessary permissions to access the stream.
-        public var roleARN: String = ""
-
-        public init() {}
+        public let roleARN: String
 
         public init(resourceARN: String, roleARN: String) {
             self.resourceARN = resourceARN
@@ -860,11 +788,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Input source ID. You can get this ID by calling the DescribeApplication operation.
-        public var id: String = ""
+        public let id: String
         /// Point at which you want the application to start processing records from the streaming source.
-        public var inputStartingPositionConfiguration: InputStartingPositionConfiguration = InputStartingPositionConfiguration()
-
-        public init() {}
+        public let inputStartingPositionConfiguration: InputStartingPositionConfiguration
 
         public init(id: String, inputStartingPositionConfiguration: InputStartingPositionConfiguration) {
             self.id = id
@@ -883,17 +809,15 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Describes Amazon Kinesis stream configured as the destination where output is written.
-        public var kinesisStreamsOutputDescription: KinesisStreamsOutputDescription? = nil
+        public let kinesisStreamsOutputDescription: KinesisStreamsOutputDescription?
         /// Data format used for writing data to the destination.
-        public var destinationSchema: DestinationSchema? = nil
+        public let destinationSchema: DestinationSchema?
         /// Name of the in-application stream configured as output.
-        public var name: String? = nil
+        public let name: String?
         /// A unique identifier for the output configuration.
-        public var outputId: String? = nil
+        public let outputId: String?
         /// Describes the Amazon Kinesis Firehose delivery stream configured as the destination where output is written.
-        public var kinesisFirehoseOutputDescription: KinesisFirehoseOutputDescription? = nil
-
-        public init() {}
+        public let kinesisFirehoseOutputDescription: KinesisFirehoseOutputDescription?
 
         public init(kinesisStreamsOutputDescription: KinesisStreamsOutputDescription? = nil, destinationSchema: DestinationSchema? = nil, name: String? = nil, outputId: String? = nil, kinesisFirehoseOutputDescription: KinesisFirehoseOutputDescription? = nil) {
             self.kinesisStreamsOutputDescription = kinesisStreamsOutputDescription
@@ -904,11 +828,11 @@ extension Kinesisanalytics {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let kinesisStreamsOutputDescription = dictionary["KinesisStreamsOutputDescription"] as? [String: Any] { self.kinesisStreamsOutputDescription = try Kinesisanalytics.KinesisStreamsOutputDescription(dictionary: kinesisStreamsOutputDescription) }
-            if let destinationSchema = dictionary["DestinationSchema"] as? [String: Any] { self.destinationSchema = try Kinesisanalytics.DestinationSchema(dictionary: destinationSchema) }
+            if let kinesisStreamsOutputDescription = dictionary["KinesisStreamsOutputDescription"] as? [String: Any] { self.kinesisStreamsOutputDescription = try Kinesisanalytics.KinesisStreamsOutputDescription(dictionary: kinesisStreamsOutputDescription) } else { self.kinesisStreamsOutputDescription = nil }
+            if let destinationSchema = dictionary["DestinationSchema"] as? [String: Any] { self.destinationSchema = try Kinesisanalytics.DestinationSchema(dictionary: destinationSchema) } else { self.destinationSchema = nil }
             self.name = dictionary["Name"] as? String
             self.outputId = dictionary["OutputId"] as? String
-            if let kinesisFirehoseOutputDescription = dictionary["KinesisFirehoseOutputDescription"] as? [String: Any] { self.kinesisFirehoseOutputDescription = try Kinesisanalytics.KinesisFirehoseOutputDescription(dictionary: kinesisFirehoseOutputDescription) }
+            if let kinesisFirehoseOutputDescription = dictionary["KinesisFirehoseOutputDescription"] as? [String: Any] { self.kinesisFirehoseOutputDescription = try Kinesisanalytics.KinesisFirehoseOutputDescription(dictionary: kinesisFirehoseOutputDescription) } else { self.kinesisFirehoseOutputDescription = nil }
         }
     }
 
@@ -916,11 +840,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// ARN of the destination Amazon Kinesis Firehose delivery stream to write to.
-        public var resourceARN: String = ""
+        public let resourceARN: String
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination stream on your behalf. You need to grant the necessary permissions to this role.
-        public var roleARN: String = ""
-
-        public init() {}
+        public let roleARN: String
 
         public init(resourceARN: String, roleARN: String) {
             self.resourceARN = resourceARN
@@ -939,11 +861,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
-        public var roleARNUpdate: String? = nil
+        public let roleARNUpdate: String?
         /// Amazon Resource Name (ARN) of the input Amazon Kinesis stream to read.
-        public var resourceARNUpdate: String? = nil
-
-        public init() {}
+        public let resourceARNUpdate: String?
 
         public init(roleARNUpdate: String? = nil, resourceARNUpdate: String? = nil) {
             self.roleARNUpdate = roleARNUpdate
@@ -960,9 +880,7 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Name of the application.
-        public var applicationName: String = ""
-
-        public init() {}
+        public let applicationName: String
 
         public init(applicationName: String) {
             self.applicationName = applicationName
@@ -978,13 +896,11 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Schema inferred from the streaming source. It identifies the format of the data in the streaming source and how each data element maps to corresponding columns in the in-application stream that you can create.
-        public var inputSchema: SourceSchema? = nil
+        public let inputSchema: SourceSchema?
         /// An array of elements, where each element corresponds to a row in a stream record (a stream record can have more than one row).
-        public var parsedInputRecords: [[String]]? = nil
+        public let parsedInputRecords: [[String]]?
         /// Raw stream data that was sampled to infer the schema.
-        public var rawInputRecords: [String]? = nil
-
-        public init() {}
+        public let rawInputRecords: [String]?
 
         public init(inputSchema: SourceSchema? = nil, parsedInputRecords: [[String]]? = nil, rawInputRecords: [String]? = nil) {
             self.inputSchema = inputSchema
@@ -993,13 +909,9 @@ extension Kinesisanalytics {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let inputSchema = dictionary["InputSchema"] as? [String: Any] { self.inputSchema = try Kinesisanalytics.SourceSchema(dictionary: inputSchema) }
-            if let parsedInputRecords = dictionary["ParsedInputRecords"] as? [[String]] {
-                self.parsedInputRecords = parsedInputRecords
-            }
-            if let rawInputRecords = dictionary["RawInputRecords"] as? [String] {
-                self.rawInputRecords = rawInputRecords
-            }
+            if let inputSchema = dictionary["InputSchema"] as? [String: Any] { self.inputSchema = try Kinesisanalytics.SourceSchema(dictionary: inputSchema) } else { self.inputSchema = nil }
+            self.parsedInputRecords = dictionary["ParsedInputRecords"] as? [[String]]
+            self.rawInputRecords = dictionary["RawInputRecords"] as? [String]
         }
     }
 
@@ -1007,29 +919,27 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Description of the application.
-        public var applicationDescription: String? = nil
+        public let applicationDescription: String?
         /// Status of the application.
-        public var applicationStatus: String = ""
+        public let applicationStatus: String
         /// Describes the application input configuration. For more information, see Configuring Application Input. 
-        public var inputDescriptions: [InputDescription]? = nil
+        public let inputDescriptions: [InputDescription]?
         /// Timestamp when the application was last updated.
-        public var lastUpdateTimestamp: Date? = nil
+        public let lastUpdateTimestamp: Date?
         /// Timestamp when the application version was created.
-        public var createTimestamp: Date? = nil
+        public let createTimestamp: Date?
         /// Returns the application code that you provided to perform data analysis on any of the in-application streams in your application.
-        public var applicationCode: String? = nil
+        public let applicationCode: String?
         /// Name of the application.
-        public var applicationName: String = ""
+        public let applicationName: String
         /// ARN of the application.
-        public var applicationARN: String = ""
+        public let applicationARN: String
         /// Provides the current application version.
-        public var applicationVersionId: Int64 = 0
+        public let applicationVersionId: Int64
         /// Describes the application output configuration. For more information, see Configuring Application Output. 
-        public var outputDescriptions: [OutputDescription]? = nil
+        public let outputDescriptions: [OutputDescription]?
         /// Describes reference data sources configured for the application. For more information, see Configuring Application Input. 
-        public var referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil
-
-        public init() {}
+        public let referenceDataSourceDescriptions: [ReferenceDataSourceDescription]?
 
         public init(applicationDescription: String? = nil, applicationStatus: String, inputDescriptions: [InputDescription]? = nil, lastUpdateTimestamp: Date? = nil, createTimestamp: Date? = nil, applicationCode: String? = nil, applicationName: String, applicationARN: String, applicationVersionId: Int64, outputDescriptions: [OutputDescription]? = nil, referenceDataSourceDescriptions: [ReferenceDataSourceDescription]? = nil) {
             self.applicationDescription = applicationDescription
@@ -1051,6 +961,8 @@ extension Kinesisanalytics {
             self.applicationStatus = applicationStatus
             if let inputDescriptions = dictionary["InputDescriptions"] as? [[String: Any]] {
                 self.inputDescriptions = try inputDescriptions.map({ try InputDescription(dictionary: $0) })
+            } else { 
+                self.inputDescriptions = nil
             }
             self.lastUpdateTimestamp = dictionary["LastUpdateTimestamp"] as? Date
             self.createTimestamp = dictionary["CreateTimestamp"] as? Date
@@ -1063,9 +975,13 @@ extension Kinesisanalytics {
             self.applicationVersionId = applicationVersionId
             if let outputDescriptions = dictionary["OutputDescriptions"] as? [[String: Any]] {
                 self.outputDescriptions = try outputDescriptions.map({ try OutputDescription(dictionary: $0) })
+            } else { 
+                self.outputDescriptions = nil
             }
             if let referenceDataSourceDescriptions = dictionary["ReferenceDataSourceDescriptions"] as? [[String: Any]] {
                 self.referenceDataSourceDescriptions = try referenceDataSourceDescriptions.map({ try ReferenceDataSourceDescription(dictionary: $0) })
+            } else { 
+                self.referenceDataSourceDescriptions = nil
             }
         }
     }
@@ -1074,13 +990,11 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of RecordColumn objects. Each object describes the mapping of the streaming source element to the corresponding column in the in-application stream. 
-        public var recordColumnUpdates: [RecordColumn]? = nil
+        public let recordColumnUpdates: [RecordColumn]?
         /// Specifies the encoding of the records in the streaming source. For example, UTF-8.
-        public var recordEncodingUpdate: String? = nil
+        public let recordEncodingUpdate: String?
         /// Specifies the format of the records on the streaming source.
-        public var recordFormatUpdate: RecordFormat? = nil
-
-        public init() {}
+        public let recordFormatUpdate: RecordFormat?
 
         public init(recordColumnUpdates: [RecordColumn]? = nil, recordEncodingUpdate: String? = nil, recordFormatUpdate: RecordFormat? = nil) {
             self.recordColumnUpdates = recordColumnUpdates
@@ -1091,9 +1005,11 @@ extension Kinesisanalytics {
         public init(dictionary: [String: Any]) throws {
             if let recordColumnUpdates = dictionary["RecordColumnUpdates"] as? [[String: Any]] {
                 self.recordColumnUpdates = try recordColumnUpdates.map({ try RecordColumn(dictionary: $0) })
+            } else { 
+                self.recordColumnUpdates = nil
             }
             self.recordEncodingUpdate = dictionary["RecordEncodingUpdate"] as? String
-            if let recordFormatUpdate = dictionary["RecordFormatUpdate"] as? [String: Any] { self.recordFormatUpdate = try Kinesisanalytics.RecordFormat(dictionary: recordFormatUpdate) }
+            if let recordFormatUpdate = dictionary["RecordFormatUpdate"] as? [String: Any] { self.recordFormatUpdate = try Kinesisanalytics.RecordFormat(dictionary: recordFormatUpdate) } else { self.recordFormatUpdate = nil }
         }
     }
 
@@ -1101,9 +1017,7 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Number of in-application streams to create. For more information, see Limits. 
-        public var count: Int32? = nil
-
-        public init() {}
+        public let count: Int32?
 
         public init(count: Int32? = nil) {
             self.count = count
@@ -1118,11 +1032,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// ARN of the input Amazon Kinesis stream to read.
-        public var resourceARN: String = ""
+        public let resourceARN: String
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
-        public var roleARN: String = ""
-
-        public init() {}
+        public let roleARN: String
 
         public init(resourceARN: String, roleARN: String) {
             self.resourceARN = resourceARN
@@ -1141,8 +1053,6 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1151,14 +1061,12 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Provides the S3 bucket name, the object key name that contains the reference data. It also provides the Amazon Resource Name (ARN) of the IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object and populate the in-application reference table.
-        public var s3ReferenceDataSourceDescription: S3ReferenceDataSourceDescription = S3ReferenceDataSourceDescription()
+        public let s3ReferenceDataSourceDescription: S3ReferenceDataSourceDescription
         /// ID of the reference data source. This is the ID that Amazon Kinesis Analytics assigns when you add the reference data source to your application using the AddApplicationReferenceDataSource operation.
-        public var referenceId: String = ""
+        public let referenceId: String
         /// The in-application table name created by the specific reference data source configuration.
-        public var tableName: String = ""
-        public var referenceSchema: SourceSchema? = nil
-
-        public init() {}
+        public let tableName: String
+        public let referenceSchema: SourceSchema?
 
         public init(s3ReferenceDataSourceDescription: S3ReferenceDataSourceDescription, referenceId: String, tableName: String, referenceSchema: SourceSchema? = nil) {
             self.s3ReferenceDataSourceDescription = s3ReferenceDataSourceDescription
@@ -1174,7 +1082,7 @@ extension Kinesisanalytics {
             self.referenceId = referenceId
             guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
             self.tableName = tableName
-            if let referenceSchema = dictionary["ReferenceSchema"] as? [String: Any] { self.referenceSchema = try Kinesisanalytics.SourceSchema(dictionary: referenceSchema) }
+            if let referenceSchema = dictionary["ReferenceSchema"] as? [String: Any] { self.referenceSchema = try Kinesisanalytics.SourceSchema(dictionary: referenceSchema) } else { self.referenceSchema = nil }
         }
     }
 
@@ -1182,13 +1090,11 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Version of the application. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
-        public var currentApplicationVersionId: Int64 = 0
+        public let currentApplicationVersionId: Int64
         /// ID of the reference data source. When you add a reference data source to your application using the AddApplicationReferenceDataSource, Amazon Kinesis Analytics assigns an ID. You can use the DescribeApplication operation to get the reference ID. 
-        public var referenceId: String = ""
+        public let referenceId: String
         /// Name of an existing application.
-        public var applicationName: String = ""
-
-        public init() {}
+        public let applicationName: String
 
         public init(currentApplicationVersionId: Int64, referenceId: String, applicationName: String) {
             self.currentApplicationVersionId = currentApplicationVersionId
@@ -1210,14 +1116,12 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Describes the S3 bucket name, object key name, and IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object on your behalf and populate the in-application reference table.
-        public var s3ReferenceDataSourceUpdate: S3ReferenceDataSourceUpdate? = nil
+        public let s3ReferenceDataSourceUpdate: S3ReferenceDataSourceUpdate?
         /// In-application table name that is created by this update.
-        public var tableNameUpdate: String? = nil
-        public var referenceSchemaUpdate: SourceSchema? = nil
+        public let tableNameUpdate: String?
+        public let referenceSchemaUpdate: SourceSchema?
         /// ID of the reference data source being updated. You can use the DescribeApplication operation to get this value.
-        public var referenceId: String = ""
-
-        public init() {}
+        public let referenceId: String
 
         public init(s3ReferenceDataSourceUpdate: S3ReferenceDataSourceUpdate? = nil, tableNameUpdate: String? = nil, referenceSchemaUpdate: SourceSchema? = nil, referenceId: String) {
             self.s3ReferenceDataSourceUpdate = s3ReferenceDataSourceUpdate
@@ -1227,9 +1131,9 @@ extension Kinesisanalytics {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let s3ReferenceDataSourceUpdate = dictionary["S3ReferenceDataSourceUpdate"] as? [String: Any] { self.s3ReferenceDataSourceUpdate = try Kinesisanalytics.S3ReferenceDataSourceUpdate(dictionary: s3ReferenceDataSourceUpdate) }
+            if let s3ReferenceDataSourceUpdate = dictionary["S3ReferenceDataSourceUpdate"] as? [String: Any] { self.s3ReferenceDataSourceUpdate = try Kinesisanalytics.S3ReferenceDataSourceUpdate(dictionary: s3ReferenceDataSourceUpdate) } else { self.s3ReferenceDataSourceUpdate = nil }
             self.tableNameUpdate = dictionary["TableNameUpdate"] as? String
-            if let referenceSchemaUpdate = dictionary["ReferenceSchemaUpdate"] as? [String: Any] { self.referenceSchemaUpdate = try Kinesisanalytics.SourceSchema(dictionary: referenceSchemaUpdate) }
+            if let referenceSchemaUpdate = dictionary["ReferenceSchemaUpdate"] as? [String: Any] { self.referenceSchemaUpdate = try Kinesisanalytics.SourceSchema(dictionary: referenceSchemaUpdate) } else { self.referenceSchemaUpdate = nil }
             guard let referenceId = dictionary["ReferenceId"] as? String else { throw InitializableError.missingRequiredParam("ReferenceId") }
             self.referenceId = referenceId
         }
@@ -1239,14 +1143,12 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Identifies an Amazon Kinesis Firehose delivery stream as the destination.
-        public var kinesisFirehoseOutput: KinesisFirehoseOutput? = nil
-        public var destinationSchema: DestinationSchema = DestinationSchema()
+        public let kinesisFirehoseOutput: KinesisFirehoseOutput?
+        public let destinationSchema: DestinationSchema
         /// Name of the in-application stream.
-        public var name: String = ""
+        public let name: String
         /// Identifies an Amazon Kinesis stream as the destination.
-        public var kinesisStreamsOutput: KinesisStreamsOutput? = nil
-
-        public init() {}
+        public let kinesisStreamsOutput: KinesisStreamsOutput?
 
         public init(kinesisFirehoseOutput: KinesisFirehoseOutput? = nil, destinationSchema: DestinationSchema, name: String, kinesisStreamsOutput: KinesisStreamsOutput? = nil) {
             self.kinesisFirehoseOutput = kinesisFirehoseOutput
@@ -1256,20 +1158,18 @@ extension Kinesisanalytics {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let kinesisFirehoseOutput = dictionary["KinesisFirehoseOutput"] as? [String: Any] { self.kinesisFirehoseOutput = try Kinesisanalytics.KinesisFirehoseOutput(dictionary: kinesisFirehoseOutput) }
+            if let kinesisFirehoseOutput = dictionary["KinesisFirehoseOutput"] as? [String: Any] { self.kinesisFirehoseOutput = try Kinesisanalytics.KinesisFirehoseOutput(dictionary: kinesisFirehoseOutput) } else { self.kinesisFirehoseOutput = nil }
             guard let destinationSchema = dictionary["DestinationSchema"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DestinationSchema") }
             self.destinationSchema = try Kinesisanalytics.DestinationSchema(dictionary: destinationSchema)
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            if let kinesisStreamsOutput = dictionary["KinesisStreamsOutput"] as? [String: Any] { self.kinesisStreamsOutput = try Kinesisanalytics.KinesisStreamsOutput(dictionary: kinesisStreamsOutput) }
+            if let kinesisStreamsOutput = dictionary["KinesisStreamsOutput"] as? [String: Any] { self.kinesisStreamsOutput = try Kinesisanalytics.KinesisStreamsOutput(dictionary: kinesisStreamsOutput) } else { self.kinesisStreamsOutput = nil }
         }
     }
 
     public struct StartApplicationResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -1279,11 +1179,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
-        public var resourceARN: String? = nil
+        public let resourceARN: String?
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream.
-        public var roleARN: String? = nil
-
-        public init() {}
+        public let roleARN: String?
 
         public init(resourceARN: String? = nil, roleARN: String? = nil) {
             self.resourceARN = resourceARN
@@ -1300,13 +1198,11 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// ARN of the IAM role that Amazon Kinesis Analytics can assume to read the Amazon S3 object on your behalf to populate the in-application reference table.
-        public var referenceRoleARN: String = ""
+        public let referenceRoleARN: String
         /// Amazon Resource Name (ARN) of the S3 bucket.
-        public var bucketARN: String = ""
+        public let bucketARN: String
         /// Amazon S3 object key name.
-        public var fileKey: String = ""
-
-        public init() {}
+        public let fileKey: String
 
         public init(referenceRoleARN: String, bucketARN: String, fileKey: String) {
             self.referenceRoleARN = referenceRoleARN
@@ -1328,15 +1224,13 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Describes application output configuration updates.
-        public var outputUpdates: [OutputUpdate]? = nil
+        public let outputUpdates: [OutputUpdate]?
         /// Describes application reference data source updates.
-        public var referenceDataSourceUpdates: [ReferenceDataSourceUpdate]? = nil
+        public let referenceDataSourceUpdates: [ReferenceDataSourceUpdate]?
         /// Describes application code updates.
-        public var applicationCodeUpdate: String? = nil
+        public let applicationCodeUpdate: String?
         /// Describes application input configuration updates.
-        public var inputUpdates: [InputUpdate]? = nil
-
-        public init() {}
+        public let inputUpdates: [InputUpdate]?
 
         public init(outputUpdates: [OutputUpdate]? = nil, referenceDataSourceUpdates: [ReferenceDataSourceUpdate]? = nil, applicationCodeUpdate: String? = nil, inputUpdates: [InputUpdate]? = nil) {
             self.outputUpdates = outputUpdates
@@ -1348,13 +1242,19 @@ extension Kinesisanalytics {
         public init(dictionary: [String: Any]) throws {
             if let outputUpdates = dictionary["OutputUpdates"] as? [[String: Any]] {
                 self.outputUpdates = try outputUpdates.map({ try OutputUpdate(dictionary: $0) })
+            } else { 
+                self.outputUpdates = nil
             }
             if let referenceDataSourceUpdates = dictionary["ReferenceDataSourceUpdates"] as? [[String: Any]] {
                 self.referenceDataSourceUpdates = try referenceDataSourceUpdates.map({ try ReferenceDataSourceUpdate(dictionary: $0) })
+            } else { 
+                self.referenceDataSourceUpdates = nil
             }
             self.applicationCodeUpdate = dictionary["ApplicationCodeUpdate"] as? String
             if let inputUpdates = dictionary["InputUpdates"] as? [[String: Any]] {
                 self.inputUpdates = try inputUpdates.map({ try InputUpdate(dictionary: $0) })
+            } else { 
+                self.inputUpdates = nil
             }
         }
     }
@@ -1363,11 +1263,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Provides additional mapping information when the record format uses delimiters (for example, CSV).
-        public var cSVMappingParameters: CSVMappingParameters? = nil
+        public let cSVMappingParameters: CSVMappingParameters?
         /// Provides additional mapping information when JSON is the record format on the streaming source.
-        public var jSONMappingParameters: JSONMappingParameters? = nil
-
-        public init() {}
+        public let jSONMappingParameters: JSONMappingParameters?
 
         public init(cSVMappingParameters: CSVMappingParameters? = nil, jSONMappingParameters: JSONMappingParameters? = nil) {
             self.cSVMappingParameters = cSVMappingParameters
@@ -1375,8 +1273,8 @@ extension Kinesisanalytics {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let cSVMappingParameters = dictionary["CSVMappingParameters"] as? [String: Any] { self.cSVMappingParameters = try Kinesisanalytics.CSVMappingParameters(dictionary: cSVMappingParameters) }
-            if let jSONMappingParameters = dictionary["JSONMappingParameters"] as? [String: Any] { self.jSONMappingParameters = try Kinesisanalytics.JSONMappingParameters(dictionary: jSONMappingParameters) }
+            if let cSVMappingParameters = dictionary["CSVMappingParameters"] as? [String: Any] { self.cSVMappingParameters = try Kinesisanalytics.CSVMappingParameters(dictionary: cSVMappingParameters) } else { self.cSVMappingParameters = nil }
+            if let jSONMappingParameters = dictionary["JSONMappingParameters"] as? [String: Any] { self.jSONMappingParameters = try Kinesisanalytics.JSONMappingParameters(dictionary: jSONMappingParameters) } else { self.jSONMappingParameters = nil }
         }
     }
 
@@ -1384,16 +1282,14 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// If you want to specify a different in-application stream for this output configuration, use this field to specify the new in-application stream name.
-        public var nameUpdate: String? = nil
+        public let nameUpdate: String?
         /// Describes an Amazon Kinesis stream as the destination for the output.
-        public var kinesisStreamsOutputUpdate: KinesisStreamsOutputUpdate? = nil
+        public let kinesisStreamsOutputUpdate: KinesisStreamsOutputUpdate?
         /// Describes a Amazon Kinesis Firehose delivery stream as the destination for the output.
-        public var kinesisFirehoseOutputUpdate: KinesisFirehoseOutputUpdate? = nil
-        public var destinationSchemaUpdate: DestinationSchema? = nil
+        public let kinesisFirehoseOutputUpdate: KinesisFirehoseOutputUpdate?
+        public let destinationSchemaUpdate: DestinationSchema?
         /// Identifies the specific output configuration that you want to update.
-        public var outputId: String = ""
-
-        public init() {}
+        public let outputId: String
 
         public init(nameUpdate: String? = nil, kinesisStreamsOutputUpdate: KinesisStreamsOutputUpdate? = nil, kinesisFirehoseOutputUpdate: KinesisFirehoseOutputUpdate? = nil, destinationSchemaUpdate: DestinationSchema? = nil, outputId: String) {
             self.nameUpdate = nameUpdate
@@ -1405,9 +1301,9 @@ extension Kinesisanalytics {
 
         public init(dictionary: [String: Any]) throws {
             self.nameUpdate = dictionary["NameUpdate"] as? String
-            if let kinesisStreamsOutputUpdate = dictionary["KinesisStreamsOutputUpdate"] as? [String: Any] { self.kinesisStreamsOutputUpdate = try Kinesisanalytics.KinesisStreamsOutputUpdate(dictionary: kinesisStreamsOutputUpdate) }
-            if let kinesisFirehoseOutputUpdate = dictionary["KinesisFirehoseOutputUpdate"] as? [String: Any] { self.kinesisFirehoseOutputUpdate = try Kinesisanalytics.KinesisFirehoseOutputUpdate(dictionary: kinesisFirehoseOutputUpdate) }
-            if let destinationSchemaUpdate = dictionary["DestinationSchemaUpdate"] as? [String: Any] { self.destinationSchemaUpdate = try Kinesisanalytics.DestinationSchema(dictionary: destinationSchemaUpdate) }
+            if let kinesisStreamsOutputUpdate = dictionary["KinesisStreamsOutputUpdate"] as? [String: Any] { self.kinesisStreamsOutputUpdate = try Kinesisanalytics.KinesisStreamsOutputUpdate(dictionary: kinesisStreamsOutputUpdate) } else { self.kinesisStreamsOutputUpdate = nil }
+            if let kinesisFirehoseOutputUpdate = dictionary["KinesisFirehoseOutputUpdate"] as? [String: Any] { self.kinesisFirehoseOutputUpdate = try Kinesisanalytics.KinesisFirehoseOutputUpdate(dictionary: kinesisFirehoseOutputUpdate) } else { self.kinesisFirehoseOutputUpdate = nil }
+            if let destinationSchemaUpdate = dictionary["DestinationSchemaUpdate"] as? [String: Any] { self.destinationSchemaUpdate = try Kinesisanalytics.DestinationSchema(dictionary: destinationSchemaUpdate) } else { self.destinationSchemaUpdate = nil }
             guard let outputId = dictionary["OutputId"] as? String else { throw InitializableError.missingRequiredParam("OutputId") }
             self.outputId = outputId
         }
@@ -1417,11 +1313,9 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Maximum number of applications to list.
-        public var limit: Int32? = nil
+        public let limit: Int32?
         /// Name of the application to start the list with. When using pagination to retrieve the list, you don't need to specify this parameter in the first request. However, in subsequent requests, you add the last application name from the previous response to get the next page of applications.
-        public var exclusiveStartApplicationName: String? = nil
-
-        public init() {}
+        public let exclusiveStartApplicationName: String?
 
         public init(limit: Int32? = nil, exclusiveStartApplicationName: String? = nil) {
             self.limit = limit
@@ -1438,13 +1332,11 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Reference to the data element in the streaming input of the reference data source.
-        public var mapping: String? = nil
+        public let mapping: String?
         /// Name of the column created in the in-application input stream or reference table.
-        public var name: String = ""
+        public let name: String
         /// Type of column created in the in-application input stream or reference table.
-        public var sqlType: String = ""
-
-        public init() {}
+        public let sqlType: String
 
         public init(mapping: String? = nil, name: String, sqlType: String) {
             self.mapping = mapping
@@ -1465,9 +1357,7 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Provides a description of the application, such as the application Amazon Resource Name (ARN), status, latest version, and input and output configuration details.
-        public var applicationDetail: ApplicationDetail = ApplicationDetail()
-
-        public init() {}
+        public let applicationDetail: ApplicationDetail
 
         public init(applicationDetail: ApplicationDetail) {
             self.applicationDetail = applicationDetail
@@ -1482,12 +1372,10 @@ extension Kinesisanalytics {
     public struct ReferenceDataSource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var s3ReferenceDataSource: S3ReferenceDataSource? = nil
-        public var referenceSchema: SourceSchema = SourceSchema()
+        public let s3ReferenceDataSource: S3ReferenceDataSource?
+        public let referenceSchema: SourceSchema
         /// Name of the in-application table to create.
-        public var tableName: String = ""
-
-        public init() {}
+        public let tableName: String
 
         public init(s3ReferenceDataSource: S3ReferenceDataSource? = nil, referenceSchema: SourceSchema, tableName: String) {
             self.s3ReferenceDataSource = s3ReferenceDataSource
@@ -1496,7 +1384,7 @@ extension Kinesisanalytics {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let s3ReferenceDataSource = dictionary["S3ReferenceDataSource"] as? [String: Any] { self.s3ReferenceDataSource = try Kinesisanalytics.S3ReferenceDataSource(dictionary: s3ReferenceDataSource) }
+            if let s3ReferenceDataSource = dictionary["S3ReferenceDataSource"] as? [String: Any] { self.s3ReferenceDataSource = try Kinesisanalytics.S3ReferenceDataSource(dictionary: s3ReferenceDataSource) } else { self.s3ReferenceDataSource = nil }
             guard let referenceSchema = dictionary["ReferenceSchema"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ReferenceSchema") }
             self.referenceSchema = try Kinesisanalytics.SourceSchema(dictionary: referenceSchema)
             guard let tableName = dictionary["TableName"] as? String else { throw InitializableError.missingRequiredParam("TableName") }
@@ -1508,13 +1396,11 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// The current application version ID. You can use the DescribeApplication operation to get this value.
-        public var currentApplicationVersionId: Int64 = 0
+        public let currentApplicationVersionId: Int64
         /// Describes application updates.
-        public var applicationUpdate: ApplicationUpdate = ApplicationUpdate()
+        public let applicationUpdate: ApplicationUpdate
         /// Name of the Kinesis Analytics application to update.
-        public var applicationName: String = ""
-
-        public init() {}
+        public let applicationName: String
 
         public init(currentApplicationVersionId: Int64, applicationUpdate: ApplicationUpdate, applicationName: String) {
             self.currentApplicationVersionId = currentApplicationVersionId
@@ -1536,8 +1422,6 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1546,12 +1430,10 @@ extension Kinesisanalytics {
         /// The key for the payload
         public static let payload: String? = nil
         /// Current version of your Amazon Kinesis Analytics application. You can use the DescribeApplication operation to find the current application version.
-        public var currentApplicationVersionId: Int64 = 0
-        public var input: Input = Input()
+        public let currentApplicationVersionId: Int64
+        public let input: Input
         /// Name of your existing Amazon Kinesis Analytics application to which you want to add the streaming source.
-        public var applicationName: String = ""
-
-        public init() {}
+        public let applicationName: String
 
         public init(currentApplicationVersionId: Int64, input: Input, applicationName: String) {
             self.currentApplicationVersionId = currentApplicationVersionId

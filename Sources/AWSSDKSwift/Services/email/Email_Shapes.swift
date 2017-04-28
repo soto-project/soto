@@ -33,9 +33,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The email address to be verified.
-        public var emailAddress: String = ""
-
-        public init() {}
+        public let emailAddress: String
 
         public init(emailAddress: String) {
             self.emailAddress = emailAddress
@@ -51,9 +49,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of IP address filter data structures, which each consist of a name, an IP address range, and whether to allow or block mail from it.
-        public var filters: [ReceiptFilter]? = nil
-
-        public init() {}
+        public let filters: [ReceiptFilter]?
 
         public init(filters: [ReceiptFilter]? = nil) {
             self.filters = filters
@@ -62,6 +58,8 @@ extension Email {
         public init(dictionary: [String: Any]) throws {
             if let filters = dictionary["Filters"] as? [[String: Any]] {
                 self.filters = try filters.map({ try ReceiptFilter(dictionary: $0) })
+            } else { 
+                self.filters = nil
             }
         }
     }
@@ -70,16 +68,14 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A data structure that contains the specified receipt rule's name, actions, recipients, domains, enabled status, scan status, and Transport Layer Security (TLS) policy.
-        public var rule: ReceiptRule? = nil
-
-        public init() {}
+        public let rule: ReceiptRule?
 
         public init(rule: ReceiptRule? = nil) {
             self.rule = rule
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let rule = dictionary["Rule"] as? [String: Any] { self.rule = try Email.ReceiptRule(dictionary: rule) }
+            if let rule = dictionary["Rule"] as? [String: Any] { self.rule = try Email.ReceiptRule(dictionary: rule) } else { self.rule = nil }
         }
     }
 
@@ -87,11 +83,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the rule set to create. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
-        public var ruleSetName: String = ""
+        public let ruleSetName: String
         /// The name of the rule set to clone.
-        public var originalRuleSetName: String = ""
-
-        public init() {}
+        public let originalRuleSetName: String
 
         public init(ruleSetName: String, originalRuleSetName: String) {
             self.ruleSetName = ruleSetName
@@ -110,9 +104,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A map of Identity to IdentityNotificationAttributes.
-        public var notificationAttributes: [String: IdentityNotificationAttributes] = [:]
-
-        public init() {}
+        public let notificationAttributes: [String: IdentityNotificationAttributes]
 
         public init(notificationAttributes: [String: IdentityNotificationAttributes]) {
             self.notificationAttributes = notificationAttributes
@@ -133,8 +125,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -143,9 +133,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The domain to be verified.
-        public var domain: String = ""
-
-        public init() {}
+        public let domain: String
 
         public init(domain: String) {
             self.domain = domain
@@ -161,13 +149,11 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of notifications that will be published to the specified Amazon SNS topic.
-        public var notificationType: String = ""
+        public let notificationType: String
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic. If the parameter is omitted from the request or a null value is passed, SnsTopic is cleared and publishing is disabled.
-        public var snsTopic: String? = nil
+        public let snsTopic: String?
         /// The identity for which the Amazon SNS topic will be set. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com.
-        public var identity: String = ""
-
-        public init() {}
+        public let identity: String
 
         public init(notificationType: String, snsTopic: String? = nil, identity: String) {
             self.notificationType = notificationType
@@ -188,8 +174,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -197,8 +181,6 @@ extension Email {
     public struct SetReceiptRulePositionResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -208,17 +190,15 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// An object that contains the names, default values, and sources of the dimensions associated with an Amazon CloudWatch event destination.
-        public var cloudWatchDestination: CloudWatchDestination? = nil
+        public let cloudWatchDestination: CloudWatchDestination?
         /// The type of email sending events to publish to the event destination.
-        public var matchingEventTypes: [String] = []
+        public let matchingEventTypes: [String]
         /// The name of the event destination. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 64 characters.  
-        public var name: String = ""
+        public let name: String
         /// An object that contains the delivery stream ARN and the IAM role ARN associated with an Amazon Kinesis Firehose event destination.
-        public var kinesisFirehoseDestination: KinesisFirehoseDestination? = nil
+        public let kinesisFirehoseDestination: KinesisFirehoseDestination?
         /// Sets whether Amazon SES publishes events to this destination when you send an email with the associated configuration set. Set to true to enable publishing to this destination; set to false to prevent publishing to this destination. The default value is false.
-        public var enabled: Bool? = nil
-
-        public init() {}
+        public let enabled: Bool?
 
         public init(cloudWatchDestination: CloudWatchDestination? = nil, matchingEventTypes: [String], name: String, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, enabled: Bool? = nil) {
             self.cloudWatchDestination = cloudWatchDestination
@@ -229,12 +209,12 @@ extension Email {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let cloudWatchDestination = dictionary["CloudWatchDestination"] as? [String: Any] { self.cloudWatchDestination = try Email.CloudWatchDestination(dictionary: cloudWatchDestination) }
+            if let cloudWatchDestination = dictionary["CloudWatchDestination"] as? [String: Any] { self.cloudWatchDestination = try Email.CloudWatchDestination(dictionary: cloudWatchDestination) } else { self.cloudWatchDestination = nil }
             guard let matchingEventTypes = dictionary["MatchingEventTypes"] as? [String] else { throw InitializableError.missingRequiredParam("MatchingEventTypes") }
             self.matchingEventTypes = matchingEventTypes
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            if let kinesisFirehoseDestination = dictionary["KinesisFirehoseDestination"] as? [String: Any] { self.kinesisFirehoseDestination = try Email.KinesisFirehoseDestination(dictionary: kinesisFirehoseDestination) }
+            if let kinesisFirehoseDestination = dictionary["KinesisFirehoseDestination"] as? [String: Any] { self.kinesisFirehoseDestination = try Email.KinesisFirehoseDestination(dictionary: kinesisFirehoseDestination) } else { self.kinesisFirehoseDestination = nil }
             self.enabled = dictionary["Enabled"] as? Bool
         }
     }
@@ -243,21 +223,19 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES will publish complaint notifications.
-        public var complaintTopic: String = ""
+        public let complaintTopic: String
         /// Describes whether Amazon SES will forward bounce and complaint notifications as email. true indicates that Amazon SES will forward bounce and complaint notifications as email, while false indicates that bounce and complaint notifications will be published only to the specified bounce and complaint Amazon SNS topics.
-        public var forwardingEnabled: Bool = false
+        public let forwardingEnabled: Bool
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES will publish delivery notifications.
-        public var deliveryTopic: String = ""
+        public let deliveryTopic: String
         /// Describes whether Amazon SES includes the original email headers in Amazon SNS notifications of type Complaint. A value of true specifies that Amazon SES will include headers in complaint notifications, and a value of false specifies that Amazon SES will not include headers in complaint notifications.
-        public var headersInComplaintNotificationsEnabled: Bool? = nil
+        public let headersInComplaintNotificationsEnabled: Bool?
         /// Describes whether Amazon SES includes the original email headers in Amazon SNS notifications of type Delivery. A value of true specifies that Amazon SES will include headers in delivery notifications, and a value of false specifies that Amazon SES will not include headers in delivery notifications.
-        public var headersInDeliveryNotificationsEnabled: Bool? = nil
+        public let headersInDeliveryNotificationsEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES will publish bounce notifications.
-        public var bounceTopic: String = ""
+        public let bounceTopic: String
         /// Describes whether Amazon SES includes the original email headers in Amazon SNS notifications of type Bounce. A value of true specifies that Amazon SES will include headers in bounce notifications, and a value of false specifies that Amazon SES will not include headers in bounce notifications.
-        public var headersInBounceNotificationsEnabled: Bool? = nil
-
-        public init() {}
+        public let headersInBounceNotificationsEnabled: Bool?
 
         public init(complaintTopic: String, forwardingEnabled: Bool, deliveryTopic: String, headersInComplaintNotificationsEnabled: Bool? = nil, headersInDeliveryNotificationsEnabled: Bool? = nil, bounceTopic: String, headersInBounceNotificationsEnabled: Bool? = nil) {
             self.complaintTopic = complaintTopic
@@ -288,19 +266,17 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// Message-related DSN fields. If not specified, Amazon SES will choose the values.
-        public var messageDsn: MessageDsn? = nil
+        public let messageDsn: MessageDsn?
         /// A list of recipients of the bounced message, including the information required to create the Delivery Status Notifications (DSNs) for the recipients. You must specify at least one BouncedRecipientInfo in the list.
-        public var bouncedRecipientInfoList: [BouncedRecipientInfo] = []
+        public let bouncedRecipientInfoList: [BouncedRecipientInfo]
         /// The message ID of the message to be bounced.
-        public var originalMessageId: String = ""
+        public let originalMessageId: String
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the address in the "From" header of the bounce. For more information about sending authorization, see the Amazon SES Developer Guide.
-        public var bounceSenderArn: String? = nil
+        public let bounceSenderArn: String?
         /// The address to use in the "From" header of the bounce message. This must be an identity that you have verified with Amazon SES.
-        public var bounceSender: String = ""
+        public let bounceSender: String
         /// Human-readable text for the bounce message to explain the failure. If not specified, the text will be auto-generated based on the bounced recipient information.
-        public var explanation: String? = nil
-
-        public init() {}
+        public let explanation: String?
 
         public init(messageDsn: MessageDsn? = nil, bouncedRecipientInfoList: [BouncedRecipientInfo], originalMessageId: String, bounceSenderArn: String? = nil, bounceSender: String, explanation: String? = nil) {
             self.messageDsn = messageDsn
@@ -312,7 +288,7 @@ extension Email {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let messageDsn = dictionary["MessageDsn"] as? [String: Any] { self.messageDsn = try Email.MessageDsn(dictionary: messageDsn) }
+            if let messageDsn = dictionary["MessageDsn"] as? [String: Any] { self.messageDsn = try Email.MessageDsn(dictionary: messageDsn) } else { self.messageDsn = nil }
             guard let bouncedRecipientInfoList = dictionary["BouncedRecipientInfoList"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("BouncedRecipientInfoList") }
             self.bouncedRecipientInfoList = try bouncedRecipientInfoList.map({ try BouncedRecipientInfo(dictionary: $0) })
             guard let originalMessageId = dictionary["OriginalMessageId"] as? String else { throw InitializableError.missingRequiredParam("OriginalMessageId") }
@@ -328,13 +304,11 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// When the message was received by the reporting mail transfer agent (MTA), in RFC 822 date-time format.
-        public var arrivalDate: Date? = nil
+        public let arrivalDate: Date?
         /// Additional X-headers to include in the DSN.
-        public var extensionFields: [ExtensionField]? = nil
+        public let extensionFields: [ExtensionField]?
         /// The reporting MTA that attempted to deliver the message, formatted as specified in RFC 3464 (mta-name-type; mta-name). The default value is dns; inbound-smtp.[region].amazonaws.com.
-        public var reportingMta: String = ""
-
-        public init() {}
+        public let reportingMta: String
 
         public init(arrivalDate: Date? = nil, extensionFields: [ExtensionField]? = nil, reportingMta: String) {
             self.arrivalDate = arrivalDate
@@ -346,6 +320,8 @@ extension Email {
             self.arrivalDate = dictionary["ArrivalDate"] as? Date
             if let extensionFields = dictionary["ExtensionFields"] as? [[String: Any]] {
                 self.extensionFields = try extensionFields.map({ try ExtensionField(dictionary: $0) })
+            } else { 
+                self.extensionFields = nil
             }
             guard let reportingMta = dictionary["ReportingMta"] as? String else { throw InitializableError.missingRequiredParam("ReportingMta") }
             self.reportingMta = reportingMta
@@ -356,11 +332,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the header to add. Must be less than 2048 characters, and must not contain newline characters ("\r" or "\n").
-        public var value: String = ""
+        public let value: String
         /// The name of the header to add. Must be between 1 and 50 characters, inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes only.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(value: String, name: String) {
             self.value = value
@@ -379,9 +353,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the configuration set. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 64 characters.  
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -397,13 +369,11 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The type of the identities to list. Possible values are "EmailAddress" and "Domain". If this parameter is omitted, then all identities will be listed.
-        public var identityType: String? = nil
+        public let identityType: String?
         /// The token to use for pagination.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The maximum number of identities per page. Possible values are 1-1000 inclusive.
-        public var maxItems: Int32? = nil
-
-        public init() {}
+        public let maxItems: Int32?
 
         public init(identityType: String? = nil, nextToken: String? = nil, maxItems: Int32? = nil) {
             self.identityType = identityType
@@ -422,8 +392,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -432,11 +400,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the IAM role under which Amazon SES publishes email sending events to the Amazon Kinesis Firehose stream.
-        public var iAMRoleARN: String = ""
+        public let iAMRoleARN: String
         /// The ARN of the Amazon Kinesis Firehose stream to which to publish email sending events.
-        public var deliveryStreamARN: String = ""
-
-        public init() {}
+        public let deliveryStreamARN: String
 
         public init(iAMRoleARN: String, deliveryStreamARN: String) {
             self.iAMRoleARN = iAMRoleARN
@@ -455,9 +421,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the receipt rule set to describe.
-        public var ruleSetName: String = ""
-
-        public init() {}
+        public let ruleSetName: String
 
         public init(ruleSetName: String) {
             self.ruleSetName = ruleSetName
@@ -473,11 +437,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of event destinations associated with the configuration set. 
-        public var eventDestinations: [EventDestination]? = nil
+        public let eventDestinations: [EventDestination]?
         /// The configuration set object associated with the specified configuration set.
-        public var configurationSet: ConfigurationSet? = nil
-
-        public init() {}
+        public let configurationSet: ConfigurationSet?
 
         public init(eventDestinations: [EventDestination]? = nil, configurationSet: ConfigurationSet? = nil) {
             self.eventDestinations = eventDestinations
@@ -487,8 +449,10 @@ extension Email {
         public init(dictionary: [String: Any]) throws {
             if let eventDestinations = dictionary["EventDestinations"] as? [[String: Any]] {
                 self.eventDestinations = try eventDestinations.map({ try EventDestination(dictionary: $0) })
+            } else { 
+                self.eventDestinations = nil
             }
-            if let configurationSet = dictionary["ConfigurationSet"] as? [String: Any] { self.configurationSet = try Email.ConfigurationSet(dictionary: configurationSet) }
+            if let configurationSet = dictionary["ConfigurationSet"] as? [String: Any] { self.configurationSet = try Email.ConfigurationSet(dictionary: configurationSet) } else { self.configurationSet = nil }
         }
     }
 
@@ -496,9 +460,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the receipt rule set to make active. Setting this value to null disables all email receiving.
-        public var ruleSetName: String? = nil
-
-        public init() {}
+        public let ruleSetName: String?
 
         public init(ruleSetName: String? = nil) {
             self.ruleSetName = ruleSetName
@@ -513,11 +475,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The verification status of the identity: "Pending", "Success", "Failed", or "TemporaryFailure".
-        public var verificationStatus: String = ""
+        public let verificationStatus: String
         /// The verification token for a domain identity. Null for email address identities.
-        public var verificationToken: String? = nil
-
-        public init() {}
+        public let verificationToken: String?
 
         public init(verificationStatus: String, verificationToken: String? = nil) {
             self.verificationStatus = verificationStatus
@@ -535,8 +495,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -544,8 +502,6 @@ extension Email {
     public struct UpdateConfigurationSetEventDestinationResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -555,9 +511,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of identities.
-        public var identities: [String] = []
-
-        public init() {}
+        public let identities: [String]
 
         public init(identities: [String]) {
             self.identities = identities
@@ -573,9 +527,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The raw data of the message. The client must ensure that the message format complies with Internet email standards regarding email header fields, MIME types, MIME encoding, and base64 encoding. The To:, CC:, and BCC: headers in the raw message can contain a group list. If you are using SendRawEmail with sending authorization, you can include X-headers in the raw message to specify the "Source," "From," and "Return-Path" addresses. For more information, see the documentation for SendRawEmail.   Do not include these X-headers in the DKIM signature, because they are removed by Amazon SES before sending the email.  For more information, go to the Amazon SES Developer Guide. 
-        public var data: Data = Data()
-
-        public init() {}
+        public let data: Data
 
         public init(data: Data) {
             self.data = data
@@ -591,11 +543,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the receipt rule to delete.
-        public var ruleName: String = ""
+        public let ruleName: String
         /// The name of the receipt rule set that contains the receipt rule to delete.
-        public var ruleSetName: String = ""
-
-        public init() {}
+        public let ruleSetName: String
 
         public init(ruleName: String, ruleSetName: String) {
             self.ruleName = ruleName
@@ -614,9 +564,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the IP address filter to delete.
-        public var filterName: String = ""
-
-        public init() {}
+        public let filterName: String
 
         public init(filterName: String) {
             self.filterName = filterName
@@ -632,9 +580,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identity that is associated with the policy for which the policies will be listed. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
-        public var identity: String = ""
-
-        public init() {}
+        public let identity: String
 
         public init(identity: String) {
             self.identity = identity
@@ -650,13 +596,11 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The CC: field(s) of the message.
-        public var ccAddresses: [String]? = nil
+        public let ccAddresses: [String]?
         /// The BCC: field(s) of the message.
-        public var bccAddresses: [String]? = nil
+        public let bccAddresses: [String]?
         /// The To: field(s) of the message.
-        public var toAddresses: [String]? = nil
-
-        public init() {}
+        public let toAddresses: [String]?
 
         public init(ccAddresses: [String]? = nil, bccAddresses: [String]? = nil, toAddresses: [String]? = nil) {
             self.ccAddresses = ccAddresses
@@ -665,15 +609,9 @@ extension Email {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let ccAddresses = dictionary["CcAddresses"] as? [String] {
-                self.ccAddresses = ccAddresses
-            }
-            if let bccAddresses = dictionary["BccAddresses"] as? [String] {
-                self.bccAddresses = bccAddresses
-            }
-            if let toAddresses = dictionary["ToAddresses"] as? [String] {
-                self.toAddresses = toAddresses
-            }
+            self.ccAddresses = dictionary["CcAddresses"] as? [String]
+            self.bccAddresses = dictionary["BccAddresses"] as? [String]
+            self.toAddresses = dictionary["ToAddresses"] as? [String]
         }
     }
 
@@ -681,11 +619,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token returned from a previous call to ListConfigurationSets to indicate the position of the configuration set in the configuration set list.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The number of configuration sets to return.
-        public var maxItems: Int32? = nil
-
-        public init() {}
+        public let maxItems: Int32?
 
         public init(nextToken: String? = nil, maxItems: Int32? = nil) {
             self.nextToken = nextToken
@@ -702,11 +638,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The metadata for the receipt rule set, which consists of the rule set name and the timestamp of when the rule set was created.
-        public var metadata: ReceiptRuleSetMetadata? = nil
+        public let metadata: ReceiptRuleSetMetadata?
         /// A list of the receipt rules that belong to the specified receipt rule set.
-        public var rules: [ReceiptRule]? = nil
-
-        public init() {}
+        public let rules: [ReceiptRule]?
 
         public init(metadata: ReceiptRuleSetMetadata? = nil, rules: [ReceiptRule]? = nil) {
             self.metadata = metadata
@@ -714,9 +648,11 @@ extension Email {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Email.ReceiptRuleSetMetadata(dictionary: metadata) }
+            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Email.ReceiptRuleSetMetadata(dictionary: metadata) } else { self.metadata = nil }
             if let rules = dictionary["Rules"] as? [[String: Any]] {
                 self.rules = try rules.map({ try ReceiptRule(dictionary: $0) })
+            } else { 
+                self.rules = nil
             }
         }
     }
@@ -724,8 +660,6 @@ extension Email {
     public struct ListReceiptFiltersRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -735,11 +669,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The character set of the content.
-        public var charset: String? = nil
+        public let charset: String?
         /// The textual data of the content.
-        public var data: String = ""
-
-        public init() {}
+        public let data: String
 
         public init(charset: String? = nil, data: String) {
             self.charset = charset
@@ -757,9 +689,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A map of identities to custom MAIL FROM attributes.
-        public var mailFromDomainAttributes: [String: IdentityMailFromDomainAttributes] = [:]
-
-        public init() {}
+        public let mailFromDomainAttributes: [String: IdentityMailFromDomainAttributes]
 
         public init(mailFromDomainAttributes: [String: IdentityMailFromDomainAttributes]) {
             self.mailFromDomainAttributes = mailFromDomainAttributes
@@ -780,13 +710,11 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The place where Amazon SES finds the value of a dimension to publish to Amazon CloudWatch. If you want Amazon SES to use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail/SendRawEmail API, choose messageTag. If you want Amazon SES to use your own email headers, choose emailHeader.
-        public var dimensionValueSource: String = ""
+        public let dimensionValueSource: String
         /// The name of an Amazon CloudWatch dimension associated with an email sending metric. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
-        public var dimensionName: String = ""
+        public let dimensionName: String
         /// The default value of the dimension that is published to Amazon CloudWatch if you do not provide the value of the dimension when you send an email. The default value must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
-        public var defaultDimensionValue: String = ""
-
-        public init() {}
+        public let defaultDimensionValue: String
 
         public init(dimensionValueSource: String, dimensionName: String, defaultDimensionValue: String) {
             self.dimensionValueSource = dimensionValueSource
@@ -808,21 +736,19 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// Saves the received message to an Amazon Simple Storage Service (Amazon S3) bucket and, optionally, publishes a notification to Amazon SNS.
-        public var s3Action: S3Action? = nil
+        public let s3Action: S3Action?
         /// Calls Amazon WorkMail and, optionally, publishes a notification to Amazon SNS.
-        public var workmailAction: WorkmailAction? = nil
+        public let workmailAction: WorkmailAction?
         /// Adds a header to the received email.
-        public var addHeaderAction: AddHeaderAction? = nil
+        public let addHeaderAction: AddHeaderAction?
         /// Publishes the email content within a notification to Amazon SNS.
-        public var sNSAction: SNSAction? = nil
+        public let sNSAction: SNSAction?
         /// Terminates the evaluation of the receipt rule set and optionally publishes a notification to Amazon SNS.
-        public var stopAction: StopAction? = nil
+        public let stopAction: StopAction?
         /// Rejects the received email by returning a bounce response to the sender and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS).
-        public var bounceAction: BounceAction? = nil
+        public let bounceAction: BounceAction?
         /// Calls an AWS Lambda function, and optionally, publishes a notification to Amazon SNS.
-        public var lambdaAction: LambdaAction? = nil
-
-        public init() {}
+        public let lambdaAction: LambdaAction?
 
         public init(s3Action: S3Action? = nil, workmailAction: WorkmailAction? = nil, addHeaderAction: AddHeaderAction? = nil, sNSAction: SNSAction? = nil, stopAction: StopAction? = nil, bounceAction: BounceAction? = nil, lambdaAction: LambdaAction? = nil) {
             self.s3Action = s3Action
@@ -835,13 +761,13 @@ extension Email {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let s3Action = dictionary["S3Action"] as? [String: Any] { self.s3Action = try Email.S3Action(dictionary: s3Action) }
-            if let workmailAction = dictionary["WorkmailAction"] as? [String: Any] { self.workmailAction = try Email.WorkmailAction(dictionary: workmailAction) }
-            if let addHeaderAction = dictionary["AddHeaderAction"] as? [String: Any] { self.addHeaderAction = try Email.AddHeaderAction(dictionary: addHeaderAction) }
-            if let sNSAction = dictionary["SNSAction"] as? [String: Any] { self.sNSAction = try Email.SNSAction(dictionary: sNSAction) }
-            if let stopAction = dictionary["StopAction"] as? [String: Any] { self.stopAction = try Email.StopAction(dictionary: stopAction) }
-            if let bounceAction = dictionary["BounceAction"] as? [String: Any] { self.bounceAction = try Email.BounceAction(dictionary: bounceAction) }
-            if let lambdaAction = dictionary["LambdaAction"] as? [String: Any] { self.lambdaAction = try Email.LambdaAction(dictionary: lambdaAction) }
+            if let s3Action = dictionary["S3Action"] as? [String: Any] { self.s3Action = try Email.S3Action(dictionary: s3Action) } else { self.s3Action = nil }
+            if let workmailAction = dictionary["WorkmailAction"] as? [String: Any] { self.workmailAction = try Email.WorkmailAction(dictionary: workmailAction) } else { self.workmailAction = nil }
+            if let addHeaderAction = dictionary["AddHeaderAction"] as? [String: Any] { self.addHeaderAction = try Email.AddHeaderAction(dictionary: addHeaderAction) } else { self.addHeaderAction = nil }
+            if let sNSAction = dictionary["SNSAction"] as? [String: Any] { self.sNSAction = try Email.SNSAction(dictionary: sNSAction) } else { self.sNSAction = nil }
+            if let stopAction = dictionary["StopAction"] as? [String: Any] { self.stopAction = try Email.StopAction(dictionary: stopAction) } else { self.stopAction = nil }
+            if let bounceAction = dictionary["BounceAction"] as? [String: Any] { self.bounceAction = try Email.BounceAction(dictionary: bounceAction) } else { self.bounceAction = nil }
+            if let lambdaAction = dictionary["LambdaAction"] as? [String: Any] { self.lambdaAction = try Email.LambdaAction(dictionary: lambdaAction) } else { self.lambdaAction = nil }
         }
     }
 
@@ -849,9 +775,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the rule set to create. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
-        public var ruleSetName: String = ""
-
-        public init() {}
+        public let ruleSetName: String
 
         public init(ruleSetName: String) {
             self.ruleSetName = ruleSetName
@@ -867,8 +791,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -877,9 +799,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of names of policies that apply to the specified identity.
-        public var policyNames: [String] = []
-
-        public init() {}
+        public let policyNames: [String]
 
         public init(policyNames: [String]) {
             self.policyNames = policyNames
@@ -895,8 +815,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -905,15 +823,13 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The email address of the recipient of the bounced email.
-        public var recipient: String = ""
+        public let recipient: String
         /// Recipient-related DSN fields, most of which would normally be filled in automatically when provided with a BounceType. You must provide either this parameter or BounceType.
-        public var recipientDsnFields: RecipientDsnFields? = nil
+        public let recipientDsnFields: RecipientDsnFields?
         /// The reason for the bounce. You must provide either this parameter or RecipientDsnFields.
-        public var bounceType: String? = nil
+        public let bounceType: String?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to receive email for the recipient of the bounced email. For more information about sending authorization, see the Amazon SES Developer Guide.
-        public var recipientArn: String? = nil
-
-        public init() {}
+        public let recipientArn: String?
 
         public init(recipient: String, recipientDsnFields: RecipientDsnFields? = nil, bounceType: String? = nil, recipientArn: String? = nil) {
             self.recipient = recipient
@@ -925,7 +841,7 @@ extension Email {
         public init(dictionary: [String: Any]) throws {
             guard let recipient = dictionary["Recipient"] as? String else { throw InitializableError.missingRequiredParam("Recipient") }
             self.recipient = recipient
-            if let recipientDsnFields = dictionary["RecipientDsnFields"] as? [String: Any] { self.recipientDsnFields = try Email.RecipientDsnFields(dictionary: recipientDsnFields) }
+            if let recipientDsnFields = dictionary["RecipientDsnFields"] as? [String: Any] { self.recipientDsnFields = try Email.RecipientDsnFields(dictionary: recipientDsnFields) } else { self.recipientDsnFields = nil }
             self.bounceType = dictionary["BounceType"] as? String
             self.recipientArn = dictionary["RecipientArn"] as? String
         }
@@ -935,13 +851,11 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the receipt rule to reposition.
-        public var ruleName: String = ""
+        public let ruleName: String
         /// The name of the receipt rule set that contains the receipt rule to reposition.
-        public var ruleSetName: String = ""
+        public let ruleSetName: String
         /// The name of the receipt rule after which to place the specified receipt rule.
-        public var after: String? = nil
-
-        public init() {}
+        public let after: String?
 
         public init(ruleName: String, ruleSetName: String, after: String? = nil) {
             self.ruleName = ruleName
@@ -962,11 +876,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The encoding to use for the email within the Amazon SNS notification. UTF-8 is easier to use, but may not preserve all special characters when a message was encoded with a different encoding format. Base64 preserves all special characters. The default value is UTF-8.
-        public var encoding: String? = nil
+        public let encoding: String?
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
-        public var topicArn: String = ""
-
-        public init() {}
+        public let topicArn: String
 
         public init(encoding: String? = nil, topicArn: String) {
             self.encoding = encoding
@@ -984,8 +896,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -994,9 +904,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the configuration set to delete.
-        public var configurationSetName: String = ""
-
-        public init() {}
+        public let configurationSetName: String
 
         public init(configurationSetName: String) {
             self.configurationSetName = configurationSetName
@@ -1012,8 +920,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1022,11 +928,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the receipt rule.
-        public var ruleName: String = ""
+        public let ruleName: String
         /// The name of the receipt rule set to which the receipt rule belongs.
-        public var ruleSetName: String = ""
-
-        public init() {}
+        public let ruleSetName: String
 
         public init(ruleName: String, ruleSetName: String) {
             self.ruleName = ruleName
@@ -1045,9 +949,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// An email address to be removed from the list of verified addresses.
-        public var emailAddress: String = ""
-
-        public init() {}
+        public let emailAddress: String
 
         public init(emailAddress: String) {
             self.emailAddress = emailAddress
@@ -1063,8 +965,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1073,13 +973,11 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of an existing rule after which the new rule will be placed. If this parameter is null, the new rule will be inserted at the beginning of the rule list.
-        public var after: String? = nil
+        public let after: String?
         /// The name of the rule set to which to add the rule.
-        public var ruleSetName: String = ""
+        public let ruleSetName: String
         /// A data structure that contains the specified rule's name, actions, recipients, domains, enabled status, scan status, and TLS policy.
-        public var rule: ReceiptRule = ReceiptRule()
-
-        public init() {}
+        public let rule: ReceiptRule
 
         public init(after: String? = nil, ruleSetName: String, rule: ReceiptRule) {
             self.after = after
@@ -1100,8 +998,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1110,9 +1006,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique message identifier returned from the SendEmail action. 
-        public var messageId: String = ""
-
-        public init() {}
+        public let messageId: String
 
         public init(messageId: String) {
             self.messageId = messageId
@@ -1128,13 +1022,11 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the AWS Lambda function. An example of an AWS Lambda function ARN is arn:aws:lambda:us-west-2:account-id:function:MyFunction. For more information about AWS Lambda, see the AWS Lambda Developer Guide.
-        public var functionArn: String = ""
+        public let functionArn: String
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the Lambda action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
-        public var topicArn: String? = nil
+        public let topicArn: String?
         /// The invocation type of the AWS Lambda function. An invocation type of RequestResponse means that the execution of the function will immediately result in a response, and a value of Event means that the function will be invoked asynchronously. The default value is Event. For information about AWS Lambda invocation types, see the AWS Lambda Developer Guide.  There is a 30-second timeout on RequestResponse invocations. You should use Event invocation in most cases. Use RequestResponse only when you want to make a mail flow decision, such as whether to stop the receipt rule or the receipt rule set. 
-        public var invocationType: String? = nil
-
-        public init() {}
+        public let invocationType: String?
 
         public init(functionArn: String, topicArn: String? = nil, invocationType: String? = nil) {
             self.functionArn = functionArn
@@ -1154,13 +1046,11 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of emails that Amazon SES can accept from the user's account per second.  The rate at which Amazon SES accepts the user's messages might be less than the maximum send rate. 
-        public var maxSendRate: Double? = nil
+        public let maxSendRate: Double?
         /// The maximum number of emails the user is allowed to send in a 24-hour interval. A value of -1 signifies an unlimited quota.
-        public var max24HourSend: Double? = nil
+        public let max24HourSend: Double?
         /// The number of emails sent during the previous 24 hours.
-        public var sentLast24Hours: Double? = nil
-
-        public init() {}
+        public let sentLast24Hours: Double?
 
         public init(maxSendRate: Double? = nil, max24HourSend: Double? = nil, sentLast24Hours: Double? = nil) {
             self.maxSendRate = maxSendRate
@@ -1179,17 +1069,15 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the bounce action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
-        public var topicArn: String? = nil
+        public let topicArn: String?
         /// The SMTP reply code, as defined by RFC 5321.
-        public var smtpReplyCode: String = ""
+        public let smtpReplyCode: String
         /// Human-readable text to include in the bounce message.
-        public var message: String = ""
+        public let message: String
         /// The email address of the sender of the bounced email. This is the address from which the bounce message will be sent.
-        public var sender: String = ""
+        public let sender: String
         /// The SMTP enhanced status code, as defined by RFC 3463.
-        public var statusCode: String? = nil
-
-        public init() {}
+        public let statusCode: String?
 
         public init(topicArn: String? = nil, smtpReplyCode: String, message: String, sender: String, statusCode: String? = nil) {
             self.topicArn = topicArn
@@ -1215,9 +1103,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of data points, each of which represents 15 minutes of activity.
-        public var sendDataPoints: [SendDataPoint]? = nil
-
-        public init() {}
+        public let sendDataPoints: [SendDataPoint]?
 
         public init(sendDataPoints: [SendDataPoint]? = nil) {
             self.sendDataPoints = sendDataPoints
@@ -1226,6 +1112,8 @@ extension Email {
         public init(dictionary: [String: Any]) throws {
             if let sendDataPoints = dictionary["SendDataPoints"] as? [[String: Any]] {
                 self.sendDataPoints = try sendDataPoints.map({ try SendDataPoint(dictionary: $0) })
+            } else { 
+                self.sendDataPoints = nil
             }
         }
     }
@@ -1233,8 +1121,6 @@ extension Email {
     public struct DeleteReceiptRuleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -1244,11 +1130,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// Sets whether DKIM signing is enabled for an identity. Set to true to enable DKIM signing for this identity; false to disable it. 
-        public var dkimEnabled: Bool = false
+        public let dkimEnabled: Bool
         /// The identity for which DKIM signing should be enabled or disabled.
-        public var identity: String = ""
-
-        public init() {}
+        public let identity: String
 
         public init(dkimEnabled: Bool, identity: String) {
             self.dkimEnabled = dkimEnabled
@@ -1267,11 +1151,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The metadata for the currently active receipt rule set. The metadata consists of the rule set name and a timestamp of when the rule set was created.
-        public var metadata: ReceiptRuleSetMetadata? = nil
+        public let metadata: ReceiptRuleSetMetadata?
         /// The receipt rules that belong to the active rule set.
-        public var rules: [ReceiptRule]? = nil
-
-        public init() {}
+        public let rules: [ReceiptRule]?
 
         public init(metadata: ReceiptRuleSetMetadata? = nil, rules: [ReceiptRule]? = nil) {
             self.metadata = metadata
@@ -1279,9 +1161,11 @@ extension Email {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Email.ReceiptRuleSetMetadata(dictionary: metadata) }
+            if let metadata = dictionary["Metadata"] as? [String: Any] { self.metadata = try Email.ReceiptRuleSetMetadata(dictionary: metadata) } else { self.metadata = nil }
             if let rules = dictionary["Rules"] as? [[String: Any]] {
                 self.rules = try rules.map({ try ReceiptRule(dictionary: $0) })
+            } else { 
+                self.rules = nil
             }
         }
     }
@@ -1290,9 +1174,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of one or more identities.
-        public var identities: [String] = []
-
-        public init() {}
+        public let identities: [String]
 
         public init(identities: [String]) {
             self.identities = identities
@@ -1308,8 +1190,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1318,9 +1198,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A data structure that contains the name of the configuration set.
-        public var configurationSet: ConfigurationSet = ConfigurationSet()
-
-        public init() {}
+        public let configurationSet: ConfigurationSet
 
         public init(configurationSet: ConfigurationSet) {
             self.configurationSet = configurationSet
@@ -1336,8 +1214,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1346,13 +1222,11 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The text of the policy in JSON format. The policy cannot exceed 4 KB. For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide. 
-        public var policy: String = ""
+        public let policy: String
         /// The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
-        public var policyName: String = ""
+        public let policyName: String
         /// The identity to which the policy will apply. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
-        public var identity: String = ""
-
-        public init() {}
+        public let identity: String
 
         public init(policy: String, policyName: String, identity: String) {
             self.policy = policy
@@ -1374,11 +1248,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The message body.
-        public var body: Body = Body()
+        public let body: Body
         /// The subject of the message: A short summary of the content, which will appear in the recipient's inbox.
-        public var subject: Content = Content()
-
-        public init() {}
+        public let subject: Content
 
         public init(body: Body, subject: Content) {
             self.body = body
@@ -1397,8 +1269,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1407,9 +1277,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A map of Identities to IdentityVerificationAttributes objects.
-        public var verificationAttributes: [String: IdentityVerificationAttributes] = [:]
-
-        public init() {}
+        public let verificationAttributes: [String: IdentityVerificationAttributes]
 
         public init(verificationAttributes: [String: IdentityVerificationAttributes]) {
             self.verificationAttributes = verificationAttributes
@@ -1430,8 +1298,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1440,11 +1306,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the configuration set to describe.
-        public var configurationSetName: String = ""
+        public let configurationSetName: String
         /// A list of configuration set attributes to return.
-        public var configurationSetAttributeNames: [String]? = nil
-
-        public init() {}
+        public let configurationSetAttributeNames: [String]?
 
         public init(configurationSetName: String, configurationSetAttributeNames: [String]? = nil) {
             self.configurationSetName = configurationSetName
@@ -1454,17 +1318,13 @@ extension Email {
         public init(dictionary: [String: Any]) throws {
             guard let configurationSetName = dictionary["ConfigurationSetName"] as? String else { throw InitializableError.missingRequiredParam("ConfigurationSetName") }
             self.configurationSetName = configurationSetName
-            if let configurationSetAttributeNames = dictionary["ConfigurationSetAttributeNames"] as? [String] {
-                self.configurationSetAttributeNames = configurationSetAttributeNames
-            }
+            self.configurationSetAttributeNames = dictionary["ConfigurationSetAttributeNames"] as? [String]
         }
     }
 
     public struct CreateReceiptRuleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -1474,9 +1334,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A TXT record that must be placed in the DNS settings for the domain, in order to complete domain verification.
-        public var verificationToken: String = ""
-
-        public init() {}
+        public let verificationToken: String
 
         public init(verificationToken: String) {
             self.verificationToken = verificationToken
@@ -1492,8 +1350,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1502,9 +1358,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The identity to be removed from the list of identities for the AWS Account.
-        public var identity: String = ""
-
-        public init() {}
+        public let identity: String
 
         public init(identity: String) {
             self.identity = identity
@@ -1520,11 +1374,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the header to add. Must be between 1 and 50 characters, inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes only.
-        public var headerName: String = ""
+        public let headerName: String
         /// Must be less than 2048 characters, and must not contain newline characters ("\r" or "\n").
-        public var headerValue: String = ""
-
-        public init() {}
+        public let headerValue: String
 
         public init(headerName: String, headerValue: String) {
             self.headerName = headerName
@@ -1543,9 +1395,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A data structure that describes the IP address filter to create, which consists of a name, an IP address range, and whether to allow or block mail from it.
-        public var filter: ReceiptFilter = ReceiptFilter()
-
-        public init() {}
+        public let filter: ReceiptFilter
 
         public init(filter: ReceiptFilter) {
             self.filter = filter
@@ -1561,9 +1411,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A map of policy names to policies.
-        public var policies: [String: String] = [:]
-
-        public init() {}
+        public let policies: [String: String]
 
         public init(policies: [String: String]) {
             self.policies = policies
@@ -1579,11 +1427,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the configuration set that you want to update.
-        public var configurationSetName: String = ""
+        public let configurationSetName: String
         /// The event destination object that you want to apply to the specified configuration set.
-        public var eventDestination: EventDestination = EventDestination()
-
-        public init() {}
+        public let eventDestination: EventDestination
 
         public init(configurationSetName: String, eventDestination: EventDestination) {
             self.configurationSetName = configurationSetName
@@ -1602,9 +1448,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of one or more verified identities - email addresses, domains, or both.
-        public var identities: [String] = []
-
-        public init() {}
+        public let identities: [String]
 
         public init(identities: [String]) {
             self.identities = identities
@@ -1620,13 +1464,11 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// Describes whether Amazon SES has successfully verified the DKIM DNS records (tokens) published in the domain name's DNS. (This only applies to domain identities, not email address identities.)
-        public var dkimVerificationStatus: String = ""
+        public let dkimVerificationStatus: String
         /// A set of character strings that represent the domain's identity. Using these tokens, you will need to create DNS CNAME records that point to DKIM public keys hosted by Amazon SES. Amazon Web Services will eventually detect that you have updated your DNS records; this detection process may take up to 72 hours. Upon successful detection, Amazon SES will be able to DKIM-sign email originating from that domain. (This only applies to domain identities, not email address identities.) For more information about creating DNS records using DKIM tokens, go to the Amazon SES Developer Guide.
-        public var dkimTokens: [String]? = nil
+        public let dkimTokens: [String]?
         /// True if DKIM signing is enabled for email sent from the identity; false otherwise. The default value is true.
-        public var dkimEnabled: Bool = false
-
-        public init() {}
+        public let dkimEnabled: Bool
 
         public init(dkimVerificationStatus: String, dkimTokens: [String]? = nil, dkimEnabled: Bool) {
             self.dkimVerificationStatus = dkimVerificationStatus
@@ -1637,9 +1479,7 @@ extension Email {
         public init(dictionary: [String: Any]) throws {
             guard let dkimVerificationStatus = dictionary["DkimVerificationStatus"] as? String else { throw InitializableError.missingRequiredParam("DkimVerificationStatus") }
             self.dkimVerificationStatus = dkimVerificationStatus
-            if let dkimTokens = dictionary["DkimTokens"] as? [String] {
-                self.dkimTokens = dkimTokens
-            }
+            self.dkimTokens = dictionary["DkimTokens"] as? [String]
             guard let dkimEnabled = dictionary["DkimEnabled"] as? Bool else { throw InitializableError.missingRequiredParam("DkimEnabled") }
             self.dkimEnabled = dkimEnabled
         }
@@ -1649,13 +1489,11 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The action that Amazon SES takes if it cannot successfully read the required MX record when you send an email. A value of UseDefaultValue indicates that if Amazon SES cannot read the required MX record, it uses amazonses.com (or a subdomain of that) as the MAIL FROM domain. A value of RejectMessage indicates that if Amazon SES cannot read the required MX record, Amazon SES returns a MailFromDomainNotVerified error and does not send the email. The custom MAIL FROM setup states that result in this behavior are Pending, Failed, and TemporaryFailure.
-        public var behaviorOnMXFailure: String = ""
+        public let behaviorOnMXFailure: String
         /// The state that indicates whether Amazon SES has successfully read the MX record required for custom MAIL FROM domain setup. If the state is Success, Amazon SES uses the specified custom MAIL FROM domain when the verified identity sends an email. All other states indicate that Amazon SES takes the action described by BehaviorOnMXFailure.
-        public var mailFromDomainStatus: String = ""
+        public let mailFromDomainStatus: String
         /// The custom MAIL FROM domain that the identity is configured to use.
-        public var mailFromDomain: String = ""
-
-        public init() {}
+        public let mailFromDomain: String
 
         public init(behaviorOnMXFailure: String, mailFromDomainStatus: String, mailFromDomain: String) {
             self.behaviorOnMXFailure = behaviorOnMXFailure
@@ -1677,8 +1515,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1687,15 +1523,13 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ARN of the Amazon SNS topic to notify when the message is saved to the Amazon S3 bucket. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
-        public var topicArn: String? = nil
+        public let topicArn: String?
         /// The name of the Amazon S3 bucket to which to save the received email.
-        public var bucketName: String = ""
+        public let bucketName: String
         /// The key prefix of the Amazon S3 bucket. The key prefix is similar to a directory name that enables you to store similar data under the same directory in a bucket.
-        public var objectKeyPrefix: String? = nil
+        public let objectKeyPrefix: String?
         /// The customer master key that Amazon SES should use to encrypt your emails before saving them to the Amazon S3 bucket. You can use the default master key or a custom master key you created in AWS KMS as follows:   To use the default master key, provide an ARN in the form of arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses. For example, if your AWS account ID is 123456789012 and you want to use the default master key in the US West (Oregon) region, the ARN of the default master key would be arn:aws:kms:us-west-2:123456789012:alias/aws/ses. If you use the default master key, you don't need to perform any extra steps to give Amazon SES permission to use the key.   To use a custom master key you created in AWS KMS, provide the ARN of the master key and ensure that you add a statement to your key's policy to give Amazon SES permission to use it. For more information about giving permissions, see the Amazon SES Developer Guide.   For more information about key policies, see the AWS KMS Developer Guide. If you do not specify a master key, Amazon SES will not encrypt your emails.  Your mail is encrypted by Amazon SES using the Amazon S3 encryption client before the mail is submitted to Amazon S3 for storage. It is not encrypted using Amazon S3 server-side encryption. This means that you must use the Amazon S3 encryption client to decrypt the email after retrieving it from Amazon S3, as the service has no access to use your AWS KMS keys for decryption. This encryption client is currently available with the AWS Java SDK and AWS Ruby SDK only. For more information about client-side encryption using AWS KMS master keys, see the Amazon S3 Developer Guide. 
-        public var kmsKeyArn: String? = nil
-
-        public init() {}
+        public let kmsKeyArn: String?
 
         public init(topicArn: String? = nil, bucketName: String, objectKeyPrefix: String? = nil, kmsKeyArn: String? = nil) {
             self.topicArn = topicArn
@@ -1717,11 +1551,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the IP address filter. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
-        public var name: String = ""
+        public let name: String
         /// A structure that provides the IP addresses to block or allow, and whether to block or allow incoming mail from them.
-        public var ipFilter: ReceiptIpFilter = ReceiptIpFilter()
-
-        public init() {}
+        public let ipFilter: ReceiptIpFilter
 
         public init(name: String, ipFilter: ReceiptIpFilter) {
             self.name = name
@@ -1740,11 +1572,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A data structure that contains the updated receipt rule information.
-        public var rule: ReceiptRule = ReceiptRule()
+        public let rule: ReceiptRule
         /// The name of the receipt rule set to which the receipt rule belongs.
-        public var ruleSetName: String = ""
-
-        public init() {}
+        public let ruleSetName: String
 
         public init(rule: ReceiptRule, ruleSetName: String) {
             self.rule = rule
@@ -1763,11 +1593,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the configuration set to which to apply the event destination.
-        public var configurationSetName: String = ""
+        public let configurationSetName: String
         /// An object that describes the AWS service to which Amazon SES will publish the email sending events associated with the specified configuration set.
-        public var eventDestination: EventDestination = EventDestination()
-
-        public init() {}
+        public let eventDestination: EventDestination
 
         public init(configurationSetName: String, eventDestination: EventDestination) {
             self.configurationSetName = configurationSetName
@@ -1786,11 +1614,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The content of the message, in HTML format. Use this for email clients that can process HTML. You can include clickable links, formatted text, and much more in an HTML message.
-        public var html: Content? = nil
+        public let html: Content?
         /// The content of the message, in text format. Use this for text-based email clients, or clients on high-latency networks (such as mobile devices).
-        public var text: Content? = nil
-
-        public init() {}
+        public let text: Content?
 
         public init(html: Content? = nil, text: Content? = nil) {
             self.html = html
@@ -1798,8 +1624,8 @@ extension Email {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let html = dictionary["Html"] as? [String: Any] { self.html = try Email.Content(dictionary: html) }
-            if let text = dictionary["Text"] as? [String: Any] { self.text = try Email.Content(dictionary: text) }
+            if let html = dictionary["Html"] as? [String: Any] { self.html = try Email.Content(dictionary: html) } else { self.html = nil }
+            if let text = dictionary["Text"] as? [String: Any] { self.text = try Email.Content(dictionary: text) } else { self.text = nil }
         }
     }
 
@@ -1807,9 +1633,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The email address to be verified.
-        public var emailAddress: String = ""
-
-        public init() {}
+        public let emailAddress: String
 
         public init(emailAddress: String) {
             self.emailAddress = emailAddress
@@ -1825,11 +1649,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of identities.
-        public var identities: [String] = []
+        public let identities: [String]
         /// The token used for pagination.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(identities: [String], nextToken: String? = nil) {
             self.identities = identities
@@ -1847,9 +1669,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token returned from a previous call to ListReceiptRuleSets to indicate the position in the receipt rule set list.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
@@ -1864,11 +1684,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the tag. The value must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
-        public var value: String = ""
+        public let value: String
         /// The name of the tag. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(value: String, name: String) {
             self.value = value
@@ -1887,9 +1705,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The message ID of the bounce message.
-        public var messageId: String? = nil
-
-        public init() {}
+        public let messageId: String?
 
         public init(messageId: String? = nil) {
             self.messageId = messageId
@@ -1904,9 +1720,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of dimensions upon which to categorize your emails when you publish email sending events to Amazon CloudWatch.
-        public var dimensionConfigurations: [CloudWatchDimensionConfiguration] = []
-
-        public init() {}
+        public let dimensionConfigurations: [CloudWatchDimensionConfiguration]
 
         public init(dimensionConfigurations: [CloudWatchDimensionConfiguration]) {
             self.dimensionConfigurations = dimensionConfigurations
@@ -1922,11 +1736,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the receipt rule set. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
-        public var name: String? = nil
+        public let name: String?
         /// The date and time the receipt rule set was created.
-        public var createdTimestamp: Date? = nil
-
-        public init() {}
+        public let createdTimestamp: Date?
 
         public init(name: String? = nil, createdTimestamp: Date? = nil) {
             self.name = name
@@ -1943,9 +1755,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the receipt rule set to delete.
-        public var ruleSetName: String = ""
-
-        public init() {}
+        public let ruleSetName: String
 
         public init(ruleSetName: String) {
             self.ruleSetName = ruleSetName
@@ -1961,8 +1771,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -1971,11 +1779,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A token indicating that there are additional receipt rule sets available to be listed. Pass this token to successive calls of ListReceiptRuleSets to retrieve up to 100 receipt rule sets at a time.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The metadata for the currently active receipt rule set. The metadata consists of the rule set name and the timestamp of when the rule set was created.
-        public var ruleSets: [ReceiptRuleSetMetadata]? = nil
-
-        public init() {}
+        public let ruleSets: [ReceiptRuleSetMetadata]?
 
         public init(nextToken: String? = nil, ruleSets: [ReceiptRuleSetMetadata]? = nil) {
             self.nextToken = nextToken
@@ -1986,6 +1792,8 @@ extension Email {
             self.nextToken = dictionary["NextToken"] as? String
             if let ruleSets = dictionary["RuleSets"] as? [[String: Any]] {
                 self.ruleSets = try ruleSets.map({ try ReceiptRuleSetMetadata(dictionary: $0) })
+            } else { 
+                self.ruleSets = nil
             }
         }
     }
@@ -1994,13 +1802,11 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// Sets whether Amazon SES includes the original email headers in Amazon SNS notifications of the specified notification type. A value of true specifies that Amazon SES will include headers in notifications, and a value of false specifies that Amazon SES will not include headers in notifications. This value can only be set when NotificationType is already set to use a particular Amazon SNS topic.
-        public var enabled: Bool = false
+        public let enabled: Bool
         /// The notification type for which to enable or disable headers in notifications. 
-        public var notificationType: String = ""
+        public let notificationType: String
         /// The identity for which to enable or disable headers in notifications. Examples: user@example.com, example.com.
-        public var identity: String = ""
-
-        public init() {}
+        public let identity: String
 
         public init(enabled: Bool, notificationType: String, identity: String) {
             self.enabled = enabled
@@ -2022,11 +1828,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// Sets whether Amazon SES will forward bounce and complaint notifications as email. true specifies that Amazon SES will forward bounce and complaint notifications as email, in addition to any Amazon SNS topic publishing otherwise specified. false specifies that Amazon SES will publish bounce and complaint notifications only through Amazon SNS. This value can only be set to false when Amazon SNS topics are set for both Bounce and Complaint notification types.
-        public var forwardingEnabled: Bool = false
+        public let forwardingEnabled: Bool
         /// The identity for which to set bounce and complaint notification forwarding. Examples: user@example.com, example.com.
-        public var identity: String = ""
-
-        public init() {}
+        public let identity: String
 
         public init(forwardingEnabled: Bool, identity: String) {
             self.forwardingEnabled = forwardingEnabled
@@ -2045,9 +1849,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The DKIM attributes for an email address or a domain.
-        public var dkimAttributes: [String: IdentityDkimAttributes] = [:]
-
-        public init() {}
+        public let dkimAttributes: [String: IdentityDkimAttributes]
 
         public init(dkimAttributes: [String: IdentityDkimAttributes]) {
             self.dkimAttributes = dkimAttributes
@@ -2068,9 +1870,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of one or more identities. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com.
-        public var identities: [String] = []
-
-        public init() {}
+        public let identities: [String]
 
         public init(identities: [String]) {
             self.identities = identities
@@ -2086,11 +1886,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the WorkMail action is called. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
-        public var topicArn: String? = nil
+        public let topicArn: String?
         /// The ARN of the Amazon WorkMail organization. An example of an Amazon WorkMail organization ARN is arn:aws:workmail:us-west-2:123456789012:organization/m-68755160c4cb4e29a2b2f8fb58f359d7. For information about Amazon WorkMail organizations, see the Amazon WorkMail Administrator Guide.
-        public var organizationArn: String = ""
-
-        public init() {}
+        public let organizationArn: String
 
         public init(topicArn: String? = nil, organizationArn: String) {
             self.topicArn = topicArn
@@ -2108,11 +1906,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the stop action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
-        public var topicArn: String? = nil
+        public let topicArn: String?
         /// The scope to which the Stop action applies. That is, what is being stopped.
-        public var scope: String = ""
-
-        public init() {}
+        public let scope: String
 
         public init(topicArn: String? = nil, scope: String) {
             self.topicArn = topicArn
@@ -2130,9 +1926,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the domain to be verified for Easy DKIM signing.
-        public var domain: String = ""
-
-        public init() {}
+        public let domain: String
 
         public init(domain: String) {
             self.domain = domain
@@ -2148,23 +1942,21 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the configuration set to use when you send an email using SendRawEmail.
-        public var configurationSetName: String? = nil
+        public let configurationSetName: String?
         /// The raw text of the message. The client is responsible for ensuring the following:   Message must contain a header and a body, separated by a blank line.   All required header fields must be present.   Each part of a multipart MIME message must be formatted properly.   MIME content types must be among those supported by Amazon SES. For more information, go to the Amazon SES Developer Guide.   Must be base64-encoded.  
-        public var rawMessage: RawMessage = RawMessage()
+        public let rawMessage: RawMessage
         /// A list of destinations for the message, consisting of To:, CC:, and BCC: addresses.
-        public var destinations: [String]? = nil
+        public let destinations: [String]?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to send from user@example.com, then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the Source to be user@example.com. Instead of using this parameter, you can use the X-header X-SES-SOURCE-ARN in the raw message of the email. If you use both the SourceArn parameter and the corresponding X-header, Amazon SES uses the value of the SourceArn parameter.  For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the Amazon SES Developer Guide. 
-        public var sourceArn: String? = nil
+        public let sourceArn: String?
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send using SendRawEmail. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
-        public var tags: [MessageTag]? = nil
+        public let tags: [MessageTag]?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the ReturnPath to be feedback@example.com. Instead of using this parameter, you can use the X-header X-SES-RETURN-PATH-ARN in the raw message of the email. If you use both the ReturnPathArn parameter and the corresponding X-header, Amazon SES uses the value of the ReturnPathArn parameter.  For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the Amazon SES Developer Guide. 
-        public var returnPathArn: String? = nil
+        public let returnPathArn: String?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to specify a particular "From" address in the header of the raw email. Instead of using this parameter, you can use the X-header X-SES-FROM-ARN in the raw message of the email. If you use both the FromArn parameter and the corresponding X-header, Amazon SES uses the value of the FromArn parameter.  For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the Amazon SES Developer Guide. 
-        public var fromArn: String? = nil
+        public let fromArn: String?
         /// The identity's email address. If you do not provide a value for this parameter, you must specify a "From" address in the raw text of the message. (You can also specify both.)  By default, the string must be 7-bit ASCII. If the text must contain any other characters, then you must use MIME encoded-word syntax (RFC 2047) instead of a literal string. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?=. For more information, see RFC 2047.   If you specify the Source parameter and have feedback forwarding enabled, then bounces and complaints will be sent to this email address. This takes precedence over any Return-Path header that you might include in the raw text of the message. 
-        public var source: String? = nil
-
-        public init() {}
+        public let source: String?
 
         public init(configurationSetName: String? = nil, rawMessage: RawMessage, destinations: [String]? = nil, sourceArn: String? = nil, tags: [MessageTag]? = nil, returnPathArn: String? = nil, fromArn: String? = nil, source: String? = nil) {
             self.configurationSetName = configurationSetName
@@ -2181,12 +1973,12 @@ extension Email {
             self.configurationSetName = dictionary["ConfigurationSetName"] as? String
             guard let rawMessage = dictionary["RawMessage"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RawMessage") }
             self.rawMessage = try Email.RawMessage(dictionary: rawMessage)
-            if let destinations = dictionary["Destinations"] as? [String] {
-                self.destinations = destinations
-            }
+            self.destinations = dictionary["Destinations"] as? [String]
             self.sourceArn = dictionary["SourceArn"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try MessageTag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.returnPathArn = dictionary["ReturnPathArn"] as? String
             self.fromArn = dictionary["FromArn"] as? String
@@ -2198,8 +1990,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -2208,11 +1998,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the policy to be deleted.
-        public var policyName: String = ""
+        public let policyName: String
         /// The identity that is associated with the policy that you want to delete. You can specify the identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
-        public var identity: String = ""
-
-        public init() {}
+        public let identity: String
 
         public init(policyName: String, identity: String) {
             self.policyName = policyName
@@ -2231,9 +2019,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique message identifier returned from the SendRawEmail action. 
-        public var messageId: String = ""
-
-        public init() {}
+        public let messageId: String
 
         public init(messageId: String) {
             self.messageId = messageId
@@ -2249,13 +2035,11 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The action that you want Amazon SES to take if it cannot successfully read the required MX record when you send an email. If you choose UseDefaultValue, Amazon SES will use amazonses.com (or a subdomain of that) as the MAIL FROM domain. If you choose RejectMessage, Amazon SES will return a MailFromDomainNotVerified error and not send the email. The action specified in BehaviorOnMXFailure is taken when the custom MAIL FROM domain setup is in the Pending, Failed, and TemporaryFailure states.
-        public var behaviorOnMXFailure: String? = nil
+        public let behaviorOnMXFailure: String?
         /// The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must 1) be a subdomain of the verified identity, 2) not be used in a "From" address if the MAIL FROM domain is the destination of email feedback forwarding (for more information, see the Amazon SES Developer Guide), and 3) not be used to receive emails. A value of null disables the custom MAIL FROM setting for the identity.
-        public var mailFromDomain: String? = nil
+        public let mailFromDomain: String?
         /// The verified identity for which you want to enable or disable the specified custom MAIL FROM domain.
-        public var identity: String = ""
-
-        public init() {}
+        public let identity: String
 
         public init(behaviorOnMXFailure: String? = nil, mailFromDomain: String? = nil, identity: String) {
             self.behaviorOnMXFailure = behaviorOnMXFailure
@@ -2275,11 +2059,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the configuration set from which to delete the event destination.
-        public var configurationSetName: String = ""
+        public let configurationSetName: String
         /// The name of the event destination to delete.
-        public var eventDestinationName: String = ""
-
-        public init() {}
+        public let eventDestinationName: String
 
         public init(configurationSetName: String, eventDestinationName: String) {
             self.configurationSetName = configurationSetName
@@ -2298,8 +2080,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -2307,8 +2087,6 @@ extension Email {
     public struct UpdateReceiptRuleResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -2318,25 +2096,23 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the configuration set to use when you send an email using SendEmail.
-        public var configurationSetName: String? = nil
+        public let configurationSetName: String?
         /// The destination for this email, composed of To:, CC:, and BCC: fields.
-        public var destination: Destination = Destination()
+        public let destination: Destination
         /// The message to be sent.
-        public var message: Message = Message()
+        public let message: Message
         /// The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
-        public var replyToAddresses: [String]? = nil
+        public let replyToAddresses: [String]?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to send from user@example.com, then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the Source to be user@example.com. For more information about sending authorization, see the Amazon SES Developer Guide. 
-        public var sourceArn: String? = nil
+        public let sourceArn: String?
         /// A list of tags, in the form of name/value pairs, to apply to an email that you send using SendEmail. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
-        public var tags: [MessageTag]? = nil
+        public let tags: [MessageTag]?
         /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the ReturnPath to be feedback@example.com. For more information about sending authorization, see the Amazon SES Developer Guide. 
-        public var returnPathArn: String? = nil
+        public let returnPathArn: String?
         /// The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide. If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide.  In all cases, the email address must be 7-bit ASCII. If the text must contain any other characters, then you must use MIME encoded-word syntax (RFC 2047) instead of a literal string. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?=. For more information, see RFC 2047. 
-        public var source: String = ""
+        public let source: String
         /// The email address to which bounces and complaints are to be forwarded when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. 
-        public var returnPath: String? = nil
-
-        public init() {}
+        public let returnPath: String?
 
         public init(configurationSetName: String? = nil, destination: Destination, message: Message, replyToAddresses: [String]? = nil, sourceArn: String? = nil, tags: [MessageTag]? = nil, returnPathArn: String? = nil, source: String, returnPath: String? = nil) {
             self.configurationSetName = configurationSetName
@@ -2356,12 +2132,12 @@ extension Email {
             self.destination = try Email.Destination(dictionary: destination)
             guard let message = dictionary["Message"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Message") }
             self.message = try Email.Message(dictionary: message)
-            if let replyToAddresses = dictionary["ReplyToAddresses"] as? [String] {
-                self.replyToAddresses = replyToAddresses
-            }
+            self.replyToAddresses = dictionary["ReplyToAddresses"] as? [String]
             self.sourceArn = dictionary["SourceArn"] as? String
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try MessageTag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.returnPathArn = dictionary["ReturnPathArn"] as? String
             guard let source = dictionary["Source"] as? String else { throw InitializableError.missingRequiredParam("Source") }
@@ -2374,18 +2150,14 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of email addresses that have been verified.
-        public var verifiedEmailAddresses: [String]? = nil
-
-        public init() {}
+        public let verifiedEmailAddresses: [String]?
 
         public init(verifiedEmailAddresses: [String]? = nil) {
             self.verifiedEmailAddresses = verifiedEmailAddresses
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let verifiedEmailAddresses = dictionary["VerifiedEmailAddresses"] as? [String] {
-                self.verifiedEmailAddresses = verifiedEmailAddresses
-            }
+            self.verifiedEmailAddresses = dictionary["VerifiedEmailAddresses"] as? [String]
         }
     }
 
@@ -2393,19 +2165,17 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether Amazon SES should require that incoming email is delivered over a connection encrypted with Transport Layer Security (TLS). If this parameter is set to Require, Amazon SES will bounce emails that are not received over TLS. The default is Optional.
-        public var tlsPolicy: String? = nil
+        public let tlsPolicy: String?
         /// If true, then messages to which this receipt rule applies are scanned for spam and viruses. The default value is false.
-        public var scanEnabled: Bool? = nil
+        public let scanEnabled: Bool?
         /// An ordered list of actions to perform on messages that match at least one of the recipient email addresses or domains specified in the receipt rule.
-        public var actions: [ReceiptAction]? = nil
+        public let actions: [ReceiptAction]?
         /// If true, the receipt rule is active. The default value is false.
-        public var enabled: Bool? = nil
+        public let enabled: Bool?
         /// The name of the receipt rule. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
-        public var name: String = ""
+        public let name: String
         /// The recipient domains and email addresses to which the receipt rule applies. If this field is not specified, this rule will match all recipients under all verified domains.
-        public var recipients: [String]? = nil
-
-        public init() {}
+        public let recipients: [String]?
 
         public init(tlsPolicy: String? = nil, scanEnabled: Bool? = nil, actions: [ReceiptAction]? = nil, enabled: Bool? = nil, name: String, recipients: [String]? = nil) {
             self.tlsPolicy = tlsPolicy
@@ -2421,13 +2191,13 @@ extension Email {
             self.scanEnabled = dictionary["ScanEnabled"] as? Bool
             if let actions = dictionary["Actions"] as? [[String: Any]] {
                 self.actions = try actions.map({ try ReceiptAction(dictionary: $0) })
+            } else { 
+                self.actions = nil
             }
             self.enabled = dictionary["Enabled"] as? Bool
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            if let recipients = dictionary["Recipients"] as? [String] {
-                self.recipients = recipients
-            }
+            self.recipients = dictionary["Recipients"] as? [String]
         }
     }
 
@@ -2435,11 +2205,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the receipt rule set to reorder.
-        public var ruleSetName: String = ""
+        public let ruleSetName: String
         /// A list of the specified receipt rule set's receipt rules in the order that you want to put them.
-        public var ruleNames: [String] = []
-
-        public init() {}
+        public let ruleNames: [String]
 
         public init(ruleSetName: String, ruleNames: [String]) {
             self.ruleSetName = ruleSetName
@@ -2458,11 +2226,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of the names of policies to be retrieved. You can retrieve a maximum of 20 policies at a time. If you do not know the names of the policies that are attached to the identity, you can use ListIdentityPolicies.
-        public var policyNames: [String] = []
+        public let policyNames: [String]
         /// The identity for which the policies will be retrieved. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
-        public var identity: String = ""
-
-        public init() {}
+        public let identity: String
 
         public init(policyNames: [String], identity: String) {
             self.policyNames = policyNames
@@ -2481,21 +2247,19 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status code that indicates what went wrong. This is required by RFC 3464.
-        public var status: String = ""
+        public let status: String
         /// Additional X-headers to include in the DSN.
-        public var extensionFields: [ExtensionField]? = nil
+        public let extensionFields: [ExtensionField]?
         /// The email address to which the message was ultimately delivered. This corresponds to the Final-Recipient in the DSN. If not specified, FinalRecipient will be set to the Recipient specified in the BouncedRecipientInfo structure. Either FinalRecipient or the recipient in BouncedRecipientInfo must be a recipient of the original bounced message.  Do not prepend the FinalRecipient email address with rfc 822;, as described in RFC 3798. 
-        public var finalRecipient: String? = nil
+        public let finalRecipient: String?
         /// The action performed by the reporting mail transfer agent (MTA) as a result of its attempt to deliver the message to the recipient address. This is required by RFC 3464.
-        public var action: String = ""
+        public let action: String
         /// An extended explanation of what went wrong; this is usually an SMTP response. See RFC 3463 for the correct formatting of this parameter.
-        public var diagnosticCode: String? = nil
+        public let diagnosticCode: String?
         /// The time the final delivery attempt was made, in RFC 822 date-time format.
-        public var lastAttemptDate: Date? = nil
+        public let lastAttemptDate: Date?
         /// The MTA to which the remote MTA attempted to deliver the message, formatted as specified in RFC 3464 (mta-name-type; mta-name). This parameter typically applies only to propagating synchronous bounces.
-        public var remoteMta: String? = nil
-
-        public init() {}
+        public let remoteMta: String?
 
         public init(status: String, extensionFields: [ExtensionField]? = nil, finalRecipient: String? = nil, action: String, diagnosticCode: String? = nil, lastAttemptDate: Date? = nil, remoteMta: String? = nil) {
             self.status = status
@@ -2512,6 +2276,8 @@ extension Email {
             self.status = status
             if let extensionFields = dictionary["ExtensionFields"] as? [[String: Any]] {
                 self.extensionFields = try extensionFields.map({ try ExtensionField(dictionary: $0) })
+            } else { 
+                self.extensionFields = nil
             }
             self.finalRecipient = dictionary["FinalRecipient"] as? String
             guard let action = dictionary["Action"] as? String else { throw InitializableError.missingRequiredParam("Action") }
@@ -2526,11 +2292,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// Indicates whether to block or allow incoming mail from the specified IP addresses.
-        public var policy: String = ""
+        public let policy: String
         /// A single IP address or a range of IP addresses that you want to block or allow, specified in Classless Inter-Domain Routing (CIDR) notation. An example of a single email address is 10.0.0.1. An example of a range of IP addresses is 10.0.0.1/24. For more information about CIDR notation, see RFC 2317.
-        public var cidr: String = ""
-
-        public init() {}
+        public let cidr: String
 
         public init(policy: String, cidr: String) {
             self.policy = policy
@@ -2549,8 +2313,6 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -2559,17 +2321,15 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// Number of emails that have been sent.
-        public var deliveryAttempts: Int64? = nil
+        public let deliveryAttempts: Int64?
         /// Time of the data point.
-        public var timestamp: Date? = nil
+        public let timestamp: Date?
         /// Number of emails rejected by Amazon SES.
-        public var rejects: Int64? = nil
+        public let rejects: Int64?
         /// Number of emails that have bounced.
-        public var bounces: Int64? = nil
+        public let bounces: Int64?
         /// Number of unwanted emails that were rejected by recipients.
-        public var complaints: Int64? = nil
-
-        public init() {}
+        public let complaints: Int64?
 
         public init(deliveryAttempts: Int64? = nil, timestamp: Date? = nil, rejects: Int64? = nil, bounces: Int64? = nil, complaints: Int64? = nil) {
             self.deliveryAttempts = deliveryAttempts
@@ -2592,11 +2352,9 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of configuration sets.
-        public var configurationSets: [ConfigurationSet]? = nil
+        public let configurationSets: [ConfigurationSet]?
         /// A token indicating that there are additional configuration sets available to be listed. Pass this token to successive calls of ListConfigurationSets. 
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(configurationSets: [ConfigurationSet]? = nil, nextToken: String? = nil) {
             self.configurationSets = configurationSets
@@ -2606,6 +2364,8 @@ extension Email {
         public init(dictionary: [String: Any]) throws {
             if let configurationSets = dictionary["ConfigurationSets"] as? [[String: Any]] {
                 self.configurationSets = try configurationSets.map({ try ConfigurationSet(dictionary: $0) })
+            } else { 
+                self.configurationSets = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -2615,9 +2375,7 @@ extension Email {
         /// The key for the payload
         public static let payload: String? = nil
         /// A set of character strings that represent the domain's identity. If the identity is an email address, the tokens represent the domain of that address. Using these tokens, you will need to create DNS CNAME records that point to DKIM public keys hosted by Amazon SES. Amazon Web Services will eventually detect that you have updated your DNS records; this detection process may take up to 72 hours. Upon successful detection, Amazon SES will be able to DKIM-sign emails originating from that domain. For more information about creating DNS records using DKIM tokens, go to the Amazon SES Developer Guide.
-        public var dkimTokens: [String] = []
-
-        public init() {}
+        public let dkimTokens: [String]
 
         public init(dkimTokens: [String]) {
             self.dkimTokens = dkimTokens
@@ -2632,8 +2390,6 @@ extension Email {
     public struct DeleteIdentityResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }

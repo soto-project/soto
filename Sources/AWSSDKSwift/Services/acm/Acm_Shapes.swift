@@ -33,11 +33,9 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The key-value pair that defines the tag to remove.
-        public var tags: [Tag] = []
+        public let tags: [Tag]
         /// String that contains the ARN of the ACM Certificate with one or more tags that you want to remove. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
-        public var certificateArn: String = ""
-
-        public init() {}
+        public let certificateArn: String
 
         public init(tags: [Tag], certificateArn: String) {
             self.tags = tags
@@ -56,11 +54,9 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// When the list is truncated, this value is present and contains the value to use for the NextToken parameter in a subsequent pagination request.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of ACM Certificates.
-        public var certificateSummaryList: [CertificateSummary]? = nil
-
-        public init() {}
+        public let certificateSummaryList: [CertificateSummary]?
 
         public init(nextToken: String? = nil, certificateSummaryList: [CertificateSummary]? = nil) {
             self.nextToken = nextToken
@@ -71,6 +67,8 @@ extension Acm {
             self.nextToken = dictionary["NextToken"] as? String
             if let certificateSummaryList = dictionary["CertificateSummaryList"] as? [[String: Any]] {
                 self.certificateSummaryList = try certificateSummaryList.map({ try CertificateSummary(dictionary: $0) })
+            } else { 
+                self.certificateSummaryList = nil
             }
         }
     }
@@ -79,9 +77,7 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// String that contains the ARN of the issued certificate. This must be of the form:  arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012 
-        public var certificateArn: String? = nil
-
-        public init() {}
+        public let certificateArn: String?
 
         public init(certificateArn: String? = nil) {
             self.certificateArn = certificateArn
@@ -96,15 +92,13 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The certificate to import. It must meet the following requirements:   Must be PEM-encoded.   Must contain a 1024-bit or 2048-bit RSA public key.   Must be valid at the time of import. You cannot import a certificate before its validity period begins (the certificate's NotBefore date) or after it expires (the certificate's NotAfter date).  
-        public var certificate: Data = Data()
+        public let certificate: Data
         /// The Amazon Resource Name (ARN) of an imported certificate to replace. To import a new certificate, omit this field.
-        public var certificateArn: String? = nil
+        public let certificateArn: String?
         /// The private key that matches the public key in the certificate. It must meet the following requirements:   Must be PEM-encoded.   Must be unencrypted. You cannot import a private key that is protected by a password or passphrase.  
-        public var privateKey: Data = Data()
+        public let privateKey: Data
         /// The certificate chain. It must be PEM-encoded.
-        public var certificateChain: Data? = nil
-
-        public init() {}
+        public let certificateChain: Data?
 
         public init(certificate: Data, certificateArn: String? = nil, privateKey: Data, certificateChain: Data? = nil) {
             self.certificate = certificate
@@ -127,9 +121,7 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The key-value pairs that define the applied tags.
-        public var tags: [Tag]? = nil
-
-        public init() {}
+        public let tags: [Tag]?
 
         public init(tags: [Tag]? = nil) {
             self.tags = tags
@@ -138,6 +130,8 @@ extension Acm {
         public init(dictionary: [String: Any]) throws {
             if let tags = dictionary["Tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
         }
     }
@@ -146,11 +140,9 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the tag.
-        public var value: String? = nil
+        public let value: String?
         /// The key of the tag.
-        public var key: String = ""
-
-        public init() {}
+        public let key: String
 
         public init(value: String? = nil, key: String) {
             self.value = value
@@ -168,9 +160,7 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// String that contains a certificate ARN in the following format:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
-        public var certificateArn: String = ""
-
-        public init() {}
+        public let certificateArn: String
 
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
@@ -186,15 +176,13 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The domain name that ACM used to send domain validation emails.
-        public var validationDomain: String? = nil
+        public let validationDomain: String?
         /// The validation status of the domain name.
-        public var validationStatus: String? = nil
+        public let validationStatus: String?
         /// A fully qualified domain name (FQDN) in the certificate. For example, www.example.com or example.com.
-        public var domainName: String = ""
+        public let domainName: String
         /// A list of email addresses that ACM used to send domain validation emails.
-        public var validationEmails: [String]? = nil
-
-        public init() {}
+        public let validationEmails: [String]?
 
         public init(validationDomain: String? = nil, validationStatus: String? = nil, domainName: String, validationEmails: [String]? = nil) {
             self.validationDomain = validationDomain
@@ -208,9 +196,7 @@ extension Acm {
             self.validationStatus = dictionary["ValidationStatus"] as? String
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
-            if let validationEmails = dictionary["ValidationEmails"] as? [String] {
-                self.validationEmails = validationEmails
-            }
+            self.validationEmails = dictionary["ValidationEmails"] as? [String]
         }
     }
 
@@ -218,11 +204,9 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The key-value pair that defines the tag. The tag value is optional.
-        public var tags: [Tag] = []
+        public let tags: [Tag]
         /// String that contains the ARN of the ACM Certificate to which the tag is to be applied. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
-        public var certificateArn: String = ""
-
-        public init() {}
+        public let certificateArn: String
 
         public init(tags: [Tag], certificateArn: String) {
             self.tags = tags
@@ -241,11 +225,9 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// String that contains the ACM Certificate represented by the ARN specified at input.
-        public var certificate: String? = nil
+        public let certificate: String?
         /// The certificate chain that contains the root certificate issued by the certificate authority (CA).
-        public var certificateChain: String? = nil
-
-        public init() {}
+        public let certificateChain: String?
 
         public init(certificate: String? = nil, certificateChain: String? = nil) {
             self.certificate = certificate
@@ -262,13 +244,11 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com, ACM sends email to the domain registrant, technical contact, and administrative contact in WHOIS and the following five addresses:   admin@subdomain.example.com   administrator@subdomain.example.com   hostmaster@subdomain.example.com   postmaster@subdomain.example.com   webmaster@subdomain.example.com  
-        public var validationDomain: String = ""
+        public let validationDomain: String
         /// String that contains the ARN of the requested certificate. The certificate ARN is generated and returned by the RequestCertificate action as soon as the request is made. By default, using this parameter causes email to be sent to all top-level domains you specified in the certificate request. The ARN must be of the form:  arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012 
-        public var certificateArn: String = ""
+        public let certificateArn: String
         /// The fully qualified domain name (FQDN) of the certificate that needs to be validated.
-        public var domain: String = ""
-
-        public init() {}
+        public let domain: String
 
         public init(validationDomain: String, certificateArn: String, domain: String) {
             self.validationDomain = validationDomain
@@ -290,11 +270,9 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Contains information about the validation of each domain name in the certificate, as it pertains to ACM's managed renewal. This is different from the initial validation that occurs as a result of the RequestCertificate request. This field exists only when the certificate type is AMAZON_ISSUED.
-        public var domainValidationOptions: [DomainValidation] = []
+        public let domainValidationOptions: [DomainValidation]
         /// The status of ACM's managed renewal of the certificate.
-        public var renewalStatus: String = ""
-
-        public init() {}
+        public let renewalStatus: String
 
         public init(domainValidationOptions: [DomainValidation], renewalStatus: String) {
             self.domainValidationOptions = domainValidationOptions
@@ -313,11 +291,9 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The domain name that you want ACM to use to send you validation emails. This domain name is the suffix of the email addresses that you want ACM to use. This must be the same as the DomainName value or a superdomain of the DomainName value. For example, if you request a certificate for testing.example.com, you can specify example.com for this value. In that case, ACM sends domain validation emails to the following five addresses:   admin@example.com   administrator@example.com   hostmaster@example.com   postmaster@example.com   webmaster@example.com  
-        public var validationDomain: String = ""
+        public let validationDomain: String
         /// A fully qualified domain name (FQDN) in the certificate request.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(validationDomain: String, domainName: String) {
             self.validationDomain = validationDomain
@@ -336,11 +312,9 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Amazon Resource Name (ARN) of the certificate. This is of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
-        public var certificateArn: String? = nil
+        public let certificateArn: String?
         /// Fully qualified domain name (FQDN), such as www.example.com or example.com, for the certificate.
-        public var domainName: String? = nil
-
-        public init() {}
+        public let domainName: String?
 
         public init(certificateArn: String? = nil, domainName: String? = nil) {
             self.certificateArn = certificateArn
@@ -357,9 +331,7 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the ACM Certificate. The ARN must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
-        public var certificateArn: String = ""
-
-        public init() {}
+        public let certificateArn: String
 
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
@@ -375,13 +347,11 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The status or statuses on which to filter the list of ACM Certificates.
-        public var certificateStatuses: [String]? = nil
+        public let certificateStatuses: [String]?
         /// Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Use this parameter when paginating results to specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
-        public var maxItems: Int32? = nil
-
-        public init() {}
+        public let maxItems: Int32?
 
         public init(certificateStatuses: [String]? = nil, nextToken: String? = nil, maxItems: Int32? = nil) {
             self.certificateStatuses = certificateStatuses
@@ -390,9 +360,7 @@ extension Acm {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let certificateStatuses = dictionary["CertificateStatuses"] as? [String] {
-                self.certificateStatuses = certificateStatuses
-            }
+            self.certificateStatuses = dictionary["CertificateStatuses"] as? [String]
             self.nextToken = dictionary["NextToken"] as? String
             self.maxItems = dictionary["MaxItems"] as? Int32
         }
@@ -402,16 +370,14 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Metadata about an ACM certificate.
-        public var certificate: CertificateDetail? = nil
-
-        public init() {}
+        public let certificate: CertificateDetail?
 
         public init(certificate: CertificateDetail? = nil) {
             self.certificate = certificate
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let certificate = dictionary["Certificate"] as? [String: Any] { self.certificate = try Acm.CertificateDetail(dictionary: certificate) }
+            if let certificate = dictionary["Certificate"] as? [String: Any] { self.certificate = try Acm.CertificateDetail(dictionary: certificate) } else { self.certificate = nil }
         }
     }
 
@@ -419,15 +385,13 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The domain name that you want ACM to use to send you emails to validate your ownership of the domain.
-        public var domainValidationOptions: [DomainValidationOption]? = nil
+        public let domainValidationOptions: [DomainValidationOption]?
         /// Additional FQDNs to be included in the Subject Alternative Name extension of the ACM Certificate. For example, add the name www.example.net to a certificate for which the DomainName field is www.example.com if users can reach your site by using either name.
-        public var subjectAlternativeNames: [String]? = nil
+        public let subjectAlternativeNames: [String]?
         /// Fully qualified domain name (FQDN), such as www.example.com, of the site that you want to secure with an ACM Certificate. Use an asterisk (*) to create a wildcard certificate that protects several sites in the same domain. For example, *.example.com protects www.example.com, site.example.com, and images.example.com.
-        public var domainName: String = ""
+        public let domainName: String
         /// Customer chosen string that can be used to distinguish between calls to RequestCertificate. Idempotency tokens time out after one hour. Therefore, if you call RequestCertificate multiple times with the same idempotency token within one hour, ACM recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, ACM recognizes that you are requesting multiple certificates.
-        public var idempotencyToken: String? = nil
-
-        public init() {}
+        public let idempotencyToken: String?
 
         public init(domainValidationOptions: [DomainValidationOption]? = nil, subjectAlternativeNames: [String]? = nil, domainName: String, idempotencyToken: String? = nil) {
             self.domainValidationOptions = domainValidationOptions
@@ -439,10 +403,10 @@ extension Acm {
         public init(dictionary: [String: Any]) throws {
             if let domainValidationOptions = dictionary["DomainValidationOptions"] as? [[String: Any]] {
                 self.domainValidationOptions = try domainValidationOptions.map({ try DomainValidationOption(dictionary: $0) })
+            } else { 
+                self.domainValidationOptions = nil
             }
-            if let subjectAlternativeNames = dictionary["SubjectAlternativeNames"] as? [String] {
-                self.subjectAlternativeNames = subjectAlternativeNames
-            }
+            self.subjectAlternativeNames = dictionary["SubjectAlternativeNames"] as? [String]
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
             self.idempotencyToken = dictionary["IdempotencyToken"] as? String
@@ -453,9 +417,7 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the imported certificate.
-        public var certificateArn: String? = nil
-
-        public init() {}
+        public let certificateArn: String?
 
         public init(certificateArn: String? = nil) {
             self.certificateArn = certificateArn
@@ -470,9 +432,7 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// String that contains the ARN of the ACM Certificate for which you want to list the tags. This has the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
-        public var certificateArn: String = ""
-
-        public init() {}
+        public let certificateArn: String
 
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
@@ -488,9 +448,7 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// String that contains the ARN of the ACM Certificate to be deleted. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
-        public var certificateArn: String = ""
-
-        public init() {}
+        public let certificateArn: String
 
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
@@ -506,49 +464,47 @@ extension Acm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The reason the certificate request failed. This value exists only when the certificate status is FAILED. For more information, see Certificate Request Failed in the AWS Certificate Manager User Guide.
-        public var failureReason: String? = nil
+        public let failureReason: String?
         /// The time at which the certificate was issued. This value exists only when the certificate type is AMAZON_ISSUED.
-        public var issuedAt: Date? = nil
+        public let issuedAt: Date?
         /// The date and time at which the certificate was imported. This value exists only when the certificate type is IMPORTED.
-        public var importedAt: Date? = nil
+        public let importedAt: Date?
         /// The time at which the certificate was revoked. This value exists only when the certificate status is REVOKED.
-        public var revokedAt: Date? = nil
+        public let revokedAt: Date?
         /// Contains information about the status of ACM's managed renewal for the certificate. This field exists only when the certificate type is AMAZON_ISSUED.
-        public var renewalSummary: RenewalSummary? = nil
+        public let renewalSummary: RenewalSummary?
         /// The algorithm that was used to sign the certificate.
-        public var signatureAlgorithm: String? = nil
+        public let signatureAlgorithm: String?
         /// The serial number of the certificate.
-        public var serial: String? = nil
+        public let serial: String?
         /// The reason the certificate was revoked. This value exists only when the certificate status is REVOKED.
-        public var revocationReason: String? = nil
+        public let revocationReason: String?
         /// The time after which the certificate is not valid.
-        public var notAfter: Date? = nil
+        public let notAfter: Date?
         /// The status of the certificate.
-        public var status: String? = nil
+        public let status: String?
         /// The time at which the certificate was requested. This value exists only when the certificate type is AMAZON_ISSUED.
-        public var createdAt: Date? = nil
+        public let createdAt: Date?
         /// The time before which the certificate is not valid.
-        public var notBefore: Date? = nil
+        public let notBefore: Date?
         /// One or more domain names (subject alternative names) included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website.
-        public var subjectAlternativeNames: [String]? = nil
+        public let subjectAlternativeNames: [String]?
         /// Contains information about the initial validation of each domain name that occurs as a result of the RequestCertificate request. This field exists only when the certificate type is AMAZON_ISSUED.
-        public var domainValidationOptions: [DomainValidation]? = nil
+        public let domainValidationOptions: [DomainValidation]?
         /// The algorithm that was used to generate the key pair (the public and private key).
-        public var keyAlgorithm: String? = nil
+        public let keyAlgorithm: String?
         /// The Amazon Resource Name (ARN) of the certificate. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-        public var certificateArn: String? = nil
+        public let certificateArn: String?
         /// The fully qualified domain name for the certificate, such as www.example.com or example.com.
-        public var domainName: String? = nil
+        public let domainName: String?
         /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with ImportCertificate, this value is IMPORTED. ACM does not provide managed renewal for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see Importing Certificates in the AWS Certificate Manager User Guide.
-        public var type: String? = nil
+        public let type: String?
         /// A list of ARNs for the AWS resources that are using the certificate. A certificate can be used by multiple AWS resources.
-        public var inUseBy: [String]? = nil
+        public let inUseBy: [String]?
         /// The name of the certificate authority that issued and signed the certificate.
-        public var issuer: String? = nil
+        public let issuer: String?
         /// The name of the entity that is associated with the public key contained in the certificate.
-        public var subject: String? = nil
-
-        public init() {}
+        public let subject: String?
 
         public init(failureReason: String? = nil, issuedAt: Date? = nil, importedAt: Date? = nil, revokedAt: Date? = nil, renewalSummary: RenewalSummary? = nil, signatureAlgorithm: String? = nil, serial: String? = nil, revocationReason: String? = nil, notAfter: Date? = nil, status: String? = nil, createdAt: Date? = nil, notBefore: Date? = nil, subjectAlternativeNames: [String]? = nil, domainValidationOptions: [DomainValidation]? = nil, keyAlgorithm: String? = nil, certificateArn: String? = nil, domainName: String? = nil, type: String? = nil, inUseBy: [String]? = nil, issuer: String? = nil, subject: String? = nil) {
             self.failureReason = failureReason
@@ -579,7 +535,7 @@ extension Acm {
             self.issuedAt = dictionary["IssuedAt"] as? Date
             self.importedAt = dictionary["ImportedAt"] as? Date
             self.revokedAt = dictionary["RevokedAt"] as? Date
-            if let renewalSummary = dictionary["RenewalSummary"] as? [String: Any] { self.renewalSummary = try Acm.RenewalSummary(dictionary: renewalSummary) }
+            if let renewalSummary = dictionary["RenewalSummary"] as? [String: Any] { self.renewalSummary = try Acm.RenewalSummary(dictionary: renewalSummary) } else { self.renewalSummary = nil }
             self.signatureAlgorithm = dictionary["SignatureAlgorithm"] as? String
             self.serial = dictionary["Serial"] as? String
             self.revocationReason = dictionary["RevocationReason"] as? String
@@ -587,19 +543,17 @@ extension Acm {
             self.status = dictionary["Status"] as? String
             self.createdAt = dictionary["CreatedAt"] as? Date
             self.notBefore = dictionary["NotBefore"] as? Date
-            if let subjectAlternativeNames = dictionary["SubjectAlternativeNames"] as? [String] {
-                self.subjectAlternativeNames = subjectAlternativeNames
-            }
+            self.subjectAlternativeNames = dictionary["SubjectAlternativeNames"] as? [String]
             if let domainValidationOptions = dictionary["DomainValidationOptions"] as? [[String: Any]] {
                 self.domainValidationOptions = try domainValidationOptions.map({ try DomainValidation(dictionary: $0) })
+            } else { 
+                self.domainValidationOptions = nil
             }
             self.keyAlgorithm = dictionary["KeyAlgorithm"] as? String
             self.certificateArn = dictionary["CertificateArn"] as? String
             self.domainName = dictionary["DomainName"] as? String
             self.type = dictionary["Type"] as? String
-            if let inUseBy = dictionary["InUseBy"] as? [String] {
-                self.inUseBy = inUseBy
-            }
+            self.inUseBy = dictionary["InUseBy"] as? [String]
             self.issuer = dictionary["Issuer"] as? String
             self.subject = dictionary["Subject"] as? String
         }

@@ -33,11 +33,9 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The list of build project names, with each build project name representing a single build project.
-        public var projects: [String]? = nil
-
-        public init() {}
+        public let projects: [String]?
 
         public init(nextToken: String? = nil, projects: [String]? = nil) {
             self.nextToken = nextToken
@@ -46,9 +44,7 @@ extension Codebuild {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["nextToken"] as? String
-            if let projects = dictionary["projects"] as? [String] {
-                self.projects = projects
-            }
+            self.projects = dictionary["projects"] as? [String]
         }
     }
 
@@ -56,16 +52,14 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the build.
-        public var build: Build? = nil
-
-        public init() {}
+        public let build: Build?
 
         public init(build: Build? = nil) {
             self.build = build
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let build = dictionary["build"] as? [String: Any] { self.build = try Codebuild.Build(dictionary: build) }
+            if let build = dictionary["build"] as? [String: Any] { self.build = try Codebuild.Build(dictionary: build) } else { self.build = nil }
         }
     }
 
@@ -73,9 +67,7 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ID of the build.
-        public var id: String = ""
-
-        public init() {}
+        public let id: String
 
         public init(id: String) {
             self.id = id
@@ -91,11 +83,9 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the requested build projects.
-        public var projects: [Project]? = nil
+        public let projects: [Project]?
         /// The names of build projects for which information could not be found.
-        public var projectsNotFound: [String]? = nil
-
-        public init() {}
+        public let projectsNotFound: [String]?
 
         public init(projects: [Project]? = nil, projectsNotFound: [String]? = nil) {
             self.projects = projects
@@ -105,10 +95,10 @@ extension Codebuild {
         public init(dictionary: [String: Any]) throws {
             if let projects = dictionary["projects"] as? [[String: Any]] {
                 self.projects = try projects.map({ try Project(dictionary: $0) })
+            } else { 
+                self.projects = nil
             }
-            if let projectsNotFound = dictionary["projectsNotFound"] as? [String] {
-                self.projectsNotFound = projectsNotFound
-            }
+            self.projectsNotFound = dictionary["projectsNotFound"] as? [String]
         }
     }
 
@@ -116,31 +106,29 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the build project.
-        public var name: String? = nil
+        public let name: String?
         /// When the build project's settings were last modified, expressed in Unix time format.
-        public var lastModified: Date? = nil
+        public let lastModified: Date?
         /// Information about the build input source code for this build project.
-        public var source: ProjectSource? = nil
+        public let source: ProjectSource?
         /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed. The default is 60 minutes.
-        public var timeoutInMinutes: Int32? = nil
+        public let timeoutInMinutes: Int32?
         /// When the build project was created, expressed in Unix time format.
-        public var created: Date? = nil
+        public let created: Date?
         /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts. This is expressed either as the CMK's Amazon Resource Name (ARN) or, if specified, the CMK's alias (using the format alias/alias-name ).
-        public var encryptionKey: String? = nil
+        public let encryptionKey: String?
         /// A description that makes the build project easy to identify.
-        public var description: String? = nil
+        public let description: String?
         /// Information about the build output artifacts for the build project.
-        public var artifacts: ProjectArtifacts? = nil
+        public let artifacts: ProjectArtifacts?
         /// Information about the build environment for this build project.
-        public var environment: ProjectEnvironment? = nil
+        public let environment: ProjectEnvironment?
         /// The tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
-        public var serviceRole: String? = nil
+        public let serviceRole: String?
         /// The Amazon Resource Name (ARN) of the build project.
-        public var arn: String? = nil
-
-        public init() {}
+        public let arn: String?
 
         public init(name: String? = nil, lastModified: Date? = nil, source: ProjectSource? = nil, timeoutInMinutes: Int32? = nil, created: Date? = nil, encryptionKey: String? = nil, description: String? = nil, artifacts: ProjectArtifacts? = nil, environment: ProjectEnvironment? = nil, tags: [Tag]? = nil, serviceRole: String? = nil, arn: String? = nil) {
             self.name = name
@@ -160,15 +148,17 @@ extension Codebuild {
         public init(dictionary: [String: Any]) throws {
             self.name = dictionary["name"] as? String
             self.lastModified = dictionary["lastModified"] as? Date
-            if let source = dictionary["source"] as? [String: Any] { self.source = try Codebuild.ProjectSource(dictionary: source) }
+            if let source = dictionary["source"] as? [String: Any] { self.source = try Codebuild.ProjectSource(dictionary: source) } else { self.source = nil }
             self.timeoutInMinutes = dictionary["timeoutInMinutes"] as? Int32
             self.created = dictionary["created"] as? Date
             self.encryptionKey = dictionary["encryptionKey"] as? String
             self.description = dictionary["description"] as? String
-            if let artifacts = dictionary["artifacts"] as? [String: Any] { self.artifacts = try Codebuild.ProjectArtifacts(dictionary: artifacts) }
-            if let environment = dictionary["environment"] as? [String: Any] { self.environment = try Codebuild.ProjectEnvironment(dictionary: environment) }
+            if let artifacts = dictionary["artifacts"] as? [String: Any] { self.artifacts = try Codebuild.ProjectArtifacts(dictionary: artifacts) } else { self.artifacts = nil }
+            if let environment = dictionary["environment"] as? [String: Any] { self.environment = try Codebuild.ProjectEnvironment(dictionary: environment) } else { self.environment = nil }
             if let tags = dictionary["tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.serviceRole = dictionary["serviceRole"] as? String
             self.arn = dictionary["arn"] as? String
@@ -179,13 +169,11 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The MD5 hash of the build artifact. You can use this hash along with a checksum tool to confirm both file integrity and authenticity.  This value is available only if the build project's packaging value is set to ZIP. 
-        public var md5sum: String? = nil
+        public let md5sum: String?
         /// Information about the location of the build artifacts.
-        public var location: String? = nil
+        public let location: String?
         /// The SHA-256 hash of the build artifact. You can use this hash along with a checksum tool to confirm both file integrity and authenticity.  This value is available only if the build project's packaging value is set to ZIP. 
-        public var sha256sum: String? = nil
-
-        public init() {}
+        public let sha256sum: String?
 
         public init(md5sum: String? = nil, location: String? = nil, sha256sum: String? = nil) {
             self.md5sum = md5sum
@@ -204,19 +192,17 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// How long, in seconds, between the starting and ending times of the build's phase.
-        public var durationInSeconds: Int64? = nil
+        public let durationInSeconds: Int64?
         /// When the build phase ended, expressed in Unix time format.
-        public var endTime: Date? = nil
+        public let endTime: Date?
         /// When the build phase started, expressed in Unix time format.
-        public var startTime: Date? = nil
+        public let startTime: Date?
         /// Additional information about a build phase, especially to help troubleshoot a failed build.
-        public var contexts: [PhaseContext]? = nil
+        public let contexts: [PhaseContext]?
         /// The current status of the build phase. Valid values include:    FAILED: The build phase failed.    FAULT: The build phase faulted.    IN_PROGRESS: The build phase is still in progress.    STOPPED: The build phase stopped.    SUCCEEDED: The build phase succeeded.    TIMED_OUT: The build phase timed out.  
-        public var phaseStatus: String? = nil
+        public let phaseStatus: String?
         /// The name of the build phase. Valid values include:    BUILD: Core build activities typically occur in this build phase.    COMPLETED: The build has been completed.    DOWNLOAD_SOURCE: Source code is being downloaded in this build phase.    FINALIZING: The build process is completing in this build phase.    INSTALL: Installation activities typically occur in this build phase.    POST_BUILD: Post-build activities typically occur in this build phase.    PRE_BUILD: Pre-build activities typically occur in this build phase.    PROVISIONING: The build environment is being set up.    SUBMITTED: The build has been submitted.    UPLOAD_ARTIFACTS: Build output artifacts are being uploaded to the output location.  
-        public var phaseType: String? = nil
-
-        public init() {}
+        public let phaseType: String?
 
         public init(durationInSeconds: Int64? = nil, endTime: Date? = nil, startTime: Date? = nil, contexts: [PhaseContext]? = nil, phaseStatus: String? = nil, phaseType: String? = nil) {
             self.durationInSeconds = durationInSeconds
@@ -233,6 +219,8 @@ extension Codebuild {
             self.startTime = dictionary["startTime"] as? Date
             if let contexts = dictionary["contexts"] as? [[String: Any]] {
                 self.contexts = try contexts.map({ try PhaseContext(dictionary: $0) })
+            } else { 
+                self.contexts = nil
             }
             self.phaseStatus = dictionary["phaseStatus"] as? String
             self.phaseType = dictionary["phaseType"] as? String
@@ -243,13 +231,11 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The URL to an individual build log in Amazon CloudWatch Logs.
-        public var deepLink: String? = nil
+        public let deepLink: String?
         /// The name of the Amazon CloudWatch Logs group for the build logs.
-        public var groupName: String? = nil
+        public let groupName: String?
         /// The name of the Amazon CloudWatch Logs stream for the build logs.
-        public var streamName: String? = nil
-
-        public init() {}
+        public let streamName: String?
 
         public init(deepLink: String? = nil, groupName: String? = nil, streamName: String? = nil) {
             self.deepLink = deepLink
@@ -268,11 +254,9 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The authorization type to use. The only valid value is OAUTH, which represents the OAuth authorization type.
-        public var type: String = ""
+        public let type: String
         /// The resource value that applies to the specified authorization type.
-        public var resource: String? = nil
-
-        public init() {}
+        public let resource: String?
 
         public init(type: String, resource: String? = nil) {
             self.type = type
@@ -290,11 +274,9 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of programming languages that are available for the specified platform.
-        public var languages: [EnvironmentLanguage]? = nil
+        public let languages: [EnvironmentLanguage]?
         /// The platform's name.
-        public var platform: String? = nil
-
-        public init() {}
+        public let platform: String?
 
         public init(languages: [EnvironmentLanguage]? = nil, platform: String? = nil) {
             self.languages = languages
@@ -304,6 +286,8 @@ extension Codebuild {
         public init(dictionary: [String: Any]) throws {
             if let languages = dictionary["languages"] as? [[String: Any]] {
                 self.languages = try languages.map({ try EnvironmentLanguage(dictionary: $0) })
+            } else { 
+                self.languages = nil
             }
             self.platform = dictionary["platform"] as? String
         }
@@ -313,39 +297,37 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about all previous build phases that are completed and information about any current build phase that is not yet complete.
-        public var phases: [BuildPhase]? = nil
+        public let phases: [BuildPhase]?
         /// Information about the source code to be built.
-        public var source: ProjectSource? = nil
+        public let source: ProjectSource?
         /// How long, in minutes, for AWS CodeBuild to wait before timing out this build if it does not get marked as completed.
-        public var timeoutInMinutes: Int32? = nil
+        public let timeoutInMinutes: Int32?
         /// Any version identifier for the version of the source code to be built.
-        public var sourceVersion: String? = nil
+        public let sourceVersion: String?
         /// The current build phase.
-        public var currentPhase: String? = nil
+        public let currentPhase: String?
         /// Information about the output artifacts for the build.
-        public var artifacts: BuildArtifacts? = nil
+        public let artifacts: BuildArtifacts?
         /// The current status of the build. Valid values include:    FAILED: The build failed.    FAULT: The build faulted.    IN_PROGRESS: The build is still in progress.    STOPPED: The build stopped.    SUCCEEDED: The build succeeded.    TIMED_OUT: The build timed out.  
-        public var buildStatus: String? = nil
+        public let buildStatus: String?
         /// The Amazon Resource Name (ARN) of the build.
-        public var arn: String? = nil
+        public let arn: String?
         /// The entity that started the build. Valid values include:   If AWS CodePipeline started the build, the pipeline's name (for example, codepipeline/my-demo-pipeline).   If an AWS Identity and Access Management (IAM) user started the build, the user's name (for example MyUserName).   If the Jenkins plugin for AWS CodeBuild started the build, the string CodeBuild-Jenkins-Plugin.  
-        public var initiator: String? = nil
+        public let initiator: String?
         /// Information about the build environment for this build.
-        public var environment: ProjectEnvironment? = nil
+        public let environment: ProjectEnvironment?
         /// The unique ID for the build.
-        public var id: String? = nil
+        public let id: String?
         /// The name of the build project.
-        public var projectName: String? = nil
+        public let projectName: String?
         /// Whether the build has finished. True if completed; otherwise, false.
-        public var buildComplete: Bool? = nil
+        public let buildComplete: Bool?
         /// When the build process ended, expressed in Unix time format.
-        public var endTime: Date? = nil
+        public let endTime: Date?
         /// Information about the build's logs in Amazon CloudWatch Logs.
-        public var logs: LogsLocation? = nil
+        public let logs: LogsLocation?
         /// When the build process started, expressed in Unix time format.
-        public var startTime: Date? = nil
-
-        public init() {}
+        public let startTime: Date?
 
         public init(phases: [BuildPhase]? = nil, source: ProjectSource? = nil, timeoutInMinutes: Int32? = nil, sourceVersion: String? = nil, currentPhase: String? = nil, artifacts: BuildArtifacts? = nil, buildStatus: String? = nil, arn: String? = nil, initiator: String? = nil, environment: ProjectEnvironment? = nil, id: String? = nil, projectName: String? = nil, buildComplete: Bool? = nil, endTime: Date? = nil, logs: LogsLocation? = nil, startTime: Date? = nil) {
             self.phases = phases
@@ -369,21 +351,23 @@ extension Codebuild {
         public init(dictionary: [String: Any]) throws {
             if let phases = dictionary["phases"] as? [[String: Any]] {
                 self.phases = try phases.map({ try BuildPhase(dictionary: $0) })
+            } else { 
+                self.phases = nil
             }
-            if let source = dictionary["source"] as? [String: Any] { self.source = try Codebuild.ProjectSource(dictionary: source) }
+            if let source = dictionary["source"] as? [String: Any] { self.source = try Codebuild.ProjectSource(dictionary: source) } else { self.source = nil }
             self.timeoutInMinutes = dictionary["timeoutInMinutes"] as? Int32
             self.sourceVersion = dictionary["sourceVersion"] as? String
             self.currentPhase = dictionary["currentPhase"] as? String
-            if let artifacts = dictionary["artifacts"] as? [String: Any] { self.artifacts = try Codebuild.BuildArtifacts(dictionary: artifacts) }
+            if let artifacts = dictionary["artifacts"] as? [String: Any] { self.artifacts = try Codebuild.BuildArtifacts(dictionary: artifacts) } else { self.artifacts = nil }
             self.buildStatus = dictionary["buildStatus"] as? String
             self.arn = dictionary["arn"] as? String
             self.initiator = dictionary["initiator"] as? String
-            if let environment = dictionary["environment"] as? [String: Any] { self.environment = try Codebuild.ProjectEnvironment(dictionary: environment) }
+            if let environment = dictionary["environment"] as? [String: Any] { self.environment = try Codebuild.ProjectEnvironment(dictionary: environment) } else { self.environment = nil }
             self.id = dictionary["id"] as? String
             self.projectName = dictionary["projectName"] as? String
             self.buildComplete = dictionary["buildComplete"] as? Bool
             self.endTime = dictionary["endTime"] as? Date
-            if let logs = dictionary["logs"] as? [String: Any] { self.logs = try Codebuild.LogsLocation(dictionary: logs) }
+            if let logs = dictionary["logs"] as? [String: Any] { self.logs = try Codebuild.LogsLocation(dictionary: logs) } else { self.logs = nil }
             self.startTime = dictionary["startTime"] as? Date
         }
     }
@@ -392,9 +376,7 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the build project.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -410,8 +392,6 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -420,16 +400,14 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the build project that was changed.
-        public var project: Project? = nil
-
-        public init() {}
+        public let project: Project?
 
         public init(project: Project? = nil) {
             self.project = project
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let project = dictionary["project"] as? [String: Any] { self.project = try Codebuild.Project(dictionary: project) }
+            if let project = dictionary["project"] as? [String: Any] { self.project = try Codebuild.Project(dictionary: project) } else { self.project = nil }
         }
     }
 
@@ -437,19 +415,17 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// Along with path and namespaceType, the pattern that AWS CodeBuild will use to name and store the output artifact, as follows:   If type is set to CODEPIPELINE, then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, then this value will be ignored if specified, because no build output will be produced.   If type is set to S3, this is the name of the output artifact object.   For example, if path is set to MyArtifacts, namespaceType is set to BUILD_ID, and name is set to MyArtifact.zip, then the output artifact would be stored in MyArtifacts/build-ID/MyArtifact.zip.
-        public var name: String? = nil
+        public let name: String?
         /// Information about the build output artifact location, as follows:   If type is set to CODEPIPELINE, then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output locations instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, then this value will be ignored if specified, because no build output will be produced.   If type is set to S3, this is the name of the output bucket.  
-        public var location: String? = nil
+        public let location: String?
         /// Along with namespaceType and name, the pattern that AWS CodeBuild will use to name and store the output artifact, as follows:   If type is set to CODEPIPELINE, then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, then this value will be ignored if specified, because no build output will be produced.   If type is set to S3, this is the path to the output artifact. If path is not specified, then path will not be used.   For example, if path is set to MyArtifacts, namespaceType is set to NONE, and name is set to MyArtifact.zip, then the output artifact would be stored in the output bucket at MyArtifacts/MyArtifact.zip.
-        public var path: String? = nil
+        public let path: String?
         /// Along with path and name, the pattern that AWS CodeBuild will use to determine the name and location to store the output artifact, as follows:   If type is set to CODEPIPELINE, then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, then this value will be ignored if specified, because no build output will be produced.   If type is set to S3, then valid values include:    BUILD_ID: Include the build ID in the location of the build output artifact.    NONE: Do not include the build ID. This is the default if namespaceType is not specified.     For example, if path is set to MyArtifacts, namespaceType is set to BUILD_ID, and name is set to MyArtifact.zip, then the output artifact would be stored in MyArtifacts/build-ID/MyArtifact.zip.
-        public var namespaceType: String? = nil
+        public let namespaceType: String?
         /// The type of build output artifact to create, as follows:   If type is set to CODEPIPELINE, then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output artifacts instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, then this value will be ignored if specified, because no build output will be produced.   If type is set to S3, valid values include:    NONE: AWS CodeBuild will create in the output bucket a folder containing the build output. This is the default if packaging is not specified.    ZIP: AWS CodeBuild will create in the output bucket a ZIP file containing the build output.    
-        public var packaging: String? = nil
+        public let packaging: String?
         /// The type of build output artifact. Valid values include:    CODEPIPELINE: The build project will have build output generated through AWS CodePipeline.    NO_ARTIFACTS: The build project will not produce any build output.    S3: The build project will store build output in Amazon Simple Storage Service (Amazon S3).  
-        public var type: String = ""
-
-        public init() {}
+        public let type: String
 
         public init(name: String? = nil, location: String? = nil, path: String? = nil, namespaceType: String? = nil, packaging: String? = nil, type: String) {
             self.name = name
@@ -475,8 +451,6 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -485,11 +459,9 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the requested builds.
-        public var builds: [Build]? = nil
+        public let builds: [Build]?
         /// The IDs of builds for which information could not be found.
-        public var buildsNotFound: [String]? = nil
-
-        public init() {}
+        public let buildsNotFound: [String]?
 
         public init(builds: [Build]? = nil, buildsNotFound: [String]? = nil) {
             self.builds = builds
@@ -499,10 +471,10 @@ extension Codebuild {
         public init(dictionary: [String: Any]) throws {
             if let builds = dictionary["builds"] as? [[String: Any]] {
                 self.builds = try builds.map({ try Build(dictionary: $0) })
+            } else { 
+                self.builds = nil
             }
-            if let buildsNotFound = dictionary["buildsNotFound"] as? [String] {
-                self.buildsNotFound = buildsNotFound
-            }
+            self.buildsNotFound = dictionary["buildsNotFound"] as? [String]
         }
     }
 
@@ -510,11 +482,9 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The programming language for the Docker images.
-        public var language: String? = nil
+        public let language: String?
         /// The list of Docker images that are related by the specified programming language.
-        public var images: [EnvironmentImage]? = nil
-
-        public init() {}
+        public let images: [EnvironmentImage]?
 
         public init(language: String? = nil, images: [EnvironmentImage]? = nil) {
             self.language = language
@@ -525,6 +495,8 @@ extension Codebuild {
             self.language = dictionary["language"] as? String
             if let images = dictionary["images"] as? [[String: Any]] {
                 self.images = try images.map({ try EnvironmentImage(dictionary: $0) })
+            } else { 
+                self.images = nil
             }
         }
     }
@@ -533,16 +505,14 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the build to be run.
-        public var build: Build? = nil
-
-        public init() {}
+        public let build: Build?
 
         public init(build: Build? = nil) {
             self.build = build
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let build = dictionary["build"] as? [String: Any] { self.build = try Codebuild.Build(dictionary: build) }
+            if let build = dictionary["build"] as? [String: Any] { self.build = try Codebuild.Build(dictionary: build) } else { self.build = nil }
         }
     }
 
@@ -550,11 +520,9 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The tag's key.
-        public var key: String? = nil
+        public let key: String?
         /// The tag's value.
-        public var value: String? = nil
-
-        public init() {}
+        public let value: String?
 
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
@@ -571,11 +539,9 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of build IDs, with each build ID representing a single build.
-        public var ids: [String]? = nil
+        public let ids: [String]?
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(ids: [String]? = nil, nextToken: String? = nil) {
             self.ids = ids
@@ -583,9 +549,7 @@ extension Codebuild {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let ids = dictionary["ids"] as? [String] {
-                self.ids = ids
-            }
+            self.ids = dictionary["ids"] as? [String]
             self.nextToken = dictionary["nextToken"] as? String
         }
     }
@@ -594,11 +558,9 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of build IDs for the specified build project, with each build ID representing a single build.
-        public var ids: [String]? = nil
+        public let ids: [String]?
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(ids: [String]? = nil, nextToken: String? = nil) {
             self.ids = ids
@@ -606,9 +568,7 @@ extension Codebuild {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let ids = dictionary["ids"] as? [String] {
-                self.ids = ids
-            }
+            self.ids = dictionary["ids"] as? [String]
             self.nextToken = dictionary["nextToken"] as? String
         }
     }
@@ -617,15 +577,13 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the compute resources the build project will use. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds.  
-        public var computeType: String = ""
+        public let computeType: String
         /// A set of environment variables to make available to builds for this build project.
-        public var environmentVariables: [EnvironmentVariable]? = nil
+        public let environmentVariables: [EnvironmentVariable]?
         /// The type of build environment to use for related builds.
-        public var type: String = ""
+        public let type: String
         /// The ID of the Docker image to use for this build project.
-        public var image: String = ""
-
-        public init() {}
+        public let image: String
 
         public init(computeType: String, environmentVariables: [EnvironmentVariable]? = nil, type: String, image: String) {
             self.computeType = computeType
@@ -639,6 +597,8 @@ extension Codebuild {
             self.computeType = computeType
             if let environmentVariables = dictionary["environmentVariables"] as? [[String: Any]] {
                 self.environmentVariables = try environmentVariables.map({ try EnvironmentVariable(dictionary: $0) })
+            } else { 
+                self.environmentVariables = nil
             }
             guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
             self.type = type
@@ -651,11 +611,9 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.  
-        public var sortOrder: String? = nil
-
-        public init() {}
+        public let sortOrder: String?
 
         public init(nextToken: String? = nil, sortOrder: String? = nil) {
             self.nextToken = nextToken
@@ -672,9 +630,7 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The names of the build projects.
-        public var names: [String] = []
-
-        public init() {}
+        public let names: [String]
 
         public init(names: [String]) {
             self.names = names
@@ -690,13 +646,11 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the build project.
-        public var projectName: String = ""
+        public let projectName: String
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.  
-        public var sortOrder: String? = nil
-
-        public init() {}
+        public let sortOrder: String?
 
         public init(projectName: String, nextToken: String? = nil, sortOrder: String? = nil) {
             self.projectName = projectName
@@ -716,25 +670,23 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the build project.  You cannot change a build project's name. 
-        public var name: String = ""
+        public let name: String
         /// Information to be changed about the build environment for the build project.
-        public var environment: ProjectEnvironment? = nil
+        public let environment: ProjectEnvironment?
         /// Information to be changed about the build input source code for the build project.
-        public var source: ProjectSource? = nil
+        public let source: ProjectSource?
         /// The replacement value in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed.
-        public var timeoutInMinutes: Int32? = nil
+        public let timeoutInMinutes: Int32?
         /// The replacement AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts. You can specify either the CMK's Amazon Resource Name (ARN) or, if available, the CMK's alias (using the format alias/alias-name ).
-        public var encryptionKey: String? = nil
+        public let encryptionKey: String?
         /// A new or replacement description of the build project.
-        public var description: String? = nil
+        public let description: String?
         /// Information to be changed about the build output artifacts for the build project.
-        public var artifacts: ProjectArtifacts? = nil
+        public let artifacts: ProjectArtifacts?
         /// The replacement set of tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The replacement ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
-        public var serviceRole: String? = nil
-
-        public init() {}
+        public let serviceRole: String?
 
         public init(name: String, environment: ProjectEnvironment? = nil, source: ProjectSource? = nil, timeoutInMinutes: Int32? = nil, encryptionKey: String? = nil, description: String? = nil, artifacts: ProjectArtifacts? = nil, tags: [Tag]? = nil, serviceRole: String? = nil) {
             self.name = name
@@ -751,14 +703,16 @@ extension Codebuild {
         public init(dictionary: [String: Any]) throws {
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
-            if let environment = dictionary["environment"] as? [String: Any] { self.environment = try Codebuild.ProjectEnvironment(dictionary: environment) }
-            if let source = dictionary["source"] as? [String: Any] { self.source = try Codebuild.ProjectSource(dictionary: source) }
+            if let environment = dictionary["environment"] as? [String: Any] { self.environment = try Codebuild.ProjectEnvironment(dictionary: environment) } else { self.environment = nil }
+            if let source = dictionary["source"] as? [String: Any] { self.source = try Codebuild.ProjectSource(dictionary: source) } else { self.source = nil }
             self.timeoutInMinutes = dictionary["timeoutInMinutes"] as? Int32
             self.encryptionKey = dictionary["encryptionKey"] as? String
             self.description = dictionary["description"] as? String
-            if let artifacts = dictionary["artifacts"] as? [String: Any] { self.artifacts = try Codebuild.ProjectArtifacts(dictionary: artifacts) }
+            if let artifacts = dictionary["artifacts"] as? [String: Any] { self.artifacts = try Codebuild.ProjectArtifacts(dictionary: artifacts) } else { self.artifacts = nil }
             if let tags = dictionary["tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.serviceRole = dictionary["serviceRole"] as? String
         }
@@ -768,19 +722,17 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// A version of the build input to be built, for this build only. If not specified, the latest version will be used. If specified, must be one of:   For AWS CodeCommit or GitHub: the commit ID to use.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object representing the build input ZIP file to use.  
-        public var sourceVersion: String? = nil
+        public let sourceVersion: String?
         /// A set of environment variables that overrides, for this build only, the latest ones already defined in the build project.
-        public var environmentVariablesOverride: [EnvironmentVariable]? = nil
+        public let environmentVariablesOverride: [EnvironmentVariable]?
         /// Build output artifact settings that override, for this build only, the latest ones already defined in the build project.
-        public var artifactsOverride: ProjectArtifacts? = nil
+        public let artifactsOverride: ProjectArtifacts?
         /// The name of the build project to start running a build.
-        public var projectName: String = ""
+        public let projectName: String
         /// The number of build timeout minutes, from 5 to 480 (8 hours), that overrides, for this build only, the latest setting already defined in the build project.
-        public var timeoutInMinutesOverride: Int32? = nil
+        public let timeoutInMinutesOverride: Int32?
         /// A build spec declaration that overrides, for this build only, the latest one already defined in the build project.
-        public var buildspecOverride: String? = nil
-
-        public init() {}
+        public let buildspecOverride: String?
 
         public init(sourceVersion: String? = nil, environmentVariablesOverride: [EnvironmentVariable]? = nil, artifactsOverride: ProjectArtifacts? = nil, projectName: String, timeoutInMinutesOverride: Int32? = nil, buildspecOverride: String? = nil) {
             self.sourceVersion = sourceVersion
@@ -795,8 +747,10 @@ extension Codebuild {
             self.sourceVersion = dictionary["sourceVersion"] as? String
             if let environmentVariablesOverride = dictionary["environmentVariablesOverride"] as? [[String: Any]] {
                 self.environmentVariablesOverride = try environmentVariablesOverride.map({ try EnvironmentVariable(dictionary: $0) })
+            } else { 
+                self.environmentVariablesOverride = nil
             }
-            if let artifactsOverride = dictionary["artifactsOverride"] as? [String: Any] { self.artifactsOverride = try Codebuild.ProjectArtifacts(dictionary: artifactsOverride) }
+            if let artifactsOverride = dictionary["artifactsOverride"] as? [String: Any] { self.artifactsOverride = try Codebuild.ProjectArtifacts(dictionary: artifactsOverride) } else { self.artifactsOverride = nil }
             guard let projectName = dictionary["projectName"] as? String else { throw InitializableError.missingRequiredParam("projectName") }
             self.projectName = projectName
             self.timeoutInMinutesOverride = dictionary["timeoutInMinutesOverride"] as? Int32
@@ -808,11 +762,9 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The description of the Docker image.
-        public var description: String? = nil
+        public let description: String?
         /// The name of the Docker image.
-        public var name: String? = nil
-
-        public init() {}
+        public let name: String?
 
         public init(description: String? = nil, name: String? = nil) {
             self.description = description
@@ -829,11 +781,9 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name or key of the environment variable.
-        public var name: String = ""
+        public let name: String
         /// The value of the environment variable.
-        public var value: String = ""
-
-        public init() {}
+        public let value: String
 
         public init(name: String, value: String) {
             self.name = name
@@ -852,9 +802,7 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The IDs of the builds.
-        public var ids: [String] = []
-
-        public init() {}
+        public let ids: [String]
 
         public init(ids: [String]) {
             self.ids = ids
@@ -870,11 +818,9 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// An explanation of the build phase's context. This explanation might include a command ID and an exit code.
-        public var message: String? = nil
+        public let message: String?
         /// The status code for the context of the build phase.
-        public var statusCode: String? = nil
-
-        public init() {}
+        public let statusCode: String?
 
         public init(message: String? = nil, statusCode: String? = nil) {
             self.message = message
@@ -891,25 +837,23 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the build project.
-        public var name: String = ""
+        public let name: String
         /// Information about the build environment for the build project.
-        public var environment: ProjectEnvironment = ProjectEnvironment()
+        public let environment: ProjectEnvironment
         /// Information about the build input source code for the build project.
-        public var source: ProjectSource = ProjectSource()
+        public let source: ProjectSource
         /// How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait until timing out any build that has not been marked as completed. The default is 60 minutes.
-        public var timeoutInMinutes: Int32? = nil
+        public let timeoutInMinutes: Int32?
         /// The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts. You can specify either the CMK's Amazon Resource Name (ARN) or, if available, the CMK's alias (using the format alias/alias-name ).
-        public var encryptionKey: String? = nil
+        public let encryptionKey: String?
         /// A description that makes the build project easy to identify.
-        public var description: String? = nil
+        public let description: String?
         /// Information about the build output artifacts for the build project.
-        public var artifacts: ProjectArtifacts = ProjectArtifacts()
+        public let artifacts: ProjectArtifacts
         /// A set of tags for this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
-        public var tags: [Tag]? = nil
+        public let tags: [Tag]?
         /// The ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
-        public var serviceRole: String? = nil
-
-        public init() {}
+        public let serviceRole: String?
 
         public init(name: String, environment: ProjectEnvironment, source: ProjectSource, timeoutInMinutes: Int32? = nil, encryptionKey: String? = nil, description: String? = nil, artifacts: ProjectArtifacts, tags: [Tag]? = nil, serviceRole: String? = nil) {
             self.name = name
@@ -937,6 +881,8 @@ extension Codebuild {
             self.artifacts = try Codebuild.ProjectArtifacts(dictionary: artifacts)
             if let tags = dictionary["tags"] as? [[String: Any]] {
                 self.tags = try tags.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tags = nil
             }
             self.serviceRole = dictionary["serviceRole"] as? String
         }
@@ -946,16 +892,14 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the build project that was created.
-        public var project: Project? = nil
-
-        public init() {}
+        public let project: Project?
 
         public init(project: Project? = nil) {
             self.project = project
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let project = dictionary["project"] as? [String: Any] { self.project = try Codebuild.Project(dictionary: project) }
+            if let project = dictionary["project"] as? [String: Any] { self.project = try Codebuild.Project(dictionary: project) } else { self.project = nil }
         }
     }
 
@@ -963,15 +907,13 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The build spec declaration to use for the builds in this build project. If this value is not specified, a build spec must be included along with the source code to be built.
-        public var buildspec: String? = nil
+        public let buildspec: String?
         /// Information about the location of the source code to be built. Valid values include:   For source code settings that are specified in the source action of a pipeline in AWS CodePipeline, location should not be specified. If it is specified, AWS CodePipeline will ignore it. This is because AWS CodePipeline uses the settings in a pipeline's source action instead of this value.   For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the build spec (for example, https://git-codecommit.region-ID.amazonaws.com/v1/repos/repo-name ).   For source code in an Amazon Simple Storage Service (Amazon S3) input bucket, the path to the ZIP file that contains the source code (for example,  bucket-name/path/to/object-name.zip)   For source code in a GitHub repository, instead of specifying a value here, you connect your AWS account to your GitHub account. To do this, use the AWS CodeBuild console to begin creating a build project, and follow the on-screen instructions to complete the connection. (After you have connected to your GitHub account, you do not need to finish creating the build project, and you may then leave the AWS CodeBuild console.) To instruct AWS CodeBuild to then use this connection, in the source object, set the auth object's type value to OAUTH.  
-        public var location: String? = nil
+        public let location: String?
         /// The type of repository that contains the source code to be built. Valid values include:    CODECOMMIT: The source code is in an AWS CodeCommit repository.    CODEPIPELINE: The source code settings are specified in the source action of a pipeline in AWS CodePipeline.    GITHUB: The source code is in a GitHub repository.    S3: The source code is in an Amazon Simple Storage Service (Amazon S3) input bucket.  
-        public var type: String = ""
+        public let type: String
         /// Information about the authorization settings for AWS CodeBuild to access the source code to be built. This information is for the AWS CodeBuild console's use only. Your code should not get or set this information directly (unless the build project's source type value is GITHUB).
-        public var auth: SourceAuth? = nil
-
-        public init() {}
+        public let auth: SourceAuth?
 
         public init(buildspec: String? = nil, location: String? = nil, type: String, auth: SourceAuth? = nil) {
             self.buildspec = buildspec
@@ -985,7 +927,7 @@ extension Codebuild {
             self.location = dictionary["location"] as? String
             guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
             self.type = type
-            if let auth = dictionary["auth"] as? [String: Any] { self.auth = try Codebuild.SourceAuth(dictionary: auth) }
+            if let auth = dictionary["auth"] as? [String: Any] { self.auth = try Codebuild.SourceAuth(dictionary: auth) } else { self.auth = nil }
         }
     }
 
@@ -993,13 +935,11 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// The criterion to be used to list build project names. Valid values include:    CREATED_TIME: List the build project names based on when each build project was created.    LAST_MODIFIED_TIME: List the build project names based on when information about each build project was last changed.    NAME: List the build project names based on each build project's name.   Use sortOrder to specify in what order to list the build project names based on the preceding criteria.
-        public var sortBy: String? = nil
+        public let sortBy: String?
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The order in which to list build projects. Valid values include:    ASCENDING: List the build project names in ascending order.    DESCENDING: List the build project names in descending order.   Use sortBy to specify the criterion to be used to list build project names.
-        public var sortOrder: String? = nil
-
-        public init() {}
+        public let sortOrder: String?
 
         public init(sortBy: String? = nil, nextToken: String? = nil, sortOrder: String? = nil) {
             self.sortBy = sortBy
@@ -1018,9 +958,7 @@ extension Codebuild {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about supported platforms for Docker images that are managed by AWS CodeBuild.
-        public var platforms: [EnvironmentPlatform]? = nil
-
-        public init() {}
+        public let platforms: [EnvironmentPlatform]?
 
         public init(platforms: [EnvironmentPlatform]? = nil) {
             self.platforms = platforms
@@ -1029,6 +967,8 @@ extension Codebuild {
         public init(dictionary: [String: Any]) throws {
             if let platforms = dictionary["platforms"] as? [[String: Any]] {
                 self.platforms = try platforms.map({ try EnvironmentPlatform(dictionary: $0) })
+            } else { 
+                self.platforms = nil
             }
         }
     }

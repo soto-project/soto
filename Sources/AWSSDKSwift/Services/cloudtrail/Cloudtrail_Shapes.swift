@@ -33,15 +33,13 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The ending time of validity of the public key.
-        public var validityEndTime: Date? = nil
+        public let validityEndTime: Date?
         /// The fingerprint of the public key.
-        public var fingerprint: String? = nil
+        public let fingerprint: String?
         /// The DER encoded public key value in PKCS#1 format.
-        public var value: Data? = nil
+        public let value: Data?
         /// The starting time of validity of the public key.
-        public var validityStartTime: Date? = nil
-
-        public init() {}
+        public let validityStartTime: Date?
 
         public init(validityEndTime: Date? = nil, fingerprint: String? = nil, value: Data? = nil, validityStartTime: Date? = nil) {
             self.validityEndTime = validityEndTime
@@ -62,31 +60,29 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the format:  arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012 
-        public var kmsKeyId: String? = nil
+        public let kmsKeyId: String?
         /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The format of a topic ARN is:  arn:aws:sns:us-east-1:123456789012:MyTopic 
-        public var snsTopicARN: String? = nil
+        public let snsTopicARN: String?
         /// Specifies whether the trail is publishing events from global services such as IAM to the log files.
-        public var includeGlobalServiceEvents: Bool? = nil
+        public let includeGlobalServiceEvents: Bool?
         /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files.
-        public var s3KeyPrefix: String? = nil
+        public let s3KeyPrefix: String?
         /// Specifies whether the trail exists in one region or in all regions.
-        public var isMultiRegionTrail: Bool? = nil
+        public let isMultiRegionTrail: Bool?
         /// Specifies the name of the trail.
-        public var name: String? = nil
+        public let name: String?
         /// Specifies the Amazon Resource Name (ARN) of the log group to which CloudTrail logs will be delivered.
-        public var cloudWatchLogsLogGroupArn: String? = nil
+        public let cloudWatchLogsLogGroupArn: String?
         /// Specifies the name of the Amazon S3 bucket designated for publishing log files.
-        public var s3BucketName: String? = nil
+        public let s3BucketName: String?
         /// This field is deprecated. Use SnsTopicARN.
-        public var snsTopicName: String? = nil
+        public let snsTopicName: String?
         /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
-        public var cloudWatchLogsRoleArn: String? = nil
+        public let cloudWatchLogsRoleArn: String?
         /// Specifies the ARN of the trail that was created. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
-        public var trailARN: String? = nil
+        public let trailARN: String?
         /// Specifies whether log file integrity validation is enabled.
-        public var logFileValidationEnabled: Bool? = nil
-
-        public init() {}
+        public let logFileValidationEnabled: Bool?
 
         public init(kmsKeyId: String? = nil, snsTopicARN: String? = nil, includeGlobalServiceEvents: Bool? = nil, s3KeyPrefix: String? = nil, isMultiRegionTrail: Bool? = nil, name: String? = nil, cloudWatchLogsLogGroupArn: String? = nil, s3BucketName: String? = nil, snsTopicName: String? = nil, cloudWatchLogsRoleArn: String? = nil, trailARN: String? = nil, logFileValidationEnabled: Bool? = nil) {
             self.kmsKeyId = kmsKeyId
@@ -123,8 +119,6 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -133,11 +127,9 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the ARN of the trail to which one or more tags will be added. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
-        public var resourceId: String = ""
+        public let resourceId: String
         /// Contains a list of CloudTrail tags, up to a limit of 50
-        public var tagsList: [Tag]? = nil
-
-        public init() {}
+        public let tagsList: [Tag]?
 
         public init(resourceId: String, tagsList: [Tag]? = nil) {
             self.resourceId = resourceId
@@ -149,6 +141,8 @@ extension Cloudtrail {
             self.resourceId = resourceId
             if let tagsList = dictionary["TagsList"] as? [[String: Any]] {
                 self.tagsList = try tagsList.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tagsList = nil
             }
         }
     }
@@ -156,8 +150,6 @@ extension Cloudtrail {
     public struct StartLoggingResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -167,13 +159,11 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Optionally specifies, in UTC, the end of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used.
-        public var endTime: Date? = nil
+        public let endTime: Date?
         /// Reserved for future use.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// Optionally specifies, in UTC, the start of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used, and the current public key is returned.
-        public var startTime: Date? = nil
-
-        public init() {}
+        public let startTime: Date?
 
         public init(endTime: Date? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
@@ -192,17 +182,15 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
-        public var startTime: Date? = nil
+        public let startTime: Date?
         /// Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
-        public var endTime: Date? = nil
+        public let endTime: Date?
         /// Contains a list of lookup attributes. Currently the list can contain only one item.
-        public var lookupAttributes: [LookupAttribute]? = nil
+        public let lookupAttributes: [LookupAttribute]?
         /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The number of events to return. Possible values are 1 through 50. The default is 10.
-        public var maxResults: Int32? = nil
-
-        public init() {}
+        public let maxResults: Int32?
 
         public init(startTime: Date? = nil, endTime: Date? = nil, lookupAttributes: [LookupAttribute]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.startTime = startTime
@@ -217,6 +205,8 @@ extension Cloudtrail {
             self.endTime = dictionary["EndTime"] as? Date
             if let lookupAttributes = dictionary["LookupAttributes"] as? [[String: Any]] {
                 self.lookupAttributes = try lookupAttributes.map({ try LookupAttribute(dictionary: $0) })
+            } else { 
+                self.lookupAttributes = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
@@ -227,11 +217,9 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The resource type in which you want to log data events. You can specify only the following value: AWS::S3::Object.
-        public var type: String? = nil
+        public let type: String?
         /// A list of ARN-like strings for the specified S3 objects. To log data events for all objects in an S3 bucket, specify the bucket and an empty object prefix such as arn:aws:s3:::bucket-1/. The trail logs data events for all objects in this S3 bucket. To log data events for specific objects, specify the S3 bucket and object prefix such as arn:aws:s3:::bucket-1/example-images. The trail logs data events for objects in this S3 bucket that match the prefix.
-        public var values: [String]? = nil
-
-        public init() {}
+        public let values: [String]?
 
         public init(type: String? = nil, values: [String]? = nil) {
             self.type = type
@@ -240,9 +228,7 @@ extension Cloudtrail {
 
         public init(dictionary: [String: Any]) throws {
             self.type = dictionary["Type"] as? String
-            if let values = dictionary["Values"] as? [String] {
-                self.values = values
-            }
+            self.values = dictionary["Values"] as? [String]
         }
     }
 
@@ -250,11 +236,9 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
-        public var eventSelectors: [EventSelector]? = nil
+        public let eventSelectors: [EventSelector]?
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
-        public var trailName: String? = nil
-
-        public init() {}
+        public let trailName: String?
 
         public init(eventSelectors: [EventSelector]? = nil, trailName: String? = nil) {
             self.eventSelectors = eventSelectors
@@ -264,6 +248,8 @@ extension Cloudtrail {
         public init(dictionary: [String: Any]) throws {
             if let eventSelectors = dictionary["EventSelectors"] as? [[String: Any]] {
                 self.eventSelectors = try eventSelectors.map({ try EventSelector(dictionary: $0) })
+            } else { 
+                self.eventSelectors = nil
             }
             self.trailName = dictionary["TrailName"] as? String
         }
@@ -273,11 +259,9 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the ARN of the trail from which tags should be removed. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
-        public var resourceId: String = ""
+        public let resourceId: String
         /// Specifies a list of tags to be removed.
-        public var tagsList: [Tag]? = nil
-
-        public init() {}
+        public let tagsList: [Tag]?
 
         public init(resourceId: String, tagsList: [Tag]? = nil) {
             self.resourceId = resourceId
@@ -289,6 +273,8 @@ extension Cloudtrail {
             self.resourceId = resourceId
             if let tagsList = dictionary["TagsList"] as? [[String: Any]] {
                 self.tagsList = try tagsList.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tagsList = nil
             }
         }
     }
@@ -296,11 +282,9 @@ extension Cloudtrail {
     public struct ListTagsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var resourceTagList: [ResourceTag]? = nil
+        public let resourceTagList: [ResourceTag]?
         /// Reserved for future use.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(resourceTagList: [ResourceTag]? = nil, nextToken: String? = nil) {
             self.resourceTagList = resourceTagList
@@ -310,6 +294,8 @@ extension Cloudtrail {
         public init(dictionary: [String: Any]) throws {
             if let resourceTagList = dictionary["ResourceTagList"] as? [[String: Any]] {
                 self.resourceTagList = try resourceTagList.map({ try ResourceTag(dictionary: $0) })
+            } else { 
+                self.resourceTagList = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -319,31 +305,29 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the format:  arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012 
-        public var kmsKeyId: String? = nil
+        public let kmsKeyId: String?
         /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The format of a topic ARN is:  arn:aws:sns:us-east-1:123456789012:MyTopic 
-        public var snsTopicARN: String? = nil
+        public let snsTopicARN: String?
         /// Specifies whether the trail is publishing events from global services such as IAM to the log files.
-        public var includeGlobalServiceEvents: Bool? = nil
+        public let includeGlobalServiceEvents: Bool?
         /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files.
-        public var s3KeyPrefix: String? = nil
+        public let s3KeyPrefix: String?
         /// Specifies whether the trail exists in one region or in all regions.
-        public var isMultiRegionTrail: Bool? = nil
+        public let isMultiRegionTrail: Bool?
         /// Specifies the name of the trail.
-        public var name: String? = nil
+        public let name: String?
         /// Specifies the Amazon Resource Name (ARN) of the log group to which CloudTrail logs will be delivered.
-        public var cloudWatchLogsLogGroupArn: String? = nil
+        public let cloudWatchLogsLogGroupArn: String?
         /// Specifies the name of the Amazon S3 bucket designated for publishing log files.
-        public var s3BucketName: String? = nil
+        public let s3BucketName: String?
         /// This field is deprecated. Use SnsTopicARN.
-        public var snsTopicName: String? = nil
+        public let snsTopicName: String?
         /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
-        public var cloudWatchLogsRoleArn: String? = nil
+        public let cloudWatchLogsRoleArn: String?
         /// Specifies the ARN of the trail that was updated. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
-        public var trailARN: String? = nil
+        public let trailARN: String?
         /// Specifies whether log file integrity validation is enabled.
-        public var logFileValidationEnabled: Bool? = nil
-
-        public init() {}
+        public let logFileValidationEnabled: Bool?
 
         public init(kmsKeyId: String? = nil, snsTopicARN: String? = nil, includeGlobalServiceEvents: Bool? = nil, s3KeyPrefix: String? = nil, isMultiRegionTrail: Bool? = nil, name: String? = nil, cloudWatchLogsLogGroupArn: String? = nil, s3BucketName: String? = nil, snsTopicName: String? = nil, cloudWatchLogsRoleArn: String? = nil, trailARN: String? = nil, logFileValidationEnabled: Bool? = nil) {
             self.kmsKeyId = kmsKeyId
@@ -380,35 +364,33 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the format:  arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012 
-        public var kmsKeyId: String? = nil
+        public let kmsKeyId: String?
         /// Specifies whether log file validation is enabled.
-        public var logFileValidationEnabled: Bool? = nil
+        public let logFileValidationEnabled: Bool?
         /// The region in which the trail was created.
-        public var homeRegion: String? = nil
+        public let homeRegion: String?
         /// Specifies the ARN of the trail. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
-        public var trailARN: String? = nil
+        public let trailARN: String?
         /// Set to True to include AWS API calls from AWS global services such as IAM. Otherwise, False.
-        public var includeGlobalServiceEvents: Bool? = nil
+        public let includeGlobalServiceEvents: Bool?
         /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files.The maximum length is 200 characters.
-        public var s3KeyPrefix: String? = nil
+        public let s3KeyPrefix: String?
         /// Specifies whether the trail belongs only to one region or exists in all regions.
-        public var isMultiRegionTrail: Bool? = nil
+        public let isMultiRegionTrail: Bool?
         /// Name of the trail set by calling CreateTrail. The maximum length is 128 characters.
-        public var name: String? = nil
+        public let name: String?
         /// Specifies an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered.
-        public var cloudWatchLogsLogGroupArn: String? = nil
+        public let cloudWatchLogsLogGroupArn: String?
         /// Name of the Amazon S3 bucket into which CloudTrail delivers your trail files. See Amazon S3 Bucket Naming Requirements.
-        public var s3BucketName: String? = nil
+        public let s3BucketName: String?
         /// This field is deprecated. Use SnsTopicARN.
-        public var snsTopicName: String? = nil
+        public let snsTopicName: String?
         /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
-        public var cloudWatchLogsRoleArn: String? = nil
+        public let cloudWatchLogsRoleArn: String?
         /// Specifies if the trail has custom event selectors.
-        public var hasCustomEventSelectors: Bool? = nil
+        public let hasCustomEventSelectors: Bool?
         /// Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send notifications when log files are delivered. The format of a topic ARN is:  arn:aws:sns:us-east-1:123456789012:MyTopic 
-        public var snsTopicARN: String? = nil
-
-        public init() {}
+        public let snsTopicARN: String?
 
         public init(kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, homeRegion: String? = nil, trailARN: String? = nil, includeGlobalServiceEvents: Bool? = nil, s3KeyPrefix: String? = nil, isMultiRegionTrail: Bool? = nil, name: String? = nil, cloudWatchLogsLogGroupArn: String? = nil, s3BucketName: String? = nil, snsTopicName: String? = nil, cloudWatchLogsRoleArn: String? = nil, hasCustomEventSelectors: Bool? = nil, snsTopicARN: String? = nil) {
             self.kmsKeyId = kmsKeyId
@@ -449,41 +431,39 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Displays any Amazon SNS error that CloudTrail encountered when attempting to send a notification. For more information about Amazon SNS errors, see the Amazon SNS Developer Guide. 
-        public var latestNotificationError: String? = nil
+        public let latestNotificationError: String?
         /// Specifies the date and time that CloudTrail last delivered log files to an account's Amazon S3 bucket.
-        public var latestDeliveryTime: Date? = nil
+        public let latestDeliveryTime: Date?
         /// This field is deprecated.
-        public var timeLoggingStarted: String? = nil
+        public let timeLoggingStarted: String?
         /// This field is deprecated.
-        public var timeLoggingStopped: String? = nil
+        public let timeLoggingStopped: String?
         /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver a digest file to the designated bucket. For more information see the topic Error Responses in the Amazon S3 API Reference.   This error occurs only when there is a problem with the destination S3 bucket and will not occur for timeouts. To resolve the issue, create a new bucket and call UpdateTrail to specify the new bucket, or fix the existing objects so that CloudTrail can again write to the bucket. 
-        public var latestDigestDeliveryError: String? = nil
+        public let latestDigestDeliveryError: String?
         /// This field is deprecated.
-        public var latestDeliveryAttemptSucceeded: String? = nil
+        public let latestDeliveryAttemptSucceeded: String?
         /// Displays the most recent date and time when CloudTrail delivered logs to CloudWatch Logs.
-        public var latestCloudWatchLogsDeliveryTime: Date? = nil
+        public let latestCloudWatchLogsDeliveryTime: Date?
         /// Specifies the date and time of the most recent Amazon SNS notification that CloudTrail has written a new log file to an account's Amazon S3 bucket.
-        public var latestNotificationTime: Date? = nil
+        public let latestNotificationTime: Date?
         /// This field is deprecated.
-        public var latestNotificationAttemptSucceeded: String? = nil
+        public let latestNotificationAttemptSucceeded: String?
         /// Specifies the date and time that CloudTrail last delivered a digest file to an account's Amazon S3 bucket.
-        public var latestDigestDeliveryTime: Date? = nil
+        public let latestDigestDeliveryTime: Date?
         /// Whether the CloudTrail is currently logging AWS API calls.
-        public var isLogging: Bool? = nil
+        public let isLogging: Bool?
         /// This field is deprecated.
-        public var latestDeliveryAttemptTime: String? = nil
+        public let latestDeliveryAttemptTime: String?
         /// This field is deprecated.
-        public var latestNotificationAttemptTime: String? = nil
+        public let latestNotificationAttemptTime: String?
         /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver log files to the designated bucket. For more information see the topic Error Responses in the Amazon S3 API Reference.   This error occurs only when there is a problem with the destination S3 bucket and will not occur for timeouts. To resolve the issue, create a new bucket and call UpdateTrail to specify the new bucket, or fix the existing objects so that CloudTrail can again write to the bucket. 
-        public var latestDeliveryError: String? = nil
+        public let latestDeliveryError: String?
         /// Specifies the most recent date and time when CloudTrail stopped recording API calls for an AWS account.
-        public var stopLoggingTime: Date? = nil
+        public let stopLoggingTime: Date?
         /// Specifies the most recent date and time when CloudTrail started recording API calls for an AWS account.
-        public var startLoggingTime: Date? = nil
+        public let startLoggingTime: Date?
         /// Displays any CloudWatch Logs error that CloudTrail encountered when attempting to deliver logs to CloudWatch Logs.
-        public var latestCloudWatchLogsDeliveryError: String? = nil
-
-        public init() {}
+        public let latestCloudWatchLogsDeliveryError: String?
 
         public init(latestNotificationError: String? = nil, latestDeliveryTime: Date? = nil, timeLoggingStarted: String? = nil, timeLoggingStopped: String? = nil, latestDigestDeliveryError: String? = nil, latestDeliveryAttemptSucceeded: String? = nil, latestCloudWatchLogsDeliveryTime: Date? = nil, latestNotificationTime: Date? = nil, latestNotificationAttemptSucceeded: String? = nil, latestDigestDeliveryTime: Date? = nil, isLogging: Bool? = nil, latestDeliveryAttemptTime: String? = nil, latestNotificationAttemptTime: String? = nil, latestDeliveryError: String? = nil, stopLoggingTime: Date? = nil, startLoggingTime: Date? = nil, latestCloudWatchLogsDeliveryError: String? = nil) {
             self.latestNotificationError = latestNotificationError
@@ -530,11 +510,9 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The event selectors that are configured for the trail.
-        public var eventSelectors: [EventSelector]? = nil
+        public let eventSelectors: [EventSelector]?
         /// The specified trail ARN that has the event selectors.
-        public var trailARN: String? = nil
-
-        public init() {}
+        public let trailARN: String?
 
         public init(eventSelectors: [EventSelector]? = nil, trailARN: String? = nil) {
             self.eventSelectors = eventSelectors
@@ -544,6 +522,8 @@ extension Cloudtrail {
         public init(dictionary: [String: Any]) throws {
             if let eventSelectors = dictionary["EventSelectors"] as? [[String: Any]] {
                 self.eventSelectors = try eventSelectors.map({ try EventSelector(dictionary: $0) })
+            } else { 
+                self.eventSelectors = nil
             }
             self.trailARN = dictionary["TrailARN"] as? String
         }
@@ -553,21 +533,19 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The AWS service that the request was made to.
-        public var eventSource: String? = nil
+        public let eventSource: String?
         /// The date and time of the event returned.
-        public var eventTime: Date? = nil
+        public let eventTime: Date?
         /// A user name or role name of the requester that called the API in the event returned.
-        public var username: String? = nil
+        public let username: String?
         /// The CloudTrail ID of the event returned.
-        public var eventId: String? = nil
+        public let eventId: String?
         /// The name of the event returned.
-        public var eventName: String? = nil
+        public let eventName: String?
         /// A list of resources referenced by the event returned.
-        public var resources: [Resource]? = nil
+        public let resources: [Resource]?
         /// A JSON string that contains a representation of the event returned.
-        public var cloudTrailEvent: String? = nil
-
-        public init() {}
+        public let cloudTrailEvent: String?
 
         public init(eventSource: String? = nil, eventTime: Date? = nil, username: String? = nil, eventId: String? = nil, eventName: String? = nil, resources: [Resource]? = nil, cloudTrailEvent: String? = nil) {
             self.eventSource = eventSource
@@ -587,6 +565,8 @@ extension Cloudtrail {
             self.eventName = dictionary["EventName"] as? String
             if let resources = dictionary["Resources"] as? [[String: Any]] {
                 self.resources = try resources.map({ try Resource(dictionary: $0) })
+            } else { 
+                self.resources = nil
             }
             self.cloudTrailEvent = dictionary["CloudTrailEvent"] as? String
         }
@@ -596,11 +576,9 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies a list of trail names, trail ARNs, or both, of the trails to describe. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail  If an empty list is specified, information for the trail in the current region is returned.   If an empty list is specified and IncludeShadowTrails is false, then information for all trails in the current region is returned.   If an empty list is specified and IncludeShadowTrails is null or true, then information for all trails in the current region and any associated shadow trails in other regions is returned.    If one or more trail names are specified, information is returned only if the names match the names of trails belonging only to the current region. To return information about a trail in another region, you must specify its trail ARN. 
-        public var trailNameList: [String]? = nil
+        public let trailNameList: [String]?
         /// Specifies whether to include shadow trails in the response. A shadow trail is the replication in a region of a trail that was created in a different region. The default is true.
-        public var includeShadowTrails: Bool? = nil
-
-        public init() {}
+        public let includeShadowTrails: Bool?
 
         public init(trailNameList: [String]? = nil, includeShadowTrails: Bool? = nil) {
             self.trailNameList = trailNameList
@@ -608,9 +586,7 @@ extension Cloudtrail {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let trailNameList = dictionary["trailNameList"] as? [String] {
-                self.trailNameList = trailNameList
-            }
+            self.trailNameList = dictionary["trailNameList"] as? [String]
             self.includeShadowTrails = dictionary["includeShadowTrails"] as? Bool
         }
     }
@@ -619,11 +595,9 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the event selectors configured for your trail.
-        public var eventSelectors: [EventSelector]? = nil
+        public let eventSelectors: [EventSelector]?
         /// Specifies the ARN of the trail that was updated with event selectors. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
-        public var trailARN: String? = nil
-
-        public init() {}
+        public let trailARN: String?
 
         public init(eventSelectors: [EventSelector]? = nil, trailARN: String? = nil) {
             self.eventSelectors = eventSelectors
@@ -633,6 +607,8 @@ extension Cloudtrail {
         public init(dictionary: [String: Any]) throws {
             if let eventSelectors = dictionary["EventSelectors"] as? [[String: Any]] {
                 self.eventSelectors = try eventSelectors.map({ try EventSelector(dictionary: $0) })
+            } else { 
+                self.eventSelectors = nil
             }
             self.trailARN = dictionary["TrailARN"] as? String
         }
@@ -642,11 +618,9 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Contains an array of PublicKey objects.  The returned public keys may have validity time ranges that overlap. 
-        public var publicKeyList: [PublicKey]? = nil
+        public let publicKeyList: [PublicKey]?
         /// Reserved for future use.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(publicKeyList: [PublicKey]? = nil, nextToken: String? = nil) {
             self.publicKeyList = publicKeyList
@@ -656,6 +630,8 @@ extension Cloudtrail {
         public init(dictionary: [String: Any]) throws {
             if let publicKeyList = dictionary["PublicKeyList"] as? [[String: Any]] {
                 self.publicKeyList = try publicKeyList.map({ try PublicKey(dictionary: $0) })
+            } else { 
+                self.publicKeyList = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -665,11 +641,9 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters.
-        public var value: String? = nil
+        public let value: String?
         /// The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies.
-        public var key: String = ""
-
-        public init() {}
+        public let key: String
 
         public init(value: String? = nil, key: String) {
             self.value = value
@@ -687,11 +661,9 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies an attribute on which to filter the events returned.
-        public var attributeKey: String = ""
+        public let attributeKey: String
         /// Specifies a value for the specified AttributeKey.
-        public var attributeValue: String = ""
-
-        public init() {}
+        public let attributeValue: String
 
         public init(attributeKey: String, attributeValue: String) {
             self.attributeKey = attributeKey
@@ -710,27 +682,25 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether log file validation is enabled. The default is false.  When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail will not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For example, if you enable log file integrity validation at noon on January 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail. 
-        public var enableLogFileValidation: Bool? = nil
+        public let enableLogFileValidation: Bool?
         /// Specifies the name of the Amazon S3 bucket designated for publishing log files. See Amazon S3 Bucket Naming Requirements.
-        public var s3BucketName: String? = nil
+        public let s3BucketName: String?
         /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files. The maximum length is 200 characters.
-        public var s3KeyPrefix: String? = nil
+        public let s3KeyPrefix: String?
         /// Specifies whether the trail is publishing events from global services such as IAM to the log files.
-        public var includeGlobalServiceEvents: Bool? = nil
+        public let includeGlobalServiceEvents: Bool?
         /// Specifies whether the trail applies only to the current region or to all regions. The default is false. If the trail exists only in the current region and this value is set to true, shadow trails (replications of the trail) will be created in the other regions. If the trail exists in all regions and this value is set to false, the trail will remain in the region where it was created, and its shadow trails in other regions will be deleted.
-        public var isMultiRegionTrail: Bool? = nil
+        public let isMultiRegionTrail: Bool?
         /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. Not required unless you specify CloudWatchLogsRoleArn.
-        public var cloudWatchLogsLogGroupArn: String? = nil
+        public let cloudWatchLogsLogGroupArn: String?
         /// Specifies the name of the trail or trail ARN. If Name is a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If Name is a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
-        public var name: String = ""
+        public let name: String
         /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
-        public var cloudWatchLogsRoleArn: String? = nil
+        public let cloudWatchLogsRoleArn: String?
         /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
-        public var snsTopicName: String? = nil
+        public let snsTopicName: String?
         /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. Examples:   alias/MyAliasName   arn:aws:kms:us-east-1:123456789012:alias/MyAliasName   arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   12345678-1234-1234-1234-123456789012  
-        public var kmsKeyId: String? = nil
-
-        public init() {}
+        public let kmsKeyId: String?
 
         public init(enableLogFileValidation: Bool? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, cloudWatchLogsLogGroupArn: String? = nil, name: String, cloudWatchLogsRoleArn: String? = nil, snsTopicName: String? = nil, kmsKeyId: String? = nil) {
             self.enableLogFileValidation = enableLogFileValidation
@@ -764,27 +734,25 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies whether log file integrity validation is enabled. The default is false.  When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail will not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For example, if you enable log file integrity validation at noon on January 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail. 
-        public var enableLogFileValidation: Bool? = nil
+        public let enableLogFileValidation: Bool?
         /// Specifies the name of the Amazon S3 bucket designated for publishing log files. See Amazon S3 Bucket Naming Requirements.
-        public var s3BucketName: String = ""
+        public let s3BucketName: String
         /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files. The maximum length is 200 characters.
-        public var s3KeyPrefix: String? = nil
+        public let s3KeyPrefix: String?
         /// Specifies whether the trail is publishing events from global services such as IAM to the log files.
-        public var includeGlobalServiceEvents: Bool? = nil
+        public let includeGlobalServiceEvents: Bool?
         /// Specifies whether the trail is created in the current region or in all regions. The default is false.
-        public var isMultiRegionTrail: Bool? = nil
+        public let isMultiRegionTrail: Bool?
         /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. Not required unless you specify CloudWatchLogsRoleArn.
-        public var cloudWatchLogsLogGroupArn: String? = nil
+        public let cloudWatchLogsLogGroupArn: String?
         /// Specifies the name of the trail. The name must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)  
-        public var name: String = ""
+        public let name: String
         /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
-        public var cloudWatchLogsRoleArn: String? = nil
+        public let cloudWatchLogsRoleArn: String?
         /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
-        public var snsTopicName: String? = nil
+        public let snsTopicName: String?
         /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. Examples:   alias/MyAliasName   arn:aws:kms:us-east-1:123456789012:alias/MyAliasName   arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012   12345678-1234-1234-1234-123456789012  
-        public var kmsKeyId: String? = nil
-
-        public init() {}
+        public let kmsKeyId: String?
 
         public init(enableLogFileValidation: Bool? = nil, s3BucketName: String, s3KeyPrefix: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, cloudWatchLogsLogGroupArn: String? = nil, name: String, cloudWatchLogsRoleArn: String? = nil, snsTopicName: String? = nil, kmsKeyId: String? = nil) {
             self.enableLogFileValidation = enableLogFileValidation
@@ -819,8 +787,6 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
 
-        public init() {}
-
         public init(dictionary: [String: Any]) throws {
         }
     }
@@ -829,9 +795,7 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the name or the CloudTrail ARN of the trail to be deleted. The format of a trail ARN is: arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -847,9 +811,7 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
-        public var trailName: String? = nil
-
-        public init() {}
+        public let trailName: String?
 
         public init(trailName: String? = nil) {
             self.trailName = trailName
@@ -864,11 +826,9 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the resource referenced by the event returned. These are user-created names whose values will depend on the environment. For example, the resource name might be "auto-scaling-test-group" for an Auto Scaling Group or "i-1234567" for an EC2 Instance.
-        public var resourceName: String? = nil
+        public let resourceName: String?
         /// The type of a resource referenced by the event returned. When the resource type cannot be determined, null is returned. Some examples of resource types are: Instance for EC2, Trail for CloudTrail, DBInstance for RDS, and AccessKey for IAM. For a list of resource types supported for event lookup, see Resource Types Supported for Event Lookup.
-        public var resourceType: String? = nil
-
-        public init() {}
+        public let resourceType: String?
 
         public init(resourceName: String? = nil, resourceType: String? = nil) {
             self.resourceName = resourceName
@@ -885,9 +845,7 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of trail objects.
-        public var trailList: [Trail]? = nil
-
-        public init() {}
+        public let trailList: [Trail]?
 
         public init(trailList: [Trail]? = nil) {
             self.trailList = trailList
@@ -896,6 +854,8 @@ extension Cloudtrail {
         public init(dictionary: [String: Any]) throws {
             if let trailList = dictionary["trailList"] as? [[String: Any]] {
                 self.trailList = try trailList.map({ try Trail(dictionary: $0) })
+            } else { 
+                self.trailList = nil
             }
         }
     }
@@ -904,9 +864,7 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail logs AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -922,9 +880,7 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail will stop logging AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -940,13 +896,11 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specify if you want your trail to log read-only events, write-only events, or all. For example, the EC2 GetConsoleOutput is a read-only API operation and RunInstances is a write-only API operation.  By default, the value is All.
-        public var readWriteType: String? = nil
+        public let readWriteType: String?
         /// CloudTrail supports logging only data events for S3 objects. You can specify up to 250 S3 buckets and object prefixes for a trail. For more information, see Data Events in the AWS CloudTrail User Guide.
-        public var dataResources: [DataResource]? = nil
+        public let dataResources: [DataResource]?
         /// Specify if you want your event selector to include management events for your trail.  For more information, see Management Events in the AWS CloudTrail User Guide. By default, the value is true.
-        public var includeManagementEvents: Bool? = nil
-
-        public init() {}
+        public let includeManagementEvents: Bool?
 
         public init(readWriteType: String? = nil, dataResources: [DataResource]? = nil, includeManagementEvents: Bool? = nil) {
             self.readWriteType = readWriteType
@@ -958,6 +912,8 @@ extension Cloudtrail {
             self.readWriteType = dictionary["ReadWriteType"] as? String
             if let dataResources = dictionary["DataResources"] as? [[String: Any]] {
                 self.dataResources = try dataResources.map({ try DataResource(dictionary: $0) })
+            } else { 
+                self.dataResources = nil
             }
             self.includeManagementEvents = dictionary["IncludeManagementEvents"] as? Bool
         }
@@ -967,9 +923,7 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another region), you must specify its ARN. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(name: String) {
             self.name = name
@@ -985,10 +939,8 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the ARN of the resource.
-        public var resourceId: String? = nil
-        public var tagsList: [Tag]? = nil
-
-        public init() {}
+        public let resourceId: String?
+        public let tagsList: [Tag]?
 
         public init(resourceId: String? = nil, tagsList: [Tag]? = nil) {
             self.resourceId = resourceId
@@ -999,6 +951,8 @@ extension Cloudtrail {
             self.resourceId = dictionary["ResourceId"] as? String
             if let tagsList = dictionary["TagsList"] as? [[String: Any]] {
                 self.tagsList = try tagsList.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tagsList = nil
             }
         }
     }
@@ -1006,8 +960,6 @@ extension Cloudtrail {
     public struct AddTagsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }
@@ -1017,11 +969,9 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies a list of trail ARNs whose tags will be listed. The list has a limit of 20 ARNs. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail 
-        public var resourceIdList: [String] = []
+        public let resourceIdList: [String]
         /// Reserved for future use.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(resourceIdList: [String], nextToken: String? = nil) {
             self.resourceIdList = resourceIdList
@@ -1039,11 +989,9 @@ extension Cloudtrail {
         /// The key for the payload
         public static let payload: String? = nil
         /// The token to use to get the next page of results after a previous API call. If the token does not appear, there are no more results to return. The token must be passed in with the same parameters as the previous call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of events returned based on the lookup attributes specified and the CloudTrail event. The events list is sorted by time. The most recent event is listed first.
-        public var events: [Event]? = nil
-
-        public init() {}
+        public let events: [Event]?
 
         public init(nextToken: String? = nil, events: [Event]? = nil) {
             self.nextToken = nextToken
@@ -1054,6 +1002,8 @@ extension Cloudtrail {
             self.nextToken = dictionary["NextToken"] as? String
             if let events = dictionary["Events"] as? [[String: Any]] {
                 self.events = try events.map({ try Event(dictionary: $0) })
+            } else { 
+                self.events = nil
             }
         }
     }
@@ -1061,8 +1011,6 @@ extension Cloudtrail {
     public struct DeleteTrailResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-
-        public init() {}
 
         public init(dictionary: [String: Any]) throws {
         }

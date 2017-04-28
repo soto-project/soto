@@ -32,11 +32,9 @@ extension Importexport {
     public struct ListJobsInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var marker: String? = nil
-        public var maxJobs: Int32? = nil
-        public var aPIVersion: String? = nil
-
-        public init() {}
+        public let marker: String?
+        public let maxJobs: Int32?
+        public let aPIVersion: String?
 
         public init(marker: String? = nil, maxJobs: Int32? = nil, aPIVersion: String? = nil) {
             self.marker = marker
@@ -54,13 +52,11 @@ extension Importexport {
     public struct CreateJobInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var jobType: String = ""
-        public var manifestAddendum: String? = nil
-        public var manifest: String = ""
-        public var aPIVersion: String? = nil
-        public var validateOnly: Bool = false
-
-        public init() {}
+        public let jobType: String
+        public let manifestAddendum: String?
+        public let manifest: String
+        public let aPIVersion: String?
+        public let validateOnly: Bool
 
         public init(jobType: String, manifestAddendum: String? = nil, manifest: String, aPIVersion: String? = nil, validateOnly: Bool) {
             self.jobType = jobType
@@ -85,20 +81,18 @@ extension Importexport {
     public struct GetShippingLabelInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var stateOrProvince: String? = nil
-        public var city: String? = nil
-        public var postalCode: String? = nil
-        public var name: String? = nil
-        public var phoneNumber: String? = nil
-        public var street3: String? = nil
-        public var jobIds: [String] = []
-        public var aPIVersion: String? = nil
-        public var street2: String? = nil
-        public var street1: String? = nil
-        public var company: String? = nil
-        public var country: String? = nil
-
-        public init() {}
+        public let stateOrProvince: String?
+        public let city: String?
+        public let postalCode: String?
+        public let name: String?
+        public let phoneNumber: String?
+        public let street3: String?
+        public let jobIds: [String]
+        public let aPIVersion: String?
+        public let street2: String?
+        public let street1: String?
+        public let company: String?
+        public let country: String?
 
         public init(stateOrProvince: String? = nil, city: String? = nil, postalCode: String? = nil, name: String? = nil, phoneNumber: String? = nil, street3: String? = nil, jobIds: [String], aPIVersion: String? = nil, street2: String? = nil, street1: String? = nil, company: String? = nil, country: String? = nil) {
             self.stateOrProvince = stateOrProvince
@@ -135,10 +129,8 @@ extension Importexport {
     public struct GetStatusInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var jobId: String = ""
-        public var aPIVersion: String? = nil
-
-        public init() {}
+        public let jobId: String
+        public let aPIVersion: String?
 
         public init(jobId: String, aPIVersion: String? = nil) {
             self.jobId = jobId
@@ -155,14 +147,12 @@ extension Importexport {
     public struct CreateJobOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var jobType: String? = nil
-        public var artifactList: [Artifact]? = nil
-        public var signatureFileContents: String? = nil
-        public var warningMessage: String? = nil
-        public var signature: String? = nil
-        public var jobId: String? = nil
-
-        public init() {}
+        public let jobType: String?
+        public let artifactList: [Artifact]?
+        public let signatureFileContents: String?
+        public let warningMessage: String?
+        public let signature: String?
+        public let jobId: String?
 
         public init(jobType: String? = nil, artifactList: [Artifact]? = nil, signatureFileContents: String? = nil, warningMessage: String? = nil, signature: String? = nil, jobId: String? = nil) {
             self.jobType = jobType
@@ -177,6 +167,8 @@ extension Importexport {
             self.jobType = dictionary["JobType"] as? String
             if let artifactList = dictionary["ArtifactList"] as? [[String: Any]] {
                 self.artifactList = try artifactList.map({ try Artifact(dictionary: $0) })
+            } else { 
+                self.artifactList = nil
             }
             self.signatureFileContents = dictionary["SignatureFileContents"] as? String
             self.warningMessage = dictionary["WarningMessage"] as? String
@@ -188,10 +180,8 @@ extension Importexport {
     public struct GetShippingLabelOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var warning: String? = nil
-        public var shippingLabelURL: String? = nil
-
-        public init() {}
+        public let warning: String?
+        public let shippingLabelURL: String?
 
         public init(warning: String? = nil, shippingLabelURL: String? = nil) {
             self.warning = warning
@@ -207,11 +197,9 @@ extension Importexport {
     public struct UpdateJobOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var success: Bool? = nil
-        public var warningMessage: String? = nil
-        public var artifactList: [Artifact]? = nil
-
-        public init() {}
+        public let success: Bool?
+        public let warningMessage: String?
+        public let artifactList: [Artifact]?
 
         public init(success: Bool? = nil, warningMessage: String? = nil, artifactList: [Artifact]? = nil) {
             self.success = success
@@ -224,6 +212,8 @@ extension Importexport {
             self.warningMessage = dictionary["WarningMessage"] as? String
             if let artifactList = dictionary["ArtifactList"] as? [[String: Any]] {
                 self.artifactList = try artifactList.map({ try Artifact(dictionary: $0) })
+            } else { 
+                self.artifactList = nil
             }
         }
     }
@@ -231,13 +221,11 @@ extension Importexport {
     public struct UpdateJobInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var jobType: String = ""
-        public var aPIVersion: String? = nil
-        public var manifest: String = ""
-        public var jobId: String = ""
-        public var validateOnly: Bool = false
-
-        public init() {}
+        public let jobType: String
+        public let aPIVersion: String?
+        public let manifest: String
+        public let jobId: String
+        public let validateOnly: Bool
 
         public init(jobType: String, aPIVersion: String? = nil, manifest: String, jobId: String, validateOnly: Bool) {
             self.jobType = jobType
@@ -263,12 +251,10 @@ extension Importexport {
     public struct Job: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var jobType: String? = nil
-        public var creationDate: Date? = nil
-        public var jobId: String? = nil
-        public var isCanceled: Bool? = nil
-
-        public init() {}
+        public let jobType: String?
+        public let creationDate: Date?
+        public let jobId: String?
+        public let isCanceled: Bool?
 
         public init(jobType: String? = nil, creationDate: Date? = nil, jobId: String? = nil, isCanceled: Bool? = nil) {
             self.jobType = jobType
@@ -288,24 +274,22 @@ extension Importexport {
     public struct GetStatusOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var carrier: String? = nil
-        public var artifactList: [Artifact]? = nil
-        public var signature: String? = nil
-        public var progressMessage: String? = nil
-        public var creationDate: Date? = nil
-        public var currentManifest: String? = nil
-        public var trackingNumber: String? = nil
-        public var progressCode: String? = nil
-        public var jobId: String? = nil
-        public var logKey: String? = nil
-        public var signatureFileContents: String? = nil
-        public var locationMessage: String? = nil
-        public var jobType: String? = nil
-        public var errorCount: Int32? = nil
-        public var logBucket: String? = nil
-        public var locationCode: String? = nil
-
-        public init() {}
+        public let carrier: String?
+        public let artifactList: [Artifact]?
+        public let signature: String?
+        public let progressMessage: String?
+        public let creationDate: Date?
+        public let currentManifest: String?
+        public let trackingNumber: String?
+        public let progressCode: String?
+        public let jobId: String?
+        public let logKey: String?
+        public let signatureFileContents: String?
+        public let locationMessage: String?
+        public let jobType: String?
+        public let errorCount: Int32?
+        public let logBucket: String?
+        public let locationCode: String?
 
         public init(carrier: String? = nil, artifactList: [Artifact]? = nil, signature: String? = nil, progressMessage: String? = nil, creationDate: Date? = nil, currentManifest: String? = nil, trackingNumber: String? = nil, progressCode: String? = nil, jobId: String? = nil, logKey: String? = nil, signatureFileContents: String? = nil, locationMessage: String? = nil, jobType: String? = nil, errorCount: Int32? = nil, logBucket: String? = nil, locationCode: String? = nil) {
             self.carrier = carrier
@@ -330,6 +314,8 @@ extension Importexport {
             self.carrier = dictionary["Carrier"] as? String
             if let artifactList = dictionary["ArtifactList"] as? [[String: Any]] {
                 self.artifactList = try artifactList.map({ try Artifact(dictionary: $0) })
+            } else { 
+                self.artifactList = nil
             }
             self.signature = dictionary["Signature"] as? String
             self.progressMessage = dictionary["ProgressMessage"] as? String
@@ -351,10 +337,8 @@ extension Importexport {
     public struct ListJobsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var jobs: [Job]? = nil
-        public var isTruncated: Bool? = nil
-
-        public init() {}
+        public let jobs: [Job]?
+        public let isTruncated: Bool?
 
         public init(jobs: [Job]? = nil, isTruncated: Bool? = nil) {
             self.jobs = jobs
@@ -364,6 +348,8 @@ extension Importexport {
         public init(dictionary: [String: Any]) throws {
             if let jobs = dictionary["Jobs"] as? [[String: Any]] {
                 self.jobs = try jobs.map({ try Job(dictionary: $0) })
+            } else { 
+                self.jobs = nil
             }
             self.isTruncated = dictionary["IsTruncated"] as? Bool
         }
@@ -372,10 +358,8 @@ extension Importexport {
     public struct Artifact: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var uRL: String? = nil
-        public var description: String? = nil
-
-        public init() {}
+        public let uRL: String?
+        public let description: String?
 
         public init(uRL: String? = nil, description: String? = nil) {
             self.uRL = uRL
@@ -391,10 +375,8 @@ extension Importexport {
     public struct CancelJobInput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var jobId: String = ""
-        public var aPIVersion: String? = nil
-
-        public init() {}
+        public let jobId: String
+        public let aPIVersion: String?
 
         public init(jobId: String, aPIVersion: String? = nil) {
             self.jobId = jobId
@@ -411,9 +393,7 @@ extension Importexport {
     public struct CancelJobOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var success: Bool? = nil
-
-        public init() {}
+        public let success: Bool?
 
         public init(success: Bool? = nil) {
             self.success = success

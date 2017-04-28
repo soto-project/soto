@@ -33,13 +33,11 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the replaceable attribute.
-        public var value: String = ""
+        public let value: String
         /// The name of the replaceable attribute.
-        public var name: String = ""
+        public let name: String
         /// A flag specifying whether or not to replace the attribute/value pair or to add a new attribute/value pair. The default setting is false.
-        public var replace: Bool? = nil
-
-        public init() {}
+        public let replace: Bool?
 
         public init(value: String, name: String, replace: Bool? = nil) {
             self.value = value
@@ -60,15 +58,13 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
-        public var consistentRead: Bool? = nil
+        public let consistentRead: Bool?
         /// The name of the item.
-        public var itemName: String = ""
+        public let itemName: String
         /// The name of the domain in which to perform the operation.
-        public var domainName: String = ""
+        public let domainName: String
         /// The names of the attributes.
-        public var attributeNames: [String]? = nil
-
-        public init() {}
+        public let attributeNames: [String]?
 
         public init(consistentRead: Bool? = nil, itemName: String, domainName: String, attributeNames: [String]? = nil) {
             self.consistentRead = consistentRead
@@ -83,9 +79,7 @@ extension Sdb {
             self.itemName = itemName
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
-            if let attributeNames = dictionary["AttributeNames"] as? [String] {
-                self.attributeNames = attributeNames
-            }
+            self.attributeNames = dictionary["AttributeNames"] as? [String]
         }
     }
 
@@ -93,11 +87,9 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of domain names you want returned. The range is 1 to 100. The default setting is 100.
-        public var maxNumberOfDomains: Int32? = nil
+        public let maxNumberOfDomains: Int32?
         /// A string informing Amazon SimpleDB where to start the next list of domain names.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(maxNumberOfDomains: Int32? = nil, nextToken: String? = nil) {
             self.maxNumberOfDomains = maxNumberOfDomains
@@ -114,9 +106,7 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of attributes returned by the operation.
-        public var attributes: [Attribute]? = nil
-
-        public init() {}
+        public let attributes: [Attribute]?
 
         public init(attributes: [Attribute]? = nil) {
             self.attributes = attributes
@@ -125,6 +115,8 @@ extension Sdb {
         public init(dictionary: [String: Any]) throws {
             if let attributes = dictionary["Attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+            } else { 
+                self.attributes = nil
             }
         }
     }
@@ -133,13 +125,11 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
-        public var consistentRead: Bool? = nil
+        public let consistentRead: Bool?
         /// A string informing Amazon SimpleDB where to start the next list of ItemNames.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// The expression used to query the domain.
-        public var selectExpression: String = ""
-
-        public init() {}
+        public let selectExpression: String
 
         public init(consistentRead: Bool? = nil, nextToken: String? = nil, selectExpression: String) {
             self.consistentRead = consistentRead
@@ -159,11 +149,9 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of items on which to perform the operation.
-        public var items: [DeletableItem] = []
+        public let items: [DeletableItem]
         /// The name of the domain in which the attributes are being deleted.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(items: [DeletableItem], domainName: String) {
             self.items = items
@@ -182,21 +170,19 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// The data and time when metadata was calculated, in Epoch (UNIX) seconds.
-        public var timestamp: Int32? = nil
+        public let timestamp: Int32?
         /// The total size of all unique attribute names in the domain, in bytes.
-        public var attributeNamesSizeBytes: Int64? = nil
+        public let attributeNamesSizeBytes: Int64?
         /// The total size of all attribute values in the domain, in bytes.
-        public var attributeValuesSizeBytes: Int64? = nil
+        public let attributeValuesSizeBytes: Int64?
         /// The number of all items in the domain.
-        public var itemCount: Int32? = nil
+        public let itemCount: Int32?
         /// The number of all attribute name/value pairs in the domain.
-        public var attributeValueCount: Int32? = nil
+        public let attributeValueCount: Int32?
         /// The number of unique attribute names in the domain.
-        public var attributeNameCount: Int32? = nil
+        public let attributeNameCount: Int32?
         /// The total size of all item names in the domain, in bytes.
-        public var itemNamesSizeBytes: Int64? = nil
-
-        public init() {}
+        public let itemNamesSizeBytes: Int64?
 
         public init(timestamp: Int32? = nil, attributeNamesSizeBytes: Int64? = nil, attributeValuesSizeBytes: Int64? = nil, itemCount: Int32? = nil, attributeValueCount: Int32? = nil, attributeNameCount: Int32? = nil, itemNamesSizeBytes: Int64? = nil) {
             self.timestamp = timestamp
@@ -222,13 +208,11 @@ extension Sdb {
     public struct Item: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var alternateNameEncoding: String? = nil
+        public let alternateNameEncoding: String?
         /// The name of the item.
-        public var name: String = ""
+        public let name: String
         /// A list of attributes.
-        public var attributes: [Attribute] = []
-
-        public init() {}
+        public let attributes: [Attribute]
 
         public init(alternateNameEncoding: String? = nil, name: String, attributes: [Attribute]) {
             self.alternateNameEncoding = alternateNameEncoding
@@ -248,14 +232,12 @@ extension Sdb {
     public struct Attribute: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var alternateNameEncoding: String? = nil
-        public var alternateValueEncoding: String? = nil
+        public let alternateNameEncoding: String?
+        public let alternateValueEncoding: String?
         /// The name of the attribute.
-        public var name: String = ""
+        public let name: String
         /// The value of the attribute.
-        public var value: String = ""
-
-        public init() {}
+        public let value: String
 
         public init(alternateNameEncoding: String? = nil, alternateValueEncoding: String? = nil, name: String, value: String) {
             self.alternateNameEncoding = alternateNameEncoding
@@ -278,9 +260,7 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the domain for which to display the metadata of.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
@@ -296,9 +276,7 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the domain to delete.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
@@ -314,11 +292,9 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of items on which to perform the operation.
-        public var items: [ReplaceableItem] = []
+        public let items: [ReplaceableItem]
         /// The name of the domain in which the attributes are being stored.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(items: [ReplaceableItem], domainName: String) {
             self.items = items
@@ -337,11 +313,9 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the replaceable item.
-        public var name: String = ""
+        public let name: String
         /// The list of attributes for a replaceable item.
-        public var attributes: [ReplaceableAttribute] = []
-
-        public init() {}
+        public let attributes: [ReplaceableAttribute]
 
         public init(name: String, attributes: [ReplaceableAttribute]) {
             self.name = name
@@ -359,10 +333,8 @@ extension Sdb {
     public struct DeletableItem: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public var name: String = ""
-        public var attributes: [DeletableAttribute]? = nil
-
-        public init() {}
+        public let name: String
+        public let attributes: [DeletableAttribute]?
 
         public init(name: String, attributes: [DeletableAttribute]? = nil) {
             self.name = name
@@ -374,6 +346,8 @@ extension Sdb {
             self.name = name
             if let attributes = dictionary["Attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try DeletableAttribute(dictionary: $0) })
+            } else { 
+                self.attributes = nil
             }
         }
     }
@@ -382,13 +356,11 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of an attribute. This value can only be specified when the Exists parameter is equal to true.
-        public var value: String? = nil
+        public let value: String?
         /// The name of the attribute involved in the condition.
-        public var name: String? = nil
+        public let name: String?
         /// A value specifying whether or not the specified attribute must exist with the specified value in order for the update condition to be satisfied. Specify true if the attribute must exist for the update condition to be satisfied. Specify false if the attribute should not exist in order for the update condition to be satisfied.
-        public var exists: Bool? = nil
-
-        public init() {}
+        public let exists: Bool?
 
         public init(value: String? = nil, name: String? = nil, exists: Bool? = nil) {
             self.value = value
@@ -407,15 +379,13 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the item.
-        public var itemName: String = ""
+        public let itemName: String
         /// The list of attributes.
-        public var attributes: [ReplaceableAttribute] = []
+        public let attributes: [ReplaceableAttribute]
         /// The name of the domain in which to perform the operation.
-        public var domainName: String = ""
+        public let domainName: String
         /// The update condition which, if specified, determines whether the specified attributes will be updated or not. The update condition must be satisfied in order for this request to be processed and the attributes to be updated.
-        public var expected: UpdateCondition? = nil
-
-        public init() {}
+        public let expected: UpdateCondition?
 
         public init(itemName: String, attributes: [ReplaceableAttribute], domainName: String, expected: UpdateCondition? = nil) {
             self.itemName = itemName
@@ -431,7 +401,7 @@ extension Sdb {
             self.attributes = try attributes.map({ try ReplaceableAttribute(dictionary: $0) })
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
-            if let expected = dictionary["Expected"] as? [String: Any] { self.expected = try Sdb.UpdateCondition(dictionary: expected) }
+            if let expected = dictionary["Expected"] as? [String: Any] { self.expected = try Sdb.UpdateCondition(dictionary: expected) } else { self.expected = nil }
         }
     }
 
@@ -439,11 +409,9 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// The value of the attribute.
-        public var value: String? = nil
+        public let value: String?
         /// The name of the attribute.
-        public var name: String = ""
-
-        public init() {}
+        public let name: String
 
         public init(value: String? = nil, name: String) {
             self.value = value
@@ -461,15 +429,13 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the item. Similar to rows on a spreadsheet, items represent individual objects that contain one or more value-attribute pairs.
-        public var itemName: String = ""
+        public let itemName: String
         /// A list of Attributes. Similar to columns on a spreadsheet, attributes represent categories of data that can be assigned to items.
-        public var attributes: [DeletableAttribute]? = nil
+        public let attributes: [DeletableAttribute]?
         /// The name of the domain in which to perform the operation.
-        public var domainName: String = ""
+        public let domainName: String
         /// The update condition which, if specified, determines whether the specified attributes will be deleted or not. The update condition must be satisfied in order for this request to be processed and the attributes to be deleted.
-        public var expected: UpdateCondition? = nil
-
-        public init() {}
+        public let expected: UpdateCondition?
 
         public init(itemName: String, attributes: [DeletableAttribute]? = nil, domainName: String, expected: UpdateCondition? = nil) {
             self.itemName = itemName
@@ -483,10 +449,12 @@ extension Sdb {
             self.itemName = itemName
             if let attributes = dictionary["Attributes"] as? [[String: Any]] {
                 self.attributes = try attributes.map({ try DeletableAttribute(dictionary: $0) })
+            } else { 
+                self.attributes = nil
             }
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
-            if let expected = dictionary["Expected"] as? [String: Any] { self.expected = try Sdb.UpdateCondition(dictionary: expected) }
+            if let expected = dictionary["Expected"] as? [String: Any] { self.expected = try Sdb.UpdateCondition(dictionary: expected) } else { self.expected = nil }
         }
     }
 
@@ -494,11 +462,9 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// An opaque token indicating that there are more domains than the specified MaxNumberOfDomains still available.
-        public var nextToken: String? = nil
+        public let nextToken: String?
         /// A list of domain names that match the expression.
-        public var domainNames: [String]? = nil
-
-        public init() {}
+        public let domainNames: [String]?
 
         public init(nextToken: String? = nil, domainNames: [String]? = nil) {
             self.nextToken = nextToken
@@ -507,9 +473,7 @@ extension Sdb {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["NextToken"] as? String
-            if let domainNames = dictionary["DomainNames"] as? [String] {
-                self.domainNames = domainNames
-            }
+            self.domainNames = dictionary["DomainNames"] as? [String]
         }
     }
 
@@ -517,11 +481,9 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of items that match the select expression.
-        public var items: [Item]? = nil
+        public let items: [Item]?
         /// An opaque token indicating that more items than MaxNumberOfItems were matched, the response size exceeded 1 megabyte, or the execution time exceeded 5 seconds.
-        public var nextToken: String? = nil
-
-        public init() {}
+        public let nextToken: String?
 
         public init(items: [Item]? = nil, nextToken: String? = nil) {
             self.items = items
@@ -531,6 +493,8 @@ extension Sdb {
         public init(dictionary: [String: Any]) throws {
             if let items = dictionary["Items"] as? [[String: Any]] {
                 self.items = try items.map({ try Item(dictionary: $0) })
+            } else { 
+                self.items = nil
             }
             self.nextToken = dictionary["NextToken"] as? String
         }
@@ -540,9 +504,7 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the domain to create. The name can range between 3 and 255 characters and can contain the following characters: a-z, A-Z, 0-9, '_', '-', and '.'.
-        public var domainName: String = ""
-
-        public init() {}
+        public let domainName: String
 
         public init(domainName: String) {
             self.domainName = domainName
