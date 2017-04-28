@@ -31,7 +31,7 @@ extension Ssm {
 
     public struct DescribePatchBaselinesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public var nextToken: String? = nil
         /// Each element in the array is a structure containing:  Key: (string, “NAME_PREFIX” or “OWNER”) Value: (array of strings, exactly 1 entry, 1 ≤ length ≤ 255)
@@ -58,7 +58,7 @@ extension Ssm {
 
     public struct DescribeActivationsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of activations for your AWS account.
         public var activationList: [Activation]? = nil
         ///  The token for the next set of items to return. Use this token to get the next set of results. 
@@ -81,7 +81,7 @@ extension Ssm {
 
     public struct DescribeEffectivePatchesForPatchBaselineResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// An array of patches and patch status.
@@ -104,7 +104,7 @@ extension Ssm {
 
     public struct UpdateAssociationStatusRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the SSM document.
         public var name: String = ""
         /// The ID of the instance.
@@ -132,7 +132,7 @@ extension Ssm {
 
     public struct DeregisterTargetFromMaintenanceWindowResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Maintenance Window the target was removed from.
         public var windowId: String? = nil
         /// The ID of the removed target definition.
@@ -153,7 +153,7 @@ extension Ssm {
 
     public struct ParametersFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the filter.
         public var key: String? = nil
         /// The filter values.
@@ -175,7 +175,7 @@ extension Ssm {
 
     public struct ResultAttribute: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Name of the inventory item type. Valid value: “AWS:InstanceInformation”. Default Value: “AWS:InstanceInformation”.
         public var typeName: String = ""
 
@@ -193,7 +193,7 @@ extension Ssm {
 
     public struct DescribePatchGroupsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Each entry in the array contains: PatchGroup: string (1 ≤ length ≤ 256, Regex: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$) PatchBaselineIdentity: A PatchBaselineIdentity element. 
         public var mappings: [PatchGroupPatchBaselineMapping]? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -216,7 +216,7 @@ extension Ssm {
 
     public struct RegisterTargetWithMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Maintenance Window the target should be registered with.
         public var windowId: String = ""
         /// The targets (either instances or tags). Instances are specified using Key=instanceids,Values=&lt;instanceid1&gt;,&lt;instanceid2&gt;. Tags are specified using Key=&lt;tag name&gt;,Values=&lt;tag value&gt;.
@@ -252,7 +252,7 @@ extension Ssm {
 
     public struct GetDocumentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the SSM document.
         public var name: String = ""
         /// The document version for which you want information.
@@ -274,7 +274,7 @@ extension Ssm {
 
     public struct DescribeMaintenanceWindowTargetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Maintenance Window whose targets should be retrieved.
         public var windowId: String = ""
         /// Optional filters that can be used to narrow down the scope of the returned window targets. The supported filter keys are Type, WindowTargetId and OwnerInformation.
@@ -306,7 +306,7 @@ extension Ssm {
 
     public struct ListAssociationsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more filters. Use a filter to return a more specific list of results.
         public var associationFilterList: [AssociationFilter]? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -333,7 +333,7 @@ extension Ssm {
 
     public struct GetInventorySchemaRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of inventory item to return.
         public var typeName: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -358,7 +358,7 @@ extension Ssm {
 
     public struct CreatePatchBaselineRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Caller-provided idempotency token.
         public var clientToken: String? = nil
         /// A list of explicitly approved patches for the baseline.
@@ -404,7 +404,7 @@ extension Ssm {
 
     public struct DescribeMaintenanceWindowExecutionTaskInvocationsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Maintenance Window execution the task is part of.
         public var windowExecutionId: String = ""
         /// The ID of the specific task in the Maintenance Window task that should be retrieved.
@@ -441,7 +441,7 @@ extension Ssm {
 
     public struct DescribeInstancePatchesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Each entry in the array is a structure containing: Key (string, 1 ≤ length ≤ 128) Values (array of strings 1 ≤ length ≤ 256)
         public var filters: [PatchOrchestratorFilter]? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -473,7 +473,7 @@ extension Ssm {
 
     public struct DeregisterTargetFromMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Maintenance Window the target should be removed from.
         public var windowId: String = ""
         /// The ID of the target definition to remove.
@@ -496,7 +496,7 @@ extension Ssm {
 
     public struct DescribeMaintenanceWindowExecutionTasksRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Maintenance Window execution whose task executions should be retrieved.
         public var windowExecutionId: String = ""
         /// Optional filters used to scope down the returned tasks. The supported filter key is STATUS with the corresponding values PENDING, IN_PROGRESS, SUCCESS, FAILED, TIMED_OUT, CANCELLING, and CANCELLED. 
@@ -528,7 +528,7 @@ extension Ssm {
 
     public struct DescribeInstancePatchStatesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public var nextToken: String? = nil
         /// The ID of the instance whose patch state information should be retrieved.
@@ -554,7 +554,7 @@ extension Ssm {
 
     public struct SendCommandRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IAM role that Systems Manager uses to send notifications. 
         public var serviceRoleArn: String? = nil
         /// The name of the S3 bucket where command execution responses should be stored.
@@ -639,7 +639,7 @@ extension Ssm {
 
     public struct GetMaintenanceWindowExecutionTaskRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Maintenance Window execution that includes the task.
         public var windowExecutionId: String = ""
         /// The ID of the specific task execution in the Maintenance Window task that should be retrieved.
@@ -662,7 +662,7 @@ extension Ssm {
 
     public struct CommandPlugin: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of this plugin. You can execute a document with multiple plugins.
         public var status: String? = nil
         /// The time the plugin started executing. 
@@ -723,7 +723,7 @@ extension Ssm {
 
     public struct GetDeployablePatchSnapshotForInstanceResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user-defined snapshot ID.
         public var snapshotId: String? = nil
         /// The ID of the instance.
@@ -748,7 +748,7 @@ extension Ssm {
 
     public struct DeleteActivationResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -758,7 +758,7 @@ extension Ssm {
 
     public struct DescribeParametersResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Parameters returned by the request.
         public var parameters: [ParameterMetadata]? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -781,7 +781,7 @@ extension Ssm {
 
     public struct DescribeDocumentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the SSM document.
         public var name: String = ""
         /// The document version for which you want information. Can be a specific version or the default version.
@@ -803,7 +803,7 @@ extension Ssm {
 
     public struct DescribeInstanceAssociationsStatusResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Status information about the association.
         public var instanceAssociationStatusInfos: [InstanceAssociationStatusInfo]? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -826,7 +826,7 @@ extension Ssm {
 
     public struct DeletePatchBaselineRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the patch baseline to delete.
         public var baselineId: String = ""
 
@@ -844,7 +844,7 @@ extension Ssm {
 
     public struct GetInventoryResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// Collection of inventory entities such as a collection of instance inventory. 
@@ -867,7 +867,7 @@ extension Ssm {
 
     public struct DescribeInstancePatchStatesForPatchGroupResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// The high-level patch state for the requested instances. 
@@ -890,7 +890,7 @@ extension Ssm {
 
     public struct Command: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command.
         public var outputS3BucketName: String? = nil
         /// Configurations for sending notifications about command status changes. 
@@ -994,7 +994,7 @@ extension Ssm {
 
     public struct CreateAssociationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The parameters for the documents runtime configuration. 
         public var parameters: [String: [String]]? = nil
         /// The instance ID.
@@ -1045,7 +1045,7 @@ extension Ssm {
 
     public struct ModifyDocumentPermissionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The permission type for the document. The permission type can be Share.
         public var permissionType: String = ""
         /// The name of the document that you want to share.
@@ -1080,7 +1080,7 @@ extension Ssm {
 
     public struct RegisterDefaultPatchBaselineRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the patch baseline that should be the default patch baseline.
         public var baselineId: String = ""
 
@@ -1098,7 +1098,7 @@ extension Ssm {
 
     public struct AddTagsToResourceResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1108,7 +1108,7 @@ extension Ssm {
 
     public struct PatchComplianceData: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The severity of the patch (for example, Critical, Important, Moderate).
         public var severity: String = ""
         /// The classification of the patch (for example, SecurityUpdates, Updates, CriticalUpdates).
@@ -1151,7 +1151,7 @@ extension Ssm {
 
     public struct DeregisterTaskFromMaintenanceWindowResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Maintenance Window the task was removed from.
         public var windowId: String? = nil
         /// The ID of the task removed from the Maintenance Window.
@@ -1172,7 +1172,7 @@ extension Ssm {
 
     public struct PatchRuleGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The rules that make up the rule group.
         public var patchRules: [PatchRule] = []
 
@@ -1190,7 +1190,7 @@ extension Ssm {
 
     public struct DescribeMaintenanceWindowTasksRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Maintenance Window whose tasks should be retrieved.
         public var windowId: String = ""
         /// Optional filters used to narrow down the scope of the returned tasks. The supported filter keys are WindowTaskId, TaskArn, Priority, and TaskType.
@@ -1222,7 +1222,7 @@ extension Ssm {
 
     public struct DescribeAutomationExecutionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public var nextToken: String? = nil
         /// Filters used to limit the scope of executions that are requested.
@@ -1249,7 +1249,7 @@ extension Ssm {
 
     public struct GetMaintenanceWindowResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the created Maintenance Window.
         public var windowId: String? = nil
         /// The date the Maintenance Window was last modified.
@@ -1298,7 +1298,7 @@ extension Ssm {
 
     public struct LoggingInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// (Optional) The Amazon S3 bucket subfolder. 
         public var s3KeyPrefix: String? = nil
         /// The region where the Amazon S3 bucket is located.
@@ -1325,7 +1325,7 @@ extension Ssm {
 
     public struct InventoryResultItem: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time inventory item data was captured.
         public var captureTime: String? = nil
         /// Contains all the inventory data of the item type. Results include attribute names and values. 
@@ -1361,7 +1361,7 @@ extension Ssm {
 
     public struct GetPatchBaselineRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the patch baseline to retrieve.
         public var baselineId: String = ""
 
@@ -1379,7 +1379,7 @@ extension Ssm {
 
     public struct DeleteDocumentResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1389,7 +1389,7 @@ extension Ssm {
 
     public struct AutomationExecutionMetadata: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IAM role ARN of the user who executed the Automation.
         public var executedBy: String? = nil
         /// The status of the execution. Valid values include: Running, Succeeded, Failed, Timed out, or Cancelled.
@@ -1445,7 +1445,7 @@ extension Ssm {
 
     public struct DescribeAssociationResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the association.
         public var associationDescription: AssociationDescription? = nil
 
@@ -1462,7 +1462,7 @@ extension Ssm {
 
     public struct CreateAssociationBatchRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more associations.
         public var entries: [CreateAssociationBatchRequestEntry] = []
 
@@ -1480,7 +1480,7 @@ extension Ssm {
 
     public struct StopAutomationExecutionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1490,7 +1490,7 @@ extension Ssm {
 
     public struct MaintenanceWindowFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the filter.
         public var key: String? = nil
         /// The filter values.
@@ -1513,7 +1513,7 @@ extension Ssm {
 
     public struct InventoryItem: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time the inventory information was collected.
         public var captureTime: String = ""
         /// The inventory data of the inventory type.
@@ -1551,7 +1551,7 @@ extension Ssm {
 
     public struct DeletePatchBaselineResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the deleted patch baseline.
         public var baselineId: String? = nil
 
@@ -1568,7 +1568,7 @@ extension Ssm {
 
     public struct CancelCommandRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the command you want to cancel.
         public var commandId: String = ""
         /// (Optional) A list of instance IDs on which you want to cancel the command. If not provided, the command is canceled on every instance on which it was requested.
@@ -1592,7 +1592,7 @@ extension Ssm {
 
     public struct InstanceInformation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The last date the association was successfully run.
         public var lastSuccessfulAssociationExecutionDate: Date? = nil
         /// Indicates whether latest version of the SSM agent is running on your instance. 
@@ -1681,7 +1681,7 @@ extension Ssm {
 
     public struct DescribeActivationsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A token to start the list. Use this token to get the next set of results. 
         public var nextToken: String? = nil
         /// A filter to view information about your activations.
@@ -1708,7 +1708,7 @@ extension Ssm {
 
     public struct CreateMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether targets must be registered with the Maintenance Window before tasks can be defined for those targets.
         public var allowUnassociatedTargets: Bool = false
         /// The schedule of the Maintenance Window in the form of a cron or rate expression.
@@ -1750,7 +1750,7 @@ extension Ssm {
 
     public struct CommandInvocation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var commandPlugins: [CommandPlugin]? = nil
         /// Configurations for sending notifications about command status changes on a per instance basis.
         public var notificationConfig: NotificationConfig? = nil
@@ -1820,7 +1820,7 @@ extension Ssm {
 
     public struct DeregisterManagedInstanceResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1830,7 +1830,7 @@ extension Ssm {
 
     public struct FailedCreateAssociation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The source of the failure.
         public var fault: String? = nil
         /// The association.
@@ -1855,7 +1855,7 @@ extension Ssm {
 
     public struct DocumentIdentifier: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The schema version.
         public var schemaVersion: String? = nil
         /// The document type.
@@ -1894,7 +1894,7 @@ extension Ssm {
 
     public struct GetInventorySchemaResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Inventory schemas returned by the request.
         public var schemas: [InventoryItemSchema]? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -1917,7 +1917,7 @@ extension Ssm {
 
     public struct DeleteMaintenanceWindowResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the deleted Maintenance Window.
         public var windowId: String? = nil
 
@@ -1934,7 +1934,7 @@ extension Ssm {
 
     public struct GetParameterHistoryRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
         public var withDecryption: Bool? = nil
         /// The name of a parameter you want to query.
@@ -1964,7 +1964,7 @@ extension Ssm {
 
     public struct GetParameterHistoryResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of parameters returned by the request.
         public var parameters: [ParameterHistory]? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -1987,7 +1987,7 @@ extension Ssm {
 
     public struct ListDocumentVersionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public var nextToken: String? = nil
         /// The name of the document about which you want version information.
@@ -2013,7 +2013,7 @@ extension Ssm {
 
     public struct Target: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// User-defined criteria for sending commands that target instances that meet the criteria. Key can be tag:&lt;Amazon EC2 tag&gt; or name:&lt;Amazon EC2 instance ID&gt;. For example, tag:ServerRole or name:0123456789012345. For more information about how to send commands that target instances using Key;Value parameters, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
         public var key: String? = nil
         /// User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to execute a command on instances that include Amazon EC2 tags of ServerRole;WebServer. For more information about how to send commands that target instances using Key;Value parameters, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
@@ -2036,7 +2036,7 @@ extension Ssm {
 
     public struct AssociationDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date on which the association was last run.
         public var lastExecutionDate: Date? = nil
         /// The date when the association was last updated.
@@ -2114,7 +2114,7 @@ extension Ssm {
 
     public struct InstanceAssociation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The content of the association document for the instance(s).
         public var content: String? = nil
         /// The instance ID.
@@ -2139,7 +2139,7 @@ extension Ssm {
 
     public struct DeleteParameterResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2149,7 +2149,7 @@ extension Ssm {
 
     public struct InstanceInformationStringFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The filter key name to describe your instances. For example: "InstanceIds"|"AgentVersion"|"PingStatus"|"PlatformTypes"|"ActivationIds"|"IamRole"|"ResourceType"|”AssociationStatus”|”Tag Key”
         public var key: String = ""
         /// The filter values.
@@ -2172,7 +2172,7 @@ extension Ssm {
 
     public struct DeleteDocumentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the SSM document.
         public var name: String = ""
 
@@ -2190,7 +2190,7 @@ extension Ssm {
 
     public struct DescribeMaintenanceWindowTargetsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the targets in the Maintenance Window.
         public var targets: [MaintenanceWindowTarget]? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -2213,7 +2213,7 @@ extension Ssm {
 
     public struct DescribePatchGroupStateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the patch group whose patch snapshot should be retrieved.
         public var patchGroup: String = ""
 
@@ -2231,7 +2231,7 @@ extension Ssm {
 
     public struct UpdatePatchBaselineRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the patch baseline to update.
         public var baselineId: String = ""
         /// A list of explicitly approved patches for the baseline.
@@ -2277,7 +2277,7 @@ extension Ssm {
 
     public struct InventoryFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of filter. Valid values include the following: "Equal"|"NotEqual"|"BeginWith"|"LessThan"|"GreaterThan"
         public var type: String? = nil
         /// The name of the filter key.
@@ -2304,7 +2304,7 @@ extension Ssm {
 
     public struct ListCommandsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// (Optional) The token for the next set of items to return. (You received this token from a previous call.)
         public var nextToken: String? = nil
         /// (Optional) The list of commands requested by the user. 
@@ -2327,7 +2327,7 @@ extension Ssm {
 
     public struct GetPatchBaselineForPatchGroupResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the patch baseline that should be used for the patch group.
         public var baselineId: String? = nil
         /// The name of the patch group.
@@ -2348,7 +2348,7 @@ extension Ssm {
 
     public struct DescribeEffectivePatchesForPatchBaselineRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the patch baseline to retrieve the effective patches for.
         public var baselineId: String = ""
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -2374,7 +2374,7 @@ extension Ssm {
 
     public struct RegisterPatchBaselineForPatchGroupRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the patch baseline to register the patch group with.
         public var baselineId: String = ""
         /// The name of the patch group that should be registered with the patch baseline.
@@ -2397,7 +2397,7 @@ extension Ssm {
 
     public struct AssociationStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The reason for the status.
         public var message: String = ""
         /// The status.
@@ -2429,7 +2429,7 @@ extension Ssm {
 
     public struct DescribeInstancePatchStatesForPatchGroupRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Each entry in the array is a structure containing: Key (string 1 ≤ length ≤ 200)  Values (array containing a single string)  Type (string “Equal”, “NotEqual”, “LessThan”, “GreaterThan”)
         public var filters: [InstancePatchStateFilter]? = nil
         /// The name of the patch group for which the patch state information should be retrieved.
@@ -2461,7 +2461,7 @@ extension Ssm {
 
     public struct DescribeMaintenanceWindowTasksResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// Information about the tasks in the Maintenance Window.
@@ -2484,7 +2484,7 @@ extension Ssm {
 
     public struct AutomationExecution: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The key-value map of execution parameters, which were supplied when calling StartAutomationExecution.
         public var parameters: [String: [String]]? = nil
         /// The execution status of the Automation.
@@ -2553,7 +2553,7 @@ extension Ssm {
 
     public struct MaintenanceWindowTaskParameterValueExpression: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// This field contains an array of 0 or more strings, each 1 to 255 characters in length.
         public var values: [String]? = nil
 
@@ -2572,7 +2572,7 @@ extension Ssm {
 
     public struct Patch: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The classification of the patch (for example, SecurityUpdates, Updates, CriticalUpdates).
         public var classification: String? = nil
         /// The specific product the patch is applicable for (for example, WindowsServer2016).
@@ -2637,7 +2637,7 @@ extension Ssm {
 
     public struct DescribeDocumentResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the SSM document.
         public var document: DocumentDescription? = nil
 
@@ -2654,7 +2654,7 @@ extension Ssm {
 
     public struct DescribeAutomationExecutionsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// The list of details about each automation execution which has occurred which matches the filter specification, if any.
@@ -2677,7 +2677,7 @@ extension Ssm {
 
     public struct RegisterTaskWithMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The id of the Maintenance Window the task should be added to.
         public var windowId: String = ""
         /// The ARN of the task to execute 
@@ -2748,7 +2748,7 @@ extension Ssm {
 
     public struct CreateAssociationBatchRequestEntry: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A description of the parameters for a document. 
         public var parameters: [String: [String]]? = nil
         ///  The ID of the instance. 
@@ -2799,7 +2799,7 @@ extension Ssm {
 
     public struct CancelCommandResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2809,7 +2809,7 @@ extension Ssm {
 
     public struct GetDefaultPatchBaselineRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2819,7 +2819,7 @@ extension Ssm {
 
     public struct ParameterHistory: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the query key used for this parameter.
         public var keyId: String? = nil
         /// The name of the parameter.
@@ -2860,7 +2860,7 @@ extension Ssm {
 
     public struct PatchOrchestratorFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The key for the filter.
         public var key: String? = nil
         /// The value for the filter.
@@ -2883,7 +2883,7 @@ extension Ssm {
 
     public struct UpdateDocumentResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A description of the document that was updated.
         public var documentDescription: DocumentDescription? = nil
 
@@ -2900,7 +2900,7 @@ extension Ssm {
 
     public struct InventoryItemAttribute: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The data type of the inventory item attribute. 
         public var dataType: String = ""
         /// Name of the inventory item attribute.
@@ -2923,7 +2923,7 @@ extension Ssm {
 
     public struct DocumentDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The SHA1 hash of the document, which you can use for verification purposes.
         public var sha1: String? = nil
         /// The default version.
@@ -3000,7 +3000,7 @@ extension Ssm {
 
     public struct DeregisterPatchBaselineForPatchGroupRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the patch baseline to deregister the patch group from.
         public var baselineId: String = ""
         /// The name of the patch group that should be deregistered from the patch baseline.
@@ -3023,7 +3023,7 @@ extension Ssm {
 
     public struct InstanceInformationFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the filter. 
         public var key: String = ""
         /// The filter values.
@@ -3046,7 +3046,7 @@ extension Ssm {
 
     public struct DescribeEffectiveInstanceAssociationsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public var nextToken: String? = nil
         /// The instance ID for which you want to view all associations.
@@ -3072,7 +3072,7 @@ extension Ssm {
 
     public struct ModifyDocumentPermissionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -3082,7 +3082,7 @@ extension Ssm {
 
     public struct PatchFilterGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The set of patch filters that make up the group.
         public var patchFilters: [PatchFilter] = []
 
@@ -3100,7 +3100,7 @@ extension Ssm {
 
     public struct DescribeDocumentPermissionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the document for which you are the owner.
         public var name: String = ""
         /// The permission type for the document. The permission type can be Share.
@@ -3123,7 +3123,7 @@ extension Ssm {
 
     public struct RegisterPatchBaselineForPatchGroupResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the patch baseline the patch group was registered with.
         public var baselineId: String? = nil
         /// The name of the patch group registered with the patch baseline.
@@ -3144,7 +3144,7 @@ extension Ssm {
 
     public struct CommandFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the filter. For example, requested date and time.
         public var key: String = ""
         /// The filter value. For example: June 30, 2015.
@@ -3167,7 +3167,7 @@ extension Ssm {
 
     public struct CreateDocumentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A valid JSON string.
         public var content: String = ""
         /// A name for the SSM document.
@@ -3194,7 +3194,7 @@ extension Ssm {
 
     public struct RegisterDefaultPatchBaselineResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the default patch baseline.
         public var baselineId: String? = nil
 
@@ -3211,7 +3211,7 @@ extension Ssm {
 
     public struct GetDeployablePatchSnapshotForInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user-defined snapshot ID.
         public var snapshotId: String = ""
         /// The ID of the instance for which the appropriate patch snapshot should be retrieved.
@@ -3234,7 +3234,7 @@ extension Ssm {
 
     public struct SendCommandResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The request as it was received by Systems Manager. Also provides the command ID which can be used future references to this request.
         public var command: Command? = nil
 
@@ -3251,7 +3251,7 @@ extension Ssm {
 
     public struct DeregisterTaskFromMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Maintenance Window the task should be removed from.
         public var windowId: String = ""
         /// The ID of the task to remove from the Maintenance Window.
@@ -3274,7 +3274,7 @@ extension Ssm {
 
     public struct GetParametersRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Return decrypted secure string value. Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
         public var withDecryption: Bool? = nil
         /// Names of the parameters for which you want to query information.
@@ -3296,7 +3296,7 @@ extension Ssm {
 
     public struct ListCommandInvocationsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// (Optional) The token for the next set of items to return. (You received this token from a previous call.)
         public var nextToken: String? = nil
         /// (Optional) A list of all invocations. 
@@ -3319,7 +3319,7 @@ extension Ssm {
 
     public struct DescribeMaintenanceWindowExecutionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Maintenance Window whose executions should be retrieved.
         public var windowId: String = ""
         /// Each entry in the array is a structure containing: Key (string, 1 ≤ length ≤ 128) Values (array of strings 1 ≤ length ≤ 256) The supported Keys are ExecutedBefore and ExecutedAfter with the value being a date/time string such as 2016-11-04T05:00:00Z.
@@ -3351,7 +3351,7 @@ extension Ssm {
 
     public struct ListCommandsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// (Optional) One or more filters. Use a filter to return a more specific list of results. 
         public var filters: [CommandFilter]? = nil
         /// (Optional) If provided, lists only the specified command.
@@ -3386,7 +3386,7 @@ extension Ssm {
 
     public struct ParameterMetadata: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Date the parameter was last changed or updated.
         public var lastModifiedDate: Date? = nil
         /// The ID of the query key used for this parameter.
@@ -3423,7 +3423,7 @@ extension Ssm {
 
     public struct DescribeMaintenanceWindowsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public var nextToken: String? = nil
         /// Optional filters used to narrow down the scope of the returned Maintenance Windows. Supported filter keys are Name and Enabled.
@@ -3450,7 +3450,7 @@ extension Ssm {
 
     public struct UpdatePatchBaselineResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the deleted patch baseline.
         public var baselineId: String? = nil
         /// A list of explicitly approved patches for the baseline.
@@ -3503,7 +3503,7 @@ extension Ssm {
 
     public struct DescribeInstanceInformationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more filters. Use a filter to return a more specific list of instances.
         public var instanceInformationFilterList: [InstanceInformationFilter]? = nil
         /// One or more filters. Use a filter to return a more specific list of instances.
@@ -3536,7 +3536,7 @@ extension Ssm {
 
     public struct GetInventoryRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more filters. Use a filter to return a more specific list of results.
         public var filters: [InventoryFilter]? = nil
         /// The list of inventory item types to return.
@@ -3569,7 +3569,7 @@ extension Ssm {
 
     public struct DescribePatchBaselinesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of PatchBaselineIdentity elements.
         public var baselineIdentities: [PatchBaselineIdentity]? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -3592,7 +3592,7 @@ extension Ssm {
 
     public struct InstanceAggregatedAssociationOverview: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of associations for the instance(s).
         public var instanceAssociationStatusAggregatedCount: [String: Int32]? = nil
         /// Detailed status information about the aggregated associations.
@@ -3615,7 +3615,7 @@ extension Ssm {
 
     public struct GetCommandInvocationResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the plugin for which you want detailed results. For example, aws:RunShellScript is a plugin.
         public var pluginName: String? = nil
         /// Duration since ExecutionStartDateTime.
@@ -3688,7 +3688,7 @@ extension Ssm {
 
     public struct InventoryItemSchema: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the inventory type. Default inventory item type names start with AWS. Custom inventory type names will start with Custom. Default inventory item types include the following: AWS:AWSComponent, AWS:Application, AWS:InstanceInformation, AWS:Network, and AWS:WindowsUpdate.
         public var typeName: String = ""
         /// The schema attributes for inventory. This contains data type and attribute name.
@@ -3715,7 +3715,7 @@ extension Ssm {
 
     public struct UpdateAssociationResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of the association that was updated.
         public var associationDescription: AssociationDescription? = nil
 
@@ -3732,7 +3732,7 @@ extension Ssm {
 
     public struct UpdateManagedInstanceRoleResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -3742,7 +3742,7 @@ extension Ssm {
 
     public struct DescribeInstanceInformationResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty. 
         public var nextToken: String? = nil
         /// The instance information list.
@@ -3765,7 +3765,7 @@ extension Ssm {
 
     public struct PatchStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date the patch was approved (or will be approved if the status is PENDING_APPROVAL).
         public var approvalDate: Date? = nil
         /// The approval status of a patch (APPROVED, PENDING_APPROVAL, EXPLICIT_APPROVED, EXPLICIT_REJECTED).
@@ -3786,7 +3786,7 @@ extension Ssm {
 
     public struct StartAutomationExecutionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A key-value map of execution parameters, which match the declared parameters in the Automation document.
         public var parameters: [String: [String]]? = nil
         /// The name of the Automation document to use for this execution.
@@ -3819,7 +3819,7 @@ extension Ssm {
 
     public struct UpdateDocumentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The content in a document that you want to update.
         public var content: String = ""
         /// The name of the document that you want to update.
@@ -3846,7 +3846,7 @@ extension Ssm {
 
     public struct GetMaintenanceWindowExecutionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time the Maintenance Window finished executing.
         public var endTime: Date? = nil
         /// The ID of the task executions from the Maintenance Window execution.
@@ -3885,7 +3885,7 @@ extension Ssm {
 
     public struct DescribePatchGroupStateResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of instances with missing patches from the patch baseline.
         public var instancesWithMissingPatches: Int32? = nil
         /// The number of instances in the patch group.
@@ -3922,7 +3922,7 @@ extension Ssm {
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the tag.
         public var value: String = ""
         /// The name of the tag.
@@ -3945,7 +3945,7 @@ extension Ssm {
 
     public struct RegisterTaskWithMaintenanceWindowResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The id of the task in the Maintenance Window.
         public var windowTaskId: String? = nil
 
@@ -3962,7 +3962,7 @@ extension Ssm {
 
     public struct DescribeAssociationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the SSM document.
         public var name: String? = nil
         /// The instance ID.
@@ -3987,7 +3987,7 @@ extension Ssm {
 
     public struct MaintenanceWindowIdentity: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Maintenance Window.
         public var windowId: String? = nil
         /// The number of hours before the end of the Maintenance Window that Systems Manager stops scheduling new tasks for execution.
@@ -4020,7 +4020,7 @@ extension Ssm {
 
     public struct DeregisterManagedInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID assigned to the managed instance when you registered it using the activation process. 
         public var instanceId: String = ""
 
@@ -4038,7 +4038,7 @@ extension Ssm {
 
     public struct DocumentDefaultVersionDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the document.
         public var name: String? = nil
         /// The default version of the document.
@@ -4059,7 +4059,7 @@ extension Ssm {
 
     public struct AutomationExecutionFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The aspect of the Automation execution information that should be limited.
         public var key: String = ""
         /// The values used to limit the execution information associated with the filter's key.
@@ -4082,7 +4082,7 @@ extension Ssm {
 
     public struct CreateActivationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Identity and Access Management (IAM) role that you want to assign to the managed instance. 
         public var iamRole: String = ""
         /// A user-defined description of the resource that you want to register with Amazon EC2. 
@@ -4116,7 +4116,7 @@ extension Ssm {
 
     public struct AddTagsToResourceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The resource ID you want to tag.
         public var resourceId: String = ""
         ///  One or more tags. The value parameter is required, but if you don't want the tag to have a value, specify the parameter with no value, and we set the value to an empty string. 
@@ -4144,7 +4144,7 @@ extension Ssm {
 
     public struct MaintenanceWindowTask: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Maintenance Window ID where the task is registered.
         public var windowId: String? = nil
         /// The ARN of the task to execute.
@@ -4210,7 +4210,7 @@ extension Ssm {
 
     public struct DescribeMaintenanceWindowExecutionTaskInvocationsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the task invocation results per invocation.
         public var windowExecutionTaskInvocationIdentities: [MaintenanceWindowExecutionTaskInvocationIdentity]? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -4233,7 +4233,7 @@ extension Ssm {
 
     public struct DescribeInstancePatchesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// Each entry in the array is a structure containing: Title (string) KBId (string) Classification (string) Severity (string) State (string – “INSTALLED”, “INSTALLED_OTHER”, “MISSING”, “NOT_APPLICABLE”, “FAILED”) InstalledTime (DateTime) InstalledBy (string)
@@ -4256,7 +4256,7 @@ extension Ssm {
 
     public struct RemoveTagsFromResourceResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -4266,7 +4266,7 @@ extension Ssm {
 
     public struct PatchGroupPatchBaselineMapping: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the patch group registered with the patch baseline.
         public var patchGroup: String? = nil
         /// The patch baseline the patch group is registered with.
@@ -4287,7 +4287,7 @@ extension Ssm {
 
     public struct CreatePatchBaselineResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the created patch baseline.
         public var baselineId: String? = nil
 
@@ -4304,7 +4304,7 @@ extension Ssm {
 
     public struct DeleteMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Maintenance Window to delete.
         public var windowId: String = ""
 
@@ -4322,7 +4322,7 @@ extension Ssm {
 
     public struct DescribePatchGroupsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public var nextToken: String? = nil
         /// The maximum number of patch groups to return (per page).
@@ -4343,7 +4343,7 @@ extension Ssm {
 
     public struct GetPatchBaselineForPatchGroupRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the patch group whose patch baseline should be retrieved.
         public var patchGroup: String = ""
 
@@ -4361,7 +4361,7 @@ extension Ssm {
 
     public struct DescribeActivationsFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the filter.
         public var filterKey: String? = nil
         /// The filter values.
@@ -4384,7 +4384,7 @@ extension Ssm {
 
     public struct ListTagsForResourceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The resource ID for which you want to see a list of tags.
         public var resourceId: String = ""
         /// Returns a list of tags for a specific resource type.
@@ -4407,7 +4407,7 @@ extension Ssm {
 
     public struct GetAutomationExecutionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier for an existing automation execution to examine. The execution ID is returned by StartAutomationExecution when the execution of an Automation document is initiated.
         public var automationExecutionId: String = ""
 
@@ -4425,7 +4425,7 @@ extension Ssm {
 
     public struct Parameter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of parameter. Valid values include the following: String, String list, Secure string.
         public var type: String? = nil
         /// The parameter value.
@@ -4450,7 +4450,7 @@ extension Ssm {
 
     public struct CreateActivationResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID number generated by the system when it processed the activation. The activation ID functions like a user name.
         public var activationId: String? = nil
         /// The code the system generates when it processes the activation. The activation code functions like a password to validate the activation ID. 
@@ -4471,7 +4471,7 @@ extension Ssm {
 
     public struct DescribeMaintenanceWindowExecutionTasksResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the task executions.
         public var windowExecutionTaskIdentities: [MaintenanceWindowExecutionTaskIdentity]? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -4494,7 +4494,7 @@ extension Ssm {
 
     public struct DescribeInstanceAssociationsStatusRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public var nextToken: String? = nil
         /// The instance IDs for which you want association status information.
@@ -4520,7 +4520,7 @@ extension Ssm {
 
     public struct PutParameterResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -4530,7 +4530,7 @@ extension Ssm {
 
     public struct ListDocumentVersionsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The document versions.
         public var documentVersions: [DocumentVersionInfo]? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -4553,7 +4553,7 @@ extension Ssm {
 
     public struct ListInventoryEntriesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public var maxResults: Int32? = nil
         /// One or more filters. Use a filter to return a more specific list of results.
@@ -4590,7 +4590,7 @@ extension Ssm {
 
     public struct UpdateAssociationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An Amazon S3 bucket where you want to store the results of this request.  "{ \"S3Location\": { \"OutputS3Region\": \"&lt;region&gt;\", \"OutputS3BucketName\": \"bucket name\", \"OutputS3KeyPrefix\": \"folder name\" } }" 
         public var outputLocation: InstanceAssociationOutputLocation? = nil
         /// The ID of the association you want to update. 
@@ -4631,7 +4631,7 @@ extension Ssm {
 
     public struct GetCommandInvocationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// (Required) The parent command ID of the invocation plugin.
         public var commandId: String = ""
         /// (Optional) The name of the plugin for which you want detailed results. If the SSM document contains only one plugin, the name can be omitted and the details will be returned.
@@ -4658,7 +4658,7 @@ extension Ssm {
 
     public struct MaintenanceWindowExecutionTaskInvocationIdentity: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time the invocation started.
         public var startTime: Date? = nil
         /// The status of the task invocation.
@@ -4715,7 +4715,7 @@ extension Ssm {
 
     public struct DeleteAssociationResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -4725,7 +4725,7 @@ extension Ssm {
 
     public struct UpdateDocumentDefaultVersionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of a custom document that you want to set as the default version.
         public var description: DocumentDefaultVersionDescription? = nil
 
@@ -4742,7 +4742,7 @@ extension Ssm {
 
     public struct CreateAssociationBatchResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the associations that succeeded.
         public var successful: [AssociationDescription]? = nil
         /// Information about the associations that failed.
@@ -4767,7 +4767,7 @@ extension Ssm {
 
     public struct InstancePatchState: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of patches not specified in the patch baseline that are installed on the instance.
         public var installedOtherCount: Int32? = nil
         /// The number of patches from the patch baseline that were attempted to be installed during the last patching operation, but failed to install.
@@ -4838,7 +4838,7 @@ extension Ssm {
 
     public struct MaintenanceWindowExecutionTaskIdentity: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time the task execution started.
         public var startTime: Date? = nil
         /// The status of the task execution.
@@ -4883,7 +4883,7 @@ extension Ssm {
 
     public struct MaintenanceWindowExecution: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time the execution finished.
         public var endTime: Date? = nil
         /// The ID of the Maintenance Window.
@@ -4920,7 +4920,7 @@ extension Ssm {
 
     public struct PutInventoryResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -4930,7 +4930,7 @@ extension Ssm {
 
     public struct ListDocumentsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The names of the SSM documents.
         public var documentIdentifiers: [DocumentIdentifier]? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -4953,7 +4953,7 @@ extension Ssm {
 
     public struct DescribeAvailablePatchesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public var nextToken: String? = nil
         /// Filters used to scope down the returned patches.
@@ -4980,7 +4980,7 @@ extension Ssm {
 
     public struct ListTagsForResourceResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of tags.
         public var tagList: [Tag]? = nil
 
@@ -4999,7 +4999,7 @@ extension Ssm {
 
     public struct StepExecution: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If a step has finished execution, this contains the time the execution ended. If the step has not yet concluded, this field is not populated.
         public var executionEndTime: Date? = nil
         /// The name of this execution step.
@@ -5061,7 +5061,7 @@ extension Ssm {
 
     public struct AssociationOverview: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the association. Status can be: Pending, Success, or Failed.
         public var status: String? = nil
         /// Returns the number of targets for the association status. For example, if you created an association with two instances, and one of them was successful, this would return the count of instances by status.
@@ -5088,7 +5088,7 @@ extension Ssm {
 
     public struct GetMaintenanceWindowExecutionTaskResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The priority of the task.
         public var priority: Int32? = nil
         /// The role that was assumed when executing the task.
@@ -5163,7 +5163,7 @@ extension Ssm {
 
     public struct CreateDocumentResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the SSM document.
         public var documentDescription: DocumentDescription? = nil
 
@@ -5180,7 +5180,7 @@ extension Ssm {
 
     public struct DescribeMaintenanceWindowExecutionsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the Maintenance Windows execution.
         public var windowExecutions: [MaintenanceWindowExecution]? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -5203,7 +5203,7 @@ extension Ssm {
 
     public struct ListCommandInvocationsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// (Optional) If set this returns the response of the command executions and any command output. By default this is set to False. 
         public var details: Bool? = nil
         /// (Optional) One or more filters. Use a filter to return a more specific list of results.
@@ -5242,7 +5242,7 @@ extension Ssm {
 
     public struct GetPatchBaselineResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the retrieved patch baseline.
         public var baselineId: String? = nil
         /// A list of explicitly approved patches for the baseline.
@@ -5301,7 +5301,7 @@ extension Ssm {
 
     public struct CreateAssociationResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the association.
         public var associationDescription: AssociationDescription? = nil
 
@@ -5318,7 +5318,7 @@ extension Ssm {
 
     public struct DescribeMaintenanceWindowsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// Information about the Maintenance Windows.
@@ -5341,7 +5341,7 @@ extension Ssm {
 
     public struct DescribeAvailablePatchesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// An array of patches. Each entry in the array is a patch structure.
@@ -5364,7 +5364,7 @@ extension Ssm {
 
     public struct InventoryResultEntity: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// ID of the inventory result entity. For example, for managed instance inventory the result will be the managed instance ID. For EC2 instance inventory, the result will be the instance ID. 
         public var id: String? = nil
         /// The data section in the inventory result entity json.
@@ -5392,7 +5392,7 @@ extension Ssm {
 
     public struct UpdateMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Maintenance Window to update.
         public var windowId: String = ""
         /// The name of the Maintenance Window.
@@ -5434,7 +5434,7 @@ extension Ssm {
 
     public struct DescribeParametersRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public var nextToken: String? = nil
         /// One or more filters. Use a filter to return a more specific list of results.
@@ -5461,7 +5461,7 @@ extension Ssm {
 
     public struct InstancePatchStateFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of comparison that should be performed for the value: Equal, NotEqual, LessThan or GreaterThan.
         public var type: String = ""
         /// The key for the filter. Supported values are FailedCount, InstalledCount, InstalledOtherCount, MissingCount and NotApplicableCount.
@@ -5489,7 +5489,7 @@ extension Ssm {
 
     public struct GetDocumentResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The contents of the SSM document.
         public var content: String? = nil
         /// The document type.
@@ -5518,7 +5518,7 @@ extension Ssm {
 
     public struct UpdateManagedInstanceRoleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the managed instance where you want to update the role.
         public var instanceId: String = ""
         /// The IAM role you want to assign or change.
@@ -5541,7 +5541,7 @@ extension Ssm {
 
     public struct PatchRule: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The patch filter group that defines the criteria for the rule.
         public var patchFilterGroup: PatchFilterGroup = PatchFilterGroup()
         /// The number of days after the release date of each patch matched by the rule the patch is marked as approved in the patch baseline.
@@ -5564,7 +5564,7 @@ extension Ssm {
 
     public struct DeregisterPatchBaselineForPatchGroupResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the patch baseline the patch group was deregistered from.
         public var baselineId: String? = nil
         /// The name of the patch group deregistered from the patch baseline.
@@ -5585,7 +5585,7 @@ extension Ssm {
 
     public struct GetAutomationExecutionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Detailed information about the current state of an automation execution.
         public var automationExecution: AutomationExecution? = nil
 
@@ -5602,7 +5602,7 @@ extension Ssm {
 
     public struct DescribeEffectiveInstanceAssociationsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// The associations for the requested instance.
@@ -5625,7 +5625,7 @@ extension Ssm {
 
     public struct UpdateAssociationStatusResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the association.
         public var associationDescription: AssociationDescription? = nil
 
@@ -5642,7 +5642,7 @@ extension Ssm {
 
     public struct InstanceAssociationOutputUrl: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The URL of Amazon S3 bucket where you want to store the results of this request.
         public var s3OutputUrl: S3OutputUrl? = nil
 
@@ -5659,7 +5659,7 @@ extension Ssm {
 
     public struct InstanceAssociationStatusInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Status information about the instance association.
         public var status: String? = nil
         /// The association ID.
@@ -5712,7 +5712,7 @@ extension Ssm {
 
     public struct S3OutputUrl: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A URL for an Amazon S3 bucket where you want to store the results of this request.
         public var outputUrl: String? = nil
 
@@ -5729,7 +5729,7 @@ extension Ssm {
 
     public struct GetMaintenanceWindowExecutionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Maintenance Window execution that includes the task.
         public var windowExecutionId: String = ""
 
@@ -5747,7 +5747,7 @@ extension Ssm {
 
     public struct PatchFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The key for the filter (PRODUCT, CLASSIFICATION, MSRC_SEVERITY, PATCH_ID)
         public var key: String = ""
         /// The value for the filter key.
@@ -5770,7 +5770,7 @@ extension Ssm {
 
     public struct GetParametersResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of parameters used by the AWS account.
         public var parameters: [Parameter]? = nil
         /// A list of parameters that are not formatted correctly or do not run when executed.
@@ -5795,7 +5795,7 @@ extension Ssm {
 
     public struct MaintenanceWindowTarget: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Maintenance Window ID where the target is registered.
         public var windowId: String? = nil
         /// The targets (either instances or tags). Instances are specified using Key=instanceids,Values=&lt;instanceid1&gt;,&lt;instanceid2&gt;. Tags are specified using Key=&lt;tag name&gt;,Values=&lt;tag value&gt;.
@@ -5830,7 +5830,7 @@ extension Ssm {
 
     public struct UpdateDocumentDefaultVersionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of a custom document that you want to set as the default version.
         public var name: String = ""
         /// The version of a custom document that you want to set as the default version.
@@ -5853,7 +5853,7 @@ extension Ssm {
 
     public struct ListAssociationsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// The associations.
@@ -5876,7 +5876,7 @@ extension Ssm {
 
     public struct DescribeInstancePatchStatesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// The high-level patch state for the requested instances.
@@ -5899,7 +5899,7 @@ extension Ssm {
 
     public struct RemoveTagsFromResourceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The resource ID for which you want to remove tags.
         public var resourceId: String = ""
         /// The type of resource of which you want to remove a tag.
@@ -5927,7 +5927,7 @@ extension Ssm {
 
     public struct S3OutputLocation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon S3 bucket subfolder.
         public var outputS3KeyPrefix: String? = nil
         /// The name of the Amazon S3 bucket.
@@ -5952,7 +5952,7 @@ extension Ssm {
 
     public struct GetMaintenanceWindowRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the desired Maintenance Window.
         public var windowId: String = ""
 
@@ -5970,7 +5970,7 @@ extension Ssm {
 
     public struct UpdateMaintenanceWindowResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the created Maintenance Window.
         public var windowId: String? = nil
         /// The name of the Maintenance Window.
@@ -6011,7 +6011,7 @@ extension Ssm {
 
     public struct DeleteActivationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the activation that you want to delete.
         public var activationId: String = ""
 
@@ -6029,7 +6029,7 @@ extension Ssm {
 
     public struct PutInventoryRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The inventory items that you want to add or update on instances.
         public var items: [InventoryItem] = []
         /// One or more instance IDs where you want to add or update inventory items.
@@ -6052,7 +6052,7 @@ extension Ssm {
 
     public struct DescribeDocumentPermissionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The account IDs that have permission to use this document. The ID can be either an AWS account or All.
         public var accountIds: [String]? = nil
 
@@ -6071,7 +6071,7 @@ extension Ssm {
 
     public struct AssociationFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the filter.
         public var key: String = ""
         /// The filter value.
@@ -6094,7 +6094,7 @@ extension Ssm {
 
     public struct NotificationConfig: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An Amazon Resource Name (ARN) for a Simple Notification Service (SNS) topic. Run Command pushes notifications about command status changes to this topic.
         public var notificationArn: String? = nil
         /// Command: Receive notification when the status of a command changes. Invocation: For commands sent to multiple instances, receive notification on a per-instance basis when the status of a command changes. 
@@ -6121,7 +6121,7 @@ extension Ssm {
 
     public struct PutParameterRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the parameter that you want to add to the system
         public var description: String? = nil
         /// The parameter key ID that you want to add to the system.
@@ -6161,7 +6161,7 @@ extension Ssm {
 
     public struct PatchBaselineIdentity: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether this is the default baseline.
         public var defaultBaseline: Bool? = nil
         /// The ID of the patch baseline.
@@ -6190,7 +6190,7 @@ extension Ssm {
 
     public struct Association: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date on which the association was last run.
         public var lastExecutionDate: Date? = nil
         /// The ID created by the system when you create an association. An association is a binding between a document and a set of targets with a schedule.
@@ -6237,7 +6237,7 @@ extension Ssm {
 
     public struct Activation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Identity and Access Management (IAM) role to assign to the managed instance.
         public var iamRole: String? = nil
         /// Whether or not the activation is expired.
@@ -6286,7 +6286,7 @@ extension Ssm {
 
     public struct StartAutomationExecutionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique ID of a newly scheduled automation execution.
         public var automationExecutionId: String? = nil
 
@@ -6303,7 +6303,7 @@ extension Ssm {
 
     public struct ListDocumentsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more filters. Use a filter to return a more specific list of results.
         public var documentFilterList: [DocumentFilter]? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -6330,7 +6330,7 @@ extension Ssm {
 
     public struct ListInventoryEntriesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time that inventory information was collected for the instance(s).
         public var captureTime: String? = nil
         /// A list of inventory items on the instance(s).
@@ -6369,7 +6369,7 @@ extension Ssm {
 
     public struct DeleteAssociationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the SSM document.
         public var name: String? = nil
         /// The ID of the instance.
@@ -6394,7 +6394,7 @@ extension Ssm {
 
     public struct EffectivePatch: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Provides metadata for a patch, including information such as the KB ID, severity, classification and a URL for where more information can be obtained about the patch.
         public var patch: Patch? = nil
         /// The status of the patch in a patch baseline. This includes information about whether the patch is currently approved, due to be approved by a rule, explicitly approved, or explicitly rejected and the date the patch was or will be approved.
@@ -6415,7 +6415,7 @@ extension Ssm {
 
     public struct DocumentParameter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of parameter. The type can be either “String” or “StringList”.
         public var type: String? = nil
         /// The name of the parameter.
@@ -6444,7 +6444,7 @@ extension Ssm {
 
     public struct DeleteParameterRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the parameter to delete.
         public var name: String = ""
 
@@ -6462,7 +6462,7 @@ extension Ssm {
 
     public struct StopAutomationExecutionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The execution ID of the Automation to stop.
         public var automationExecutionId: String = ""
 
@@ -6480,7 +6480,7 @@ extension Ssm {
 
     public struct DocumentFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the filter.
         public var key: String = ""
         /// The value of the filter.
@@ -6503,7 +6503,7 @@ extension Ssm {
 
     public struct GetDefaultPatchBaselineResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the default patch baseline.
         public var baselineId: String? = nil
 
@@ -6520,7 +6520,7 @@ extension Ssm {
 
     public struct InstanceAssociationOutputLocation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An Amazon S3 bucket where you want to store the results of this request.
         public var s3Location: S3OutputLocation? = nil
 
@@ -6537,7 +6537,7 @@ extension Ssm {
 
     public struct RegisterTargetWithMaintenanceWindowResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the target definition in this Maintenance Window.
         public var windowTargetId: String? = nil
 
@@ -6554,7 +6554,7 @@ extension Ssm {
 
     public struct CreateMaintenanceWindowResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the created Maintenance Window.
         public var windowId: String? = nil
 
@@ -6571,7 +6571,7 @@ extension Ssm {
 
     public struct DocumentVersionInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date the document was created.
         public var createdDate: Date? = nil
         /// The document name.

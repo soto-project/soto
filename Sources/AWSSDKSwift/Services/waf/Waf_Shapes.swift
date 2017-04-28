@@ -31,7 +31,7 @@ extension Waf {
 
     public struct ListXssMatchSetsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of XssMatchSetSummary objects.
         public var xssMatchSets: [XssMatchSetSummary]? = nil
         /// If you have more XssMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more XssMatchSet objects, submit another ListXssMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -54,7 +54,7 @@ extension Waf {
 
     public struct WebACLUpdate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies whether to insert a Rule into or delete a Rule from a WebACL.
         public var action: String = ""
         /// The ActivatedRule object in an UpdateWebACL request specifies a Rule that you want to insert or delete, the priority of the Rule in the WebACL, and the action that you want AWS WAF to take when a web request matches the Rule (ALLOW, BLOCK, or COUNT).
@@ -77,7 +77,7 @@ extension Waf {
 
     public struct UpdateSqlInjectionMatchSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value returned by the most recent call to GetChangeToken.
         public var changeToken: String = ""
         /// The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to update. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
@@ -105,7 +105,7 @@ extension Waf {
 
     public struct Rule: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A friendly name or description for the metrics for this Rule. The name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain whitespace. You can't change MetricName after you create the Rule.
         public var metricName: String? = nil
         /// A unique identifier for a Rule. You use RuleId to get more information about a Rule (see GetRule), update a Rule (see UpdateRule), insert a Rule into a WebACL or delete a one from a WebACL (see UpdateWebACL), or delete a Rule from AWS WAF (see DeleteRule).  RuleId is returned by CreateRule and by ListRules.
@@ -136,7 +136,7 @@ extension Waf {
 
     public struct IPSetUpdate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies whether to insert or delete an IP address with UpdateIPSet.
         public var action: String = ""
         /// The IP address type (IPV4 or IPV6) and the IP address range (in CIDR notation) that web requests originate from.
@@ -159,7 +159,7 @@ extension Waf {
 
     public struct ListWebACLsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the number of WebACL objects that you want AWS WAF to return for this request. If you have more WebACL objects than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of WebACL objects.
         public var limit: Int32? = nil
         /// If you specify a value for Limit and you have more WebACL objects than the number that you specify for Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of WebACL objects. For the second and subsequent ListWebACLs requests, specify the value of NextMarker from the previous response to get information about another batch of WebACL objects.
@@ -180,7 +180,7 @@ extension Waf {
 
     public struct UpdateSizeConstraintSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value returned by the most recent call to GetChangeToken.
         public var changeToken: String = ""
         /// An array of SizeConstraintSetUpdate objects that you want to insert into or delete from a SizeConstraintSet. For more information, see the applicable data types:    SizeConstraintSetUpdate: Contains Action and SizeConstraint     SizeConstraint: Contains FieldToMatch, TextTransformation, ComparisonOperator, and Size     FieldToMatch: Contains Data and Type   
@@ -208,7 +208,7 @@ extension Waf {
 
     public struct ActivatedRule: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the order in which the Rules in a WebACL are evaluated. Rules with a lower value for Priority are evaluated before Rules with a higher value. The value must be a unique integer. If you add multiple Rules to a WebACL, the values don't need to be consecutive.
         public var priority: Int32 = 0
         /// Specifies the action that CloudFront or AWS WAF takes when a web request matches the conditions in the Rule. Valid values for Action include the following:    ALLOW: CloudFront responds with the requested object.    BLOCK: CloudFront responds with an HTTP 403 (Forbidden) status code.    COUNT: AWS WAF increments a counter of requests that match the conditions in the rule and then continues to inspect the web request based on the remaining rules in the web ACL.   
@@ -236,7 +236,7 @@ extension Waf {
 
     public struct GetIPSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IPSetId of the IPSet that you want to get. IPSetId is returned by CreateIPSet and by ListIPSets.
         public var iPSetId: String = ""
 
@@ -254,7 +254,7 @@ extension Waf {
 
     public struct ByteMatchSetUpdate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies whether to insert or delete a ByteMatchTuple.
         public var action: String = ""
         /// Information about the part of a web request that you want AWS WAF to inspect and the value that you want AWS WAF to search for. If you specify DELETE for the value of Action, the ByteMatchTuple values must exactly match the values in the ByteMatchTuple that you want to delete from the ByteMatchSet.
@@ -277,7 +277,7 @@ extension Waf {
 
     public struct ListIPSetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the number of IPSet objects that you want AWS WAF to return for this request. If you have more IPSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of IPSet objects.
         public var limit: Int32? = nil
         /// If you specify a value for Limit and you have more IPSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of IPSets. For the second and subsequent ListIPSets requests, specify the value of NextMarker from the previous response to get information about another batch of ByteMatchSets.
@@ -298,7 +298,7 @@ extension Waf {
 
     public struct CreateRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A friendly name or description for the metrics for this Rule. The name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain whitespace. You can't change the name of the metric after you create the Rule.
         public var metricName: String = ""
         /// A friendly name or description of the Rule. You can't change the name of a Rule after you create it.
@@ -326,7 +326,7 @@ extension Waf {
 
     public struct SqlInjectionMatchTuple: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies where in a web request to look for snippets of malicious SQL code.
         public var fieldToMatch: FieldToMatch = FieldToMatch()
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting a request for a match.  CMD_LINE  When you're concerned that attackers are injecting an operating system commandline command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.  NONE  Specify NONE if you don't want to perform any text transformations.
@@ -349,7 +349,7 @@ extension Waf {
 
     public struct GetByteMatchSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the ByteMatchSet that you specified in the GetByteMatchSet request. For more information, see the following topics:    ByteMatchSet: Contains ByteMatchSetId, ByteMatchTuples, and Name     ByteMatchTuples: Contains an array of ByteMatchTuple objects. Each ByteMatchTuple object contains FieldToMatch, PositionalConstraint, TargetString, and TextTransformation     FieldToMatch: Contains Data and Type   
         public var byteMatchSet: ByteMatchSet? = nil
 
@@ -366,7 +366,7 @@ extension Waf {
 
     public struct IPSet: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IPSetId for an IPSet. You use IPSetId to get information about an IPSet (see GetIPSet), update an IPSet (see UpdateIPSet), insert an IPSet into a Rule or delete one from a Rule (see UpdateRule), and delete an IPSet from AWS WAF (see DeleteIPSet).  IPSetId is returned by CreateIPSet and by ListIPSets.
         public var iPSetId: String = ""
         /// A friendly name or description of the IPSet. You can't change the name of an IPSet after you create it.
@@ -393,7 +393,7 @@ extension Waf {
 
     public struct DeleteRuleResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the DeleteRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
 
@@ -410,7 +410,7 @@ extension Waf {
 
     public struct CreateIPSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value returned by the most recent call to GetChangeToken.
         public var changeToken: String = ""
         /// A friendly name or description of the IPSet. You can't change Name after you create the IPSet.
@@ -433,7 +433,7 @@ extension Waf {
 
     public struct UpdateSqlInjectionMatchSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the UpdateSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
 
@@ -450,7 +450,7 @@ extension Waf {
 
     public struct UpdateIPSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the UpdateIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
 
@@ -467,7 +467,7 @@ extension Waf {
 
     public struct WebACLSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A friendly name or description of the WebACL. You can't change the name of a WebACL after you create it.
         public var name: String = ""
         /// A unique identifier for a WebACL. You use WebACLId to get information about a WebACL (see GetWebACL), update a WebACL (see UpdateWebACL), and delete a WebACL from AWS WAF (see DeleteWebACL).  WebACLId is returned by CreateWebACL and by ListWebACLs.
@@ -490,7 +490,7 @@ extension Waf {
 
     public struct GetByteMatchSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ByteMatchSetId of the ByteMatchSet that you want to get. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
         public var byteMatchSetId: String = ""
 
@@ -508,7 +508,7 @@ extension Waf {
 
     public struct CreateIPSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the CreateIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
         /// The IPSet returned in the CreateIPSet response.
@@ -529,7 +529,7 @@ extension Waf {
 
     public struct GetChangeTokenStatusRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The change token for which you want to get the status. This change token was previously returned in the GetChangeToken response.
         public var changeToken: String = ""
 
@@ -547,7 +547,7 @@ extension Waf {
 
     public struct DeleteIPSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value returned by the most recent call to GetChangeToken.
         public var changeToken: String = ""
         /// The IPSetId of the IPSet that you want to delete. IPSetId is returned by CreateIPSet and by ListIPSets.
@@ -570,7 +570,7 @@ extension Waf {
 
     public struct GetChangeTokenRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -580,7 +580,7 @@ extension Waf {
 
     public struct CreateXssMatchSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the CreateXssMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
         /// An XssMatchSet.
@@ -601,7 +601,7 @@ extension Waf {
 
     public struct UpdateWebACLResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the UpdateWebACL request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
 
@@ -618,7 +618,7 @@ extension Waf {
 
     public struct DeleteWebACLRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value returned by the most recent call to GetChangeToken.
         public var changeToken: String = ""
         /// The WebACLId of the WebACL that you want to delete. WebACLId is returned by CreateWebACL and by ListWebACLs.
@@ -641,7 +641,7 @@ extension Waf {
 
     public struct CreateByteMatchSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value returned by the most recent call to GetChangeToken.
         public var changeToken: String = ""
         /// A friendly name or description of the ByteMatchSet. You can't change Name after you create a ByteMatchSet.
@@ -664,7 +664,7 @@ extension Waf {
 
     public struct TimeWindow: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
         public var endTime: Date = Date()
         /// The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
@@ -687,7 +687,7 @@ extension Waf {
 
     public struct CreateSizeConstraintSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the CreateSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
         /// A SizeConstraintSet that contains no SizeConstraint objects.
@@ -708,7 +708,7 @@ extension Waf {
 
     public struct SizeConstraint: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies where in a web request to look for the size constraint.
         public var fieldToMatch: FieldToMatch = FieldToMatch()
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting a request for a match. Note that if you choose BODY for the value of Type, you must choose NONE for TextTransformation because CloudFront forwards only the first 8192 bytes for inspection.   NONE  Specify NONE if you don't want to perform any text transformations.  CMD_LINE  When you're concerned that attackers are injecting an operating system command line command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.
@@ -741,7 +741,7 @@ extension Waf {
 
     public struct IPSetDescriptor: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specify IPV4 or IPV6.
         public var type: String = ""
         /// Specify an IPv4 address by using CIDR notation. For example:   To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing. Specify an IPv6 address by using CIDR notation. For example:   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.  
@@ -764,7 +764,7 @@ extension Waf {
 
     public struct DeleteSizeConstraintSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the DeleteSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
 
@@ -781,7 +781,7 @@ extension Waf {
 
     public struct SizeConstraintSetUpdate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies a constraint on the size of a part of the web request. AWS WAF uses the Size, ComparisonOperator, and FieldToMatch to build an expression in the form of "Size ComparisonOperator size in bytes of FieldToMatch". If that expression is true, the SizeConstraint is considered to match.
         public var sizeConstraint: SizeConstraint = SizeConstraint()
         /// Specify INSERT to add a SizeConstraintSetUpdate to a SizeConstraintSet. Use DELETE to remove a SizeConstraintSetUpdate from a SizeConstraintSet.
@@ -804,7 +804,7 @@ extension Waf {
 
     public struct CreateRuleResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the CreateRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
         /// The Rule returned in the CreateRule response.
@@ -825,7 +825,7 @@ extension Waf {
 
     public struct DeleteIPSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the DeleteIPSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
 
@@ -842,7 +842,7 @@ extension Waf {
 
     public struct UpdateXssMatchSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The XssMatchSetId of the XssMatchSet that you want to update. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
         public var xssMatchSetId: String = ""
         /// The value returned by the most recent call to GetChangeToken.
@@ -870,7 +870,7 @@ extension Waf {
 
     public struct HTTPRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IP address that the request originated from. If the WebACL is associated with a CloudFront distribution, this is the value of one of the following fields in CloudFront access logs:    c-ip, if the viewer did not use an HTTP proxy or a load balancer to send the request    x-forwarded-for, if the viewer did use an HTTP proxy or a load balancer to send the request  
         public var clientIP: String? = nil
         /// A complex type that contains two values for each header in the sampled web request: the name of the header and the value of the header.
@@ -909,7 +909,7 @@ extension Waf {
 
     public struct HTTPHeader: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of one of the headers in the sampled web request.
         public var value: String? = nil
         /// The name of one of the headers in the sampled web request.
@@ -930,7 +930,7 @@ extension Waf {
 
     public struct ListRulesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the number of Rules that you want AWS WAF to return for this request. If you have more Rules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
         public var limit: Int32? = nil
         /// If you specify a value for Limit and you have more Rules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of Rules. For the second and subsequent ListRules requests, specify the value of NextMarker from the previous response to get information about another batch of Rules.
@@ -951,7 +951,7 @@ extension Waf {
 
     public struct GetWebACLResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the WebACL that you specified in the GetWebACL request. For more information, see the following topics:    WebACL: Contains DefaultAction, MetricName, Name, an array of Rule objects, and WebACLId     DefaultAction (Data type is WafAction): Contains Type     Rules: Contains an array of ActivatedRule objects, which contain Action, Priority, and RuleId     Action: Contains Type   
         public var webACL: WebACL? = nil
 
@@ -968,7 +968,7 @@ extension Waf {
 
     public struct XssMatchSetSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique identifier for an XssMatchSet. You use XssMatchSetId to get information about a XssMatchSet (see GetXssMatchSet), update an XssMatchSet (see UpdateXssMatchSet), insert an XssMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete an XssMatchSet from AWS WAF (see DeleteXssMatchSet).  XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
         public var xssMatchSetId: String = ""
         /// The name of the XssMatchSet, if any, specified by Id.
@@ -991,7 +991,7 @@ extension Waf {
 
     public struct GetXssMatchSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The XssMatchSetId of the XssMatchSet that you want to get. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
         public var xssMatchSetId: String = ""
 
@@ -1009,7 +1009,7 @@ extension Waf {
 
     public struct UpdateIPSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value returned by the most recent call to GetChangeToken.
         public var changeToken: String = ""
         /// The IPSetId of the IPSet that you want to update. IPSetId is returned by CreateIPSet and by ListIPSets.
@@ -1037,7 +1037,7 @@ extension Waf {
 
     public struct GetSizeConstraintSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The SizeConstraintSetId of the SizeConstraintSet that you want to get. SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
         public var sizeConstraintSetId: String = ""
 
@@ -1055,7 +1055,7 @@ extension Waf {
 
     public struct CreateWebACLRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A friendly name or description for the metrics for this WebACL. The name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain whitespace. You can't change MetricName after you create the WebACL.
         public var metricName: String = ""
         /// The action that you want AWS WAF to take when a request doesn't match the criteria specified in any of the Rule objects that are associated with the WebACL.
@@ -1088,7 +1088,7 @@ extension Waf {
 
     public struct WafAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies how you want AWS WAF to respond to requests that match the settings in a Rule. Valid settings include the following:    ALLOW: AWS WAF allows requests    BLOCK: AWS WAF blocks requests    COUNT: AWS WAF increments a counter of the requests that match all of the conditions in the rule. AWS WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a WebACL.  
         public var type: String = ""
 
@@ -1106,7 +1106,7 @@ extension Waf {
 
     public struct CreateWebACLResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the CreateWebACL request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
         /// The WebACL returned in the CreateWebACL response.
@@ -1127,7 +1127,7 @@ extension Waf {
 
     public struct CreateSqlInjectionMatchSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the CreateSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
         /// A SqlInjectionMatchSet.
@@ -1148,7 +1148,7 @@ extension Waf {
 
     public struct GetChangeTokenResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used in the request. Use this value in a GetChangeTokenStatus request to get the current status of the request. 
         public var changeToken: String? = nil
 
@@ -1165,7 +1165,7 @@ extension Waf {
 
     public struct DeleteSqlInjectionMatchSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value returned by the most recent call to GetChangeToken.
         public var changeToken: String = ""
         /// The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to delete. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
@@ -1188,7 +1188,7 @@ extension Waf {
 
     public struct CreateXssMatchSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value returned by the most recent call to GetChangeToken.
         public var changeToken: String = ""
         /// A friendly name or description for the XssMatchSet that you're creating. You can't change Name after you create the XssMatchSet.
@@ -1211,7 +1211,7 @@ extension Waf {
 
     public struct ByteMatchTuple: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The part of a web request that you want AWS WAF to search, such as a specified header or a query string. For more information, see FieldToMatch.
         public var fieldToMatch: FieldToMatch = FieldToMatch()
         /// The value that you want AWS WAF to search for. AWS WAF searches for the specified string in the part of web requests that you specified in FieldToMatch. The maximum length of the value is 50 bytes. Valid values depend on the values that you specified for FieldToMatch:    HEADER: The value that you want AWS WAF to search for in the request header that you specified in FieldToMatch, for example, the value of the User-Agent or Referer header.    METHOD: The HTTP method, which indicates the type of operation specified in the request. CloudFront supports the following methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, and PUT.    QUERY_STRING: The value that you want AWS WAF to search for in the query string, which is the part of a URL that appears after a ? character.    URI: The value that you want AWS WAF to search for in the part of a URL that identifies a resource, for example, /images/daily-ad.jpg.    BODY: The part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. The request body immediately follows the request headers. Note that only the first 8192 bytes of the request body are forwarded to AWS WAF for inspection. To allow or block requests based on the length of the body, you can create a size constraint set. For more information, see CreateSizeConstraintSet.    If TargetString includes alphabetic characters A-Z and a-z, note that the value is case sensitive.  If you're using the AWS WAF API  Specify a base64-encoded version of the value. The maximum length of the value before you base64-encode it is 50 bytes. For example, suppose the value of Type is HEADER and the value of Data is User-Agent. If you want to search the User-Agent header for the value BadBot, you base64-encode BadBot using MIME base64 encoding and include the resulting value, QmFkQm90, in the value of TargetString.  If you're using the AWS CLI or one of the AWS SDKs  The value that you want AWS WAF to search for. The SDK automatically base64 encodes the value.
@@ -1244,7 +1244,7 @@ extension Waf {
 
     public struct RuleSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique identifier for a Rule. You use RuleId to get more information about a Rule (see GetRule), update a Rule (see UpdateRule), insert a Rule into a WebACL or delete one from a WebACL (see UpdateWebACL), or delete a Rule from AWS WAF (see DeleteRule).  RuleId is returned by CreateRule and by ListRules.
         public var ruleId: String = ""
         /// A friendly name or description of the Rule. You can't change the name of a Rule after you create it.
@@ -1267,7 +1267,7 @@ extension Waf {
 
     public struct GetSizeConstraintSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the SizeConstraintSet that you specified in the GetSizeConstraintSet request. For more information, see the following topics:    SizeConstraintSet: Contains SizeConstraintSetId, SizeConstraints, and Name     SizeConstraints: Contains an array of SizeConstraint objects. Each SizeConstraint object contains FieldToMatch, TextTransformation, ComparisonOperator, and Size     FieldToMatch: Contains Data and Type   
         public var sizeConstraintSet: SizeConstraintSet? = nil
 
@@ -1284,7 +1284,7 @@ extension Waf {
 
     public struct XssMatchSetUpdate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the part of a web request that you want AWS WAF to inspect for cross-site scripting attacks and, if you want AWS WAF to inspect a header, the name of the header.
         public var xssMatchTuple: XssMatchTuple = XssMatchTuple()
         /// Specify INSERT to add a XssMatchSetUpdate to an XssMatchSet. Use DELETE to remove a XssMatchSetUpdate from an XssMatchSet.
@@ -1307,7 +1307,7 @@ extension Waf {
 
     public struct ListXssMatchSetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the number of XssMatchSet objects that you want AWS WAF to return for this request. If you have more XssMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
         public var limit: Int32? = nil
         /// If you specify a value for Limit and you have more XssMatchSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of XssMatchSets. For the second and subsequent ListXssMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of XssMatchSets.
@@ -1328,7 +1328,7 @@ extension Waf {
 
     public struct ListSqlInjectionMatchSetsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If you have more SqlInjectionMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more SqlInjectionMatchSet objects, submit another ListSqlInjectionMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
         public var nextMarker: String? = nil
         /// An array of SqlInjectionMatchSetSummary objects.
@@ -1351,7 +1351,7 @@ extension Waf {
 
     public struct UpdateRuleResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the UpdateRule request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
 
@@ -1368,7 +1368,7 @@ extension Waf {
 
     public struct SqlInjectionMatchSetUpdate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specify INSERT to add a SqlInjectionMatchSetUpdate to a SqlInjectionMatchSet. Use DELETE to remove a SqlInjectionMatchSetUpdate from a SqlInjectionMatchSet.
         public var action: String = ""
         /// Specifies the part of a web request that you want AWS WAF to inspect for snippets of malicious SQL code and, if you want AWS WAF to inspect a header, the name of the header.
@@ -1391,7 +1391,7 @@ extension Waf {
 
     public struct UpdateRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value returned by the most recent call to GetChangeToken.
         public var changeToken: String = ""
         /// The RuleId of the Rule that you want to update. RuleId is returned by CreateRule and by ListRules.
@@ -1419,7 +1419,7 @@ extension Waf {
 
     public struct GetSampledRequestsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of requests that you want AWS WAF to return from among the first 5,000 requests that your AWS resource received during the time range. If your resource received fewer requests than the value of MaxItems, GetSampledRequests returns information about all of them. 
         public var maxItems: Int64 = 0
         /// The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests. Specify the date and time in the following format: "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
@@ -1452,7 +1452,7 @@ extension Waf {
 
     public struct UpdateXssMatchSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the UpdateXssMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
 
@@ -1469,7 +1469,7 @@ extension Waf {
 
     public struct CreateSqlInjectionMatchSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value returned by the most recent call to GetChangeToken.
         public var changeToken: String = ""
         /// A friendly name or description for the SqlInjectionMatchSet that you're creating. You can't change Name after you create the SqlInjectionMatchSet.
@@ -1492,7 +1492,7 @@ extension Waf {
 
     public struct DeleteRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value returned by the most recent call to GetChangeToken.
         public var changeToken: String = ""
         /// The RuleId of the Rule that you want to delete. RuleId is returned by CreateRule and by ListRules.
@@ -1515,7 +1515,7 @@ extension Waf {
 
     public struct DeleteWebACLResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the DeleteWebACL request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
 
@@ -1532,7 +1532,7 @@ extension Waf {
 
     public struct UpdateSizeConstraintSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the UpdateSizeConstraintSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
 
@@ -1549,7 +1549,7 @@ extension Waf {
 
     public struct SqlInjectionMatchSetSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique identifier for a SqlInjectionMatchSet. You use SqlInjectionMatchSetId to get information about a SqlInjectionMatchSet (see GetSqlInjectionMatchSet), update a SqlInjectionMatchSet (see UpdateSqlInjectionMatchSet), insert a SqlInjectionMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete a SqlInjectionMatchSet from AWS WAF (see DeleteSqlInjectionMatchSet).  SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
         public var sqlInjectionMatchSetId: String = ""
         /// The name of the SqlInjectionMatchSet, if any, specified by Id.
@@ -1572,7 +1572,7 @@ extension Waf {
 
     public struct ListWebACLsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of WebACLSummary objects.
         public var webACLs: [WebACLSummary]? = nil
         /// If you have more WebACL objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more WebACL objects, submit another ListWebACLs request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -1595,7 +1595,7 @@ extension Waf {
 
     public struct DeleteXssMatchSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The XssMatchSetId of the XssMatchSet that you want to delete. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
         public var xssMatchSetId: String = ""
         /// The value returned by the most recent call to GetChangeToken.
@@ -1618,7 +1618,7 @@ extension Waf {
 
     public struct SizeConstraintSetSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the SizeConstraintSet, if any.
         public var name: String = ""
         /// A unique identifier for a SizeConstraintSet. You use SizeConstraintSetId to get information about a SizeConstraintSet (see GetSizeConstraintSet), update a SizeConstraintSet (see UpdateSizeConstraintSet), insert a SizeConstraintSet into a Rule or delete one from a Rule (see UpdateRule), and delete a SizeConstraintSet from AWS WAF (see DeleteSizeConstraintSet).  SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
@@ -1641,7 +1641,7 @@ extension Waf {
 
     public struct DeleteByteMatchSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value returned by the most recent call to GetChangeToken.
         public var changeToken: String = ""
         /// The ByteMatchSetId of the ByteMatchSet that you want to delete. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
@@ -1664,7 +1664,7 @@ extension Waf {
 
     public struct FieldToMatch: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The part of the web request that you want AWS WAF to search for a specified string. Parts of a request that you can search include the following:    HEADER: A specified request header, for example, the value of the User-Agent or Referer header. If you choose HEADER for the type, specify the name of the header in Data.    METHOD: The HTTP method, which indicated the type of operation that the request is asking the origin to perform. Amazon CloudFront supports the following methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, and PUT.    QUERY_STRING: A query string, which is the part of a URL that appears after a ? character, if any.    URI: The part of a web request that identifies a resource, for example, /images/daily-ad.jpg.    BODY: The part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. The request body immediately follows the request headers. Note that only the first 8192 bytes of the request body are forwarded to AWS WAF for inspection. To allow or block requests based on the length of the body, you can create a size constraint set. For more information, see CreateSizeConstraintSet.   
         public var type: String = ""
         /// When the value of Type is HEADER, enter the name of the header that you want AWS WAF to search, for example, User-Agent or Referer. If the value of Type is any other value, omit Data. The name of the header is not case sensitive.
@@ -1686,7 +1686,7 @@ extension Waf {
 
     public struct UpdateByteMatchSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the UpdateByteMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
 
@@ -1703,7 +1703,7 @@ extension Waf {
 
     public struct CreateByteMatchSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the CreateByteMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
         /// A ByteMatchSet that contains no ByteMatchTuple objects.
@@ -1724,7 +1724,7 @@ extension Waf {
 
     public struct SampledHTTPRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time at which AWS WAF received the request from your AWS resource, in Unix time format (in seconds).
         public var timestamp: Date? = nil
         /// A complex type that contains detailed information about the request.
@@ -1755,7 +1755,7 @@ extension Waf {
 
     public struct IPSetSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IPSetId for an IPSet. You can use IPSetId in a GetIPSet request to get detailed information about an IPSet.
         public var iPSetId: String = ""
         /// A friendly name or description of the IPSet. You can't change the name of an IPSet after you create it.
@@ -1778,7 +1778,7 @@ extension Waf {
 
     public struct GetIPSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the IPSet that you specified in the GetIPSet request. For more information, see the following topics:    IPSet: Contains IPSetDescriptors, IPSetId, and Name     IPSetDescriptors: Contains an array of IPSetDescriptor objects. Each IPSetDescriptor object contains Type and Value   
         public var iPSet: IPSet? = nil
 
@@ -1795,7 +1795,7 @@ extension Waf {
 
     public struct ListByteMatchSetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the number of ByteMatchSet objects that you want AWS WAF to return for this request. If you have more ByteMatchSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of ByteMatchSet objects.
         public var limit: Int32? = nil
         /// If you specify a value for Limit and you have more ByteMatchSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ByteMatchSets. For the second and subsequent ListByteMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of ByteMatchSets.
@@ -1816,7 +1816,7 @@ extension Waf {
 
     public struct XssMatchTuple: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies where in a web request to look for cross-site scripting attacks.
         public var fieldToMatch: FieldToMatch = FieldToMatch()
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF. If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting a request for a match.  CMD_LINE  When you're concerned that attackers are injecting an operating system commandline command and using unusual formatting to disguise some or all of the command, use this option to perform the following transformations:   Delete the following characters: \ " ' ^   Delete spaces before the following characters: / (   Replace the following characters with a space: , ;   Replace multiple spaces with one space   Convert uppercase letters (A-Z) to lowercase (a-z)    COMPRESS_WHITE_SPACE  Use this option to replace the following characters with a space character (decimal 32):   \f, formfeed, decimal 12   \t, tab, decimal 9   \n, newline, decimal 10   \r, carriage return, decimal 13   \v, vertical tab, decimal 11   non-breaking space, decimal 160    COMPRESS_WHITE_SPACE also replaces multiple spaces with one space.  HTML_ENTITY_DECODE  Use this option to replace HTML-encoded characters with unencoded characters. HTML_ENTITY_DECODE performs the following operations:   Replaces (ampersand)quot; with "    Replaces (ampersand)nbsp; with a non-breaking space, decimal 160   Replaces (ampersand)lt; with a "less than" symbol   Replaces (ampersand)gt; with &gt;    Replaces characters that are represented in hexadecimal format, (ampersand)#xhhhh;, with the corresponding characters   Replaces characters that are represented in decimal format, (ampersand)#nnnn;, with the corresponding characters    LOWERCASE  Use this option to convert uppercase letters (A-Z) to lowercase (a-z).  URL_DECODE  Use this option to decode a URL-encoded value.  NONE  Specify NONE if you don't want to perform any text transformations.
@@ -1839,7 +1839,7 @@ extension Waf {
 
     public struct DeleteByteMatchSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the DeleteByteMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
 
@@ -1856,7 +1856,7 @@ extension Waf {
 
     public struct GetSqlInjectionMatchSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to get. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
         public var sqlInjectionMatchSetId: String = ""
 
@@ -1874,7 +1874,7 @@ extension Waf {
 
     public struct DeleteSizeConstraintSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value returned by the most recent call to GetChangeToken.
         public var changeToken: String = ""
         /// The SizeConstraintSetId of the SizeConstraintSet that you want to delete. SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
@@ -1897,7 +1897,7 @@ extension Waf {
 
     public struct GetSqlInjectionMatchSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the SqlInjectionMatchSet that you specified in the GetSqlInjectionMatchSet request. For more information, see the following topics:    SqlInjectionMatchSet: Contains Name, SqlInjectionMatchSetId, and an array of SqlInjectionMatchTuple objects    SqlInjectionMatchTuple: Each SqlInjectionMatchTuple object contains FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type   
         public var sqlInjectionMatchSet: SqlInjectionMatchSet? = nil
 
@@ -1914,7 +1914,7 @@ extension Waf {
 
     public struct GetChangeTokenStatusResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the change token.
         public var changeTokenStatus: String? = nil
 
@@ -1931,7 +1931,7 @@ extension Waf {
 
     public struct UpdateByteMatchSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value returned by the most recent call to GetChangeToken.
         public var changeToken: String = ""
         /// The ByteMatchSetId of the ByteMatchSet that you want to update. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
@@ -1959,7 +1959,7 @@ extension Waf {
 
     public struct SizeConstraintSet: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the parts of web requests that you want to inspect the size of.
         public var sizeConstraints: [SizeConstraint] = []
         /// The name, if any, of the SizeConstraintSet.
@@ -1986,7 +1986,7 @@ extension Waf {
 
     public struct GetXssMatchSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the XssMatchSet that you specified in the GetXssMatchSet request. For more information, see the following topics:    XssMatchSet: Contains Name, XssMatchSetId, and an array of XssMatchTuple objects    XssMatchTuple: Each XssMatchTuple object contains FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type   
         public var xssMatchSet: XssMatchSet? = nil
 
@@ -2003,7 +2003,7 @@ extension Waf {
 
     public struct UpdateWebACLRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A default action for the web ACL, either ALLOW or BLOCK. AWS WAF performs the default action if a request doesn't match the criteria in any of the rules in a web ACL.
         public var defaultAction: WafAction? = nil
         /// An array of updates to make to the WebACL. An array of WebACLUpdate objects that you want to insert into or delete from a WebACL. For more information, see the applicable data types:    WebACLUpdate: Contains Action and ActivatedRule     ActivatedRule: Contains Action, Priority, and RuleId     WafAction: Contains Type   
@@ -2036,7 +2036,7 @@ extension Waf {
 
     public struct GetWebACLRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The WebACLId of the WebACL that you want to get. WebACLId is returned by CreateWebACL and by ListWebACLs.
         public var webACLId: String = ""
 
@@ -2054,7 +2054,7 @@ extension Waf {
 
     public struct ListSqlInjectionMatchSetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the number of SqlInjectionMatchSet objects that you want AWS WAF to return for this request. If you have more SqlInjectionMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
         public var limit: Int32? = nil
         /// If you specify a value for Limit and you have more SqlInjectionMatchSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of SqlInjectionMatchSets. For the second and subsequent ListSqlInjectionMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of SqlInjectionMatchSets.
@@ -2075,7 +2075,7 @@ extension Waf {
 
     public struct ByteMatchSetSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ByteMatchSetId for a ByteMatchSet. You use ByteMatchSetId to get information about a ByteMatchSet, update a ByteMatchSet, remove a ByteMatchSet from a Rule, and delete a ByteMatchSet from AWS WAF.  ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
         public var byteMatchSetId: String = ""
         /// A friendly name or description of the ByteMatchSet. You can't change Name after you create a ByteMatchSet.
@@ -2098,7 +2098,7 @@ extension Waf {
 
     public struct ListRulesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of RuleSummary objects.
         public var rules: [RuleSummary]? = nil
         /// If you have more Rules than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more Rules, submit another ListRules request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -2121,7 +2121,7 @@ extension Waf {
 
     public struct ByteMatchSet: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ByteMatchSetId for a ByteMatchSet. You use ByteMatchSetId to get information about a ByteMatchSet (see GetByteMatchSet), update a ByteMatchSet (see UpdateByteMatchSet), insert a ByteMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete a ByteMatchSet from AWS WAF (see DeleteByteMatchSet).  ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
         public var byteMatchSetId: String = ""
         /// A friendly name or description of the ByteMatchSet. You can't change Name after you create a ByteMatchSet.
@@ -2148,7 +2148,7 @@ extension Waf {
 
     public struct ListSizeConstraintSetsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of SizeConstraintSetSummary objects.
         public var sizeConstraintSets: [SizeConstraintSetSummary]? = nil
         /// If you have more SizeConstraintSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more SizeConstraintSet objects, submit another ListSizeConstraintSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -2171,7 +2171,7 @@ extension Waf {
 
     public struct GetRuleResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the Rule that you specified in the GetRule request. For more information, see the following topics:    Rule: Contains MetricName, Name, an array of Predicate objects, and RuleId     Predicate: Each Predicate object contains DataId, Negated, and Type   
         public var rule: Rule? = nil
 
@@ -2188,7 +2188,7 @@ extension Waf {
 
     public struct CreateSizeConstraintSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value returned by the most recent call to GetChangeToken.
         public var changeToken: String = ""
         /// A friendly name or description of the SizeConstraintSet. You can't change Name after you create a SizeConstraintSet.
@@ -2211,7 +2211,7 @@ extension Waf {
 
     public struct ListByteMatchSetsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of ByteMatchSetSummary objects.
         public var byteMatchSets: [ByteMatchSetSummary]? = nil
         /// If you have more ByteMatchSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more ByteMatchSet objects, submit another ListByteMatchSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -2234,7 +2234,7 @@ extension Waf {
 
     public struct Predicate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of predicate in a Rule, such as ByteMatchSet or IPSet.
         public var type: String = ""
         /// Set Negated to False if you want AWS WAF to allow, block, or count requests based on the settings in the specified ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, or SizeConstraintSet. For example, if an IPSet includes the IP address 192.0.2.44, AWS WAF will allow or block requests based on that IP address. Set Negated to True if you want AWS WAF to allow or block a request based on the negation of the settings in the ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, or SizeConstraintSet. For example, if an IPSet includes the IP address 192.0.2.44, AWS WAF will allow, block, or count requests based on all IP addresses except 192.0.2.44.
@@ -2262,7 +2262,7 @@ extension Waf {
 
     public struct RuleUpdate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specify INSERT to add a Predicate to a Rule. Use DELETE to remove a Predicate from a Rule.
         public var action: String = ""
         /// The ID of the Predicate (such as an IPSet) that you want to add to a Rule.
@@ -2285,7 +2285,7 @@ extension Waf {
 
     public struct DeleteSqlInjectionMatchSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the DeleteSqlInjectionMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
 
@@ -2302,7 +2302,7 @@ extension Waf {
 
     public struct GetSampledRequestsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The total number of requests from which GetSampledRequests got a sample of MaxItems requests. If PopulationSize is less than MaxItems, the sample includes every request that your AWS resource received during the specified time range.
         public var populationSize: Int64? = nil
         /// A complex type that contains detailed information about each of the requests in the sample.
@@ -2329,7 +2329,7 @@ extension Waf {
 
     public struct ListIPSetsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of IPSetSummary objects.
         public var iPSets: [IPSetSummary]? = nil
         /// If you have more IPSet objects than the number that you specified for Limit in the request, the response includes a NextMarker value. To list more IPSet objects, submit another ListIPSets request, and specify the NextMarker value from the response in the NextMarker value in the next request.
@@ -2352,7 +2352,7 @@ extension Waf {
 
     public struct DeleteXssMatchSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ChangeToken that you used to submit the DeleteXssMatchSet request. You can also use this value to query the status of the request. For more information, see GetChangeTokenStatus.
         public var changeToken: String? = nil
 
@@ -2369,7 +2369,7 @@ extension Waf {
 
     public struct XssMatchSet: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique identifier for an XssMatchSet. You use XssMatchSetId to get information about an XssMatchSet (see GetXssMatchSet), update an XssMatchSet (see UpdateXssMatchSet), insert an XssMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete an XssMatchSet from AWS WAF (see DeleteXssMatchSet).  XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
         public var xssMatchSetId: String = ""
         /// The name, if any, of the XssMatchSet.
@@ -2396,7 +2396,7 @@ extension Waf {
 
     public struct GetRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The RuleId of the Rule that you want to get. RuleId is returned by CreateRule and by ListRules.
         public var ruleId: String = ""
 
@@ -2414,7 +2414,7 @@ extension Waf {
 
     public struct WebACL: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A friendly name or description for the metrics for this WebACL. The name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain whitespace. You can't change MetricName after you create the WebACL.
         public var metricName: String? = nil
         /// The action to perform if none of the Rules contained in the WebACL match. The action is specified by the WafAction object.
@@ -2450,7 +2450,7 @@ extension Waf {
 
     public struct ListSizeConstraintSetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the number of SizeConstraintSet objects that you want AWS WAF to return for this request. If you have more SizeConstraintSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of SizeConstraintSet objects.
         public var limit: Int32? = nil
         /// If you specify a value for Limit and you have more SizeConstraintSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of SizeConstraintSets. For the second and subsequent ListSizeConstraintSets requests, specify the value of NextMarker from the previous response to get information about another batch of SizeConstraintSets.
@@ -2471,7 +2471,7 @@ extension Waf {
 
     public struct SqlInjectionMatchSet: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique identifier for a SqlInjectionMatchSet. You use SqlInjectionMatchSetId to get information about a SqlInjectionMatchSet (see GetSqlInjectionMatchSet), update a SqlInjectionMatchSet (see UpdateSqlInjectionMatchSet), insert a SqlInjectionMatchSet into a Rule or delete one from a Rule (see UpdateRule), and delete a SqlInjectionMatchSet from AWS WAF (see DeleteSqlInjectionMatchSet).  SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
         public var sqlInjectionMatchSetId: String = ""
         /// Specifies the parts of web requests that you want to inspect for snippets of malicious SQL code.

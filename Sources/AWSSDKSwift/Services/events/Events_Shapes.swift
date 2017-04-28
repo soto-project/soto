@@ -31,7 +31,7 @@ extension Events {
 
     public struct InputTransformer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Input template where you can use the values of the keys from InputPathsMap to customize the data sent to the target.
         public var inputTemplate: String = ""
         /// Map of JSON paths to be extracted from the event. These are key-value pairs, where each value is a JSON path.
@@ -55,7 +55,7 @@ extension Events {
 
     public struct PutTargetsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of failed entries.
         public var failedEntryCount: Int32? = nil
         /// The failed target entries.
@@ -78,7 +78,7 @@ extension Events {
 
     public struct Rule: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the rule.
         public var arn: String? = nil
         /// The state of the rule.
@@ -119,7 +119,7 @@ extension Events {
 
     public struct Target: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Parameters used when you are using the rule to invoke Amazon EC2 Run Command.
         public var runCommandParameters: RunCommandParameters? = nil
         /// Settings to enable you to provide custom input to a target based on certain event data. You can extract one or more key-value pairs from the event and then use that data to send customized input to the target.
@@ -170,7 +170,7 @@ extension Events {
 
     public struct DisableRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the rule.
         public var name: String = ""
 
@@ -188,7 +188,7 @@ extension Events {
 
     public struct TestEventPatternRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The event, in JSON format, to test against the event pattern.
         public var event: String = ""
         /// The event pattern.
@@ -211,7 +211,7 @@ extension Events {
 
     public struct RunCommandTarget: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Can be either tag: tag-key or InstanceIds.
         public var key: String = ""
         /// If Key is tag: tag-key, Values is a list of tag values. If Key is InstanceIds, Values is a list of Amazon EC2 instance IDs.
@@ -234,7 +234,7 @@ extension Events {
 
     public struct ListRuleNamesByTargetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token returned by a previous call to retrieve the next set of results.
         public var nextToken: String? = nil
         /// The Amazon Resource Name (ARN) of the target resource.
@@ -260,7 +260,7 @@ extension Events {
 
     public struct PutRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A description of the rule.
         public var description: String? = nil
         /// The scheduling expression. For example, "cron(0 20 * * ? *)", "rate(5 minutes)".
@@ -298,7 +298,7 @@ extension Events {
 
     public struct RunCommandParameters: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Currently, we support including only one RunCommandTarget block, which specifies either an array of InstanceIds or a tag.
         public var runCommandTargets: [RunCommandTarget] = []
 
@@ -316,7 +316,7 @@ extension Events {
 
     public struct ListTargetsByRuleResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The targets assigned to the rule.
         public var targets: [Target]? = nil
         /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
@@ -339,7 +339,7 @@ extension Events {
 
     public struct DeleteRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the rule.
         public var name: String = ""
 
@@ -357,7 +357,7 @@ extension Events {
 
     public struct DescribeRuleResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the rule.
         public var arn: String? = nil
         /// Specifies whether the rule is enabled or disabled.
@@ -398,7 +398,7 @@ extension Events {
 
     public struct PutEventsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
         public var entries: [PutEventsRequestEntry] = []
 
@@ -416,7 +416,7 @@ extension Events {
 
     public struct RemoveTargetsResultEntry: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The error message that explains why the target removal failed.
         public var errorMessage: String? = nil
         /// The error code that indicates why the target removal failed.
@@ -441,7 +441,7 @@ extension Events {
 
     public struct PutEventsRequestEntry: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// In the JSON sense, an object containing fields, which may also contain nested subobjects. No constraints are imposed on its contents.
         public var detail: String? = nil
         /// Free-form string used to decide what fields to expect in the event detail.
@@ -476,7 +476,7 @@ extension Events {
 
     public struct TestEventPatternResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether the event matches the event pattern.
         public var result: Bool? = nil
 
@@ -493,7 +493,7 @@ extension Events {
 
     public struct PutTargetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The targets to update or add to the rule.
         public var targets: [Target] = []
         /// The name of the rule.
@@ -516,7 +516,7 @@ extension Events {
 
     public struct EnableRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the rule.
         public var name: String = ""
 
@@ -534,7 +534,7 @@ extension Events {
 
     public struct PutTargetsResultEntry: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The error message that explains why the target addition failed.
         public var errorMessage: String? = nil
         /// The error code that indicates why the target addition failed.
@@ -559,7 +559,7 @@ extension Events {
 
     public struct ListRulesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
         public var nextToken: String? = nil
         /// The rules that match the specified criteria.
@@ -582,7 +582,7 @@ extension Events {
 
     public struct RemoveTargetsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of failed entries.
         public var failedEntryCount: Int32? = nil
         /// The failed target entries.
@@ -605,7 +605,7 @@ extension Events {
 
     public struct EcsParameters: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of tasks to create based on the TaskDefinition. The default is one.
         public var taskCount: Int32? = nil
         /// The ARN of the task definition to use if the event target is an Amazon ECS cluster. 
@@ -627,7 +627,7 @@ extension Events {
 
     public struct DescribeRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the rule.
         public var name: String = ""
 
@@ -645,7 +645,7 @@ extension Events {
 
     public struct RemoveTargetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of the targets to remove from the rule.
         public var ids: [String] = []
         /// The name of the rule.
@@ -668,7 +668,7 @@ extension Events {
 
     public struct PutRuleResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the rule.
         public var ruleArn: String? = nil
 
@@ -685,7 +685,7 @@ extension Events {
 
     public struct ListRulesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The prefix matching the rule name.
         public var namePrefix: String? = nil
         /// The token returned by a previous call to retrieve the next set of results.
@@ -710,7 +710,7 @@ extension Events {
 
     public struct ListRuleNamesByTargetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
         public var nextToken: String? = nil
         /// The names of the rules that can invoke the given target.
@@ -733,7 +733,7 @@ extension Events {
 
     public struct ListTargetsByRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the rule.
         public var rule: String = ""
         /// The token returned by a previous call to retrieve the next set of results.
@@ -759,7 +759,7 @@ extension Events {
 
     public struct PutEventsResultEntry: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The error message that explains why the event submission failed.
         public var errorMessage: String? = nil
         /// The ID of the event.
@@ -784,7 +784,7 @@ extension Events {
 
     public struct PutEventsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of failed entries.
         public var failedEntryCount: Int32? = nil
         /// The successfully and unsuccessfully ingested events results. If the ingestion was successful, the entry has the event ID in it. Otherwise, you can use the error code and error message to identify the problem with the entry.
@@ -807,7 +807,7 @@ extension Events {
 
     public struct KinesisParameters: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The JSON path to be extracted from the event and used as the partition key. For more information, see Amazon Kinesis Streams Key Concepts in the Amazon Kinesis Streams Developer Guide.
         public var partitionKeyPath: String = ""
 

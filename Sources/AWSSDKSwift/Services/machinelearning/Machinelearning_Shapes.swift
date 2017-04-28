@@ -31,7 +31,7 @@ extension Machinelearning {
 
     public struct CreateBatchPredictionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied name or description of the BatchPrediction. BatchPredictionName can only use the UTF-8 character set.
         public var batchPredictionName: String? = nil
         /// A user-supplied ID that uniquely identifies the BatchPrediction.
@@ -68,7 +68,7 @@ extension Machinelearning {
 
     public struct CreateDataSourceFromRedshiftInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied ID that uniquely identifies the DataSource.
         public var dataSourceId: String = ""
         /// A user-supplied name or description of the DataSource. 
@@ -104,7 +104,7 @@ extension Machinelearning {
 
     public struct CreateDataSourceFromS3Output: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request. 
         public var dataSourceId: String? = nil
 
@@ -121,7 +121,7 @@ extension Machinelearning {
 
     public struct S3DataSpec: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The location of the data file(s) used by a DataSource. The URI specifies a data file or an Amazon Simple Storage Service (Amazon S3) directory or bucket containing data files.
         public var dataLocationS3: String = ""
         ///  A JSON string that represents the schema for an Amazon S3 DataSource. The DataSchema defines the structure of the observation data in the data file(s) referenced in the DataSource. You must provide either the DataSchema or the DataSchemaLocationS3. Define your DataSchema as a series of key-value pairs. attributes and excludedVariableNames have an array of key-value pairs for their value. Use the following format to define your DataSchema. { "version": "1.0",  "recordAnnotationFieldName": "F1",  "recordWeightFieldName": "F2",  "targetFieldName": "F3",  "dataFormat": "CSV",  "dataFileContainsHeader": true,  "attributes": [  { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2", "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" }, { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5", "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, { "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName": "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],  "excludedVariableNames": [ "F6" ] }  
@@ -151,7 +151,7 @@ extension Machinelearning {
 
     public struct DescribeDataSourcesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An ID of the next page in the paginated results that indicates at least one more page follows.
         public var nextToken: String? = nil
         /// A list of DataSource that meet the search criteria. 
@@ -174,7 +174,7 @@ extension Machinelearning {
 
     public struct DeleteBatchPredictionOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied ID that uniquely identifies the BatchPrediction. This value should be identical to the value of the BatchPredictionID in the request.
         public var batchPredictionId: String? = nil
 
@@ -191,7 +191,7 @@ extension Machinelearning {
 
     public struct GetMLModelInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID assigned to the MLModel at creation.
         public var mLModelId: String = ""
         /// Specifies whether the GetMLModel operation should return Recipe. If true, Recipe is returned. If false, Recipe is not returned.
@@ -213,7 +213,7 @@ extension Machinelearning {
 
     public struct RedshiftMetadata: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The SQL query that is specified during CreateDataSourceFromRedshift. Returns only if Verbose is true in GetDataSourceInput. 
         public var selectSqlQuery: String? = nil
         public var databaseUserName: String? = nil
@@ -236,7 +236,7 @@ extension Machinelearning {
 
     public struct RDSDatabase: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of an RDS DB instance.
         public var instanceIdentifier: String = ""
         public var databaseName: String = ""
@@ -258,7 +258,7 @@ extension Machinelearning {
 
     public struct DeleteBatchPredictionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied ID that uniquely identifies the BatchPrediction.
         public var batchPredictionId: String = ""
 
@@ -276,7 +276,7 @@ extension Machinelearning {
 
     public struct UpdateMLModelInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID assigned to the MLModel during creation.
         public var mLModelId: String = ""
         /// The ScoreThreshold used in binary classification MLModel that marks the boundary between a positive prediction and a negative prediction. Output values greater than or equal to the ScoreThreshold receive a positive result from the MLModel, such as true. Output values less than the ScoreThreshold receive a negative response from the MLModel, such as false.
@@ -302,7 +302,7 @@ extension Machinelearning {
 
     public struct DescribeMLModelsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the next page in the paginated results that indicates at least one more page follows.
         public var nextToken: String? = nil
         /// A list of MLModel that meet the search criteria.
@@ -325,7 +325,7 @@ extension Machinelearning {
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An optional string, typically used to describe or define the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @.
         public var value: String? = nil
         /// A unique identifier for the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @.
@@ -346,7 +346,7 @@ extension Machinelearning {
 
     public struct CreateEvaluationInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied name or description of the Evaluation.
         public var evaluationName: String? = nil
         /// A user-supplied ID that uniquely identifies the Evaluation.
@@ -378,7 +378,7 @@ extension Machinelearning {
 
     public struct RealtimeEndpointInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The maximum processing rate for the real-time endpoint for MLModel, measured in incoming requests per second.
         public var peakRequestsPerSecond: Int32? = nil
         /// The URI that specifies where to send real-time prediction requests for the MLModel. Note The application must wait until the real-time endpoint is ready before using this URI. 
@@ -407,7 +407,7 @@ extension Machinelearning {
 
     public struct DescribeBatchPredictionsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the next page in the paginated results that indicates at least one more page follows.
         public var nextToken: String? = nil
         /// A list of BatchPrediction objects that meet the search criteria. 
@@ -430,7 +430,7 @@ extension Machinelearning {
 
     public struct GetDataSourceOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The total size of observations in the data files.
         public var dataSizeInBytes: Int64? = nil
         /// The user-supplied description of the most recent details about creating the DataSource.
@@ -520,7 +520,7 @@ extension Machinelearning {
 
     public struct PredictInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique identifier of the MLModel.
         public var mLModelId: String = ""
         public var predictEndpoint: String = ""
@@ -546,7 +546,7 @@ extension Machinelearning {
 
     public struct DeleteRealtimeEndpointOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
         public var mLModelId: String? = nil
         /// The endpoint information of the MLModel 
@@ -567,7 +567,7 @@ extension Machinelearning {
 
     public struct DescribeEvaluationsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the next page in the paginated results that indicates at least one more page follows.
         public var nextToken: String? = nil
         /// A list of Evaluation that meet the search criteria. 
@@ -590,7 +590,7 @@ extension Machinelearning {
 
     public struct RDSDataSpec: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon S3 location of the DataSchema. 
         public var dataSchemaUri: String? = nil
         /// The AWS Identity and Access Management (IAM) credentials that are used connect to the Amazon RDS database.
@@ -655,7 +655,7 @@ extension Machinelearning {
 
     public struct Prediction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var details: [String: String]? = nil
         public var predictedScores: [String: Float]? = nil
         /// The prediction label for either a BINARY or MULTICLASS MLModel.
@@ -686,7 +686,7 @@ extension Machinelearning {
 
     public struct DeleteMLModelInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied ID that uniquely identifies the MLModel.
         public var mLModelId: String = ""
 
@@ -704,7 +704,7 @@ extension Machinelearning {
 
     public struct GetBatchPredictionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An ID assigned to the BatchPrediction at creation.
         public var batchPredictionId: String = ""
 
@@ -722,7 +722,7 @@ extension Machinelearning {
 
     public struct CreateDataSourceFromRDSInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied ID that uniquely identifies the DataSource. Typically, an Amazon Resource Number (ARN) becomes the ID for a DataSource.
         public var dataSourceId: String = ""
         /// The data specification of an Amazon RDS DataSource:  DatabaseInformation -   DatabaseName - The name of the Amazon RDS database.  InstanceIdentifier  - A unique identifier for the Amazon RDS database instance.   DatabaseCredentials - AWS Identity and Access Management (IAM) credentials that are used to connect to the Amazon RDS database. ResourceRole - A role (DataPipelineDefaultResourceRole) assumed by an EC2 instance to carry out the copy task from Amazon RDS to Amazon Simple Storage Service (Amazon S3). For more information, see Role templates for data pipelines. ServiceRole - A role (DataPipelineDefaultRole) assumed by the AWS Data Pipeline service to monitor the progress of the copy task from Amazon RDS to Amazon S3. For more information, see Role templates for data pipelines. SecurityInfo - The security information to use to access an RDS DB instance. You need to set up appropriate ingress rules for the security entity IDs provided to allow access to the Amazon RDS instance. Specify a [SubnetId, SecurityGroupIds] pair for a VPC-based RDS DB instance. SelectSqlQuery - A query that is used to retrieve the observation data for the Datasource. S3StagingLocation - The Amazon S3 location for staging Amazon RDS data. The data retrieved from Amazon RDS using SelectSqlQuery is stored in this location. DataSchemaUri - The Amazon S3 location of the DataSchema. DataSchema - A JSON string representing the schema. This is not required if DataSchemaUri is specified.   DataRearrangement - A JSON string that represents the splitting and rearrangement requirements for the Datasource.    Sample -  "{\"splitting\":{\"percentBegin\":10,\"percentEnd\":60}}"   
@@ -758,7 +758,7 @@ extension Machinelearning {
 
     public struct RedshiftDataSpec: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Describes the schema location for an Amazon Redshift DataSource.
         public var dataSchemaUri: String? = nil
         /// Describes AWS Identity and Access Management (IAM) credentials that are used connect to the Amazon Redshift database.
@@ -803,7 +803,7 @@ extension Machinelearning {
 
     public struct Evaluation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Measurements of how well the MLModel performed, using observations referenced by the DataSource. One of the following metrics is returned, based on the type of the MLModel:    BinaryAUC: A binary MLModel uses the Area Under the Curve (AUC) technique to measure performance.    RegressionRMSE: A regression MLModel uses the Root Mean Square Error (RMSE) technique to measure performance. RMSE measures the difference between predicted and actual values for a single variable.   MulticlassAvgFScore: A multiclass MLModel uses the F1 score technique to measure performance.     For more information about performance metrics, please see the Amazon Machine Learning Developer Guide. 
         public var performanceMetrics: PerformanceMetrics? = nil
         /// The ID that is assigned to the Evaluation at creation.
@@ -869,7 +869,7 @@ extension Machinelearning {
 
     public struct CreateDataSourceFromRedshiftOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request. 
         public var dataSourceId: String? = nil
 
@@ -886,7 +886,7 @@ extension Machinelearning {
 
     public struct RDSMetadata: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var databaseUserName: String? = nil
         /// The ID of the Data Pipeline instance that is used to carry to copy data from Amazon RDS to Amazon S3. You can use the ID to find details about the instance in the Data Pipeline console.
         public var dataPipelineId: String? = nil
@@ -922,7 +922,7 @@ extension Machinelearning {
 
     public struct DescribeTagsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the tagged ML object.
         public var resourceId: String? = nil
         /// A list of tags associated with the ML object.
@@ -949,7 +949,7 @@ extension Machinelearning {
 
     public struct CreateEvaluationOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
         public var evaluationId: String? = nil
 
@@ -966,7 +966,7 @@ extension Machinelearning {
 
     public struct AddTagsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the ML object that was tagged.
         public var resourceId: String? = nil
         /// The type of the ML object that was tagged.
@@ -987,7 +987,7 @@ extension Machinelearning {
 
     public struct DeleteDataSourceInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied ID that uniquely identifies the DataSource.
         public var dataSourceId: String = ""
 
@@ -1005,7 +1005,7 @@ extension Machinelearning {
 
     public struct UpdateDataSourceInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID assigned to the DataSource during creation.
         public var dataSourceId: String = ""
         /// A new user-supplied name or description of the DataSource that will replace the current description. 
@@ -1028,7 +1028,7 @@ extension Machinelearning {
 
     public struct GetBatchPredictionOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A description of the most recent details about processing the batch prediction request.
         public var message: String? = nil
         /// The ID of the MLModel that generated predictions for the BatchPrediction request.
@@ -1109,7 +1109,7 @@ extension Machinelearning {
 
     public struct UpdateBatchPredictionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A new user-supplied name or description of the BatchPrediction.
         public var batchPredictionName: String = ""
         /// The ID assigned to the BatchPrediction during creation.
@@ -1132,7 +1132,7 @@ extension Machinelearning {
 
     public struct RedshiftDatabaseCredentials: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var password: String = ""
         public var username: String = ""
 
@@ -1153,7 +1153,7 @@ extension Machinelearning {
 
     public struct UpdateEvaluationOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID assigned to the Evaluation during creation. This value should be identical to the value of the Evaluation in the request.
         public var evaluationId: String? = nil
 
@@ -1170,7 +1170,7 @@ extension Machinelearning {
 
     public struct UpdateEvaluationInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A new user-supplied name or description of the Evaluation that will replace the current content. 
         public var evaluationName: String = ""
         /// The ID assigned to the Evaluation during creation.
@@ -1193,7 +1193,7 @@ extension Machinelearning {
 
     public struct CreateBatchPredictionOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied ID that uniquely identifies the BatchPrediction. This value is identical to the value of the BatchPredictionId in the request.
         public var batchPredictionId: String? = nil
 
@@ -1210,7 +1210,7 @@ extension Machinelearning {
 
     public struct DescribeEvaluationsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The not equal to operator. The Evaluation results will have FilterVariable values not equal to the value specified with NE.
         public var nE: String? = nil
         /// The equal to operator. The Evaluation results will have FilterVariable values that exactly match the value specified with EQ.
@@ -1267,7 +1267,7 @@ extension Machinelearning {
 
     public struct CreateMLModelOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request. 
         public var mLModelId: String? = nil
 
@@ -1284,7 +1284,7 @@ extension Machinelearning {
 
     public struct RedshiftDatabase: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var clusterIdentifier: String = ""
         public var databaseName: String = ""
 
@@ -1305,7 +1305,7 @@ extension Machinelearning {
 
     public struct UpdateMLModelOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID assigned to the MLModel during creation. This value should be identical to the value of the MLModelID in the request.
         public var mLModelId: String? = nil
 
@@ -1322,7 +1322,7 @@ extension Machinelearning {
 
     public struct BatchPrediction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A description of the most recent details about processing the batch prediction request.
         public var message: String? = nil
         /// The ID of the MLModel that generated predictions for the BatchPrediction request.
@@ -1394,7 +1394,7 @@ extension Machinelearning {
 
     public struct CreateDataSourceFromS3Input: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied identifier that uniquely identifies the DataSource. 
         public var dataSourceId: String = ""
         /// A user-supplied name or description of the DataSource. 
@@ -1425,7 +1425,7 @@ extension Machinelearning {
 
     public struct GetEvaluationInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Evaluation to retrieve. The evaluation of each MLModel is recorded and cataloged. The ID provides the means to access the information. 
         public var evaluationId: String = ""
 
@@ -1443,7 +1443,7 @@ extension Machinelearning {
 
     public struct RDSDatabaseCredentials: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var password: String = ""
         public var username: String = ""
 
@@ -1464,7 +1464,7 @@ extension Machinelearning {
 
     public struct DeleteRealtimeEndpointInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID assigned to the MLModel during creation.
         public var mLModelId: String = ""
 
@@ -1482,7 +1482,7 @@ extension Machinelearning {
 
     public struct CreateRealtimeEndpointInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID assigned to the MLModel during creation.
         public var mLModelId: String = ""
 
@@ -1500,7 +1500,7 @@ extension Machinelearning {
 
     public struct DeleteDataSourceOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request.
         public var dataSourceId: String? = nil
 
@@ -1517,7 +1517,7 @@ extension Machinelearning {
 
     public struct GetMLModelOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time of the most recent edit to the ScoreThreshold. The time is expressed in epoch time.
         public var scoreThresholdLastUpdatedAt: Date? = nil
         /// A description of the most recent details about accessing the MLModel.
@@ -1615,7 +1615,7 @@ extension Machinelearning {
 
     public struct UpdateDataSourceOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID assigned to the DataSource during creation. This value should be identical to the value of the DataSourceID in the request.
         public var dataSourceId: String? = nil
 
@@ -1632,7 +1632,7 @@ extension Machinelearning {
 
     public struct DescribeTagsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the ML object. For example, exampleModelId. 
         public var resourceId: String = ""
         /// The type of the ML object.
@@ -1655,7 +1655,7 @@ extension Machinelearning {
 
     public struct DeleteEvaluationInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied ID that uniquely identifies the Evaluation to delete.
         public var evaluationId: String = ""
 
@@ -1673,7 +1673,7 @@ extension Machinelearning {
 
     public struct MLModel: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The algorithm used to train the MLModel. The following algorithm is supported:   SGD -- Stochastic gradient descent. The goal of SGD is to minimize the gradient of the loss function.  
         public var algorithm: String? = nil
         /// The time of the most recent edit to the ScoreThreshold. The time is expressed in epoch time.
@@ -1759,7 +1759,7 @@ extension Machinelearning {
 
     public struct DataSource: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The total number of observations contained in the data files that the DataSource references.
         public var dataSizeInBytes: Int64? = nil
         /// A description of the most recent details about creating the DataSource.
@@ -1838,7 +1838,7 @@ extension Machinelearning {
 
     public struct PredictOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var prediction: Prediction? = nil
 
         public init() {}
@@ -1854,7 +1854,7 @@ extension Machinelearning {
 
     public struct PerformanceMetrics: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var properties: [String: String]? = nil
 
         public init() {}
@@ -1872,7 +1872,7 @@ extension Machinelearning {
 
     public struct DescribeMLModelsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The not equal to operator. The MLModel results will have FilterVariable values not equal to the value specified with NE.
         public var nE: String? = nil
         /// The equal to operator. The MLModel results will have FilterVariable values that exactly match the value specified with EQ.
@@ -1929,7 +1929,7 @@ extension Machinelearning {
 
     public struct DeleteTagsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the tagged ML object. For example, exampleModelId.
         public var resourceId: String = ""
         /// The type of the tagged ML object.
@@ -1957,7 +1957,7 @@ extension Machinelearning {
 
     public struct GetEvaluationOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Measurements of how well the MLModel performed using observations referenced by the DataSource. One of the following metric is returned based on the type of the MLModel:    BinaryAUC: A binary MLModel uses the Area Under the Curve (AUC) technique to measure performance.    RegressionRMSE: A regression MLModel uses the Root Mean Square Error (RMSE) technique to measure performance. RMSE measures the difference between predicted and actual values for a single variable.   MulticlassAvgFScore: A multiclass MLModel uses the F1 score technique to measure performance.     For more information about performance metrics, please see the Amazon Machine Learning Developer Guide. 
         public var performanceMetrics: PerformanceMetrics? = nil
         /// The evaluation ID which is same as the EvaluationId in the request.
@@ -2030,7 +2030,7 @@ extension Machinelearning {
 
     public struct AddTagsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the ML object to tag. For example, exampleModelId.
         public var resourceId: String = ""
         /// The key-value pairs to use to create tags. If you specify a key without specifying a value, Amazon ML creates a tag with the specified key and a value of null.
@@ -2058,7 +2058,7 @@ extension Machinelearning {
 
     public struct DeleteMLModelOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelID in the request.
         public var mLModelId: String? = nil
 
@@ -2075,7 +2075,7 @@ extension Machinelearning {
 
     public struct CreateDataSourceFromRDSOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request. 
         public var dataSourceId: String? = nil
 
@@ -2092,7 +2092,7 @@ extension Machinelearning {
 
     public struct UpdateBatchPredictionOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID assigned to the BatchPrediction during creation. This value should be identical to the value of the BatchPredictionId in the request.
         public var batchPredictionId: String? = nil
 
@@ -2109,7 +2109,7 @@ extension Machinelearning {
 
     public struct CreateRealtimeEndpointOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
         public var mLModelId: String? = nil
         /// The endpoint information of the MLModel 
@@ -2130,7 +2130,7 @@ extension Machinelearning {
 
     public struct CreateMLModelInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Simple Storage Service (Amazon S3) location and file name that contains the MLModel recipe. You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
         public var recipeUri: String? = nil
         /// The DataSource that points to the training data.
@@ -2176,7 +2176,7 @@ extension Machinelearning {
 
     public struct DescribeBatchPredictionsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The not equal to operator. The BatchPrediction results will have FilterVariable values not equal to the value specified with NE.
         public var nE: String? = nil
         /// The equal to operator. The BatchPrediction results will have FilterVariable values that exactly match the value specified with EQ.
@@ -2233,7 +2233,7 @@ extension Machinelearning {
 
     public struct DescribeDataSourcesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The not equal to operator. The DataSource results will have FilterVariable values not equal to the value specified with NE.
         public var nE: String? = nil
         /// The equal to operator. The DataSource results will have FilterVariable values that exactly match the value specified with EQ.
@@ -2290,7 +2290,7 @@ extension Machinelearning {
 
     public struct DeleteTagsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the ML object from which tags were deleted.
         public var resourceId: String? = nil
         /// The type of the ML object from which tags were deleted.
@@ -2311,7 +2311,7 @@ extension Machinelearning {
 
     public struct GetDataSourceInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID assigned to the DataSource at creation.
         public var dataSourceId: String = ""
         /// Specifies whether the GetDataSource operation should return DataSourceSchema. If true, DataSourceSchema is returned. If false, DataSourceSchema is not returned.
@@ -2333,7 +2333,7 @@ extension Machinelearning {
 
     public struct DeleteEvaluationOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
         public var evaluationId: String? = nil
 

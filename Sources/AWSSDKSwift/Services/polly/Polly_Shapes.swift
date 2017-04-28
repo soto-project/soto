@@ -31,7 +31,7 @@ extension Polly {
 
     public struct Lexicon: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Lexicon content in string format. The content of a lexicon must be in PLS format.
         public var content: String? = nil
         /// Name of the lexicon.
@@ -52,8 +52,8 @@ extension Polly {
 
     public struct DescribeVoicesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["LanguageCode": "LanguageCode", "NextToken": "NextToken"]
         }
         ///  The language identification tag (ISO 639 code for the language name-ISO 3166 country code) for filtering the list of voices returned. If you don't specify this optional parameter, all available voices are returned. 
@@ -76,8 +76,8 @@ extension Polly {
 
     public struct SynthesizeSpeechOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "AudioStream"
-        public var headerParams: [String: String] {
+        public static let payload: String? = "AudioStream"
+        public static var headerParams: [String: String] {
             return ["Content-Type": "ContentType", "x-amzn-RequestCharacters": "RequestCharacters"]
         }
         ///  Specifies the type audio stream. This should reflect the OutputFormat parameter in your request.     If you request mp3 as the OutputFormat, the ContentType returned is audio/mpeg.     If you request ogg_vorbis as the OutputFormat, the ContentType returned is audio/ogg.     If you request pcm as the OutputFormat, the ContentType returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.     
@@ -104,8 +104,8 @@ extension Polly {
 
     public struct PutLexiconInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["LexiconName": "Name"]
         }
         /// Content of the PLS lexicon as string data.
@@ -130,7 +130,7 @@ extension Polly {
 
     public struct GetLexiconOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Lexicon object that provides name and the string content of the lexicon. 
         public var lexicon: Lexicon? = nil
         /// Metadata of the lexicon, including phonetic alphabetic used, language code, lexicon ARN, number of lexemes defined in the lexicon, and size of lexicon in bytes.
@@ -151,7 +151,7 @@ extension Polly {
 
     public struct ListLexiconsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The pagination token to use in the next request to continue the listing of lexicons. NextToken is returned only if the response is truncated.
         public var nextToken: String? = nil
         /// A list of lexicon names and attributes.
@@ -174,8 +174,8 @@ extension Polly {
 
     public struct GetLexiconInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["LexiconName": "Name"]
         }
         /// Name of the lexicon.
@@ -195,7 +195,7 @@ extension Polly {
 
     public struct DeleteLexiconOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -205,7 +205,7 @@ extension Polly {
 
     public struct SynthesizeSpeechInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The audio format in which the resulting stream will be encoded. 
         public var outputFormat: String = ""
         ///  Voice ID to use for the synthesis. You can get a list of available voice IDs by calling the DescribeVoices operation. 
@@ -247,7 +247,7 @@ extension Polly {
 
     public struct DescribeVoicesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of voices with their properties.
         public var voices: [Voice]? = nil
         /// The pagination token to use in the next request to continue the listing of voices. NextToken is returned only if the response is truncated.
@@ -270,8 +270,8 @@ extension Polly {
 
     public struct ListLexiconsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["NextToken": "NextToken"]
         }
         /// An opaque pagination token returned from previous ListLexicons operation. If present, indicates where to continue the list of lexicons.
@@ -290,7 +290,7 @@ extension Polly {
 
     public struct LexiconAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Amazon Resource Name (ARN) of the lexicon.
         public var lexiconArn: String? = nil
         /// Date lexicon was last modified (a timestamp value).
@@ -327,7 +327,7 @@ extension Polly {
 
     public struct LexiconDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Name of the lexicon.
         public var name: String? = nil
         /// Provides lexicon metadata.
@@ -348,7 +348,7 @@ extension Polly {
 
     public struct PutLexiconOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -358,8 +358,8 @@ extension Polly {
 
     public struct DeleteLexiconInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["LexiconName": "Name"]
         }
         /// The name of the lexicon to delete. Must be an existing lexicon in the region.
@@ -379,7 +379,7 @@ extension Polly {
 
     public struct Voice: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Human readable name of the language in English.
         public var languageName: String? = nil
         /// Language code of the voice.

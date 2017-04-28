@@ -31,7 +31,7 @@ extension Runtimelex {
 
     public struct GenericAttachment: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var attachmentLinkUrl: String? = nil
         /// Title of the option.
         public var title: String? = nil
@@ -65,7 +65,7 @@ extension Runtimelex {
 
     public struct ResponseCard: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of attachment objects representing options.
         public var genericAttachments: [GenericAttachment]? = nil
         /// Version of response card format.
@@ -92,7 +92,7 @@ extension Runtimelex {
 
     public struct PostTextResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value. 
         public var slotToElicit: String? = nil
         ///  Intent slots (name/value pairs) Amazon Lex detected so far from the user input in the conversation. 
@@ -137,8 +137,8 @@ extension Runtimelex {
 
     public struct PostTextRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["botAlias": "botAlias", "userId": "userId", "botName": "botName"]
         }
         /// Alias of the Amazon Lex bot.
@@ -179,7 +179,7 @@ extension Runtimelex {
 
     public struct Button: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Text visible to the user on the button.
         public var text: String = ""
         /// Value sent to Amazon Lex when user clicks the button. For example, consider button text "NYC". When the user clicks the button, the value sent can be "New York City".

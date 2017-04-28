@@ -7,22 +7,22 @@
 //
 
 public protocol AWSShape: DictionarySerializable, XMLNodeSerializable, Initializable, InitializableFromDictionary {
-    var pathParams: [String: String] { get }
-    var headerParams: [String: String] { get }
-    var queryParams: [String: String] { get }
-    var _payload: String? { get }
+    static var pathParams: [String: String] { get }
+    static var headerParams: [String: String] { get }
+    static var queryParams: [String: String] { get }
+    static var payload: String? { get }
 }
 
 extension AWSShape {
-    public var pathParams: [String: String] {
+    public static var pathParams: [String: String] {
         return [:]
     }
     
-    public var headerParams: [String: String] {
+    public static var headerParams: [String: String] {
         return [:]
     }
     
-    public var queryParams: [String: String] {
+    public static var queryParams: [String: String] {
         return [:]
     }
 }

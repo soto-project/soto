@@ -31,7 +31,7 @@ extension OpsworksCm {
 
     public struct DescribeAccountAttributesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The attributes that are currently set for the account. 
         public var attributes: [AccountAttribute]? = nil
 
@@ -50,7 +50,7 @@ extension OpsworksCm {
 
     public struct DescribeEventsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Contains the response to a DescribeEvents request. 
         public var serverEvents: [ServerEvent]? = nil
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
@@ -73,7 +73,7 @@ extension OpsworksCm {
 
     public struct AssociateNodeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the association request. 
         public var nodeAssociationStatusToken: String? = nil
 
@@ -90,7 +90,7 @@ extension OpsworksCm {
 
     public struct CreateServerRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The engine model, or option. Valid values include Single. 
         public var engineModel: String? = nil
         /// Optional engine attributes on a specified server.   Attributes accepted in a createServer request:     CHEF_PIVOTAL_KEY: A base64-encoded RSA private key that is not stored by AWS OpsWorks for Chef. This private key is required to access the Chef API. When no CHEF_PIVOTAL_KEY is set, one is generated and returned in the response.     CHEF_DELIVERY_ADMIN_PASSWORD: The password for the administrative user in the Chef Automate GUI. The password length is a minimum of eight characters, and a maximum of 32. The password can contain letters, numbers, and special characters (!/@#$%^&amp;+=_). The password must contain at least one lower case letter, one upper case letter, one number, and one special character. When no CHEF_DELIVERY_ADMIN_PASSWORD is set, one is generated and returned in the response.  
@@ -181,7 +181,7 @@ extension OpsworksCm {
 
     public struct CreateBackupRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the server that you want to back up. 
         public var serverName: String = ""
         ///  A user-defined description of the backup. 
@@ -203,7 +203,7 @@ extension OpsworksCm {
 
     public struct UpdateServerEngineAttributesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the engine attribute to update. 
         public var attributeName: String = ""
         /// The value to set for the attribute. 
@@ -230,7 +230,7 @@ extension OpsworksCm {
 
     public struct AssociateNodeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the Chef client node. 
         public var nodeName: String = ""
         /// Engine attributes used for associating the node.   Attributes accepted in a AssociateNode request:     CHEF_ORGANIZATION: The Chef organization with which the node is associated. By default only one organization named default can exist.     CHEF_NODE_PUBLIC_KEY: A PEM-formatted public key. This key is required for the chef-client agent to access the Chef API.   
@@ -258,7 +258,7 @@ extension OpsworksCm {
 
     public struct AccountAttribute: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The maximum allowed value. 
         public var maximum: Int32? = nil
         ///  The attribute name. The following are supported attribute names.     ServerLimit: The number of current servers/maximum number of servers allowed. By default, you can have a maximum of 10 servers.     ManualBackupLimit: The number of current manual backups/maximum number of backups allowed. By default, you can have a maximum of 50 manual backups saved.   
@@ -283,7 +283,7 @@ extension OpsworksCm {
 
     public struct StartMaintenanceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Contains the response to a StartMaintenance request. 
         public var server: Server? = nil
 
@@ -300,7 +300,7 @@ extension OpsworksCm {
 
     public struct CreateBackupResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Backup created by request.
         public var backup: Backup? = nil
 
@@ -317,7 +317,7 @@ extension OpsworksCm {
 
     public struct DescribeNodeAssociationStatusRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var nodeAssociationStatusToken: String = ""
         /// The name of the server from which to disassociate the node. 
         public var serverName: String = ""
@@ -339,7 +339,7 @@ extension OpsworksCm {
 
     public struct StartMaintenanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the server on which to run maintenance. 
         public var serverName: String = ""
 
@@ -357,7 +357,7 @@ extension OpsworksCm {
 
     public struct UpdateServerResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Contains the response to a UpdateServer request. 
         public var server: Server? = nil
 
@@ -374,7 +374,7 @@ extension OpsworksCm {
 
     public struct DisassociateNodeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the disassociation request. 
         public var nodeAssociationStatusToken: String? = nil
 
@@ -391,7 +391,7 @@ extension OpsworksCm {
 
     public struct DescribeServersRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
         public var maxResults: Int32? = nil
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeServers again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
@@ -416,7 +416,7 @@ extension OpsworksCm {
 
     public struct ServerEvent: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon S3 URL of the event's log file.
         public var logUrl: String? = nil
         /// The time when the event occurred. 
@@ -445,7 +445,7 @@ extension OpsworksCm {
 
     public struct DescribeBackupsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Returns backups for the server with the specified ServerName. 
         public var serverName: String? = nil
         /// Describes a single backup. 
@@ -474,7 +474,7 @@ extension OpsworksCm {
 
     public struct RestoreServerResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -484,7 +484,7 @@ extension OpsworksCm {
 
     public struct Backup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The engine model that is obtained from the server when the backup is created. 
         public var engineModel: String? = nil
         ///  The service role ARN that is obtained from the server when the backup is created. 
@@ -597,7 +597,7 @@ extension OpsworksCm {
 
     public struct DeleteServerRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the server to delete.
         public var serverName: String = ""
 
@@ -615,7 +615,7 @@ extension OpsworksCm {
 
     public struct DisassociateNodeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the Chef client node. 
         public var nodeName: String = ""
         /// Engine attributes used for disassociating the node.   Attributes accepted in a DisassociateNode request:     CHEF_ORGANIZATION: The Chef organization with which the node was associated. By default only one organization named default can exist.   
@@ -644,7 +644,7 @@ extension OpsworksCm {
 
     public struct Server: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the server. 
         public var serverArn: String? = nil
         /// The engine model of the server. The valid value in this release is Single. 
@@ -755,7 +755,7 @@ extension OpsworksCm {
 
     public struct DescribeEventsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
         public var maxResults: Int32? = nil
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
@@ -781,7 +781,7 @@ extension OpsworksCm {
 
     public struct DescribeServersResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Contains the response to a DescribeServers request. 
         public var servers: [Server]? = nil
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeServers again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
@@ -804,7 +804,7 @@ extension OpsworksCm {
 
     public struct RestoreServerRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The name of the server that you want to restore. 
         public var serverName: String = ""
         ///  The type of the instance to create. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, m4.large. Valid values are t2.medium, m4.large, and m4.2xlarge. If you do not specify this parameter, RestoreServer uses the instance type from the specified backup. 
@@ -835,7 +835,7 @@ extension OpsworksCm {
 
     public struct DescribeBackupsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeBackups again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
         public var nextToken: String? = nil
         /// Contains the response to a DescribeBackups request. 
@@ -858,7 +858,7 @@ extension OpsworksCm {
 
     public struct DescribeAccountAttributesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -868,7 +868,7 @@ extension OpsworksCm {
 
     public struct DescribeNodeAssociationStatusResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the association or disassociation request.   Possible values:     SUCCESS: The association or disassociation succeeded.     FAILED: The association or disassociation failed.     IN_PROGRESS: The association or disassociation is still in progress.   
         public var nodeAssociationStatus: String? = nil
 
@@ -885,7 +885,7 @@ extension OpsworksCm {
 
     public struct DeleteBackupRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the backup to delete. Run the DescribeBackups command to get a list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS. 
         public var backupId: String = ""
 
@@ -903,7 +903,7 @@ extension OpsworksCm {
 
     public struct EngineAttribute: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the engine attribute. 
         public var value: String? = nil
         /// The name of the engine attribute. 
@@ -924,7 +924,7 @@ extension OpsworksCm {
 
     public struct UpdateServerRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var preferredBackupWindow: String? = nil
         /// The name of the server to update. 
         public var serverName: String = ""
@@ -956,7 +956,7 @@ extension OpsworksCm {
 
     public struct DeleteServerResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -966,7 +966,7 @@ extension OpsworksCm {
 
     public struct DeleteBackupResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -976,7 +976,7 @@ extension OpsworksCm {
 
     public struct CreateServerResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The server that is created by the request. 
         public var server: Server? = nil
 
@@ -993,7 +993,7 @@ extension OpsworksCm {
 
     public struct UpdateServerEngineAttributesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Contains the response to an UpdateServerEngineAttributes request. 
         public var server: Server? = nil
 

@@ -31,7 +31,7 @@ extension Firehose {
 
     public struct DescribeDeliveryStreamOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the delivery stream.
         public var deliveryStreamDescription: DeliveryStreamDescription = DeliveryStreamDescription()
 
@@ -49,7 +49,7 @@ extension Firehose {
 
     public struct ProcessingConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The data processors.
         public var processors: [Processor]? = nil
         /// Enables or disables data processing.
@@ -72,7 +72,7 @@ extension Firehose {
 
     public struct RedshiftDestinationConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The COPY command.
         public var copyCommand: CopyCommand = CopyCommand()
         /// The configuration for the intermediate Amazon S3 location from which Amazon Redshift obtains data. Restrictions are described in the topic for CreateDeliveryStream. The compression formats SNAPPY or ZIP cannot be specified in RedshiftDestinationConfiguration.S3Configuration because the Amazon Redshift COPY operation that reads from the S3 bucket doesn't support these compression formats.
@@ -135,7 +135,7 @@ extension Firehose {
 
     public struct CopyCommand: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the target table. The table must already exist in the database.
         public var dataTableName: String = ""
         /// A comma-separated list of column names.
@@ -161,7 +161,7 @@ extension Firehose {
 
     public struct ExtendedS3DestinationConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the S3 bucket.
         public var bucketARN: String = ""
         /// The encryption configuration. If no value is specified, the default is no encryption.
@@ -216,7 +216,7 @@ extension Firehose {
 
     public struct ElasticsearchRetryOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// After an initial failure to deliver to Amazon ES, the total amount of time during which Firehose re-attempts delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
         public var durationInSeconds: Int32? = nil
 
@@ -233,7 +233,7 @@ extension Firehose {
 
     public struct PutRecordOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the record.
         public var recordId: String = ""
 
@@ -251,7 +251,7 @@ extension Firehose {
 
     public struct DestinationDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// [Deprecated] The destination in Amazon S3.
         public var s3DestinationDescription: S3DestinationDescription? = nil
         /// The ID of the destination.
@@ -285,7 +285,7 @@ extension Firehose {
 
     public struct UpdateDestinationInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Describes an update for a destination in Amazon ES.
         public var elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate? = nil
         /// The name of the delivery stream.
@@ -329,7 +329,7 @@ extension Firehose {
 
     public struct ListDeliveryStreamsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The names of the delivery streams.
         public var deliveryStreamNames: [String] = []
         /// Indicates whether there are more delivery streams available to list.
@@ -352,7 +352,7 @@ extension Firehose {
 
     public struct RedshiftDestinationDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The configuration for backup in Amazon S3.
         public var s3BackupDescription: S3DestinationDescription? = nil
         /// The COPY command.
@@ -410,7 +410,7 @@ extension Firehose {
 
     public struct ListDeliveryStreamsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of delivery streams to list.
         public var limit: Int32? = nil
         /// The name of the delivery stream to start the list with.
@@ -431,7 +431,7 @@ extension Firehose {
 
     public struct S3DestinationConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the S3 bucket.
         public var bucketARN: String = ""
         /// The encryption configuration. If no value is specified, the default is no encryption.
@@ -474,7 +474,7 @@ extension Firehose {
 
     public struct S3DestinationDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the S3 bucket.
         public var bucketARN: String = ""
         /// The encryption configuration. If no value is specified, the default is no encryption.
@@ -520,7 +520,7 @@ extension Firehose {
 
     public struct DeleteDeliveryStreamInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the delivery stream.
         public var deliveryStreamName: String = ""
 
@@ -538,7 +538,7 @@ extension Firehose {
 
     public struct UpdateDestinationOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -548,7 +548,7 @@ extension Firehose {
 
     public struct RedshiftDestinationUpdate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The data processing configuration.
         public var processingConfiguration: ProcessingConfiguration? = nil
         /// The COPY command.
@@ -605,7 +605,7 @@ extension Firehose {
 
     public struct BufferingHints: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300.
         public var intervalInSeconds: Int32? = nil
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
@@ -626,7 +626,7 @@ extension Firehose {
 
     public struct RedshiftRetryOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The length of time during which Firehose retries delivery after a failure, starting from the initial request and including the first attempt. The default value is 3600 seconds (60 minutes). Firehose does not retry if the value of DurationInSeconds is 0 (zero) or if the first delivery attempt takes longer than the current value.
         public var durationInSeconds: Int32? = nil
 
@@ -643,7 +643,7 @@ extension Firehose {
 
     public struct S3DestinationUpdate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the S3 bucket.
         public var bucketARN: String? = nil
         /// The encryption configuration. If no value is specified, the default is no encryption.
@@ -684,7 +684,7 @@ extension Firehose {
 
     public struct PutRecordBatchOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The results array. For each record, the index of the response element is the same as the index used in the request array.
         public var requestResponses: [PutRecordBatchResponseEntry] = []
         /// The number of records that might have failed processing.
@@ -707,7 +707,7 @@ extension Firehose {
 
     public struct CreateDeliveryStreamOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the delivery stream.
         public var deliveryStreamARN: String? = nil
 
@@ -724,7 +724,7 @@ extension Firehose {
 
     public struct ElasticsearchDestinationUpdate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Elasticsearch type name.
         public var typeName: String? = nil
         /// The Elasticsearch index name.
@@ -777,7 +777,7 @@ extension Firehose {
 
     public struct CreateDeliveryStreamInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The destination in Amazon ES. You can specify only one destination.
         public var elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil
         /// The destination in Amazon S3. You can specify only one destination.
@@ -811,7 +811,7 @@ extension Firehose {
 
     public struct ElasticsearchDestinationConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Elasticsearch type name.
         public var typeName: String = ""
         /// The Elasticsearch index name.
@@ -873,7 +873,7 @@ extension Firehose {
 
     public struct Record: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The data blob, which is base64-encoded when the blob is serialized. The maximum size of the data blob, before base64-encoding, is 1,000 KB.
         public var data: Data = Data()
 
@@ -891,7 +891,7 @@ extension Firehose {
 
     public struct PutRecordBatchInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more records.
         public var records: [Record] = []
         /// The name of the delivery stream.
@@ -914,7 +914,7 @@ extension Firehose {
 
     public struct ProcessorParameter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the parameter.
         public var parameterName: String = ""
         /// The parameter value.
@@ -937,7 +937,7 @@ extension Firehose {
 
     public struct KMSEncryptionConfig: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the encryption key. Must belong to the same region as the destination Amazon S3 bucket.
         public var aWSKMSKeyARN: String = ""
 
@@ -955,7 +955,7 @@ extension Firehose {
 
     public struct ExtendedS3DestinationDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The configuration for backup in Amazon S3.
         public var s3BackupDescription: S3DestinationDescription? = nil
         /// The ARN of the S3 bucket.
@@ -1013,7 +1013,7 @@ extension Firehose {
 
     public struct PutRecordInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The record.
         public var record: Record = Record()
         /// The name of the delivery stream.
@@ -1036,7 +1036,7 @@ extension Firehose {
 
     public struct DeleteDeliveryStreamOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1046,7 +1046,7 @@ extension Firehose {
 
     public struct Processor: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of processor.
         public var type: String = ""
         /// The processor parameters.
@@ -1070,7 +1070,7 @@ extension Firehose {
 
     public struct ExtendedS3DestinationUpdate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the S3 bucket.
         public var bucketARN: String? = nil
         /// The encryption configuration. If no value is specified, the default is no encryption.
@@ -1123,7 +1123,7 @@ extension Firehose {
 
     public struct CloudWatchLoggingOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The CloudWatch log stream name for logging. This value is required if CloudWatch logging is enabled.
         public var logStreamName: String? = nil
         /// The CloudWatch group name for logging. This value is required if CloudWatch logging is enabled.
@@ -1148,7 +1148,7 @@ extension Firehose {
 
     public struct DescribeDeliveryStreamInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the destination to start returning the destination information. Currently Firehose supports one destination per delivery stream.
         public var exclusiveStartDestinationId: String? = nil
         /// The limit on the number of destinations to return. Currently, you can have one destination per delivery stream.
@@ -1174,7 +1174,7 @@ extension Firehose {
 
     public struct EncryptionConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The encryption key.
         public var kMSEncryptionConfig: KMSEncryptionConfig? = nil
         /// Specifically override existing encryption information to ensure no encryption is used.
@@ -1195,7 +1195,7 @@ extension Firehose {
 
     public struct DeliveryStreamDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The destinations.
         public var destinations: [DestinationDescription] = []
         /// The status of the delivery stream.
@@ -1246,7 +1246,7 @@ extension Firehose {
 
     public struct ElasticsearchDestinationDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Elasticsearch type name.
         public var typeName: String? = nil
         /// The Elasticsearch index name.
@@ -1303,7 +1303,7 @@ extension Firehose {
 
     public struct ElasticsearchBufferingHints: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5. We recommend setting this parameter to a value greater than the amount of data you typically ingest into the delivery stream in 10 seconds. For example, if you typically ingest data at 1 MB/sec, the value should be 10 MB or higher.
         public var sizeInMBs: Int32? = nil
         /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 300 (5 minutes).
@@ -1324,7 +1324,7 @@ extension Firehose {
 
     public struct PutRecordBatchResponseEntry: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the record.
         public var recordId: String? = nil
         /// The error code for an individual record result.

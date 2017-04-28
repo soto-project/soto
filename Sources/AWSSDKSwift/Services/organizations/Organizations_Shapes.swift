@@ -31,7 +31,7 @@ extension Organizations {
 
     public struct HandshakeFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the type of handshake action. If you specify ActionType, you cannot also specify ParentHandshakeId.
         public var actionType: String? = nil
         /// Specifies the parent handshake. Only used for handshake types that are a child of another type. If you specify ParentHandshakeId, you cannot also specify ActionType. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
@@ -52,7 +52,7 @@ extension Organizations {
 
     public struct CreatePolicyResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that contains details about the newly created policy.
         public var policy: Policy? = nil
 
@@ -69,7 +69,7 @@ extension Organizations {
 
     public struct ListAccountsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public var nextToken: String? = nil
         /// A list of objects in the organization.
@@ -92,7 +92,7 @@ extension Organizations {
 
     public struct Policy: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The text content of the policy.
         public var content: String? = nil
         /// A structure that contains additional details about the policy.
@@ -113,7 +113,7 @@ extension Organizations {
 
     public struct InviteAccountToOrganizationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Additional information that you want to include in the generated email to the recipient account owner.
         public var notes: String? = nil
         /// The identifier (ID) of the AWS account that you want to invite to join your organization. This is a JSON object that contains the following elements:   { "Type": "ACCOUNT", "Id": "&lt; account id number &gt;" }  If you use the AWS CLI, you can submit this as a single string, similar to the following example:  --target id=123456789012,type=ACCOUNT  If you specify "Type": "ACCOUNT", then you must provide the AWS account ID number as the Id. If you specify "Type": "EMAIL", then you must specify the email address that is associated with the account.  --target id=bill@example.com,type=EMAIL 
@@ -135,7 +135,7 @@ extension Organizations {
 
     public struct CancelHandshakeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that contains details about the handshake that you canceled.
         public var handshake: Handshake? = nil
 
@@ -152,7 +152,7 @@ extension Organizations {
 
     public struct CreateAccountStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If the account was created successfully, the unique identifier (ID) of the new account. The regex pattern for an account ID string requires exactly 12 digits.
         public var accountId: String? = nil
         /// The date and time that the request was made for the account creation.
@@ -193,7 +193,7 @@ extension Organizations {
 
     public struct DeclineHandshakeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that contains details about the declined handshake. The state is updated to show the value DECLINED.
         public var handshake: Handshake? = nil
 
@@ -210,7 +210,7 @@ extension Organizations {
 
     public struct ListTargetsForPolicyResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of structures, each of which contains details about one of the entities to which the specified policy is attached.
         public var targets: [PolicyTargetSummary]? = nil
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -233,7 +233,7 @@ extension Organizations {
 
     public struct ListPoliciesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public var maxResults: Int32? = nil
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -259,7 +259,7 @@ extension Organizations {
 
     public struct ListPoliciesForTargetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of policy that you want to include in the returned list.
         public var filter: String = ""
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -290,7 +290,7 @@ extension Organizations {
 
     public struct ListTargetsForPolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier (ID) of the policy for which you want to know its attachments. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public var policyId: String = ""
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -316,7 +316,7 @@ extension Organizations {
 
     public struct ListOrganizationalUnitsForParentResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public var nextToken: String? = nil
         /// A list of the OUs in the specified root or parent OU.
@@ -339,7 +339,7 @@ extension Organizations {
 
     public struct HandshakeResource: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of information being passed, specifying how the value is to be interpreted by the other party:    ACCOUNT - Specifies an AWS account ID number.    ORGANIZATION - Specifies an organization ID number.    EMAIL - Specifies the email address that is associated with the account that receives the handshake.     OWNER_EMAIL - Specifies the email address associated with the master account. Included as information about an organization.     OWNER_NAME - Specifies the name associated with the master account. Included as information about an organization.     NOTES - Additional text provided by the handshake initiator and intended for the recipient to read.  
         public var type: String? = nil
         /// The information that is passed to the other party in the handshake. The format of the value string must match the requirements of the specified type.
@@ -366,7 +366,7 @@ extension Organizations {
 
     public struct EnableAllFeaturesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that contains details about the handshake created to support this request to enable all features in the organization.
         public var handshake: Handshake? = nil
 
@@ -383,7 +383,7 @@ extension Organizations {
 
     public struct DescribeOrganizationalUnitResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that contains details about the specified OU.
         public var organizationalUnit: OrganizationalUnit? = nil
 
@@ -400,7 +400,7 @@ extension Organizations {
 
     public struct InviteAccountToOrganizationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that contains details about the handshake that is created to support this invitation request.
         public var handshake: Handshake? = nil
 
@@ -417,7 +417,7 @@ extension Organizations {
 
     public struct DescribeOrganizationalUnitRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier (ID) of the organizational unit that you want details about. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
         public var organizationalUnitId: String = ""
 
@@ -435,7 +435,7 @@ extension Organizations {
 
     public struct UpdateOrganizationalUnitResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that contains the details about the specified OU, including its new name.
         public var organizationalUnit: OrganizationalUnit? = nil
 
@@ -452,7 +452,7 @@ extension Organizations {
 
     public struct CreateAccountResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that contains details about the request to create an account. This response structure might not be fully populated when you first receive it because account creation is an asynchronous process. You can pass the returned CreateAccountStatus ID as a parameter to  DescribeCreateAccountStatus  to get status about the progress of the request at later times. 
         public var createAccountStatus: CreateAccountStatus? = nil
 
@@ -469,7 +469,7 @@ extension Organizations {
 
     public struct EnablePolicyTypeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The policy type that you want to enable.
         public var policyType: String = ""
         /// The unique identifier (ID) of the root in which you want to enable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
@@ -492,7 +492,7 @@ extension Organizations {
 
     public struct CreateOrganizationalUnitRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The friendly name to assign to the new OU.
         public var name: String = ""
         /// The unique identifier (ID) of the parent root or OU in which you want to create the new OU. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
@@ -515,7 +515,7 @@ extension Organizations {
 
     public struct DescribeCreateAccountStatusResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that contains the current status of an account creation request.
         public var createAccountStatus: CreateAccountStatus? = nil
 
@@ -532,7 +532,7 @@ extension Organizations {
 
     public struct ListRootsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public var nextToken: String? = nil
         /// A list of roots that are defined in an organization.
@@ -555,7 +555,7 @@ extension Organizations {
 
     public struct ListCreateAccountStatusRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of one or more states that you want included in the response. If this parameter is not present, then all requests are included in the response.
         public var states: [String]? = nil
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -582,7 +582,7 @@ extension Organizations {
 
     public struct CreateOrganizationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that contains details about the newly created organization.
         public var organization: Organization? = nil
 
@@ -599,7 +599,7 @@ extension Organizations {
 
     public struct MoveAccountRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier (ID) of the account that you want to move. The regex pattern for an account ID string requires exactly 12 digits.
         public var accountId: String = ""
         /// The unique identifier (ID) of the root or organizational unit that you want to move the account from. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
@@ -627,7 +627,7 @@ extension Organizations {
 
     public struct AttachPolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier (ID) of the policy that you want to attach to the target. You can get the ID for the policy by calling the ListPolicies operation. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public var policyId: String = ""
         /// The unique identifier (ID) of the root, OU, or account that you want to attach the policy to. You can get the ID by calling the ListRoots, ListOrganizationalUnitsForParent, or ListAccounts operations. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
@@ -650,7 +650,7 @@ extension Organizations {
 
     public struct ListParentsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public var nextToken: String? = nil
         /// A list of parents for the specified child account or OU.
@@ -673,7 +673,7 @@ extension Organizations {
 
     public struct UpdatePolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If provided, the new content for the policy. The text must be correctly formatted JSON that complies with the syntax for the policy's type. For more information, see Service Control Policy Syntax in the AWS Organizations User Guide.
         public var content: String? = nil
         /// The unique identifier (ID) of the policy that you want to update. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
@@ -703,7 +703,7 @@ extension Organizations {
 
     public struct Organization: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The email address that is associated with the AWS account that is designated as the master account for the organization.
         public var masterAccountEmail: String? = nil
         /// The Amazon Resource Name (ARN) of an organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
@@ -746,7 +746,7 @@ extension Organizations {
 
     public struct Child: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of this child entity.
         public var type: String? = nil
         /// The unique identifier (ID) of this child entity. The regex pattern for a child ID string requires one of the following:   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
@@ -767,7 +767,7 @@ extension Organizations {
 
     public struct ListChildrenRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Filters the output to include only the specified child type.
         public var childType: String = ""
         /// The unique identifier (ID) for the parent root or OU whose children you want to list. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
@@ -798,7 +798,7 @@ extension Organizations {
 
     public struct PolicyTypeSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the policy type.
         public var type: String? = nil
         /// The status of the policy type as it relates to the associated root. To attach a policy of the specified type to a root or to an OU or account in that root, it must be available in the organization and enabled for that root.
@@ -819,7 +819,7 @@ extension Organizations {
 
     public struct DeclineHandshakeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier (ID) of the handshake that you want to decline. You can get the ID from the ListHandshakesForAccount operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public var handshakeId: String = ""
 
@@ -837,7 +837,7 @@ extension Organizations {
 
     public struct AcceptHandshakeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier (ID) of the handshake that you want to accept. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public var handshakeId: String = ""
 
@@ -855,7 +855,7 @@ extension Organizations {
 
     public struct Account: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date the account became a part of the organization.
         public var joinedTimestamp: Date? = nil
         /// The status of the account in the organization.
@@ -892,7 +892,7 @@ extension Organizations {
 
     public struct ListAccountsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public var nextToken: String? = nil
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -913,7 +913,7 @@ extension Organizations {
 
     public struct HandshakeParty: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of party.
         public var type: String? = nil
         /// The unique identifier (ID) for the party. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
@@ -934,7 +934,7 @@ extension Organizations {
 
     public struct ListHandshakesForAccountRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public var maxResults: Int32? = nil
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -959,7 +959,7 @@ extension Organizations {
 
     public struct ListCreateAccountStatusResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of objects with details about the requests. Certain elements, such as the accountId number, are present in the output only after the account has been successfully created.
         public var createAccountStatuses: [CreateAccountStatus]? = nil
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -982,7 +982,7 @@ extension Organizations {
 
     public struct Parent: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of the parent entity.
         public var type: String? = nil
         /// The unique identifier (ID) of the parent entity. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
@@ -1003,7 +1003,7 @@ extension Organizations {
 
     public struct DescribePolicyResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that contains details about the specified policy.
         public var policy: Policy? = nil
 
@@ -1020,7 +1020,7 @@ extension Organizations {
 
     public struct UpdateOrganizationalUnitRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier (ID) of the OU that you want to rename. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
         public var organizationalUnitId: String = ""
         /// The new name that you want to assign to the OU. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
@@ -1042,7 +1042,7 @@ extension Organizations {
 
     public struct ListPoliciesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of policies that match the filter criteria in the request. The output list does not include the policy contents. To see the content for a policy, see DescribePolicy.
         public var policies: [PolicySummary]? = nil
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -1065,7 +1065,7 @@ extension Organizations {
 
     public struct ListChildrenResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public var nextToken: String? = nil
         /// The list of children of the specified parent container.
@@ -1088,7 +1088,7 @@ extension Organizations {
 
     public struct DisablePolicyTypeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The policy type that you want to disable in this root.
         public var policyType: String = ""
         /// The unique identifier (ID) of the root in which you want to disable a policy type. You can get the ID from the ListPolicies operation. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
@@ -1111,7 +1111,7 @@ extension Organizations {
 
     public struct DetachPolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier (ID) of the policy you want to detach. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public var policyId: String = ""
         /// The unique identifier (ID) of the root, OU, or account from which you want to detach the policy. You can get the ID from the ListRoots, ListOrganizationalUnitsForParent, or ListAccounts operations. The regex pattern for a target ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
@@ -1134,7 +1134,7 @@ extension Organizations {
 
     public struct CreateAccountRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The friendly name of the member account.
         public var accountName: String = ""
         /// The email address of the owner to assign to the new member account. This email address must not already be associated with another AWS account.
@@ -1165,7 +1165,7 @@ extension Organizations {
 
     public struct ListParentsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier (ID) of the OU or account whose parent containers you want to list. Do not specify a root. The regex pattern for a child ID string requires one of the following:   Account: a string that consists of exactly 12 digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
         public var childId: String = ""
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -1191,7 +1191,7 @@ extension Organizations {
 
     public struct DescribeCreateAccountStatusRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the operationId that uniquely identifies the request. You can get the ID from the response to an earlier CreateAccount request, or from the ListCreateAccountStatus operation. The regex pattern for an create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
         public var createAccountRequestId: String = ""
 
@@ -1209,7 +1209,7 @@ extension Organizations {
 
     public struct DeletePolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier (ID) of the policy that you want to delete. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public var policyId: String = ""
 
@@ -1227,7 +1227,7 @@ extension Organizations {
 
     public struct EnablePolicyTypeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that shows the root with the updated list of enabled policy types.
         public var root: Root? = nil
 
@@ -1244,7 +1244,7 @@ extension Organizations {
 
     public struct CreateOrganizationalUnitResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that contains details about the newly created OU.
         public var organizationalUnit: OrganizationalUnit? = nil
 
@@ -1261,7 +1261,7 @@ extension Organizations {
 
     public struct DescribeHandshakeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier (ID) of the handshake that you want information about. You can get the ID from the original call to InviteAccountToOrganization, or from a call to ListHandshakesForAccount or ListHandshakesForOrganization. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public var handshakeId: String = ""
 
@@ -1279,7 +1279,7 @@ extension Organizations {
 
     public struct EnableAllFeaturesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1289,7 +1289,7 @@ extension Organizations {
 
     public struct UpdatePolicyResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that contains details about the updated policy, showing the requested changes.
         public var policy: Policy? = nil
 
@@ -1306,7 +1306,7 @@ extension Organizations {
 
     public struct ListPoliciesForTargetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of policies that match the criteria in the request.
         public var policies: [PolicySummary]? = nil
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -1329,7 +1329,7 @@ extension Organizations {
 
     public struct ListAccountsForParentResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
         public var nextToken: String? = nil
         /// A list of the accounts in the specified root or OU.
@@ -1352,7 +1352,7 @@ extension Organizations {
 
     public struct ListHandshakesForOrganizationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public var maxResults: Int32? = nil
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -1377,7 +1377,7 @@ extension Organizations {
 
     public struct RemoveAccountFromOrganizationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier (ID) of the member account that you want to remove from the organization. The regex pattern for an account ID string requires exactly 12 digits.
         public var accountId: String = ""
 
@@ -1395,7 +1395,7 @@ extension Organizations {
 
     public struct CreatePolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The policy content to add to the new policy. For example, if you create a service control policy (SCP), this string must be JSON text that specifies the permissions that admins in attached accounts can delegate to their users, groups, and roles. For more information about the SCP syntax, see Service Control Policy Syntax in the AWS Organizations User Guide.
         public var content: String = ""
         /// The type of policy to create.  In the current release, the only type of policy that you can create is a service control policy (SCP). 
@@ -1428,7 +1428,7 @@ extension Organizations {
 
     public struct PolicySummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of the policy.
         public var description: String? = nil
         /// The Amazon Resource Name (ARN) of the policy. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
@@ -1465,7 +1465,7 @@ extension Organizations {
 
     public struct DisablePolicyTypeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that shows the root with the updated list of enabled policy types.
         public var root: Root? = nil
 
@@ -1482,7 +1482,7 @@ extension Organizations {
 
     public struct ListHandshakesForOrganizationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of Handshake objects with details about each of the handshakes that are associated with an organization.
         public var handshakes: [Handshake]? = nil
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -1505,7 +1505,7 @@ extension Organizations {
 
     public struct Handshake: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date and time that the handshake request was made.
         public var requestedTimestamp: Date? = nil
         /// The Amazon Resource Name (ARN) of a handshake. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
@@ -1554,7 +1554,7 @@ extension Organizations {
 
     public struct DescribeHandshakeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that contains information about the specified handshake.
         public var handshake: Handshake? = nil
 
@@ -1571,7 +1571,7 @@ extension Organizations {
 
     public struct CancelHandshakeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier (ID) of the handshake that you want to cancel. You can get the ID from the ListHandshakesForOrganization operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public var handshakeId: String = ""
 
@@ -1589,7 +1589,7 @@ extension Organizations {
 
     public struct CreateOrganizationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality.    CONSOLIDATED_BILLING: All member accounts have their bills consolidated to and paid by the master account. For more information, see Consolidated Billing in the AWS Organizations User Guide.    ALL: In addition to all the features supported by the consolidated billing feature set, the master account can also apply any type of policy to any member account in the organization. For more information, see All features in the AWS Organizations User Guide.  
         public var featureSet: String? = nil
 
@@ -1606,7 +1606,7 @@ extension Organizations {
 
     public struct ListOrganizationalUnitsForParentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public var nextToken: String? = nil
         /// The unique identifier (ID) of the root or OU whose child OUs you want to list. The regex pattern for a parent ID string requires one of the following:   Root: a string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): a string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
@@ -1632,7 +1632,7 @@ extension Organizations {
 
     public struct PolicyTargetSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the policy target. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public var arn: String? = nil
         /// The type of the policy target.
@@ -1661,7 +1661,7 @@ extension Organizations {
 
     public struct AcceptHandshakeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that contains details about the accepted handshake.
         public var handshake: Handshake? = nil
 
@@ -1678,7 +1678,7 @@ extension Organizations {
 
     public struct ListHandshakesForAccountResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of Handshake objects with details about each of the handshakes that is associated with the specified account.
         public var handshakes: [Handshake]? = nil
         /// If present, this value indicates that there is more output available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
@@ -1701,7 +1701,7 @@ extension Organizations {
 
     public struct OrganizationalUnit: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The friendly name of this OU. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public var name: String? = nil
         /// The Amazon Resource Name (ARN) of this OU. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
@@ -1726,7 +1726,7 @@ extension Organizations {
 
     public struct DescribeAccountRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier (ID) of the AWS account that you want information about. You can get the ID from the ListAccounts or ListAccountsForParent operations. The regex pattern for an account ID string requires exactly 12 digits.
         public var accountId: String = ""
 
@@ -1744,7 +1744,7 @@ extension Organizations {
 
     public struct Root: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the root. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public var arn: String? = nil
         /// The types of policies that are currently enabled for the root and therefore can be attached to the root or to its OUs or accounts.
@@ -1775,7 +1775,7 @@ extension Organizations {
 
     public struct DescribeAccountResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that contains information about the requested account.
         public var account: Account? = nil
 
@@ -1792,7 +1792,7 @@ extension Organizations {
 
     public struct DescribePolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier (ID) of the policy that you want details about. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
         public var policyId: String = ""
 
@@ -1810,7 +1810,7 @@ extension Organizations {
 
     public struct DeleteOrganizationalUnitRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier (ID) of the organizational unit that you want to delete. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU) followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
         public var organizationalUnitId: String = ""
 
@@ -1828,7 +1828,7 @@ extension Organizations {
 
     public struct ListAccountsForParentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public var nextToken: String? = nil
         /// The unique identifier (ID) for the parent root or organization unit (OU) whose accounts you want to list.
@@ -1854,7 +1854,7 @@ extension Organizations {
 
     public struct ListRootsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Use this parameter if you receive a NextToken response in a previous request that indicates that there is more output available. Set it to the value of the previous call's NextToken response to indicate where the output should continue from.
         public var nextToken: String? = nil
         /// (Optional) Use this to limit the number of results you want included in the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -1875,7 +1875,7 @@ extension Organizations {
 
     public struct DescribeOrganizationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A structure that contains information about the organization.
         public var organization: Organization? = nil
 

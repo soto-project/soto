@@ -31,7 +31,7 @@ extension Servicecatalog {
 
     public struct DeletePortfolioShareInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The account ID associated with the share to delete.
         public var accountId: String = ""
         /// The portfolio identifier.
@@ -58,7 +58,7 @@ extension Servicecatalog {
 
     public struct DisassociatePrincipalFromPortfolioInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN representing the principal (IAM user, role, or group).
         public var principalARN: String = ""
         /// The portfolio identifier.
@@ -85,7 +85,7 @@ extension Servicecatalog {
 
     public struct DeletePortfolioInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public var acceptLanguage: String? = nil
         /// The identifier of the portfolio for the delete request.
@@ -107,7 +107,7 @@ extension Servicecatalog {
 
     public struct DescribeProvisioningParametersOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Any additional metadata specifically related to the provisioning of the product. For example, see the Version field of the CloudFormation template.
         public var usageInstructions: [UsageInstruction]? = nil
         /// The list of parameters used to successfully provision the product. Each parameter includes a list of allowable values and additional metadata about each parameter.
@@ -138,7 +138,7 @@ extension Servicecatalog {
 
     public struct ProvisioningArtifactProperties: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The text description of the provisioning artifact properties.
         public var description: String? = nil
         /// The type of the provisioning artifact properties.
@@ -168,7 +168,7 @@ extension Servicecatalog {
 
     public struct DescribeProductAsAdminOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Tags associated with the product.
         public var tags: [Tag]? = nil
         /// Detailed product view information.
@@ -191,7 +191,7 @@ extension Servicecatalog {
 
     public struct ListPortfolioAccessOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public var nextPageToken: String? = nil
         /// List of account IDs associated with access to the portfolio.
@@ -214,7 +214,7 @@ extension Servicecatalog {
 
     public struct CreateProductOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Tags successfully associated with the new product.
         public var tags: [Tag]? = nil
         /// The resulting detailed product view information.
@@ -241,7 +241,7 @@ extension Servicecatalog {
 
     public struct UsageInstruction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The usage instruction type for the value.
         public var type: String? = nil
         /// The usage instruction value for this type.
@@ -262,7 +262,7 @@ extension Servicecatalog {
 
     public struct CreatePortfolioShareInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The account ID with which to share the portfolio.
         public var accountId: String = ""
         /// The portfolio identifier.
@@ -289,7 +289,7 @@ extension Servicecatalog {
 
     public struct DescribeProductViewOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The summary metadata about the specified product.
         public var productViewSummary: ProductViewSummary? = nil
         /// A list of provisioning artifact objects for the specified product. The ProvisioningArtifacts represent the ways in which the specified product can be provisioned.
@@ -312,7 +312,7 @@ extension Servicecatalog {
 
     public struct ScanProvisionedProductsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of ProvisionedProduct detail objects.
         public var provisionedProducts: [ProvisionedProductDetail]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -335,7 +335,7 @@ extension Servicecatalog {
 
     public struct DescribeConstraintInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public var acceptLanguage: String? = nil
         /// The identifier of the constraint.
@@ -357,7 +357,7 @@ extension Servicecatalog {
 
     public struct ConstraintDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the constraint.
         public var constraintId: String? = nil
         /// The type of the constraint.
@@ -386,7 +386,7 @@ extension Servicecatalog {
 
     public struct UpdatePortfolioOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The resulting detailed portfolio information.
         public var portfolioDetail: PortfolioDetail? = nil
         /// Tags associated with the portfolio.
@@ -409,7 +409,7 @@ extension Servicecatalog {
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The esired value for this key.
         public var value: String = ""
         /// The ProvisioningArtifactParameter.TagKey parameter from DescribeProvisioningParameters.
@@ -432,7 +432,7 @@ extension Servicecatalog {
 
     public struct DescribeProductInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public var acceptLanguage: String? = nil
         /// The ProductId of the product to describe.
@@ -454,7 +454,7 @@ extension Servicecatalog {
 
     public struct ListRecordHistoryOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of record detail objects, listed in reverse chronological order.
         public var recordDetails: [RecordDetail]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -477,7 +477,7 @@ extension Servicecatalog {
 
     public struct ScanProvisionedProductsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public var pageSize: Int32? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
@@ -506,7 +506,7 @@ extension Servicecatalog {
 
     public struct CreatePortfolioInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The text description of the portfolio.
         public var description: String? = nil
         /// The name of the portfolio provider.
@@ -548,7 +548,7 @@ extension Servicecatalog {
 
     public struct ListRecordHistorySearchFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The filter value for Key.
         public var value: String? = nil
         /// The filter key.
@@ -569,7 +569,7 @@ extension Servicecatalog {
 
     public struct ListPortfoliosInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public var pageSize: Int32? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
@@ -594,7 +594,7 @@ extension Servicecatalog {
 
     public struct AcceptPortfolioShareOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -604,7 +604,7 @@ extension Servicecatalog {
 
     public struct ListLaunchPathsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// List of launch path information summaries for the specified PageToken.
         public var launchPathSummaries: [LaunchPathSummary]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -627,7 +627,7 @@ extension Servicecatalog {
 
     public struct ListConstraintsForPortfolioOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// List of detailed constraint information objects.
         public var constraintDetails: [ConstraintDetail]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -650,7 +650,7 @@ extension Servicecatalog {
 
     public struct UpdateProductOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Tags associated with the product.
         public var tags: [Tag]? = nil
         /// The resulting detailed product view information.
@@ -673,7 +673,7 @@ extension Servicecatalog {
 
     public struct SearchProductsAsAdminInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The sort field specifier. If no value is specified, results are not sorted.
         public var sortBy: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
@@ -725,7 +725,7 @@ extension Servicecatalog {
 
     public struct ProvisionProductInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The provisioning artifact identifier for this product.
         public var provisioningArtifactId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
@@ -784,7 +784,7 @@ extension Servicecatalog {
 
     public struct UpdateProvisioningParameter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value to use for updating the product provisioning. Any constraints on this value can be found in the ProvisioningArtifactParameter parameter for Key.
         public var value: String? = nil
         /// The ProvisioningArtifactParameter.ParameterKey parameter from DescribeProvisioningParameters.
@@ -809,7 +809,7 @@ extension Servicecatalog {
 
     public struct CreateConstraintInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public var acceptLanguage: String? = nil
         /// The portfolio identifier.
@@ -855,7 +855,7 @@ extension Servicecatalog {
 
     public struct LaunchPathSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// List of constraints on the portfolio-product relationship.
         public var constraintSummaries: [ConstraintSummary]? = nil
         /// List of tags used by this launch path.
@@ -888,7 +888,7 @@ extension Servicecatalog {
 
     public struct AssociatePrincipalWithPortfolioOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -898,7 +898,7 @@ extension Servicecatalog {
 
     public struct UpdateProvisionedProductInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The provisioning artifact identifier for this product.
         public var provisioningArtifactId: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
@@ -946,7 +946,7 @@ extension Servicecatalog {
 
     public struct CreatePortfolioShareOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -956,7 +956,7 @@ extension Servicecatalog {
 
     public struct DisassociateProductFromPortfolioOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -966,7 +966,7 @@ extension Servicecatalog {
 
     public struct ProvisioningArtifactParameter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The parameter type.
         public var parameterType: String? = nil
         /// The text description of the parameter.
@@ -1003,7 +1003,7 @@ extension Servicecatalog {
 
     public struct ListPrincipalsForPortfolioOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IAM principals (users or roles) associated with the portfolio.
         public var principals: [Principal]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -1026,7 +1026,7 @@ extension Servicecatalog {
 
     public struct DescribeRecordInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public var pageSize: Int32? = nil
         /// The page token of the first page retrieved. If null, this retrieves the first page of size PageSize.
@@ -1056,7 +1056,7 @@ extension Servicecatalog {
 
     public struct ListPortfoliosForProductOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// List of detailed portfolio information objects.
         public var portfolioDetails: [PortfolioDetail]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -1079,7 +1079,7 @@ extension Servicecatalog {
 
     public struct CreateConstraintOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The resulting detailed constraint information.
         public var constraintDetail: ConstraintDetail? = nil
         /// The status of the current request.
@@ -1104,7 +1104,7 @@ extension Servicecatalog {
 
     public struct ProductViewDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Current status of the product.
         public var status: String? = nil
         /// The ARN associated with the product.
@@ -1133,7 +1133,7 @@ extension Servicecatalog {
 
     public struct CreateProvisioningArtifactInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public var acceptLanguage: String? = nil
         /// The parameters to use when creating the new provisioning artifact.
@@ -1165,7 +1165,7 @@ extension Servicecatalog {
 
     public struct DescribeProvisioningArtifactInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the provisioning artifact.
         public var provisioningArtifactId: String = ""
         /// The product identifier.
@@ -1192,7 +1192,7 @@ extension Servicecatalog {
 
     public struct UpdateConstraintOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The resulting detailed constraint information.
         public var constraintDetail: ConstraintDetail? = nil
         /// The status of the current request.
@@ -1217,7 +1217,7 @@ extension Servicecatalog {
 
     public struct DescribeRecordOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Detailed record information for the specified product. 
         public var recordDetail: RecordDetail? = nil
         /// A list of outputs for the specified Product object created as the result of a request. For example, a CloudFormation-backed product that creates an S3 bucket would have an output for the S3 bucket URL.
@@ -1244,7 +1244,7 @@ extension Servicecatalog {
 
     public struct UpdateProvisionedProductOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The detailed result of the UpdateProvisionedProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object that the request is modifying, and a list of any errors that the request encountered.
         public var recordDetail: RecordDetail? = nil
 
@@ -1261,7 +1261,7 @@ extension Servicecatalog {
 
     public struct ListProvisioningArtifactsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// List of detailed provisioning artifact information objects.
         public var provisioningArtifactDetails: [ProvisioningArtifactDetail]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -1284,7 +1284,7 @@ extension Servicecatalog {
 
     public struct TerminateProvisionedProductOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The detailed result of the TerminateProvisionedProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object that the request is modifying, and a list of any errors that the request encountered.
         public var recordDetail: RecordDetail? = nil
 
@@ -1301,7 +1301,7 @@ extension Servicecatalog {
 
     public struct ProvisioningParameter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value to use for provisioning. Any constraints on this value can be found in ProvisioningArtifactParameter for Key.
         public var value: String? = nil
         /// The ProvisioningArtifactParameter.ParameterKey parameter from DescribeProvisioningParameters.
@@ -1322,7 +1322,7 @@ extension Servicecatalog {
 
     public struct RecordOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The output value.
         public var outputValue: String? = nil
         /// The output key.
@@ -1347,7 +1347,7 @@ extension Servicecatalog {
 
     public struct ProvisioningArtifact: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The text description of the artifact.
         public var description: String? = nil
         /// The name of the artifact.
@@ -1376,7 +1376,7 @@ extension Servicecatalog {
 
     public struct AssociateProductWithPortfolioOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1386,7 +1386,7 @@ extension Servicecatalog {
 
     public struct ListLaunchPathsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public var pageSize: Int32? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
@@ -1416,7 +1416,7 @@ extension Servicecatalog {
 
     public struct DeleteConstraintOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1426,7 +1426,7 @@ extension Servicecatalog {
 
     public struct SearchProductsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of the product view aggregation value objects.
         public var productViewAggregations: [String: [ProductViewAggregationValue]]? = nil
         /// A list of the product view summary objects.
@@ -1461,7 +1461,7 @@ extension Servicecatalog {
 
     public struct DisassociatePrincipalFromPortfolioOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1471,7 +1471,7 @@ extension Servicecatalog {
 
     public struct DeleteConstraintInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public var acceptLanguage: String? = nil
         /// The identifier of the constraint to delete.
@@ -1493,7 +1493,7 @@ extension Servicecatalog {
 
     public struct DescribeProductViewInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public var acceptLanguage: String? = nil
         /// The ProductViewId of the product to describe.
@@ -1515,7 +1515,7 @@ extension Servicecatalog {
 
     public struct DeleteProvisioningArtifactInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the provisioning artifact for the delete request.
         public var provisioningArtifactId: String = ""
         /// The product identifier.
@@ -1542,7 +1542,7 @@ extension Servicecatalog {
 
     public struct ParameterConstraints: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The values that the administrator has allowed for the parameter.
         public var allowedValues: [String]? = nil
 
@@ -1561,7 +1561,7 @@ extension Servicecatalog {
 
     public struct ListPortfoliosForProductInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public var pageSize: Int32? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
@@ -1591,7 +1591,7 @@ extension Servicecatalog {
 
     public struct PortfolioDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name to use for display purposes.
         public var displayName: String? = nil
         /// The name of the portfolio provider.
@@ -1628,7 +1628,7 @@ extension Servicecatalog {
 
     public struct DescribeProvisioningParametersInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The provisioning artifact identifier for this product.
         public var provisioningArtifactId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
@@ -1659,7 +1659,7 @@ extension Servicecatalog {
 
     public struct SearchProductsAsAdminOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// List of detailed product view information objects.
         public var productViewDetails: [ProductViewDetail]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -1682,7 +1682,7 @@ extension Servicecatalog {
 
     public struct ProductViewAggregationValue: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the product view aggregation.
         public var value: String? = nil
         /// An approximate count of the products that match the value.
@@ -1703,7 +1703,7 @@ extension Servicecatalog {
 
     public struct ListAcceptedPortfolioSharesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public var pageSize: Int32? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
@@ -1728,7 +1728,7 @@ extension Servicecatalog {
 
     public struct SearchProductsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public var pageSize: Int32? = nil
         /// The sort field specifier. If no value is specified, results are not sorted.
@@ -1772,7 +1772,7 @@ extension Servicecatalog {
 
     public struct RecordError: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The numeric value of the error.
         public var code: String? = nil
         /// The text description of the error.
@@ -1793,7 +1793,7 @@ extension Servicecatalog {
 
     public struct UpdateConstraintInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The updated text description of the constraint.
         public var description: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
@@ -1819,7 +1819,7 @@ extension Servicecatalog {
 
     public struct ProvisionedProductDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The current status of the ProvisionedProduct.
         public var status: String? = nil
         /// The ARN associated with the ProvisionedProduct object.
@@ -1868,7 +1868,7 @@ extension Servicecatalog {
 
     public struct ProvisionProductOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The detailed result of the ProvisionProduct request, containing the inputs made to that request, the current state of the request, a pointer to the ProvisionedProduct object of the request, and a list of any errors that the request encountered. 
         public var recordDetail: RecordDetail? = nil
 
@@ -1885,7 +1885,7 @@ extension Servicecatalog {
 
     public struct DeleteProductInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public var acceptLanguage: String? = nil
         /// The identifier of the product for the delete request.
@@ -1907,7 +1907,7 @@ extension Servicecatalog {
 
     public struct ListProvisioningArtifactsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The product identifier.
         public var productId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
@@ -1929,7 +1929,7 @@ extension Servicecatalog {
 
     public struct ListRecordHistoryInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public var pageSize: Int32? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
@@ -1962,7 +1962,7 @@ extension Servicecatalog {
 
     public struct AssociateProductWithPortfolioInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public var acceptLanguage: String? = nil
         /// The identifier of the source portfolio to use with this association.
@@ -1993,7 +1993,7 @@ extension Servicecatalog {
 
     public struct UpdateProductInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the product for the update request.
         public var id: String = ""
         /// Tags to remove from the existing list of tags associated with the product.
@@ -2055,7 +2055,7 @@ extension Servicecatalog {
 
     public struct TerminateProvisionedProductInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If set to true, AWS Service Catalog stops managing the specified ProvisionedProduct object even if it cannot delete the underlying resources.
         public var ignoreErrors: Bool? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
@@ -2089,7 +2089,7 @@ extension Servicecatalog {
 
     public struct RejectPortfolioShareOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2099,7 +2099,7 @@ extension Servicecatalog {
 
     public struct UpdateProvisioningArtifactInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the provisioning artifact for the update request.
         public var provisioningArtifactId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
@@ -2134,7 +2134,7 @@ extension Servicecatalog {
 
     public struct DescribePortfolioOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Detailed portfolio information.
         public var portfolioDetail: PortfolioDetail? = nil
         /// Tags associated with the portfolio.
@@ -2157,7 +2157,7 @@ extension Servicecatalog {
 
     public struct CreatePortfolioOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The resulting detailed portfolio information.
         public var portfolioDetail: PortfolioDetail? = nil
         /// Tags successfully associated with the new portfolio.
@@ -2180,7 +2180,7 @@ extension Servicecatalog {
 
     public struct AccessLevelFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the user to which the access level applies. A value of Self is currently supported.
         public var value: String? = nil
         /// Specifies the access level.  Account allows results at the account level.   Role allows results based on the federated role of the specified user.  User allows results limited to the specified user. 
@@ -2201,7 +2201,7 @@ extension Servicecatalog {
 
     public struct ConstraintSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of the constraint. 
         public var type: String? = nil
         /// The text description of the constraint.
@@ -2222,7 +2222,7 @@ extension Servicecatalog {
 
     public struct ProductViewSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A value of false indicates that the product does not have a default path, while a value of true indicates that it does. If it's false, call ListLaunchPaths to disambiguate between paths. If true, ListLaunchPaths is not required, and the output of the ProductViewSummary operation can be used directly with DescribeProvisioningParameters.
         public var hasDefaultPath: Bool? = nil
         /// Short description of the product.
@@ -2279,7 +2279,7 @@ extension Servicecatalog {
 
     public struct RejectPortfolioShareInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The portfolio identifier.
         public var portfolioId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
@@ -2301,7 +2301,7 @@ extension Servicecatalog {
 
     public struct UpdateProvisioningArtifactOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the current request.
         public var status: String? = nil
         /// The resulting detailed provisioning artifact information.
@@ -2328,7 +2328,7 @@ extension Servicecatalog {
 
     public struct DescribeConstraintOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Detailed constraint information.
         public var constraintDetail: ConstraintDetail? = nil
         /// The status of the current request.
@@ -2353,7 +2353,7 @@ extension Servicecatalog {
 
     public struct Principal: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN representing the principal (IAM user, role, or group).
         public var principalARN: String? = nil
         /// The principal type. Must be IAM 
@@ -2374,7 +2374,7 @@ extension Servicecatalog {
 
     public struct ProvisioningArtifactDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The text description of the provisioning artifact.
         public var description: String? = nil
         /// The type of the provisioning artifact.
@@ -2407,7 +2407,7 @@ extension Servicecatalog {
 
     public struct ListConstraintsForPortfolioInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public var pageSize: Int32? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
@@ -2441,7 +2441,7 @@ extension Servicecatalog {
 
     public struct DisassociateProductFromPortfolioInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The portfolio identifier.
         public var portfolioId: String = ""
         /// The product identifier.
@@ -2468,7 +2468,7 @@ extension Servicecatalog {
 
     public struct ListPortfoliosOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// List of detailed portfolio information objects.
         public var portfolioDetails: [PortfolioDetail]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -2491,7 +2491,7 @@ extension Servicecatalog {
 
     public struct DeleteProductOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2501,7 +2501,7 @@ extension Servicecatalog {
 
     public struct ListPrincipalsForPortfolioInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return in the results. If more results exist than fit in the specified PageSize, the value of NextPageToken in the response is non-null.
         public var pageSize: Int32? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
@@ -2531,7 +2531,7 @@ extension Servicecatalog {
 
     public struct DeleteProvisioningArtifactOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2541,7 +2541,7 @@ extension Servicecatalog {
 
     public struct DeletePortfolioShareOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2551,7 +2551,7 @@ extension Servicecatalog {
 
     public struct DescribeProductOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The summary metadata about the specified product.
         public var productViewSummary: ProductViewSummary? = nil
         /// A list of provisioning artifact objects for the specified product. The ProvisioningArtifacts parameter represent the ways the specified product can be provisioned.
@@ -2574,7 +2574,7 @@ extension Servicecatalog {
 
     public struct RecordDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The provisioning artifact identifier for this product.
         public var provisioningArtifactId: String? = nil
         /// The time when the record for the ProvisionedProduct object was last updated.
@@ -2643,7 +2643,7 @@ extension Servicecatalog {
 
     public struct DescribeProvisioningArtifactOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the current request.
         public var status: String? = nil
         /// Detailed provisioning artifact information.
@@ -2670,7 +2670,7 @@ extension Servicecatalog {
 
     public struct AcceptPortfolioShareInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The portfolio identifier.
         public var portfolioId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
@@ -2692,7 +2692,7 @@ extension Servicecatalog {
 
     public struct RecordTag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value for this tag.
         public var value: String? = nil
         /// The key for this tag.
@@ -2713,7 +2713,7 @@ extension Servicecatalog {
 
     public struct ListAcceptedPortfolioSharesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// List of detailed portfolio information objects.
         public var portfolioDetails: [PortfolioDetail]? = nil
         /// The page token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -2736,7 +2736,7 @@ extension Servicecatalog {
 
     public struct UpdatePortfolioInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the portfolio for the update request.
         public var id: String = ""
         /// Tags to remove from the existing list of tags associated with the portfolio.
@@ -2782,7 +2782,7 @@ extension Servicecatalog {
 
     public struct DeletePortfolioOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2792,7 +2792,7 @@ extension Servicecatalog {
 
     public struct AssociatePrincipalWithPortfolioInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN representing the principal (IAM user, role, or group).
         public var principalARN: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
@@ -2824,7 +2824,7 @@ extension Servicecatalog {
 
     public struct DescribeProductAsAdminInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public var acceptLanguage: String? = nil
         /// The identifier of the product for which to retrieve information.
@@ -2846,7 +2846,7 @@ extension Servicecatalog {
 
     public struct DescribePortfolioInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public var acceptLanguage: String? = nil
         /// The identifier of the portfolio for which to retrieve information.
@@ -2868,7 +2868,7 @@ extension Servicecatalog {
 
     public struct CreateProductInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.
         public var acceptLanguage: String? = nil
         /// Contact email for product support.
@@ -2936,7 +2936,7 @@ extension Servicecatalog {
 
     public struct CreateProvisioningArtifactOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the current request.
         public var status: String? = nil
         /// The resulting detailed provisioning artifact information.
@@ -2963,7 +2963,7 @@ extension Servicecatalog {
 
     public struct ListPortfolioAccessInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The portfolio identifier.
         public var portfolioId: String = ""
         /// The language code to use for this operation. Supported language codes are as follows: "en" (English) "jp" (Japanese) "zh" (Chinese) If no code is specified, "en" is used as the default.

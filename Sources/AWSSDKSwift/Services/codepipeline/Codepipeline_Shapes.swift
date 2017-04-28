@@ -31,7 +31,7 @@ extension Codepipeline {
 
     public struct ActionContext: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the action within the context of a job.
         public var name: String? = nil
 
@@ -48,7 +48,7 @@ extension Codepipeline {
 
     public struct PipelineSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date and time of the last update to the pipeline, in timestamp format.
         public var updated: Date? = nil
         /// The name of the pipeline.
@@ -77,7 +77,7 @@ extension Codepipeline {
 
     public struct FailureDetails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of the failure.
         public var type: String = ""
         /// The message about the failure.
@@ -104,7 +104,7 @@ extension Codepipeline {
 
     public struct ListActionTypesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Provides details of the action types.
         public var actionTypes: [ActionType] = []
         /// If the amount of returned information is significantly large, an identifier is also returned which can be used in a subsequent list action types call to return the next set of action types in the list.
@@ -126,7 +126,7 @@ extension Codepipeline {
 
     public struct GetJobDetailsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique system-generated ID for the job.
         public var jobId: String = ""
 
@@ -144,7 +144,7 @@ extension Codepipeline {
 
     public struct CurrentRevision: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The revision ID of the current version of an artifact.
         public var revision: String = ""
         /// The change identifier for the current revision.
@@ -175,7 +175,7 @@ extension Codepipeline {
 
     public struct PutActionRevisionOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the current workflow state of the pipeline.
         public var pipelineExecutionId: String? = nil
         /// Indicates whether the artifact revision was previously used in an execution of the specified pipeline.
@@ -196,7 +196,7 @@ extension Codepipeline {
 
     public struct RetryStageExecutionOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the current workflow execution in the failed stage.
         public var pipelineExecutionId: String? = nil
 
@@ -213,7 +213,7 @@ extension Codepipeline {
 
     public struct ArtifactDetails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The minimum number of artifacts allowed for the action type.
         public var minimumCount: Int32 = 0
         /// The maximum number of artifacts allowed for the action type.
@@ -236,7 +236,7 @@ extension Codepipeline {
 
     public struct ErrorDetails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The system ID or error number code of the error.
         public var code: String? = nil
         /// The text of the error message.
@@ -257,7 +257,7 @@ extension Codepipeline {
 
     public struct ActionConfigurationProperty: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the action configuration property.
         public var name: String = ""
         /// Whether the configuration property is a key.
@@ -302,7 +302,7 @@ extension Codepipeline {
 
     public struct StageContext: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the stage.
         public var name: String? = nil
 
@@ -319,7 +319,7 @@ extension Codepipeline {
 
     public struct StageExecution: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the stage, or for a completed stage, the last status of the stage.
         public var status: String = ""
         /// The ID of the pipeline execution associated with the stage.
@@ -342,7 +342,7 @@ extension Codepipeline {
 
     public struct ActionExecution: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A summary of the run of the action.
         public var summary: String? = nil
         /// The status of the action, or for a completed action, the last status of the action.
@@ -391,7 +391,7 @@ extension Codepipeline {
 
     public struct StartPipelineExecutionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the pipeline to start.
         public var name: String = ""
 
@@ -409,7 +409,7 @@ extension Codepipeline {
 
     public struct StageState: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The state of the inbound transition, which is either enabled or disabled.
         public var inboundTransitionState: TransitionState? = nil
         /// The state of the stage.
@@ -440,7 +440,7 @@ extension Codepipeline {
 
     public struct PutActionRevisionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the stage that contains the action that will act upon the revision.
         public var stageName: String = ""
         /// The name of the action that will process the revision.
@@ -472,7 +472,7 @@ extension Codepipeline {
 
     public struct PutThirdPartyJobFailureResultInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var failureDetails: FailureDetails = FailureDetails()
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public var clientToken: String = ""
@@ -499,7 +499,7 @@ extension Codepipeline {
 
     public struct Artifact: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The artifact's revision ID. Depending on the type of object, this could be a commit ID (GitHub) or a revision ID (Amazon S3).
         public var revision: String? = nil
         /// The artifact's name.
@@ -524,7 +524,7 @@ extension Codepipeline {
 
     public struct JobData: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var actionTypeId: ActionTypeId? = nil
         public var actionConfiguration: ActionConfiguration? = nil
         public var artifactCredentials: AWSSessionCredentials? = nil
@@ -568,7 +568,7 @@ extension Codepipeline {
 
     public struct PutApprovalResultInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the stage that contains the action.
         public var stageName: String = ""
         /// The name of the action for which approval is requested.
@@ -606,7 +606,7 @@ extension Codepipeline {
 
     public struct ArtifactLocation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of artifact in the location.
         public var type: String? = nil
         /// The Amazon S3 bucket that contains the artifact.
@@ -627,7 +627,7 @@ extension Codepipeline {
 
     public struct GetPipelineExecutionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the pipeline about which you want to get execution details.
         public var pipelineName: String = ""
         /// The ID of the pipeline execution about which you want to get execution details.
@@ -650,7 +650,7 @@ extension Codepipeline {
 
     public struct DisableStageTransitionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies whether artifacts will be prevented from transitioning into the stage and being processed by the actions in that stage (inbound), or prevented from transitioning from the stage after they have been processed by the actions in that stage (outbound).
         public var transitionType: String = ""
         /// The name of the stage where you want to disable the inbound or outbound transition of artifacts.
@@ -683,7 +683,7 @@ extension Codepipeline {
 
     public struct GetJobDetailsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The details of the job.  If AWSSessionCredentials is used, a long-running job can call GetJobDetails again to obtain new credentials. 
         public var jobDetails: JobDetails? = nil
 
@@ -700,7 +700,7 @@ extension Codepipeline {
 
     public struct AcknowledgeJobOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether the job worker has received the specified job.
         public var status: String? = nil
 
@@ -717,7 +717,7 @@ extension Codepipeline {
 
     public struct PipelineExecution: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the pipeline execution.   InProgress: The pipeline execution is currently running.   Succeeded: The pipeline execution completed successfully.    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution caught up and continued through the pipeline instead.    Failed: The pipeline did not complete successfully.  
         public var status: String? = nil
         /// The version number of the pipeline that was executed.
@@ -752,7 +752,7 @@ extension Codepipeline {
 
     public struct AcknowledgeJobInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response of the PollForJobs request that returned this job.
         public var nonce: String = ""
         /// The unique system-generated ID of the job for which you want to confirm receipt.
@@ -775,7 +775,7 @@ extension Codepipeline {
 
     public struct JobDetails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique system-generated ID of the job.
         public var id: String? = nil
         /// The AWS account ID associated with the job.
@@ -799,7 +799,7 @@ extension Codepipeline {
 
     public struct S3ArtifactLocation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the Amazon S3 bucket.
         public var bucketName: String = ""
         /// The key of the object in the Amazon S3 bucket, which uniquely identifies the object in the bucket.
@@ -822,7 +822,7 @@ extension Codepipeline {
 
     public struct CreateCustomActionTypeOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var actionType: ActionType = ActionType()
 
         public init() {}
@@ -839,7 +839,7 @@ extension Codepipeline {
 
     public struct ActionTypeId: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The creator of the action being called.
         public var owner: String = ""
         /// A string that identifies the action type.
@@ -872,7 +872,7 @@ extension Codepipeline {
 
     public struct GetThirdPartyJobDetailsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public var clientToken: String = ""
         /// The unique system-generated ID used for identifying the job.
@@ -895,7 +895,7 @@ extension Codepipeline {
 
     public struct PutThirdPartyJobSuccessResultInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var executionDetails: ExecutionDetails? = nil
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
         public var clientToken: String = ""
@@ -928,7 +928,7 @@ extension Codepipeline {
 
     public struct DeleteCustomActionTypeInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The provider of the service used in the custom action, such as AWS CodeDeploy.
         public var provider: String = ""
         /// The version of the custom action to delete.
@@ -956,7 +956,7 @@ extension Codepipeline {
 
     public struct StageDeclaration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Reserved for future use.
         public var blockers: [BlockerDeclaration]? = nil
         /// The name of the stage.
@@ -985,7 +985,7 @@ extension Codepipeline {
 
     public struct AWSSessionCredentials: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token for the session.
         public var sessionToken: String = ""
         /// The access key for the session.
@@ -1013,7 +1013,7 @@ extension Codepipeline {
 
     public struct EncryptionKey: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID used to identify the key. For an AWS KMS key, this is the key ID or key ARN.
         public var id: String = ""
         /// The type of encryption key, such as an AWS Key Management Service (AWS KMS) key. When creating or updating a pipeline, the value must be set to 'KMS'.
@@ -1036,7 +1036,7 @@ extension Codepipeline {
 
     public struct EnableStageTransitionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the pipeline in which you want to enable the flow of artifacts from one stage to another.
         public var pipelineName: String = ""
         /// Specifies whether artifacts will be allowed to enter the stage and be processed by the actions in that stage (inbound) or whether already-processed artifacts will be allowed to transition to the next stage (outbound).
@@ -1064,7 +1064,7 @@ extension Codepipeline {
 
     public struct InputArtifact: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the artifact to be worked on, for example, "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions.
         public var name: String = ""
 
@@ -1082,7 +1082,7 @@ extension Codepipeline {
 
     public struct PollForJobsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the jobs to take action on.
         public var jobs: [Job]? = nil
 
@@ -1101,7 +1101,7 @@ extension Codepipeline {
 
     public struct ActionDeclaration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The configuration information for the action type.
         public var actionTypeId: ActionTypeId = ActionTypeId()
         /// The ARN of the IAM service role that will perform the declared action. This is assumed through the roleArn for the pipeline.
@@ -1150,7 +1150,7 @@ extension Codepipeline {
 
     public struct GetPipelineStateOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date and time the pipeline was last updated, in timestamp format.
         public var updated: Date? = nil
         /// The version number of the pipeline.  A newly-created pipeline is always assigned a version number of 1. 
@@ -1185,7 +1185,7 @@ extension Codepipeline {
 
     public struct PutJobSuccessResultInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The execution details of the successful job, such as the actions taken by the job worker.
         public var executionDetails: ExecutionDetails? = nil
         /// A token generated by a job worker, such as an AWS CodeDeploy deployment ID, that a successful job provides to identify a custom action in progress. Future jobs will use this token in order to identify the running instance of the action. It can be reused to return additional information about the progress of the custom action. When the action is complete, no continuation token should be supplied.
@@ -1215,7 +1215,7 @@ extension Codepipeline {
 
     public struct OutputArtifact: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the output of an artifact, such as "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions. Output artifact names must be unique within a pipeline.
         public var name: String = ""
 
@@ -1233,7 +1233,7 @@ extension Codepipeline {
 
     public struct DeletePipelineInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the pipeline to be deleted.
         public var name: String = ""
 
@@ -1251,7 +1251,7 @@ extension Codepipeline {
 
     public struct PipelineDeclaration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var artifactStore: ArtifactStore = ArtifactStore()
         /// The name of the action to be performed.
         public var name: String = ""
@@ -1287,7 +1287,7 @@ extension Codepipeline {
 
     public struct ThirdPartyJobDetails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier used to identify the job details in AWS CodePipeline.
         public var id: String? = nil
         /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Use this number in an AcknowledgeThirdPartyJob request.
@@ -1312,7 +1312,7 @@ extension Codepipeline {
 
     public struct ActionState: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A URL link for more information about the state of the action, such as a deployment group details page.
         public var entityUrl: String? = nil
         /// The name of the action.
@@ -1343,7 +1343,7 @@ extension Codepipeline {
 
     public struct PollForJobsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var actionTypeId: ActionTypeId = ActionTypeId()
         /// A map of property names and values. For an action type with no queryable properties, this value must be null or an empty map. For an action type with a queryable property, you must supply that property as a key in the map. Only jobs whose action configuration matches the mapped value will be returned.
         public var queryParam: [String: String]? = nil
@@ -1370,7 +1370,7 @@ extension Codepipeline {
 
     public struct ThirdPartyJob: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier used to identify the job in AWS CodePipeline.
         public var jobId: String? = nil
         /// The clientToken portion of the clientId and clientToken pair used to verify that the calling entity is allowed access to the job and its details.
@@ -1391,7 +1391,7 @@ extension Codepipeline {
 
     public struct ArtifactRevision: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Summary information about the most recent revision of the artifact. For GitHub and AWS CodeCommit repositories, the commit message. For Amazon S3 buckets or actions, the user-provided content of a codepipeline-artifact-revision-summary key specified in the object metadata.
         public var revisionSummary: String? = nil
         /// The name of an artifact. This name might be system-generated, such as "MyApp", or might be defined by the user when an action is created.
@@ -1428,7 +1428,7 @@ extension Codepipeline {
 
     public struct ListPipelinesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An identifier that was returned from the previous list pipelines call, which can be used to return the next set of pipelines in the list.
         public var nextToken: String? = nil
 
@@ -1445,7 +1445,7 @@ extension Codepipeline {
 
     public struct ActionRevision: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date and time when the most recent version of the action was created, in timestamp format.
         public var created: Date = Date()
         /// The unique identifier of the change that set the state to this revision, for example a deployment ID or timestamp.
@@ -1473,7 +1473,7 @@ extension Codepipeline {
 
     public struct RetryStageExecutionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The scope of the retry attempt. Currently, the only supported value is FAILED_ACTIONS.
         public var retryMode: String = ""
         /// The ID of the pipeline execution in the failed stage to be retried. Use the GetPipelineState action to retrieve the current pipelineExecutionId of the failed stage
@@ -1506,7 +1506,7 @@ extension Codepipeline {
 
     public struct TransitionState: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether the transition between stages is enabled (true) or disabled (false).
         public var enabled: Bool? = nil
         /// The user-specified reason why the transition between two stages of a pipeline was disabled.
@@ -1535,7 +1535,7 @@ extension Codepipeline {
 
     public struct PipelineContext: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the pipeline. This is a user-specified value. Pipeline names must be unique across all pipeline names under an Amazon Web Services account.
         public var pipelineName: String? = nil
         public var action: ActionContext? = nil
@@ -1559,7 +1559,7 @@ extension Codepipeline {
 
     public struct PollForThirdPartyJobsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var actionTypeId: ActionTypeId = ActionTypeId()
         /// The maximum number of jobs to return in a poll for jobs call.
         public var maxBatchSize: Int32? = nil
@@ -1580,7 +1580,7 @@ extension Codepipeline {
 
     public struct PollForThirdPartyJobsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the jobs to take action on.
         public var jobs: [ThirdPartyJob]? = nil
 
@@ -1599,7 +1599,7 @@ extension Codepipeline {
 
     public struct PutJobFailureResultInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The details about the failure of a job.
         public var failureDetails: FailureDetails = FailureDetails()
         /// The unique system-generated ID of the job that failed. This is the same ID returned from PollForJobs.
@@ -1622,7 +1622,7 @@ extension Codepipeline {
 
     public struct ArtifactStore: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of the artifact store, such as S3.
         public var type: String = ""
         /// The location for storing the artifacts for a pipeline, such as an S3 bucket or folder.
@@ -1649,7 +1649,7 @@ extension Codepipeline {
 
     public struct PutApprovalResultOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The timestamp showing when the approval or rejection was submitted.
         public var approvedAt: Date? = nil
 
@@ -1666,7 +1666,7 @@ extension Codepipeline {
 
     public struct GetPipelineInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the pipeline for which you want to get information. Pipeline names must be unique under an Amazon Web Services (AWS) user account.
         public var name: String = ""
         /// The version number of the pipeline. If you do not specify a version, defaults to the most current version.
@@ -1688,7 +1688,7 @@ extension Codepipeline {
 
     public struct ActionType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The details of the input artifact for the action, such as its commit ID.
         public var inputArtifactDetails: ArtifactDetails = ArtifactDetails()
         public var id: ActionTypeId = ActionTypeId()
@@ -1725,7 +1725,7 @@ extension Codepipeline {
 
     public struct GetPipelineExecutionOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Represents information about the execution of a pipeline.
         public var pipelineExecution: PipelineExecution? = nil
 
@@ -1742,7 +1742,7 @@ extension Codepipeline {
 
     public struct ThirdPartyJobData: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var actionTypeId: ActionTypeId? = nil
         public var actionConfiguration: ActionConfiguration? = nil
         public var artifactCredentials: AWSSessionCredentials? = nil
@@ -1787,7 +1787,7 @@ extension Codepipeline {
 
     public struct GetPipelineOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var pipeline: PipelineDeclaration? = nil
 
         public init() {}
@@ -1803,7 +1803,7 @@ extension Codepipeline {
 
     public struct ActionConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The configuration data for the action.
         public var configuration: [String: String]? = nil
 
@@ -1822,7 +1822,7 @@ extension Codepipeline {
 
     public struct CreatePipelineOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var pipeline: PipelineDeclaration? = nil
 
         public init() {}
@@ -1838,7 +1838,7 @@ extension Codepipeline {
 
     public struct StartPipelineExecutionOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique system-generated ID of the pipeline execution that was started.
         public var pipelineExecutionId: String? = nil
 
@@ -1855,7 +1855,7 @@ extension Codepipeline {
 
     public struct GetPipelineStateInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the pipeline about which you want to get information.
         public var name: String = ""
 
@@ -1873,7 +1873,7 @@ extension Codepipeline {
 
     public struct ActionTypeSettings: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The URL returned to the AWS CodePipeline console that contains a link to the page where customers can update or change the configuration of the external action.
         public var revisionUrlTemplate: String? = nil
         /// The URL of a sign-up page where users can sign up for an external service and perform initial configuration of the action provided by that service.
@@ -1902,7 +1902,7 @@ extension Codepipeline {
 
     public struct AcknowledgeThirdPartyJobOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status information for the third party job, if any.
         public var status: String? = nil
 
@@ -1919,7 +1919,7 @@ extension Codepipeline {
 
     public struct CreateCustomActionTypeInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var inputArtifactDetails: ArtifactDetails = ArtifactDetails()
         public var settings: ActionTypeSettings? = nil
         public var outputArtifactDetails: ArtifactDetails = ArtifactDetails()
@@ -1964,7 +1964,7 @@ extension Codepipeline {
 
     public struct ApprovalResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The summary of the current status of the approval request.
         public var summary: String = ""
         /// The response submitted by a reviewer assigned to an approval action request.
@@ -1987,7 +1987,7 @@ extension Codepipeline {
 
     public struct BlockerDeclaration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Reserved for future use.
         public var type: String = ""
         /// Reserved for future use.
@@ -2010,7 +2010,7 @@ extension Codepipeline {
 
     public struct ListActionTypesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An identifier that was returned from the previous list action types call, which can be used to return the next set of action types in the list.
         public var nextToken: String? = nil
         /// Filters the list of action types to those created by a specified entity.
@@ -2031,7 +2031,7 @@ extension Codepipeline {
 
     public struct CreatePipelineInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var pipeline: PipelineDeclaration = PipelineDeclaration()
 
         public init() {}
@@ -2048,7 +2048,7 @@ extension Codepipeline {
 
     public struct UpdatePipelineInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the pipeline to be updated.
         public var pipeline: PipelineDeclaration = PipelineDeclaration()
 
@@ -2066,7 +2066,7 @@ extension Codepipeline {
 
     public struct Job: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the AWS account to use when performing the job.
         public var accountId: String? = nil
         /// Additional data about a job.
@@ -2095,7 +2095,7 @@ extension Codepipeline {
 
     public struct UpdatePipelineOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The structure of the updated pipeline.
         public var pipeline: PipelineDeclaration? = nil
 
@@ -2112,7 +2112,7 @@ extension Codepipeline {
 
     public struct ExecutionDetails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The summary of the current status of the actions.
         public var summary: String? = nil
         /// The percentage of work completed on the action, represented on a scale of zero to one hundred percent.
@@ -2137,7 +2137,7 @@ extension Codepipeline {
 
     public struct GetThirdPartyJobDetailsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The details of the job, including any protected values defined for the job.
         public var jobDetails: ThirdPartyJobDetails? = nil
 
@@ -2154,7 +2154,7 @@ extension Codepipeline {
 
     public struct AcknowledgeThirdPartyJobInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response to a GetThirdPartyJobDetails request.
         public var nonce: String = ""
         /// The unique system-generated ID of the job.
@@ -2182,7 +2182,7 @@ extension Codepipeline {
 
     public struct ListPipelinesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If the amount of returned information is significantly large, an identifier is also returned which can be used in a subsequent list pipelines call to return the next set of pipelines in the list.
         public var nextToken: String? = nil
         /// The list of pipelines.

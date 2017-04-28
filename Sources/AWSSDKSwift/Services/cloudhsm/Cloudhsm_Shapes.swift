@@ -31,7 +31,7 @@ extension Cloudhsm {
 
     public struct ModifyHapgResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the high-availability partition group.
         public var hapgArn: String? = nil
 
@@ -48,7 +48,7 @@ extension Cloudhsm {
 
     public struct DeleteHsmResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the operation.
         public var status: String = ""
 
@@ -66,7 +66,7 @@ extension Cloudhsm {
 
     public struct DescribeHsmRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The serial number of the HSM. Either the HsmArn or the HsmSerialNumber parameter must be specified.
         public var hsmSerialNumber: String? = nil
         /// The ARN of the HSM. Either the HsmArn or the SerialNumber parameter must be specified.
@@ -87,7 +87,7 @@ extension Cloudhsm {
 
     public struct ListTagsForResourceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
         public var resourceArn: String = ""
 
@@ -105,7 +105,7 @@ extension Cloudhsm {
 
     public struct ListTagsForResourceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more tags.
         public var tagList: [Tag] = []
 
@@ -123,7 +123,7 @@ extension Cloudhsm {
 
     public struct CreateHapgRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The label of the new high-availability partition group.
         public var label: String = ""
 
@@ -141,7 +141,7 @@ extension Cloudhsm {
 
     public struct GetConfigRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the client.
         public var clientArn: String = ""
         /// A list of ARNs that identify the high-availability partition groups that are associated with the client.
@@ -169,7 +169,7 @@ extension Cloudhsm {
 
     public struct ModifyHapgRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The new label for the high-availability partition group.
         public var label: String? = nil
         /// The ARN of the high-availability partition group to modify.
@@ -197,7 +197,7 @@ extension Cloudhsm {
 
     public struct ListLunaClientsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The NextToken value from a previous call to ListLunaClients. Pass null if this is the first call.
         public var nextToken: String? = nil
 
@@ -214,7 +214,7 @@ extension Cloudhsm {
 
     public struct CreateLunaClientRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The contents of a Base64-Encoded X.509 v3 certificate to be installed on the HSMs used by this client.
         public var certificate: String = ""
         /// The label for the client.
@@ -236,7 +236,7 @@ extension Cloudhsm {
 
     public struct ModifyLunaClientRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The new certificate for the client.
         public var certificate: String = ""
         /// The ARN of the client.
@@ -259,7 +259,7 @@ extension Cloudhsm {
 
     public struct DescribeLunaClientRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the client.
         public var clientArn: String? = nil
         /// The certificate fingerprint.
@@ -280,7 +280,7 @@ extension Cloudhsm {
 
     public struct GetConfigResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of credentials.
         public var configType: String? = nil
         /// The chrystoki.conf configuration file.
@@ -305,7 +305,7 @@ extension Cloudhsm {
 
     public struct DeleteHsmRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the HSM to delete.
         public var hsmArn: String = ""
 
@@ -323,7 +323,7 @@ extension Cloudhsm {
 
     public struct ListHsmsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The NextToken value from a previous call to ListHsms. Pass null if this is the first call.
         public var nextToken: String? = nil
 
@@ -340,7 +340,7 @@ extension Cloudhsm {
 
     public struct ModifyHsmRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The new external ID.
         public var externalId: String? = nil
         /// The new identifier of the subnet that the HSM is in. The new subnet must be in the same Availability Zone as the current subnet.
@@ -378,7 +378,7 @@ extension Cloudhsm {
 
     public struct DescribeHapgResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var hsmsPendingDeletion: [String]? = nil
         /// The state of the high-availability partition group.
         public var state: String? = nil
@@ -432,7 +432,7 @@ extension Cloudhsm {
 
     public struct DescribeLunaClientResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The certificate installed on the HSMs used by this client.
         public var certificate: String? = nil
         /// The date and time the client was last modified.
@@ -465,7 +465,7 @@ extension Cloudhsm {
 
     public struct RemoveTagsFromResourceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the operation.
         public var status: String = ""
 
@@ -483,7 +483,7 @@ extension Cloudhsm {
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the tag.
         public var value: String = ""
         /// The key of the tag.
@@ -506,7 +506,7 @@ extension Cloudhsm {
 
     public struct AddTagsToResourceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the operation.
         public var status: String = ""
 
@@ -524,7 +524,7 @@ extension Cloudhsm {
 
     public struct DeleteHapgRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the high-availability partition group to delete.
         public var hapgArn: String = ""
 
@@ -542,7 +542,7 @@ extension Cloudhsm {
 
     public struct DescribeHsmResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Contains additional information about the status of the HSM.
         public var statusDetails: String? = nil
         /// The identifier of the subnet that the HSM is in.
@@ -640,7 +640,7 @@ extension Cloudhsm {
 
     public struct ListLunaClientsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If not null, more results are available. Pass this to ListLunaClients to retrieve the next set of items.
         public var nextToken: String? = nil
         /// The list of clients.
@@ -662,7 +662,7 @@ extension Cloudhsm {
 
     public struct DeleteLunaClientResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the action.
         public var status: String = ""
 
@@ -680,7 +680,7 @@ extension Cloudhsm {
 
     public struct ListAvailableZonesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of Availability Zones that have available AWS CloudHSM capacity.
         public var aZList: [String]? = nil
 
@@ -699,7 +699,7 @@ extension Cloudhsm {
 
     public struct AddTagsToResourceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource to tag.
         public var resourceArn: String = ""
         /// One or more tags.
@@ -722,7 +722,7 @@ extension Cloudhsm {
 
     public struct CreateLunaClientResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the client.
         public var clientArn: String? = nil
 
@@ -739,7 +739,7 @@ extension Cloudhsm {
 
     public struct CreateHapgResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the high-availability partition group.
         public var hapgArn: String? = nil
 
@@ -756,7 +756,7 @@ extension Cloudhsm {
 
     public struct CreateHsmResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the HSM.
         public var hsmArn: String? = nil
 
@@ -773,7 +773,7 @@ extension Cloudhsm {
 
     public struct ListHapgsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If not null, more results are available. Pass this value to ListHapgs to retrieve the next set of items.
         public var nextToken: String? = nil
         /// The list of high-availability partition groups.
@@ -795,7 +795,7 @@ extension Cloudhsm {
 
     public struct CreateHsmRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the subnet in your VPC in which to place the HSM.
         public var subnetId: String = ""
         /// A user-defined token to ensure idempotence. Subsequent calls to this operation with the same token will be ignored.
@@ -843,7 +843,7 @@ extension Cloudhsm {
 
     public struct RemoveTagsFromResourceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The tag key or keys to remove. Specify only the tag key to remove (not the value). To overwrite the value for an existing tag, use AddTagsToResource.
         public var tagKeyList: [String] = []
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
@@ -866,7 +866,7 @@ extension Cloudhsm {
 
     public struct ListAvailableZonesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -876,7 +876,7 @@ extension Cloudhsm {
 
     public struct DeleteHapgResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the action.
         public var status: String = ""
 
@@ -894,7 +894,7 @@ extension Cloudhsm {
 
     public struct DeleteLunaClientRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the client to delete.
         public var clientArn: String = ""
 
@@ -912,7 +912,7 @@ extension Cloudhsm {
 
     public struct ListHsmsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of ARNs that identify the HSMs.
         public var hsmList: [String]? = nil
         /// If not null, more results are available. Pass this value to ListHsms to retrieve the next set of items.
@@ -935,7 +935,7 @@ extension Cloudhsm {
 
     public struct DescribeHapgRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the high-availability partition group to describe.
         public var hapgArn: String = ""
 
@@ -953,7 +953,7 @@ extension Cloudhsm {
 
     public struct ModifyLunaClientResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the client.
         public var clientArn: String? = nil
 
@@ -970,7 +970,7 @@ extension Cloudhsm {
 
     public struct ModifyHsmResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the HSM.
         public var hsmArn: String? = nil
 
@@ -987,7 +987,7 @@ extension Cloudhsm {
 
     public struct ListHapgsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The NextToken value from a previous call to ListHapgs. Pass null if this is the first call.
         public var nextToken: String? = nil
 

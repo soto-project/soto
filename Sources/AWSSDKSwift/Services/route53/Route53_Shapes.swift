@@ -31,7 +31,7 @@ extension Route53 {
 
     public struct HostedZone: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that includes the Comment and PrivateZone elements. If you omitted the HostedZoneConfig and Comment elements from the request, the Config and Comment elements don't appear in the response.
         public var config: HostedZoneConfig? = nil
         /// The number of resource record sets in the hosted zone.
@@ -67,8 +67,8 @@ extension Route53 {
 
     public struct ListHostedZonesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["marker": "Marker", "delegationsetid": "DelegationSetId", "maxitems": "MaxItems"]
         }
         /// If you're using reusable delegation sets and you want to list all of the hosted zones that are associated with a reusable delegation set, specify the ID of that reusable delegation set. 
@@ -95,8 +95,8 @@ extension Route53 {
 
     public struct GetTrafficPolicyInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The ID of the traffic policy instance that you want to get information about.
@@ -116,7 +116,7 @@ extension Route53 {
 
     public struct GetHealthCheckStatusResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list that contains one HealthCheckObservation element for each Amazon Route 53 health checker that is reporting a status about the health check endpoint.
         public var healthCheckObservations: [HealthCheckObservation] = []
 
@@ -134,11 +134,11 @@ extension Route53 {
 
     public struct ListVPCAssociationAuthorizationsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["maxresults": "MaxResults", "nexttoken": "NextToken"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["Id": "HostedZoneId"]
         }
         ///  Optional: If a response includes a NextToken element, there are more VPCs that can be associated with the specified hosted zone. To get the next page of results, submit another request, and include the value of the NextToken element in from the response in the NextToken parameter in another ListVPCAssociationAuthorizations request.
@@ -166,8 +166,8 @@ extension Route53 {
 
     public struct DeleteReusableDelegationSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The ID of the reusable delegation set you want to delete.
@@ -187,8 +187,8 @@ extension Route53 {
 
     public struct CreateHealthCheckResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var headerParams: [String: String] {
+        public static let payload: String? = nil
+        public static var headerParams: [String: String] {
             return ["Location": "Location"]
         }
         /// A complex type that contains identifying information about the health check.
@@ -213,8 +213,8 @@ extension Route53 {
 
     public struct TestDNSAnswerRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["resolverip": "ResolverIP", "edns0clientsubnetip": "EDNS0ClientSubnetIP", "recordname": "RecordName", "hostedzoneid": "HostedZoneId", "edns0clientsubnetmask": "EDNS0ClientSubnetMask", "recordtype": "RecordType"]
         }
         /// The type of the resource record set.
@@ -256,7 +256,7 @@ extension Route53 {
 
     public struct ListTrafficPoliciesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A flag that indicates whether there are more traffic policies to be listed. If the response was truncated, you can get the next group of MaxItems traffic policies by calling ListTrafficPolicies again and specifying the value of the TrafficPolicyIdMarker element in the TrafficPolicyIdMarker request parameter. Valid Values: true | false 
         public var isTruncated: Bool = false
         /// The value that you specified for the MaxItems parameter in the call to ListTrafficPolicies that produced the current response.
@@ -289,7 +289,7 @@ extension Route53 {
 
     public struct GetTrafficPolicyInstanceCountResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of traffic policy instances that are associated with the current AWS account.
         public var trafficPolicyInstanceCount: Int32 = 0
 
@@ -307,8 +307,8 @@ extension Route53 {
 
     public struct GetHealthCheckLastFailureReasonRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["HealthCheckId": "HealthCheckId"]
         }
         /// The ID for the health check for which you want the last failure reason. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.
@@ -328,7 +328,7 @@ extension Route53 {
 
     public struct TrafficPolicySummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The version number of the latest version of the traffic policy.
         public var latestVersion: Int32 = 0
         /// The DNS type of the resource record sets that Amazon Route 53 creates when you use a traffic policy to create a traffic policy instance.
@@ -366,7 +366,7 @@ extension Route53 {
 
     public struct ChangeBatch: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the changes to make to the record sets.
         public var changes: [Change] = []
         ///  Optional: Any comments you want to include about a change batch request.
@@ -388,8 +388,8 @@ extension Route53 {
 
     public struct UpdateTrafficPolicyInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The version of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy instance.
@@ -424,8 +424,8 @@ extension Route53 {
 
     public struct ListHostedZonesByNameRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["dnsname": "DNSName", "maxitems": "MaxItems", "hostedzoneid": "HostedZoneId"]
         }
         /// The maximum number of hosted zones to be included in the response body for this request. If you have more than maxitems hosted zones, then the value of the IsTruncated element in the response is true, and the values of NextDNSName and NextHostedZoneId specify the first hosted zone in the next group of maxitems hosted zones. 
@@ -452,7 +452,7 @@ extension Route53 {
 
     public struct UpdateHealthCheckResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var healthCheck: HealthCheck = HealthCheck()
 
         public init() {}
@@ -469,7 +469,7 @@ extension Route53 {
 
     public struct ListTrafficPolicyInstancesByHostedZoneResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of MaxItems traffic policy instances by calling ListTrafficPolicyInstancesByHostedZone again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker elements in the corresponding request parameters.
         public var isTruncated: Bool = false
         /// The value that you specified for the MaxItems parameter in the call to ListTrafficPolicyInstancesByHostedZone that produced the current response. 
@@ -505,7 +505,7 @@ extension Route53 {
 
     public struct DeleteVPCAssociationAuthorizationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -515,8 +515,8 @@ extension Route53 {
 
     public struct AssociateVPCWithHostedZoneRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "HostedZoneId"]
         }
         /// A complex type that contains information about the VPC that you want to associate with a private hosted zone.
@@ -545,7 +545,7 @@ extension Route53 {
 
     public struct ResourceRecord: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The current or new DNS record value, not to exceed 4,000 characters. In the case of a DELETE action, if the current value does not match the actual value, an error is returned. For descriptions about how to format Value for different record types, see Supported DNS Resource Record Types in the Amazon Route 53 Developer Guide. You can specify more than one value for all record types except CNAME and SOA.   If you're creating an alias resource record set, omit Value. 
         public var value: String = ""
 
@@ -563,8 +563,8 @@ extension Route53 {
 
     public struct GetHealthCheckStatusRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["HealthCheckId": "HealthCheckId"]
         }
         /// The ID for the health check for which you want the current status. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.  If you want to check the status of a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckStatus to get the status of a calculated health check. 
@@ -584,7 +584,7 @@ extension Route53 {
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of Value depends on the operation that you want to perform:    Add a tag to a health check or hosted zone: Value is the value that you want to give the new tag.    Edit a tag: Value is the new value that you want to assign the tag.  
         public var value: String? = nil
         /// The value of Key depends on the operation that you want to perform:    Add a tag to a health check or hosted zone: Key is the name that you want to give the new tag.    Edit a tag: Key is the name of the tag whose Value element you want to remove.     Delete a key: Key is the name of the tag you want to remove.    Give a name to a health check: Edit the default Name tag. In the Amazon Route 53 console, the list of your health checks includes a Name column that lets you see the name that you've given to each health check.  
@@ -605,7 +605,7 @@ extension Route53 {
 
     public struct DelegationSet: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that contains a list of the authoritative name servers for the hosted zone.
         public var nameServers: [String] = []
         /// A unique string that identifies the request, and that allows you to retry failed CreateReusableDelegationSet requests without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateReusableDelegationSet request. CallerReference can be any unique string, for example, a date/time stamp.
@@ -631,8 +631,8 @@ extension Route53 {
 
     public struct UpdateTrafficPolicyCommentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id", "Version": "Version"]
         }
         /// The new comment for the specified traffic policy and version.
@@ -662,8 +662,8 @@ extension Route53 {
 
     public struct CreateTrafficPolicyVersionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var headerParams: [String: String] {
+        public static let payload: String? = nil
+        public static var headerParams: [String: String] {
             return ["Location": "Location"]
         }
         /// A unique URL that represents a new traffic policy version.
@@ -688,7 +688,7 @@ extension Route53 {
 
     public struct ListTrafficPolicyInstancesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of MaxItems traffic policy instances by calling ListTrafficPolicyInstances again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker elements in the corresponding request parameters.
         public var isTruncated: Bool = false
         /// If IsTruncated is true, HostedZoneIdMarker is the ID of the hosted zone of the first traffic policy instance in the next group of MaxItems traffic policy instances.
@@ -728,7 +728,7 @@ extension Route53 {
 
     public struct ListHostedZonesByNameResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that contains general information about the hosted zone.
         public var hostedZones: [HostedZone] = []
         /// The value that you specified for the maxitems parameter in the call to ListHostedZonesByName that produced the current response.
@@ -772,7 +772,7 @@ extension Route53 {
 
     public struct CreateHealthCheckRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that contains the response to a CreateHealthCheck request. 
         public var healthCheckConfig: HealthCheckConfig = HealthCheckConfig()
         /// A unique string that identifies the request and that allows failed CreateHealthCheck requests to be retried without the risk of executing the operation twice. You must use a unique CallerReference string every time you create a health check.
@@ -795,8 +795,8 @@ extension Route53 {
 
     public struct CreateReusableDelegationSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var headerParams: [String: String] {
+        public static let payload: String? = nil
+        public static var headerParams: [String: String] {
             return ["Location": "Location"]
         }
         /// The unique URL representing the new reusable delegation set.
@@ -821,7 +821,7 @@ extension Route53 {
 
     public struct AssociateVPCWithHostedZoneResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that describes the changes made to your hosted zone.
         public var changeInfo: ChangeInfo = ChangeInfo()
 
@@ -839,7 +839,7 @@ extension Route53 {
 
     public struct HealthCheck: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The version of the health check. You can optionally pass this value in a call to UpdateHealthCheck to prevent overwriting another change to the health check.
         public var healthCheckVersion: Int64 = 0
         /// A complex type that contains detailed information about one health check.
@@ -876,7 +876,7 @@ extension Route53 {
 
     public struct CloudWatchAlarmConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// For the metric that the CloudWatch alarm is associated with, the value the metric is compared with.
         public var threshold: Double = 0
         /// The name of the CloudWatch metric that the alarm is associated with.
@@ -930,7 +930,7 @@ extension Route53 {
 
     public struct DisassociateVPCFromHostedZoneResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that describes the changes made to the specified private hosted zone.
         public var changeInfo: ChangeInfo = ChangeInfo()
 
@@ -948,7 +948,7 @@ extension Route53 {
 
     public struct GetChangeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that contains information about the specified change batch.
         public var changeInfo: ChangeInfo = ChangeInfo()
 
@@ -966,8 +966,8 @@ extension Route53 {
 
     public struct UpdateHealthCheckRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["HealthCheckId": "HealthCheckId"]
         }
         /// A sequential counter that Amazon Route 53 sets to 1 when you create a health check and increments by 1 each time you update settings for the health check. We recommend that you use GetHealthCheck or ListHealthChecks to get the current value of HealthCheckVersion for the health check that you want to update, and that you include that value in your UpdateHealthCheck request. This prevents Amazon Route 53 from overwriting an intervening update:   f the value in the UpdateHealthCheck request matches the value of HealthCheckVersion in the health check, Amazon Route 53 updates the health check with the new settings.   If the value of HealthCheckVersion in the health check is greater, the health check was changed after you got the version number. Amazon Route 53 does not update the health check, and it returns a HealthCheckVersionMismatch error.  
@@ -1046,8 +1046,8 @@ extension Route53 {
 
     public struct ListReusableDelegationSetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["marker": "Marker", "maxitems": "MaxItems"]
         }
         /// If you're making the second or subsequent call to ListReusableDelegationSets, the Marker element matches the value that you specified in the marker parameter in the previous request.
@@ -1070,8 +1070,8 @@ extension Route53 {
 
     public struct ListTagsForResourceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["ResourceId": "ResourceId", "ResourceType": "ResourceType"]
         }
         /// The ID of the resource for which you want to retrieve tags.
@@ -1096,8 +1096,8 @@ extension Route53 {
 
     public struct CreateTrafficPolicyResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var headerParams: [String: String] {
+        public static let payload: String? = nil
+        public static var headerParams: [String: String] {
             return ["Location": "Location"]
         }
         /// A unique URL that represents a new traffic policy.
@@ -1122,7 +1122,7 @@ extension Route53 {
 
     public struct ListTagsForResourceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A ResourceTagSet containing tags associated with the specified resource.
         public var resourceTagSet: ResourceTagSet = ResourceTagSet()
 
@@ -1140,7 +1140,7 @@ extension Route53 {
 
     public struct AliasTarget: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  Alias resource record sets only: The value that you specify depends on where you want to route queries:  CloudFront distribution  Specify the domain name that CloudFront assigned when you created your distribution. Your CloudFront distribution must include an alternate domain name that matches the name of the resource record set. For example, if the name of the resource record set is acme.example.com, your CloudFront distribution must include acme.example.com as one of the alternate domain names. For more information, see Using Alternate Domain Names (CNAMEs) in the Amazon CloudFront Developer Guide.  Elastic Beanstalk environment  Specify the CNAME attribute for the environment. (The environment must have a regionalized domain name.) You can use the following methods to get the value of the CNAME attribute:    AWS Management Console: For information about how to get the value by using the console, see Using Custom Domains with AWS Elastic Beanstalk in the AWS Elastic Beanstalk Developer Guide.    Elastic Beanstalk API: Use the DescribeEnvironments action to get the value of the CNAME attribute. For more information, see DescribeEnvironments in the AWS Elastic Beanstalk API Reference.    AWS CLI: Use the describe-environments command to get the value of the CNAME attribute. For more information, see describe-environments in the AWS Command Line Interface Reference.    ELB load balancer  Specify the DNS name that is associated with the load balancer. Get the DNS name by using the AWS Management Console, the ELB API, or the AWS CLI.     AWS Management Console: Go to the EC2 page, choose Load Balancers in the navigation pane, choose the load balancer, choose the Description tab, and get the value of the DNS name field. (If you're routing traffic to a Classic Load Balancer, get the value that begins with dualstack.)     Elastic Load Balancing API: Use DescribeLoadBalancers to get the value of DNSName. For more information, see the applicable guide:   Classic Load Balancer: DescribeLoadBalancers    Application Load Balancer: DescribeLoadBalancers       AWS CLI: Use  describe-load-balancers  to get the value of DNSName.    Amazon S3 bucket that is configured as a static website  Specify the domain name of the Amazon S3 website endpoint in which you created the bucket, for example, s3-website-us-east-2.amazonaws.com. For more information about valid values, see the table Amazon Simple Storage Service (S3) Website Endpoints in the Amazon Web Services General Reference. For more information about using S3 buckets for websites, see Getting Started with Amazon Route 53 in the Amazon Route 53 Developer Guide.   Another Amazon Route 53 resource record set  Specify the value of the Name element for a resource record set in the current hosted zone.  
         public var dNSName: String = ""
         ///  Alias resource records sets only: The value used depends on where you want to route traffic:  CloudFront distribution  Specify Z2FDTNDATAQYW2.  Alias resource record sets for CloudFront can't be created in a private zone.   Elastic Beanstalk environment  Specify the hosted zone ID for the region in which you created the environment. The environment must have a regionalized subdomain. For a list of regions and the corresponding hosted zone IDs, see AWS Elastic Beanstalk in the "AWS Regions and Endpoints" chapter of the Amazon Web Services General Reference.  ELB load balancer  Specify the value of the hosted zone ID for the load balancer. Use the following methods to get the hosted zone ID:    Elastic Load Balancing table in the "AWS Regions and Endpoints" chapter of the Amazon Web Services General Reference: Use the value in the "Amazon Route 53 Hosted Zone ID" column that corresponds with the region that you created your load balancer in.    AWS Management Console: Go to the Amazon EC2 page, click Load Balancers in the navigation pane, select the load balancer, and get the value of the Hosted zone field on the Description tab.    Elastic Load Balancing API: Use DescribeLoadBalancers to get the value of CanonicalHostedZoneNameId. For more information, see the applicable guide:   Classic Load Balancer: DescribeLoadBalancers    Application Load Balancer: DescribeLoadBalancers       AWS CLI: Use  describe-load-balancers  to get the value of CanonicalHostedZoneNameID.    An Amazon S3 bucket configured as a static website  Specify the hosted zone ID for the region that you created the bucket in. For more information about valid values, see the Amazon Simple Storage Service Website Endpoints table in the "AWS Regions and Endpoints" chapter of the Amazon Web Services General Reference.  Another Amazon Route 53 resource record set in your hosted zone  Specify the hosted zone ID of your hosted zone. (An alias resource record set can't reference a resource record set in a different hosted zone.)  
@@ -1168,7 +1168,7 @@ extension Route53 {
 
     public struct TrafficPolicyInstance: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID that Amazon Route 53 assigned to the new traffic policy instance.
         public var id: String = ""
         /// The DNS type that Amazon Route 53 assigned to all of the resource record sets that it created for this traffic policy instance. 
@@ -1226,7 +1226,7 @@ extension Route53 {
 
     public struct UpdateTrafficPolicyInstanceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that contains settings for the updated traffic policy instance.
         public var trafficPolicyInstance: TrafficPolicyInstance = TrafficPolicyInstance()
 
@@ -1244,8 +1244,8 @@ extension Route53 {
 
     public struct ListTrafficPoliciesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["trafficpolicyid": "TrafficPolicyIdMarker", "maxitems": "MaxItems"]
         }
         /// (Conditional) For your first request to ListTrafficPolicies, do not include the TrafficPolicyIdMarker parameter. If you have more traffic policies than the value of MaxItems, ListTrafficPolicies returns only the first MaxItems traffic policies. To get the next group of MaxItems policies, submit another request to ListTrafficPolicies. For the value of TrafficPolicyIdMarker, specify the value of the TrafficPolicyIdMarker element that was returned in the previous response. Policies are listed in the order in which they were created.
@@ -1268,8 +1268,8 @@ extension Route53 {
 
     public struct GetGeoLocationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["subdivisioncode": "SubdivisionCode", "countrycode": "CountryCode", "continentcode": "ContinentCode"]
         }
         /// Amazon Route 53 supports the following continent codes:    AF: Africa    AN: Antarctica    AS: Asia    EU: Europe    OC: Oceania    NA: North America    SA: South America  
@@ -1296,8 +1296,8 @@ extension Route53 {
 
     public struct DisassociateVPCFromHostedZoneRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "HostedZoneId"]
         }
         /// A complex type that contains information about the VPC that you're disassociating from the specified hosted zone.
@@ -1326,8 +1326,8 @@ extension Route53 {
 
     public struct DeleteHealthCheckRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["HealthCheckId": "HealthCheckId"]
         }
         /// The ID of the health check that you want to delete.
@@ -1347,8 +1347,8 @@ extension Route53 {
 
     public struct CreateHostedZoneResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var headerParams: [String: String] {
+        public static let payload: String? = nil
+        public static var headerParams: [String: String] {
             return ["Location": "Location"]
         }
         /// A complex type that describes the changes made to your hosted zone.
@@ -1387,7 +1387,7 @@ extension Route53 {
 
     public struct GetTrafficPolicyResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that contains settings for the specified traffic policy.
         public var trafficPolicy: TrafficPolicy = TrafficPolicy()
 
@@ -1405,7 +1405,7 @@ extension Route53 {
 
     public struct StatusReport: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A description of the status of the health check endpoint as reported by one of the Amazon Route 53 health checkers.
         public var status: String? = nil
         /// The time at which the health checker performed the health check in ISO 8601 format and Coordinated Universal Time (UTC). For example, the value 2014-10-27T17:48:16.751Z represents October 27, 2014 at 17:48:16.751 UTC.
@@ -1426,7 +1426,7 @@ extension Route53 {
 
     public struct TrafficPolicy: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The comment that you specify in the CreateTrafficPolicy request, if any.
         public var comment: String? = nil
         /// The version number that Amazon Route 53 assigns to a traffic policy. For a new traffic policy, the value of Version is always 1.
@@ -1468,7 +1468,7 @@ extension Route53 {
 
     public struct GetGeoLocationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that contains the codes and full continent, country, and subdivision names for the specified geolocation code.
         public var geoLocationDetails: GeoLocationDetails = GeoLocationDetails()
 
@@ -1486,7 +1486,7 @@ extension Route53 {
 
     public struct ChangeTagsForResourceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1496,7 +1496,7 @@ extension Route53 {
 
     public struct ListGeoLocationsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If IsTruncated is true, you can make a follow-up request to display more locations. Enter the value of NextContinentCode in the StartContinentCode parameter in another GET ListGeoLocations request.
         public var nextContinentCode: String? = nil
         /// A value that indicates whether more locations remain to be listed after the last location in this response. If so, the value of IsTruncated is true. To get more values, submit another request and include the values of NextContinentCode, NextCountryCode, and NextSubdivisionCode in the StartContinentCode, StartCountryCode, and StartSubdivisionCode, as applicable.
@@ -1536,7 +1536,7 @@ extension Route53 {
 
     public struct HealthCheckObservation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that contains the last failure reason as reported by one Amazon Route 53 health checker and the time of the failed health check.
         public var statusReport: StatusReport? = nil
         /// The IP address of the Amazon Route 53 health checker that provided the failure reason in StatusReport.
@@ -1561,7 +1561,7 @@ extension Route53 {
 
     public struct Dimension: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// For the metric that the CloudWatch alarm is associated with, the value of one dimension.
         public var value: String = ""
         /// For the metric that the CloudWatch alarm is associated with, the name of one dimension.
@@ -1584,8 +1584,8 @@ extension Route53 {
 
     public struct GetReusableDelegationSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The ID of the reusable delegation set for which you want to get a list of the name server.
@@ -1605,8 +1605,8 @@ extension Route53 {
 
     public struct CreateVPCAssociationAuthorizationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "HostedZoneId"]
         }
         /// The ID of the private hosted zone that you want to authorize associating a VPC with.
@@ -1631,7 +1631,7 @@ extension Route53 {
 
     public struct GetTrafficPolicyInstanceCountRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1641,7 +1641,7 @@ extension Route53 {
 
     public struct ListResourceRecordSetsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If the results were truncated, the name of the next record in the list. This element is present only if IsTruncated is true. 
         public var nextRecordName: String? = nil
         /// Information about multiple resource record sets.
@@ -1681,7 +1681,7 @@ extension Route53 {
 
     public struct ListHostedZonesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that contains general information about the hosted zone.
         public var hostedZones: [HostedZone] = []
         /// A flag indicating whether there are more hosted zones to be listed. If the response was truncated, you can get the next group of maxitems hosted zones by calling ListHostedZones again and specifying the value of the NextMarker element in the marker parameter.
@@ -1718,8 +1718,8 @@ extension Route53 {
 
     public struct CreateTrafficPolicyInstanceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var headerParams: [String: String] {
+        public static let payload: String? = nil
+        public static var headerParams: [String: String] {
             return ["Location": "Location"]
         }
         /// A unique URL that represents a new traffic policy instance.
@@ -1744,7 +1744,7 @@ extension Route53 {
 
     public struct ListTrafficPolicyInstancesByPolicyResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of MaxItems traffic policy instances by calling ListTrafficPolicyInstancesByPolicy again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker elements in the corresponding request parameters.
         public var isTruncated: Bool = false
         /// If IsTruncated is true, HostedZoneIdMarker is the ID of the hosted zone of the first traffic policy instance in the next group of MaxItems traffic policy instances.
@@ -1784,7 +1784,7 @@ extension Route53 {
 
     public struct ChangeInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that describes change information about changes made to your hosted zone. This element contains an ID that you use when performing a GetChange action to get detailed information about the change.
         public var comment: String? = nil
         /// The current state of the request. PENDING indicates that this request has not yet been applied to all Amazon Route 53 DNS servers.
@@ -1816,7 +1816,7 @@ extension Route53 {
 
     public struct DeleteHealthCheckResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1826,7 +1826,7 @@ extension Route53 {
 
     public struct GeoLocation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The two-letter code for the continent. Valid values: AF | AN | AS | EU | OC | NA | SA  Constraint: Specifying ContinentCode with either CountryCode or SubdivisionCode returns an InvalidInput error.
         public var continentCode: String? = nil
         /// The code for the subdivision, for example, a state in the United States or a province in Canada.
@@ -1851,11 +1851,11 @@ extension Route53 {
 
     public struct ListResourceRecordSetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["name": "StartRecordName", "type": "StartRecordType", "maxitems": "MaxItems", "identifier": "StartRecordIdentifier"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["Id": "HostedZoneId"]
         }
         ///  Weighted resource record sets only: If results were truncated for a given DNS name and type, specify the value of NextRecordIdentifier from the previous response to get the next resource record set that has the current DNS name and type.
@@ -1891,7 +1891,7 @@ extension Route53 {
 
     public struct GetHealthCheckLastFailureReasonResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list that contains one Observation element for each Amazon Route 53 health checker that is reporting a last failure reason. 
         public var healthCheckObservations: [HealthCheckObservation] = []
 
@@ -1909,8 +1909,8 @@ extension Route53 {
 
     public struct CreateTrafficPolicyVersionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The definition of this version of the traffic policy, in JSON format. You specified the JSON in the CreateTrafficPolicyVersion request. For more information about the JSON format, see CreateTrafficPolicy.
@@ -1939,7 +1939,7 @@ extension Route53 {
 
     public struct GeoLocationDetails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The full name of the subdivision, for example, a state in the United States or a province in Canada.
         public var subdivisionName: String? = nil
         /// The code for the subdivision, for example, a state in the United States or a province in Canada.
@@ -1976,7 +1976,7 @@ extension Route53 {
 
     public struct GetHealthCheckCountRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1986,7 +1986,7 @@ extension Route53 {
 
     public struct DeleteReusableDelegationSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1996,7 +1996,7 @@ extension Route53 {
 
     public struct ListTrafficPolicyVersionsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A flag that indicates whether there are more traffic policies to be listed. If the response was truncated, you can get the next group of maxitems traffic policies by calling ListTrafficPolicyVersions again and specifying the value of the NextMarker element in the marker parameter.
         public var isTruncated: Bool = false
         /// The value that you specified for the maxitems parameter in the call to ListTrafficPolicyVersions that produced the current response.
@@ -2029,8 +2029,8 @@ extension Route53 {
 
     public struct GetHealthCheckRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["HealthCheckId": "HealthCheckId"]
         }
         /// The identifier that Amazon Route 53 assigned to the health check when you created it. When you add or update a resource record set, you use this value to specify which health check to use. The value can be up to 64 characters long.
@@ -2050,8 +2050,8 @@ extension Route53 {
 
     public struct ListHealthChecksRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["marker": "Marker", "maxitems": "MaxItems"]
         }
         /// If the response to a ListHealthChecks is more than one page, marker is the health check ID for the first health check on the next page of results. For more information, see ListHealthChecksResponse$MaxItems.
@@ -2074,7 +2074,7 @@ extension Route53 {
 
     public struct ListTagsForResourcesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of ResourceTagSets containing tags associated with the specified resources.
         public var resourceTagSets: [ResourceTagSet] = []
 
@@ -2092,7 +2092,7 @@ extension Route53 {
 
     public struct ListReusableDelegationSetsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A flag that indicates whether there are more reusable delegation sets to be listed. If the response is truncated, you can get the next group of maxitems reusable delegation sets by calling ListReusableDelegationSets again and specifying the value of the NextMarker element in the marker parameter.
         public var isTruncated: Bool = false
         /// The value that you specified for the maxitems parameter in the call to ListReusableDelegationSets that produced the current response.
@@ -2129,7 +2129,7 @@ extension Route53 {
 
     public struct AlarmIdentifier: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether this health check is healthy.
         public var name: String = ""
         /// A complex type that identifies the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether this health check is healthy. For the current list of CloudWatch regions, see Amazon CloudWatch in the AWS Regions and Endpoints chapter of the Amazon Web Services General Reference.
@@ -2152,8 +2152,8 @@ extension Route53 {
 
     public struct ListTrafficPolicyInstancesByPolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["version": "TrafficPolicyVersion", "hostedzoneid": "HostedZoneIdMarker", "trafficpolicyinstancetype": "TrafficPolicyInstanceTypeMarker", "trafficpolicyinstancename": "TrafficPolicyInstanceNameMarker", "maxitems": "MaxItems", "id": "TrafficPolicyId"]
         }
         /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
@@ -2194,7 +2194,7 @@ extension Route53 {
 
     public struct ResourceRecordSet: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  Failover resource record sets only: To configure failover, you add the Failover element to two resource record sets. For one resource record set, you specify PRIMARY as the value for Failover; for the other resource record set, you specify SECONDARY. In addition, you include the HealthCheckId element and specify the health check that you want Amazon Route 53 to perform for each resource record set. Except where noted, the following failover behaviors assume that you have included the HealthCheckId element in both resource record sets:   When the primary resource record set is healthy, Amazon Route 53 responds to DNS queries with the applicable value from the primary resource record set regardless of the health of the secondary resource record set.   When the primary resource record set is unhealthy and the secondary resource record set is healthy, Amazon Route 53 responds to DNS queries with the applicable value from the secondary resource record set.   When the secondary resource record set is unhealthy, Amazon Route 53 responds to DNS queries with the applicable value from the primary resource record set regardless of the health of the primary resource record set.   If you omit the HealthCheckId element for the secondary resource record set, and if the primary resource record set is unhealthy, Amazon Route 53 always responds to DNS queries with the applicable value from the secondary resource record set. This is true regardless of the health of the associated endpoint.   You can't create non-failover resource record sets that have the same values for the Name and Type elements as failover resource record sets. For failover alias resource record sets, you must also include the EvaluateTargetHealth element and set the value to true. For more information about configuring failover for Amazon Route 53, see the following topics in the Amazon Route 53 Developer Guide:     Amazon Route 53 Health Checks and DNS Failover     Configuring Failover in a Private Hosted Zone    Valid values: PRIMARY | SECONDARY 
         public var failover: String? = nil
         ///  Geo location resource record sets only: A complex type that lets you control how Amazon Route 53 responds to DNS queries based on the geographic origin of the query. For example, if you want all queries from Africa to be routed to a web server with an IP address of 192.0.2.111, create a resource record set with a Type of A and a ContinentCode of AF.  Creating geolocation and geolocation alias resource record sets in private hosted zones is not supported.  If you create separate resource record sets for overlapping geographic regions (for example, one resource record set for a continent and one for a country on the same continent), priority goes to the smallest geographic region. This allows you to route most queries for a continent to one resource and to route queries for a country on that continent to a different resource. You can't create two geolocation resource record sets that specify the same geographic location. The value * in the CountryCode element matches all geographic locations that aren't specified in other geolocation resource record sets that have the same values for the Name and Type elements.  Geolocation works by mapping IP addresses to locations. However, some IP addresses aren't mapped to geographic locations, so even if you create geolocation resource record sets that cover all seven continents, Amazon Route 53 will receive some DNS queries from locations that it can't identify. We recommend that you create a resource record set for which the value of CountryCode is *, which handles both queries that come from locations for which you haven't created geolocation resource record sets and queries from IP addresses that aren't mapped to a location. If you don't create a * resource record set, Amazon Route 53 returns a "no answer" response for queries from those locations.  You can't create non-geolocation resource record sets that have the same values for the Name and Type elements as geolocation resource record sets.
@@ -2259,7 +2259,7 @@ extension Route53 {
 
     public struct DeleteTrafficPolicyResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2269,8 +2269,8 @@ extension Route53 {
 
     public struct DeleteTrafficPolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id", "Version": "Version"]
         }
         /// The version number of the traffic policy that you want to delete.
@@ -2295,7 +2295,7 @@ extension Route53 {
 
     public struct ResourceTagSet: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID for the specified resource.
         public var resourceId: String? = nil
         /// The tags associated with the specified resource.
@@ -2322,7 +2322,7 @@ extension Route53 {
 
     public struct ListVPCAssociationAuthorizationsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// When the response includes a NextToken element, there are more VPCs that can be associated with the specified hosted zone. To get the next page of VPCs, submit another ListVPCAssociationAuthorizations request, and include the value of the NextToken element from the response in the NextToken request parameter:  /2013-04-01/hostedzone/hosted zone ID/authorizevpcassociation?MaxItems=VPCs per page&amp;NextToken=  
         public var nextToken: String? = nil
         /// The list of VPCs that are authorized to be associated with the specified hosted zone.
@@ -2349,7 +2349,7 @@ extension Route53 {
 
     public struct HealthCheckConfig: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IPv4 or IPv6 IP address of the endpoint that you want Amazon Route 53 to perform health checks on. If you don't specify a value for IPAddress, Amazon Route 53 sends a DNS request to resolve the domain name that you specify in FullyQualifiedDomainName at the interval that you specify in RequestInterval. Using an IP address returned by DNS, Amazon Route 53 then checks the health of the endpoint. Use one of the following formats for the value of IPAddress:     IPv4 address: four values between 0 and 255, separated by periods (.), for example, 192.0.2.44.    IPv6 address: eight groups of four hexadecimal values, separated by colons (:), for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345. You can also shorten IPv6 addresses as described in RFC 5952, for example, 2001:db8:85a3::abcd:1:2345.   If the endpoint is an EC2 instance, we recommend that you create an Elastic IP address, associate it with your EC2 instance, and specify the Elastic IP address for IPAddress. This ensures that the IP address of your instance will never change. For more information, see HealthCheckConfig$FullyQualifiedDomainName. Constraints: Amazon Route 53 can't check the health of endpoints for which the IP address is in local, private, non-routable, or multicast ranges. For more information about IP addresses for which you can't create health checks, see the following documents:    RFC 5735, Special Use IPv4 Addresses     RFC 6598, IANA-Reserved IPv4 Prefix for Shared Address Space     RFC 5156, Special-Use IPv6 Addresses    When the value of Type is CALCULATED or CLOUDWATCH_METRIC, omit IPAddress.
         public var iPAddress: String? = nil
         /// (CALCULATED Health Checks Only) A complex type that contains one ChildHealthCheck element for each health check that you want to associate with a CALCULATED health check.
@@ -2431,11 +2431,11 @@ extension Route53 {
 
     public struct ListTrafficPolicyVersionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["trafficpolicyversion": "TrafficPolicyVersionMarker", "maxitems": "MaxItems"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// Specify the value of Id of the traffic policy for which you want to list all versions.
@@ -2463,8 +2463,8 @@ extension Route53 {
 
     public struct ListTrafficPolicyInstancesByHostedZoneRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["trafficpolicyinstancename": "TrafficPolicyInstanceNameMarker", "trafficpolicyinstancetype": "TrafficPolicyInstanceTypeMarker", "id": "HostedZoneId", "maxitems": "MaxItems"]
         }
         /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
@@ -2496,7 +2496,7 @@ extension Route53 {
 
     public struct ListHealthChecksResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A flag that indicates whether there are more health checks to be listed. If the response was truncated, you can get the next group of maxitems health checks by calling ListHealthChecks again and specifying the value of the NextMarker element in the marker parameter. Valid Values: true | false 
         public var isTruncated: Bool = false
         /// A complex type that contains one HealthCheck element for each health check that is associated with the current AWS account.
@@ -2533,7 +2533,7 @@ extension Route53 {
 
     public struct GetHostedZoneResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that contains general information about the hosted zone.
         public var hostedZone: HostedZone = HostedZone()
         /// A complex type that contains information about VPCs associated with the specified hosted zone.
@@ -2561,8 +2561,8 @@ extension Route53 {
 
     public struct ChangeTagsForResourceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["ResourceId": "ResourceId", "ResourceType": "ResourceType"]
         }
         /// A complex type that contains a list of the tags that you want to add to the specified health check or hosted zone and/or the tags for which you want to edit the Value element. You can add a maximum of 10 tags to a health check or a hosted zone.
@@ -2599,8 +2599,8 @@ extension Route53 {
 
     public struct UpdateHostedZoneCommentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The new comment for the hosted zone. If you don't specify a value for Comment, Amazon Route 53 deletes the existing value of the Comment element, if any.
@@ -2624,8 +2624,8 @@ extension Route53 {
 
     public struct DeleteVPCAssociationAuthorizationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "HostedZoneId"]
         }
         /// When removing authorization to associate a VPC that was created by one AWS account with a hosted zone that was created with a different AWS account, the ID of the hosted zone.
@@ -2650,7 +2650,7 @@ extension Route53 {
 
     public struct CreateHostedZoneRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If you want to associate a reusable delegation set with this hosted zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you created it. For more information about reusable delegation sets, see CreateReusableDelegationSet.  Type  String  Default  None  Parent   CreatedHostedZoneRequest   
         public var delegationSetId: String? = nil
         /// The VPC that you want your hosted zone to be associated with. By providing this parameter, your newly created hosted can't be resolved anywhere other than the given VPC.
@@ -2685,7 +2685,7 @@ extension Route53 {
 
     public struct DeleteHostedZoneResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that contains the ID, the status, and the date and time of your delete request.
         public var changeInfo: ChangeInfo = ChangeInfo()
 
@@ -2703,7 +2703,7 @@ extension Route53 {
 
     public struct GetHostedZoneCountResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The total number of public and private hosted zones associated with the current AWS account.
         public var hostedZoneCount: Int64 = 0
 
@@ -2721,7 +2721,7 @@ extension Route53 {
 
     public struct DeleteTrafficPolicyInstanceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2731,7 +2731,7 @@ extension Route53 {
 
     public struct GetCheckerIpRangesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2741,7 +2741,7 @@ extension Route53 {
 
     public struct GetHealthCheckResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that contains information about one health check that is associated with the current AWS account.
         public var healthCheck: HealthCheck = HealthCheck()
 
@@ -2759,7 +2759,7 @@ extension Route53 {
 
     public struct UpdateTrafficPolicyCommentResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that contains settings for the specified traffic policy.
         public var trafficPolicy: TrafficPolicy = TrafficPolicy()
 
@@ -2777,7 +2777,7 @@ extension Route53 {
 
     public struct GetHostedZoneCountRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2787,7 +2787,7 @@ extension Route53 {
 
     public struct UpdateHostedZoneCommentResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var hostedZone: HostedZone = HostedZone()
 
         public init() {}
@@ -2804,7 +2804,7 @@ extension Route53 {
 
     public struct Change: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the resource record set to create, delete, or update.
         public var resourceRecordSet: ResourceRecordSet = ResourceRecordSet()
         /// The action to perform:    CREATE: Creates a resource record set that has the specified values.    DELETE: Deletes a existing resource record set.  To delete the resource record set that is associated with a traffic policy instance, use  DeleteTrafficPolicyInstance . Amazon Route 53 will delete the resource record set automatically. If you delete the resource record set by using ChangeResourceRecordSets, Amazon Route 53 doesn't automatically delete the traffic policy instance, and you'll continue to be charged for it even though it's no longer in use.      UPSERT: If a resource record set doesn't already exist, Amazon Route 53 creates it. If a resource record set does exist, Amazon Route 53 updates it with the values in the request.   The values that you need to include in the request depend on the type of resource record set that you're creating, deleting, or updating:  Basic resource record sets (excluding alias, failover, geolocation, latency, and weighted resource record sets)     Name     Type     TTL     Failover, geolocation, latency, or weighted resource record sets (excluding alias resource record sets)     Name     Type     TTL     SetIdentifier     Alias resource record sets (including failover alias, geolocation alias, latency alias, and weighted alias resource record sets)     Name     Type     AliasTarget (includes DNSName, EvaluateTargetHealth, and HostedZoneId)    SetIdentifier (for failover, geolocation, latency, and weighted resource record sets)  
@@ -2827,8 +2827,8 @@ extension Route53 {
 
     public struct GetChangeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The ID of the change batch request. The value that you specify here is the value that ChangeResourceRecordSets returned in the Id element when you submitted the request.
@@ -2848,7 +2848,7 @@ extension Route53 {
 
     public struct GetCheckerIpRangesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var checkerIpRanges: [String] = []
 
         public init() {}
@@ -2865,8 +2865,8 @@ extension Route53 {
 
     public struct GetHostedZoneRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The ID of the hosted zone for which you want to get a list of the name servers in the delegation set.
@@ -2886,8 +2886,8 @@ extension Route53 {
 
     public struct DeleteHostedZoneRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The ID of the hosted zone you want to delete.
@@ -2907,7 +2907,7 @@ extension Route53 {
 
     public struct CreateReusableDelegationSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique string that identifies the request, and that allows you to retry failed CreateReusableDelegationSet requests without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateReusableDelegationSet request. CallerReference can be any unique string, for example a date/time stamp.
         public var callerReference: String = ""
         /// If you want to mark the delegation set for an existing hosted zone as reusable, the ID for that hosted zone.
@@ -2929,7 +2929,7 @@ extension Route53 {
 
     public struct GetHealthCheckCountResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of health checks associated with the current AWS account.
         public var healthCheckCount: Int64 = 0
 
@@ -2947,7 +2947,7 @@ extension Route53 {
 
     public struct HostedZoneConfig: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A value that indicates whether this is a private hosted zone.
         public var privateZone: Bool? = nil
         /// Any comments that you want to include about the hosted zone.
@@ -2968,7 +2968,7 @@ extension Route53 {
 
     public struct CreateVPCAssociationAuthorizationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the hosted zone that you authorized associating a VPC with.
         public var hostedZoneId: String = ""
         /// The VPC that you authorized associating with a hosted zone.
@@ -2991,8 +2991,8 @@ extension Route53 {
 
     public struct DeleteTrafficPolicyInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The ID of the traffic policy instance that you want to delete.   When you delete a traffic policy instance, Amazon Route 53 also deletes all of the resource record sets that were created when you created the traffic policy instance. 
@@ -3012,7 +3012,7 @@ extension Route53 {
 
     public struct TestDNSAnswerResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The protocol that Amazon Route 53 used to respond to the request, either UDP or TCP. 
         public var `protocol`: String = ""
         /// A code that indicates whether the request is valid or not. The most common response code is NOERROR, meaning that the request is valid. If the response is not valid, Amazon Route 53 returns a response code that describes the error. For a list of possible response codes, see DNS RCODES on the IANA website. 
@@ -3055,8 +3055,8 @@ extension Route53 {
 
     public struct ChangeResourceRecordSetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "HostedZoneId"]
         }
         /// A complex type that contains an optional comment and the Changes element.
@@ -3081,8 +3081,8 @@ extension Route53 {
 
     public struct ListTrafficPolicyInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["hostedzoneid": "HostedZoneIdMarker", "trafficpolicyinstancetype": "TrafficPolicyInstanceTypeMarker", "trafficpolicyinstancename": "TrafficPolicyInstanceNameMarker", "maxitems": "MaxItems"]
         }
         /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
@@ -3113,7 +3113,7 @@ extension Route53 {
 
     public struct VPC: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var vPCId: String? = nil
         /// The region in which you created the VPC that you want to associate with the specified Amazon Route 53 hosted zone.
         public var vPCRegion: String? = nil
@@ -3133,8 +3133,8 @@ extension Route53 {
 
     public struct ListGeoLocationsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["startsubdivisioncode": "StartSubdivisionCode", "startcountrycode": "StartCountryCode", "maxitems": "MaxItems", "startcontinentcode": "StartContinentCode"]
         }
         /// (Optional) The maximum number of geolocations to be included in the response body for this request. If more than MaxItems geolocations remain to be listed, then the value of the IsTruncated element in the response is true.
@@ -3165,7 +3165,7 @@ extension Route53 {
 
     public struct GetTrafficPolicyInstanceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that contains settings for the traffic policy instance.
         public var trafficPolicyInstance: TrafficPolicyInstance = TrafficPolicyInstance()
 
@@ -3183,8 +3183,8 @@ extension Route53 {
 
     public struct ListTagsForResourcesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["ResourceType": "ResourceType"]
         }
         /// A complex type that contains the ResourceId element for each resource for which you want to get a list of tags.
@@ -3209,7 +3209,7 @@ extension Route53 {
 
     public struct CreateTrafficPolicyInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The version of the traffic policy that you want to use to create resource record sets in the specified hosted zone.
         public var trafficPolicyVersion: Int32 = 0
         /// The ID of the traffic policy that you want to use to create resource record sets in the specified hosted zone.
@@ -3247,7 +3247,7 @@ extension Route53 {
 
     public struct GetReusableDelegationSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that contains information about the reusable delegation set.
         public var delegationSet: DelegationSet = DelegationSet()
 
@@ -3265,7 +3265,7 @@ extension Route53 {
 
     public struct ChangeResourceRecordSetsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A complex type that contains information about changes made to your hosted zone. This element contains an ID that you use when performing a GetChange action to get detailed information about the change.
         public var changeInfo: ChangeInfo = ChangeInfo()
 
@@ -3283,7 +3283,7 @@ extension Route53 {
 
     public struct CreateTrafficPolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The definition of this traffic policy in JSON format. For more information, see Traffic Policy Document Format.
         public var document: String = ""
         /// The name of the traffic policy.
@@ -3310,8 +3310,8 @@ extension Route53 {
 
     public struct GetTrafficPolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id", "Version": "Version"]
         }
         /// The version number of the traffic policy that you want to get information about.

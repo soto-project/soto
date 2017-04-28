@@ -31,7 +31,7 @@ extension Health {
 
     public struct DescribeEntityAggregatesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of entities that are affected by each of the specified events.
         public var entityAggregates: [EntityAggregate]? = nil
 
@@ -50,7 +50,7 @@ extension Health {
 
     public struct AffectedEntity: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The most recent time that the entity was updated.
         public var lastUpdatedTime: Date? = nil
         /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, and UNKNOWN.
@@ -93,7 +93,7 @@ extension Health {
 
     public struct EventDetailsErrorItem: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
         public var eventArn: String? = nil
         /// A message that describes the error.
@@ -118,7 +118,7 @@ extension Health {
 
     public struct EventTypeFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
         public var eventTypeCategories: [String]? = nil
         /// The AWS services associated with the event. For example, EC2, RDS.
@@ -149,7 +149,7 @@ extension Health {
 
     public struct DescribeAffectedEntitiesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The entities that match the filter criteria.
         public var entities: [AffectedEntity]? = nil
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -172,7 +172,7 @@ extension Health {
 
     public struct Event: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The AWS service that is affected by the event. For example, EC2, RDS.
         public var service: String? = nil
         /// The AWS Availability Zone of the event. For example, us-east-1a.
@@ -225,7 +225,7 @@ extension Health {
 
     public struct DescribeEventDetailsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Error messages for any events that could not be retrieved.
         public var failedSet: [EventDetailsErrorItem]? = nil
         /// Information about the events that could be retrieved.
@@ -250,7 +250,7 @@ extension Health {
 
     public struct DescribeEventDetailsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
         public var eventArns: [String] = []
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
@@ -272,7 +272,7 @@ extension Health {
 
     public struct EventDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The most recent description of the event.
         public var latestDescription: String? = nil
 
@@ -289,7 +289,7 @@ extension Health {
 
     public struct DescribeEventAggregatesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of events in each category that meet the optional filter criteria.
         public var eventAggregates: [EventAggregate]? = nil
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -312,7 +312,7 @@ extension Health {
 
     public struct DescribeEventAggregatesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public var nextToken: String? = nil
         /// Values to narrow the results returned.
@@ -342,7 +342,7 @@ extension Health {
 
     public struct EventFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
         public var eventTypeCategories: [String]? = nil
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
@@ -433,7 +433,7 @@ extension Health {
 
     public struct EventAggregate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of events of the associated issue type.
         public var count: Int32? = nil
         /// The issue type for the associated count.
@@ -454,7 +454,7 @@ extension Health {
 
     public struct EntityAggregate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier for the event. Format: arn:aws:health:event-region::event/EVENT_TYPE_PLUS_ID . Example: arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331 
         public var eventArn: String? = nil
         /// The number entities that match the criteria for the specified events.
@@ -475,7 +475,7 @@ extension Health {
 
     public struct EventType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The AWS service that is affected by the event. For example, EC2, RDS.
         public var service: String? = nil
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
@@ -500,7 +500,7 @@ extension Health {
 
     public struct DescribeEntityAggregatesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
         public var eventArns: [String]? = nil
 
@@ -519,7 +519,7 @@ extension Health {
 
     public struct DescribeEventTypesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of event types that match the filter criteria. Event types have a category (issue, accountNotification, or scheduledChange), a service (for example, EC2, RDS, DATAPIPELINE, BILLING), and a code (in the format AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT).
         public var eventTypes: [EventType]? = nil
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -542,7 +542,7 @@ extension Health {
 
     public struct EventDetails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Additional metadata about the event.
         public var eventMetadata: [String: String]? = nil
         /// Summary information about the event.
@@ -569,7 +569,7 @@ extension Health {
 
     public struct DescribeAffectedEntitiesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
         public var maxResults: Int32? = nil
         /// Values to narrow the results returned. At least one event ARN is required. 
@@ -599,7 +599,7 @@ extension Health {
 
     public struct DescribeEventsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
         public var maxResults: Int32? = nil
         /// Values to narrow the results returned.
@@ -628,7 +628,7 @@ extension Health {
 
     public struct DateTimeRange: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ending date and time of a time range.
         public var to: Date? = nil
         /// The starting date and time of a time range.
@@ -649,7 +649,7 @@ extension Health {
 
     public struct EntityFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331", "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz" 
         public var eventArns: [String] = []
         /// A list of the most recent dates and times that the entity was updated.
@@ -697,7 +697,7 @@ extension Health {
 
     public struct DescribeEventTypesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
         public var maxResults: Int32? = nil
         /// Values to narrow the results returned.
@@ -726,7 +726,7 @@ extension Health {
 
     public struct DescribeEventsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The events that match the specified filter criteria.
         public var events: [Event]? = nil
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.

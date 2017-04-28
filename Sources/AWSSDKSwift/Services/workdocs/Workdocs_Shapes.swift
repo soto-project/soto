@@ -31,11 +31,11 @@ extension Workdocs {
 
     public struct DescribeDocumentVersionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["fields": "Fields", "marker": "Marker", "limit": "Limit", "include": "Include"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["DocumentId": "DocumentId"]
         }
         /// Specify "SOURCE" to include initialized versions and a URL for the source document.
@@ -71,8 +71,8 @@ extension Workdocs {
 
     public struct CreateNotificationSubscriptionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["OrganizationId": "OrganizationId"]
         }
         /// The ID of the organization.
@@ -107,7 +107,7 @@ extension Workdocs {
 
     public struct ShareResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The role.
         public var role: String? = nil
         /// The status.
@@ -140,11 +140,11 @@ extension Workdocs {
 
     public struct GetDocumentVersionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["fields": "Fields"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["VersionId": "VersionId", "DocumentId": "DocumentId"]
         }
         /// A comma-separated list of values. Specify "SOURCE" to include a URL for the source document.
@@ -173,7 +173,7 @@ extension Workdocs {
 
     public struct PermissionInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of permissions.
         public var type: String? = nil
         /// The role of the user.
@@ -194,7 +194,7 @@ extension Workdocs {
 
     public struct UpdateUserResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user information.
         public var user: User? = nil
 
@@ -211,7 +211,7 @@ extension Workdocs {
 
     public struct DescribeUsersResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public var marker: String? = nil
         /// The users.
@@ -238,7 +238,7 @@ extension Workdocs {
 
     public struct Subscription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the subscription.
         public var subscriptionId: String? = nil
         /// The endpoint of the subscription.
@@ -263,7 +263,7 @@ extension Workdocs {
 
     public struct DescribeFolderContentsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public var marker: String? = nil
         /// The documents in the specified folder.
@@ -292,7 +292,7 @@ extension Workdocs {
 
     public struct ResourcePathComponent: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the resource path.
         public var name: String? = nil
         /// The ID of the resource path.
@@ -313,7 +313,7 @@ extension Workdocs {
 
     public struct DescribeResourcePermissionsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public var marker: String? = nil
         /// The principals.
@@ -336,8 +336,8 @@ extension Workdocs {
 
     public struct DeleteDocumentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["DocumentId": "DocumentId"]
         }
         /// The ID of the document.
@@ -357,8 +357,8 @@ extension Workdocs {
 
     public struct UpdateDocumentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["DocumentId": "DocumentId"]
         }
         /// The ID of the parent folder.
@@ -390,8 +390,8 @@ extension Workdocs {
 
     public struct GetDocumentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["DocumentId": "DocumentId"]
         }
         /// The ID of the document object.
@@ -411,7 +411,7 @@ extension Workdocs {
 
     public struct InitiateDocumentVersionUploadRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the document.
         public var id: String? = nil
         /// The time stamp when the content of the document was modified.
@@ -453,7 +453,7 @@ extension Workdocs {
 
     public struct AddResourcePermissionsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The share results.
         public var shareResults: [ShareResult]? = nil
 
@@ -472,7 +472,7 @@ extension Workdocs {
 
     public struct FolderMetadata: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier created from the subfolders and documents of the folder.
         public var signature: String? = nil
         /// The resource state of the folder.
@@ -517,7 +517,7 @@ extension Workdocs {
 
     public struct DocumentVersionMetadata: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time stamp when the content of the document was modified.
         public var contentModifiedTimestamp: Date? = nil
         /// The signature of the document.
@@ -586,7 +586,7 @@ extension Workdocs {
 
     public struct UserStorageMetadata: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The storage for a user.
         public var storageRule: StorageRuleType? = nil
         /// The amount of storage utilized, in bytes.
@@ -607,7 +607,7 @@ extension Workdocs {
 
     public struct GetFolderPathResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The path information.
         public var path: ResourcePath? = nil
 
@@ -624,7 +624,7 @@ extension Workdocs {
 
     public struct GetFolderResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The metadata of the folder.
         public var metadata: FolderMetadata? = nil
 
@@ -641,7 +641,7 @@ extension Workdocs {
 
     public struct CreateUserRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time zone ID of the user.
         public var timeZoneId: String? = nil
         /// The given name of the user.
@@ -686,7 +686,7 @@ extension Workdocs {
 
     public struct ActivateUserResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user information.
         public var user: User? = nil
 
@@ -703,8 +703,8 @@ extension Workdocs {
 
     public struct GetFolderRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["FolderId": "FolderId"]
         }
         /// The ID of the folder.
@@ -724,7 +724,7 @@ extension Workdocs {
 
     public struct GetDocumentResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The document object.
         public var metadata: DocumentMetadata? = nil
 
@@ -741,8 +741,8 @@ extension Workdocs {
 
     public struct AddResourcePermissionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["ResourceId": "ResourceId"]
         }
         /// The ID of the resource.
@@ -767,8 +767,8 @@ extension Workdocs {
 
     public struct DeleteUserRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["UserId": "UserId"]
         }
         /// The ID of the user.
@@ -788,7 +788,7 @@ extension Workdocs {
 
     public struct UploadMetadata: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The URL of the upload.
         public var uploadUrl: String? = nil
         /// The signed headers.
@@ -811,7 +811,7 @@ extension Workdocs {
 
     public struct CreateNotificationSubscriptionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The subscription.
         public var subscription: Subscription? = nil
 
@@ -828,8 +828,8 @@ extension Workdocs {
 
     public struct UpdateFolderRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["FolderId": "FolderId"]
         }
         /// The ID of the parent folder.
@@ -861,11 +861,11 @@ extension Workdocs {
 
     public struct DescribeNotificationSubscriptionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["marker": "Marker", "limit": "Limit"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["OrganizationId": "OrganizationId"]
         }
         /// The ID of the organization.
@@ -893,8 +893,8 @@ extension Workdocs {
 
     public struct RemoveAllResourcePermissionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["ResourceId": "ResourceId"]
         }
         /// The ID of the resource.
@@ -914,7 +914,7 @@ extension Workdocs {
 
     public struct GetDocumentPathResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The path information.
         public var path: ResourcePath? = nil
 
@@ -931,8 +931,8 @@ extension Workdocs {
 
     public struct UpdateUserRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["UserId": "UserId"]
         }
         /// The locale of the user.
@@ -976,8 +976,8 @@ extension Workdocs {
 
     public struct DeleteFolderRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["FolderId": "FolderId"]
         }
         /// The ID of the folder.
@@ -997,7 +997,7 @@ extension Workdocs {
 
     public struct CreateFolderRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the new folder.
         public var name: String? = nil
         /// The ID of the parent folder.
@@ -1019,7 +1019,7 @@ extension Workdocs {
 
     public struct DocumentMetadata: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The resource state.
         public var resourceState: String? = nil
         /// The ID of the creator.
@@ -1060,11 +1060,11 @@ extension Workdocs {
 
     public struct DescribeResourcePermissionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["marker": "Marker", "limit": "Limit"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["ResourceId": "ResourceId"]
         }
         /// The ID of the resource.
@@ -1092,7 +1092,7 @@ extension Workdocs {
 
     public struct Principal: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of resource.
         public var type: String? = nil
         /// The permission information for the resource.
@@ -1119,7 +1119,7 @@ extension Workdocs {
 
     public struct DescribeNotificationSubscriptionsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public var marker: String? = nil
         /// The subscriptions.
@@ -1142,8 +1142,8 @@ extension Workdocs {
 
     public struct UpdateDocumentVersionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["VersionId": "VersionId", "DocumentId": "DocumentId"]
         }
         /// The status of the version.
@@ -1172,11 +1172,11 @@ extension Workdocs {
 
     public struct GetDocumentPathRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["fields": "Fields", "marker": "Marker", "limit": "Limit"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["DocumentId": "DocumentId"]
         }
         /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders.
@@ -1208,11 +1208,11 @@ extension Workdocs {
 
     public struct RemoveResourcePermissionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["type": "PrincipalType"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["ResourceId": "ResourceId", "PrincipalId": "PrincipalId"]
         }
         /// The ID of the resource.
@@ -1241,7 +1241,7 @@ extension Workdocs {
 
     public struct CreateUserResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user information.
         public var user: User? = nil
 
@@ -1258,7 +1258,7 @@ extension Workdocs {
 
     public struct DescribeDocumentVersionsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The document versions.
         public var documentVersions: [DocumentVersionMetadata]? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -1281,7 +1281,7 @@ extension Workdocs {
 
     public struct User: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The email address of the user.
         public var emailAddress: String? = nil
         /// The ID of the recycle bin folder.
@@ -1354,7 +1354,7 @@ extension Workdocs {
 
     public struct StorageRuleType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of storage.
         public var storageType: String? = nil
         /// The amount of storage allocated, in bytes.
@@ -1375,7 +1375,7 @@ extension Workdocs {
 
     public struct CreateFolderResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The metadata of the folder.
         public var metadata: FolderMetadata? = nil
 
@@ -1392,7 +1392,7 @@ extension Workdocs {
 
     public struct SharePrincipal: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The role of the recipient.
         public var role: String = ""
         /// The type of the recipient.
@@ -1420,11 +1420,11 @@ extension Workdocs {
 
     public struct GetFolderPathRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["fields": "Fields", "marker": "Marker", "limit": "Limit"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["FolderId": "FolderId"]
         }
         /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders.
@@ -1456,8 +1456,8 @@ extension Workdocs {
 
     public struct DeactivateUserRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["UserId": "UserId"]
         }
         /// The ID of the user.
@@ -1477,7 +1477,7 @@ extension Workdocs {
 
     public struct ResourcePath: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The components of the resource path.
         public var components: [ResourcePathComponent]? = nil
 
@@ -1496,8 +1496,8 @@ extension Workdocs {
 
     public struct DeleteFolderContentsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["FolderId": "FolderId"]
         }
         /// The ID of the folder.
@@ -1517,8 +1517,8 @@ extension Workdocs {
 
     public struct DescribeUsersRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["fields": "Fields", "marker": "Marker", "userIds": "UserIds", "limit": "Limit", "organizationId": "OrganizationId", "sort": "Sort", "include": "Include", "query": "Query", "order": "Order"]
         }
         /// A comma-separated list of values. Specify "STORAGE_METADATA" to include the user storage quota and utilization information.
@@ -1569,7 +1569,7 @@ extension Workdocs {
 
     public struct InitiateDocumentVersionUploadResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The document metadata.
         public var metadata: DocumentMetadata? = nil
         /// The upload metadata.
@@ -1590,11 +1590,11 @@ extension Workdocs {
 
     public struct DescribeFolderContentsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["marker": "Marker", "include": "Include", "limit": "Limit", "type": "Type", "sort": "Sort", "order": "Order"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["FolderId": "FolderId"]
         }
         /// The sorting criteria.
@@ -1638,8 +1638,8 @@ extension Workdocs {
 
     public struct AbortDocumentVersionUploadRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["VersionId": "VersionId", "DocumentId": "DocumentId"]
         }
         /// The ID of the version.
@@ -1664,7 +1664,7 @@ extension Workdocs {
 
     public struct GetDocumentVersionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The version metadata.
         public var metadata: DocumentVersionMetadata? = nil
 
@@ -1681,8 +1681,8 @@ extension Workdocs {
 
     public struct DeleteNotificationSubscriptionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["OrganizationId": "OrganizationId", "SubscriptionId": "SubscriptionId"]
         }
         /// The ID of the organization.
@@ -1707,8 +1707,8 @@ extension Workdocs {
 
     public struct ActivateUserRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["UserId": "UserId"]
         }
         /// The ID of the user.

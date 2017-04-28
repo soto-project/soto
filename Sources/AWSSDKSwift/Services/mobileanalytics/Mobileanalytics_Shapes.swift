@@ -31,7 +31,7 @@ extension Mobileanalytics {
 
     public struct Event: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A collection of key-value pairs that gives additional, measurable context to the event. The key-value pairs are specified by the developer. This collection can be empty or the attribute object can be omitted.
         public var metrics: [String: Double]? = nil
         /// The session the event occured within. 
@@ -74,7 +74,7 @@ extension Mobileanalytics {
 
     public struct Session: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time the event started in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
         public var startTimestamp: String? = nil
         /// A unique identifier for the session
@@ -103,8 +103,8 @@ extension Mobileanalytics {
 
     public struct PutEventsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var headerParams: [String: String] {
+        public static let payload: String? = nil
+        public static var headerParams: [String: String] {
             return ["x-amz-Client-Context-Encoding": "clientContextEncoding", "x-amz-Client-Context": "clientContext"]
         }
         /// The client context including the client ID, app title, app version and package name.

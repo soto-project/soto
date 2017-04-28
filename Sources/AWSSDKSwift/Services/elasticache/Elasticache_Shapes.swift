@@ -31,7 +31,7 @@ extension Elasticache {
 
     public struct DescribeEngineDefaultParametersResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var engineDefaults: EngineDefaults? = nil
 
         public init() {}
@@ -47,7 +47,7 @@ extension Elasticache {
 
     public struct EventsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Provides an identifier to allow retrieval of paginated results.
         public var marker: String? = nil
         /// A list of events. Each element in the list contains detailed information about one event.
@@ -70,7 +70,7 @@ extension Elasticache {
 
     public struct ReplicationGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A group of settings to be applied to the replication group, either immediately or during the next maintenance window.
         public var pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil
         /// The current state of this replication group - creating, available, modifying, deleting, create-failed, snapshotting.
@@ -131,7 +131,7 @@ extension Elasticache {
 
     public struct CacheSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Provides an identifier to allow retrieval of paginated results.
         public var marker: String? = nil
         /// A list of cache subnet groups. Each element in the list contains detailed information about one group.
@@ -154,7 +154,7 @@ extension Elasticache {
 
     public struct CreateCacheClusterResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cacheCluster: CacheCluster? = nil
 
         public init() {}
@@ -170,7 +170,7 @@ extension Elasticache {
 
     public struct Endpoint: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The DNS hostname of the cache node.
         public var address: String? = nil
         /// The port number that the cache engine is listening on.
@@ -191,7 +191,7 @@ extension Elasticache {
 
     public struct ParameterNameValue: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the parameter.
         public var parameterName: String? = nil
         /// The value of the parameter.
@@ -212,7 +212,7 @@ extension Elasticache {
 
     public struct DeleteCacheSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the cache subnet group to delete. Constraints: Must contain no more than 255 alphanumeric characters or hyphens.
         public var cacheSubnetGroupName: String = ""
 
@@ -230,7 +230,7 @@ extension Elasticache {
 
     public struct CacheClusterMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Provides an identifier to allow retrieval of paginated results.
         public var marker: String? = nil
         /// A list of cache clusters. Each item in the list contains detailed information about one cache cluster.
@@ -253,7 +253,7 @@ extension Elasticache {
 
     public struct DescribeCacheParametersMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public var maxRecords: Int32? = nil
         /// The parameter types to return. Valid values: user | system | engine-default 
@@ -283,7 +283,7 @@ extension Elasticache {
 
     public struct ReservedCacheNode: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time the reservation started.
         public var startTime: Date? = nil
         /// The number of cache nodes that have been reserved.
@@ -346,7 +346,7 @@ extension Elasticache {
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The tag's value. May not be null.
         public var value: String? = nil
         /// The key for the tag.
@@ -367,7 +367,7 @@ extension Elasticache {
 
     public struct ResetCacheParameterGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the cache parameter group to reset.
         public var cacheParameterGroupName: String = ""
         /// An array of parameter names to reset to their default values. If ResetAllParameters is true, do not use ParameterNameValues. If ResetAllParameters is false, you must specify the name of at least one parameter to reset.
@@ -395,7 +395,7 @@ extension Elasticache {
 
     public struct CopySnapshotResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var snapshot: Snapshot? = nil
 
         public init() {}
@@ -411,7 +411,7 @@ extension Elasticache {
 
     public struct ListTagsForResourceMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the resource for which you want the list of tags, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public var resourceName: String = ""
 
@@ -429,7 +429,7 @@ extension Elasticache {
 
     public struct ReservedCacheNodesOffering: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The offering type.
         public var offeringType: String? = nil
         /// The recurring price charged to run this reserved cache node.
@@ -476,7 +476,7 @@ extension Elasticache {
 
     public struct RevokeCacheSecurityGroupIngressMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The AWS account number of the Amazon EC2 security group owner. Note that this is not the same thing as an AWS access key ID - you must provide a valid AWS account number for this parameter.
         public var eC2SecurityGroupOwnerId: String = ""
         /// The name of the cache security group to revoke ingress from.
@@ -504,7 +504,7 @@ extension Elasticache {
 
     public struct RecurringCharge: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The monetary amount of the recurring charge.
         public var recurringChargeAmount: Double? = nil
         /// The frequency of the recurring charge.
@@ -525,7 +525,7 @@ extension Elasticache {
 
     public struct CreateSnapshotMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of an existing cache cluster. The snapshot is created from this cache cluster.
         public var cacheClusterId: String? = nil
         /// A name for the snapshot being created.
@@ -551,7 +551,7 @@ extension Elasticache {
 
     public struct DescribeEventsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.
         public var startTime: Date? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
@@ -592,7 +592,7 @@ extension Elasticache {
 
     public struct CacheNode: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the primary node to which this read replica node is synchronized. If this field is empty, this node is not associated with a primary cache cluster.
         public var sourceCacheNodeId: String? = nil
         /// The Availability Zone where this node was created and now resides.
@@ -633,7 +633,7 @@ extension Elasticache {
 
     public struct CreateCacheClusterMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  Reserved parameter. The password used to access a password protected server. Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   Cannot contain any of the following characters: '/', '"', or "@".    For more information, see AUTH password at Redis.
         public var authToken: String? = nil
         /// Specifies whether the nodes in this Memcached cluster are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. This parameter is only supported for Memcached cache clusters. If the AZMode and PreferredAvailabilityZones are not specified, ElastiCache assumes single-az mode.
@@ -749,7 +749,7 @@ extension Elasticache {
 
     public struct RemoveTagsFromResourceMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public var resourceName: String = ""
         /// A list of TagKeys identifying the tags you want removed from the named resource.
@@ -772,7 +772,7 @@ extension Elasticache {
 
     public struct DeleteReplicationGroupResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var replicationGroup: ReplicationGroup? = nil
 
         public init() {}
@@ -788,7 +788,7 @@ extension Elasticache {
 
     public struct CacheParameterGroupsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Provides an identifier to allow retrieval of paginated results.
         public var marker: String? = nil
         /// A list of cache parameter groups. Each element in the list contains detailed information about one cache parameter group.
@@ -811,7 +811,7 @@ extension Elasticache {
 
     public struct CacheEngineVersion: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of the cache engine.
         public var cacheEngineDescription: String? = nil
         /// The name of the cache parameter group family associated with this cache engine. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 
@@ -844,7 +844,7 @@ extension Elasticache {
 
     public struct CacheParameterGroupDetails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
         public var cacheNodeTypeSpecificParameters: [CacheNodeTypeSpecificParameter]? = nil
         /// Provides an identifier to allow retrieval of paginated results.
@@ -873,7 +873,7 @@ extension Elasticache {
 
     public struct DescribeSnapshotsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 50 Constraints: minimum 20; maximum 50.
         public var maxRecords: Int32? = nil
         /// A Boolean value which if true, the node group (shard) configuration is included in the snapshot description.
@@ -914,7 +914,7 @@ extension Elasticache {
 
     public struct RevokeCacheSecurityGroupIngressResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cacheSecurityGroup: CacheSecurityGroup? = nil
 
         public init() {}
@@ -930,7 +930,7 @@ extension Elasticache {
 
     public struct EC2SecurityGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The AWS account ID of the Amazon EC2 security group owner.
         public var eC2SecurityGroupOwnerId: String? = nil
         /// The status of the Amazon EC2 security group.
@@ -955,7 +955,7 @@ extension Elasticache {
 
     public struct Subnet: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier for the subnet.
         public var subnetIdentifier: String? = nil
         /// The Availability Zone associated with the subnet.
@@ -976,7 +976,7 @@ extension Elasticache {
 
     public struct Parameter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the parameter.
         public var parameterValue: String? = nil
         /// The valid range of values for the parameter.
@@ -1025,7 +1025,7 @@ extension Elasticache {
 
     public struct CacheParameterGroupStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the cache parameter group.
         public var cacheParameterGroupName: String? = nil
         /// A list of the cache node IDs which need to be rebooted for parameter changes to be applied. A node ID is a numeric identifier (0001, 0002, etc.).
@@ -1052,7 +1052,7 @@ extension Elasticache {
 
     public struct Event: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier for the source of the event. For example, if the event occurred at the cache cluster level, the identifier would be the name of the cache cluster.
         public var sourceIdentifier: String? = nil
         /// The text of the event.
@@ -1081,7 +1081,7 @@ extension Elasticache {
 
     public struct DeleteCacheClusterResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cacheCluster: CacheCluster? = nil
 
         public init() {}
@@ -1097,7 +1097,7 @@ extension Elasticache {
 
     public struct CacheNodeTypeSpecificValue: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value for the cache node type.
         public var value: String? = nil
         /// The cache node type for which this value applies.
@@ -1118,7 +1118,7 @@ extension Elasticache {
 
     public struct CacheCluster: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var pendingModifiedValues: PendingModifiedValues? = nil
         /// The number of days for which ElastiCache retains automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
         public var snapshotRetentionLimit: Int32? = nil
@@ -1221,7 +1221,7 @@ extension Elasticache {
 
     public struct CacheSecurityGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Provides an identifier to allow retrieval of paginated results.
         public var marker: String? = nil
         /// A list of cache security groups. Each element in the list contains detailed information about one group.
@@ -1244,7 +1244,7 @@ extension Elasticache {
 
     public struct NodeGroupMember: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var readEndpoint: Endpoint? = nil
         /// The role that is currently assigned to the node - primary or replica.
         public var currentRole: String? = nil
@@ -1276,7 +1276,7 @@ extension Elasticache {
 
     public struct PurchaseReservedCacheNodesOfferingMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A customer-specified identifier to track this reservation.  The Reserved Cache Node ID is an unique customer-specified identifier to track this reservation. If this parameter is not specified, ElastiCache automatically generates an identifier for the reservation.  Example: myreservationID
         public var reservedCacheNodeId: String? = nil
         /// The number of cache node instances to reserve. Default: 1 
@@ -1302,7 +1302,7 @@ extension Elasticache {
 
     public struct DescribeSnapshotsListMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public var marker: String? = nil
         /// A list of snapshots. Each item in the list contains detailed information about one snapshot.
@@ -1325,7 +1325,7 @@ extension Elasticache {
 
     public struct CacheSecurityGroupMembership: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The membership status in the cache security group. The status changes when a cache security group is modified, or when the cache security groups assigned to a cache cluster are modified.
         public var status: String? = nil
         /// The name of the cache security group.
@@ -1346,7 +1346,7 @@ extension Elasticache {
 
     public struct ModifyCacheParameterGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the cache parameter group to modify.
         public var cacheParameterGroupName: String = ""
         /// An array of parameter names and values for the parameter update. You must supply at least one parameter name and value; subsequent arguments are optional. A maximum of 20 parameters may be modified per request.
@@ -1369,7 +1369,7 @@ extension Elasticache {
 
     public struct AddTagsToResourceMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of cost allocation tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value.
         public var tags: [Tag] = []
         /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
@@ -1392,7 +1392,7 @@ extension Elasticache {
 
     public struct RebootCacheClusterResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cacheCluster: CacheCluster? = nil
 
         public init() {}
@@ -1408,7 +1408,7 @@ extension Elasticache {
 
     public struct ModifyCacheSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup 
         public var cacheSubnetGroupName: String = ""
         /// The EC2 subnet IDs for the cache subnet group.
@@ -1436,7 +1436,7 @@ extension Elasticache {
 
     public struct ModifyCacheClusterResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cacheCluster: CacheCluster? = nil
 
         public init() {}
@@ -1452,7 +1452,7 @@ extension Elasticache {
 
     public struct ModifyCacheClusterMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of cache node IDs to be removed. A node ID is a numeric identifier (0001, 0002, etc.). This parameter is only valid when NumCacheNodes is less than the existing number of cache nodes. The number of cache node IDs supplied in this parameter must match the difference between the existing number of cache nodes in the cluster or pending cache nodes, whichever is greater, and the value of NumCacheNodes in the request. For example: If you have 3 active cache nodes, 7 pending cache nodes, and the number of cache nodes in this ModifyCacheCluser call is 5, you must list 2 (7 - 5) cache node IDs to remove.
         public var cacheNodeIdsToRemove: [String]? = nil
         /// A list of cache security group names to authorize on this cache cluster. This change is asynchronously applied as soon as possible. You can use this parameter only with clusters that are created outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be "Default".
@@ -1542,7 +1542,7 @@ extension Elasticache {
 
     public struct DescribeEngineDefaultParametersMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public var marker: String? = nil
         /// The name of the cache parameter group family. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 
@@ -1568,7 +1568,7 @@ extension Elasticache {
 
     public struct CopySnapshotMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A name for the snapshot copy. ElastiCache does not permit overwriting a snapshot, therefore this name must be unique within its context - ElastiCache or an Amazon S3 bucket if exporting.
         public var targetSnapshotName: String = ""
         /// The Amazon S3 bucket to which the snapshot is exported. This parameter is used only when exporting a snapshot for external access. When using this parameter to export a snapshot, be sure Amazon ElastiCache has the needed permissions to this S3 bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the Amazon ElastiCache User Guide. For more information, see Exporting a Snapshot in the Amazon ElastiCache User Guide.
@@ -1595,7 +1595,7 @@ extension Elasticache {
 
     public struct ListAllowedNodeTypeModificationsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the cache cluster you want to scale up to a larger node instanced type. ElastiCache uses the cluster id to identify the current node type of this cluster and from that to create a list of node types you can scale up to.  You must provide a value for either the CacheClusterId or the ReplicationGroupId. 
         public var cacheClusterId: String? = nil
         /// The name of the replication group want to scale up to a larger node type. ElastiCache uses the replication group id to identify the current node type being used by this replication group, and from that to create a list of node types you can scale up to.  You must provide a value for either the CacheClusterId or the ReplicationGroupId. 
@@ -1616,7 +1616,7 @@ extension Elasticache {
 
     public struct EngineDefaults: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the name of the cache parameter group family to which the engine default parameters apply. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 
         public var cacheParameterGroupFamily: String? = nil
         /// Contains a list of engine default parameters.
@@ -1649,7 +1649,7 @@ extension Elasticache {
 
     public struct NotificationConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The current state of the topic.
         public var topicStatus: String? = nil
         /// The Amazon Resource Name (ARN) that identifies the topic.
@@ -1670,7 +1670,7 @@ extension Elasticache {
 
     public struct DescribeReservedCacheNodesOfferingsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public var maxRecords: Int32? = nil
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -1711,7 +1711,7 @@ extension Elasticache {
 
     public struct CreateCacheParameterGroupResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cacheParameterGroup: CacheParameterGroup? = nil
 
         public init() {}
@@ -1727,7 +1727,7 @@ extension Elasticache {
 
     public struct Snapshot: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The port number used by each cache nodes in the source cache cluster.
         public var port: Int32? = nil
         /// The user-supplied identifier of the source cache cluster.
@@ -1838,7 +1838,7 @@ extension Elasticache {
 
     public struct DeleteCacheClusterMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The cache cluster identifier for the cluster to be deleted. This parameter is not case sensitive.
         public var cacheClusterId: String = ""
         /// The user-supplied name of a final cache cluster snapshot. This is the unique name that identifies the snapshot. ElastiCache creates the snapshot, and then deletes the cache cluster immediately afterward.
@@ -1860,7 +1860,7 @@ extension Elasticache {
 
     public struct AllowedNodeTypeModificationsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var scaleUpModifications: [String]? = nil
 
         public init() {}
@@ -1878,7 +1878,7 @@ extension Elasticache {
 
     public struct DeleteSnapshotResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var snapshot: Snapshot? = nil
 
         public init() {}
@@ -1894,7 +1894,7 @@ extension Elasticache {
 
     public struct ReplicationGroupPendingModifiedValues: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The primary cluster ID that is applied immediately (if --apply-immediately was specified), or during the next maintenance window.
         public var primaryClusterId: String? = nil
         /// Indicates the status of Multi-AZ for this Redis replication group.  ElastiCache Multi-AZ replication groups are not supported on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled):T1 and T2 cache node types. Redis (cluster mode enabled): T1 node types.   
@@ -1915,7 +1915,7 @@ extension Elasticache {
 
     public struct ReplicationGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Provides an identifier to allow retrieval of paginated results.
         public var marker: String? = nil
         /// A list of replication groups. Each item in the list contains detailed information about one replication group.
@@ -1938,7 +1938,7 @@ extension Elasticache {
 
     public struct DescribeCacheSubnetGroupsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the cache subnet group to return details for.
         public var cacheSubnetGroupName: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
@@ -1963,7 +1963,7 @@ extension Elasticache {
 
     public struct ReservedCacheNodesOfferingMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Provides an identifier to allow retrieval of paginated results.
         public var marker: String? = nil
         /// A list of reserved cache node offerings. Each element in the list contains detailed information about one offering.
@@ -1986,7 +1986,7 @@ extension Elasticache {
 
     public struct NodeGroupConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A string that specifies the keyspaces as a series of comma separated values. Keyspaces are 0 to 16,383. The string is in the format startkey-endkey. Example: "0-3999" 
         public var slots: String? = nil
         /// A list of Availability Zones to be used for the read replicas. The number of Availability Zones in this list must match the value of ReplicaCount or ReplicasPerNodeGroup if not specified.
@@ -2017,7 +2017,7 @@ extension Elasticache {
 
     public struct CacheParameterGroupNameMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the cache parameter group.
         public var cacheParameterGroupName: String? = nil
 
@@ -2034,7 +2034,7 @@ extension Elasticache {
 
     public struct CreateSnapshotResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var snapshot: Snapshot? = nil
 
         public init() {}
@@ -2050,7 +2050,7 @@ extension Elasticache {
 
     public struct CreateCacheSecurityGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A name for the cache security group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters. Cannot be the word "Default". Example: mysecuritygroup 
         public var cacheSecurityGroupName: String = ""
         /// A description for the cache security group.
@@ -2073,7 +2073,7 @@ extension Elasticache {
 
     public struct DescribeReservedCacheNodesMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public var maxRecords: Int32? = nil
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -2118,7 +2118,7 @@ extension Elasticache {
 
     public struct DescribeCacheEngineVersionsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public var maxRecords: Int32? = nil
         /// The name of a specific cache parameter group family to return details for. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
@@ -2155,7 +2155,7 @@ extension Elasticache {
 
     public struct ModifyCacheSubnetGroupResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cacheSubnetGroup: CacheSubnetGroup? = nil
 
         public init() {}
@@ -2171,7 +2171,7 @@ extension Elasticache {
 
     public struct NodeSnapshot: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The configuration for the source node group (shard).
         public var nodeGroupConfiguration: NodeGroupConfiguration? = nil
         /// The cache node identifier for the node in the source cache cluster.
@@ -2212,7 +2212,7 @@ extension Elasticache {
 
     public struct CreateReplicationGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of Amazon Resource Names (ARN) that uniquely identify the Redis RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the replication group. The Amazon S3 object name in the ARN cannot contain any commas. The list must match the number of node groups (shards) in the replication group, which means you cannot repartition.  This parameter is only valid if the Engine parameter is redis.  Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb 
         public var snapshotArns: [String]? = nil
         /// A list of cache security group names to associate with this replication group.
@@ -2343,7 +2343,7 @@ extension Elasticache {
 
     public struct CacheEngineVersionMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Provides an identifier to allow retrieval of paginated results.
         public var marker: String? = nil
         /// A list of cache engine version details. Each element in the list contains detailed information about one cache engine version.
@@ -2366,7 +2366,7 @@ extension Elasticache {
 
     public struct SecurityGroupMembership: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the cache security group.
         public var securityGroupId: String? = nil
         /// The status of the cache security group membership. The status changes whenever a cache security group is modified, or when the cache security groups assigned to a cache cluster are modified.
@@ -2387,7 +2387,7 @@ extension Elasticache {
 
     public struct DescribeCacheClustersMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public var maxRecords: Int32? = nil
         /// An optional flag that can be included in the DescribeCacheCluster request to retrieve information about the individual cache nodes.
@@ -2416,7 +2416,7 @@ extension Elasticache {
 
     public struct CacheSubnetGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of subnets associated with the cache subnet group.
         public var subnets: [Subnet]? = nil
         /// The description of the cache subnet group.
@@ -2447,7 +2447,7 @@ extension Elasticache {
 
     public struct RebootCacheClusterMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The cache cluster identifier. This parameter is stored as a lowercase string.
         public var cacheClusterId: String = ""
         /// A list of cache node IDs to reboot. A node ID is a numeric identifier (0001, 0002, etc.). To reboot an entire cache cluster, specify all of the cache node IDs.
@@ -2470,7 +2470,7 @@ extension Elasticache {
 
     public struct AuthorizeCacheSecurityGroupIngressMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The AWS account number of the Amazon EC2 security group owner. Note that this is not the same thing as an AWS access key ID - you must provide a valid AWS account number for this parameter.
         public var eC2SecurityGroupOwnerId: String = ""
         /// The cache security group that allows network ingress.
@@ -2498,7 +2498,7 @@ extension Elasticache {
 
     public struct CacheSecurityGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the cache security group.
         public var cacheSecurityGroupName: String? = nil
         /// A list of Amazon EC2 security groups that are associated with this cache security group.
@@ -2529,7 +2529,7 @@ extension Elasticache {
 
     public struct AvailabilityZone: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the Availability Zone.
         public var name: String? = nil
 
@@ -2546,7 +2546,7 @@ extension Elasticache {
 
     public struct DeleteCacheParameterGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the cache parameter group to delete.  The specified cache security group must not be associated with any cache clusters. 
         public var cacheParameterGroupName: String = ""
 
@@ -2564,7 +2564,7 @@ extension Elasticache {
 
     public struct CreateCacheSecurityGroupResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cacheSecurityGroup: CacheSecurityGroup? = nil
 
         public init() {}
@@ -2580,7 +2580,7 @@ extension Elasticache {
 
     public struct CreateReplicationGroupResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var replicationGroup: ReplicationGroup? = nil
 
         public init() {}
@@ -2596,7 +2596,7 @@ extension Elasticache {
 
     public struct AuthorizeCacheSecurityGroupIngressResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cacheSecurityGroup: CacheSecurityGroup? = nil
 
         public init() {}
@@ -2612,7 +2612,7 @@ extension Elasticache {
 
     public struct CacheParameterGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the cache parameter group family that this cache parameter group is compatible with. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 
         public var cacheParameterGroupFamily: String? = nil
         /// The name of the cache parameter group.
@@ -2637,7 +2637,7 @@ extension Elasticache {
 
     public struct CreateCacheParameterGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 
         public var cacheParameterGroupFamily: String = ""
         /// A user-specified name for the cache parameter group.
@@ -2665,7 +2665,7 @@ extension Elasticache {
 
     public struct NodeGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list containing information about individual nodes within the node group (shard).
         public var nodeGroupMembers: [NodeGroupMember]? = nil
         /// The keyspace for this node group (shard).
@@ -2700,7 +2700,7 @@ extension Elasticache {
 
     public struct DeleteSnapshotMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the snapshot to be deleted.
         public var snapshotName: String = ""
 
@@ -2718,7 +2718,7 @@ extension Elasticache {
 
     public struct TagListMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of cost allocation tags as key-value pairs.
         public var tagList: [Tag]? = nil
 
@@ -2737,7 +2737,7 @@ extension Elasticache {
 
     public struct DeleteReplicationGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If set to true, all of the read replicas are deleted, but the primary node is retained.
         public var retainPrimaryCluster: Bool? = nil
         /// The name of a final node group (shard) snapshot. ElastiCache creates the snapshot from the primary node in the cluster, rather than one of the replicas; this is to ensure that it captures the freshest data. After the final snapshot is taken, the replication group is immediately deleted.
@@ -2763,7 +2763,7 @@ extension Elasticache {
 
     public struct ModifyReplicationGroupResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var replicationGroup: ReplicationGroup? = nil
 
         public init() {}
@@ -2779,7 +2779,7 @@ extension Elasticache {
 
     public struct ReservedCacheNodeMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Provides an identifier to allow retrieval of paginated results.
         public var marker: String? = nil
         /// A list of reserved cache nodes. Each element in the list contains detailed information about one node.
@@ -2802,7 +2802,7 @@ extension Elasticache {
 
     public struct DescribeReplicationGroupsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
         public var maxRecords: Int32? = nil
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -2827,7 +2827,7 @@ extension Elasticache {
 
     public struct DeleteCacheSecurityGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the cache security group to delete.  You cannot delete the default security group. 
         public var cacheSecurityGroupName: String = ""
 
@@ -2845,7 +2845,7 @@ extension Elasticache {
 
     public struct CreateCacheSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup 
         public var cacheSubnetGroupName: String = ""
         /// A list of VPC subnet IDs for the cache subnet group.
@@ -2873,7 +2873,7 @@ extension Elasticache {
 
     public struct PendingModifiedValues: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The cache node type that this cache cluster or replication group is scaled to.
         public var cacheNodeType: String? = nil
         /// The new cache engine version that the cache cluster runs.
@@ -2904,7 +2904,7 @@ extension Elasticache {
 
     public struct ModifyReplicationGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of cache security group names to authorize for the clusters in this replication group. This change is asynchronously applied as soon as possible. This parameter can be used only with replication group containing cache clusters running outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be Default.
         public var cacheSecurityGroupNames: [String]? = nil
         /// The status of the Amazon SNS notification topic for the replication group. Notifications are sent only if the status is active. Valid values: active | inactive 
@@ -2990,7 +2990,7 @@ extension Elasticache {
 
     public struct DescribeCacheSecurityGroupsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public var marker: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
@@ -3015,7 +3015,7 @@ extension Elasticache {
 
     public struct CacheNodeTypeSpecificParameter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of cache node types and their corresponding values for this parameter.
         public var cacheNodeTypeSpecificValues: [CacheNodeTypeSpecificValue]? = nil
         /// The valid range of values for the parameter.
@@ -3066,7 +3066,7 @@ extension Elasticache {
 
     public struct PurchaseReservedCacheNodesOfferingResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var reservedCacheNode: ReservedCacheNode? = nil
 
         public init() {}
@@ -3082,7 +3082,7 @@ extension Elasticache {
 
     public struct DescribeCacheParameterGroupsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public var marker: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
@@ -3107,7 +3107,7 @@ extension Elasticache {
 
     public struct CreateCacheSubnetGroupResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cacheSubnetGroup: CacheSubnetGroup? = nil
 
         public init() {}

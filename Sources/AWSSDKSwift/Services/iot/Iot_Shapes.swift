@@ -31,7 +31,7 @@ extension Iot {
 
     public struct DynamoDBv2Action: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the IAM role that grants access to the DynamoDB table.
         public var roleArn: String? = nil
         /// Specifies the DynamoDB table to which the message data will be written. For example: { "dynamoDBv2": { "roleArn": "aws:iam:12341251:my-role" "putItem": { "tableName": "my-table" } } } Each attribute in the message payload will be written to a separate column in the DynamoDB database.
@@ -52,7 +52,7 @@ extension Iot {
 
     public struct CreatePolicyResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The policy version ID.
         public var policyVersionId: String? = nil
         /// The policy name.
@@ -81,11 +81,11 @@ extension Iot {
 
     public struct TransferCertificateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["targetAwsAccount": "targetAwsAccount"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["certificateId": "certificateId"]
         }
         /// The ID of the certificate.
@@ -114,7 +114,7 @@ extension Iot {
 
     public struct GetRegistrationCodeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -124,11 +124,11 @@ extension Iot {
 
     public struct ListCertificatesByCARequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["caCertificateId": "caCertificateId"]
         }
         /// The ID of the CA certificate. This operation will list all registered device certificate that were signed by this CA certificate. 
@@ -160,7 +160,7 @@ extension Iot {
 
     public struct Policy: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The policy ARN.
         public var policyArn: String? = nil
         /// The policy name.
@@ -181,7 +181,7 @@ extension Iot {
 
     public struct SetLoggingOptionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "loggingOptionsPayload"
+        public static let payload: String? = "loggingOptionsPayload"
         /// The logging options payload.
         public var loggingOptionsPayload: LoggingOptionsPayload = LoggingOptionsPayload()
 
@@ -199,7 +199,7 @@ extension Iot {
 
     public struct ListThingTypesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The thing types.
         public var thingTypes: [ThingTypeDefinition]? = nil
         /// The token for the next set of results, or null if there are no additional results.
@@ -222,7 +222,7 @@ extension Iot {
 
     public struct Action: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Write data to an Amazon Kinesis stream.
         public var kinesis: KinesisAction? = nil
         /// Write data to an Amazon Elasticsearch Service domain.
@@ -283,7 +283,7 @@ extension Iot {
 
     public struct DescribeCACertificateResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The CA certificate description.
         public var certificateDescription: CACertificateDescription? = nil
 
@@ -300,7 +300,7 @@ extension Iot {
 
     public struct RepublishAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the IAM role that grants access.
         public var roleArn: String = ""
         /// The name of the MQTT topic.
@@ -323,8 +323,8 @@ extension Iot {
 
     public struct GetTopicRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["ruleName": "ruleName"]
         }
         /// The name of the rule.
@@ -344,7 +344,7 @@ extension Iot {
 
     public struct ListPolicyPrincipalsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The descriptions of the principals.
         public var principals: [String]? = nil
         /// The marker for the next set of results, or null if there are no additional results.
@@ -367,7 +367,7 @@ extension Iot {
 
     public struct ListCertificatesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The descriptions of the certificates.
         public var certificates: [Certificate]? = nil
         /// The marker for the next set of results, or null if there are no additional results.
@@ -390,8 +390,8 @@ extension Iot {
 
     public struct RegisterCACertificateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["allowAutoRegistration": "allowAutoRegistration", "setAsActive": "setAsActive"]
         }
         /// Allows this CA certificate to be used for auto registration of device certificates.
@@ -424,11 +424,11 @@ extension Iot {
 
     public struct DetachThingPrincipalRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var headerParams: [String: String] {
+        public static let payload: String? = nil
+        public static var headerParams: [String: String] {
             return ["x-amzn-principal": "principal"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["thingName": "thingName"]
         }
         /// The name of the thing.
@@ -453,7 +453,7 @@ extension Iot {
 
     public struct CreateThingResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the new thing.
         public var thingName: String? = nil
         /// The ARN of the new thing.
@@ -474,7 +474,7 @@ extension Iot {
 
     public struct ListPrincipalThingsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token for the next set of results, or null if there are no additional results.
         public var nextToken: String? = nil
         /// The things.
@@ -497,7 +497,7 @@ extension Iot {
 
     public struct LoggingOptionsPayload: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the IAM role that grants access.
         public var roleArn: String = ""
         /// The logging level.
@@ -519,8 +519,8 @@ extension Iot {
 
     public struct ListThingsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["attributeValue": "attributeValue", "thingTypeName": "thingTypeName", "nextToken": "nextToken", "maxResults": "maxResults", "attributeName": "attributeName"]
         }
         /// The attribute value used to search for things.
@@ -555,7 +555,7 @@ extension Iot {
 
     public struct ThingTypeDefinition: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var thingTypeMetadata: ThingTypeMetadata? = nil
         /// The name of the thing type.
         public var thingTypeName: String? = nil
@@ -579,7 +579,7 @@ extension Iot {
 
     public struct CreateKeysAndCertificateResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The generated key pair.
         public var keyPair: KeyPair? = nil
         /// The certificate data, in PEM format.
@@ -608,7 +608,7 @@ extension Iot {
 
     public struct GetTopicRuleResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The rule ARN.
         public var ruleArn: String? = nil
         /// The rule.
@@ -629,8 +629,8 @@ extension Iot {
 
     public struct CreateThingTypeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["thingTypeName": "thingTypeName"]
         }
         /// The name of the thing type.
@@ -654,8 +654,8 @@ extension Iot {
 
     public struct DescribeCACertificateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["caCertificateId": "certificateId"]
         }
         /// The CA certificate identifier.
@@ -675,8 +675,8 @@ extension Iot {
 
     public struct DescribeCertificateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["certificateId": "certificateId"]
         }
         /// The ID of the certificate.
@@ -696,8 +696,8 @@ extension Iot {
 
     public struct CreateCertificateFromCsrRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["setAsActive": "setAsActive"]
         }
         /// The certificate signing request (CSR).
@@ -721,7 +721,7 @@ extension Iot {
 
     public struct DescribeCertificateResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of the certificate.
         public var certificateDescription: CertificateDescription? = nil
 
@@ -738,8 +738,8 @@ extension Iot {
 
     public struct CreateKeysAndCertificateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["setAsActive": "setAsActive"]
         }
         /// Specifies whether the certificate is active.
@@ -758,7 +758,7 @@ extension Iot {
 
     public struct ListPrincipalPoliciesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The policies.
         public var policies: [Policy]? = nil
         /// The marker for the next set of results, or null if there are no additional results.
@@ -781,11 +781,11 @@ extension Iot {
 
     public struct DetachPrincipalPolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var headerParams: [String: String] {
+        public static let payload: String? = nil
+        public static var headerParams: [String: String] {
             return ["x-amzn-iot-principal": "principal"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["policyName": "policyName"]
         }
         /// The name of the policy to detach.
@@ -810,7 +810,7 @@ extension Iot {
 
     public struct ThingTypeMetadata: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether the thing type is deprecated. If true, no new things could be associated with this type.
         public var deprecated: Bool? = nil
         /// The date and time when the thing type was deprecated.
@@ -835,8 +835,8 @@ extension Iot {
 
     public struct EnableTopicRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["ruleName": "ruleName"]
         }
         /// The name of the topic rule to enable.
@@ -856,11 +856,11 @@ extension Iot {
 
     public struct CreatePolicyVersionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["setAsDefault": "setAsDefault"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["policyName": "policyName"]
         }
         /// The policy name.
@@ -889,7 +889,7 @@ extension Iot {
 
     public struct KinesisAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the IAM role that grants access to the Amazon Kinesis stream.
         public var roleArn: String = ""
         /// The name of the Amazon Kinesis stream.
@@ -916,7 +916,7 @@ extension Iot {
 
     public struct SqsAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies whether to use Base64 encoding.
         public var useBase64: Bool? = nil
         /// The ARN of the IAM role that grants access.
@@ -943,7 +943,7 @@ extension Iot {
 
     public struct UpdateThingResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -953,8 +953,8 @@ extension Iot {
 
     public struct ListThingPrincipalsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["thingName": "thingName"]
         }
         /// The name of the thing.
@@ -974,8 +974,8 @@ extension Iot {
 
     public struct SetDefaultPolicyVersionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["policyVersionId": "policyVersionId", "policyName": "policyName"]
         }
         /// The policy version ID.
@@ -1000,11 +1000,11 @@ extension Iot {
 
     public struct UpdateCACertificateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["newStatus": "newStatus", "newAutoRegistrationStatus": "newAutoRegistrationStatus"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["caCertificateId": "certificateId"]
         }
         /// The CA certificate identifier.
@@ -1032,7 +1032,7 @@ extension Iot {
 
     public struct ListPoliciesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The descriptions of the policies.
         public var policies: [Policy]? = nil
         /// The marker for the next set of results, or null if there are no additional results.
@@ -1055,7 +1055,7 @@ extension Iot {
 
     public struct ElasticsearchAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IAM role ARN that has access to Elasticsearch.
         public var roleArn: String = ""
         /// The endpoint of your Elasticsearch domain.
@@ -1093,7 +1093,7 @@ extension Iot {
 
     public struct ListOutgoingCertificatesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The marker for the next set of results.
         public var nextMarker: String? = nil
         /// The certificates that are being transfered but not yet accepted.
@@ -1116,11 +1116,11 @@ extension Iot {
 
     public struct UpdateCertificateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["newStatus": "newStatus"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["certificateId": "certificateId"]
         }
         /// The ID of the certificate.
@@ -1145,7 +1145,7 @@ extension Iot {
 
     public struct TopicRuleListItem: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies whether the rule is disabled.
         public var ruleDisabled: Bool? = nil
         /// The pattern for the topic names that apply.
@@ -1178,8 +1178,8 @@ extension Iot {
 
     public struct DeleteThingTypeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["thingTypeName": "thingTypeName"]
         }
         /// The name of the thing type.
@@ -1199,7 +1199,7 @@ extension Iot {
 
     public struct RegisterCertificateResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The certificate identifier.
         public var certificateId: String? = nil
         /// The certificate ARN.
@@ -1220,7 +1220,7 @@ extension Iot {
 
     public struct PutItemInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The table where the message data will be written
         public var tableName: String = ""
 
@@ -1238,7 +1238,7 @@ extension Iot {
 
     public struct AttributePayload: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies whether the list of attributes provided in the AttributePayload is merged with the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty attribute value.  The merge attribute is only valid when calling UpdateThing. 
         public var merge: Bool? = nil
         /// A JSON string containing up to three key-value pair in JSON format. For example: {\"attributes\":{\"string1\":\"string2\"}})
@@ -1261,8 +1261,8 @@ extension Iot {
 
     public struct CreatePolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["policyName": "policyName"]
         }
         /// The JSON document that describes the policy. policyDocument must have a minimum length of 1, with a maximum length of 2048, excluding whitespace.
@@ -1287,8 +1287,8 @@ extension Iot {
 
     public struct DeletePolicyVersionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["policyVersionId": "policyVersionId", "policyName": "policyName"]
         }
         /// The policy version ID.
@@ -1313,7 +1313,7 @@ extension Iot {
 
     public struct DeleteThingTypeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1323,7 +1323,7 @@ extension Iot {
 
     public struct DeleteRegistrationCodeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1333,7 +1333,7 @@ extension Iot {
 
     public struct GetLoggingOptionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1343,7 +1343,7 @@ extension Iot {
 
     public struct LambdaAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the Lambda function.
         public var functionArn: String = ""
 
@@ -1361,7 +1361,7 @@ extension Iot {
 
     public struct TopicRule: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies whether the rule is disabled.
         public var ruleDisabled: Bool? = nil
         /// The name of the rule.
@@ -1404,8 +1404,8 @@ extension Iot {
 
     public struct CreateThingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["thingName": "thingName"]
         }
         /// The name of the thing type associated with the new thing.
@@ -1433,7 +1433,7 @@ extension Iot {
 
     public struct CertificateDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The certificate ID of the CA certificate used to sign this certificate.
         public var caCertificateId: String? = nil
         /// The status of the certificate.
@@ -1486,7 +1486,7 @@ extension Iot {
 
     public struct CloudwatchAlarmAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IAM role that allows access to the CloudWatch alarm.
         public var roleArn: String = ""
         /// The reason for the alarm change.
@@ -1519,8 +1519,8 @@ extension Iot {
 
     public struct DisableTopicRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["ruleName": "ruleName"]
         }
         /// The name of the rule to disable.
@@ -1540,11 +1540,11 @@ extension Iot {
 
     public struct ListPrincipalThingsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var headerParams: [String: String] {
+        public static let payload: String? = nil
+        public static var headerParams: [String: String] {
             return ["x-amzn-principal": "principal"]
         }
-        public var queryParams: [String: String] {
+        public static var queryParams: [String: String] {
             return ["maxResults": "maxResults", "nextToken": "nextToken"]
         }
         /// The maximum number of results to return in this operation.
@@ -1572,8 +1572,8 @@ extension Iot {
 
     public struct CreateTopicRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "topicRulePayload"
-        public var pathParams: [String: String] {
+        public static let payload: String? = "topicRulePayload"
+        public static var pathParams: [String: String] {
             return ["ruleName": "ruleName"]
         }
         /// The name of the rule.
@@ -1598,8 +1598,8 @@ extension Iot {
 
     public struct DeleteCACertificateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["caCertificateId": "certificateId"]
         }
         /// The ID of the certificate to delete.
@@ -1619,7 +1619,7 @@ extension Iot {
 
     public struct CACertificate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the CA certificate.  The status value REGISTER_INACTIVE is deprecated and should not be used.
         public var status: String? = nil
         /// The date the CA certificate was created.
@@ -1648,8 +1648,8 @@ extension Iot {
 
     public struct ListPolicyVersionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["policyName": "policyName"]
         }
         /// The policy name.
@@ -1669,11 +1669,11 @@ extension Iot {
 
     public struct ListPolicyPrincipalsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var headerParams: [String: String] {
+        public static let payload: String? = nil
+        public static var headerParams: [String: String] {
             return ["x-amzn-iot-policy": "policyName"]
         }
-        public var queryParams: [String: String] {
+        public static var queryParams: [String: String] {
             return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
         }
         /// The marker for the next set of results.
@@ -1705,7 +1705,7 @@ extension Iot {
 
     public struct PolicyVersion: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date and time the policy was created.
         public var createDate: Date? = nil
         /// The policy version ID.
@@ -1730,11 +1730,11 @@ extension Iot {
 
     public struct AttachThingPrincipalRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var headerParams: [String: String] {
+        public static let payload: String? = nil
+        public static var headerParams: [String: String] {
             return ["x-amzn-principal": "principal"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["thingName": "thingName"]
         }
         /// The name of the thing.
@@ -1759,7 +1759,7 @@ extension Iot {
 
     public struct DeleteCACertificateResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1769,7 +1769,7 @@ extension Iot {
 
     public struct GetRegistrationCodeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The CA certificate registration code.
         public var registrationCode: String? = nil
 
@@ -1786,7 +1786,7 @@ extension Iot {
 
     public struct ListCertificatesByCAResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The device certificates signed by the specified CA certificate.
         public var certificates: [Certificate]? = nil
         /// The marker for the next set of results, or null if there are no additional results.
@@ -1809,8 +1809,8 @@ extension Iot {
 
     public struct ListPoliciesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
         }
         /// The marker for the next set of results.
@@ -1837,8 +1837,8 @@ extension Iot {
 
     public struct ListCACertificatesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
         }
         /// The marker for the next set of results.
@@ -1865,8 +1865,8 @@ extension Iot {
 
     public struct DeprecateThingTypeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["thingTypeName": "thingTypeName"]
         }
         /// The name of the thing type to deprecate.
@@ -1890,7 +1890,7 @@ extension Iot {
 
     public struct TopicRulePayload: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The version of the SQL rules engine to use when evaluating the rule.
         public var awsIotSqlVersion: String? = nil
         /// Specifies whether the rule is disabled.
@@ -1925,7 +1925,7 @@ extension Iot {
 
     public struct SnsAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The message format of the message to publish. Optional. Accepted values are "JSON" and "RAW". The default value of the attribute is "RAW". SNS uses this setting to determine if the payload should be parsed and relevant platform-specific bits of the payload should be extracted. To read more about SNS message formats, see  refer to their official documentation.
         public var messageFormat: String? = nil
         /// The ARN of the IAM role that grants access.
@@ -1952,7 +1952,7 @@ extension Iot {
 
     public struct KeyPair: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The public key.
         public var publicKey: String? = nil
         /// The private key.
@@ -1973,7 +1973,7 @@ extension Iot {
 
     public struct DeleteRegistrationCodeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1983,7 +1983,7 @@ extension Iot {
 
     public struct ListPolicyVersionsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The policy versions.
         public var policyVersions: [PolicyVersion]? = nil
 
@@ -2002,7 +2002,7 @@ extension Iot {
 
     public struct GetPolicyVersionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The JSON document that describes the policy.
         public var policyDocument: String? = nil
         /// The policy version ID.
@@ -2035,8 +2035,8 @@ extension Iot {
 
     public struct ListThingTypesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["thingTypeName": "thingTypeName", "nextToken": "nextToken", "maxResults": "maxResults"]
         }
         /// The name of the thing type.
@@ -2063,7 +2063,7 @@ extension Iot {
 
     public struct CreateThingTypeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the thing type.
         public var thingTypeName: String? = nil
         /// The Amazon Resource Name (ARN) of the thing type.
@@ -2084,8 +2084,8 @@ extension Iot {
 
     public struct DeleteTopicRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["ruleName": "ruleName"]
         }
         /// The name of the rule.
@@ -2105,8 +2105,8 @@ extension Iot {
 
     public struct GetPolicyVersionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["policyVersionId": "policyVersionId", "policyName": "policyName"]
         }
         /// The policy version ID.
@@ -2131,7 +2131,7 @@ extension Iot {
 
     public struct ListTopicRulesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The rules.
         public var rules: [TopicRuleListItem]? = nil
         /// A token used to retrieve the next value.
@@ -2154,7 +2154,7 @@ extension Iot {
 
     public struct S3Action: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon S3 bucket.
         public var bucketName: String = ""
         /// The ARN of the IAM role that grants access.
@@ -2186,7 +2186,7 @@ extension Iot {
 
     public struct OutgoingCertificate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The transfer message.
         public var transferMessage: String? = nil
         /// The certificate creation date.
@@ -2223,7 +2223,7 @@ extension Iot {
 
     public struct CreateCertificateFromCsrResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the certificate. Certificate management operations only take a certificateId.
         public var certificateId: String? = nil
         /// The Amazon Resource Name (ARN) of the certificate. You can use the ARN as a principal for policy operations.
@@ -2248,7 +2248,7 @@ extension Iot {
 
     public struct TransferCertificateResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the certificate.
         public var transferredCertificateArn: String? = nil
 
@@ -2265,7 +2265,7 @@ extension Iot {
 
     public struct FirehoseAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IAM role that grants access to the Amazon Kinesis Firehost stream.
         public var roleArn: String = ""
         /// The delivery stream name.
@@ -2292,7 +2292,7 @@ extension Iot {
 
     public struct CreatePolicyVersionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The policy ARN.
         public var policyArn: String? = nil
         /// The policy version ID.
@@ -2321,11 +2321,11 @@ extension Iot {
 
     public struct AcceptCertificateTransferRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["setAsActive": "setAsActive"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["certificateId": "certificateId"]
         }
         /// The ID of the certificate.
@@ -2349,8 +2349,8 @@ extension Iot {
 
     public struct CancelCertificateTransferRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["certificateId": "certificateId"]
         }
         /// The ID of the certificate.
@@ -2370,8 +2370,8 @@ extension Iot {
 
     public struct DeleteCertificateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["certificateId": "certificateId"]
         }
         /// The ID of the certificate.
@@ -2391,7 +2391,7 @@ extension Iot {
 
     public struct DetachThingPrincipalResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2401,7 +2401,7 @@ extension Iot {
 
     public struct DescribeEndpointResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The endpoint. The format of the endpoint is as follows: identifier.iot.region.amazonaws.com.
         public var endpointAddress: String? = nil
 
@@ -2418,8 +2418,8 @@ extension Iot {
 
     public struct RejectCertificateTransferRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["certificateId": "certificateId"]
         }
         /// The ID of the certificate.
@@ -2443,7 +2443,7 @@ extension Iot {
 
     public struct TransferData: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date the transfer was rejected.
         public var rejectDate: Date? = nil
         /// The date the transfer was accepted.
@@ -2476,8 +2476,8 @@ extension Iot {
 
     public struct GetPolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["policyName": "policyName"]
         }
         /// The name of the policy.
@@ -2497,7 +2497,7 @@ extension Iot {
 
     public struct Certificate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
         public var status: String? = nil
         /// The date and time the certificate was created.
@@ -2526,8 +2526,8 @@ extension Iot {
 
     public struct RegisterCertificateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["setAsActive": "setAsActive"]
         }
         /// The CA certificate used to sign the device certificate being registered.
@@ -2558,7 +2558,7 @@ extension Iot {
 
     public struct ListThingPrincipalsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The principals associated with the thing.
         public var principals: [String]? = nil
 
@@ -2577,7 +2577,7 @@ extension Iot {
 
     public struct GetLoggingOptionsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the IAM role that grants access.
         public var roleArn: String? = nil
         /// The logging level.
@@ -2598,8 +2598,8 @@ extension Iot {
 
     public struct ListOutgoingCertificatesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
         }
         /// The marker for the next set of results.
@@ -2626,7 +2626,7 @@ extension Iot {
 
     public struct ListCACertificatesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The CA certificates registered in your AWS account.
         public var certificates: [CACertificate]? = nil
         /// The current position within the list of CA certificates.
@@ -2649,7 +2649,7 @@ extension Iot {
 
     public struct ThingTypeProperties: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of the thing type.
         public var thingTypeDescription: String? = nil
         /// A list of searchable thing attribute names.
@@ -2672,7 +2672,7 @@ extension Iot {
 
     public struct GetPolicyResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The policy name.
         public var policyName: String? = nil
         /// The default policy version ID.
@@ -2701,7 +2701,7 @@ extension Iot {
 
     public struct ListThingsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token for the next set of results, or null if there are no additional results.
         public var nextToken: String? = nil
         /// The things.
@@ -2724,11 +2724,11 @@ extension Iot {
 
     public struct ListPrincipalPoliciesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var headerParams: [String: String] {
+        public static let payload: String? = nil
+        public static var headerParams: [String: String] {
             return ["x-amzn-iot-principal": "principal"]
         }
-        public var queryParams: [String: String] {
+        public static var queryParams: [String: String] {
             return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
         }
         /// The marker for the next set of results.
@@ -2760,7 +2760,7 @@ extension Iot {
 
     public struct ThingAttribute: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the thing.
         public var thingName: String? = nil
         /// The name of the thing type, if the thing has been associated with a type.
@@ -2791,8 +2791,8 @@ extension Iot {
 
     public struct DeletePolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["policyName": "policyName"]
         }
         /// The name of the policy to delete.
@@ -2812,8 +2812,8 @@ extension Iot {
 
     public struct DescribeThingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["thingName": "thingName"]
         }
         /// The name of the thing.
@@ -2833,7 +2833,7 @@ extension Iot {
 
     public struct CACertificateDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of a CA certificate.
         public var status: String? = nil
         /// Whether the CA certificate configured for auto registration of device certificates. Valid values are "ENABLE" and "DISABLE"
@@ -2874,8 +2874,8 @@ extension Iot {
 
     public struct ListTopicRulesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["ruleDisabled": "ruleDisabled", "maxResults": "maxResults", "nextToken": "nextToken", "topic": "topic"]
         }
         /// Specifies whether the rule is disabled.
@@ -2906,7 +2906,7 @@ extension Iot {
 
     public struct DescribeThingResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The default client ID.
         public var defaultClientId: String? = nil
         /// The name of the thing.
@@ -2941,8 +2941,8 @@ extension Iot {
 
     public struct DescribeThingTypeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["thingTypeName": "thingTypeName"]
         }
         /// The name of the thing type.
@@ -2962,11 +2962,11 @@ extension Iot {
 
     public struct AttachPrincipalPolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var headerParams: [String: String] {
+        public static let payload: String? = nil
+        public static var headerParams: [String: String] {
             return ["x-amzn-iot-principal": "principal"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["policyName": "policyName"]
         }
         /// The policy name.
@@ -2991,8 +2991,8 @@ extension Iot {
 
     public struct UpdateThingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["thingName": "thingName"]
         }
         /// Remove a thing type association. If true, the assocation is removed.
@@ -3028,7 +3028,7 @@ extension Iot {
 
     public struct DeprecateThingTypeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -3038,8 +3038,8 @@ extension Iot {
 
     public struct ListCertificatesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["marker": "marker", "pageSize": "pageSize", "isAscendingOrder": "ascendingOrder"]
         }
         /// The marker for the next set of results.
@@ -3066,8 +3066,8 @@ extension Iot {
 
     public struct ReplaceTopicRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "topicRulePayload"
-        public var pathParams: [String: String] {
+        public static let payload: String? = "topicRulePayload"
+        public static var pathParams: [String: String] {
             return ["ruleName": "ruleName"]
         }
         /// The name of the rule.
@@ -3092,7 +3092,7 @@ extension Iot {
 
     public struct CloudwatchMetricAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The CloudWatch metric value.
         public var metricValue: String = ""
         /// The IAM role that allows access to the CloudWatch metric.
@@ -3134,7 +3134,7 @@ extension Iot {
 
     public struct RegisterCACertificateResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The CA certificate identifier.
         public var certificateId: String? = nil
         /// The CA certificate ARN.
@@ -3155,7 +3155,7 @@ extension Iot {
 
     public struct DescribeThingTypeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var thingTypeMetadata: ThingTypeMetadata? = nil
         /// The name of the thing type.
         public var thingTypeName: String? = nil
@@ -3179,7 +3179,7 @@ extension Iot {
 
     public struct DynamoDBAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the IAM role that grants access to the DynamoDB table.
         public var roleArn: String = ""
         /// The range key type. Valid values are "STRING" or "NUMBER"
@@ -3236,7 +3236,7 @@ extension Iot {
 
     public struct AttachThingPrincipalResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -3246,7 +3246,7 @@ extension Iot {
 
     public struct DeleteThingResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -3256,7 +3256,7 @@ extension Iot {
 
     public struct DescribeEndpointRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -3266,11 +3266,11 @@ extension Iot {
 
     public struct DeleteThingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["expectedVersion": "expectedVersion"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["thingName": "thingName"]
         }
         /// The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the DeleteThing request is rejected with a VersionConflictException.

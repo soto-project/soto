@@ -31,7 +31,7 @@ extension Codebuild {
 
     public struct ListProjectsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
         public var nextToken: String? = nil
         /// The list of build project names, with each build project name representing a single build project.
@@ -54,7 +54,7 @@ extension Codebuild {
 
     public struct StopBuildOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the build.
         public var build: Build? = nil
 
@@ -71,7 +71,7 @@ extension Codebuild {
 
     public struct StopBuildInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the build.
         public var id: String = ""
 
@@ -89,7 +89,7 @@ extension Codebuild {
 
     public struct BatchGetProjectsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the requested build projects.
         public var projects: [Project]? = nil
         /// The names of build projects for which information could not be found.
@@ -114,7 +114,7 @@ extension Codebuild {
 
     public struct Project: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the build project.
         public var name: String? = nil
         /// When the build project's settings were last modified, expressed in Unix time format.
@@ -177,7 +177,7 @@ extension Codebuild {
 
     public struct BuildArtifacts: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The MD5 hash of the build artifact. You can use this hash along with a checksum tool to confirm both file integrity and authenticity.  This value is available only if the build project's packaging value is set to ZIP. 
         public var md5sum: String? = nil
         /// Information about the location of the build artifacts.
@@ -202,7 +202,7 @@ extension Codebuild {
 
     public struct BuildPhase: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// How long, in seconds, between the starting and ending times of the build's phase.
         public var durationInSeconds: Int64? = nil
         /// When the build phase ended, expressed in Unix time format.
@@ -241,7 +241,7 @@ extension Codebuild {
 
     public struct LogsLocation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The URL to an individual build log in Amazon CloudWatch Logs.
         public var deepLink: String? = nil
         /// The name of the Amazon CloudWatch Logs group for the build logs.
@@ -266,7 +266,7 @@ extension Codebuild {
 
     public struct SourceAuth: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The authorization type to use. The only valid value is OAUTH, which represents the OAuth authorization type.
         public var type: String = ""
         /// The resource value that applies to the specified authorization type.
@@ -288,7 +288,7 @@ extension Codebuild {
 
     public struct EnvironmentPlatform: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of programming languages that are available for the specified platform.
         public var languages: [EnvironmentLanguage]? = nil
         /// The platform's name.
@@ -311,7 +311,7 @@ extension Codebuild {
 
     public struct Build: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about all previous build phases that are completed and information about any current build phase that is not yet complete.
         public var phases: [BuildPhase]? = nil
         /// Information about the source code to be built.
@@ -390,7 +390,7 @@ extension Codebuild {
 
     public struct DeleteProjectInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the build project.
         public var name: String = ""
 
@@ -408,7 +408,7 @@ extension Codebuild {
 
     public struct DeleteProjectOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -418,7 +418,7 @@ extension Codebuild {
 
     public struct UpdateProjectOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the build project that was changed.
         public var project: Project? = nil
 
@@ -435,7 +435,7 @@ extension Codebuild {
 
     public struct ProjectArtifacts: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Along with path and namespaceType, the pattern that AWS CodeBuild will use to name and store the output artifact, as follows:   If type is set to CODEPIPELINE, then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, then this value will be ignored if specified, because no build output will be produced.   If type is set to S3, this is the name of the output artifact object.   For example, if path is set to MyArtifacts, namespaceType is set to BUILD_ID, and name is set to MyArtifact.zip, then the output artifact would be stored in MyArtifacts/build-ID/MyArtifact.zip.
         public var name: String? = nil
         /// Information about the build output artifact location, as follows:   If type is set to CODEPIPELINE, then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output locations instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, then this value will be ignored if specified, because no build output will be produced.   If type is set to S3, this is the name of the output bucket.  
@@ -473,7 +473,7 @@ extension Codebuild {
 
     public struct ListCuratedEnvironmentImagesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -483,7 +483,7 @@ extension Codebuild {
 
     public struct BatchGetBuildsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the requested builds.
         public var builds: [Build]? = nil
         /// The IDs of builds for which information could not be found.
@@ -508,7 +508,7 @@ extension Codebuild {
 
     public struct EnvironmentLanguage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The programming language for the Docker images.
         public var language: String? = nil
         /// The list of Docker images that are related by the specified programming language.
@@ -531,7 +531,7 @@ extension Codebuild {
 
     public struct StartBuildOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the build to be run.
         public var build: Build? = nil
 
@@ -548,7 +548,7 @@ extension Codebuild {
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The tag's key.
         public var key: String? = nil
         /// The tag's value.
@@ -569,7 +569,7 @@ extension Codebuild {
 
     public struct ListBuildsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of build IDs, with each build ID representing a single build.
         public var ids: [String]? = nil
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
@@ -592,7 +592,7 @@ extension Codebuild {
 
     public struct ListBuildsForProjectOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of build IDs for the specified build project, with each build ID representing a single build.
         public var ids: [String]? = nil
         /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
@@ -615,7 +615,7 @@ extension Codebuild {
 
     public struct ProjectEnvironment: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the compute resources the build project will use. Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.    BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds.  
         public var computeType: String = ""
         /// A set of environment variables to make available to builds for this build project.
@@ -649,7 +649,7 @@ extension Codebuild {
 
     public struct ListBuildsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public var nextToken: String? = nil
         /// The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.  
@@ -670,7 +670,7 @@ extension Codebuild {
 
     public struct BatchGetProjectsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The names of the build projects.
         public var names: [String] = []
 
@@ -688,7 +688,7 @@ extension Codebuild {
 
     public struct ListBuildsForProjectInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the build project.
         public var projectName: String = ""
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
@@ -714,7 +714,7 @@ extension Codebuild {
 
     public struct UpdateProjectInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the build project.  You cannot change a build project's name. 
         public var name: String = ""
         /// Information to be changed about the build environment for the build project.
@@ -766,7 +766,7 @@ extension Codebuild {
 
     public struct StartBuildInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A version of the build input to be built, for this build only. If not specified, the latest version will be used. If specified, must be one of:   For AWS CodeCommit or GitHub: the commit ID to use.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object representing the build input ZIP file to use.  
         public var sourceVersion: String? = nil
         /// A set of environment variables that overrides, for this build only, the latest ones already defined in the build project.
@@ -806,7 +806,7 @@ extension Codebuild {
 
     public struct EnvironmentImage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of the Docker image.
         public var description: String? = nil
         /// The name of the Docker image.
@@ -827,7 +827,7 @@ extension Codebuild {
 
     public struct EnvironmentVariable: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name or key of the environment variable.
         public var name: String = ""
         /// The value of the environment variable.
@@ -850,7 +850,7 @@ extension Codebuild {
 
     public struct BatchGetBuildsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of the builds.
         public var ids: [String] = []
 
@@ -868,7 +868,7 @@ extension Codebuild {
 
     public struct PhaseContext: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An explanation of the build phase's context. This explanation might include a command ID and an exit code.
         public var message: String? = nil
         /// The status code for the context of the build phase.
@@ -889,7 +889,7 @@ extension Codebuild {
 
     public struct CreateProjectInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the build project.
         public var name: String = ""
         /// Information about the build environment for the build project.
@@ -944,7 +944,7 @@ extension Codebuild {
 
     public struct CreateProjectOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the build project that was created.
         public var project: Project? = nil
 
@@ -961,7 +961,7 @@ extension Codebuild {
 
     public struct ProjectSource: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The build spec declaration to use for the builds in this build project. If this value is not specified, a build spec must be included along with the source code to be built.
         public var buildspec: String? = nil
         /// Information about the location of the source code to be built. Valid values include:   For source code settings that are specified in the source action of a pipeline in AWS CodePipeline, location should not be specified. If it is specified, AWS CodePipeline will ignore it. This is because AWS CodePipeline uses the settings in a pipeline's source action instead of this value.   For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the build spec (for example, https://git-codecommit.region-ID.amazonaws.com/v1/repos/repo-name ).   For source code in an Amazon Simple Storage Service (Amazon S3) input bucket, the path to the ZIP file that contains the source code (for example,  bucket-name/path/to/object-name.zip)   For source code in a GitHub repository, instead of specifying a value here, you connect your AWS account to your GitHub account. To do this, use the AWS CodeBuild console to begin creating a build project, and follow the on-screen instructions to complete the connection. (After you have connected to your GitHub account, you do not need to finish creating the build project, and you may then leave the AWS CodeBuild console.) To instruct AWS CodeBuild to then use this connection, in the source object, set the auth object's type value to OAUTH.  
@@ -991,7 +991,7 @@ extension Codebuild {
 
     public struct ListProjectsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The criterion to be used to list build project names. Valid values include:    CREATED_TIME: List the build project names based on when each build project was created.    LAST_MODIFIED_TIME: List the build project names based on when information about each build project was last changed.    NAME: List the build project names based on each build project's name.   Use sortOrder to specify in what order to list the build project names based on the preceding criteria.
         public var sortBy: String? = nil
         /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
@@ -1016,7 +1016,7 @@ extension Codebuild {
 
     public struct ListCuratedEnvironmentImagesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about supported platforms for Docker images that are managed by AWS CodeBuild.
         public var platforms: [EnvironmentPlatform]? = nil
 

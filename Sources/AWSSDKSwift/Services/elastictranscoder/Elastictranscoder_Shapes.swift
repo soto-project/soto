@@ -31,11 +31,11 @@ extension Elastictranscoder {
 
     public struct ListJobsByPipelineRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["Ascending": "Ascending", "PageToken": "PageToken"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["PipelineId": "PipelineId"]
         }
         ///  To list jobs in chronological order by the date and time that they were submitted, enter true. To list jobs in reverse chronological order, enter false. 
@@ -63,8 +63,8 @@ extension Elastictranscoder {
 
     public struct DeletePipelineRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The identifier of the pipeline that you want to delete.
@@ -84,7 +84,7 @@ extension Elastictranscoder {
 
     public struct CaptionSource: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The label of the caption shown in the player when choosing a language. We recommend that you put the caption language name here, in the language of the captions.
         public var label: String? = nil
         /// The name of the sidecar caption file that you want Elastic Transcoder to include in the output file.
@@ -117,7 +117,7 @@ extension Elastictranscoder {
 
     public struct ReadPresetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A section of the response body that provides information about the preset.
         public var preset: Preset? = nil
 
@@ -134,7 +134,7 @@ extension Elastictranscoder {
 
     public struct JobAlbumArt: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A policy that determines how Elastic Transcoder handles the existence of multiple album artwork files.    Replace: The specified album art replaces any existing album art.    Prepend: The specified album art is placed in front of any existing album art.    Append: The specified album art is placed after any existing album art.    Fallback: If the original input file contains artwork, Elastic Transcoder uses that artwork for the output. If the original input does not contain artwork, Elastic Transcoder uses the specified album art file.  
         public var mergePolicy: String? = nil
         /// The file to be used as album art. There can be multiple artworks associated with an audio file, to a maximum of 20. Valid formats are .jpg and .png 
@@ -157,7 +157,7 @@ extension Elastictranscoder {
 
     public struct Preset: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A section of the response body that provides information about the thumbnail preset values, if any.
         public var thumbnails: Thumbnails? = nil
         /// Identifier for the new preset. You use this value to get settings for the preset or to delete it.
@@ -206,7 +206,7 @@ extension Elastictranscoder {
 
     public struct JobInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Settings for clipping an input. Each input can have different clip settings.
         public var timeSpan: TimeSpan? = nil
         /// Whether the input file is interlaced. If you want Elastic Transcoder to automatically detect whether the input file is interlaced, specify auto. If you want to specify whether the input file is interlaced, enter one of the following values:  true, false  If you specify a value other than auto, Elastic Transcoder disables automatic detection of interlacing.
@@ -259,8 +259,8 @@ extension Elastictranscoder {
 
     public struct ListPipelinesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["Ascending": "Ascending", "PageToken": "PageToken"]
         }
         /// To list pipelines in chronological order by the date and time that they were created, enter true. To list pipelines in reverse chronological order, enter false.
@@ -283,7 +283,7 @@ extension Elastictranscoder {
 
     public struct VideoParameters: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value that Elastic Transcoder adds to the metadata in the output file.
         public var displayAspectRatio: String? = nil
         /// When you set PaddingPolicy to Pad, Elastic Transcoder may add black bars to the top and bottom and/or left and right sides of the output video to make the total size of the output video match the values that you specified for MaxWidth and MaxHeight.
@@ -360,7 +360,7 @@ extension Elastictranscoder {
 
     public struct DeletePresetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -370,7 +370,7 @@ extension Elastictranscoder {
 
     public struct CreatePresetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A section of the request body that specifies the audio parameters.
         public var audio: AudioParameters? = nil
         /// The container type for the output file. Valid values include flac, flv, fmp4, gif, mp3, mp4, mpg, mxf, oga, ogg, ts, and webm.
@@ -409,7 +409,7 @@ extension Elastictranscoder {
 
     public struct ListJobsByStatusResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of Job objects that have the specified status.
         public var jobs: [Job]? = nil
         ///  A value that you use to access the second and subsequent pages of results, if any. When the jobs in the specified pipeline fit on one page or when you've reached the last page of results, the value of NextPageToken is null. 
@@ -432,7 +432,7 @@ extension Elastictranscoder {
 
     public struct CancelJobResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -442,7 +442,7 @@ extension Elastictranscoder {
 
     public struct ListPresetsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of Preset objects.
         public var presets: [Preset]? = nil
         /// A value that you use to access the second and subsequent pages of results, if any. When the presets fit on one page or when you've reached the last page of results, the value of NextPageToken is null.
@@ -465,7 +465,7 @@ extension Elastictranscoder {
 
     public struct Playlist: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the job with which the playlist is associated.
         public var status: String? = nil
         /// The HLS content protection settings, if any, that you want Elastic Transcoder to apply to the output files associated with this playlist.
@@ -508,7 +508,7 @@ extension Elastictranscoder {
 
     public struct TimeSpan: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The duration of the clip. The format can be either HH:mm:ss.SSS (maximum value: 23:59:59.999; SSS is thousandths of a second) or sssss.SSS (maximum value: 86399.999). If you don't specify a value, Elastic Transcoder creates an output file from StartTime to the end of the file. If you specify a value longer than the duration of the input file, Elastic Transcoder transcodes the file and returns a warning message.
         public var duration: String? = nil
         /// The place in the input file where you want a clip to start. The format can be either HH:mm:ss.SSS (maximum value: 23:59:59.999; SSS is thousandths of a second) or sssss.SSS (maximum value: 86399.999). If you don't specify a value, Elastic Transcoder starts at the beginning of the input file.
@@ -529,7 +529,7 @@ extension Elastictranscoder {
 
     public struct DeletePipelineResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -539,7 +539,7 @@ extension Elastictranscoder {
 
     public struct CreatePipelineRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon S3 bucket in which you saved the media files that you want to transcode.
         public var inputBucket: String = ""
         /// The AWS Key Management Service (AWS KMS) key that you want to use with this pipeline. If you use either S3 or S3-AWS-KMS as your Encryption:Mode, you don't need to provide a key with your job because a default key, known as an AWS-KMS key, is created for you automatically. You need to provide an AWS-KMS key only if you want to use a non-default AWS-KMS key, or if you are using an Encryption:Mode of AES-PKCS7, AES-CTR, or AES-GCM.
@@ -587,8 +587,8 @@ extension Elastictranscoder {
 
     public struct UpdatePipelineStatusRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The desired status of the pipeline:    Active: The pipeline is processing jobs.    Paused: The pipeline is not currently processing jobs.  
@@ -613,7 +613,7 @@ extension Elastictranscoder {
 
     public struct Thumbnails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// When you set PaddingPolicy to Pad, Elastic Transcoder may add black bars to the top and bottom and/or left and right sides of thumbnails to make the total size of the thumbnails match the values that you specified for thumbnail MaxWidth and MaxHeight settings.
         public var paddingPolicy: String? = nil
         /// The approximate number of seconds between thumbnails. Specify an integer value.
@@ -658,7 +658,7 @@ extension Elastictranscoder {
 
     public struct Pipeline: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The current status of the pipeline:    Active: The pipeline is processing jobs.    Paused: The pipeline is not currently processing jobs.  
         public var status: String? = nil
         /// The Amazon S3 bucket from which Elastic Transcoder gets media files for transcoding and the graphics files, if any, that you want to use for watermarks.
@@ -715,7 +715,7 @@ extension Elastictranscoder {
 
     public struct TestRoleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IAM Amazon Resource Name (ARN) for the role that you want Elastic Transcoder to test.
         public var role: String = ""
         /// The Amazon S3 bucket that contains media files to be transcoded. The action attempts to read from this bucket.
@@ -748,7 +748,7 @@ extension Elastictranscoder {
 
     public struct ListJobsByPipelineResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of Job objects that are in the specified pipeline.
         public var jobs: [Job]? = nil
         ///  A value that you use to access the second and subsequent pages of results, if any. When the jobs in the specified pipeline fit on one page or when you've reached the last page of results, the value of NextPageToken is null. 
@@ -771,8 +771,8 @@ extension Elastictranscoder {
 
     public struct UpdatePipelineNotificationsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status.  To receive notifications, you must also subscribe to the new topic in the Amazon SNS console.     Progressing: The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify when Elastic Transcoder has started to process jobs that are added to this pipeline. This is the ARN that Amazon SNS returned when you created the topic.    Completed: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder has finished processing a job. This is the ARN that Amazon SNS returned when you created the topic.    Warning: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder encounters a warning condition. This is the ARN that Amazon SNS returned when you created the topic.    Error: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder encounters an error condition. This is the ARN that Amazon SNS returned when you created the topic.  
@@ -797,7 +797,7 @@ extension Elastictranscoder {
 
     public struct PlayReadyDrm: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of DRM, if any, that you want Elastic Transcoder to apply to the output files associated with this playlist.
         public var format: String? = nil
         /// The series of random bits created by a random bit generator, unique for every encryption operation, that you want Elastic Transcoder to use to encrypt your files. The initialization vector must be base64-encoded, and it must be exactly 8 bytes long before being base64-encoded. If no initialization vector is provided, Elastic Transcoder generates one for you.
@@ -834,7 +834,7 @@ extension Elastictranscoder {
 
     public struct Captions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A policy that determines how Elastic Transcoder handles the existence of multiple captions.    MergeOverride: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the sidecar captions and ignores the embedded captions for that language.    MergeRetain: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the embedded captions and ignores the sidecar captions for that language. If CaptionSources is empty, Elastic Transcoder omits all sidecar captions from the output files.    Override: Elastic Transcoder transcodes only the sidecar captions that you specify in CaptionSources.    MergePolicy cannot be null.
         public var mergePolicy: String? = nil
         /// Source files for the input sidecar captions used during the transcoding process. To omit all sidecar captions, leave CaptionSources blank.
@@ -863,7 +863,7 @@ extension Elastictranscoder {
 
     public struct CreateJobRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value, if any, that you want Elastic Transcoder to prepend to the names of all files that this job creates, including output files, thumbnails, and playlists.
         public var outputKeyPrefix: String? = nil
         /// A section of the request body that provides information about the file that is being transcoded.
@@ -917,7 +917,7 @@ extension Elastictranscoder {
 
     public struct Artwork: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// When you set PaddingPolicy to Pad, Elastic Transcoder may add white bars to the top and bottom and/or left and right sides of the output album art to make the total size of the output art match the values that you specified for MaxWidth and MaxHeight.
         public var paddingPolicy: String? = nil
         /// The name of the file to be used as album art. To determine which Amazon S3 bucket contains the specified file, Elastic Transcoder checks the pipeline specified by PipelineId; the InputBucket object in that pipeline identifies the bucket. If the file name includes a prefix, for example, cooking/pie.jpg, include the prefix in the key. If the file isn't in the specified bucket, Elastic Transcoder returns an error.
@@ -958,7 +958,7 @@ extension Elastictranscoder {
 
     public struct CreateJobResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A section of the response body that provides information about the job that is created.
         public var job: Job? = nil
 
@@ -975,7 +975,7 @@ extension Elastictranscoder {
 
     public struct CreatePipelineResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A section of the response body that provides information about the pipeline that is created.
         public var pipeline: Pipeline? = nil
         /// Elastic Transcoder returns a warning if the resources used by your pipeline are not in the same region as the pipeline. Using resources in the same region, such as your Amazon S3 buckets, Amazon SNS notification topics, and AWS KMS key, reduces processing time and prevents cross-regional charges.
@@ -998,8 +998,8 @@ extension Elastictranscoder {
 
     public struct DeletePresetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The identifier of the preset for which you want to get detailed information.
@@ -1019,7 +1019,7 @@ extension Elastictranscoder {
 
     public struct ListPipelinesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of Pipeline objects.
         public var pipelines: [Pipeline]? = nil
         /// A value that you use to access the second and subsequent pages of results, if any. When the pipelines fit on one page or when you've reached the last page of results, the value of NextPageToken is null.
@@ -1042,8 +1042,8 @@ extension Elastictranscoder {
 
     public struct ListPresetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["Ascending": "Ascending", "PageToken": "PageToken"]
         }
         /// To list presets in chronological order by the date and time that they were created, enter true. To list presets in reverse chronological order, enter false.
@@ -1066,7 +1066,7 @@ extension Elastictranscoder {
 
     public struct ReadJobResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A section of the response body that provides information about the job.
         public var job: Job? = nil
 
@@ -1083,11 +1083,11 @@ extension Elastictranscoder {
 
     public struct ListJobsByStatusRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["Ascending": "Ascending", "PageToken": "PageToken"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["Status": "Status"]
         }
         /// To get information about all of the jobs associated with the current AWS account that have a given status, specify the following status: Submitted, Progressing, Complete, Canceled, or Error.
@@ -1115,8 +1115,8 @@ extension Elastictranscoder {
 
     public struct UpdatePipelineRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The Amazon S3 bucket in which you saved the media files that you want to transcode and the graphics that you want to use as watermarks.
@@ -1164,7 +1164,7 @@ extension Elastictranscoder {
 
     public struct HlsContentProtection: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If Elastic Transcoder is generating your key for you, you must leave this field blank. The series of random bits created by a random bit generator, unique for every encryption operation, that you want Elastic Transcoder to use to encrypt your output files. The initialization vector must be base64-encoded, and it must be exactly 16 bytes before being base64-encoded.
         public var initializationVector: String? = nil
         /// If Elastic Transcoder is generating your key for you, you must leave this field blank. The MD5 digest of the key that you want Elastic Transcoder to use to encrypt your output file, and that you want Elastic Transcoder to use as a checksum to make sure your key was not corrupted in transit. The key MD5 must be base64-encoded, and it must be exactly 16 bytes before being base64- encoded.
@@ -1201,7 +1201,7 @@ extension Elastictranscoder {
 
     public struct JobOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the Id object for the preset that you want to use for this job. The preset determines the audio, video, and thumbnail settings that Elastic Transcoder uses for transcoding. To use a preset that you created, specify the preset ID that Elastic Transcoder returned in the response when you created the preset. You can also use the Elastic Transcoder system presets, which you can get with ListPresets.
         public var presetId: String? = nil
         /// Height of the output file, in pixels.
@@ -1302,7 +1302,7 @@ extension Elastictranscoder {
 
     public struct InputCaptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A policy that determines how Elastic Transcoder handles the existence of multiple captions.    MergeOverride: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the sidecar captions and ignores the embedded captions for that language.    MergeRetain: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the embedded captions and ignores the sidecar captions for that language. If CaptionSources is empty, Elastic Transcoder omits all sidecar captions from the output files.    Override: Elastic Transcoder transcodes only the sidecar captions that you specify in CaptionSources.    MergePolicy cannot be null.
         public var mergePolicy: String? = nil
         /// Source files for the input sidecar captions used during the transcoding process. To omit all sidecar captions, leave CaptionSources blank.
@@ -1325,7 +1325,7 @@ extension Elastictranscoder {
 
     public struct PipelineOutputConfig: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Optional. The Permissions object specifies which users and/or predefined Amazon S3 groups you want to have access to transcoded files and playlists, and the type of access you want them to have. You can grant permissions to a maximum of 30 users and/or predefined Amazon S3 groups. If you include Permissions, Elastic Transcoder grants only the permissions that you specify. It does not grant full permissions to the owner of the role specified by Role. If you want that user to have full control, you must explicitly grant full control to the user.  If you omit Permissions, Elastic Transcoder grants full control over the transcoded files and playlists to the owner of the role specified by Role, and grants no other permissions to any other user or group.
         public var permissions: [Permission]? = nil
         ///  The Amazon S3 bucket in which you want Elastic Transcoder to save the transcoded files. Specify this value when all of the following are true:   You want to save transcoded files, thumbnails (if any), and playlists (if any) together in one bucket.   You do not want to specify the users or groups who have access to the transcoded files, thumbnails, and playlists.   You do not want to specify the permissions that Elastic Transcoder grants to the files.   You want to associate the transcoded files and thumbnails with the Amazon S3 Standard storage class.   If you want to save transcoded files and playlists in one bucket and thumbnails in another bucket, specify which users can access the transcoded files or the permissions the users have, or change the Amazon S3 storage class, omit OutputBucket and specify values for ContentConfig and ThumbnailConfig instead. 
@@ -1352,7 +1352,7 @@ extension Elastictranscoder {
 
     public struct UpdatePipelineResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The pipeline updated by this UpdatePipelineResponse call.
         public var pipeline: Pipeline? = nil
         /// Elastic Transcoder returns a warning if the resources used by your pipeline are not in the same region as the pipeline. Using resources in the same region, such as your Amazon S3 buckets, Amazon SNS notification topics, and AWS KMS key, reduces processing time and prevents cross-regional charges.
@@ -1375,7 +1375,7 @@ extension Elastictranscoder {
 
     public struct CaptionFormat: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The prefix for caption filenames, in the form description-{language}, where:    description is a description of the video.    {language} is a literal value that Elastic Transcoder replaces with the two- or three-letter code for the language of the caption in the output file names.   If you don't include {language} in the file name pattern, Elastic Transcoder automatically appends "{language}" to the value that you specify for the description. In addition, Elastic Transcoder automatically appends the count to the end of the segment files. For example, suppose you're transcoding into srt format. When you enter "Sydney-{language}-sunrise", and the language of the captions is English (en), the name of the first caption file is be Sydney-en-sunrise00000.srt.
         public var pattern: String? = nil
         /// The encryption settings, if any, that you want Elastic Transcoder to apply to your caption formats.
@@ -1400,8 +1400,8 @@ extension Elastictranscoder {
 
     public struct ReadPresetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The identifier of the preset for which you want to get detailed information.
@@ -1421,8 +1421,8 @@ extension Elastictranscoder {
 
     public struct ReadJobRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The identifier of the job for which you want to get detailed information.
@@ -1442,7 +1442,7 @@ extension Elastictranscoder {
 
     public struct PresetWatermark: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  VerticalOffset  The amount by which you want the vertical position of the watermark to be offset from the position specified by VerticalAlign:   number of pixels (px): The minimum value is 0 pixels, and the maximum value is the value of MaxHeight.   integer percentage (%): The range of valid values is 0 to 100.   For example, if you specify Top for VerticalAlign and 5px for VerticalOffset, the top of the watermark appears 5 pixels from the top border of the output video.  VerticalOffset is only valid when the value of VerticalAlign is Top or Bottom. If you specify an offset that causes the watermark to extend beyond the top or bottom border and Elastic Transcoder has not added black bars, the watermark is cropped. If Elastic Transcoder has added black bars, the watermark extends into the black bars. If the watermark extends beyond the black bars, it is cropped. Use the value of Target to specify whether you want Elastic Transcoder to include the black bars that are added by Elastic Transcoder, if any, in the offset calculation.
         public var verticalOffset: String? = nil
         /// A value that determines how Elastic Transcoder interprets values that you specified for HorizontalOffset, VerticalOffset, MaxWidth, and MaxHeight:    Content: HorizontalOffset and VerticalOffset values are calculated based on the borders of the video excluding black bars added by Elastic Transcoder, if any. In addition, MaxWidth and MaxHeight, if specified as a percentage, are calculated based on the borders of the video excluding black bars added by Elastic Transcoder, if any.    Frame: HorizontalOffset and VerticalOffset values are calculated based on the borders of the video including black bars added by Elastic Transcoder, if any. In addition, MaxWidth and MaxHeight, if specified as a percentage, are calculated based on the borders of the video including black bars added by Elastic Transcoder, if any.  
@@ -1495,7 +1495,7 @@ extension Elastictranscoder {
 
     public struct JobWatermark: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the watermark settings that Elastic Transcoder uses to add watermarks to the video during transcoding. The settings are in the preset specified by Preset for the current output. In that preset, the value of Watermarks Id tells Elastic Transcoder which settings to use.
         public var presetWatermarkId: String? = nil
         /// The encryption settings, if any, that you want Elastic Transcoder to apply to your watermarks.
@@ -1520,7 +1520,7 @@ extension Elastictranscoder {
 
     public struct CreatePresetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If the preset settings don't comply with the standards for the video codec but Elastic Transcoder created the preset, this message explains the reason the preset settings don't meet the standard. Elastic Transcoder created the preset because the settings might produce acceptable output.
         public var warning: String? = nil
         /// A section of the response body that provides information about the preset that is created.
@@ -1541,7 +1541,7 @@ extension Elastictranscoder {
 
     public struct TestRoleResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If the operation is successful, this value is true; otherwise, the value is false.
         public var success: String? = nil
         /// If the Success element contains false, this value is an array of one or more error messages that were generated during the test process.
@@ -1564,7 +1564,7 @@ extension Elastictranscoder {
 
     public struct CreateJobPlaylist: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The format of the output playlist. Valid formats include HLSv3, HLSv4, and Smooth.
         public var format: String? = nil
         /// The HLS content protection settings, if any, that you want Elastic Transcoder to apply to the output files associated with this playlist.
@@ -1599,7 +1599,7 @@ extension Elastictranscoder {
 
     public struct CreateJobOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// You can configure Elastic Transcoder to transcode captions, or subtitles, from one format to another. All captions must be in UTF-8. Elastic Transcoder supports two types of captions:    Embedded: Embedded captions are included in the same file as the audio and video. Elastic Transcoder supports only one embedded caption per language, to a maximum of 300 embedded captions per file. Valid input values include: CEA-608 (EIA-608, first non-empty channel only), CEA-708 (EIA-708, first non-empty channel only), and mov-text  Valid outputs include: mov-text  Elastic Transcoder supports a maximum of one embedded format per output.    Sidecar: Sidecar captions are kept in a separate metadata file from the audio and video data. Sidecar captions require a player that is capable of understanding the relationship between the video file and the sidecar file. Elastic Transcoder supports only one sidecar caption per language, to a maximum of 20 sidecar captions per file. Valid input values include: dfxp (first div element only), ebu-tt, scc, smpt, srt, ttml (first div element only), and webvtt  Valid outputs include: dfxp (first div element only), scc, srt, and webvtt.   If you want ttml or smpte-tt compatible captions, specify dfxp as your output format. Elastic Transcoder does not support OCR (Optical Character Recognition), does not accept pictures as a valid input for captions, and is not available for audio-only transcoding. Elastic Transcoder does not preserve text formatting (for example, italics) during the transcoding process. To remove captions or leave the captions empty, set Captions to null. To pass through existing captions unchanged, set the MergePolicy to MergeRetain, and pass in a null CaptionSources array. For more information on embedded files, see the Subtitles Wikipedia page. For more information on sidecar files, see the Extensible Metadata Platform and Sidecar file Wikipedia pages.
         public var captions: Captions? = nil
         /// Whether you want Elastic Transcoder to create thumbnails for your videos and, if so, how you want Elastic Transcoder to name the files. If you don't want Elastic Transcoder to create thumbnails, specify "". If you do want Elastic Transcoder to create thumbnails, specify the information that you want to include in the file name for each thumbnail. You can specify the following values in any sequence:     {count} (Required): If you want to create thumbnails, you must include {count} in the ThumbnailPattern object. Wherever you specify {count}, Elastic Transcoder adds a five-digit sequence number (beginning with 00001) to thumbnail file names. The number indicates where a given thumbnail appears in the sequence of thumbnails for a transcoded file.   If you specify a literal value and/or {resolution} but you omit {count}, Elastic Transcoder returns a validation error and does not create the job.     Literal values (Optional): You can specify literal values anywhere in the ThumbnailPattern object. For example, you can include them as a file name prefix or as a delimiter between {resolution} and {count}.      {resolution} (Optional): If you want Elastic Transcoder to include the resolution in the file name, include {resolution} in the ThumbnailPattern object.    When creating thumbnails, Elastic Transcoder automatically saves the files in the format (.jpg or .png) that appears in the preset that you specified in the PresetID value of CreateJobOutput. Elastic Transcoder also appends the applicable file name extension.
@@ -1660,7 +1660,7 @@ extension Elastictranscoder {
 
     public struct DetectedProperties: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The detected height of the input file, in pixels.
         public var height: Int32? = nil
         /// The detected duration of the input file, in milliseconds.
@@ -1693,7 +1693,7 @@ extension Elastictranscoder {
 
     public struct ReadPipelineResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A section of the response body that provides information about the pipeline.
         public var pipeline: Pipeline? = nil
         /// Elastic Transcoder returns a warning if the resources used by your pipeline are not in the same region as the pipeline. Using resources in the same region, such as your Amazon S3 buckets, Amazon SNS notification topics, and AWS KMS key, reduces processing time and prevents cross-regional charges.
@@ -1716,7 +1716,7 @@ extension Elastictranscoder {
 
     public struct Warning: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The code of the cross-regional warning.
         public var code: String? = nil
         /// The message explaining what resources are in a different region from the pipeline.  AWS KMS keys must be in the same region as the pipeline. 
@@ -1737,7 +1737,7 @@ extension Elastictranscoder {
 
     public struct UpdatePipelineNotificationsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A section of the response body that provides information about the pipeline associated with this notification.
         public var pipeline: Pipeline? = nil
 
@@ -1754,7 +1754,7 @@ extension Elastictranscoder {
 
     public struct AudioParameters: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If you specified AAC for Audio:Codec, this is the AAC compression profile to use. Valid values include:  auto, AAC-LC, HE-AAC, HE-AACv2  If you specify auto, Elastic Transcoder chooses a profile based on the bit rate of the output file.
         public var codecOptions: AudioCodecOptions? = nil
         /// The bit rate of the audio stream in the output file, in kilobits/second. Enter an integer between 64 and 320, inclusive.
@@ -1791,7 +1791,7 @@ extension Elastictranscoder {
 
     public struct Notifications: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon SNS topic that you want to notify when Elastic Transcoder has finished processing the job.
         public var completed: String? = nil
         /// The Amazon SNS topic that you want to notify when Elastic Transcoder encounters an error condition.
@@ -1820,7 +1820,7 @@ extension Elastictranscoder {
 
     public struct AudioCodecOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// You can only choose whether an audio sample is signed when you specify pcm for the value of Audio:Codec. Whether audio samples are represented with negative and positive numbers (signed) or only positive numbers (unsigned). The supported value is Signed.
         public var signed: String? = nil
         /// You can only choose an audio profile when you specify AAC for the value of Audio:Codec. Specify the AAC profile for the output file. Elastic Transcoder supports the following profiles:    auto: If you specify auto, Elastic Transcoder selects the profile based on the bit rate selected for the output file.    AAC-LC: The most common AAC profile. Use for bit rates larger than 64 kbps.    HE-AAC: Not supported on some older players and devices. Use for bit rates between 40 and 80 kbps.    HE-AACv2: Not supported on some players and devices. Use for bit rates less than 48 kbps.   All outputs in a Smooth playlist must have the same value for Profile.  If you created any presets before AAC profiles were added, Elastic Transcoder automatically updated your presets to use AAC-LC. You can change the value as required. 
@@ -1849,7 +1849,7 @@ extension Elastictranscoder {
 
     public struct UpdatePipelineStatusResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A section of the response body that provides information about the pipeline.
         public var pipeline: Pipeline? = nil
 
@@ -1866,8 +1866,8 @@ extension Elastictranscoder {
 
     public struct CancelJobRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The identifier of the job that you want to cancel. To get a list of the jobs (including their jobId) that have a status of Submitted, use the ListJobsByStatus API action.
@@ -1887,7 +1887,7 @@ extension Elastictranscoder {
 
     public struct Job: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Details about the timing of a job.
         public var timing: Timing? = nil
         ///  The status of the job: Submitted, Progressing, Complete, Canceled, or Error. 
@@ -1956,7 +1956,7 @@ extension Elastictranscoder {
 
     public struct Permission: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of value that appears in the Grantee object:    Canonical: Either the canonical user ID for an AWS account or an origin access identity for an Amazon CloudFront distribution.  A canonical user ID is not the same as an AWS account number.     Email: The registered email address of an AWS account.    Group: One of the following predefined Amazon S3 groups: AllUsers, AuthenticatedUsers, or LogDelivery.  
         public var granteeType: String? = nil
         ///  The permission that you want to give to the AWS user that is listed in Grantee. Valid values include:     READ: The grantee can read the thumbnails and metadata for thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.    READ_ACP: The grantee can read the object ACL for thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.    WRITE_ACP: The grantee can write the ACL for the thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.    FULL_CONTROL: The grantee has READ, READ_ACP, and WRITE_ACP permissions for the thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.  
@@ -1983,7 +1983,7 @@ extension Elastictranscoder {
 
     public struct Encryption: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The specific server-side encryption mode that you want Elastic Transcoder to use when decrypting your input files or encrypting your output files. Elastic Transcoder supports the following options:    S3: Amazon S3 creates and manages the keys used for encrypting your files.    S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.    AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.    AES-CTR: AES Counter Mode.    AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.   For all three AES options, you must provide the following settings, which must be base64-encoded:    Key     Key MD5     Initialization Vector     For the AES modes, your private encryption keys and your unencrypted data are never stored by AWS; therefore, it is important that you safely manage your encryption keys. If you lose them, you won't be able to unencrypt your data. 
         public var mode: String? = nil
         /// The series of random bits created by a random bit generator, unique for every encryption operation, that you used to encrypt your input files or that you want Elastic Transcoder to use to encrypt your output files. The initialization vector must be base64-encoded, and it must be exactly 16 bytes long before being base64-encoded.
@@ -2012,8 +2012,8 @@ extension Elastictranscoder {
 
     public struct ReadPipelineRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Id": "Id"]
         }
         /// The identifier of the pipeline to read.
@@ -2033,7 +2033,7 @@ extension Elastictranscoder {
 
     public struct Clip: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Settings that determine when a clip begins and how long it lasts.
         public var timeSpan: TimeSpan? = nil
 
@@ -2050,7 +2050,7 @@ extension Elastictranscoder {
 
     public struct Timing: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time the job began transcoding, in epoch milliseconds.
         public var startTimeMillis: Int64? = nil
         /// The time the job was submitted to Elastic Transcoder, in epoch milliseconds.

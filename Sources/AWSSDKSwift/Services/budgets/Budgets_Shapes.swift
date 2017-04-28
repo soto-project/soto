@@ -31,7 +31,7 @@ extension Budgets {
 
     public struct DeleteBudgetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var accountId: String = ""
         public var budgetName: String = ""
 
@@ -52,7 +52,7 @@ extension Budgets {
 
     public struct DescribeBudgetsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var budgets: [Budget]? = nil
         public var nextToken: String? = nil
 
@@ -73,7 +73,7 @@ extension Budgets {
 
     public struct DescribeBudgetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var accountId: String = ""
         public var budgetName: String = ""
 
@@ -94,7 +94,7 @@ extension Budgets {
 
     public struct DescribeBudgetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var budget: Budget? = nil
 
         public init() {}
@@ -110,7 +110,7 @@ extension Budgets {
 
     public struct DeleteNotificationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var accountId: String = ""
         public var notification: Notification = Notification()
         public var budgetName: String = ""
@@ -135,7 +135,7 @@ extension Budgets {
 
     public struct NotificationWithSubscribers: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var subscribers: [Subscriber] = []
         public var notification: Notification = Notification()
 
@@ -156,7 +156,7 @@ extension Budgets {
 
     public struct UpdateSubscriberRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var accountId: String = ""
         public var notification: Notification = Notification()
         public var oldSubscriber: Subscriber = Subscriber()
@@ -189,7 +189,7 @@ extension Budgets {
 
     public struct DeleteNotificationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -199,7 +199,7 @@ extension Budgets {
 
     public struct CreateNotificationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var accountId: String = ""
         public var notification: Notification = Notification()
         public var subscribers: [Subscriber] = []
@@ -228,7 +228,7 @@ extension Budgets {
 
     public struct UpdateSubscriberResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -238,7 +238,7 @@ extension Budgets {
 
     public struct DescribeNotificationsForBudgetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var notifications: [Notification]? = nil
         public var nextToken: String? = nil
 
@@ -259,7 +259,7 @@ extension Budgets {
 
     public struct DeleteSubscriberRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var accountId: String = ""
         public var subscriber: Subscriber = Subscriber()
         public var notification: Notification = Notification()
@@ -288,7 +288,7 @@ extension Budgets {
 
     public struct CreateBudgetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -298,7 +298,7 @@ extension Budgets {
 
     public struct CostTypes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var includeSubscription: Bool = false
         public var useBlended: Bool = false
         public var includeTax: Bool = false
@@ -323,7 +323,7 @@ extension Budgets {
 
     public struct CreateNotificationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -333,7 +333,7 @@ extension Budgets {
 
     public struct DescribeBudgetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var accountId: String = ""
         public var nextToken: String? = nil
         public var maxResults: Int32? = nil
@@ -356,7 +356,7 @@ extension Budgets {
 
     public struct DeleteBudgetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -366,7 +366,7 @@ extension Budgets {
 
     public struct CreateBudgetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var accountId: String = ""
         public var budget: Budget = Budget()
         public var notificationsWithSubscribers: [NotificationWithSubscribers]? = nil
@@ -392,7 +392,7 @@ extension Budgets {
 
     public struct DeleteSubscriberResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -402,7 +402,7 @@ extension Budgets {
 
     public struct UpdateNotificationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var accountId: String = ""
         public var oldNotification: Notification = Notification()
         public var newNotification: Notification = Notification()
@@ -431,7 +431,7 @@ extension Budgets {
 
     public struct UpdateBudgetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -441,7 +441,7 @@ extension Budgets {
 
     public struct UpdateNotificationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -451,7 +451,7 @@ extension Budgets {
 
     public struct DescribeSubscribersForNotificationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var accountId: String = ""
         public var notification: Notification = Notification()
         public var nextToken: String? = nil
@@ -482,7 +482,7 @@ extension Budgets {
 
     public struct CreateSubscriberRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var accountId: String = ""
         public var subscriber: Subscriber = Subscriber()
         public var notification: Notification = Notification()
@@ -511,7 +511,7 @@ extension Budgets {
 
     public struct CreateSubscriberResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -521,7 +521,7 @@ extension Budgets {
 
     public struct Notification: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var comparisonOperator: String = ""
         public var threshold: Double = 0
         public var notificationType: String = ""
@@ -546,7 +546,7 @@ extension Budgets {
 
     public struct Subscriber: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var address: String = ""
         public var subscriptionType: String = ""
 
@@ -567,7 +567,7 @@ extension Budgets {
 
     public struct DescribeNotificationsForBudgetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var accountId: String = ""
         public var nextToken: String? = nil
         public var budgetName: String = ""
@@ -594,7 +594,7 @@ extension Budgets {
 
     public struct UpdateBudgetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var accountId: String = ""
         public var newBudget: Budget = Budget()
 
@@ -615,7 +615,7 @@ extension Budgets {
 
     public struct Budget: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var timeUnit: String = ""
         public var budgetLimit: Spend = Spend()
         public var budgetName: String = ""
@@ -665,7 +665,7 @@ extension Budgets {
 
     public struct TimePeriod: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var start: Date = Date()
         public var end: Date = Date()
 
@@ -686,7 +686,7 @@ extension Budgets {
 
     public struct CalculatedSpend: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var forecastedSpend: Spend? = nil
         public var actualSpend: Spend = Spend()
 
@@ -706,7 +706,7 @@ extension Budgets {
 
     public struct Spend: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var unit: String = ""
         public var amount: String = ""
 
@@ -727,7 +727,7 @@ extension Budgets {
 
     public struct DescribeSubscribersForNotificationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var subscribers: [Subscriber]? = nil
         public var nextToken: String? = nil
 

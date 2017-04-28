@@ -31,7 +31,7 @@ extension Inspector {
 
     public struct DescribeRulesPackagesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN that specifies the rules package that you want to describe.
         public var rulesPackageArns: [String] = []
         /// The locale that you want to translate a rules package description into.
@@ -53,7 +53,7 @@ extension Inspector {
 
     public struct RemoveAttributesFromFindingsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Attributes details that cannot be described. An error code is provided for each failed item.
         public var failedItems: [String: FailedItemDetails] = [:]
 
@@ -76,7 +76,7 @@ extension Inspector {
 
     public struct DescribeResourceGroupsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN that specifies the resource group that you want to describe.
         public var resourceGroupArns: [String] = []
 
@@ -94,7 +94,7 @@ extension Inspector {
 
     public struct ListFindingsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
         public var maxResults: Int32? = nil
         /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
@@ -125,7 +125,7 @@ extension Inspector {
 
     public struct DescribeCrossAccountAccessRoleResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A Boolean value that specifies whether the IAM role has the necessary policies attached to enable Amazon Inspector to access your AWS account.
         public var valid: Bool = false
         /// The ARN that specifies the IAM role that Amazon Inspector uses to access your AWS account.
@@ -153,7 +153,7 @@ extension Inspector {
 
     public struct PreviewAgentsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the assessment target whose agents you want to preview.
         public var previewAgentsArn: String = ""
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
@@ -179,7 +179,7 @@ extension Inspector {
 
     public struct DescribeRulesPackagesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the rules package.
         public var rulesPackages: [RulesPackage] = []
         /// Rules package details that cannot be described. An error code is provided for each failed item.
@@ -207,7 +207,7 @@ extension Inspector {
 
     public struct Subscription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the assessment template that is used during the event for which the SNS notification is sent.
         public var resourceArn: String = ""
         /// The list of existing event subscriptions.
@@ -235,7 +235,7 @@ extension Inspector {
 
     public struct AssessmentTarget: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN that specifies the resource group that is associated with the assessment target.
         public var resourceGroupArn: String = ""
         /// The name of the Amazon Inspector assessment target.
@@ -273,7 +273,7 @@ extension Inspector {
 
     public struct DescribeAssessmentTemplatesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var assessmentTemplateArns: [String] = []
 
         public init() {}
@@ -290,7 +290,7 @@ extension Inspector {
 
     public struct AddAttributesToFindingsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The array of attributes that you want to assign to specified findings.
         public var attributes: [Attribute] = []
         /// The ARNs that specify the findings that you want to assign attributes to.
@@ -313,7 +313,7 @@ extension Inspector {
 
     public struct PreviewAgentsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public var nextToken: String? = nil
         /// The resulting list of agents.
@@ -335,7 +335,7 @@ extension Inspector {
 
     public struct DescribeAssessmentRunsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Assessment run details that cannot be described. An error code is provided for each failed item.
         public var failedItems: [String: FailedItemDetails] = [:]
         /// Information about the assessment run.
@@ -363,7 +363,7 @@ extension Inspector {
 
     public struct EventSubscription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The event for which Amazon Simple Notification Service (SNS) notifications are sent.
         public var event: String = ""
         /// The time at which SubscribeToEvent is called.
@@ -386,7 +386,7 @@ extension Inspector {
 
     public struct CreateResourceGroupResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN that specifies the resource group that is created.
         public var resourceGroupArn: String = ""
 
@@ -404,7 +404,7 @@ extension Inspector {
 
     public struct ResourceGroupTag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A tag key.
         public var key: String = ""
         /// The value assigned to a tag key.
@@ -426,7 +426,7 @@ extension Inspector {
 
     public struct RemoveAttributesFromFindingsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The array of attribute keys that you want to remove from specified findings.
         public var attributeKeys: [String] = []
         /// The ARNs that specify the findings that you want to remove attributes from.
@@ -449,7 +449,7 @@ extension Inspector {
 
     public struct DescribeAssessmentRunsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN that specifies the assessment run that you want to describe.
         public var assessmentRunArns: [String] = []
 
@@ -467,7 +467,7 @@ extension Inspector {
 
     public struct ListAssessmentTemplatesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of ARNs that specifies the assessment templates returned by the action.
         public var assessmentTemplateArns: [String] = []
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
@@ -489,7 +489,7 @@ extension Inspector {
 
     public struct DescribeAssessmentTemplatesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Assessment template details that cannot be described. An error code is provided for each failed item.
         public var failedItems: [String: FailedItemDetails] = [:]
         /// Information about the assessment templates.
@@ -517,7 +517,7 @@ extension Inspector {
 
     public struct StartAssessmentRunResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the assessment run that has been started.
         public var assessmentRunArn: String = ""
 
@@ -535,7 +535,7 @@ extension Inspector {
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A tag key.
         public var key: String = ""
         /// A value assigned to a tag key.
@@ -557,7 +557,7 @@ extension Inspector {
 
     public struct ListAssessmentTargetsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public var nextToken: String? = nil
         /// A list of ARNs that specifies the assessment targets that are returned by the action.
@@ -579,7 +579,7 @@ extension Inspector {
 
     public struct ResourceGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The tags (key and value pairs) of the resource group. This data type property is used in the CreateResourceGroup action.
         public var tags: [ResourceGroupTag] = []
         /// The time at which resource group is created.
@@ -607,7 +607,7 @@ extension Inspector {
 
     public struct UnsubscribeFromEventRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the assessment template that is used during the event for which you want to stop receiving SNS notifications.
         public var resourceArn: String = ""
         /// The event for which you want to stop receiving SNS notifications.
@@ -635,7 +635,7 @@ extension Inspector {
 
     public struct Attribute: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The attribute key.
         public var key: String = ""
         /// The value assigned to the attribute key.
@@ -657,7 +657,7 @@ extension Inspector {
 
     public struct DeleteAssessmentTemplateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN that specifies the assessment template that you want to delete.
         public var assessmentTemplateArn: String = ""
 
@@ -675,7 +675,7 @@ extension Inspector {
 
     public struct DescribeAssessmentTargetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARNs that specifies the assessment targets that you want to describe.
         public var assessmentTargetArns: [String] = []
 
@@ -693,7 +693,7 @@ extension Inspector {
 
     public struct DeleteAssessmentRunRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN that specifies the assessment run that you want to delete.
         public var assessmentRunArn: String = ""
 
@@ -711,7 +711,7 @@ extension Inspector {
 
     public struct FindingFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the ruleName property of the Finding data type.
         public var ruleNames: [String]? = nil
         /// For a record to match a filter, one of the values that is specified for this data type property must be the exact match of the value of the severity property of the Finding data type.
@@ -770,7 +770,7 @@ extension Inspector {
 
     public struct RulesPackage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of the rules package.
         public var description: String? = nil
         /// The name of the rules package.
@@ -807,7 +807,7 @@ extension Inspector {
 
     public struct AssessmentRunStateChange: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The assessment run state.
         public var state: String = ""
         /// The last time the assessment run state changed.
@@ -830,7 +830,7 @@ extension Inspector {
 
     public struct ListFindingsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public var nextToken: String? = nil
         /// A list of ARNs that specifies the findings returned by the action.
@@ -852,7 +852,7 @@ extension Inspector {
 
     public struct ListAssessmentRunsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 10. The maximum value is 500.
         public var maxResults: Int32? = nil
         /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
@@ -883,7 +883,7 @@ extension Inspector {
 
     public struct AgentPreview: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Auto Scaling group for the EC2 instance where the agent is installed.
         public var autoScalingGroup: String? = nil
         /// The ID of the EC2 instance where the agent is installed.
@@ -905,7 +905,7 @@ extension Inspector {
 
     public struct ListRulesPackagesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListRulesPackages action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public var nextToken: String? = nil
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
@@ -926,7 +926,7 @@ extension Inspector {
 
     public struct AssessmentRunFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// For a record to match a filter, an explicit value or a string containing a wildcard that is specified for this data type property must match the value of the assessmentRunName property of the AssessmentRun data type.
         public var namePattern: String? = nil
         /// For a record to match a filter, one of the values specified for this data type property must be the exact match of the value of the assessmentRunState property of the AssessmentRun data type.
@@ -971,7 +971,7 @@ extension Inspector {
 
     public struct GetTelemetryMetadataRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN that specifies the assessment run that has the telemetry data that you want to obtain.
         public var assessmentRunArn: String = ""
 
@@ -989,7 +989,7 @@ extension Inspector {
 
     public struct AssessmentTargetFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// For a record to match a filter, an explicit value or a string that contains a wildcard that is specified for this data type property must match the value of the assessmentTargetName property of the AssessmentTarget data type.
         public var assessmentTargetNamePattern: String? = nil
 
@@ -1006,7 +1006,7 @@ extension Inspector {
 
     public struct AssessmentRun: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The state of the assessment run.
         public var state: String = ""
         /// The auto-generated name for the assessment run.
@@ -1087,7 +1087,7 @@ extension Inspector {
 
     public struct ListEventSubscriptionsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Details of the returned event subscriptions.
         public var subscriptions: [Subscription] = []
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
@@ -1109,7 +1109,7 @@ extension Inspector {
 
     public struct DeleteAssessmentTargetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN that specifies the assessment target that you want to delete.
         public var assessmentTargetArn: String = ""
 
@@ -1127,7 +1127,7 @@ extension Inspector {
 
     public struct CreateAssessmentTemplateResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN that specifies the assessment template that is created.
         public var assessmentTemplateArn: String = ""
 
@@ -1145,7 +1145,7 @@ extension Inspector {
 
     public struct Finding: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of the host from which the finding is generated.
         public var assetType: String? = nil
         /// The schema version of this data type.
@@ -1234,7 +1234,7 @@ extension Inspector {
 
     public struct ListAssessmentRunAgentsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 10. The maximum value is 500.
         public var maxResults: Int32? = nil
         /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
@@ -1264,7 +1264,7 @@ extension Inspector {
 
     public struct ListTagsForResourceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN that specifies the assessment template whose tags you want to list.
         public var resourceArn: String = ""
 
@@ -1282,7 +1282,7 @@ extension Inspector {
 
     public struct ListEventSubscriptionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the assessment template for which you want to list the existing event subscriptions.
         public var resourceArn: String? = nil
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListEventSubscriptions action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
@@ -1307,7 +1307,7 @@ extension Inspector {
 
     public struct UpdateAssessmentTargetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the resource group that is used to specify the new resource group to associate with the assessment target.
         public var resourceGroupArn: String = ""
         /// The ARN of the assessment target that you want to update.
@@ -1335,7 +1335,7 @@ extension Inspector {
 
     public struct AddAttributesToFindingsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Attribute details that cannot be described. An error code is provided for each failed item.
         public var failedItems: [String: FailedItemDetails] = [:]
 
@@ -1358,7 +1358,7 @@ extension Inspector {
 
     public struct CreateAssessmentTargetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN that specifies the assessment target that is created.
         public var assessmentTargetArn: String = ""
 
@@ -1376,7 +1376,7 @@ extension Inspector {
 
     public struct ListAssessmentRunsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public var nextToken: String? = nil
         /// A list of ARNs that specifies the assessment runs that are returned by the action.
@@ -1398,7 +1398,7 @@ extension Inspector {
 
     public struct AssessmentRunAgent: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Inspector application data metrics that are collected by the agent.
         public var telemetryMetadata: [TelemetryMetadata] = []
         /// The Auto Scaling group of the EC2 instance that is specified by the agent ID.
@@ -1444,7 +1444,7 @@ extension Inspector {
 
     public struct DescribeResourceGroupsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Resource group details that cannot be described. An error code is provided for each failed item.
         public var failedItems: [String: FailedItemDetails] = [:]
         /// Information about a resource group.
@@ -1472,7 +1472,7 @@ extension Inspector {
 
     public struct AssessmentTemplateFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// For a record to match a filter, an explicit value or a string that contains a wildcard that is specified for this data type property must match the value of the assessmentTemplateName property of the AssessmentTemplate data type.
         public var namePattern: String? = nil
         /// For a record to match a filter, the values that are specified for this data type property must be contained in the list of values of the rulesPackageArns property of the AssessmentTemplate data type.
@@ -1499,7 +1499,7 @@ extension Inspector {
 
     public struct ListTagsForResourceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A collection of key and value pairs.
         public var tags: [Tag] = []
 
@@ -1517,7 +1517,7 @@ extension Inspector {
 
     public struct AgentAlreadyRunningAssessment: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// ID of the agent that is running on an EC2 instance that is already participating in another started assessment run.
         public var agentId: String = ""
         /// The ARN of the assessment run that has already been started.
@@ -1540,7 +1540,7 @@ extension Inspector {
 
     public struct DurationRange: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum value of the duration range. Must be less than or equal to 604800 seconds (1 week).
         public var maxSeconds: Int32? = nil
         /// The minimum value of the duration range. Must be greater than zero.
@@ -1561,7 +1561,7 @@ extension Inspector {
 
     public struct TimestampRange: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The minimum value of the timestamp range.
         public var beginDate: Date? = nil
         /// The maximum value of the timestamp range.
@@ -1582,7 +1582,7 @@ extension Inspector {
 
     public struct TelemetryMetadata: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The data size of messages that the agent sends to the Amazon Inspector service.
         public var dataSize: Int64? = nil
         /// The count of messages that the agent sends to the Amazon Inspector service.
@@ -1609,7 +1609,7 @@ extension Inspector {
 
     public struct AssessmentTemplate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the assessment target that corresponds to this assessment template.
         public var assessmentTargetArn: String = ""
         /// The name of the assessment template.
@@ -1657,7 +1657,7 @@ extension Inspector {
 
     public struct RegisterCrossAccountAccessRoleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the IAM role that Amazon Inspector uses to list your EC2 instances during the assessment run or when you call the PreviewAgents action. 
         public var roleArn: String = ""
 
@@ -1675,7 +1675,7 @@ extension Inspector {
 
     public struct AssetAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Auto Scaling group of the EC2 instance where the finding is generated.
         public var autoScalingGroup: String? = nil
         /// The hostname of the EC2 instance where the finding is generated.
@@ -1715,7 +1715,7 @@ extension Inspector {
 
     public struct ListAssessmentRunAgentsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
         public var nextToken: String? = nil
         /// A list of ARNs that specifies the agents returned by the action.
@@ -1737,7 +1737,7 @@ extension Inspector {
 
     public struct ListAssessmentTargetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the ListAssessmentTargets action. Subsequent calls to the action fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
         public var nextToken: String? = nil
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
@@ -1762,7 +1762,7 @@ extension Inspector {
 
     public struct GetTelemetryMetadataResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Telemetry details.
         public var telemetryMetadata: [TelemetryMetadata] = []
 
@@ -1780,7 +1780,7 @@ extension Inspector {
 
     public struct CreateAssessmentTemplateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user-defined name that identifies the assessment template that you want to create. You can create several assessment templates for an assessment target. The names of the assessment templates that correspond to a particular assessment target must be unique.
         public var assessmentTemplateName: String = ""
         /// The ARN that specifies the assessment target for which you want to create the assessment template.
@@ -1819,7 +1819,7 @@ extension Inspector {
 
     public struct StartAssessmentRunRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// You can specify the name for the assessment run. The name must be unique for the assessment template whose ARN is used to start the assessment run.
         public var assessmentRunName: String? = nil
         /// The ARN of the assessment template of the assessment run that you want to start.
@@ -1841,7 +1841,7 @@ extension Inspector {
 
     public struct AgentFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The detailed health state of the agent. Values can be set to IDLE, RUNNING, SHUTDOWN, UNHEALTHY, THROTTLED, and UNKNOWN. 
         public var agentHealthCodes: [String] = []
         /// The current health state of the agent. Values can be set to HEALTHY or UNHEALTHY.
@@ -1864,7 +1864,7 @@ extension Inspector {
 
     public struct SubscribeToEventRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the assessment template that is used during the event for which you want to receive SNS notifications.
         public var resourceArn: String = ""
         /// The event for which you want to receive SNS notifications.
@@ -1892,7 +1892,7 @@ extension Inspector {
 
     public struct CreateResourceGroupRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A collection of keys and an array of possible values, '[{"key":"key1","values":["Value1","Value2"]},{"key":"Key2","values":["Value3"]}]'. For example,'[{"key":"Name","values":["TestEC2Instance"]}]'.
         public var resourceGroupTags: [ResourceGroupTag] = []
 
@@ -1910,7 +1910,7 @@ extension Inspector {
 
     public struct DescribeFindingsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the finding.
         public var findings: [Finding] = []
         /// Finding details that cannot be described. An error code is provided for each failed item.
@@ -1938,7 +1938,7 @@ extension Inspector {
 
     public struct SetTagsForResourceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the assessment template that you want to set tags to.
         public var resourceArn: String = ""
         /// A collection of key and value pairs that you want to set to the assessment template.
@@ -1962,7 +1962,7 @@ extension Inspector {
 
     public struct FailedItemDetails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status code of a failed item.
         public var failureCode: String = ""
         /// Indicates whether you can immediately retry a request for this item for a specified resource.
@@ -1985,7 +1985,7 @@ extension Inspector {
 
     public struct AssessmentRunNotification: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The SNS topic to which the SNS notification is sent.
         public var snsTopicArn: String? = nil
         /// The status code of the SNS notification.
@@ -2024,7 +2024,7 @@ extension Inspector {
 
     public struct ListAssessmentTemplatesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
         public var maxResults: Int32? = nil
         /// You can use this parameter to specify a subset of data to be included in the action's response. For a record to match a filter, all specified filter attributes must match. When multiple values are specified for a filter attribute, any of the values can match.
@@ -2055,7 +2055,7 @@ extension Inspector {
 
     public struct StopAssessmentRunRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the assessment run that you want to stop.
         public var assessmentRunArn: String = ""
 
@@ -2073,7 +2073,7 @@ extension Inspector {
 
     public struct ListRulesPackagesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of ARNs that specifies the rules packages returned by the action.
         public var rulesPackageArns: [String] = []
         ///  When a response is generated, if there is more data to be listed, this parameter is present in the response and contains the value to use for the nextToken parameter in a subsequent pagination request. If there is no more data to be listed, this parameter is set to null.
@@ -2095,7 +2095,7 @@ extension Inspector {
 
     public struct CreateAssessmentTargetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN that specifies the resource group that is used to create the assessment target.
         public var resourceGroupArn: String = ""
         /// The user-defined name that identifies the assessment target that you want to create. The name must be unique within the AWS account.
@@ -2118,7 +2118,7 @@ extension Inspector {
 
     public struct InspectorServiceAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The schema version of this data type.
         public var schemaVersion: Int32 = 0
         /// The ARN of the rules package that is used to generate the finding.
@@ -2144,7 +2144,7 @@ extension Inspector {
 
     public struct DescribeAssessmentTargetsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the assessment targets.
         public var assessmentTargets: [AssessmentTarget] = []
         /// Assessment target details that cannot be described. An error code is provided for each failed item.
@@ -2172,7 +2172,7 @@ extension Inspector {
 
     public struct DescribeFindingsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The locale into which you want to translate a finding description, recommendation, and the short description that identifies the finding.
         public var locale: String? = nil
         /// The ARN that specifies the finding that you want to describe.

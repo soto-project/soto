@@ -31,7 +31,7 @@ extension Elasticloadbalancing {
 
     public struct ModifyTargetGroupAttributesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the attributes.
         public var attributes: [TargetGroupAttribute]? = nil
 
@@ -50,7 +50,7 @@ extension Elasticloadbalancing {
 
     public struct Rule: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The priority.
         public var priority: String? = nil
         /// Indicates whether this is the default rule.
@@ -87,7 +87,7 @@ extension Elasticloadbalancing {
 
     public struct TargetHealthDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The health information for the target.
         public var targetHealth: TargetHealth? = nil
         /// The description of the target.
@@ -112,7 +112,7 @@ extension Elasticloadbalancing {
 
     public struct Action: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of action.
         public var type: String = ""
         /// The Amazon Resource Name (ARN) of the target group.
@@ -135,7 +135,7 @@ extension Elasticloadbalancing {
 
     public struct DeleteListenerInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the listener.
         public var listenerArn: String = ""
 
@@ -153,7 +153,7 @@ extension Elasticloadbalancing {
 
     public struct DeleteLoadBalancerOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -163,7 +163,7 @@ extension Elasticloadbalancing {
 
     public struct DescribeTargetGroupAttributesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the target group.
         public var targetGroupArn: String = ""
 
@@ -181,7 +181,7 @@ extension Elasticloadbalancing {
 
     public struct ModifyTargetGroupAttributesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The attributes.
         public var attributes: [TargetGroupAttribute] = []
         /// The Amazon Resource Name (ARN) of the target group.
@@ -204,7 +204,7 @@ extension Elasticloadbalancing {
 
     public struct ModifyLoadBalancerAttributesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the load balancer.
         public var loadBalancerArn: String = ""
         /// The load balancer attributes.
@@ -227,7 +227,7 @@ extension Elasticloadbalancing {
 
     public struct RegisterTargetsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -237,7 +237,7 @@ extension Elasticloadbalancing {
 
     public struct CreateListenerInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The protocol for connections from clients to the load balancer.
         public var `protocol`: String = ""
         /// The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
@@ -280,7 +280,7 @@ extension Elasticloadbalancing {
 
     public struct DescribeLoadBalancersOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public var nextMarker: String? = nil
         /// Information about the load balancers.
@@ -303,7 +303,7 @@ extension Elasticloadbalancing {
 
     public struct LoadBalancerState: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A description of the state.
         public var reason: String? = nil
         /// The state code. The initial state of the load balancer is provisioning. After the load balancer is fully set up and ready to route traffic, its state is active. If the load balancer could not be set up, its state is failed.
@@ -324,7 +324,7 @@ extension Elasticloadbalancing {
 
     public struct TargetGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the target group.
         public var targetGroupArn: String? = nil
         /// The Amazon Resource Names (ARN) of the load balancers that route traffic to this target group.
@@ -395,7 +395,7 @@ extension Elasticloadbalancing {
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the tag.
         public var value: String? = nil
         /// The key of the tag.
@@ -417,7 +417,7 @@ extension Elasticloadbalancing {
 
     public struct TagDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the resource.
         public var resourceArn: String? = nil
         /// Information about the tags.
@@ -440,7 +440,7 @@ extension Elasticloadbalancing {
 
     public struct RuleCondition: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The only possible value is path-pattern.
         public var field: String? = nil
         /// The path pattern. You can specify a single path pattern. A path pattern is case sensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters in a path pattern.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
@@ -463,7 +463,7 @@ extension Elasticloadbalancing {
 
     public struct Listener: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The SSL server certificate. You must provide a certificate if the protocol is HTTPS.
         public var certificates: [Certificate]? = nil
         /// The Amazon Resource Name (ARN) of the listener.
@@ -508,7 +508,7 @@ extension Elasticloadbalancing {
 
     public struct CreateListenerOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the listener.
         public var listeners: [Listener]? = nil
 
@@ -527,7 +527,7 @@ extension Elasticloadbalancing {
 
     public struct SetIpAddressTypeOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IP address type.
         public var ipAddressType: String? = nil
 
@@ -544,7 +544,7 @@ extension Elasticloadbalancing {
 
     public struct ModifyTargetGroupInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The protocol to use to connect with the target.
         public var healthCheckProtocol: String? = nil
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
@@ -594,7 +594,7 @@ extension Elasticloadbalancing {
 
     public struct CreateLoadBalancerInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of the subnets to attach to the load balancer. You can specify only one subnet per Availability Zone. You must specify subnets from at least two Availability Zones.
         public var subnets: [String] = []
         /// The IDs of the security groups to assign to the load balancer.
@@ -637,7 +637,7 @@ extension Elasticloadbalancing {
 
     public struct DeregisterTargetsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The targets. If you specified a port override when you registered a target, you must specify both the target ID and the port when you deregister it.
         public var targets: [TargetDescription] = []
         /// The Amazon Resource Name (ARN) of the target group.
@@ -660,7 +660,7 @@ extension Elasticloadbalancing {
 
     public struct SetSecurityGroupsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of the security groups.
         public var securityGroups: [String] = []
         /// The Amazon Resource Name (ARN) of the load balancer.
@@ -683,7 +683,7 @@ extension Elasticloadbalancing {
 
     public struct DescribeRulesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the rules.
         public var rules: [Rule]? = nil
 
@@ -702,7 +702,7 @@ extension Elasticloadbalancing {
 
     public struct CreateRuleOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the rule.
         public var rules: [Rule]? = nil
 
@@ -721,7 +721,7 @@ extension Elasticloadbalancing {
 
     public struct LoadBalancerAttribute: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the attribute.
         public var value: String? = nil
         /// The name of the attribute.    access_logs.s3.enabled - Indicates whether access logs stored in Amazon S3 are enabled. The value is true or false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs in Amazon S3 are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permission to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket. If you don't specify a prefix, the access logs are stored in the root of the bucket.    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false.    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-3600. The default is 60 seconds.  
@@ -742,7 +742,7 @@ extension Elasticloadbalancing {
 
     public struct DescribeLoadBalancerAttributesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the load balancer.
         public var loadBalancerArn: String = ""
 
@@ -760,7 +760,7 @@ extension Elasticloadbalancing {
 
     public struct DescribeTagsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the tags.
         public var tagDescriptions: [TagDescription]? = nil
 
@@ -779,7 +779,7 @@ extension Elasticloadbalancing {
 
     public struct DescribeListenersInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of results to return with this call.
         public var pageSize: Int32? = nil
         /// The Amazon Resource Names (ARN) of the listeners.
@@ -810,7 +810,7 @@ extension Elasticloadbalancing {
 
     public struct DeleteListenerOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -820,7 +820,7 @@ extension Elasticloadbalancing {
 
     public struct AddTagsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -830,7 +830,7 @@ extension Elasticloadbalancing {
 
     public struct RulePriorityPair: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The rule priority.
         public var priority: Int32? = nil
         /// The Amazon Resource Name (ARN) of the rule.
@@ -851,7 +851,7 @@ extension Elasticloadbalancing {
 
     public struct ModifyRuleOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the rule.
         public var rules: [Rule]? = nil
 
@@ -870,7 +870,7 @@ extension Elasticloadbalancing {
 
     public struct DescribeSSLPoliciesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the policies.
         public var sslPolicies: [SslPolicy]? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -893,7 +893,7 @@ extension Elasticloadbalancing {
 
     public struct SslPolicy: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The protocols.
         public var sslProtocols: [String]? = nil
         /// The ciphers.
@@ -922,7 +922,7 @@ extension Elasticloadbalancing {
 
     public struct CreateTargetGroupOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the target group.
         public var targetGroups: [TargetGroup]? = nil
 
@@ -941,7 +941,7 @@ extension Elasticloadbalancing {
 
     public struct ModifyLoadBalancerAttributesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the load balancer attributes.
         public var attributes: [LoadBalancerAttribute]? = nil
 
@@ -960,7 +960,7 @@ extension Elasticloadbalancing {
 
     public struct LoadBalancer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Availability Zones for the load balancer.
         public var availabilityZones: [AvailabilityZone]? = nil
         /// The IDs of the security groups for the load balancer.
@@ -1025,7 +1025,7 @@ extension Elasticloadbalancing {
 
     public struct SetSecurityGroupsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of the security groups associated with the load balancer.
         public var securityGroupIds: [String]? = nil
 
@@ -1044,7 +1044,7 @@ extension Elasticloadbalancing {
 
     public struct DescribeTargetGroupsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of results to return with this call.
         public var pageSize: Int32? = nil
         /// The Amazon Resource Names (ARN) of the target groups.
@@ -1081,7 +1081,7 @@ extension Elasticloadbalancing {
 
     public struct DescribeTargetGroupsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the target groups.
         public var targetGroups: [TargetGroup]? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -1104,7 +1104,7 @@ extension Elasticloadbalancing {
 
     public struct Certificate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the certificate.
         public var certificateArn: String? = nil
 
@@ -1121,7 +1121,7 @@ extension Elasticloadbalancing {
 
     public struct AvailabilityZone: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the Availability Zone.
         public var zoneName: String? = nil
         /// The ID of the subnet.
@@ -1142,7 +1142,7 @@ extension Elasticloadbalancing {
 
     public struct RegisterTargetsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The targets. The default port for a target is the port for the target group. You can specify a port override. If a target is already registered, you can register it again using a different port.
         public var targets: [TargetDescription] = []
         /// The Amazon Resource Name (ARN) of the target group.
@@ -1165,7 +1165,7 @@ extension Elasticloadbalancing {
 
     public struct DeleteTargetGroupInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the target group.
         public var targetGroupArn: String = ""
 
@@ -1183,7 +1183,7 @@ extension Elasticloadbalancing {
 
     public struct CreateRuleInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The priority for the rule. A listener can't have multiple rules with the same priority.
         public var priority: Int32 = 0
         /// An action. Each action has the type forward and specifies a target group.
@@ -1216,7 +1216,7 @@ extension Elasticloadbalancing {
 
     public struct TargetHealth: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The reason code. If the target state is healthy, a reason code is not provided. If the target state is initial, the reason code can be one of the following values:    Elb.RegistrationInProgress - The target is in the process of being registered with the load balancer.    Elb.InitialHealthChecking - The load balancer is still sending the target the minimum number of health checks required to determine its health status.   If the target state is unhealthy, the reason code can be one of the following values:    Target.ResponseCodeMismatch - The health checks did not return an expected HTTP code.    Target.Timeout - The health check requests timed out.    Target.FailedHealthChecks - The health checks failed because the connection to the target timed out, the target response was malformed, or the target failed the health check for an unknown reason.    Elb.InternalError - The health checks failed due to an internal error.   If the target state is unused, the reason code can be one of the following values:    Target.NotRegistered - The target is not registered with the target group.    Target.NotInUse - The target group is not used by any load balancer or the target is in an Availability Zone that is not enabled for its load balancer.    Target.InvalidState - The target is in the stopped or terminated state.   If the target state is draining, the reason code can be the following value:    Target.DeregistrationInProgress - The target is in the process of being deregistered and the deregistration delay period has not expired.  
         public var reason: String? = nil
         /// The state of the target.
@@ -1241,7 +1241,7 @@ extension Elasticloadbalancing {
 
     public struct ModifyListenerInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The protocol for connections from clients to the load balancer.
         public var `protocol`: String? = nil
         /// The security policy that defines which ciphers and protocols are supported.
@@ -1283,7 +1283,7 @@ extension Elasticloadbalancing {
 
     public struct SetSubnetsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of the subnets. You must specify at least two subnets. You can add only one subnet per Availability Zone.
         public var subnets: [String] = []
         /// The Amazon Resource Name (ARN) of the load balancer.
@@ -1306,7 +1306,7 @@ extension Elasticloadbalancing {
 
     public struct DeleteRuleOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1316,7 +1316,7 @@ extension Elasticloadbalancing {
 
     public struct DescribeTargetHealthInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The targets.
         public var targets: [TargetDescription]? = nil
         /// The Amazon Resource Name (ARN) of the target group.
@@ -1340,7 +1340,7 @@ extension Elasticloadbalancing {
 
     public struct Cipher: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The priority of the cipher.
         public var priority: Int32? = nil
         /// The name of the cipher.
@@ -1361,7 +1361,7 @@ extension Elasticloadbalancing {
 
     public struct TargetGroupAttribute: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the attribute.
         public var value: String? = nil
         /// The name of the attribute.    deregistration_delay.timeout_seconds - The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false.    stickiness.type - The type of sticky sessions. The possible value is lb_cookie.    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).  
@@ -1382,7 +1382,7 @@ extension Elasticloadbalancing {
 
     public struct SetRulePrioritiesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The rule priorities.
         public var rulePriorities: [RulePriorityPair] = []
 
@@ -1400,7 +1400,7 @@ extension Elasticloadbalancing {
 
     public struct Matcher: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The HTTP codes. The default value is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299").
         public var httpCode: String = ""
 
@@ -1418,7 +1418,7 @@ extension Elasticloadbalancing {
 
     public struct DeleteRuleInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the rule.
         public var ruleArn: String = ""
 
@@ -1436,7 +1436,7 @@ extension Elasticloadbalancing {
 
     public struct DescribeSSLPoliciesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public var marker: String? = nil
         /// The maximum number of results to return with this call.
@@ -1463,7 +1463,7 @@ extension Elasticloadbalancing {
 
     public struct DescribeTagsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Names (ARN) of the resources.
         public var resourceArns: [String] = []
 
@@ -1481,7 +1481,7 @@ extension Elasticloadbalancing {
 
     public struct DescribeLoadBalancerAttributesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the load balancer attributes.
         public var attributes: [LoadBalancerAttribute]? = nil
 
@@ -1500,7 +1500,7 @@ extension Elasticloadbalancing {
 
     public struct DescribeTargetGroupAttributesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the target group attributes
         public var attributes: [TargetGroupAttribute]? = nil
 
@@ -1519,7 +1519,7 @@ extension Elasticloadbalancing {
 
     public struct DescribeLoadBalancersInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of results to return with this call.
         public var pageSize: Int32? = nil
         /// The Amazon Resource Names (ARN) of the load balancers.
@@ -1552,7 +1552,7 @@ extension Elasticloadbalancing {
 
     public struct RemoveTagsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1562,7 +1562,7 @@ extension Elasticloadbalancing {
 
     public struct SetRulePrioritiesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the rules.
         public var rules: [Rule]? = nil
 
@@ -1581,7 +1581,7 @@ extension Elasticloadbalancing {
 
     public struct ModifyRuleInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The actions.
         public var actions: [Action]? = nil
         /// The conditions.
@@ -1611,7 +1611,7 @@ extension Elasticloadbalancing {
 
     public struct DeregisterTargetsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1621,7 +1621,7 @@ extension Elasticloadbalancing {
 
     public struct TargetDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The port on which the target is listening.
         public var port: Int32? = nil
         /// The ID of the target.
@@ -1643,7 +1643,7 @@ extension Elasticloadbalancing {
 
     public struct DescribeListenersOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the listeners.
         public var listeners: [Listener]? = nil
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -1666,7 +1666,7 @@ extension Elasticloadbalancing {
 
     public struct AddTagsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the resource.
         public var resourceArns: [String] = []
         /// The tags. Each resource can have a maximum of 10 tags.
@@ -1689,7 +1689,7 @@ extension Elasticloadbalancing {
 
     public struct DescribeRulesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Names (ARN) of the rules.
         public var ruleArns: [String]? = nil
         /// The Amazon Resource Name (ARN) of the listener.
@@ -1712,7 +1712,7 @@ extension Elasticloadbalancing {
 
     public struct DescribeTargetHealthOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the health of the targets.
         public var targetHealthDescriptions: [TargetHealthDescription]? = nil
 
@@ -1731,7 +1731,7 @@ extension Elasticloadbalancing {
 
     public struct ModifyListenerOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the modified listeners.
         public var listeners: [Listener]? = nil
 
@@ -1750,7 +1750,7 @@ extension Elasticloadbalancing {
 
     public struct SetSubnetsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the subnet and Availability Zone.
         public var availabilityZones: [AvailabilityZone]? = nil
 
@@ -1769,7 +1769,7 @@ extension Elasticloadbalancing {
 
     public struct SetIpAddressTypeInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the load balancer.
         public var loadBalancerArn: String = ""
         /// The IP address type. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
@@ -1792,7 +1792,7 @@ extension Elasticloadbalancing {
 
     public struct CreateTargetGroupInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of consecutive health check failures required before considering a target unhealthy. The default is 2.
         public var unhealthyThresholdCount: Int32? = nil
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy. The default is 5.
@@ -1857,7 +1857,7 @@ extension Elasticloadbalancing {
 
     public struct DeleteTargetGroupOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1867,7 +1867,7 @@ extension Elasticloadbalancing {
 
     public struct DeleteLoadBalancerInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the load balancer.
         public var loadBalancerArn: String = ""
 
@@ -1885,7 +1885,7 @@ extension Elasticloadbalancing {
 
     public struct ModifyTargetGroupOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the target group.
         public var targetGroups: [TargetGroup]? = nil
 
@@ -1904,7 +1904,7 @@ extension Elasticloadbalancing {
 
     public struct CreateLoadBalancerOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the load balancer.
         public var loadBalancers: [LoadBalancer]? = nil
 
@@ -1923,7 +1923,7 @@ extension Elasticloadbalancing {
 
     public struct RemoveTagsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the resource.
         public var resourceArns: [String] = []
         /// The tag keys for the tags to remove.

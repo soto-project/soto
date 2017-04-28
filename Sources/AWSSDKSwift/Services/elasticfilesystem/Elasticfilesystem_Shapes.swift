@@ -31,7 +31,7 @@ extension Elasticfilesystem {
 
     public struct DescribeFileSystemsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Array of file system descriptions.
         public var fileSystems: [FileSystemDescription]? = nil
         /// Present if provided by caller in the request (String).
@@ -58,7 +58,7 @@ extension Elasticfilesystem {
 
     public struct DescribeTagsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If the request included a Marker, the response returns that value in this field.
         public var marker: String? = nil
         /// Returns tags associated with the file system as an array of Tag objects. 
@@ -84,8 +84,8 @@ extension Elasticfilesystem {
 
     public struct CreateTagsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["FileSystemId": "FileSystemId"]
         }
         /// ID of the file system whose tags you want to modify (String). This operation modifies the tags only, not the file system.
@@ -110,8 +110,8 @@ extension Elasticfilesystem {
 
     public struct DescribeMountTargetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["MaxItems": "MaxItems", "FileSystemId": "FileSystemId", "Marker": "Marker", "MountTargetId": "MountTargetId"]
         }
         /// (Optional) Maximum number of mount targets to return in the response. It must be an integer with a value greater than zero.
@@ -142,8 +142,8 @@ extension Elasticfilesystem {
 
     public struct DescribeFileSystemsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["MaxItems": "MaxItems", "FileSystemId": "FileSystemId", "Marker": "Marker", "CreationToken": "CreationToken"]
         }
         /// (Optional) Specifies the maximum number of file systems to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon EFS returns is the minimum of the MaxItems parameter specified in the request and the service's internal maximum number of items per page. 
@@ -174,7 +174,7 @@ extension Elasticfilesystem {
 
     public struct DescribeMountTargetSecurityGroupsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Array of security groups.
         public var securityGroups: [String] = []
 
@@ -192,8 +192,8 @@ extension Elasticfilesystem {
 
     public struct DeleteTagsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["FileSystemId": "FileSystemId"]
         }
         /// ID of the file system whose tags you want to delete (String).
@@ -218,11 +218,11 @@ extension Elasticfilesystem {
 
     public struct DescribeTagsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["Marker": "Marker", "MaxItems": "MaxItems"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["FileSystemId": "FileSystemId"]
         }
         /// (Optional) Opaque pagination token returned from a previous DescribeTags operation (String). If present, it specifies to continue the list from where the previous call left off.
@@ -250,8 +250,8 @@ extension Elasticfilesystem {
 
     public struct ModifyMountTargetSecurityGroupsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["MountTargetId": "MountTargetId"]
         }
         /// ID of the mount target whose security groups you want to modify.
@@ -277,7 +277,7 @@ extension Elasticfilesystem {
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Value of the tag key.
         public var value: String = ""
         /// Tag key (String). The key can't start with aws:.
@@ -300,7 +300,7 @@ extension Elasticfilesystem {
 
     public struct DescribeMountTargetsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If the request included the Marker, the response returns that value in this field.
         public var marker: String? = nil
         /// Returns the file system's mount targets as an array of MountTargetDescription objects.
@@ -327,8 +327,8 @@ extension Elasticfilesystem {
 
     public struct DeleteMountTargetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["MountTargetId": "MountTargetId"]
         }
         /// ID of the mount target to delete (String).
@@ -348,8 +348,8 @@ extension Elasticfilesystem {
 
     public struct DeleteFileSystemRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["FileSystemId": "FileSystemId"]
         }
         /// ID of the file system you want to delete.
@@ -369,7 +369,7 @@ extension Elasticfilesystem {
 
     public struct CreateFileSystemRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The PerformanceMode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. This can't be changed after the file system has been created.
         public var performanceMode: String? = nil
         /// String of up to 64 ASCII characters. Amazon EFS uses this to ensure idempotent creation.
@@ -391,7 +391,7 @@ extension Elasticfilesystem {
 
     public struct FileSystemSize: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Latest known metered size (in bytes) of data stored in the file system.
         public var value: Int64 = 0
         /// Time at which the size of data, returned in the Value field, was determined. The value is the integer number of seconds since 1970-01-01T00:00:00Z.
@@ -413,8 +413,8 @@ extension Elasticfilesystem {
 
     public struct DescribeMountTargetSecurityGroupsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["MountTargetId": "MountTargetId"]
         }
         /// ID of the mount target whose security groups you want to retrieve.
@@ -434,7 +434,7 @@ extension Elasticfilesystem {
 
     public struct CreateMountTargetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Up to five VPC security group IDs, of the form sg-xxxxxxxx. These must be for the same VPC as subnet specified.
         public var securityGroups: [String]? = nil
         /// ID of the file system for which to create the mount target.
@@ -467,7 +467,7 @@ extension Elasticfilesystem {
 
     public struct FileSystemDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// You can add tags to a file system, including a Name tag. For more information, see CreateTags. If the file system has a Name tag, Amazon EFS returns the value in this field. 
         public var name: String? = nil
         /// Opaque string specified in the request.
@@ -524,7 +524,7 @@ extension Elasticfilesystem {
 
     public struct MountTargetDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// ID of the mount target's subnet.
         public var subnetId: String = ""
         /// ID of the network interface that Amazon EFS created when it created the mount target.

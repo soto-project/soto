@@ -31,7 +31,7 @@ extension Cur {
 
     public struct DescribeReportDefinitionsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var nextToken: String? = nil
         public var reportDefinitions: [ReportDefinition]? = nil
 
@@ -52,7 +52,7 @@ extension Cur {
 
     public struct DeleteReportDefinitionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var responseMessage: String? = nil
 
         public init() {}
@@ -68,7 +68,7 @@ extension Cur {
 
     public struct PutReportDefinitionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -78,7 +78,7 @@ extension Cur {
 
     public struct ReportDefinition: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var timeUnit: String = ""
         public var format: String = ""
         public var compression: String = ""
@@ -128,7 +128,7 @@ extension Cur {
 
     public struct PutReportDefinitionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var reportDefinition: ReportDefinition = ReportDefinition()
 
         public init() {}
@@ -145,7 +145,7 @@ extension Cur {
 
     public struct DescribeReportDefinitionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var nextToken: String? = nil
         public var maxResults: Int32? = nil
 
@@ -164,7 +164,7 @@ extension Cur {
 
     public struct DeleteReportDefinitionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var reportName: String? = nil
 
         public init() {}

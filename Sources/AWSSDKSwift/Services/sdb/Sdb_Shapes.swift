@@ -31,7 +31,7 @@ extension Sdb {
 
     public struct ReplaceableAttribute: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the replaceable attribute.
         public var value: String = ""
         /// The name of the replaceable attribute.
@@ -58,7 +58,7 @@ extension Sdb {
 
     public struct GetAttributesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
         public var consistentRead: Bool? = nil
         /// The name of the item.
@@ -91,7 +91,7 @@ extension Sdb {
 
     public struct ListDomainsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of domain names you want returned. The range is 1 to 100. The default setting is 100.
         public var maxNumberOfDomains: Int32? = nil
         /// A string informing Amazon SimpleDB where to start the next list of domain names.
@@ -112,7 +112,7 @@ extension Sdb {
 
     public struct GetAttributesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of attributes returned by the operation.
         public var attributes: [Attribute]? = nil
 
@@ -131,7 +131,7 @@ extension Sdb {
 
     public struct SelectRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
         public var consistentRead: Bool? = nil
         /// A string informing Amazon SimpleDB where to start the next list of ItemNames.
@@ -157,7 +157,7 @@ extension Sdb {
 
     public struct BatchDeleteAttributesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of items on which to perform the operation.
         public var items: [DeletableItem] = []
         /// The name of the domain in which the attributes are being deleted.
@@ -180,7 +180,7 @@ extension Sdb {
 
     public struct DomainMetadataResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The data and time when metadata was calculated, in Epoch (UNIX) seconds.
         public var timestamp: Int32? = nil
         /// The total size of all unique attribute names in the domain, in bytes.
@@ -221,7 +221,7 @@ extension Sdb {
 
     public struct Item: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var alternateNameEncoding: String? = nil
         /// The name of the item.
         public var name: String = ""
@@ -247,7 +247,7 @@ extension Sdb {
 
     public struct Attribute: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var alternateNameEncoding: String? = nil
         public var alternateValueEncoding: String? = nil
         /// The name of the attribute.
@@ -276,7 +276,7 @@ extension Sdb {
 
     public struct DomainMetadataRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the domain for which to display the metadata of.
         public var domainName: String = ""
 
@@ -294,7 +294,7 @@ extension Sdb {
 
     public struct DeleteDomainRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the domain to delete.
         public var domainName: String = ""
 
@@ -312,7 +312,7 @@ extension Sdb {
 
     public struct BatchPutAttributesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of items on which to perform the operation.
         public var items: [ReplaceableItem] = []
         /// The name of the domain in which the attributes are being stored.
@@ -335,7 +335,7 @@ extension Sdb {
 
     public struct ReplaceableItem: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the replaceable item.
         public var name: String = ""
         /// The list of attributes for a replaceable item.
@@ -358,7 +358,7 @@ extension Sdb {
 
     public struct DeletableItem: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var name: String = ""
         public var attributes: [DeletableAttribute]? = nil
 
@@ -380,7 +380,7 @@ extension Sdb {
 
     public struct UpdateCondition: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of an attribute. This value can only be specified when the Exists parameter is equal to true.
         public var value: String? = nil
         /// The name of the attribute involved in the condition.
@@ -405,7 +405,7 @@ extension Sdb {
 
     public struct PutAttributesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the item.
         public var itemName: String = ""
         /// The list of attributes.
@@ -437,7 +437,7 @@ extension Sdb {
 
     public struct DeletableAttribute: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the attribute.
         public var value: String? = nil
         /// The name of the attribute.
@@ -459,7 +459,7 @@ extension Sdb {
 
     public struct DeleteAttributesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the item. Similar to rows on a spreadsheet, items represent individual objects that contain one or more value-attribute pairs.
         public var itemName: String = ""
         /// A list of Attributes. Similar to columns on a spreadsheet, attributes represent categories of data that can be assigned to items.
@@ -492,7 +492,7 @@ extension Sdb {
 
     public struct ListDomainsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An opaque token indicating that there are more domains than the specified MaxNumberOfDomains still available.
         public var nextToken: String? = nil
         /// A list of domain names that match the expression.
@@ -515,7 +515,7 @@ extension Sdb {
 
     public struct SelectResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of items that match the select expression.
         public var items: [Item]? = nil
         /// An opaque token indicating that more items than MaxNumberOfItems were matched, the response size exceeded 1 megabyte, or the execution time exceeded 5 seconds.
@@ -538,7 +538,7 @@ extension Sdb {
 
     public struct CreateDomainRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the domain to create. The name can range between 3 and 255 characters and can contain the following characters: a-z, A-Z, 0-9, '_', '-', and '.'.
         public var domainName: String = ""
 

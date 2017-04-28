@@ -31,7 +31,7 @@ extension CognitoIdentity {
 
     public struct MappingRule: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The claim name that must be present in the token, for example, "isAdmin" or "paid".
         public var claim: String = ""
         /// The match condition that specifies how closely the claim value in the IdP token must match Value.
@@ -64,7 +64,7 @@ extension CognitoIdentity {
 
     public struct CreateIdentityPoolInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of OpendID Connect provider ARNs.
         public var openIdConnectProviderARNs: [String]? = nil
         /// An array of Amazon Cognito Identity user pools and their client IDs.
@@ -115,7 +115,7 @@ extension CognitoIdentity {
 
     public struct ListIdentityPoolsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A pagination token.
         public var nextToken: String? = nil
         /// The maximum number of identities to return.
@@ -137,7 +137,7 @@ extension CognitoIdentity {
 
     public struct Credentials: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Secret Access Key portion of the credentials
         public var secretKey: String? = nil
         /// The Access Key portion of the credentials.
@@ -166,7 +166,7 @@ extension CognitoIdentity {
 
     public struct GetCredentialsForIdentityInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the role to be assumed when multiple roles were received in the token from the identity provider. For example, a SAML-based identity provider. This parameter is optional for identity providers that do not support role customization.
         public var customRoleArn: String? = nil
         /// A set of optional name-value pairs that map provider names to provider tokens.
@@ -194,7 +194,7 @@ extension CognitoIdentity {
 
     public struct LookupDeveloperIdentityInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique ID used by your backend authentication process to identify a user. Typically, a developer identity provider would issue many developer user identifiers, in keeping with the number of users.
         public var developerUserIdentifier: String? = nil
         /// A unique identifier in the format REGION:GUID.
@@ -228,7 +228,7 @@ extension CognitoIdentity {
 
     public struct RulesConfigurationType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of rules. You can specify up to 25 rules per identity provider. Rules are evaluated in order. The first one to match specifies the role.
         public var rules: [MappingRule] = []
 
@@ -246,7 +246,7 @@ extension CognitoIdentity {
 
     public struct IdentityPool: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of OpendID Connect provider ARNs.
         public var openIdConnectProviderARNs: [String]? = nil
         /// A list representing an Amazon Cognito Identity User Pool and its client ID.
@@ -302,7 +302,7 @@ extension CognitoIdentity {
 
     public struct IdentityPoolShortDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An identity pool ID in the format REGION:GUID.
         public var identityPoolId: String? = nil
         /// A string that you provide.
@@ -323,7 +323,7 @@ extension CognitoIdentity {
 
     public struct ListIdentitiesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An optional boolean parameter that allows you to hide disabled identities. If omitted, the ListIdentities API will include disabled identities in the response.
         public var hideDisabled: Bool? = nil
         /// An identity pool ID in the format REGION:GUID.
@@ -354,7 +354,7 @@ extension CognitoIdentity {
 
     public struct DeleteIdentityPoolInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An identity pool ID in the format REGION:GUID.
         public var identityPoolId: String = ""
 
@@ -372,7 +372,7 @@ extension CognitoIdentity {
 
     public struct GetCredentialsForIdentityResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Credentials for the provided identity ID.
         public var credentials: Credentials? = nil
         /// A unique identifier in the format REGION:GUID.
@@ -393,7 +393,7 @@ extension CognitoIdentity {
 
     public struct MergeDeveloperIdentitiesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// User identifier for the destination user. The value should be a DeveloperUserIdentifier.
         public var destinationUserIdentifier: String = ""
         /// An identity pool ID in the format REGION:GUID.
@@ -426,7 +426,7 @@ extension CognitoIdentity {
 
     public struct DeleteIdentitiesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of UnprocessedIdentityId objects, each of which contains an ErrorCode and IdentityId.
         public var unprocessedIdentityIds: [UnprocessedIdentityId]? = nil
 
@@ -445,7 +445,7 @@ extension CognitoIdentity {
 
     public struct GetOpenIdTokenForDeveloperIdentityInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The expiration time of the token, in seconds. You can specify a custom expiration time for the token so that you can cache it. If you don't provide an expiration time, the token is valid for 15 minutes. You can exchange the token with Amazon STS for temporary AWS credentials, which are valid for a maximum of one hour. The maximum token duration you can set is 24 hours. You should take care in setting the expiration time for a token, as there are significant security implications: an attacker could use a leaked token to access your AWS resources for the token's duration.
         public var tokenDuration: Int64? = nil
         /// A unique identifier in the format REGION:GUID.
@@ -476,7 +476,7 @@ extension CognitoIdentity {
 
     public struct GetOpenIdTokenInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com, an Amazon Cognito Identity Provider, or any other OpenId Connect provider, always include the id_token.
         public var logins: [String: String]? = nil
         /// A unique identifier in the format REGION:GUID.
@@ -500,7 +500,7 @@ extension CognitoIdentity {
 
     public struct DeleteIdentitiesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of 1-60 identities that you want to delete.
         public var identityIdsToDelete: [String] = []
 
@@ -518,7 +518,7 @@ extension CognitoIdentity {
 
     public struct GetIdInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A standard AWS account ID (9+ digits).
         public var accountId: String? = nil
         /// An identity pool ID in the format REGION:GUID.
@@ -546,7 +546,7 @@ extension CognitoIdentity {
 
     public struct ListIdentityPoolsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identity pools returned by the ListIdentityPools action.
         public var identityPools: [IdentityPoolShortDescription]? = nil
         /// A pagination token.
@@ -569,7 +569,7 @@ extension CognitoIdentity {
 
     public struct GetIdentityPoolRolesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An identity pool ID in the format REGION:GUID.
         public var identityPoolId: String? = nil
         /// How users for a specific identity provider are to mapped to roles. This is a String-to-RoleMapping object map. The string identifies the identity provider, for example, "graph.facebook.com" or "cognito-idp-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id".
@@ -603,7 +603,7 @@ extension CognitoIdentity {
 
     public struct GetOpenIdTokenForDeveloperIdentityResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An OpenID token.
         public var token: String? = nil
         /// A unique identifier in the format REGION:GUID.
@@ -624,7 +624,7 @@ extension CognitoIdentity {
 
     public struct DescribeIdentityPoolInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An identity pool ID in the format REGION:GUID.
         public var identityPoolId: String = ""
 
@@ -642,7 +642,7 @@ extension CognitoIdentity {
 
     public struct GetIdentityPoolRolesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An identity pool ID in the format REGION:GUID.
         public var identityPoolId: String = ""
 
@@ -660,7 +660,7 @@ extension CognitoIdentity {
 
     public struct UnlinkDeveloperIdentityInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique ID used by your backend authentication process to identify a user.
         public var developerUserIdentifier: String = ""
         /// A unique identifier in the format REGION:GUID.
@@ -693,7 +693,7 @@ extension CognitoIdentity {
 
     public struct GetIdResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique identifier in the format REGION:GUID.
         public var identityId: String? = nil
 
@@ -710,7 +710,7 @@ extension CognitoIdentity {
 
     public struct IdentityDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Date on which the identity was last modified.
         public var lastModifiedDate: Date? = nil
         /// Date on which the identity was created.
@@ -741,7 +741,7 @@ extension CognitoIdentity {
 
     public struct SetIdentityPoolRolesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An identity pool ID in the format REGION:GUID.
         public var identityPoolId: String = ""
         /// How users for a specific identity provider are to mapped to roles. This is a string to RoleMapping object map. The string identifies the identity provider, for example, "graph.facebook.com" or "cognito-idp-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id". Up to 25 rules can be specified per identity provider.
@@ -775,7 +775,7 @@ extension CognitoIdentity {
 
     public struct UnlinkIdentityInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A set of optional name-value pairs that map provider names to provider tokens.
         public var logins: [String: String] = [:]
         /// Provider names to unlink from this identity.
@@ -803,7 +803,7 @@ extension CognitoIdentity {
 
     public struct GetOpenIdTokenResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An OpenID token, valid for 15 minutes.
         public var token: String? = nil
         /// A unique identifier in the format REGION:GUID. Note that the IdentityId returned may not match the one passed on input.
@@ -824,7 +824,7 @@ extension CognitoIdentity {
 
     public struct CognitoIdentityProvider: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// TRUE if server-side token validation is enabled for the identity provider’s token.
         public var serverSideTokenCheck: Bool? = nil
         /// The provider name for an Amazon Cognito Identity User Pool. For example, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789.
@@ -849,7 +849,7 @@ extension CognitoIdentity {
 
     public struct ListIdentitiesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An identity pool ID in the format REGION:GUID.
         public var identityPoolId: String? = nil
         /// An object containing a set of identities and associated mappings.
@@ -876,7 +876,7 @@ extension CognitoIdentity {
 
     public struct LookupDeveloperIdentityResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// This is the list of developer user identifiers associated with an identity ID. Cognito supports the association of multiple developer user identifiers with an identity ID.
         public var developerUserIdentifierList: [String]? = nil
         /// A pagination token. The first call you make will have NextToken set to null. After that the service will return NextToken values as needed. For example, let's say you make a request with MaxResults set to 10, and there are 20 matches in the database. The service will return a pagination token as a part of the response. This token can be used to call the API again and get results starting from the 11th match.
@@ -903,7 +903,7 @@ extension CognitoIdentity {
 
     public struct UnprocessedIdentityId: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The error code indicating the type of error that occurred.
         public var errorCode: String? = nil
         /// A unique identifier in the format REGION:GUID.
@@ -924,7 +924,7 @@ extension CognitoIdentity {
 
     public struct MergeDeveloperIdentitiesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique identifier in the format REGION:GUID.
         public var identityId: String? = nil
 
@@ -941,7 +941,7 @@ extension CognitoIdentity {
 
     public struct RoleMapping: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The role mapping type. Token will use cognito:roles and cognito:preferred_role claims from the Cognito identity provider token to map groups to roles. Rules will attempt to match claims from the token to map to a role.
         public var type: String = ""
         /// The rules to be used for mapping users to roles. If you specify Rules as the role mapping type, RulesConfiguration is required.
@@ -967,7 +967,7 @@ extension CognitoIdentity {
 
     public struct DescribeIdentityInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique identifier in the format REGION:GUID.
         public var identityId: String = ""
 

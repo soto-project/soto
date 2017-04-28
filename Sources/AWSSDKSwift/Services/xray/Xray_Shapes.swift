@@ -31,7 +31,7 @@ extension Xray {
 
     public struct BatchGetTracesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Pagination token. Not used.
         public var nextToken: String? = nil
         /// Full traces for the specified requests.
@@ -60,7 +60,7 @@ extension Xray {
 
     public struct EdgeStatistics: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The aggregate response time of completed requests.
         public var totalResponseTime: Double? = nil
         /// Information about requests that failed with a 5xx Server Error status code.
@@ -93,7 +93,7 @@ extension Xray {
 
     public struct Segment: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The segment document.
         public var document: String? = nil
         /// The segment's ID.
@@ -114,7 +114,7 @@ extension Xray {
 
     public struct Alias: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of the alias.
         public var type: String? = nil
         /// The canonical name of the alias.
@@ -141,7 +141,7 @@ extension Xray {
 
     public struct ValueWithServiceIds: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Services to which the annotation applies.
         public var serviceIds: [ServiceId]? = nil
         /// Values of the annotation.
@@ -164,7 +164,7 @@ extension Xray {
 
     public struct HistogramEntry: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the entry.
         public var value: Double? = nil
         /// The prevalence of the entry.
@@ -185,7 +185,7 @@ extension Xray {
 
     public struct UnprocessedTraceSegment: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The segment's ID.
         public var id: String? = nil
         /// The error that caused processing to fail.
@@ -210,7 +210,7 @@ extension Xray {
 
     public struct GetTraceSummariesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of traces that were processed to get this set of summaries.
         public var tracesProcessedCount: Int64? = nil
         /// Trace IDs and metadata for traces that were found in the specified time frame.
@@ -241,7 +241,7 @@ extension Xray {
 
     public struct Edge: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The start time of the first segment on the edge.
         public var startTime: Date? = nil
         /// Response statistics for segments on the edge.
@@ -282,7 +282,7 @@ extension Xray {
 
     public struct ErrorStatistics: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The total number of requests that failed with a 4xx Client Error status code.
         public var totalCount: Int64? = nil
         /// The number of requests that failed with untracked 4xx Client Error status codes.
@@ -307,7 +307,7 @@ extension Xray {
 
     public struct GetServiceGraphRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The end of the time frame for which to generate a graph.
         public var endTime: Date = Date()
         /// Pagination token. Not used.
@@ -334,7 +334,7 @@ extension Xray {
 
     public struct PutTraceSegmentsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Segments that failed processing.
         public var unprocessedTraceSegments: [UnprocessedTraceSegment]? = nil
 
@@ -353,7 +353,7 @@ extension Xray {
 
     public struct AnnotationValue: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Value for a Boolean annotation.
         public var booleanValue: Bool? = nil
         /// Value for a String annotation.
@@ -378,7 +378,7 @@ extension Xray {
 
     public struct GetServiceGraphResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The start of the time frame for which the graph was generated.
         public var startTime: Date? = nil
         /// The end of the time frame for which the graph was generated.
@@ -409,7 +409,7 @@ extension Xray {
 
     public struct TraceUser: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Services that the user's request hit.
         public var serviceIds: [ServiceId]? = nil
         /// The user's name.
@@ -432,7 +432,7 @@ extension Xray {
 
     public struct FaultStatistics: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The total number of requests that failed with a 5xx Server Error status code.
         public var totalCount: Int64? = nil
         /// The number of requests that failed with untracked 5xx Server Error status codes.
@@ -453,7 +453,7 @@ extension Xray {
 
     public struct Http: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IP address of the requestor.
         public var clientIp: String? = nil
         /// The request URL.
@@ -486,7 +486,7 @@ extension Xray {
 
     public struct ServiceStatistics: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The aggregate response time of completed requests.
         public var totalResponseTime: Double? = nil
         /// Information about requests that failed with a 5xx Server Error status code.
@@ -519,7 +519,7 @@ extension Xray {
 
     public struct GetTraceGraphRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Trace IDs of requests for which to generate a service graph.
         public var traceIds: [String] = []
         /// Pagination token. Not used.
@@ -541,7 +541,7 @@ extension Xray {
 
     public struct GetTraceGraphResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The services that have processed one of the specified requests.
         public var services: [Service]? = nil
         /// Pagination token. Not used.
@@ -564,7 +564,7 @@ extension Xray {
 
     public struct Trace: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Segment documents for the segments and subsegments that comprise the trace.
         public var segments: [Segment]? = nil
         /// The length of time in seconds between the start time of the root segment and the end time of the last segment that completed.
@@ -591,7 +591,7 @@ extension Xray {
 
     public struct PutTraceSegmentsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A JSON document defining one or more segments or subsegments. Segments must include the following fields.  Required Segment Document Fields     name - The name of the service that handled the request.    id - A 64-bit identifier for the segment, unique among segments in the same trace, in 16 hexadecimal digits.    trace_id - A unique identifier that connects all segments and subsegments originating from a single client request.    start_time - Time the segment or subsegment was created, in floating point seconds in epoch time, accurate to milliseconds. For example, 1480615200.010 or 1.480615200010E9.    end_time - Time the segment or subsegment was closed. For example, 1480615200.090 or 1.480615200090E9. Specify either an end_time or in_progress.    in_progress - Set to true instead of specifying an end_time to record that a segment has been started, but is not complete. Send an in progress segment when your application receives a request that will take a long time to serve, to trace the fact that the request was received. When the response is sent, send the complete segment to overwrite the in-progress segment.   A trace_id consists of three numbers separated by hyphens. For example, 1-58406520-a006649127e371903a2de979. This includes:  Trace ID Format    The version number, i.e. 1.   The time of the original request, in Unix epoch time, in 8 hexadecimal digits. For example, 10:00AM December 2nd, 2016 PST in epoch time is 1480615200 seconds, or 58406520 in hexadecimal.   A 96-bit identifier for the trace, globally unique, in 24 hexadecimal digits.  
         public var traceSegmentDocuments: [String] = []
 
@@ -609,7 +609,7 @@ extension Xray {
 
     public struct GetTraceSummariesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The start of the time frame for which to retrieve traces.
         public var startTime: Date = Date()
         /// The end of the time frame for which to retrieve traces.
@@ -644,7 +644,7 @@ extension Xray {
 
     public struct PutTelemetryRecordsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -654,7 +654,7 @@ extension Xray {
 
     public struct PutTelemetryRecordsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var eC2InstanceId: String? = nil
         public var hostname: String? = nil
         public var telemetryRecords: [TelemetryRecord] = []
@@ -680,7 +680,7 @@ extension Xray {
 
     public struct Service: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The start time of the first segment that the service generated.
         public var startTime: Date? = nil
         /// Aggregated statistics for the service.
@@ -747,7 +747,7 @@ extension Xray {
 
     public struct ServiceId: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var accountId: String? = nil
         public var names: [String]? = nil
         public var type: String? = nil
@@ -774,7 +774,7 @@ extension Xray {
 
     public struct BackendConnectionErrors: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var connectionRefusedCount: Int32? = nil
         public var timeoutCount: Int32? = nil
         public var unknownHostCount: Int32? = nil
@@ -805,7 +805,7 @@ extension Xray {
 
     public struct TelemetryRecord: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var segmentsRejectedCount: Int32? = nil
         public var timestamp: Date? = nil
         public var segmentsReceivedCount: Int32? = nil
@@ -836,7 +836,7 @@ extension Xray {
 
     public struct BatchGetTracesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specify the trace IDs of requests for which to retrieve segments.
         public var traceIds: [String] = []
         /// Pagination token. Not used.
@@ -858,7 +858,7 @@ extension Xray {
 
     public struct TraceSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more of the segment documents is in progress.
         public var isPartial: Bool? = nil
         /// Service IDs from the trace's segment documents.

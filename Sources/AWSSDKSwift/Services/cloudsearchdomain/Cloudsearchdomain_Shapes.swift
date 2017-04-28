@@ -31,7 +31,7 @@ extension Cloudsearchdomain {
 
     public struct Bucket: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The facet value being counted.
         public var value: String? = nil
         /// The number of hits that contain the facet value in the specified facet field.
@@ -52,7 +52,7 @@ extension Cloudsearchdomain {
 
     public struct SuggestResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of a SuggestRequest. Contains the resource ID (rid) and how long it took to process the request (timems).
         public var status: SuggestStatus? = nil
         /// Container for the matching search suggestion information.
@@ -73,7 +73,7 @@ extension Cloudsearchdomain {
 
     public struct FieldStats: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The standard deviation of the values in the specified field in the result set.
         public var stddev: Double? = nil
         /// The maximum value found in the specified field in the result set. If the field is numeric (int, int-array, double, or double-array), max is the string representation of a double-precision 64-bit floating point value. If the field is date or date-array, max is the string representation of a date with the format specified in IETF RFC3339: yyyy-mm-ddTHH:mm:ss.SSSZ.
@@ -118,7 +118,7 @@ extension Cloudsearchdomain {
 
     public struct SearchStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The encrypted resource ID for the request.
         public var rid: String? = nil
         /// How long it took to process the request, in milliseconds.
@@ -139,7 +139,7 @@ extension Cloudsearchdomain {
 
     public struct SearchResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The documents that match the search criteria.
         public var hits: Hits? = nil
         /// The status information returned for the search request.
@@ -182,8 +182,8 @@ extension Cloudsearchdomain {
 
     public struct SuggestRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["suggester": "suggester", "size": "size", "q": "query"]
         }
         /// Specifies the name of the suggester to use to find suggested matches.
@@ -212,7 +212,7 @@ extension Cloudsearchdomain {
 
     public struct SuggestModel: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The documents that match the query string.
         public var suggestions: [SuggestionMatch]? = nil
         /// The number of documents that were found to match the query string.
@@ -239,7 +239,7 @@ extension Cloudsearchdomain {
 
     public struct DocumentServiceWarning: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description for a warning returned by the document service.
         public var message: String? = nil
 
@@ -256,7 +256,7 @@ extension Cloudsearchdomain {
 
     public struct Hits: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A document that matches the search request.
         public var hit: [Hit]? = nil
         /// A cursor that can be used to retrieve the next set of matching documents when you want to page through a large result set.
@@ -287,7 +287,7 @@ extension Cloudsearchdomain {
 
     public struct SuggestionMatch: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The document ID of the suggested document.
         public var id: String? = nil
         /// The relevance score of a suggested match.
@@ -312,8 +312,8 @@ extension Cloudsearchdomain {
 
     public struct UploadDocumentsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "documents"
-        public var headerParams: [String: String] {
+        public static let payload: String? = "documents"
+        public static var headerParams: [String: String] {
             return ["Content-Type": "contentType"]
         }
         /// A batch of documents formatted in JSON or HTML.
@@ -338,7 +338,7 @@ extension Cloudsearchdomain {
 
     public struct BucketInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of the calculated facet values and counts.
         public var buckets: [Bucket]? = nil
 
@@ -357,7 +357,7 @@ extension Cloudsearchdomain {
 
     public struct SuggestStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The encrypted resource ID for the request.
         public var rid: String? = nil
         /// How long it took to process the request, in milliseconds.
@@ -378,7 +378,7 @@ extension Cloudsearchdomain {
 
     public struct Hit: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The fields returned from a document that matches the search request.
         public var fields: [String: [String]]? = nil
         /// The document ID of a document that matches the search request.
@@ -418,8 +418,8 @@ extension Cloudsearchdomain {
 
     public struct SearchRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["sort": "sort", "expr": "expr", "size": "size", "highlight": "highlight", "q.options": "queryOptions", "q": "query", "start": "start", "stats": "stats", "facet": "facet", "fq": "filterQuery", "return": "return", "partial": "partial", "cursor": "cursor", "q.parser": "queryParser"]
         }
         /// Specifies the fields or custom expressions to use to sort the search results. Multiple fields or expressions are specified as a comma-separated list. You must specify the sort direction (asc or desc) for each field; for example, year desc,title asc. To use a field to sort results, the field must be sort-enabled in the domain configuration. Array type fields cannot be used for sorting. If no sort parameter is specified, results are sorted by their default relevance scores in descending order: _score desc. You can also sort by document ID (_id asc) and version (_version desc). For more information, see Sorting Results in the Amazon CloudSearch Developer Guide.
@@ -491,7 +491,7 @@ extension Cloudsearchdomain {
 
     public struct UploadDocumentsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of an UploadDocumentsRequest.
         public var status: String? = nil
         /// The number of documents that were deleted from the search domain.

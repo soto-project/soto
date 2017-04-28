@@ -31,7 +31,7 @@ extension Ecs {
 
     public struct VersionInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Git commit hash for the Amazon ECS container agent build on the amazon-ecs-agent  GitHub repository.
         public var agentHash: String? = nil
         /// The Docker version running on the container instance.
@@ -56,7 +56,7 @@ extension Ecs {
 
     public struct CreateServiceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of instantiations of the specified task definition to place and keep running on your cluster.
         public var desiredCount: Int32 = 0
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. Up to 32 ASCII characters are allowed.
@@ -118,7 +118,7 @@ extension Ecs {
 
     public struct DescribeContainerInstancesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of container instances.
         public var containerInstances: [ContainerInstance]? = nil
         /// Any failures associated with the call.
@@ -143,7 +143,7 @@ extension Ecs {
 
     public struct Deployment: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The most recent desired count of tasks that was specified for the service to deploy or maintain.
         public var desiredCount: Int32? = nil
         /// The status of the deployment. Valid values are PRIMARY (for the most recent deployment), ACTIVE (for previous deployments that still have tasks running, but are being replaced with the PRIMARY deployment), and INACTIVE (for deployments that have been completely replaced).
@@ -188,7 +188,7 @@ extension Ecs {
 
     public struct SubmitContainerStateChangeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Acknowledgement of the state change.
         public var acknowledgment: String? = nil
 
@@ -205,7 +205,7 @@ extension Ecs {
 
     public struct DeleteAttributesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of attribute objects that were successfully deleted from your resource.
         public var attributes: [Attribute]? = nil
 
@@ -224,7 +224,7 @@ extension Ecs {
 
     public struct ContainerInstance: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of tasks on the container instance that are in the PENDING status.
         public var pendingTasksCount: Int32? = nil
         /// For most resource types, this parameter describes the remaining resources of the container instance that are available for new tasks. For port resource types, this parameter describes the ports that are reserved by the Amazon ECS container agent and any containers that have reserved port mappings; any port that is not specified here is available for new tasks.
@@ -291,7 +291,7 @@ extension Ecs {
 
     public struct StopTaskResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The task that was stopped.
         public var task: Task? = nil
 
@@ -308,7 +308,7 @@ extension Ecs {
 
     public struct ListTaskDefinitionsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of task definition Amazon Resource Name (ARN) entries for the ListTaskDefinitions request.
         public var taskDefinitionArns: [String]? = nil
         /// The nextToken value to include in a future ListTaskDefinitions request. When the results of a ListTaskDefinitions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -331,7 +331,7 @@ extension Ecs {
 
     public struct DeploymentConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The upper limit (as a percentage of the service's desiredCount) of the number of tasks that are allowed in the RUNNING or PENDING state in a service during a deployment. The maximum number of tasks during a deployment is the desiredCount multiplied by maximumPercent/100, rounded down to the nearest integer value.
         public var maximumPercent: Int32? = nil
         /// The lower limit (as a percentage of the service's desiredCount) of the number of running tasks that must remain in the RUNNING state in a service during a deployment. The minimum healthy tasks during a deployment is the desiredCount multiplied by minimumHealthyPercent/100, rounded up to the nearest integer value.
@@ -352,7 +352,7 @@ extension Ecs {
 
     public struct UpdateContainerInstancesStateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A space-separated list of container instance IDs or full Amazon Resource Name (ARN) entries.
         public var containerInstances: [String] = []
         /// The container instance state with which to update the container instance.
@@ -379,7 +379,7 @@ extension Ecs {
 
     public struct UpdateContainerAgentResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The container instance for which the container agent was updated.
         public var containerInstance: ContainerInstance? = nil
 
@@ -396,7 +396,7 @@ extension Ecs {
 
     public struct VolumeFrom: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the container to mount volumes from.
         public var sourceContainer: String? = nil
         /// If this value is true, the container has read-only access to the volume. If this value is false, then the container can write to the volume. The default value is false.
@@ -417,7 +417,7 @@ extension Ecs {
 
     public struct CreateClusterResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The full description of your new cluster.
         public var cluster: Cluster? = nil
 
@@ -434,7 +434,7 @@ extension Ecs {
 
     public struct DeleteServiceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The full description of the deleted service.
         public var service: Service? = nil
 
@@ -451,7 +451,7 @@ extension Ecs {
 
     public struct HostVolumeProperties: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If the host parameter contains a sourcePath file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the sourcePath value does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported.
         public var sourcePath: String? = nil
 
@@ -468,7 +468,7 @@ extension Ecs {
 
     public struct TaskDefinitionPlacementConstraint: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of constraint. The DistinctInstance constraint ensures that each task in a particular group is running on a different container instance. The MemberOf constraint restricts selection to be from a group of valid candidates.
         public var type: String? = nil
         /// A cluster query language expression to apply to the constraint. For more information, see Cluster Query Language in the Amazon EC2 Container Service Developer Guide.
@@ -489,7 +489,7 @@ extension Ecs {
 
     public struct DescribeTasksResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Any failures associated with the call.
         public var failures: [Failure]? = nil
         /// The list of tasks.
@@ -514,7 +514,7 @@ extension Ecs {
 
     public struct ListClustersRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The nextToken value returned from a previous paginated ListClusters request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public var nextToken: String? = nil
         /// The maximum number of cluster results returned by ListClusters in paginated output. When this parameter is used, ListClusters only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListClusters request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListClusters returns up to 100 results and a nextToken value if applicable.
@@ -535,7 +535,7 @@ extension Ecs {
 
     public struct LogConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The configuration options to send to the log driver. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log into your container instance and run the following command: sudo docker version | grep "Server API version" 
         public var options: [String: String]? = nil
         /// The log driver to use for the container. The valid values listed for this parameter are log drivers that the Amazon ECS container agent can communicate with by default.   If you have a custom driver that is not listed above that you would like to work with the Amazon ECS container agent, you can fork the Amazon ECS container agent project that is available on GitHub and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, Amazon Web Services does not currently provide support for running modified copies of this software.  This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log into your container instance and run the following command: sudo docker version | grep "Server API version" 
@@ -559,7 +559,7 @@ extension Ecs {
 
     public struct DiscoverPollEndpointResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The telemetry endpoint for the Amazon ECS agent.
         public var telemetryEndpoint: String? = nil
         /// The endpoint for the Amazon ECS agent to poll.
@@ -580,7 +580,7 @@ extension Ecs {
 
     public struct MountPoint: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If this value is true, the container has read-only access to the volume. If this value is false, then the container can write to the volume. The default value is false.
         public var readOnly: Bool? = nil
         /// The name of the volume to mount.
@@ -605,7 +605,7 @@ extension Ecs {
 
     public struct ListContainerInstancesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The nextToken value to include in a future ListContainerInstances request. When the results of a ListContainerInstances request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public var nextToken: String? = nil
         /// The list of container instances with full Amazon Resource Name (ARN) entries for each container instance associated with the specified cluster.
@@ -628,7 +628,7 @@ extension Ecs {
 
     public struct DeleteClusterRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The short name or full Amazon Resource Name (ARN) of the cluster to delete.
         public var cluster: String = ""
 
@@ -646,7 +646,7 @@ extension Ecs {
 
     public struct ContainerDefinition: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The soft limit (in MiB) of memory to reserve for the container. When system memory is under heavy contention, Docker attempts to keep the container memory to this soft limit; however, your container can consume more memory when it needs to, up to either the hard limit specified with the memory parameter (if applicable), or all of the available memory on the container instance, whichever comes first. This parameter maps to MemoryReservation in the Create a container section of the Docker Remote API and the --memory-reservation option to docker run. You must specify a non-zero integer for one or both of memory or memoryReservation in container definitions. If you specify both, memory must be greater than memoryReservation. If you specify memoryReservation, then that value is subtracted from the available memory resources for the container instance on which the container is placed; otherwise, the value of memory is used. For example, if your container normally uses 128 MiB of memory, but occasionally bursts to 256 MiB of memory for short periods of time, you can set a memoryReservation of 128 MiB, and a memory hard limit of 300 MiB. This configuration would allow the container to only reserve 128 MiB of memory from the remaining resources on the container instance, but also allow the container to consume more memory resources when needed.
         public var memoryReservation: Int32? = nil
         /// The list of port mappings for the container. Port mappings allow containers to access ports on the host container instance to send or receive traffic. This parameter maps to PortBindings in the Create a container section of the Docker Remote API and the --publish option to docker run. If the network mode of a task definition is set to none, then you cannot specify port mappings. If the network mode of a task definition is set to host, then host ports must either be undefined or they must match the container port in the port mapping.  After a task reaches the RUNNING status, manual and automatic host and container port assignments are visible in the Network Bindings section of a container description of a selected task in the Amazon ECS console, or the networkBindings section DescribeTasks responses. 
@@ -789,7 +789,7 @@ extension Ecs {
 
     public struct DeleteServiceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the service to delete.
         public var service: String = ""
         /// The name of the cluster that hosts the service to delete. If you do not specify a cluster, the default cluster is assumed.
@@ -811,7 +811,7 @@ extension Ecs {
 
     public struct Attribute: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the attribute. Up to 128 letters (uppercase and lowercase), numbers, hyphens, underscores, and periods are allowed.
         public var name: String = ""
         /// The value of the attribute. Up to 128 letters (uppercase and lowercase), numbers, hyphens, underscores, periods, at signs (@), forward slashes, colons, and spaces are allowed.
@@ -841,7 +841,7 @@ extension Ecs {
 
     public struct StopTaskRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The task ID or full Amazon Resource Name (ARN) entry of the task to stop.
         public var task: String = ""
         /// An optional message specified when a task is stopped. For example, if you are using a custom scheduler, you can use this parameter to specify the reason for stopping the task here, and the message will appear in subsequent DescribeTasks API operations on this task. Up to 255 characters are allowed in this message.
@@ -867,7 +867,7 @@ extension Ecs {
 
     public struct DescribeClustersResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of clusters.
         public var clusters: [Cluster]? = nil
         /// Any failures associated with the call.
@@ -892,7 +892,7 @@ extension Ecs {
 
     public struct Resource: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// When the longValue type is set, the value of the resource must be an extended precision floating-point type.
         public var longValue: Int64? = nil
         /// The name of the resource, such as cpu, memory, ports, or a user-defined resource.
@@ -931,7 +931,7 @@ extension Ecs {
 
     public struct RegisterTaskDefinitionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of placement constraint objects to use for the task. You can specify a maximum of 10 constraints per task (this limit includes constraints in the task definition and those specified at run time).
         public var placementConstraints: [TaskDefinitionPlacementConstraint]? = nil
         /// A list of container definitions in JSON format that describe the different containers that make up your task.
@@ -974,7 +974,7 @@ extension Ecs {
 
     public struct ListTaskDefinitionFamiliesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of task definition family names that match the ListTaskDefinitionFamilies request.
         public var families: [String]? = nil
         /// The nextToken value to include in a future ListTaskDefinitionFamilies request. When the results of a ListTaskDefinitionFamilies request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -997,7 +997,7 @@ extension Ecs {
 
     public struct ContainerOverride: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The command to send to the container that overrides the default command from the Docker image or the task definition.
         public var command: [String]? = nil
         /// The name of the container that receives the override.
@@ -1026,7 +1026,7 @@ extension Ecs {
 
     public struct DeregisterTaskDefinitionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to deregister. You must specify a revision.
         public var taskDefinition: String = ""
 
@@ -1044,7 +1044,7 @@ extension Ecs {
 
     public struct ListTasksRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The nextToken value returned from a previous paginated ListTasks request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public var nextToken: String? = nil
         /// The container instance ID or full Amazon Resource Name (ARN) of the container instance with which to filter the ListTasks results. Specifying a containerInstance limits the results to tasks that belong to that container instance.
@@ -1089,7 +1089,7 @@ extension Ecs {
 
     public struct PutAttributesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to apply attributes. If you do not specify a cluster, the default cluster is assumed.
         public var cluster: String? = nil
         /// The attributes to apply to your resource. You can specify up to 10 custom attributes per resource. You can specify up to 10 attributes in a single call.
@@ -1111,7 +1111,7 @@ extension Ecs {
 
     public struct Service: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the IAM role associated with the service that allows the Amazon ECS container agent to register container instances with an Elastic Load Balancing load balancer.
         public var roleArn: String? = nil
         /// The Amazon Resource Name (ARN) of the cluster that hosts the service.
@@ -1198,7 +1198,7 @@ extension Ecs {
 
     public struct UpdateServiceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the service to update.
         public var service: String = ""
         /// The number of instantiations of the task to place and keep running in your service.
@@ -1232,7 +1232,7 @@ extension Ecs {
 
     public struct DescribeTaskDefinitionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The full task definition description.
         public var taskDefinition: TaskDefinition? = nil
 
@@ -1249,7 +1249,7 @@ extension Ecs {
 
     public struct DiscoverPollEndpointRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The cluster that the container instance belongs to.
         public var cluster: String? = nil
         /// The container instance ID or full Amazon Resource Name (ARN) of the container instance. The ARN contains the arn:aws:ecs namespace, followed by the region of the container instance, the AWS account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID .
@@ -1270,7 +1270,7 @@ extension Ecs {
 
     public struct StartTaskResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Any failures associated with the call.
         public var failures: [Failure]? = nil
         /// A full description of the tasks that were started. Each task that was successfully placed on your container instances are described here.
@@ -1295,7 +1295,7 @@ extension Ecs {
 
     public struct DeleteAttributesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to apply attributes. If you do not specify a cluster, the default cluster is assumed.
         public var cluster: String? = nil
         /// The attributes to delete from your resource. You can specify up to 10 attributes per request. For custom attributes, specify the attribute name and target ID, but do not specify the value. If you specify the target ID using the short form, you must also specify the target type.
@@ -1317,7 +1317,7 @@ extension Ecs {
 
     public struct ListContainerInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The container instance status with which to filter the ListContainerInstances results. Specifying a container instance status of DRAINING limits the results to container instances that have been set to drain with the UpdateContainerInstancesState operation.
         public var status: String? = nil
         /// The nextToken value returned from a previous paginated ListContainerInstances request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
@@ -1350,7 +1350,7 @@ extension Ecs {
 
     public struct Volume: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints.
         public var name: String? = nil
         /// The contents of the host parameter determine whether your data volume persists on the host container instance and where it is stored. If the host parameter is empty, then the Docker daemon assigns a host path for your data volume, but the data is not guaranteed to persist after the containers associated with it stop running.
@@ -1371,7 +1371,7 @@ extension Ecs {
 
     public struct PortMapping: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The protocol used for the port mapping. Valid values are tcp and udp. The default is tcp.
         public var `protocol`: String? = nil
         /// The port number on the container that is bound to the user-specified or automatically assigned host port. If you specify a container port and not a host port, your container automatically receives a host port in the ephemeral port range (for more information, see hostPort). Port mappings that are automatically assigned in this way do not count toward the 100 reserved ports limit of a container instance.
@@ -1396,7 +1396,7 @@ extension Ecs {
 
     public struct Ulimit: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The soft limit for the ulimit type.
         public var softLimit: Int32 = 0
         /// The type of the ulimit.
@@ -1424,7 +1424,7 @@ extension Ecs {
 
     public struct DescribeServicesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of services described.
         public var services: [Service]? = nil
         /// Any failures associated with the call.
@@ -1449,7 +1449,7 @@ extension Ecs {
 
     public struct Container: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the container.
         public var name: String? = nil
         /// A short (255 max characters) human-readable string to provide additional details about a running or stopped container.
@@ -1492,7 +1492,7 @@ extension Ecs {
 
     public struct DescribeTaskDefinitionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The family for the latest ACTIVE revision, family and revision (family:revision) for a specific revision in the family, or full Amazon Resource Name (ARN) of the task definition to describe.
         public var taskDefinition: String = ""
 
@@ -1510,7 +1510,7 @@ extension Ecs {
 
     public struct LoadBalancer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The full Amazon Resource Name (ARN) of the Elastic Load Balancing target group associated with a service.
         public var targetGroupArn: String? = nil
         /// The name of the load balancer.
@@ -1539,7 +1539,7 @@ extension Ecs {
 
     public struct UpdateContainerInstancesStateResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of container instances.
         public var containerInstances: [ContainerInstance]? = nil
         /// Any failures associated with the call.
@@ -1564,7 +1564,7 @@ extension Ecs {
 
     public struct Cluster: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of tasks in the cluster that are in the PENDING state.
         public var pendingTasksCount: Int32? = nil
         /// The status of the cluster. The valid values are ACTIVE or INACTIVE. ACTIVE indicates that you can register container instances with the cluster and the associated instances can accept tasks.
@@ -1605,7 +1605,7 @@ extension Ecs {
 
     public struct StartTaskRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of container overrides in JSON format that specify the name of a container in the specified task definition and the overrides it should receive. You can override the default command for a container (that is specified in the task definition or Docker image) with a command override. You can also override existing environment variables (that are specified in the task definition or Docker image) on a container or add new environment variables to it with an environment override.  A total of 8192 characters are allowed for overrides. This limit includes the JSON formatting characters of the override structure. 
         public var overrides: TaskOverride? = nil
         /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the task definition to start. If a revision is not specified, the latest ACTIVE revision is used.
@@ -1644,7 +1644,7 @@ extension Ecs {
 
     public struct TaskDefinition: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The revision of the task in a particular family. The revision is a version number of a task definition in a family. When you register a task definition for the first time, the revision is 1; each time you register a new revision of a task definition in the same family, the revision value always increases by one (even if you have deregistered previous revisions in this family).
         public var revision: Int32? = nil
         /// The status of the task definition.
@@ -1705,7 +1705,7 @@ extension Ecs {
 
     public struct HostEntry: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The hostname to use in the /etc/hosts entry.
         public var hostname: String = ""
         /// The IP address to use in the /etc/hosts entry.
@@ -1728,7 +1728,7 @@ extension Ecs {
 
     public struct PlacementStrategy: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory (but still enough to run the task).
         public var type: String? = nil
         /// The field to apply the placement strategy against. For the spread placement strategy, valid values are instanceId (or host, which has the same effect), or any platform or custom attribute that is applied to a container instance, such as attribute:ecs.availability-zone. For the binpack placement strategy, valid values are cpu and memory. For the random placement strategy, this field is not used.
@@ -1749,7 +1749,7 @@ extension Ecs {
 
     public struct ServiceEvent: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID string of the event.
         public var id: String? = nil
         /// The Unix timestamp for when the event was triggered.
@@ -1774,7 +1774,7 @@ extension Ecs {
 
     public struct SubmitTaskStateChangeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Acknowledgement of the state change.
         public var acknowledgment: String? = nil
 
@@ -1791,7 +1791,7 @@ extension Ecs {
 
     public struct UpdateServiceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The full description of your service following the update call.
         public var service: Service? = nil
 
@@ -1808,7 +1808,7 @@ extension Ecs {
 
     public struct CreateClusterRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of your cluster. If you do not specify a name for your cluster, you create a cluster named default. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
         public var clusterName: String? = nil
 
@@ -1825,7 +1825,7 @@ extension Ecs {
 
     public struct SubmitTaskStateChangeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the state change request.
         public var status: String? = nil
         /// The reason for the state change request.
@@ -1854,7 +1854,7 @@ extension Ecs {
 
     public struct RegisterTaskDefinitionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The full description of the registered task definition.
         public var taskDefinition: TaskDefinition? = nil
 
@@ -1871,7 +1871,7 @@ extension Ecs {
 
     public struct CreateServiceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The full description of your service following the create call.
         public var service: Service? = nil
 
@@ -1888,7 +1888,7 @@ extension Ecs {
 
     public struct DeregisterContainerInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Forces the deregistration of the container instance. If you have tasks running on the container instance when you deregister it with the force option, these tasks remain running until you terminate the instance or the tasks stop through some other means, but they are orphaned (no longer monitored or accounted for by Amazon ECS). If an orphaned task on your container instance is part of an Amazon ECS service, then the service scheduler starts another copy of that task, on a different container instance if possible.  Any containers in orphaned service tasks that are registered with a Classic load balancer or an Application load balancer target group are deregistered, and they will begin connection draining according to the settings on the load balancer or target group.
         public var force: Bool? = nil
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instance to deregister. If you do not specify a cluster, the default cluster is assumed.
@@ -1914,7 +1914,7 @@ extension Ecs {
 
     public struct DeregisterContainerInstanceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The container instance that was deregistered.
         public var containerInstance: ContainerInstance? = nil
 
@@ -1931,7 +1931,7 @@ extension Ecs {
 
     public struct DescribeTasksRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task to describe. If you do not specify a cluster, the default cluster is assumed.
         public var cluster: String? = nil
         /// A space-separated list of task IDs or full Amazon Resource Name (ARN) entries.
@@ -1953,7 +1953,7 @@ extension Ecs {
 
     public struct DeleteClusterResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The full description of the deleted cluster.
         public var cluster: Cluster? = nil
 
@@ -1970,7 +1970,7 @@ extension Ecs {
 
     public struct DeregisterTaskDefinitionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The full description of the deregistered task.
         public var taskDefinition: TaskDefinition? = nil
 
@@ -1987,7 +1987,7 @@ extension Ecs {
 
     public struct ListTaskDefinitionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The full family name with which to filter the ListTaskDefinitions results. Specifying a familyPrefix limits the listed task definitions to task definition revisions that belong to that family.
         public var familyPrefix: String? = nil
         /// The task definition status with which to filter the ListTaskDefinitions results. By default, only ACTIVE task definitions are listed. By setting this parameter to INACTIVE, you can view task definitions that are INACTIVE as long as an active task or service still references them. If you paginate the resulting output, be sure to keep the status value constant in each subsequent request.
@@ -2020,7 +2020,7 @@ extension Ecs {
 
     public struct RegisterContainerInstanceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The container instance that was registered.
         public var containerInstance: ContainerInstance? = nil
 
@@ -2037,7 +2037,7 @@ extension Ecs {
 
     public struct DescribeServicesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of services to describe. You may specify up to 10 services to describe in a single operation.
         public var services: [String] = []
         /// The name of the cluster that hosts the service to describe. If you do not specify a cluster, the default cluster is assumed.
@@ -2059,7 +2059,7 @@ extension Ecs {
 
     public struct RunTaskRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of container overrides in JSON format that specify the name of a container in the specified task definition and the overrides it should receive. You can override the default command for a container (that is specified in the task definition or Docker image) with a command override. You can also override existing environment variables (that are specified in the task definition or Docker image) on a container or add new environment variables to it with an environment override.  A total of 8192 characters are allowed for overrides. This limit includes the JSON formatting characters of the override structure. 
         public var overrides: TaskOverride? = nil
         /// The placement strategy objects to use for the task. You can specify a maximum of 5 strategy rules per task.
@@ -2109,7 +2109,7 @@ extension Ecs {
 
     public struct ListAttributesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the attribute with which to filter results. You must also specify an attribute name to use this parameter.
         public var attributeValue: String? = nil
         /// The type of the target with which to list attributes.
@@ -2147,7 +2147,7 @@ extension Ecs {
 
     public struct PlacementConstraint: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict selection to a group of valid candidates. Note that distinctInstance is not supported in task definitions.
         public var type: String? = nil
         /// A cluster query language expression to apply to the constraint. Note you cannot specify an expression if the constraint type is distinctInstance. For more information, see Cluster Query Language in the Amazon EC2 Container Service Developer Guide.
@@ -2168,7 +2168,7 @@ extension Ecs {
 
     public struct TaskOverride: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more container overrides sent to a task.
         public var containerOverrides: [ContainerOverride]? = nil
         /// The Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role.
@@ -2191,7 +2191,7 @@ extension Ecs {
 
     public struct ListTasksResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The nextToken value to include in a future ListTasks request. When the results of a ListTasks request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public var nextToken: String? = nil
         /// The list of task Amazon Resource Name (ARN) entries for the ListTasks request.
@@ -2214,7 +2214,7 @@ extension Ecs {
 
     public struct ListAttributesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of attribute objects that meet the criteria of the request.
         public var attributes: [Attribute]? = nil
         /// The nextToken value to include in a future ListAttributes request. When the results of a ListAttributes request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2237,7 +2237,7 @@ extension Ecs {
 
     public struct ListServicesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The nextToken value returned from a previous paginated ListServices request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public var nextToken: String? = nil
         /// The maximum number of container instance results returned by ListServices in paginated output. When this parameter is used, ListServices only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListServices request with the returned nextToken value. This value can be between 1 and 10. If this parameter is not used, then ListServices returns up to 10 results and a nextToken value if applicable.
@@ -2262,7 +2262,7 @@ extension Ecs {
 
     public struct PutAttributesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The attributes applied to your resource.
         public var attributes: [Attribute]? = nil
 
@@ -2281,7 +2281,7 @@ extension Ecs {
 
     public struct RegisterContainerInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The version information for the Amazon ECS container agent and Docker daemon running on the container instance.
         public var versionInfo: VersionInfo? = nil
         /// The container instance attributes that this container instance supports.
@@ -2326,7 +2326,7 @@ extension Ecs {
 
     public struct Task: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the cluster that hosts the task.
         public var clusterArn: String? = nil
         /// One or more container overrides.
@@ -2401,7 +2401,7 @@ extension Ecs {
 
     public struct UpdateContainerAgentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The short name or full Amazon Resource Name (ARN) of the cluster that your container instance is running on. If you do not specify a cluster, the default cluster is assumed.
         public var cluster: String? = nil
         /// The container instance ID or full Amazon Resource Name (ARN) entries for the container instance on which you would like to update the Amazon ECS container agent.
@@ -2423,7 +2423,7 @@ extension Ecs {
 
     public struct ListClustersResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of full Amazon Resource Name (ARN) entries for each cluster associated with your account.
         public var clusterArns: [String]? = nil
         /// The nextToken value to include in a future ListClusters request. When the results of a ListClusters request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2446,7 +2446,7 @@ extension Ecs {
 
     public struct DescribeClustersRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A space-separated list of up to 100 cluster names or full cluster Amazon Resource Name (ARN) entries. If you do not specify a cluster, the default cluster is assumed.
         public var clusters: [String]? = nil
 
@@ -2465,7 +2465,7 @@ extension Ecs {
 
     public struct RunTaskResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Any failures associated with the call.
         public var failures: [Failure]? = nil
         /// A full description of the tasks that were run. Each task that was successfully placed on your cluster are described here.
@@ -2490,7 +2490,7 @@ extension Ecs {
 
     public struct ListServicesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of full Amazon Resource Name (ARN) entries for each service associated with the specified cluster.
         public var serviceArns: [String]? = nil
         /// The nextToken value to include in a future ListServices request. When the results of a ListServices request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -2513,7 +2513,7 @@ extension Ecs {
 
     public struct KeyValuePair: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the key value pair. For environment variables, this is the name of the environment variable.
         public var name: String? = nil
         /// The value of the key value pair. For environment variables, this is the value of the environment variable.
@@ -2534,7 +2534,7 @@ extension Ecs {
 
     public struct SubmitContainerStateChangeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the state change request.
         public var status: String? = nil
         /// The reason for the state change request.
@@ -2577,7 +2577,7 @@ extension Ecs {
 
     public struct ListTaskDefinitionFamiliesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The familyPrefix is a string that is used to filter the results of ListTaskDefinitionFamilies. If you specify a familyPrefix, only task definition family names that begin with the familyPrefix string are returned.
         public var familyPrefix: String? = nil
         /// The task definition family status with which to filter the ListTaskDefinitionFamilies results. By default, both ACTIVE and INACTIVE task definition families are listed. If this parameter is set to ACTIVE, only task definition families that have an ACTIVE task definition revision are returned. If this parameter is set to INACTIVE, only task definition families that do not have any ACTIVE task definition revisions are returned. If you paginate the resulting output, be sure to keep the status value constant in each subsequent request.
@@ -2606,7 +2606,7 @@ extension Ecs {
 
     public struct NetworkBinding: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The port number on the host that is used with the network binding.
         public var hostPort: Int32? = nil
         /// The protocol used for the network binding.
@@ -2635,7 +2635,7 @@ extension Ecs {
 
     public struct Failure: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The reason for the failure.
         public var reason: String? = nil
         /// The Amazon Resource Name (ARN) of the failed resource.
@@ -2656,7 +2656,7 @@ extension Ecs {
 
     public struct DescribeContainerInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A space-separated list of container instance IDs or full Amazon Resource Name (ARN) entries.
         public var containerInstances: [String] = []
         /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instances to describe. If you do not specify a cluster, the default cluster is assumed.

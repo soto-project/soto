@@ -22,6 +22,10 @@ extension Prorsum.Body {
     }
 }
 
+public struct InputContext {
+    let Shape: AWSShape.Type
+    let input: AWSShape
+}
 
 public struct AWSClient {
     
@@ -66,8 +70,14 @@ public struct AWSClient {
         self.possibleErrorTypes = possibleErrorTypes ?? []
     }
     
-    public func send(operation operationName: String, path: String, httpMethod: String, input: AWSShape) throws {
-        let request = try createRequest(operation: operationName, path: path, httpMethod: httpMethod, input: input)
+    public func send<Input: AWSShape>(operation operationName: String, path: String, httpMethod: String, input: Input) throws {
+        let request = try createRequest(
+            operation: operationName,
+            path: path,
+            httpMethod:
+            httpMethod,
+            context: InputContext(Shape: Input.self, input: input)
+        )
         _ = try self.request(request)
     }
     
@@ -81,8 +91,14 @@ public struct AWSClient {
         return try validate(response: try self.request(request))
     }
     
-    public func send<Output: AWSShape>(operation operationName: String, path: String, httpMethod: String, input: AWSShape) throws -> Output {
-        let request = try createRequest(operation: operationName, path: path, httpMethod: httpMethod, input: input)
+    public func send<Output: AWSShape, Input: AWSShape>(operation operationName: String, path: String, httpMethod: String, input: Input)
+        throws -> Output {
+        let request = try createRequest(
+            operation: operationName,
+            path: path,
+            httpMethod: httpMethod,
+            context: InputContext(Shape: Input.self, input: input)
+        )
         return try validate(response: try self.request(request))
     }
     
@@ -181,7 +197,6 @@ public struct AWSClient {
         }
         
         var outputDict: [String: Any] = [:]
-        let output = Output() // TODO avoid creating object
         switch responseBody {
         case .json(let dictionary):
             outputDict = dictionary
@@ -191,12 +206,12 @@ public struct AWSClient {
             outputDict = try JSONSerialization.jsonObject(with: str.data(using: .utf8)!, options: []) as? [String: Any] ?? [:]
             
         case .buffer(let data):
-            if let payload = output._payload {
+            if let payload = Output.payload {
                 outputDict[payload] = data
             }
             
         case .text(let text):
-            if let payload = output._payload {
+            if let payload = Output.payload {
                 outputDict[payload] = text
             }
             
@@ -205,7 +220,7 @@ public struct AWSClient {
         }
         
         for (key, value) in response.headers {
-            if let param = output.headerParams.filter({ $0.key.lowercased() == key.description.lowercased() }).first {
+            if let param = Output.headerParams.filter({ $0.key.lowercased() == key.description.lowercased() }).first {
                 outputDict[param.key] = value
             }
         }
@@ -213,29 +228,29 @@ public struct AWSClient {
         return try Output(dictionary: outputDict)
     }
     
-    private func createRequest(operation operationName: String, path: String, httpMethod: String, input: AWSShape? = nil) throws -> AWSRequest {
+    private func createRequest(operation operationName: String, path: String, httpMethod: String, context: InputContext? = nil) throws -> AWSRequest {
         
         var headers: [String: String] = [:]
         var body: Body = .empty
         var path = path
         var queryParams = [URLQueryItem]()
         
-        if let input = input {
-            let mirror = Mirror(reflecting: input)
+        if let ctx = context {
+            let mirror = Mirror(reflecting: ctx.input)
             
-            for (key, value) in input.headerParams {
+            for (key, value) in ctx.Shape.headerParams {
                 if let attr = mirror.getAttribute(forKey: value.toSwiftVariableCase()) {
                     headers[key] = "\(attr)"
                 }
             }
             
-            for (key, value) in input.queryParams {
+            for (key, value) in ctx.Shape.queryParams {
                 if let attr = mirror.getAttribute(forKey: value.toSwiftVariableCase()) {
                     queryParams.append(URLQueryItem(name: key, value: "\(attr)"))
                 }
             }
             
-            for (key, value) in input.pathParams {
+            for (key, value) in ctx.Shape.pathParams {
                 if let attr = mirror.getAttribute(forKey: value.toSwiftVariableCase()) {
                     path = path.replacingOccurrences(of: "{\(key)}", with: "\(attr)").replacingOccurrences(of: "{\(key)+}", with: "\(attr)")
                 }
@@ -248,20 +263,20 @@ public struct AWSClient {
             
             switch serviceProtocol {
             case .json:
-                if let payload = input._payload, let payloadBody = mirror.getAttribute(forKey: payload.toSwiftVariableCase()) {
+                if let payload = ctx.Shape.payload, let payloadBody = mirror.getAttribute(forKey: payload.toSwiftVariableCase()) {
                     body = Body(anyValue: payloadBody)
                     headers.removeValue(forKey: payload.toSwiftVariableCase())
                 } else {
-                    body = .json(try input.serializeToDictionary())
+                    body = .json(try ctx.input.serializeToDictionary())
                 }
             case .query:
                 break
             case .restxml:
-                if let payload = input._payload, let payloadBody = mirror.getAttribute(forKey: payload.toSwiftVariableCase()) {
+                if let payload = ctx.Shape.payload, let payloadBody = mirror.getAttribute(forKey: payload.toSwiftVariableCase()) {
                     body = Body(anyValue: payloadBody)
                     headers.removeValue(forKey: payload.toSwiftVariableCase())
                 } else {
-                    body = .xml(try input.serializeToXMLNode())
+                    body = .xml(try ctx.input.serializeToXMLNode())
                 }
             }
         }

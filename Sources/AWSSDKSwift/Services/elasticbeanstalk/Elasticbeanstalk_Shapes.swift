@@ -31,7 +31,7 @@ extension Elasticbeanstalk {
 
     public struct EventDescriptionsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  If returned, this indicates that there are more results to obtain. Use this token in the next DescribeEvents call to get the next batch of events. 
         public var nextToken: String? = nil
         ///  A list of EventDescription. 
@@ -54,7 +54,7 @@ extension Elasticbeanstalk {
 
     public struct SolutionStackDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The permitted file types allowed for a solution stack.
         public var permittedFileTypes: [String]? = nil
         /// The name of the solution stack.
@@ -77,7 +77,7 @@ extension Elasticbeanstalk {
 
     public struct RequestEnvironmentInfoMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public var environmentName: String? = nil
         /// The type of information to request.
@@ -103,7 +103,7 @@ extension Elasticbeanstalk {
 
     public struct PlatformProgrammingLanguage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the programming language.
         public var name: String? = nil
         /// The version of the programming language.
@@ -124,7 +124,7 @@ extension Elasticbeanstalk {
 
     public struct ManagedAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of managed action.
         public var actionType: String? = nil
         /// The status of the managed action. If the action is Scheduled, you can apply it immediately with ApplyEnvironmentManagedAction.
@@ -157,7 +157,7 @@ extension Elasticbeanstalk {
 
     public struct RestartAppServerMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the environment to restart the server for.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public var environmentName: String? = nil
         /// The ID of the environment to restart the server for.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
@@ -178,7 +178,7 @@ extension Elasticbeanstalk {
 
     public struct CPUUtilization: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Percentage of time that the CPU has spent in the Nice state over the last 10 seconds.
         public var nice: Double? = nil
         /// Percentage of time that the CPU has spent in the IRQ state over the last 10 seconds.
@@ -219,7 +219,7 @@ extension Elasticbeanstalk {
 
     public struct DescribeEnvironmentManagedActionHistoryResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A pagination token that you pass to DescribeEnvironmentManagedActionHistory to get the next page of results.
         public var nextToken: String? = nil
         /// A list of completed and failed managed actions.
@@ -242,7 +242,7 @@ extension Elasticbeanstalk {
 
     public struct TerminateEnvironmentMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the environment to terminate.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public var environmentName: String? = nil
         /// Indicates whether the associated AWS resources should shut down when the environment is terminated:    true: The specified environment as well as the associated AWS resources, such as Auto Scaling group and LoadBalancer, are terminated.    false: AWS Elastic Beanstalk resource management is removed from the environment, but the AWS resources continue to operate.    For more information, see the  AWS Elastic Beanstalk User Guide.    Default: true   Valid Values: true | false 
@@ -271,7 +271,7 @@ extension Elasticbeanstalk {
 
     public struct CreateStorageLocationResultMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the Amazon S3 bucket created.
         public var s3Bucket: String? = nil
 
@@ -288,7 +288,7 @@ extension Elasticbeanstalk {
 
     public struct StatusCodes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The percentage of requests over the last 10 seconds that resulted in a 5xx (500, 501, etc.) status code.
         public var status5xx: Int32? = nil
         /// The percentage of requests over the last 10 seconds that resulted in a 3xx (300, 301, etc.) status code.
@@ -317,7 +317,7 @@ extension Elasticbeanstalk {
 
     public struct ApplyEnvironmentManagedActionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of managed action.
         public var actionType: String? = nil
         /// The status of the managed action.
@@ -346,7 +346,7 @@ extension Elasticbeanstalk {
 
     public struct EventDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The severity level of this event.
         public var severity: String? = nil
         /// The name of the configuration associated with this event.
@@ -395,7 +395,7 @@ extension Elasticbeanstalk {
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the tag.
         public var value: String? = nil
         /// The key of the tag.
@@ -416,7 +416,7 @@ extension Elasticbeanstalk {
 
     public struct DescribeEnvironmentManagedActionsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of upcoming and in-progress managed actions.
         public var managedActions: [ManagedAction]? = nil
 
@@ -435,7 +435,7 @@ extension Elasticbeanstalk {
 
     public struct PlatformSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The version of the operating system used by the platform.
         public var operatingSystemVersion: String? = nil
         /// The status of the platform. You can create an environment from the platform once it is ready.
@@ -484,7 +484,7 @@ extension Elasticbeanstalk {
 
     public struct DescribeEnvironmentManagedActionHistoryRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the target environment.
         public var environmentName: String? = nil
         /// The maximum number of items to return for a single request.
@@ -513,7 +513,7 @@ extension Elasticbeanstalk {
 
     public struct PlatformFramework: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the framework.
         public var name: String? = nil
         /// The version of the framework.
@@ -534,7 +534,7 @@ extension Elasticbeanstalk {
 
     public struct DescribeEnvironmentHealthRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specify the environment by name. You must specify either this or an EnvironmentName, or both.
         public var environmentName: String? = nil
         /// Specify the environment by ID. You must specify either this or an EnvironmentName, or both.
@@ -561,7 +561,7 @@ extension Elasticbeanstalk {
 
     public struct Trigger: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the trigger.
         public var name: String? = nil
 
@@ -578,7 +578,7 @@ extension Elasticbeanstalk {
 
     public struct Instance: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Amazon EC2 instance.
         public var id: String? = nil
 
@@ -595,7 +595,7 @@ extension Elasticbeanstalk {
 
     public struct DescribeEventsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur on or after this time.
         public var startTime: Date? = nil
         /// Specifies the maximum number of events that can be returned, beginning with the most recent event.
@@ -656,7 +656,7 @@ extension Elasticbeanstalk {
 
     public struct CreateApplicationVersionMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A label identifying this version. Constraint: Must be unique per application. If an application version already exists with this label for the specified application, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
         public var versionLabel: String = ""
         /// Set to true to create an application with the specified name if it doesn't already exist.
@@ -703,7 +703,7 @@ extension Elasticbeanstalk {
 
     public struct SwapEnvironmentCNAMEsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the destination environment.  Condition: You must specify at least the DestinationEnvironmentID or the DestinationEnvironmentName. You may also specify both. You must specify the SourceEnvironmentName with the DestinationEnvironmentName. 
         public var destinationEnvironmentName: String? = nil
         /// The name of the source environment.  Condition: You must specify at least the SourceEnvironmentID or the SourceEnvironmentName. You may also specify both. If you specify the SourceEnvironmentName, you must specify the DestinationEnvironmentName. 
@@ -732,7 +732,7 @@ extension Elasticbeanstalk {
 
     public struct ComposeEnvironmentsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of version labels, specifying one or more application source bundles that belong to the target application. Each source bundle must include an environment manifest that specifies the name of the environment and the name of the solution stack to use, and optionally can specify environment links to create.
         public var versionLabels: [String]? = nil
         /// The name of the application to which the specified source bundles belong.
@@ -759,7 +759,7 @@ extension Elasticbeanstalk {
 
     public struct EnvironmentResourcesDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Describes the LoadBalancer.
         public var loadBalancer: LoadBalancerDescription? = nil
 
@@ -776,7 +776,7 @@ extension Elasticbeanstalk {
 
     public struct CheckDNSAvailabilityMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The prefix used when this CNAME is reserved.
         public var cNAMEPrefix: String = ""
 
@@ -794,7 +794,7 @@ extension Elasticbeanstalk {
 
     public struct BuildConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Docker image to use for this build project.
         public var image: String = ""
         /// Information about the compute resources the build project will use.    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds     BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds     BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds   
@@ -829,7 +829,7 @@ extension Elasticbeanstalk {
 
     public struct Latency: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The average latency for the slowest 5 percent of requests over the last 10 seconds.
         public var p95: Double? = nil
         /// The average latency for the slowest 90 percent of requests over the last 10 seconds.
@@ -874,7 +874,7 @@ extension Elasticbeanstalk {
 
     public struct LoadBalancer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the LoadBalancer.
         public var name: String? = nil
 
@@ -891,7 +891,7 @@ extension Elasticbeanstalk {
 
     public struct RebuildEnvironmentMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the environment to rebuild.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public var environmentName: String? = nil
         /// The ID of the environment to rebuild.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
@@ -912,7 +912,7 @@ extension Elasticbeanstalk {
 
     public struct ManagedActionHistoryItem: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of the managed action.
         public var actionType: String? = nil
         /// The status of the action.
@@ -957,7 +957,7 @@ extension Elasticbeanstalk {
 
     public struct DescribePlatformVersionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Detailed information about the version of the platform.
         public var platformDescription: PlatformDescription? = nil
 
@@ -974,7 +974,7 @@ extension Elasticbeanstalk {
 
     public struct RetrieveEnvironmentInfoResultMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The EnvironmentInfoDescription of the environment. 
         public var environmentInfo: [EnvironmentInfoDescription]? = nil
 
@@ -993,7 +993,7 @@ extension Elasticbeanstalk {
 
     public struct InstanceHealthSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  Grey. An operation is in progress on an instance within the command timeout.
         public var pending: Int32? = nil
         ///  Red. The health agent is reporting a high number of request failures or other issues for an instance or environment.
@@ -1038,7 +1038,7 @@ extension Elasticbeanstalk {
 
     public struct ApplicationDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The names of the configuration templates associated with this application.
         public var configurationTemplates: [String]? = nil
         /// User-defined description of the application.
@@ -1083,7 +1083,7 @@ extension Elasticbeanstalk {
 
     public struct Builder: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the builder.
         public var aRN: String? = nil
 
@@ -1100,7 +1100,7 @@ extension Elasticbeanstalk {
 
     public struct DescribeInstancesHealthRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specify the AWS Elastic Beanstalk environment by name.
         public var environmentName: String? = nil
         /// Specify the AWS Elastic Beanstalk environment by ID.
@@ -1131,7 +1131,7 @@ extension Elasticbeanstalk {
 
     public struct AutoScalingGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the AutoScalingGroup . 
         public var name: String? = nil
 
@@ -1148,7 +1148,7 @@ extension Elasticbeanstalk {
 
     public struct CreatePlatformVersionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Detailed information about the new version of the custom platform.
         public var platformSummary: PlatformSummary? = nil
         /// The builder used to create the custom platform.
@@ -1169,7 +1169,7 @@ extension Elasticbeanstalk {
 
     public struct EnvironmentDescriptionsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  Returns an EnvironmentDescription list. 
         public var environments: [EnvironmentDescription]? = nil
 
@@ -1188,7 +1188,7 @@ extension Elasticbeanstalk {
 
     public struct SourceConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the configuration template.
         public var templateName: String? = nil
         /// The name of the application associated with the configuration.
@@ -1209,7 +1209,7 @@ extension Elasticbeanstalk {
 
     public struct CreateConfigurationTemplateMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If specified, AWS Elastic Beanstalk sets the specified configuration option to the requested value. The new value overrides the value obtained from the solution stack or the source configuration template.
         public var optionSettings: [ConfigurationOptionSetting]? = nil
         /// If specified, AWS Elastic Beanstalk uses the configuration values from the specified configuration template to create a new configuration.  Values specified in the OptionSettings parameter of this call overrides any values obtained from the SourceConfiguration.   If no configuration template is found, returns an InvalidParameterValue error.   Constraint: If both the solution stack name parameter and the source configuration parameters are specified, the solution stack of the source configuration template must match the specified solution stack name or else AWS Elastic Beanstalk returns an InvalidParameterCombination error. 
@@ -1258,7 +1258,7 @@ extension Elasticbeanstalk {
 
     public struct ConfigurationSettingsDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of the configuration options and their values in this configuration set.
         public var optionSettings: [ConfigurationOptionSetting]? = nil
         /// The date (in UTC time) when this configuration set was last modified.
@@ -1313,7 +1313,7 @@ extension Elasticbeanstalk {
 
     public struct UpdateConfigurationTemplateMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of configuration option settings to update with the new specified option value.
         public var optionSettings: [ConfigurationOptionSetting]? = nil
         /// The name of the application associated with the configuration template to update.  If no application is found with this name, UpdateConfigurationTemplate returns an InvalidParameterValue error. 
@@ -1352,7 +1352,7 @@ extension Elasticbeanstalk {
 
     public struct EnvironmentDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the configuration template used to originally launch this environment.
         public var templateName: String? = nil
         /// The last modified date for this environment.
@@ -1443,7 +1443,7 @@ extension Elasticbeanstalk {
 
     public struct ConfigurationOptionDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If specified, the configuration option must be a string value that satisfies this regular expression.
         public var regex: OptionRestrictionRegex? = nil
         /// If specified, the configuration option must be a numeric value less than this value.
@@ -1502,7 +1502,7 @@ extension Elasticbeanstalk {
 
     public struct ConfigurationSettingsValidationMessages: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  A list of ValidationMessage. 
         public var messages: [ValidationMessage]? = nil
 
@@ -1521,7 +1521,7 @@ extension Elasticbeanstalk {
 
     public struct SourceBuildInformation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The location of the source code, as a formatted string, depending on the value of SourceRepository    For CodeCommit, the format is the repository name and commit ID, separated by a forward slash. For example, my-git-repo/265cfa0cf6af46153527f55d6503ec030551f57a.   For S3, the format is the S3 bucket name and object key, separated by a forward slash. For example, my-s3-bucket/Folders/my-source-file.  
         public var sourceLocation: String = ""
         /// The type of repository.    Git     Zip   
@@ -1549,7 +1549,7 @@ extension Elasticbeanstalk {
 
     public struct ApplicationResourceLifecycleDescriptionMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The lifecycle configuration.
         public var resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil
         /// The name of the application.
@@ -1570,7 +1570,7 @@ extension Elasticbeanstalk {
 
     public struct ApplicationMetrics: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Represents the average latency for the slowest X percent of requests over the last 10 seconds. Latencies are in seconds with one millisecond resolution.
         public var latency: Latency? = nil
         /// Average number of requests handled by the web server per second over the last 10 seconds.
@@ -1599,7 +1599,7 @@ extension Elasticbeanstalk {
 
     public struct ApplicationDescriptionsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// This parameter contains a list of ApplicationDescription.
         public var applications: [ApplicationDescription]? = nil
 
@@ -1618,7 +1618,7 @@ extension Elasticbeanstalk {
 
     public struct DescribeConfigurationOptionsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the environment whose configuration options you want to describe.
         public var environmentName: String? = nil
         /// If specified, restricts the descriptions to only the specified options.
@@ -1657,7 +1657,7 @@ extension Elasticbeanstalk {
 
     public struct UpdateApplicationMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the application to update. If no such application is found, UpdateApplication returns an InvalidParameterValue error. 
         public var applicationName: String = ""
         /// A new description for the application. Default: If not specified, AWS Elastic Beanstalk does not update the description.
@@ -1679,7 +1679,7 @@ extension Elasticbeanstalk {
 
     public struct OptionRestrictionRegex: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The regular expression pattern that a string configuration option value with this restriction must match.
         public var pattern: String? = nil
         /// A unique name representing this regular expression.
@@ -1700,7 +1700,7 @@ extension Elasticbeanstalk {
 
     public struct Deployment: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// For in-progress deployments, the time that the deloyment started. For completed deployments, the time that the deployment ended.
         public var deploymentTime: Date? = nil
         /// The ID of the deployment. This number increases by one each time that you deploy source code or change instance configuration settings.
@@ -1729,7 +1729,7 @@ extension Elasticbeanstalk {
 
     public struct ApplicationResourceLifecycleConfig: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The application version lifecycle configuration.
         public var versionLifecycleConfig: ApplicationVersionLifecycleConfig? = nil
         /// The ARN of an IAM service role that Elastic Beanstalk has permission to assume.
@@ -1750,7 +1750,7 @@ extension Elasticbeanstalk {
 
     public struct DescribeApplicationsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to only include those with the specified names.
         public var applicationNames: [String]? = nil
 
@@ -1769,7 +1769,7 @@ extension Elasticbeanstalk {
 
     public struct EnvironmentResourceDescriptionsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  A list of EnvironmentResourceDescription. 
         public var environmentResources: EnvironmentResourceDescription? = nil
 
@@ -1786,7 +1786,7 @@ extension Elasticbeanstalk {
 
     public struct SystemStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Load average in the last 1-minute, 5-minute, and 15-minute periods. For more information, see Operating System Metrics.
         public var loadAverage: [Double]? = nil
         /// CPU utilization metrics for the instance.
@@ -1809,7 +1809,7 @@ extension Elasticbeanstalk {
 
     public struct ApplyEnvironmentManagedActionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the target environment.
         public var environmentName: String? = nil
         /// The action ID of the scheduled managed action to execute.
@@ -1835,7 +1835,7 @@ extension Elasticbeanstalk {
 
     public struct DescribePlatformVersionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the version of the platform.
         public var platformArn: String? = nil
 
@@ -1852,7 +1852,7 @@ extension Elasticbeanstalk {
 
     public struct ConfigurationOptionsDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  A list of ConfigurationOptionDescription. 
         public var options: [ConfigurationOptionDescription]? = nil
         /// The ARN of the custom platform.
@@ -1879,7 +1879,7 @@ extension Elasticbeanstalk {
 
     public struct ApplicationVersionDescriptionsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// For a paginated request, the token that you can pass in a subsequent request to get the next page.
         public var nextToken: String? = nil
         /// List of ApplicationVersionDescription objects sorted in order of creation.
@@ -1902,7 +1902,7 @@ extension Elasticbeanstalk {
 
     public struct ApplicationVersionDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of the application version.
         public var description: String? = nil
         /// The processing status of the application version.
@@ -1951,7 +1951,7 @@ extension Elasticbeanstalk {
 
     public struct DescribeConfigurationSettingsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the environment to describe.  Condition: You must specify either this or a TemplateName, but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public var environmentName: String? = nil
         /// The name of the configuration template to describe.  Conditional: You must specify either this parameter or an EnvironmentName, but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns a MissingRequiredParameter error. 
@@ -1977,7 +1977,7 @@ extension Elasticbeanstalk {
 
     public struct OptionSpecification: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique namespace identifying the option's associated AWS resource.
         public var namespace: String? = nil
         /// The name of the configuration option.
@@ -2002,7 +2002,7 @@ extension Elasticbeanstalk {
 
     public struct Listener: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The port that is used by the Listener.
         public var port: Int32? = nil
         /// The protocol that is used by the Listener.
@@ -2023,7 +2023,7 @@ extension Elasticbeanstalk {
 
     public struct ApplicationVersionLifecycleConfig: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specify a max count rule to restrict the number of application versions that are retained for an application.
         public var maxCountRule: MaxCountRule? = nil
         /// Specify a max age rule to restrict the length of time that application versions are retained for an application.
@@ -2044,7 +2044,7 @@ extension Elasticbeanstalk {
 
     public struct DescribeInstancesHealthResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Detailed health information about each instance.
         public var instanceHealthList: [SingleInstanceHealth]? = nil
         /// Pagination token for the next page of results, if available.
@@ -2071,7 +2071,7 @@ extension Elasticbeanstalk {
 
     public struct ApplicationDescriptionMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The ApplicationDescription of the application. 
         public var application: ApplicationDescription? = nil
 
@@ -2088,7 +2088,7 @@ extension Elasticbeanstalk {
 
     public struct DescribeEnvironmentHealthResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The environment's operational status. Ready, Launching, Updating, Terminating, or Terminated.
         public var status: String? = nil
         /// The health color of the environment.
@@ -2135,7 +2135,7 @@ extension Elasticbeanstalk {
 
     public struct RetrieveEnvironmentInfoMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the data's environment.  If no such environment is found, returns an InvalidParameterValue error.   Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public var environmentName: String? = nil
         /// The type of information to retrieve.
@@ -2161,7 +2161,7 @@ extension Elasticbeanstalk {
 
     public struct ConfigurationSettingsDescriptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  A list of ConfigurationSettingsDescription. 
         public var configurationSettings: [ConfigurationSettingsDescription]? = nil
 
@@ -2180,7 +2180,7 @@ extension Elasticbeanstalk {
 
     public struct AbortEnvironmentUpdateMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// This specifies the name of the environment with the in-progress update that you want to cancel.
         public var environmentName: String? = nil
         /// This specifies the ID of the environment with the in-progress update that you want to cancel.
@@ -2201,7 +2201,7 @@ extension Elasticbeanstalk {
 
     public struct MaxCountRule: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specify true to apply the rule, or false to disable it.
         public var enabled: Bool = false
         /// Specify the maximum number of application versions to retain.
@@ -2227,7 +2227,7 @@ extension Elasticbeanstalk {
 
     public struct DescribeEnvironmentResourcesMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the environment to retrieve AWS resource usage data.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
         public var environmentName: String? = nil
         /// The ID of the environment to retrieve AWS resource usage data.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error. 
@@ -2248,7 +2248,7 @@ extension Elasticbeanstalk {
 
     public struct ListAvailableSolutionStacksResultMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  A list of available solution stacks and their SolutionStackDescription. 
         public var solutionStackDetails: [SolutionStackDescription]? = nil
         /// A list of available solution stacks.
@@ -2273,7 +2273,7 @@ extension Elasticbeanstalk {
 
     public struct S3Location: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon S3 bucket where the data is located.
         public var s3Bucket: String? = nil
         /// The Amazon S3 key where the data is located.
@@ -2294,7 +2294,7 @@ extension Elasticbeanstalk {
 
     public struct ValidateConfigurationSettingsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the environment to validate the settings against. Condition: You cannot specify both this and a configuration template name.
         public var environmentName: String? = nil
         /// A list of the options and desired values to evaluate.
@@ -2325,7 +2325,7 @@ extension Elasticbeanstalk {
 
     public struct CreatePlatformVersionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number, such as 1.0.2, for the new platform version.
         public var platformVersion: String = ""
         /// The name of your custom platform.
@@ -2363,7 +2363,7 @@ extension Elasticbeanstalk {
 
     public struct CreateEnvironmentMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If specified, AWS Elastic Beanstalk sets the specified configuration options to the requested value in the configuration set for the new environment. These override the values obtained from the solution stack or the configuration template.
         public var optionSettings: [ConfigurationOptionSetting]? = nil
         ///  The name of the configuration template to use in deployment. If no configuration template is found with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
@@ -2435,7 +2435,7 @@ extension Elasticbeanstalk {
 
     public struct DeletePlatformVersionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Detailed information about the version of the custom platform.
         public var platformSummary: PlatformSummary? = nil
 
@@ -2452,7 +2452,7 @@ extension Elasticbeanstalk {
 
     public struct CustomAmi: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of virtualization used to create the custom AMI.
         public var virtualizationType: String? = nil
         /// THe ID of the image used to create the custom AMI.
@@ -2473,7 +2473,7 @@ extension Elasticbeanstalk {
 
     public struct CheckDNSAvailabilityResultMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The fully qualified CNAME to reserve when CreateEnvironment is called with the provided prefix.
         public var fullyQualifiedCNAME: String? = nil
         /// Indicates if the specified CNAME is available:    true : The CNAME is available.    false : The CNAME is not available.  
@@ -2494,7 +2494,7 @@ extension Elasticbeanstalk {
 
     public struct DeleteConfigurationTemplateMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the configuration template to delete.
         public var templateName: String = ""
         /// The name of the application to delete the configuration template from.
@@ -2517,7 +2517,7 @@ extension Elasticbeanstalk {
 
     public struct PlatformFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The custom platform attribute to which the filter values are applied. Valid Values: PlatformName | PlatformVersion | PlatformStatus | PlatformOwner 
         public var type: String? = nil
         /// The operator to apply to the Type with each of the Values.  Valid Values: = (equal to) | != (not equal to) | &lt; (less than) | &lt;= (less than or equal to) | &gt; (greater than) | &gt;= (greater than or equal to) | contains | begins_with | ends_with 
@@ -2544,7 +2544,7 @@ extension Elasticbeanstalk {
 
     public struct PlatformDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date when the platform was last updated.
         public var dateUpdated: Date? = nil
         /// The status of the platform.
@@ -2639,7 +2639,7 @@ extension Elasticbeanstalk {
 
     public struct UpdateEnvironmentMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If specified, AWS Elastic Beanstalk updates the configuration set associated with the running environment and sets the specified configuration options to the requested value.
         public var optionSettings: [ConfigurationOptionSetting]? = nil
         /// If this parameter is specified, AWS Elastic Beanstalk deploys this configuration template to the environment. If no such configuration template is found, AWS Elastic Beanstalk returns an InvalidParameterValue error. 
@@ -2704,7 +2704,7 @@ extension Elasticbeanstalk {
 
     public struct DeleteApplicationMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the application to delete.
         public var applicationName: String = ""
         /// When set to true, running environments will be terminated before deleting the application.
@@ -2726,7 +2726,7 @@ extension Elasticbeanstalk {
 
     public struct EnvironmentTier: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of this environment tier.
         public var type: String? = nil
         /// The name of this environment tier.
@@ -2751,7 +2751,7 @@ extension Elasticbeanstalk {
 
     public struct ListPlatformVersionsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The starting index into the remaining list of platforms. if this value is not null, you can use it in a subsequent ListPlatformVersion call. 
         public var nextToken: String? = nil
         /// Detailed information about the platforms.
@@ -2774,7 +2774,7 @@ extension Elasticbeanstalk {
 
     public struct ApplicationVersionDescriptionMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The ApplicationVersionDescription of the application version. 
         public var applicationVersion: ApplicationVersionDescription? = nil
 
@@ -2791,7 +2791,7 @@ extension Elasticbeanstalk {
 
     public struct EnvironmentLink: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the linked environment (the dependency).
         public var environmentName: String? = nil
         /// The name of the link.
@@ -2812,7 +2812,7 @@ extension Elasticbeanstalk {
 
     public struct LaunchConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the launch configuration.
         public var name: String? = nil
 
@@ -2829,7 +2829,7 @@ extension Elasticbeanstalk {
 
     public struct MaxAgeRule: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specify the number of days to retain an application versions.
         public var maxAgeInDays: Int32? = nil
         /// Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version.
@@ -2855,7 +2855,7 @@ extension Elasticbeanstalk {
 
     public struct ListPlatformVersionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of platform values returned in one call.
         public var maxRecords: Int32? = nil
         /// The starting index into the remaining list of platforms. Use the NextToken value from a previous ListPlatformVersion call.
@@ -2882,7 +2882,7 @@ extension Elasticbeanstalk {
 
     public struct UpdateApplicationVersionMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the version to update. If no application version is found with this label, UpdateApplication returns an InvalidParameterValue error. 
         public var versionLabel: String = ""
         /// The name of the application associated with this version.  If no application is found with this name, UpdateApplication returns an InvalidParameterValue error.
@@ -2909,7 +2909,7 @@ extension Elasticbeanstalk {
 
     public struct DeleteEnvironmentConfigurationMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the environment to delete the draft configuration from.
         public var environmentName: String = ""
         /// The name of the application the environment is associated with.
@@ -2932,7 +2932,7 @@ extension Elasticbeanstalk {
 
     public struct EnvironmentInfoDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The retrieved information.
         public var message: String? = nil
         /// The type of information retrieved.
@@ -2961,7 +2961,7 @@ extension Elasticbeanstalk {
 
     public struct DeleteApplicationVersionMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The label of the version to delete.
         public var versionLabel: String = ""
         /// Set to true to delete the source bundle from your storage bucket. Otherwise, the application version is deleted only from Elastic Beanstalk and the source bundle remains in Amazon S3.
@@ -2988,7 +2988,7 @@ extension Elasticbeanstalk {
 
     public struct ValidationMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The namespace to which the option belongs.
         public var namespace: String? = nil
         /// An indication of the severity of this message:    error: This message indicates that this is not a valid setting for an option.    warning: This message is providing information you should take into account.  
@@ -3017,7 +3017,7 @@ extension Elasticbeanstalk {
 
     public struct Queue: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the queue.
         public var name: String? = nil
         /// The URL of the queue.
@@ -3038,7 +3038,7 @@ extension Elasticbeanstalk {
 
     public struct DescribeEnvironmentManagedActionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the target environment.
         public var environmentName: String? = nil
         /// To show only actions with a particular status, specify a status.
@@ -3063,7 +3063,7 @@ extension Elasticbeanstalk {
 
     public struct DeletePlatformVersionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the version of the custom platform.
         public var platformArn: String? = nil
 
@@ -3080,7 +3080,7 @@ extension Elasticbeanstalk {
 
     public struct ConfigurationOptionSetting: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique namespace identifying the option's associated AWS resource.
         public var namespace: String? = nil
         /// The name of the configuration option.
@@ -3109,7 +3109,7 @@ extension Elasticbeanstalk {
 
     public struct CreateApplicationMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specify an application resource lifecycle configuration to prevent your application from accumulating too many versions.
         public var resourceLifecycleConfig: ApplicationResourceLifecycleConfig? = nil
         /// The name of the application. Constraint: This name must be unique within your account. If the specified name already exists, the action returns an InvalidParameterValue error.
@@ -3135,7 +3135,7 @@ extension Elasticbeanstalk {
 
     public struct LoadBalancerDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the LoadBalancer.
         public var loadBalancerName: String? = nil
         /// The domain name of the LoadBalancer.
@@ -3162,7 +3162,7 @@ extension Elasticbeanstalk {
 
     public struct UpdateApplicationResourceLifecycleMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The lifecycle configuration.
         public var resourceLifecycleConfig: ApplicationResourceLifecycleConfig = ApplicationResourceLifecycleConfig()
         /// The name of the application.
@@ -3185,7 +3185,7 @@ extension Elasticbeanstalk {
 
     public struct SingleInstanceHealth: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Represents the color indicator that gives you information about the health of the EC2 instance. For more information, see Health Colors and Statuses.
         public var color: String? = nil
         /// The ID of the Amazon EC2 instance.
@@ -3240,7 +3240,7 @@ extension Elasticbeanstalk {
 
     public struct EnvironmentResourceDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The AutoScalingGroups used by this environment. 
         public var autoScalingGroups: [AutoScalingGroup]? = nil
         /// The Auto Scaling launch configurations in use by this environment.
@@ -3293,7 +3293,7 @@ extension Elasticbeanstalk {
 
     public struct DescribeEnvironmentsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  If specified when IncludeDeleted is set to true, then environments deleted after this date are displayed. 
         public var includedDeletedBackTo: Date? = nil
         /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
@@ -3334,7 +3334,7 @@ extension Elasticbeanstalk {
 
     public struct DescribeApplicationVersionsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specify a maximum number of application versions to paginate in the request.
         public var maxRecords: Int32? = nil
         /// Specify an application name to show only application versions for that application.

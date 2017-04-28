@@ -31,7 +31,7 @@ extension Autoscaling {
 
     public struct LaunchConfigurationsType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The launch configurations.
         public var launchConfigurations: [LaunchConfiguration] = []
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -53,7 +53,7 @@ extension Autoscaling {
 
     public struct ActivityType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A scaling activity.
         public var activity: Activity? = nil
 
@@ -70,7 +70,7 @@ extension Autoscaling {
 
     public struct ProcessType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One of the following processes:    Launch     Terminate     AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     ReplaceUnhealthy     ScheduledActions   
         public var processName: String = ""
 
@@ -88,7 +88,7 @@ extension Autoscaling {
 
     public struct DeleteLifecycleHookAnswer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -98,7 +98,7 @@ extension Autoscaling {
 
     public struct PutLifecycleHookType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the notification target that Auto Scaling will use to notify you when an instance is in the transition state for the lifecycle hook. This target can be either an SQS queue or an SNS topic. If you specify an empty string, this overrides the current ARN. This operation uses the JSON format when sending notifications to an Amazon SQS queue, and an email key/value pair format when sending notifications to an Amazon SNS topic. When you specify a notification target, Auto Scaling sends it a test message. Test messages contains the following additional key/value pair: "Event": "autoscaling:TEST_NOTIFICATION".
         public var notificationTargetARN: String? = nil
         /// Contains additional information that you want to include any time Auto Scaling sends a message to the notification target.
@@ -145,7 +145,7 @@ extension Autoscaling {
 
     public struct LaunchConfigurationNamesType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return with this call. The default is 100.
         public var maxRecords: Int32? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -172,7 +172,7 @@ extension Autoscaling {
 
     public struct DescribeNotificationConfigurationsAnswer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// The notification configurations.
@@ -194,7 +194,7 @@ extension Autoscaling {
 
     public struct ScalingPolicy: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Available for backward compatibility. Use MinAdjustmentMagnitude instead.
         public var minAdjustmentStep: Int32? = nil
         /// The policy type. Valid values are SimpleScaling and StepScaling.
@@ -263,7 +263,7 @@ extension Autoscaling {
 
     public struct DetachLoadBalancersType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more load balancer names.
         public var loadBalancerNames: [String] = []
         /// The name of the Auto Scaling group.
@@ -286,7 +286,7 @@ extension Autoscaling {
 
     public struct AdjustmentType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The policy adjustment type. The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity.
         public var adjustmentType: String? = nil
 
@@ -303,7 +303,7 @@ extension Autoscaling {
 
     public struct AutoScalingInstanceDetails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The launch configuration associated with the instance.
         public var launchConfigurationName: String = ""
         /// The lifecycle state for the instance. For more information, see Auto Scaling Lifecycle in the Auto Scaling User Guide.
@@ -351,7 +351,7 @@ extension Autoscaling {
 
     public struct PutScheduledUpdateGroupActionType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time for this action to start, in "YYYY-MM-DDThh:mm:ssZ" format in UTC/GMT only (for example, 2014-06-01T00:00:00Z). If you specify Recurrence and StartTime, Auto Scaling performs the action at this time, and then performs the action based on the specified recurrence. If you try to schedule your action in the past, Auto Scaling returns an error message.
         public var startTime: Date? = nil
         /// The minimum size for the Auto Scaling group.
@@ -402,7 +402,7 @@ extension Autoscaling {
 
     public struct AutoScalingGroupNamesType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return with this call.
         public var maxRecords: Int32? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -429,7 +429,7 @@ extension Autoscaling {
 
     public struct DescribeScheduledActionsType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return with this call.
         public var maxRecords: Int32? = nil
         /// The earliest scheduled start time to return. If scheduled action names are provided, this parameter is ignored.
@@ -468,7 +468,7 @@ extension Autoscaling {
 
     public struct LoadBalancerState: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the load balancer.
         public var loadBalancerName: String? = nil
         /// One of the following load balancer states:    Adding - The instances in the group are being registered with the load balancer.    Added - All instances in the group are registered with the load balancer.    InService - At least one instance in the group passed an ELB health check.    Removing - The instances in the group are being deregistered from the load balancer. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.    Removed - All instances in the group are deregistered from the load balancer.  
@@ -489,7 +489,7 @@ extension Autoscaling {
 
     public struct ExecutePolicyType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name or ARN of the policy.
         public var policyName: String = ""
         /// The breach threshold for the alarm. This parameter is required if the policy type is StepScaling and not supported otherwise.
@@ -523,7 +523,7 @@ extension Autoscaling {
 
     public struct DisableMetricsCollectionQuery: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more of the following metrics. If you omit this parameter, all metrics are disabled.    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
         public var metrics: [String]? = nil
         /// The name or Amazon Resource Name (ARN) of the group.
@@ -547,7 +547,7 @@ extension Autoscaling {
 
     public struct DescribeAutoScalingNotificationTypesAnswer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The notification types.
         public var autoScalingNotificationTypes: [String]? = nil
 
@@ -566,7 +566,7 @@ extension Autoscaling {
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The tag key.
         public var key: String = ""
         /// Determines whether the tag is added to new instances as they are launched in the group.
@@ -600,7 +600,7 @@ extension Autoscaling {
 
     public struct AttachLoadBalancersType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more load balancer names.
         public var loadBalancerNames: [String] = []
         /// The name of the group.
@@ -623,7 +623,7 @@ extension Autoscaling {
 
     public struct LoadBalancerTargetGroupState: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the target group.
         public var loadBalancerTargetGroupARN: String? = nil
         /// The state of the target group.    Adding - The Auto Scaling instances are being registered with the target group.    Added - All Auto Scaling instances are registered with the target group.    InService - At least one Auto Scaling instance passed an ELB health check.    Removing - The Auto Scaling instances are being deregistered from the target group. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.    Removed - All Auto Scaling instances are deregistered from the target group.  
@@ -644,7 +644,7 @@ extension Autoscaling {
 
     public struct TagDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The tag key.
         public var key: String? = nil
         /// Determines whether the tag is added to new instances as they are launched in the group.
@@ -677,7 +677,7 @@ extension Autoscaling {
 
     public struct CompleteLifecycleActionType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the group for the lifecycle hook.
         public var autoScalingGroupName: String = ""
         /// The name of the lifecycle hook.
@@ -713,7 +713,7 @@ extension Autoscaling {
 
     public struct StepAdjustment: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity.
         public var scalingAdjustment: Int32 = 0
         /// The upper bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the upper bound is exclusive (the metric must be less than the threshold plus the upper bound). Otherwise, it is inclusive (the metric must be less than or equal to the threshold plus the upper bound). A null value indicates positive infinity. The upper bound must be greater than the lower bound.
@@ -739,7 +739,7 @@ extension Autoscaling {
 
     public struct SetInstanceProtectionAnswer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -749,7 +749,7 @@ extension Autoscaling {
 
     public struct Alarm: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the alarm.
         public var alarmName: String? = nil
         /// The Amazon Resource Name (ARN) of the alarm.
@@ -770,7 +770,7 @@ extension Autoscaling {
 
     public struct Instance: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether the instance is protected from termination by Auto Scaling when scaling in.
         public var protectedFromScaleIn: Bool = false
         /// The last reported health status of the instance. "Healthy" means that the instance is healthy and should remain in service. "Unhealthy" means that the instance is unhealthy and Auto Scaling should terminate and replace it.
@@ -813,7 +813,7 @@ extension Autoscaling {
 
     public struct ScalingProcessQuery: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name or Amazon Resource Name (ARN) of the Auto Scaling group.
         public var autoScalingGroupName: String = ""
         /// One or more of the following processes. If you omit this parameter, all processes are specified.    Launch     Terminate     HealthCheck     ReplaceUnhealthy     AZRebalance     AlarmNotification     ScheduledActions     AddToLoadBalancer   
@@ -837,7 +837,7 @@ extension Autoscaling {
 
     public struct ExitStandbyQuery: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more instance IDs. You must specify at least one instance ID.
         public var instanceIds: [String]? = nil
         /// The name of the Auto Scaling group.
@@ -861,7 +861,7 @@ extension Autoscaling {
 
     public struct CreateAutoScalingGroupType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more Availability Zones for the group. This parameter is optional if you specify one or more subnets.
         public var availabilityZones: [String]? = nil
         /// The name of the launch configuration. Alternatively, specify an EC2 instance instead of a launch configuration.
@@ -955,7 +955,7 @@ extension Autoscaling {
 
     public struct TagsType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// One or more tags.
@@ -978,7 +978,7 @@ extension Autoscaling {
 
     public struct PutNotificationConfigurationType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of event that will cause the notification to be sent. For details about notification types supported by Auto Scaling, see DescribeAutoScalingNotificationTypes.
         public var notificationTypes: [String] = []
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic.
@@ -1006,7 +1006,7 @@ extension Autoscaling {
 
     public struct EnabledMetric: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The granularity of the metric. The only valid value is 1Minute.
         public var granularity: String? = nil
         /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
@@ -1027,7 +1027,7 @@ extension Autoscaling {
 
     public struct MetricGranularityType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The granularity. The only valid value is 1Minute.
         public var granularity: String? = nil
 
@@ -1044,7 +1044,7 @@ extension Autoscaling {
 
     public struct ScheduledUpdateGroupAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date and time that the action is scheduled to begin. This date and time can be up to one month in the future. When StartTime and EndTime are specified with Recurrence, they form the boundaries of when the recurring action will start and stop.
         public var startTime: Date? = nil
         /// The Amazon Resource Name (ARN) of the scheduled action.
@@ -1097,7 +1097,7 @@ extension Autoscaling {
 
     public struct DeletePolicyType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the Auto Scaling group.
         public var autoScalingGroupName: String? = nil
         /// The name or Amazon Resource Name (ARN) of the policy.
@@ -1119,7 +1119,7 @@ extension Autoscaling {
 
     public struct ProcessesType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The names of the process types.
         public var processes: [ProcessType]? = nil
 
@@ -1138,7 +1138,7 @@ extension Autoscaling {
 
     public struct AttachInstancesQuery: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more instance IDs.
         public var instanceIds: [String]? = nil
         /// The name of the group.
@@ -1162,7 +1162,7 @@ extension Autoscaling {
 
     public struct AutoScalingGroupsType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// The groups.
@@ -1184,7 +1184,7 @@ extension Autoscaling {
 
     public struct AutoScalingGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more Availability Zones for the group.
         public var availabilityZones: [String] = []
         /// The metrics enabled for the group.
@@ -1307,7 +1307,7 @@ extension Autoscaling {
 
     public struct DescribeLifecycleHookTypesAnswer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The lifecycle hook types.
         public var lifecycleHookTypes: [String]? = nil
 
@@ -1326,7 +1326,7 @@ extension Autoscaling {
 
     public struct DescribeNotificationConfigurationsType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return with this call.
         public var maxRecords: Int32? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -1353,7 +1353,7 @@ extension Autoscaling {
 
     public struct Ebs: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the snapshot.
         public var snapshotId: String? = nil
         /// Indicates whether the volume is deleted on instance termination. Default: true 
@@ -1390,7 +1390,7 @@ extension Autoscaling {
 
     public struct DescribeLoadBalancerTargetGroupsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return with this call.
         public var maxRecords: Int32? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -1416,7 +1416,7 @@ extension Autoscaling {
 
     public struct DescribeScalingActivitiesType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return with this call.
         public var maxRecords: Int32? = nil
         /// The name of the group.
@@ -1447,7 +1447,7 @@ extension Autoscaling {
 
     public struct DetachInstancesQuery: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If True, the Auto Scaling group decrements the desired capacity value by the number of instances detached.
         public var shouldDecrementDesiredCapacity: Bool = false
         /// The name of the group.
@@ -1476,7 +1476,7 @@ extension Autoscaling {
 
     public struct DescribePoliciesType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to be returned with each call.
         public var maxRecords: Int32? = nil
         /// The name of the group.
@@ -1513,7 +1513,7 @@ extension Autoscaling {
 
     public struct DeleteNotificationConfigurationType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic.
         public var topicARN: String = ""
         /// The name of the Auto Scaling group.
@@ -1536,7 +1536,7 @@ extension Autoscaling {
 
     public struct PoliciesType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// The scaling policies.
@@ -1559,7 +1559,7 @@ extension Autoscaling {
 
     public struct PutLifecycleHookAnswer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1569,7 +1569,7 @@ extension Autoscaling {
 
     public struct LaunchConfigurationNameType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the launch configuration.
         public var launchConfigurationName: String = ""
 
@@ -1587,7 +1587,7 @@ extension Autoscaling {
 
     public struct DescribeAccountLimitsAnswer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of launch configurations allowed for your AWS account. The default limit is 100 per region.
         public var maxNumberOfLaunchConfigurations: Int32? = nil
         /// The current number of launch configurations for your AWS account.
@@ -1616,7 +1616,7 @@ extension Autoscaling {
 
     public struct CompleteLifecycleActionAnswer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1626,7 +1626,7 @@ extension Autoscaling {
 
     public struct PolicyARNType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the policy.
         public var policyARN: String? = nil
 
@@ -1643,7 +1643,7 @@ extension Autoscaling {
 
     public struct SuspendedProcess: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the suspended process.
         public var processName: String? = nil
         /// The reason that the process was suspended.
@@ -1664,7 +1664,7 @@ extension Autoscaling {
 
     public struct CreateLaunchConfigurationType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more mappings that specify how block devices are exposed to the instance. For more information, see Block Device Mapping in the Amazon Elastic Compute Cloud User Guide.
         public var blockDeviceMappings: [BlockDeviceMapping]? = nil
         /// The name of the launch configuration. This name must be unique within the scope of your AWS account.
@@ -1756,7 +1756,7 @@ extension Autoscaling {
 
     public struct DescribeLifecycleHooksAnswer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The lifecycle hooks for the specified group.
         public var lifecycleHooks: [LifecycleHook]? = nil
 
@@ -1775,7 +1775,7 @@ extension Autoscaling {
 
     public struct DescribeAutoScalingInstancesType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return with this call.
         public var maxRecords: Int32? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -1802,7 +1802,7 @@ extension Autoscaling {
 
     public struct AutoScalingInstancesType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The instances.
         public var autoScalingInstances: [AutoScalingInstanceDetails]? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -1825,7 +1825,7 @@ extension Autoscaling {
 
     public struct NotificationConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic.
         public var topicARN: String? = nil
         /// The name of the group.
@@ -1850,7 +1850,7 @@ extension Autoscaling {
 
     public struct DescribeMetricCollectionTypesAnswer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The granularities for the metrics.
         public var granularities: [MetricGranularityType]? = nil
         /// One or more metrics.
@@ -1875,7 +1875,7 @@ extension Autoscaling {
 
     public struct DetachInstancesAnswer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The activities related to detaching the instances from the Auto Scaling group.
         public var activities: [Activity]? = nil
 
@@ -1894,7 +1894,7 @@ extension Autoscaling {
 
     public struct DetachLoadBalancerTargetGroupsResultType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1904,7 +1904,7 @@ extension Autoscaling {
 
     public struct AttachLoadBalancerTargetGroupsResultType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1914,7 +1914,7 @@ extension Autoscaling {
 
     public struct InstanceMonitoring: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If True, instance monitoring is enabled.
         public var enabled: Bool? = nil
 
@@ -1931,7 +1931,7 @@ extension Autoscaling {
 
     public struct ExitStandbyAnswer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The activities related to moving instances out of Standby mode.
         public var activities: [Activity]? = nil
 
@@ -1950,7 +1950,7 @@ extension Autoscaling {
 
     public struct TerminateInstanceInAutoScalingGroupType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If true, terminating the instance also decrements the size of the Auto Scaling group.
         public var shouldDecrementDesiredCapacity: Bool = false
         /// The ID of the instance.
@@ -1973,7 +1973,7 @@ extension Autoscaling {
 
     public struct SetDesiredCapacityType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of EC2 instances that should be running in the Auto Scaling group.
         public var desiredCapacity: Int32 = 0
         /// The name of the Auto Scaling group.
@@ -2000,7 +2000,7 @@ extension Autoscaling {
 
     public struct DescribeTerminationPolicyTypesAnswer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The termination policies supported by Auto Scaling (OldestInstance, OldestLaunchConfiguration, NewestInstance, ClosestToNextInstanceHour, and Default).
         public var terminationPolicyTypes: [String]? = nil
 
@@ -2019,7 +2019,7 @@ extension Autoscaling {
 
     public struct RecordLifecycleActionHeartbeatAnswer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2029,7 +2029,7 @@ extension Autoscaling {
 
     public struct Activity: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The start time of the activity.
         public var startTime: Date = Date()
         /// The details about the activity.
@@ -2087,7 +2087,7 @@ extension Autoscaling {
 
     public struct SetInstanceHealthQuery: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the instance.
         public var instanceId: String = ""
         /// The health status of the instance. Set to Healthy if you want the instance to remain in service. Set to Unhealthy if you want the instance to be out of service. Auto Scaling will terminate and replace the unhealthy instance.
@@ -2114,7 +2114,7 @@ extension Autoscaling {
 
     public struct DescribeAdjustmentTypesAnswer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The policy adjustment types.
         public var adjustmentTypes: [AdjustmentType]? = nil
 
@@ -2133,7 +2133,7 @@ extension Autoscaling {
 
     public struct ScheduledActionsType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// The scheduled actions.
@@ -2156,7 +2156,7 @@ extension Autoscaling {
 
     public struct ActivitiesType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The scaling activities. Activities are sorted by start time. Activities still in progress are described first.
         public var activities: [Activity] = []
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -2178,7 +2178,7 @@ extension Autoscaling {
 
     public struct EnterStandbyAnswer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The activities related to moving instances into Standby mode.
         public var activities: [Activity]? = nil
 
@@ -2197,7 +2197,7 @@ extension Autoscaling {
 
     public struct MetricCollectionType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances   
         public var metric: String? = nil
 
@@ -2214,7 +2214,7 @@ extension Autoscaling {
 
     public struct UpdateAutoScalingGroupType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more Availability Zones for the group.
         public var availabilityZones: [String]? = nil
         /// The name of the launch configuration.
@@ -2284,7 +2284,7 @@ extension Autoscaling {
 
     public struct DeleteLifecycleHookType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the lifecycle hook.
         public var lifecycleHookName: String = ""
         /// The name of the Auto Scaling group for the lifecycle hook.
@@ -2307,7 +2307,7 @@ extension Autoscaling {
 
     public struct DescribeLoadBalancersResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// The load balancers.
@@ -2330,7 +2330,7 @@ extension Autoscaling {
 
     public struct DeleteTagsType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more tags.
         public var tags: [Tag] = []
 
@@ -2348,7 +2348,7 @@ extension Autoscaling {
 
     public struct DescribeLoadBalancerTargetGroupsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the target groups.
         public var loadBalancerTargetGroups: [LoadBalancerTargetGroupState]? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -2371,7 +2371,7 @@ extension Autoscaling {
 
     public struct DetachLoadBalancersResultType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2381,7 +2381,7 @@ extension Autoscaling {
 
     public struct EnterStandbyQuery: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies whether the instances moved to Standby mode count as part of the Auto Scaling group's desired capacity. If set, the desired capacity for the Auto Scaling group decrements by the number of instances moved to Standby mode.
         public var shouldDecrementDesiredCapacity: Bool = false
         /// The name of the Auto Scaling group.
@@ -2410,7 +2410,7 @@ extension Autoscaling {
 
     public struct DetachLoadBalancerTargetGroupsType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Names (ARN) of the target groups.
         public var targetGroupARNs: [String] = []
         /// The name of the Auto Scaling group.
@@ -2433,7 +2433,7 @@ extension Autoscaling {
 
     public struct AttachLoadBalancerTargetGroupsType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Names (ARN) of the target groups.
         public var targetGroupARNs: [String] = []
         /// The name of the Auto Scaling group.
@@ -2456,7 +2456,7 @@ extension Autoscaling {
 
     public struct DeleteScheduledActionType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the action to delete.
         public var scheduledActionName: String = ""
         /// The name of the Auto Scaling group.
@@ -2479,7 +2479,7 @@ extension Autoscaling {
 
     public struct LifecycleHook: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the notification target that Auto Scaling uses to notify you when an instance is in the transition state for the lifecycle hook. This ARN target can be either an SQS queue or an SNS topic. The notification message sent to the target includes the following:   Lifecycle action token   User account ID   Name of the Auto Scaling group   Lifecycle hook name   EC2 instance ID   Lifecycle transition   Notification metadata  
         public var notificationTargetARN: String? = nil
         /// Additional information that you want to include any time Auto Scaling sends a message to the notification target.
@@ -2528,7 +2528,7 @@ extension Autoscaling {
 
     public struct EnableMetricsCollectionQuery: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The granularity to associate with the metrics to collect. The only valid value is 1Minute.
         public var granularity: String = ""
         /// The name or ARN of the Auto Scaling group.
@@ -2557,7 +2557,7 @@ extension Autoscaling {
 
     public struct LaunchConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the launch configuration.
         public var launchConfigurationARN: String? = nil
         /// The name of the launch configuration.
@@ -2656,7 +2656,7 @@ extension Autoscaling {
 
     public struct DescribeTagsType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return with this call.
         public var maxRecords: Int32? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -2683,7 +2683,7 @@ extension Autoscaling {
 
     public struct BlockDeviceMapping: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Suppresses a device mapping. If this parameter is true for the root device, the instance might fail the EC2 health check. Auto Scaling launches a replacement instance if the instance fails the health check.
         public var noDevice: Bool? = nil
         /// The name of the virtual device (for example, ephemeral0).
@@ -2713,7 +2713,7 @@ extension Autoscaling {
 
     public struct DeleteAutoScalingGroupType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies that the group will be deleted along with all instances associated with the group, without waiting for all instances to be terminated. This parameter also deletes any lifecycle actions associated with the group.
         public var forceDelete: Bool? = nil
         /// The name of the group to delete.
@@ -2735,7 +2735,7 @@ extension Autoscaling {
 
     public struct RecordLifecycleActionHeartbeatType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the Auto Scaling group for the hook.
         public var autoScalingGroupName: String = ""
         /// The name of the lifecycle hook.
@@ -2766,7 +2766,7 @@ extension Autoscaling {
 
     public struct DescribeLoadBalancersRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of items to return with this call.
         public var maxRecords: Int32? = nil
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -2792,7 +2792,7 @@ extension Autoscaling {
 
     public struct PutScalingPolicyType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Available for backward compatibility. Use MinAdjustmentMagnitude instead.
         public var minAdjustmentStep: Int32? = nil
         /// The aggregation type for the CloudWatch metrics. Valid values are Minimum, Maximum, and Average. If the aggregation type is null, the value is treated as Average. This parameter is not supported if the policy type is SimpleScaling.
@@ -2854,7 +2854,7 @@ extension Autoscaling {
 
     public struct SetInstanceProtectionQuery: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether the instance is protected from termination by Auto Scaling when scaling in.
         public var protectedFromScaleIn: Bool = false
         /// The name of the group.
@@ -2882,7 +2882,7 @@ extension Autoscaling {
 
     public struct AttachLoadBalancersResultType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2892,7 +2892,7 @@ extension Autoscaling {
 
     public struct Filter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the filter. The valid values are: "auto-scaling-group", "key", "value", and "propagate-at-launch".
         public var name: String? = nil
         /// The value of the filter.
@@ -2915,7 +2915,7 @@ extension Autoscaling {
 
     public struct DescribeLifecycleHooksType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The names of one or more lifecycle hooks. If you omit this parameter, all lifecycle hooks are described.
         public var lifecycleHookNames: [String]? = nil
         /// The name of the group.
@@ -2939,7 +2939,7 @@ extension Autoscaling {
 
     public struct CreateOrUpdateTagsType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more tags.
         public var tags: [Tag] = []
 

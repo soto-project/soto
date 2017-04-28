@@ -31,7 +31,7 @@ extension CognitoSync {
 
     public struct ListDatasetsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A pagination token for obtaining the next page of results.
         public var nextToken: String? = nil
         /// A set of datasets.
@@ -58,8 +58,8 @@ extension CognitoSync {
 
     public struct DescribeDatasetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId", "DatasetName": "DatasetName", "IdentityId": "IdentityId"]
         }
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -89,8 +89,8 @@ extension CognitoSync {
 
     public struct ListIdentityPoolUsageRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["nextToken": "NextToken", "maxResults": "MaxResults"]
         }
         /// A pagination token for obtaining the next page of results.
@@ -113,7 +113,7 @@ extension CognitoSync {
 
     public struct UpdateRecordsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of records that have been updated.
         public var records: [Record]? = nil
 
@@ -132,8 +132,8 @@ extension CognitoSync {
 
     public struct BulkPublishRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId"]
         }
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -153,7 +153,7 @@ extension CognitoSync {
 
     public struct GetBulkPublishDetailsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date/time at which the last bulk publish was initiated.
         public var bulkPublishStartTime: Date? = nil
         /// If BulkPublishStatus is SUCCEEDED, the time the last bulk publish operation completed.
@@ -186,8 +186,8 @@ extension CognitoSync {
 
     public struct GetBulkPublishDetailsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId"]
         }
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -207,7 +207,7 @@ extension CognitoSync {
 
     public struct RegisterDeviceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique ID generated for this device by Cognito.
         public var deviceId: String? = nil
 
@@ -224,11 +224,11 @@ extension CognitoSync {
 
     public struct ListDatasetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["nextToken": "NextToken", "maxResults": "MaxResults"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId", "IdentityId": "IdentityId"]
         }
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -261,8 +261,8 @@ extension CognitoSync {
 
     public struct GetIdentityPoolConfigurationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId"]
         }
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool for which to return a configuration.
@@ -282,8 +282,8 @@ extension CognitoSync {
 
     public struct GetCognitoEventsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId"]
         }
         /// The Cognito Identity Pool ID for the request
@@ -303,7 +303,7 @@ extension CognitoSync {
 
     public struct SubscribeToDatasetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -313,7 +313,7 @@ extension CognitoSync {
 
     public struct GetCognitoEventsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Cognito Events returned from the GetCognitoEvents request
         public var events: [String: String]? = nil
 
@@ -332,8 +332,8 @@ extension CognitoSync {
 
     public struct RegisterDeviceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId", "IdentityId": "IdentityId"]
         }
         /// The SNS platform type (e.g. GCM, SDM, APNS, APNS_SANDBOX).
@@ -368,8 +368,8 @@ extension CognitoSync {
 
     public struct SetIdentityPoolConfigurationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId"]
         }
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool to modify.
@@ -397,7 +397,7 @@ extension CognitoSync {
 
     public struct CognitoStreams: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the role Amazon Cognito can assume in order to publish to the stream. This role must grant access to Amazon Cognito (cognito-sync) to invoke PutRecord on your Cognito stream.
         public var roleArn: String? = nil
         /// Status of the Cognito streams. Valid values are: ENABLED - Streaming of updates to identity pool is enabled. DISABLED - Streaming of updates to identity pool is disabled. Bulk publish will also fail if StreamingStatus is DISABLED.
@@ -422,11 +422,11 @@ extension CognitoSync {
 
     public struct ListRecordsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["syncSessionToken": "SyncSessionToken", "lastSyncCount": "LastSyncCount", "nextToken": "NextToken", "maxResults": "MaxResults"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId", "DatasetName": "DatasetName", "IdentityId": "IdentityId"]
         }
         /// A token containing a session ID, identity ID, and expiration.
@@ -472,7 +472,7 @@ extension CognitoSync {
 
     public struct DescribeDatasetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Meta data for a collection of data for an identity. An identity can have multiple datasets. A dataset can be general or associated with a particular entity in an application (like a saved game). Datasets are automatically created if they don't exist. Data is synced by dataset, and a dataset can hold up to 1MB of key-value pairs.
         public var dataset: Dataset? = nil
 
@@ -489,8 +489,8 @@ extension CognitoSync {
 
     public struct UnsubscribeFromDatasetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["DeviceId": "DeviceId", "IdentityId": "IdentityId", "IdentityPoolId": "IdentityPoolId", "DatasetName": "DatasetName"]
         }
         /// The unique ID generated for this device by Cognito.
@@ -525,7 +525,7 @@ extension CognitoSync {
 
     public struct PushSync: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A role configured to allow Cognito to call SNS on behalf of the developer.
         public var roleArn: String? = nil
         /// List of SNS platform application ARNs that could be used by clients.
@@ -548,7 +548,7 @@ extension CognitoSync {
 
     public struct Record: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date on which the record was last modified.
         public var lastModifiedDate: Date? = nil
         /// The last modified date of the client device.
@@ -585,7 +585,7 @@ extension CognitoSync {
 
     public struct IdentityUsage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Number of datasets for the identity.
         public var datasetCount: Int32? = nil
         /// Date on which the identity was last modified.
@@ -618,8 +618,8 @@ extension CognitoSync {
 
     public struct DescribeIdentityPoolUsageRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId"]
         }
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -639,7 +639,7 @@ extension CognitoSync {
 
     public struct Dataset: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Number of records in this dataset.
         public var numRecords: Int64? = nil
         /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
@@ -680,7 +680,7 @@ extension CognitoSync {
 
     public struct SetIdentityPoolConfigurationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
         public var identityPoolId: String? = nil
         /// Options to apply to this identity pool for push synchronization.
@@ -705,7 +705,7 @@ extension CognitoSync {
 
     public struct DescribeIdentityUsageResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Usage information for the identity.
         public var identityUsage: IdentityUsage? = nil
 
@@ -722,7 +722,7 @@ extension CognitoSync {
 
     public struct GetIdentityPoolConfigurationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
         public var identityPoolId: String? = nil
         /// Options to apply to this identity pool for push synchronization.
@@ -747,7 +747,7 @@ extension CognitoSync {
 
     public struct ListIdentityPoolUsageResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of results to be returned.
         public var maxResults: Int32? = nil
         /// A pagination token for obtaining the next page of results.
@@ -778,11 +778,11 @@ extension CognitoSync {
 
     public struct UpdateRecordsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var headerParams: [String: String] {
+        public static let payload: String? = nil
+        public static var headerParams: [String: String] {
             return ["x-amz-Client-Context": "ClientContext"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId", "DatasetName": "DatasetName", "IdentityId": "IdentityId"]
         }
         /// The unique ID generated for this device by Cognito.
@@ -831,8 +831,8 @@ extension CognitoSync {
 
     public struct SubscribeToDatasetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["DeviceId": "DeviceId", "IdentityId": "IdentityId", "IdentityPoolId": "IdentityPoolId", "DatasetName": "DatasetName"]
         }
         /// The unique ID generated for this device by Cognito.
@@ -867,7 +867,7 @@ extension CognitoSync {
 
     public struct IdentityPoolUsage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Number of sync sessions for the identity pool.
         public var syncSessionsCount: Int64? = nil
         /// Date on which the identity pool was last modified.
@@ -896,7 +896,7 @@ extension CognitoSync {
 
     public struct DescribeIdentityPoolUsageResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the usage of the identity pool.
         public var identityPoolUsage: IdentityPoolUsage? = nil
 
@@ -913,7 +913,7 @@ extension CognitoSync {
 
     public struct ListRecordsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of all records.
         public var records: [Record]? = nil
         /// Names of merged datasets.
@@ -966,8 +966,8 @@ extension CognitoSync {
 
     public struct DeleteDatasetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId", "DatasetName": "DatasetName", "IdentityId": "IdentityId"]
         }
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -997,7 +997,7 @@ extension CognitoSync {
 
     public struct DeleteDatasetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A collection of data for an identity pool. An identity pool can have multiple datasets. A dataset is per identity and can be general or associated with a particular entity in an application (like a saved game). Datasets are automatically created if they don't exist. Data is synced by dataset, and a dataset can hold up to 1MB of key-value pairs.
         public var dataset: Dataset? = nil
 
@@ -1014,7 +1014,7 @@ extension CognitoSync {
 
     public struct RecordPatch: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An operation, either replace or remove.
         public var op: String = ""
         /// The last modified date of the client device.
@@ -1050,8 +1050,8 @@ extension CognitoSync {
 
     public struct SetCognitoEventsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId"]
         }
         /// The Cognito Identity Pool to use when configuring Cognito Events
@@ -1076,8 +1076,8 @@ extension CognitoSync {
 
     public struct DescribeIdentityUsageRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["IdentityPoolId": "IdentityPoolId", "IdentityId": "IdentityId"]
         }
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
@@ -1102,7 +1102,7 @@ extension CognitoSync {
 
     public struct UnsubscribeFromDatasetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1112,7 +1112,7 @@ extension CognitoSync {
 
     public struct BulkPublishResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public var identityPoolId: String? = nil
 

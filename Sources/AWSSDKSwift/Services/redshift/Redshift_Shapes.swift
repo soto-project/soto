@@ -31,7 +31,7 @@ extension Redshift {
 
     public struct ClusterSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public var marker: String? = nil
         /// A list of ClusterSubnetGroup instances. 
@@ -54,7 +54,7 @@ extension Redshift {
 
     public struct DeleteClusterResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cluster: Cluster? = nil
 
         public init() {}
@@ -70,7 +70,7 @@ extension Redshift {
 
     public struct EventsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public var marker: String? = nil
         /// A list of Event instances. 
@@ -93,7 +93,7 @@ extension Redshift {
 
     public struct TaggedResourceListMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public var marker: String? = nil
         /// A list of tags with their associated resources.
@@ -116,7 +116,7 @@ extension Redshift {
 
     public struct RevokeClusterSecurityGroupIngressResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var clusterSecurityGroup: ClusterSecurityGroup? = nil
 
         public init() {}
@@ -132,7 +132,7 @@ extension Redshift {
 
     public struct AuthorizeClusterSecurityGroupIngressMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IP range to be added the Amazon Redshift security group.
         public var cIDRIP: String? = nil
         /// The EC2 security group to be added the Amazon Redshift security group.
@@ -162,7 +162,7 @@ extension Redshift {
 
     public struct ClusterSecurityGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public var marker: String? = nil
         /// A list of ClusterSecurityGroup instances. 
@@ -185,7 +185,7 @@ extension Redshift {
 
     public struct DescribeTableRestoreStatusMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Redshift cluster that the table is being restored to.
         public var clusterIdentifier: String? = nil
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
@@ -214,7 +214,7 @@ extension Redshift {
 
     public struct RebootClusterResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cluster: Cluster? = nil
 
         public init() {}
@@ -230,7 +230,7 @@ extension Redshift {
 
     public struct DeleteHsmClientCertificateMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the HSM client certificate to be deleted.
         public var hsmClientCertificateIdentifier: String = ""
 
@@ -248,7 +248,7 @@ extension Redshift {
 
     public struct OrderableClusterOptionsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public var marker: String? = nil
         /// An OrderableClusterOption structure containing information about orderable options for the cluster.
@@ -271,7 +271,7 @@ extension Redshift {
 
     public struct AuthorizeSnapshotAccessMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
         public var snapshotClusterIdentifier: String? = nil
         /// The identifier of the snapshot the account is authorized to restore.
@@ -298,7 +298,7 @@ extension Redshift {
 
     public struct Endpoint: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The DNS address of the Cluster.
         public var address: String? = nil
         /// The port that the database engine is listening on.
@@ -319,7 +319,7 @@ extension Redshift {
 
     public struct CreateClusterParameterGroupResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var clusterParameterGroup: ClusterParameterGroup? = nil
 
         public init() {}
@@ -335,7 +335,7 @@ extension Redshift {
 
     public struct HsmConfigurationMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public var marker: String? = nil
         /// A list of HsmConfiguration objects.
@@ -358,7 +358,7 @@ extension Redshift {
 
     public struct PurchaseReservedNodeOfferingMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier of the reserved node offering you want to purchase.
         public var reservedNodeOfferingId: String = ""
         /// The number of reserved nodes that you want to purchase. Default: 1 
@@ -380,7 +380,7 @@ extension Redshift {
 
     public struct ModifySnapshotCopyRetentionPeriodResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cluster: Cluster? = nil
 
         public init() {}
@@ -396,7 +396,7 @@ extension Redshift {
 
     public struct HsmStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Reports whether the Amazon Redshift cluster has finished applying any HSM settings changes specified in a modify cluster command. Values: active, applying
         public var status: String? = nil
         /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
@@ -421,7 +421,7 @@ extension Redshift {
 
     public struct ModifyClusterSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request.
         public var subnetIds: [String] = []
         /// The name of the subnet group to be modified.
@@ -448,7 +448,7 @@ extension Redshift {
 
     public struct RestoreTableFromClusterSnapshotResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var tableRestoreStatus: TableRestoreStatus? = nil
 
         public init() {}
@@ -464,7 +464,7 @@ extension Redshift {
 
     public struct AuthorizeSnapshotAccessResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var snapshot: Snapshot? = nil
 
         public init() {}
@@ -480,7 +480,7 @@ extension Redshift {
 
     public struct ClusterSubnetGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the cluster subnet group. Possible values are Complete, Incomplete and Invalid. 
         public var subnetGroupStatus: String? = nil
         /// A list of the VPC Subnet elements. 
@@ -521,7 +521,7 @@ extension Redshift {
 
     public struct CreateHsmConfigurationMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the partition in the HSM where the Amazon Redshift clusters will store their database encryption keys.
         public var hsmPartitionName: String = ""
         /// The password required to access the HSM partition.
@@ -570,7 +570,7 @@ extension Redshift {
 
     public struct RestoreTableFromClusterSnapshotMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the snapshot to restore the table from. This snapshot must have been created from the Amazon Redshift cluster specified by the ClusterIdentifier parameter.
         public var snapshotIdentifier: String = ""
         /// The name of the source database that contains the table to restore from.
@@ -620,7 +620,7 @@ extension Redshift {
 
     public struct DisableSnapshotCopyResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cluster: Cluster? = nil
 
         public init() {}
@@ -636,7 +636,7 @@ extension Redshift {
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value for the resource tag.
         public var value: String? = nil
         /// The key, or name, for the resource tag.
@@ -657,7 +657,7 @@ extension Redshift {
 
     public struct ResizeProgressMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the resize operation. Valid Values: NONE | IN_PROGRESS | FAILED | SUCCEEDED 
         public var status: String? = nil
         /// The estimated time remaining, in seconds, until the resize operation is complete. This value is calculated based on the average resize rate and the estimated amount of data remaining to be processed. Once the resize operation is complete, this value will be 0.
@@ -724,7 +724,7 @@ extension Redshift {
 
     public struct OrderableClusterOption: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of availability zones for the orderable cluster.
         public var availabilityZones: [AvailabilityZone]? = nil
         /// The cluster type, for example multi-node. 
@@ -755,7 +755,7 @@ extension Redshift {
 
     public struct CreateEventSubscriptionMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the Amazon Redshift event severity to be published by the event notification subscription. Values: ERROR, INFO
         public var severity: String? = nil
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic used to transmit the event notifications. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
@@ -808,7 +808,7 @@ extension Redshift {
 
     public struct EventCategoriesMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of event categories descriptions.
         public var eventCategoriesMapList: [EventCategoriesMap]? = nil
 
@@ -827,7 +827,7 @@ extension Redshift {
 
     public struct RecurringCharge: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The amount charged per the period of time specified by the recurring charge frequency.
         public var recurringChargeAmount: Double? = nil
         /// The frequency at which the recurring charge amount is applied.
@@ -848,7 +848,7 @@ extension Redshift {
 
     public struct HsmClientCertificateMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public var marker: String? = nil
         /// A list of the identifiers for one or more HSM client certificates used by Amazon Redshift clusters to store and retrieve database encryption keys in an HSM.
@@ -871,7 +871,7 @@ extension Redshift {
 
     public struct DescribeEventsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z 
         public var startTime: Date? = nil
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
@@ -912,7 +912,7 @@ extension Redshift {
 
     public struct EnableSnapshotCopyMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The destination region that you want to copy snapshots to. Constraints: Must be the name of a valid region. For more information, see Regions and Endpoints in the Amazon Web Services General Reference. 
         public var destinationRegion: String = ""
         /// The number of days to retain automated snapshots in the destination region after they are copied from the source region. Default: 7. Constraints: Must be at least 1 and no more than 35.
@@ -943,7 +943,7 @@ extension Redshift {
 
     public struct DescribeClusterSecurityGroupsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public var maxRecords: Int32? = nil
         /// A tag value or values for which you want to return all matching cluster security groups that are associated with the specified tag value or values. For example, suppose that you have security groups that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the security groups that have either or both of these tag values associated with them.
@@ -980,7 +980,7 @@ extension Redshift {
 
     public struct CreateClusterSecurityGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name for the security group. Amazon Redshift stores the value as a lowercase string. Constraints:   Must contain no more than 255 alphanumeric characters or hyphens.   Must not be "Default".   Must be unique for all security groups that are created by your AWS account.   Example: examplesecuritygroup 
         public var clusterSecurityGroupName: String = ""
         /// A list of tag instances.
@@ -1009,7 +1009,7 @@ extension Redshift {
 
     public struct DescribeHsmConfigurationsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public var maxRecords: Int32? = nil
         /// A tag value or values for which you want to return all matching HSM configurations that are associated with the specified tag value or values. For example, suppose that you have HSM configurations that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the HSM configurations that have either or both of these tag values associated with them.
@@ -1046,7 +1046,7 @@ extension Redshift {
 
     public struct DeleteClusterSnapshotResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var snapshot: Snapshot? = nil
 
         public init() {}
@@ -1062,7 +1062,7 @@ extension Redshift {
 
     public struct ClusterParameterGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the cluster parameter group.
         public var parameterGroupName: String? = nil
         /// The name of the cluster parameter group family that this cluster parameter group is compatible with.
@@ -1093,7 +1093,7 @@ extension Redshift {
 
     public struct ReservedNode: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time the reservation started. You purchase a reserved node offering for a duration. This is the start time of that duration.
         public var startTime: Date? = nil
         /// The recurring charges for the reserved node.
@@ -1156,7 +1156,7 @@ extension Redshift {
 
     public struct RestoreStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the restore action. Returns starting, restoring, completed, or failed.
         public var status: String? = nil
         /// The size of the set of snapshot data used to restore the cluster.
@@ -1193,7 +1193,7 @@ extension Redshift {
 
     public struct RestoreFromClusterSnapshotMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of security groups to be associated with this cluster. Default: The default cluster security group for Amazon Redshift. Cluster security groups only apply to clusters outside of VPCs.
         public var clusterSecurityGroups: [String]? = nil
         /// The name of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
@@ -1302,7 +1302,7 @@ extension Redshift {
 
     public struct DeleteTagsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) from which you want to remove the tag or tags. For example, arn:aws:redshift:us-east-1:123456789:cluster:t1. 
         public var resourceName: String = ""
         /// The tag key that you want to delete.
@@ -1325,7 +1325,7 @@ extension Redshift {
 
     public struct RebootClusterMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The cluster identifier.
         public var clusterIdentifier: String = ""
 
@@ -1343,7 +1343,7 @@ extension Redshift {
 
     public struct ReservedNodesMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public var marker: String? = nil
         /// The list of ReservedNode objects.
@@ -1366,7 +1366,7 @@ extension Redshift {
 
     public struct DescribeLoggingStatusMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the cluster from which to get the logging status. Example: examplecluster 
         public var clusterIdentifier: String = ""
 
@@ -1384,7 +1384,7 @@ extension Redshift {
 
     public struct ResetClusterParameterGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of names of parameters to be reset. If ResetAllParameters option is not used, then at least one parameter name must be supplied.  Constraints: A maximum of 20 parameters can be reset in a single request.
         public var parameters: [Parameter]? = nil
         /// If true, all parameters in the specified parameter group will be reset to their default values.  Default: true 
@@ -1412,7 +1412,7 @@ extension Redshift {
 
     public struct DeleteEventSubscriptionMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the Amazon Redshift event notification subscription to be deleted.
         public var subscriptionName: String = ""
 
@@ -1430,7 +1430,7 @@ extension Redshift {
 
     public struct DescribeOrderableClusterOptionsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public var maxRecords: Int32? = nil
         /// The version filter value. Specify this parameter to show only the available offerings matching the specified version. Default: All versions. Constraints: Must be one of the version returned from DescribeClusterVersions.
@@ -1459,7 +1459,7 @@ extension Redshift {
 
     public struct ClusterVersion: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The version number used by the cluster.
         public var clusterVersion: String? = nil
         /// The name of the cluster parameter group family for the cluster.
@@ -1484,7 +1484,7 @@ extension Redshift {
 
     public struct Subnet: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the subnet.
         public var subnetIdentifier: String? = nil
         public var subnetAvailabilityZone: AvailabilityZone? = nil
@@ -1508,7 +1508,7 @@ extension Redshift {
 
     public struct EC2SecurityGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the EC2 security group.
         public var status: String? = nil
         /// The AWS ID of the owner of the EC2 security group specified in the EC2SecurityGroupName field. 
@@ -1539,7 +1539,7 @@ extension Redshift {
 
     public struct Parameter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the parameter.
         public var parameterValue: String? = nil
         /// The valid range of values for the parameter.
@@ -1588,7 +1588,7 @@ extension Redshift {
 
     public struct CreateClusterParameterGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the cluster parameter group. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique withing your AWS account.    This value is stored as a lower-case string. 
         public var parameterGroupName: String = ""
         /// The Amazon Redshift engine version to which the cluster parameter group applies. The cluster engine version determines the set of parameters. To get a list of valid parameter group family names, you can call DescribeClusterParameterGroups. By default, Amazon Redshift returns a list of all the parameter groups that are owned by your AWS account, including the default parameter groups for each Amazon Redshift engine version. The parameter group family names associated with the default parameter groups provide you the valid values. For example, a valid family name is "redshift-1.0". 
@@ -1622,7 +1622,7 @@ extension Redshift {
 
     public struct DescribeHsmClientCertificatesMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public var maxRecords: Int32? = nil
         /// A tag value or values for which you want to return all matching HSM client certificates that are associated with the specified tag value or values. For example, suppose that you have HSM client certificates that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the HSM client certificates that have either or both of these tag values associated with them.
@@ -1659,7 +1659,7 @@ extension Redshift {
 
     public struct DescribeResizeMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier of a cluster whose resize progress you are requesting. This parameter is case-sensitive. By default, resize operations for all clusters defined for an AWS account are returned.
         public var clusterIdentifier: String = ""
 
@@ -1677,7 +1677,7 @@ extension Redshift {
 
     public struct ClusterVersionsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public var marker: String? = nil
         /// A list of Version elements. 
@@ -1700,7 +1700,7 @@ extension Redshift {
 
     public struct Event: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The severity of the event. Values: ERROR, INFO
         public var severity: String? = nil
         /// The text of this event.
@@ -1743,7 +1743,7 @@ extension Redshift {
 
     public struct ReservedNodeOffering: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The charge to your account regardless of whether you are creating any clusters using the node offering. Recurring charges are only in effect for heavy-utilization reserved nodes.
         public var recurringCharges: [RecurringCharge]? = nil
         /// The rate you are charged for each hour the cluster that is using the offering is running.
@@ -1790,7 +1790,7 @@ extension Redshift {
 
     public struct RevokeSnapshotAccessResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var snapshot: Snapshot? = nil
 
         public init() {}
@@ -1806,7 +1806,7 @@ extension Redshift {
 
     public struct CreateClusterResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cluster: Cluster? = nil
 
         public init() {}
@@ -1822,7 +1822,7 @@ extension Redshift {
 
     public struct EventCategoriesMap: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The source type, such as cluster or cluster-snapshot, that the returned categories belong to.
         public var sourceType: String? = nil
         /// The events in the event category.
@@ -1845,7 +1845,7 @@ extension Redshift {
 
     public struct TableRestoreStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A description of the status of the table restore request. Status values include SUCCEEDED, FAILED, CANCELED, PENDING, IN_PROGRESS.
         public var message: String? = nil
         /// The amount of data restored to the new table so far, in megabytes (MB).
@@ -1914,7 +1914,7 @@ extension Redshift {
 
     public struct DescribeEventSubscriptionsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeEventSubscriptions request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public var marker: String? = nil
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
@@ -1939,7 +1939,7 @@ extension Redshift {
 
     public struct DescribeDefaultClusterParametersResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var defaultClusterParameters: DefaultClusterParameters? = nil
 
         public init() {}
@@ -1955,7 +1955,7 @@ extension Redshift {
 
     public struct ModifyEventSubscriptionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var eventSubscription: EventSubscription? = nil
 
         public init() {}
@@ -1971,7 +1971,7 @@ extension Redshift {
 
     public struct ClusterParameterGroupStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of parameter statuses.  For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide.
         public var clusterParameterStatusList: [ClusterParameterStatus]? = nil
         /// The status of parameter updates.
@@ -1998,7 +1998,7 @@ extension Redshift {
 
     public struct CreateClusterSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request.
         public var subnetIds: [String] = []
         /// The name for the subnet group. Amazon Redshift stores the value as a lowercase string. Constraints:   Must contain no more than 255 alphanumeric characters or hyphens.   Must not be "Default".   Must be unique for all subnet groups that are created by your AWS account.   Example: examplesubnetgroup 
@@ -2032,7 +2032,7 @@ extension Redshift {
 
     public struct CopyClusterSnapshotMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier given to the new manual snapshot. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for the AWS account that is making the request.  
         public var targetSnapshotIdentifier: String = ""
         /// The identifier for the source snapshot. Constraints:   Must be the identifier for a valid automated snapshot whose state is available.  
@@ -2059,7 +2059,7 @@ extension Redshift {
 
     public struct DeleteHsmConfigurationMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the Amazon Redshift HSM configuration to be deleted.
         public var hsmConfigurationIdentifier: String = ""
 
@@ -2077,7 +2077,7 @@ extension Redshift {
 
     public struct RestoreFromClusterSnapshotResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cluster: Cluster? = nil
 
         public init() {}
@@ -2093,7 +2093,7 @@ extension Redshift {
 
     public struct DescribeClusterVersionsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public var maxRecords: Int32? = nil
         /// The specific cluster version to return. Example: 1.0 
@@ -2122,7 +2122,7 @@ extension Redshift {
 
     public struct LoggingStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The message indicating that logs failed to be delivered.
         public var lastFailureMessage: String? = nil
         /// The name of the S3 bucket where the log files are stored.
@@ -2159,7 +2159,7 @@ extension Redshift {
 
     public struct EnableSnapshotCopyResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cluster: Cluster? = nil
 
         public init() {}
@@ -2175,7 +2175,7 @@ extension Redshift {
 
     public struct DeleteClusterMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the cluster to be deleted. Constraints:   Must contain lowercase characters.   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public var clusterIdentifier: String = ""
         /// The identifier of the final snapshot that is to be created immediately before deleting the cluster. If this parameter is provided, SkipFinalClusterSnapshot must be false.  Constraints:   Must be 1 to 255 alphanumeric characters.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
@@ -2201,7 +2201,7 @@ extension Redshift {
 
     public struct DeleteClusterSecurityGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the cluster security group to be deleted.
         public var clusterSecurityGroupName: String = ""
 
@@ -2219,7 +2219,7 @@ extension Redshift {
 
     public struct DescribeReservedNodeOfferingsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeReservedNodeOfferings request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public var marker: String? = nil
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
@@ -2244,7 +2244,7 @@ extension Redshift {
 
     public struct ModifyClusterResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cluster: Cluster? = nil
 
         public init() {}
@@ -2260,7 +2260,7 @@ extension Redshift {
 
     public struct EventSubscriptionsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of event subscriptions.
         public var eventSubscriptionsList: [EventSubscription]? = nil
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -2283,7 +2283,7 @@ extension Redshift {
 
     public struct ClusterParameterGroupNameMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the parameter group. For example, if you made a change to a parameter group name-value pair, then the change could be pending a reboot of an associated cluster.
         public var parameterGroupStatus: String? = nil
         /// The name of the cluster parameter group.
@@ -2304,7 +2304,7 @@ extension Redshift {
 
     public struct TableRestoreStatusMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of status details for one or more table restore requests.
         public var tableRestoreStatusDetails: [TableRestoreStatus]? = nil
         /// A pagination token that can be used in a subsequent DescribeTableRestoreStatus request.
@@ -2327,7 +2327,7 @@ extension Redshift {
 
     public struct CreateEventSubscriptionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var eventSubscription: EventSubscription? = nil
 
         public init() {}
@@ -2343,7 +2343,7 @@ extension Redshift {
 
     public struct VpcSecurityGroupMembership: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the VPC security group.
         public var status: String? = nil
         /// The identifier of the VPC security group.
@@ -2364,7 +2364,7 @@ extension Redshift {
 
     public struct HsmClientCertificate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of tags for the HSM client certificate.
         public var tags: [Tag]? = nil
         /// The public key that the Amazon Redshift cluster will use to connect to the HSM. You must register the public key in the HSM.
@@ -2391,7 +2391,7 @@ extension Redshift {
 
     public struct DescribeClusterSnapshotsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A value that requests only snapshots created at or after the specified time. The time value is specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2012-07-16T18:00:00Z 
         public var startTime: Date? = nil
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
@@ -2448,7 +2448,7 @@ extension Redshift {
 
     public struct DeleteSnapshotCopyGrantMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the snapshot copy grant to delete.
         public var snapshotCopyGrantName: String = ""
 
@@ -2466,7 +2466,7 @@ extension Redshift {
 
     public struct ClusterParameterGroupsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public var marker: String? = nil
         /// A list of ClusterParameterGroup instances. Each instance describes one cluster parameter group. 
@@ -2489,7 +2489,7 @@ extension Redshift {
 
     public struct DescribeDefaultClusterParametersMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeDefaultClusterParameters request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public var marker: String? = nil
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
@@ -2515,7 +2515,7 @@ extension Redshift {
 
     public struct CreateClusterSubnetGroupResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var clusterSubnetGroup: ClusterSubnetGroup? = nil
 
         public init() {}
@@ -2531,7 +2531,7 @@ extension Redshift {
 
     public struct ModifyClusterIamRolesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cluster: Cluster? = nil
 
         public init() {}
@@ -2547,7 +2547,7 @@ extension Redshift {
 
     public struct ClusterSecurityGroupMembership: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the cluster security group.
         public var status: String? = nil
         /// The name of the cluster security group.
@@ -2568,7 +2568,7 @@ extension Redshift {
 
     public struct DescribeReservedNodesMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeReservedNodes request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public var marker: String? = nil
         /// Identifier for the node reservation.
@@ -2593,7 +2593,7 @@ extension Redshift {
 
     public struct CopyClusterSnapshotResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var snapshot: Snapshot? = nil
 
         public init() {}
@@ -2609,7 +2609,7 @@ extension Redshift {
 
     public struct DescribeTagsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number or response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. 
         public var maxRecords: Int32? = nil
         /// A tag value or values for which you want to return all matching resources that are associated with the specified value or values. For example, suppose that you have resources tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with all resources that have either or both of these tag values associated with them.
@@ -2650,7 +2650,7 @@ extension Redshift {
 
     public struct Snapshot: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The size of the incremental backup.
         public var actualIncrementalBackupSizeInMegaBytes: Double? = nil
         /// The name of the database that was created when the cluster was created.
@@ -2785,7 +2785,7 @@ extension Redshift {
 
     public struct EventSubscription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The event severity specified in the Amazon Redshift event notification subscription. Values: ERROR, INFO
         public var severity: String? = nil
         /// The status of the Amazon Redshift event notification subscription. Constraints:   Can be one of the following: active | no-permission | topic-not-exist   The status "no-permission" indicates that Amazon Redshift no longer has permission to post to the Amazon SNS topic. The status "topic-not-exist" indicates that the topic was deleted after the subscription was created.  
@@ -2848,7 +2848,7 @@ extension Redshift {
 
     public struct CreateSnapshotCopyGrantMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the snapshot copy grant. This name must be unique in the region for the AWS account. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.  
         public var snapshotCopyGrantName: String = ""
         /// A list of tag instances.
@@ -2876,7 +2876,7 @@ extension Redshift {
 
     public struct ElasticIpStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The elastic IP (EIP) address for the cluster.
         public var elasticIp: String? = nil
         /// The status of the elastic IP (EIP) address.
@@ -2897,7 +2897,7 @@ extension Redshift {
 
     public struct DescribeEventCategoriesMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The source type, such as cluster or parameter group, to which the described event categories apply. Valid values: cluster, cluster-snapshot, cluster-parameter-group, and cluster-security-group.
         public var sourceType: String? = nil
 
@@ -2914,7 +2914,7 @@ extension Redshift {
 
     public struct DeleteClusterParameterGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the parameter group to be deleted. Constraints:   Must be the name of an existing cluster parameter group.   Cannot delete a default cluster parameter group.  
         public var parameterGroupName: String = ""
 
@@ -2932,7 +2932,7 @@ extension Redshift {
 
     public struct CreateHsmClientCertificateMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of tag instances.
         public var tags: [Tag]? = nil
         /// The identifier to be assigned to the new HSM client certificate that the cluster will use to connect to the HSM to use the database encryption keys.
@@ -2956,7 +2956,7 @@ extension Redshift {
 
     public struct DescribeSnapshotCopyGrantsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public var maxRecords: Int32? = nil
         /// A tag value or values for which you want to return all matching resources that are associated with the specified value or values. For example, suppose that you have resources tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with all resources that have either or both of these tag values associated with them.
@@ -2993,7 +2993,7 @@ extension Redshift {
 
     public struct ClustersMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public var marker: String? = nil
         /// A list of Cluster objects, where each object describes one cluster. 
@@ -3016,7 +3016,7 @@ extension Redshift {
 
     public struct PurchaseReservedNodeOfferingResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var reservedNode: ReservedNode? = nil
 
         public init() {}
@@ -3032,7 +3032,7 @@ extension Redshift {
 
     public struct DefaultClusterParameters: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of cluster default parameters.
         public var parameters: [Parameter]? = nil
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -3059,7 +3059,7 @@ extension Redshift {
 
     public struct ModifyClusterMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of cluster security groups to be authorized on this cluster. This change is asynchronously applied as soon as possible. Security groups currently associated with the cluster, and not in the list of groups to apply, will be revoked from the cluster. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
         public var clusterSecurityGroups: [String]? = nil
         /// The new version number of the Amazon Redshift engine to upgrade to. For major version upgrades, if a non-default cluster parameter group is currently in use, a new cluster parameter group in the cluster parameter group family for the new version must be specified. The new cluster parameter group can be the default for that cluster parameter group family. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide. Example: 1.0 
@@ -3149,7 +3149,7 @@ extension Redshift {
 
     public struct RotateEncryptionKeyResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var cluster: Cluster? = nil
 
         public init() {}
@@ -3165,7 +3165,7 @@ extension Redshift {
 
     public struct DescribeClusterSubnetGroupsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public var maxRecords: Int32? = nil
         /// A tag value or values for which you want to return all matching cluster subnet groups that are associated with the specified tag value or values. For example, suppose that you have subnet groups that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the subnet groups that have either or both of these tag values associated with them.
@@ -3202,7 +3202,7 @@ extension Redshift {
 
     public struct ModifyClusterIamRolesMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier of the cluster for which you want to associate or disassociate IAM roles.
         public var clusterIdentifier: String = ""
         /// Zero or more IAM roles to associate with the cluster. The roles must be in their Amazon Resource Name (ARN) format. You can associate up to 10 IAM roles with a single cluster in a single request.
@@ -3232,7 +3232,7 @@ extension Redshift {
 
     public struct ClusterIamRole: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the IAM role, for example, arn:aws:iam::123456789012:role/RedshiftCopyUnload. 
         public var iamRoleArn: String? = nil
         /// A value that describes the status of the IAM role's association with an Amazon Redshift cluster. The following are possible statuses and descriptions.    in-sync: The role is available for use by the cluster.    adding: The role is in the process of being associated with the cluster.    removing: The role is in the process of being disassociated with the cluster.  
@@ -3253,7 +3253,7 @@ extension Redshift {
 
     public struct CreateClusterSnapshotMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The cluster identifier for which you want a snapshot.
         public var clusterIdentifier: String = ""
         /// A list of tag instances.
@@ -3282,7 +3282,7 @@ extension Redshift {
 
     public struct ClusterParameterGroupDetails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public var marker: String? = nil
         /// A list of Parameter instances. Each instance lists the parameters of one cluster parameter group. 
@@ -3305,7 +3305,7 @@ extension Redshift {
 
     public struct AuthorizeClusterSecurityGroupIngressResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var clusterSecurityGroup: ClusterSecurityGroup? = nil
 
         public init() {}
@@ -3321,7 +3321,7 @@ extension Redshift {
 
     public struct ClusterSecurityGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A description of the security group.
         public var description: String? = nil
         /// A list of IP ranges (CIDR blocks) that are permitted to access clusters associated with this cluster security group.
@@ -3360,7 +3360,7 @@ extension Redshift {
 
     public struct TaggedResource: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The tag for the resource.
         public var tag: Tag? = nil
         /// The Amazon Resource Name (ARN) with which the tag is associated. For example, arn:aws:redshift:us-east-1:123456789:cluster:t1.
@@ -3385,7 +3385,7 @@ extension Redshift {
 
     public struct ReservedNodeOfferingsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of ReservedNodeOffering objects.
         public var reservedNodeOfferings: [ReservedNodeOffering]? = nil
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
@@ -3408,7 +3408,7 @@ extension Redshift {
 
     public struct ClusterNode: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether the node is a leader node or a compute node.
         public var nodeRole: String? = nil
         /// The private IP address of a node within a cluster.
@@ -3433,7 +3433,7 @@ extension Redshift {
 
     public struct SnapshotCopyGrantMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeSnapshotCopyGrant request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the SnapshotCopyGrantName parameter or the Marker parameter, but not both. 
         public var marker: String? = nil
         /// The list of SnapshotCopyGrant objects.
@@ -3456,7 +3456,7 @@ extension Redshift {
 
     public struct Cluster: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of Amazon Virtual Private Cloud (Amazon VPC) security groups that are associated with the cluster. This parameter is returned only if the cluster is in a VPC.
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil
         /// The nodes in the cluster.
@@ -3613,7 +3613,7 @@ extension Redshift {
 
     public struct CreateClusterSnapshotResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var snapshot: Snapshot? = nil
 
         public init() {}
@@ -3629,7 +3629,7 @@ extension Redshift {
 
     public struct ModifyEventSubscriptionMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the Amazon Redshift event severity to be published by the event notification subscription. Values: ERROR, INFO
         public var severity: String? = nil
         /// The Amazon Resource Name (ARN) of the SNS topic to be used by the event notification subscription.
@@ -3675,7 +3675,7 @@ extension Redshift {
 
     public struct ClusterSnapshotCopyStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The destination region that snapshots are automatically copied to when cross-region snapshot copy is enabled.
         public var destinationRegion: String? = nil
         /// The number of days that automated snapshots are retained in the destination region after they are copied from a source region.
@@ -3700,7 +3700,7 @@ extension Redshift {
 
     public struct AvailabilityZone: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the availability zone.
         public var name: String? = nil
 
@@ -3717,7 +3717,7 @@ extension Redshift {
 
     public struct ModifyClusterSubnetGroupResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var clusterSubnetGroup: ClusterSubnetGroup? = nil
 
         public init() {}
@@ -3733,7 +3733,7 @@ extension Redshift {
 
     public struct HsmConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IP address that the Amazon Redshift cluster must use to access the HSM.
         public var hsmIpAddress: String? = nil
         /// The name of the partition in the HSM where the Amazon Redshift clusters will store their database encryption keys.
@@ -3768,7 +3768,7 @@ extension Redshift {
 
     public struct DisableLoggingMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the cluster on which logging is to be stopped. Example: examplecluster 
         public var clusterIdentifier: String = ""
 
@@ -3786,7 +3786,7 @@ extension Redshift {
 
     public struct DescribeClustersMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier of a cluster whose properties you are requesting. This parameter is case sensitive. The default is that all clusters defined for an account are returned.
         public var clusterIdentifier: String? = nil
         /// A tag value or values for which you want to return all matching clusters that are associated with the specified tag value or values. For example, suppose that you have clusters that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the clusters that have either or both of these tag values associated with them.
@@ -3823,7 +3823,7 @@ extension Redshift {
 
     public struct RotateEncryptionKeyMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier of the cluster that you want to rotate the encryption keys for. Constraints: Must be the name of valid cluster that has encryption enabled.
         public var clusterIdentifier: String = ""
 
@@ -3841,7 +3841,7 @@ extension Redshift {
 
     public struct RevokeClusterSecurityGroupIngressMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IP range for which to revoke access. This range must be a valid Classless Inter-Domain Routing (CIDR) block of IP addresses. If CIDRIP is specified, EC2SecurityGroupName and EC2SecurityGroupOwnerId cannot be provided. 
         public var cIDRIP: String? = nil
         /// The name of the EC2 Security Group whose access is to be revoked. If EC2SecurityGroupName is specified, EC2SecurityGroupOwnerId must also be provided and CIDRIP cannot be provided. 
@@ -3871,7 +3871,7 @@ extension Redshift {
 
     public struct EnableLoggingMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the cluster on which logging is to be started. Example: examplecluster 
         public var clusterIdentifier: String = ""
         /// The name of an existing S3 bucket where the log files are to be stored. Constraints:   Must be in the same region as the cluster   The cluster must have read bucket and put object permissions  
@@ -3898,7 +3898,7 @@ extension Redshift {
 
     public struct SnapshotMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public var marker: String? = nil
         /// A list of Snapshot instances. 
@@ -3921,7 +3921,7 @@ extension Redshift {
 
     public struct CreateClusterMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the first database to be created when the cluster is created. To create additional databases after the cluster is created, connect to the cluster with a SQL client and use SQL commands to create a database. For more information, go to Create a Database in the Amazon Redshift Database Developer Guide.  Default: dev  Constraints:   Must contain 1 to 64 alphanumeric characters.   Must contain only lowercase letters.   Cannot be a word that is reserved by the service. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.   
         public var dBName: String? = nil
         /// The version of the Amazon Redshift engine software that you want to deploy on the cluster. The version selected runs on all the nodes in the cluster. Constraints: Only version 1.0 is currently available. Example: 1.0 
@@ -4054,7 +4054,7 @@ extension Redshift {
 
     public struct SnapshotCopyGrant: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the snapshot copy grant.
         public var snapshotCopyGrantName: String? = nil
         /// A list of tag instances.
@@ -4081,7 +4081,7 @@ extension Redshift {
 
     public struct ModifySnapshotCopyRetentionPeriodMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier of the cluster for which you want to change the retention period for automated snapshots that are copied to a destination region. Constraints: Must be the valid name of an existing cluster that has cross-region snapshot copy enabled.
         public var clusterIdentifier: String = ""
         /// The number of days to retain automated snapshots in the destination region after they are copied from the source region. If you decrease the retention period for automated snapshots that are copied to a destination region, Amazon Redshift will delete any existing automated snapshots that were copied to the destination region and that fall outside of the new retention period. Constraints: Must be at least 1 and no more than 35.
@@ -4104,7 +4104,7 @@ extension Redshift {
 
     public struct DeleteClusterSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the cluster subnet group name to be deleted.
         public var clusterSubnetGroupName: String = ""
 
@@ -4122,7 +4122,7 @@ extension Redshift {
 
     public struct RevokeSnapshotAccessMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
         public var snapshotClusterIdentifier: String? = nil
         /// The identifier of the snapshot that the account can no longer access.
@@ -4149,7 +4149,7 @@ extension Redshift {
 
     public struct CreateHsmClientCertificateResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var hsmClientCertificate: HsmClientCertificate? = nil
 
         public init() {}
@@ -4165,7 +4165,7 @@ extension Redshift {
 
     public struct CreateSnapshotCopyGrantResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var snapshotCopyGrant: SnapshotCopyGrant? = nil
 
         public init() {}
@@ -4181,7 +4181,7 @@ extension Redshift {
 
     public struct ClusterParameterStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The error that prevented the parameter from being applied to the database.
         public var parameterApplyErrorDescription: String? = nil
         /// The name of the parameter.
@@ -4206,7 +4206,7 @@ extension Redshift {
 
     public struct CreateClusterSecurityGroupResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var clusterSecurityGroup: ClusterSecurityGroup? = nil
 
         public init() {}
@@ -4222,7 +4222,7 @@ extension Redshift {
 
     public struct PendingModifiedValues: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The pending or in-progress change of the service version.
         public var clusterVersion: String? = nil
         /// The pending or in-progress change of the cluster's node type.
@@ -4271,7 +4271,7 @@ extension Redshift {
 
     public struct CreateHsmConfigurationResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var hsmConfiguration: HsmConfiguration? = nil
 
         public init() {}
@@ -4287,7 +4287,7 @@ extension Redshift {
 
     public struct CreateTagsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more name/value pairs to add as tags to the specified resource. Each tag name is passed in with the parameter Key and the corresponding value is passed in with the parameter Value. The Key and Value parameters are separated by a comma (,). Separate multiple tags with a space. For example, --tags "Key"="owner","Value"="admin" "Key"="environment","Value"="test" "Key"="version","Value"="1.0". 
         public var tags: [Tag] = []
         /// The Amazon Resource Name (ARN) to which you want to add the tag or tags. For example, arn:aws:redshift:us-east-1:123456789:cluster:t1. 
@@ -4310,7 +4310,7 @@ extension Redshift {
 
     public struct IPRange: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the IP range, for example, "authorized".
         public var status: String? = nil
         /// The list of tags for the IP range.
@@ -4337,7 +4337,7 @@ extension Redshift {
 
     public struct DeleteClusterSnapshotMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available state.
         public var snapshotIdentifier: String = ""
         /// The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster.
@@ -4359,7 +4359,7 @@ extension Redshift {
 
     public struct DescribeClusterParameterGroupsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public var maxRecords: Int32? = nil
         /// A tag value or values for which you want to return all matching cluster parameter groups that are associated with the specified tag value or values. For example, suppose that you have parameter groups that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the parameter groups that have either or both of these tag values associated with them.
@@ -4396,7 +4396,7 @@ extension Redshift {
 
     public struct DisableSnapshotCopyMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier of the source cluster that you want to disable copying of snapshots to a destination region. Constraints: Must be the valid name of an existing cluster that has cross-region snapshot copy enabled.
         public var clusterIdentifier: String = ""
 
@@ -4414,7 +4414,7 @@ extension Redshift {
 
     public struct ModifyClusterParameterGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of parameters to be modified. A maximum of 20 parameters can be modified in a single request. For each parameter to be modified, you must supply at least the parameter name and parameter value; other name-value pairs of the parameter are optional. For the workload management (WLM) configuration, you must supply all the name-value pairs in the wlm_json_configuration parameter.
         public var parameters: [Parameter] = []
         /// The name of the parameter group to be modified.
@@ -4437,7 +4437,7 @@ extension Redshift {
 
     public struct DescribeClusterParametersMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public var maxRecords: Int32? = nil
         /// The name of a cluster parameter group for which to return details.
@@ -4467,7 +4467,7 @@ extension Redshift {
 
     public struct AccountWithRestoreAccess: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of an AWS customer account authorized to restore a snapshot.
         public var accountId: String? = nil
 
@@ -4484,7 +4484,7 @@ extension Redshift {
 
     public struct EventInfoMap: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The severity of the event. Values: ERROR, INFO
         public var severity: String? = nil
         /// The identifier of an Amazon Redshift event.

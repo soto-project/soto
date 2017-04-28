@@ -31,7 +31,7 @@ extension Rekognition {
 
     public struct Landmark: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// x-coordinate from the top left of the landmark expressed as the ration of the width of the image. For example, if the images is 700x200 and the x-coordinate of the landmark is at 350 pixels, this value is 0.5. 
         public var x: Float? = nil
         /// Type of the landmark.
@@ -56,7 +56,7 @@ extension Rekognition {
 
     public struct SearchFacesByImageResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The level of confidence that the searchedFaceBoundingBox, contains a face.
         public var searchedFaceConfidence: Float? = nil
         /// An array of faces that match the input face, along with the confidence in the match.
@@ -83,7 +83,7 @@ extension Rekognition {
 
     public struct DeleteCollectionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// HTTP status code that indicates the result of the operation.
         public var statusCode: Int32? = nil
 
@@ -100,7 +100,7 @@ extension Rekognition {
 
     public struct ListCollectionsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of collection IDs.
         public var collectionIds: [String]? = nil
         /// If the result is truncated, the response provides a NextToken that you can use in the subsequent request to fetch the next set of collection IDs.
@@ -123,7 +123,7 @@ extension Rekognition {
 
     public struct Emotion: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Level of confidence in the determination.
         public var confidence: Float? = nil
         /// Type of emotion detected.
@@ -144,7 +144,7 @@ extension Rekognition {
 
     public struct DeleteFacesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of face IDs to delete.
         public var faceIds: [String] = []
         /// Collection from which to remove the specific faces.
@@ -167,7 +167,7 @@ extension Rekognition {
 
     public struct DeleteFacesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of strings (face IDs) of the faces that were deleted.
         public var deletedFaces: [String]? = nil
 
@@ -186,7 +186,7 @@ extension Rekognition {
 
     public struct BoundingBox: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Height of the bounding box as a ratio of the overall image height.
         public var height: Float? = nil
         /// Top coordinate of the bounding box as a ratio of overall image height.
@@ -215,7 +215,7 @@ extension Rekognition {
 
     public struct Pose: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Value representing the face rotation on the yaw axis.
         public var yaw: Float? = nil
         /// Value representing the face rotation on the roll axis.
@@ -240,7 +240,7 @@ extension Rekognition {
 
     public struct ComparedFace: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Level of confidence that what the bounding box contains is a face.
         public var confidence: Float? = nil
         public var boundingBox: BoundingBox? = nil
@@ -260,7 +260,7 @@ extension Rekognition {
 
     public struct SearchFacesByImageRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var image: Image = Image()
         /// (Optional) Specifies the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%.
         public var faceMatchThreshold: Float? = nil
@@ -290,7 +290,7 @@ extension Rekognition {
 
     public struct FaceMatch: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var face: Face? = nil
         /// Confidence in the match of this face with the input face.
         public var similarity: Float? = nil
@@ -310,7 +310,7 @@ extension Rekognition {
 
     public struct Gender: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Level of confidence in the determination.
         public var confidence: Float? = nil
         /// Gender of the face.
@@ -331,7 +331,7 @@ extension Rekognition {
 
     public struct Smile: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Level of confidence in the determination.
         public var confidence: Float? = nil
         /// Boolean value that indicates whether the face is smiling or not.
@@ -352,7 +352,7 @@ extension Rekognition {
 
     public struct S3Object: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Name of the S3 bucket.
         public var bucket: String? = nil
         /// S3 object key name.
@@ -377,7 +377,7 @@ extension Rekognition {
 
     public struct DetectFacesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The algorithm detects the image orientation. If it detects that the image was rotated, it returns the degrees of rotation. If your application is displaying the image, you can use this value to adjust the orientation.  For example, if the service detects that the input image was rotated by 90 degrees, it corrects orientation, performs face detection, and then returns the faces. That is, the bounding box coordinates in the response are based on the corrected orientation.   If the source image Exif metadata populates the orientation field, Amazon Rekognition does not perform orientation correction and the value of OrientationCorrection will be nil. 
         public var orientationCorrection: String? = nil
         /// Details of each face found in the image. 
@@ -400,7 +400,7 @@ extension Rekognition {
 
     public struct IndexFacesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The algorithm detects the image orientation. If it detects that the image was rotated, it returns the degree of rotation. You can use this value to correct the orientation and also appropriately analyze the bounding box coordinates that are returned.   If the source image Exif metadata populates the orientation field, Amazon Rekognition does not perform orientation correction and the value of OrientationCorrection will be nil. 
         public var orientationCorrection: String? = nil
         /// An array of faces detected and added to the collection. For more information, see howitworks-index-faces. 
@@ -423,7 +423,7 @@ extension Rekognition {
 
     public struct Label: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Level of confidence.
         public var confidence: Float? = nil
         /// The name (label) of the object.
@@ -444,7 +444,7 @@ extension Rekognition {
 
     public struct FaceDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether or not the face is wearing sunglasses, and the confidence level in the determination.
         public var sunglasses: Sunglasses? = nil
         /// Gender of the face and the confidence level in the determination.
@@ -521,7 +521,7 @@ extension Rekognition {
 
     public struct CompareFacesMatch: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Provides face metadata (bounding box and confidence that the bounding box actually contains a face).
         public var face: ComparedFace? = nil
         /// Level of confidence that the faces match.
@@ -542,7 +542,7 @@ extension Rekognition {
 
     public struct SearchFacesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of faces that matched the input face, along with the confidence in the match.
         public var faceMatches: [FaceMatch]? = nil
         /// ID of the face that was searched for matches in a collection.
@@ -565,7 +565,7 @@ extension Rekognition {
 
     public struct SearchFacesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Optional value specifying the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%.
         public var faceMatchThreshold: Float? = nil
         /// Maximum number of faces to return. The operation returns the maximum number of faces with the highest confidence in the match.
@@ -596,7 +596,7 @@ extension Rekognition {
 
     public struct Mustache: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Level of confidence in the determination.
         public var confidence: Float? = nil
         /// Boolean value that indicates whether the face has mustache or not.
@@ -617,7 +617,7 @@ extension Rekognition {
 
     public struct ListCollectionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Pagination token from the previous response.
         public var nextToken: String? = nil
         /// Maximum number of collection IDs to return.
@@ -638,7 +638,7 @@ extension Rekognition {
 
     public struct EyeOpen: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Level of confidence in the determination.
         public var confidence: Float? = nil
         /// Boolean value that indicates whether the eyes on the face are open.
@@ -659,7 +659,7 @@ extension Rekognition {
 
     public struct DetectLabelsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The input image. You can provide a blob of image bytes or an S3 object.
         public var image: Image = Image()
         /// Maximum number of labels you want the service to return in the response. The service returns the specified number of highest confidence labels. 
@@ -685,7 +685,7 @@ extension Rekognition {
 
     public struct CreateCollectionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Amazon Resource Name (ARN) of the collection. You can use this to manage permissions on your resources. 
         public var collectionArn: String? = nil
         /// HTTP status code indicating the result of the operation.
@@ -706,7 +706,7 @@ extension Rekognition {
 
     public struct DetectFacesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The image in which you want to detect faces. You can specify a blob or an S3 object. 
         public var image: Image = Image()
         /// A list of facial attributes you would like to be returned. By default, the API returns subset of facial attributes.  For example, you can specify the value as, ["ALL"] or ["DEFAULT"]. If you provide both, ["ALL", "DEFAULT"], the service uses a logical AND operator to determine which attributes to return (in this case, it is all attributes). If you specify all attributes, Amazon Rekognition performs additional detection. 
@@ -730,7 +730,7 @@ extension Rekognition {
 
     public struct FaceRecord: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var face: Face? = nil
         public var faceDetail: FaceDetail? = nil
 
@@ -749,7 +749,7 @@ extension Rekognition {
 
     public struct Beard: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Level of confidence in the determination.
         public var confidence: Float? = nil
         /// Boolean value that indicates whether the face has beard or not.
@@ -770,7 +770,7 @@ extension Rekognition {
 
     public struct Face: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var boundingBox: BoundingBox? = nil
         /// Identifier that you assign to all the faces in the input image.
         public var externalImageId: String? = nil
@@ -802,7 +802,7 @@ extension Rekognition {
 
     public struct CompareFacesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Source image either as bytes or an S3 object
         public var sourceImage: Image = Image()
         /// Target image either as bytes or an S3 object
@@ -829,7 +829,7 @@ extension Rekognition {
 
     public struct Sunglasses: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Level of confidence in the determination.
         public var confidence: Float? = nil
         /// Boolean value that indicates whether the face is wearing sunglasses or not.
@@ -850,7 +850,7 @@ extension Rekognition {
 
     public struct MouthOpen: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Level of confidence in the determination.
         public var confidence: Float? = nil
         /// Boolean value that indicates whether the mouth on the face is open or not.
@@ -871,7 +871,7 @@ extension Rekognition {
 
     public struct Image: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Blob of image bytes up to 5 MBs.
         public var bytes: Data? = nil
         /// Identifies an S3 object as the image source.
@@ -892,7 +892,7 @@ extension Rekognition {
 
     public struct CompareFacesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Provides an array of CompareFacesMatch objects. Each object provides the bounding box, confidence that the bounding box contains a face, and the similarity between the face in the bounding box and the face in the source image.
         public var faceMatches: [CompareFacesMatch]? = nil
         /// The face from the source image that was used for comparison.
@@ -915,7 +915,7 @@ extension Rekognition {
 
     public struct AgeRange: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The highest estimated age.
         public var high: Int32? = nil
         /// The lowest estimated age.
@@ -936,7 +936,7 @@ extension Rekognition {
 
     public struct Eyeglasses: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Level of confidence in the determination.
         public var confidence: Float? = nil
         /// Boolean value that indicates whether the face is wearing eye glasses or not.
@@ -957,7 +957,7 @@ extension Rekognition {
 
     public struct DeleteCollectionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// ID of the collection to delete.
         public var collectionId: String = ""
 
@@ -975,7 +975,7 @@ extension Rekognition {
 
     public struct CreateCollectionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// ID for the collection that you are creating.
         public var collectionId: String = ""
 
@@ -993,7 +993,7 @@ extension Rekognition {
 
     public struct ListFacesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If the previous response was incomplete (because there is more data to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of faces.
         public var nextToken: String? = nil
         /// ID of the collection from which to list the faces.
@@ -1019,7 +1019,7 @@ extension Rekognition {
 
     public struct ImageQuality: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Value representing sharpness of the face.
         public var sharpness: Float? = nil
         /// Value representing brightness of the face. The service returns a value between 0 and 1 (inclusive).
@@ -1040,7 +1040,7 @@ extension Rekognition {
 
     public struct DetectLabelsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  Amazon Rekognition returns the orientation of the input image that was detected (clockwise direction). If your application displays the image, you can use this value to correct the orientation. If Amazon Rekognition detects that the input image was rotated (for example, by 90 degrees), it first corrects the orientation before detecting the labels.   If the source image Exif metadata populates the orientation field, Amazon Rekognition does not perform orientation correction and the value of OrientationCorrection will be nil. 
         public var orientationCorrection: String? = nil
         /// An array of labels for the real-world objects detected. 
@@ -1063,7 +1063,7 @@ extension Rekognition {
 
     public struct ListFacesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of Face objects. 
         public var faces: [Face]? = nil
         /// If the response is truncated, Amazon Rekognition returns this token that you can use in the subsequent request to retrieve the next set of faces.
@@ -1086,7 +1086,7 @@ extension Rekognition {
 
     public struct IndexFacesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var image: Image = Image()
         /// ID you want to assign to all the faces detected in the image.
         public var externalImageId: String? = nil
@@ -1118,7 +1118,7 @@ extension Rekognition {
 
     public struct ComparedSourceImageFace: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Confidence level that the selected bounding box contains a face.
         public var confidence: Float? = nil
         public var boundingBox: BoundingBox? = nil

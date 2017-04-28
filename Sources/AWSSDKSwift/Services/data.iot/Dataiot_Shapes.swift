@@ -31,8 +31,8 @@ extension Dataiot {
 
     public struct GetThingShadowRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["thingName": "thingName"]
         }
         /// The name of the thing.
@@ -52,8 +52,8 @@ extension Dataiot {
 
     public struct DeleteThingShadowRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["thingName": "thingName"]
         }
         /// The name of the thing.
@@ -73,7 +73,7 @@ extension Dataiot {
 
     public struct DeleteThingShadowResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "payload"
+        public static let payload: String? = "payload"
         /// The state information, in JSON format.
         public var payload: Data = Data()
 
@@ -91,11 +91,11 @@ extension Dataiot {
 
     public struct PublishRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "payload"
-        public var queryParams: [String: String] {
+        public static let payload: String? = "payload"
+        public static var queryParams: [String: String] {
             return ["qos": "qos"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["topic": "topic"]
         }
         /// The Quality of Service (QoS) level.
@@ -123,7 +123,7 @@ extension Dataiot {
 
     public struct GetThingShadowResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "payload"
+        public static let payload: String? = "payload"
         /// The state information, in JSON format.
         public var payload: Data? = nil
 
@@ -140,7 +140,7 @@ extension Dataiot {
 
     public struct UpdateThingShadowResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "payload"
+        public static let payload: String? = "payload"
         /// The state information, in JSON format.
         public var payload: Data? = nil
 
@@ -157,8 +157,8 @@ extension Dataiot {
 
     public struct UpdateThingShadowRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "payload"
-        public var pathParams: [String: String] {
+        public static let payload: String? = "payload"
+        public static var pathParams: [String: String] {
             return ["thingName": "thingName"]
         }
         /// The state information, in JSON format.

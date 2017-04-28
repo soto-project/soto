@@ -31,7 +31,7 @@ extension Opsworks {
 
     public struct DeregisterVolumeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The AWS OpsWorks volume ID, which is the GUID that AWS OpsWorks assigned to the instance when you registered the volume with the stack, not the Amazon EC2 volume ID.
         public var volumeId: String = ""
 
@@ -49,7 +49,7 @@ extension Opsworks {
 
     public struct CreateUserProfileRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user's IAM ARN; this can also be a federated user's ARN.
         public var iamUserArn: String = ""
         /// The user's public SSH key.
@@ -79,7 +79,7 @@ extension Opsworks {
 
     public struct DescribeRdsDbInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack ID that the instances are registered with. The operation returns descriptions of all registered Amazon RDS instances.
         public var stackId: String = ""
         /// An array containing the ARNs of the instances to be described.
@@ -103,7 +103,7 @@ extension Opsworks {
 
     public struct Layer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The layer short name.
         public var shortname: String? = nil
         /// An array of Package objects that describe the layer's packages.
@@ -209,7 +209,7 @@ extension Opsworks {
 
     public struct SetTimeBasedAutoScalingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The instance ID.
         public var instanceId: String = ""
         /// An AutoScalingSchedule with the instance schedule.
@@ -231,7 +231,7 @@ extension Opsworks {
 
     public struct DescribeRaidArraysRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack ID.
         public var stackId: String? = nil
         /// An array of RAID array IDs. If you use this parameter, DescribeRaidArrays returns descriptions of the specified arrays. Otherwise, it returns a description of every array.
@@ -258,7 +258,7 @@ extension Opsworks {
 
     public struct StackSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An InstancesCount object with the number of instances in each status.
         public var instancesCount: InstancesCount? = nil
         /// The number of layers.
@@ -295,7 +295,7 @@ extension Opsworks {
 
     public struct DescribeCommandsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of Command objects that describe each of the specified commands.
         public var commands: [Command]? = nil
 
@@ -314,7 +314,7 @@ extension Opsworks {
 
     public struct DeregisterEcsClusterRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The cluster's ARN.
         public var ecsClusterArn: String = ""
 
@@ -332,7 +332,7 @@ extension Opsworks {
 
     public struct DescribeEcsClustersResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of EcsCluster objects containing the cluster descriptions.
         public var ecsClusters: [EcsCluster]? = nil
         /// If a paginated request does not return all of the remaining results, this parameter is set to a token that you can assign to the request object's NextToken parameter to retrieve the next set of results. If the previous paginated request returned all of the remaining results, this parameter is set to null.
@@ -355,7 +355,7 @@ extension Opsworks {
 
     public struct UpdateUserProfileRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user IAM ARN. This can also be a federated user's ARN.
         public var iamUserArn: String = ""
         /// The user's new SSH public key.
@@ -385,7 +385,7 @@ extension Opsworks {
 
     public struct DescribeStacksRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of stack IDs that specify the stacks to be described. If you omit this parameter, DescribeStacks returns a description of every stack.
         public var stackIds: [String]? = nil
 
@@ -404,7 +404,7 @@ extension Opsworks {
 
     public struct SslConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The contents of the certificate's domain.crt file.
         public var certificate: String = ""
         /// Optional. Can be used to specify an intermediate certificate authority key or client authentication.
@@ -431,7 +431,7 @@ extension Opsworks {
 
     public struct DescribeElasticIpsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A stack ID. If you include this parameter, DescribeElasticIps returns a description of the Elastic IP addresses that are registered with the specified stack.
         public var stackId: String? = nil
         /// An array of Elastic IP addresses to be described. If you include this parameter, DescribeElasticIps returns a description of the specified Elastic IP addresses. Otherwise, it returns a description of every Elastic IP address.
@@ -458,7 +458,7 @@ extension Opsworks {
 
     public struct StackConfigurationManager: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name. This parameter must be set to "Chef".
         public var name: String? = nil
         /// The Chef version. This parameter must be set to 12, 11.10, or 11.4 for Linux stacks, and to 12.2 for Windows stacks. The default value for Linux stacks is 11.4.
@@ -479,7 +479,7 @@ extension Opsworks {
 
     public struct UpdateAppRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The app ID.
         public var appId: String = ""
         /// The app name.
@@ -545,7 +545,7 @@ extension Opsworks {
 
     public struct Instance: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// For container instances, the instance's ARN.
         public var ecsContainerInstanceArn: String? = nil
         /// The instance host name.
@@ -724,7 +724,7 @@ extension Opsworks {
 
     public struct DescribeUserProfilesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of IAM or federated user ARNs that identify the users to be described.
         public var iamUserArns: [String]? = nil
 
@@ -743,7 +743,7 @@ extension Opsworks {
 
     public struct DeleteInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether to delete the instance's Amazon EBS volumes.
         public var deleteVolumes: Bool? = nil
         /// The instance ID.
@@ -769,7 +769,7 @@ extension Opsworks {
 
     public struct InstancesCount: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of instances with pending status.
         public var pending: Int32? = nil
         /// The number of instances with stopping status.
@@ -858,7 +858,7 @@ extension Opsworks {
 
     public struct CreateLayerRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// For custom layers only, use this parameter to specify the layer's short name, which is used internally by AWS OpsWorks and by Chef recipes. The short name is also used as the name for the directory where your app files are installed. It can have a maximum of 200 characters, which are limited to the alphanumeric characters, '-', '_', and '.'. The built-in layers' short names are defined by AWS OpsWorks. For more information, see the Layer Reference.
         public var shortname: String = ""
         /// An array of Package objects that describes the layer packages.
@@ -951,7 +951,7 @@ extension Opsworks {
 
     public struct UpdateInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The instance's layer IDs.
         public var layerIds: [String]? = nil
         /// The instance host name.
@@ -1015,7 +1015,7 @@ extension Opsworks {
 
     public struct RaidArray: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The array's Linux device. For example /dev/mdadm0.
         public var device: String? = nil
         /// For PIOPS volumes, the IOPS per disk.
@@ -1080,7 +1080,7 @@ extension Opsworks {
 
     public struct CloneStackResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The cloned stack ID.
         public var stackId: String? = nil
 
@@ -1097,7 +1097,7 @@ extension Opsworks {
 
     public struct CreateStackResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack ID, which is an opaque string that you use to identify the stack when performing actions such as DescribeStacks.
         public var stackId: String? = nil
 
@@ -1114,7 +1114,7 @@ extension Opsworks {
 
     public struct LoadBasedAutoScalingConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An AutoScalingThresholds object that describes the downscaling configuration, which defines how and when AWS OpsWorks reduces the number of instances.
         public var downScaling: AutoScalingThresholds? = nil
         /// Whether load-based auto scaling is enabled for the layer.
@@ -1143,7 +1143,7 @@ extension Opsworks {
 
     public struct App: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The app's short name.
         public var shortname: String? = nil
         /// An SslConfiguration object with the SSL configuration.
@@ -1220,7 +1220,7 @@ extension Opsworks {
 
     public struct Command: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The URL of the command log.
         public var logUrl: String? = nil
         /// Date and time when the command was acknowledged.
@@ -1273,7 +1273,7 @@ extension Opsworks {
 
     public struct UserProfile: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user's IAM ARN.
         public var iamUserArn: String? = nil
         /// The user's SSH public key.
@@ -1306,7 +1306,7 @@ extension Opsworks {
 
     public struct WeeklyAutoScalingSchedule: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The schedule for Saturday.
         public var saturday: [String: String]? = nil
         /// The schedule for Tuesday.
@@ -1361,7 +1361,7 @@ extension Opsworks {
 
     public struct RegisterEcsClusterResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The cluster's ARN.
         public var ecsClusterArn: String? = nil
 
@@ -1378,7 +1378,7 @@ extension Opsworks {
 
     public struct RegisterElasticIpResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Elastic IP address.
         public var elasticIp: String? = nil
 
@@ -1395,7 +1395,7 @@ extension Opsworks {
 
     public struct GetHostnameSuggestionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The layer ID.
         public var layerId: String = ""
 
@@ -1413,7 +1413,7 @@ extension Opsworks {
 
     public struct DeregisterInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The instance ID.
         public var instanceId: String = ""
 
@@ -1431,7 +1431,7 @@ extension Opsworks {
 
     public struct CreateInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of BlockDeviceMapping objects that specify the instance's block devices. For more information, see Block Device Mapping. Note that block device mappings are not supported for custom AMIs.
         public var blockDeviceMappings: [BlockDeviceMapping]? = nil
         /// The ID of the instance's subnet. If the stack is running in a VPC, you can use this parameter to override the stack's default subnet ID value and direct AWS OpsWorks to launch the instance in a different subnet.
@@ -1521,7 +1521,7 @@ extension Opsworks {
 
     public struct CreateAppRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The app's short name.
         public var shortname: String? = nil
         /// The stack ID.
@@ -1593,7 +1593,7 @@ extension Opsworks {
 
     public struct ShutdownEventConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time, in seconds, that AWS OpsWorks will wait after triggering a Shutdown event before shutting down an instance.
         public var executionTimeout: Int32? = nil
         /// Whether to enable Elastic Load Balancing connection draining. For more information, see Connection Draining 
@@ -1614,7 +1614,7 @@ extension Opsworks {
 
     public struct CreateUserProfileResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user's IAM ARN.
         public var iamUserArn: String? = nil
 
@@ -1631,7 +1631,7 @@ extension Opsworks {
 
     public struct CloneStackRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack's operating system, which must be set to one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS 7     Red Hat Enterprise Linux 7     Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information on how to use custom AMIs with OpsWorks, see Using Custom AMIs.   The default option is the parent stack's operating system. For more information on the supported operating systems, see AWS OpsWorks Operating Systems.  You can specify a different Linux operating system for the cloned stack, but you cannot change from Linux to Windows or Windows to Linux. 
         public var defaultOs: String? = nil
         /// Whether to clone the source stack's permissions.
@@ -1737,7 +1737,7 @@ extension Opsworks {
 
     public struct DescribeLayersRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack ID.
         public var stackId: String? = nil
         /// An array of layer IDs that specify the layers to be described. If you omit this parameter, DescribeLayers returns a description of every layer in the specified stack.
@@ -1760,7 +1760,7 @@ extension Opsworks {
 
     public struct DescribeAgentVersionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack ID.
         public var stackId: String? = nil
         /// The configuration manager.
@@ -1781,7 +1781,7 @@ extension Opsworks {
 
     public struct DescribeDeploymentsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack ID. If you include this parameter, DescribeDeployments returns a description of the commands associated with the specified stack.
         public var stackId: String? = nil
         /// An array of deployment IDs to be described. If you include this parameter, DescribeDeployments returns a description of the specified deployments. Otherwise, it returns a description of every deployment.
@@ -1808,7 +1808,7 @@ extension Opsworks {
 
     public struct DescribeAppsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of App objects that describe the specified apps. 
         public var apps: [App]? = nil
 
@@ -1827,7 +1827,7 @@ extension Opsworks {
 
     public struct DescribeVolumesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of volume IDs.
         public var volumes: [Volume]? = nil
 
@@ -1846,7 +1846,7 @@ extension Opsworks {
 
     public struct GrantAccessRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The length of time (in minutes) that the grant is valid. When the grant expires at the end of this period, the user will no longer be able to use the credentials to log in. If the user is logged in at the time, he or she automatically will be logged out.
         public var validForInMinutes: Int32? = nil
         /// The instance's AWS OpsWorks ID.
@@ -1868,7 +1868,7 @@ extension Opsworks {
 
     public struct DescribeLayersResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of Layer objects that describe the layers.
         public var layers: [Layer]? = nil
 
@@ -1887,7 +1887,7 @@ extension Opsworks {
 
     public struct DetachElasticLoadBalancerRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the layer that the Elastic Load Balancing instance is attached to.
         public var layerId: String = ""
         /// The Elastic Load Balancing instance's name.
@@ -1910,7 +1910,7 @@ extension Opsworks {
 
     public struct RegisterInstanceResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The registered instance's AWS OpsWorks ID.
         public var instanceId: String? = nil
 
@@ -1927,7 +1927,7 @@ extension Opsworks {
 
     public struct ElasticIp: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The domain.
         public var domain: String? = nil
         /// The IP address.
@@ -1960,7 +1960,7 @@ extension Opsworks {
 
     public struct GrantAccessResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A TemporaryCredential object that contains the data needed to log in to the instance by RDP clients, such as the Microsoft Remote Desktop Connection.
         public var temporaryCredential: TemporaryCredential? = nil
 
@@ -1977,7 +1977,7 @@ extension Opsworks {
 
     public struct AssignInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The layer ID, which must correspond to a custom layer. You cannot assign a registered instance to a built-in layer.
         public var layerIds: [String] = []
         /// The instance ID.
@@ -2000,7 +2000,7 @@ extension Opsworks {
 
     public struct AssociateElasticIpRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Elastic IP address.
         public var elasticIp: String = ""
         /// The instance ID.
@@ -2022,7 +2022,7 @@ extension Opsworks {
 
     public struct UnassignVolumeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The volume ID.
         public var volumeId: String = ""
 
@@ -2040,7 +2040,7 @@ extension Opsworks {
 
     public struct VolumeConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of disks in the volume.
         public var numberOfDisks: Int32 = 0
         /// The volume type:    standard - Magnetic    io1 - Provisioned IOPS (SSD)    gp2 - General Purpose (SSD)  
@@ -2080,7 +2080,7 @@ extension Opsworks {
 
     public struct CreateAppResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The app ID.
         public var appId: String? = nil
 
@@ -2097,7 +2097,7 @@ extension Opsworks {
 
     public struct DescribeUserProfilesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A Users object that describes the specified users.
         public var userProfiles: [UserProfile]? = nil
 
@@ -2116,7 +2116,7 @@ extension Opsworks {
 
     public struct SetLoadBasedAutoScalingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An AutoScalingThresholds object with the downscaling threshold configuration. If the load falls below these thresholds for a specified amount of time, AWS OpsWorks stops a specified number of instances.
         public var downScaling: AutoScalingThresholds? = nil
         /// Enables load-based auto scaling for the layer.
@@ -2146,7 +2146,7 @@ extension Opsworks {
 
     public struct DeleteStackRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack ID.
         public var stackId: String = ""
 
@@ -2164,7 +2164,7 @@ extension Opsworks {
 
     public struct UpdateMyUserProfileRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user's SSH public key.
         public var sshPublicKey: String? = nil
 
@@ -2181,7 +2181,7 @@ extension Opsworks {
 
     public struct StopInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The instance ID.
         public var instanceId: String = ""
 
@@ -2199,7 +2199,7 @@ extension Opsworks {
 
     public struct DescribeInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A stack ID. If you use this parameter, DescribeInstances returns descriptions of the instances associated with the specified stack.
         public var stackId: String? = nil
         /// An array of instance IDs to be described. If you use this parameter, DescribeInstances returns a description of the specified instances. Otherwise, it returns a description of every instance.
@@ -2226,7 +2226,7 @@ extension Opsworks {
 
     public struct DescribeLoadBasedAutoScalingResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of LoadBasedAutoScalingConfiguration objects that describe each layer's configuration.
         public var loadBasedAutoScalingConfigurations: [LoadBasedAutoScalingConfiguration]? = nil
 
@@ -2245,7 +2245,7 @@ extension Opsworks {
 
     public struct DeploymentCommand: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the operation. You can specify only one command. For stacks, the following commands are available:    execute_recipes: Execute one or more recipes. To specify the recipes, set an Args parameter named recipes to the list of recipes to be executed. For example, to execute phpapp::appsetup, set Args to {"recipes":["phpapp::appsetup"]}.    install_dependencies: Install the stack's dependencies.    update_custom_cookbooks: Update the stack's custom cookbooks.    update_dependencies: Update the stack's dependencies.    The update_dependencies and install_dependencies commands are supported only for Linux instances. You can run the commands successfully on Windows instances, but they do nothing.  For apps, the following commands are available:    deploy: Deploy an app. Ruby on Rails apps have an optional Args parameter named migrate. Set Args to {"migrate":["true"]} to migrate the database. The default setting is {"migrate":["false"]}.    rollback Roll the app back to the previous version. When you update an app, AWS OpsWorks stores the previous version, up to a maximum of five versions. You can use this command to roll an app back as many as four versions.    start: Start the app's web or application server.    stop: Stop the app's web or application server.    restart: Restart the app's web or application server.    undeploy: Undeploy the app.  
         public var name: String = ""
         /// The arguments of those commands that take arguments. It should be set to a JSON object with the following format:  {"arg_name1" : ["value1", "value2", ...], "arg_name2" : ["value1", "value2", ...], ...}  The update_dependencies command takes two arguments:    upgrade_os_to - Specifies the desired Amazon Linux version for instances whose OS you want to upgrade, such as Amazon Linux 2014.09. You must also set the allow_reboot argument to true.    allow_reboot - Specifies whether to allow AWS OpsWorks to reboot the instances if necessary, after installing the updates. This argument can be set to either true or false. The default value is false.   For example, to upgrade an instance to Amazon Linux 2014.09, set Args to the following.   { "upgrade_os_to":["Amazon Linux 2014.09"], "allow_reboot":["true"] }  
@@ -2274,7 +2274,7 @@ extension Opsworks {
 
     public struct RegisterRdsDbInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack ID.
         public var stackId: String = ""
         /// The Amazon RDS instance's ARN.
@@ -2307,7 +2307,7 @@ extension Opsworks {
 
     public struct CreateInstanceResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The instance ID.
         public var instanceId: String? = nil
 
@@ -2324,7 +2324,7 @@ extension Opsworks {
 
     public struct Deployment: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Date when the deployment completed.
         public var completedAt: String? = nil
         /// The deployment status:   running   successful   failed  
@@ -2386,7 +2386,7 @@ extension Opsworks {
 
     public struct RegisterInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An InstanceIdentity object that contains the instance's identity.
         public var instanceIdentity: InstanceIdentity? = nil
         /// The instance's hostname.
@@ -2428,7 +2428,7 @@ extension Opsworks {
 
     public struct DescribeAppsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The app stack ID. If you use this parameter, DescribeApps returns a description of the apps in the specified stack.
         public var stackId: String? = nil
         /// An array of app IDs for the apps to be described. If you use this parameter, DescribeApps returns a description of the specified apps. Otherwise, it returns a description of every app.
@@ -2451,7 +2451,7 @@ extension Opsworks {
 
     public struct Source: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// In requests, the repository's SSH key. In responses, AWS OpsWorks returns *****FILTERED***** instead of the actual value.
         public var sshKey: String? = nil
         /// This parameter depends on the repository type.   For Amazon S3 bundles, set Username to the appropriate IAM access key ID.   For HTTP bundles, Git repositories, and Subversion repositories, set Username to the user name.  
@@ -2488,7 +2488,7 @@ extension Opsworks {
 
     public struct DescribeRaidArraysResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A RaidArrays object that describes the specified RAID arrays.
         public var raidArrays: [RaidArray]? = nil
 
@@ -2507,7 +2507,7 @@ extension Opsworks {
 
     public struct DescribeStacksResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of Stack objects that describe the stacks.
         public var stacks: [Stack]? = nil
 
@@ -2526,7 +2526,7 @@ extension Opsworks {
 
     public struct DescribeServiceErrorsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack ID. If you use this parameter, DescribeServiceErrors returns descriptions of the errors associated with the specified stack.
         public var stackId: String? = nil
         /// The instance ID. If you use this parameter, DescribeServiceErrors returns descriptions of the errors associated with the specified instance.
@@ -2553,7 +2553,7 @@ extension Opsworks {
 
     public struct DescribeVolumesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The RAID array ID. If you use this parameter, DescribeVolumes returns descriptions of the volumes associated with the specified RAID array.
         public var raidArrayId: String? = nil
         /// Am array of volume IDs. If you use this parameter, DescribeVolumes returns descriptions of the specified volumes. Otherwise, it returns a description of every volume.
@@ -2584,7 +2584,7 @@ extension Opsworks {
 
     public struct AutoScalingThresholds: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The memory utilization threshold, as a percent of the available memory. A value of -1 disables the threshold.
         public var memoryThreshold: Double? = nil
         /// The CPU utilization threshold, as a percent of the available CPU. A value of -1 disables the threshold.
@@ -2627,7 +2627,7 @@ extension Opsworks {
 
     public struct DescribeEcsClustersRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of ARNs, one for each cluster to be described.
         public var ecsClusterArns: [String]? = nil
         /// A stack ID. DescribeEcsClusters returns a description of the cluster that is registered with the stack.
@@ -2658,7 +2658,7 @@ extension Opsworks {
 
     public struct UpdateLayerRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// For custom layers only, use this parameter to specify the layer's short name, which is used internally by AWS OpsWorksand by Chef. The short name is also used as the name for the directory where your app files are installed. It can have a maximum of 200 characters and must be in the following format: /\A[a-z0-9\-\_\.]+\Z/. The built-in layers' short names are defined by AWS OpsWorks. For more information, see the Layer Reference 
         public var shortname: String? = nil
         /// An array of Package objects that describe the layer's packages.
@@ -2743,7 +2743,7 @@ extension Opsworks {
 
     public struct DescribeStackProvisioningParametersResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An embedded object that contains the provisioning parameters.
         public var parameters: [String: String]? = nil
         /// The AWS OpsWorks agent installer's URL.
@@ -2766,7 +2766,7 @@ extension Opsworks {
 
     public struct UnassignInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The instance ID.
         public var instanceId: String = ""
 
@@ -2784,7 +2784,7 @@ extension Opsworks {
 
     public struct Stack: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack's default operating system.
         public var defaultOs: String? = nil
         /// Whether the stack automatically associates the AWS OpsWorks built-in security groups with the stack's layers.
@@ -2886,7 +2886,7 @@ extension Opsworks {
 
     public struct StartStackRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack ID.
         public var stackId: String = ""
 
@@ -2904,7 +2904,7 @@ extension Opsworks {
 
     public struct ReportedOs: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The operating system family.
         public var family: String? = nil
         /// The operating system name.
@@ -2929,7 +2929,7 @@ extension Opsworks {
 
     public struct Recipes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of custom recipe names to be run following a undeploy event.
         public var undeploy: [String]? = nil
         /// An array of custom recipe names to be run following a configure event.
@@ -2972,7 +2972,7 @@ extension Opsworks {
 
     public struct SetPermissionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user's permission level, which must be set to one of the following strings. You cannot set your own permissions level.    deny     show     deploy     manage     iam_only    For more information on the permissions associated with these levels, see Managing User Permissions.
         public var level: String? = nil
         /// The user's IAM ARN. This can also be a federated user's ARN.
@@ -3007,7 +3007,7 @@ extension Opsworks {
 
     public struct DescribeTimeBasedAutoScalingResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of TimeBasedAutoScalingConfiguration objects that describe the configuration for the specified instances.
         public var timeBasedAutoScalingConfigurations: [TimeBasedAutoScalingConfiguration]? = nil
 
@@ -3026,7 +3026,7 @@ extension Opsworks {
 
     public struct DescribeElasticLoadBalancersRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A stack ID. The action describes the stack's Elastic Load Balancing instances.
         public var stackId: String? = nil
         /// A list of layer IDs. The action describes the Elastic Load Balancing instances for the specified layers.
@@ -3049,7 +3049,7 @@ extension Opsworks {
 
     public struct UpdateVolumeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The new mount point.
         public var mountPoint: String? = nil
         /// The volume ID.
@@ -3075,7 +3075,7 @@ extension Opsworks {
 
     public struct RegisterVolumeResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The volume ID.
         public var volumeId: String? = nil
 
@@ -3092,7 +3092,7 @@ extension Opsworks {
 
     public struct DescribeMyUserProfileResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A UserProfile object that describes the user's SSH information.
         public var userProfile: SelfUserProfile? = nil
 
@@ -3109,7 +3109,7 @@ extension Opsworks {
 
     public struct RegisterElasticIpRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Elastic IP address.
         public var elasticIp: String = ""
         /// The stack ID.
@@ -3132,7 +3132,7 @@ extension Opsworks {
 
     public struct DescribeCommandsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of command IDs. If you include this parameter, DescribeCommands returns a description of the specified commands. Otherwise, it returns a description of every command.
         public var commandIds: [String]? = nil
         /// The deployment ID. If you include this parameter, DescribeCommands returns a description of the commands associated with the specified deployment.
@@ -3159,7 +3159,7 @@ extension Opsworks {
 
     public struct DescribeAgentVersionsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The agent versions for the specified stack or configuration manager. Note that this value is the complete version number, not the abbreviated number used by the console.
         public var agentVersions: [AgentVersion]? = nil
 
@@ -3178,7 +3178,7 @@ extension Opsworks {
 
     public struct CreateStackRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack's default operating system, which is installed on every instance unless you specify a different operating system when you create the instance. You can specify one of the following.   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information, see  Using Custom AMIs.   The default option is the current Amazon Linux version. For more information on the supported operating systems, see AWS OpsWorks Operating Systems.
         public var defaultOs: String? = nil
         /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create a New Stack.
@@ -3272,7 +3272,7 @@ extension Opsworks {
 
     public struct DeleteLayerRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The layer ID.
         public var layerId: String = ""
 
@@ -3290,7 +3290,7 @@ extension Opsworks {
 
     public struct RegisterEcsClusterRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack ID.
         public var stackId: String = ""
         /// The cluster's ARN.
@@ -3313,7 +3313,7 @@ extension Opsworks {
 
     public struct UpdateRdsDbInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The database password.
         public var dbPassword: String? = nil
         /// The master user name.
@@ -3339,7 +3339,7 @@ extension Opsworks {
 
     public struct ChefConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether to enable Berkshelf.
         public var manageBerkshelf: Bool? = nil
         /// The Berkshelf version.
@@ -3360,7 +3360,7 @@ extension Opsworks {
 
     public struct DisassociateElasticIpRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Elastic IP address.
         public var elasticIp: String = ""
 
@@ -3378,7 +3378,7 @@ extension Opsworks {
 
     public struct AttachElasticLoadBalancerRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the layer that the Elastic Load Balancing instance is to be attached to.
         public var layerId: String = ""
         /// The Elastic Load Balancing instance's name.
@@ -3401,7 +3401,7 @@ extension Opsworks {
 
     public struct EnvironmentVariable: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// (Optional) The environment variable's value, which can be left empty. If you specify a value, it can contain up to 256 characters, which must all be printable.
         public var value: String = ""
         /// (Required) The environment variable's name, which can consist of up to 64 characters and must be specified. The name can contain upper- and lowercase letters, numbers, and underscores (_), but it must start with a letter or underscore.
@@ -3428,7 +3428,7 @@ extension Opsworks {
 
     public struct DescribeLoadBasedAutoScalingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of layer IDs.
         public var layerIds: [String] = []
 
@@ -3446,7 +3446,7 @@ extension Opsworks {
 
     public struct RdsDbInstance: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the stack that the instance is registered with.
         public var stackId: String? = nil
         /// The instance's address.
@@ -3495,7 +3495,7 @@ extension Opsworks {
 
     public struct DescribeStackSummaryResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A StackSummary object that contains the results.
         public var stackSummary: StackSummary? = nil
 
@@ -3512,7 +3512,7 @@ extension Opsworks {
 
     public struct Volume: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The device name.
         public var device: String? = nil
         /// The volume ID.
@@ -3577,7 +3577,7 @@ extension Opsworks {
 
     public struct SelfUserProfile: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user's IAM ARN.
         public var iamUserArn: String? = nil
         /// The user's SSH public key.
@@ -3606,7 +3606,7 @@ extension Opsworks {
 
     public struct EcsCluster: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The cluster name.
         public var ecsClusterName: String? = nil
         /// The time and date that the cluster was registered with the stack.
@@ -3635,7 +3635,7 @@ extension Opsworks {
 
     public struct DescribeStackSummaryRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack ID.
         public var stackId: String = ""
 
@@ -3653,7 +3653,7 @@ extension Opsworks {
 
     public struct CreateLayerResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The layer ID.
         public var layerId: String? = nil
 
@@ -3670,7 +3670,7 @@ extension Opsworks {
 
     public struct TemporaryCredential: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The length of time (in minutes) that the grant is valid. When the grant expires, at the end of this period, the user will no longer be able to use the credentials to log in. If they are logged in at the time, they will be automatically logged out.
         public var validForInMinutes: Int32? = nil
         /// The password.
@@ -3699,7 +3699,7 @@ extension Opsworks {
 
     public struct DeregisterElasticIpRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Elastic IP address.
         public var elasticIp: String = ""
 
@@ -3717,7 +3717,7 @@ extension Opsworks {
 
     public struct CreateDeploymentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The layer IDs for the deployment targets.
         public var layerIds: [String]? = nil
         /// The stack ID.
@@ -3764,7 +3764,7 @@ extension Opsworks {
 
     public struct DescribeTimeBasedAutoScalingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of instance IDs.
         public var instanceIds: [String] = []
 
@@ -3782,7 +3782,7 @@ extension Opsworks {
 
     public struct StopStackRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack ID.
         public var stackId: String = ""
 
@@ -3800,7 +3800,7 @@ extension Opsworks {
 
     public struct DescribeRdsDbInstancesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An a array of RdsDbInstance objects that describe the instances.
         public var rdsDbInstances: [RdsDbInstance]? = nil
 
@@ -3819,7 +3819,7 @@ extension Opsworks {
 
     public struct ServiceError: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// When the error occurred.
         public var createdAt: String? = nil
         /// A message that describes the error.
@@ -3856,7 +3856,7 @@ extension Opsworks {
 
     public struct RebootInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The instance ID.
         public var instanceId: String = ""
 
@@ -3874,7 +3874,7 @@ extension Opsworks {
 
     public struct CreateDeploymentResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The deployment ID, which can be used with other requests to identify the deployment.
         public var deploymentId: String? = nil
 
@@ -3891,7 +3891,7 @@ extension Opsworks {
 
     public struct DescribeServiceErrorsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of ServiceError objects that describe the specified service errors.
         public var serviceErrors: [ServiceError]? = nil
 
@@ -3910,7 +3910,7 @@ extension Opsworks {
 
     public struct DescribePermissionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack ID.
         public var stackId: String? = nil
         /// The user's IAM ARN. This can also be a federated user's ARN. For more information about IAM ARNs, see Using Identifiers.
@@ -3931,7 +3931,7 @@ extension Opsworks {
 
     public struct AgentVersion: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The configuration manager.
         public var configurationManager: StackConfigurationManager? = nil
         /// The agent version.
@@ -3952,7 +3952,7 @@ extension Opsworks {
 
     public struct DataSource: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The data source's type, AutoSelectOpsworksMysqlInstance, OpsworksMysqlInstance, or RdsDbInstance.
         public var type: String? = nil
         /// The data source's ARN.
@@ -3977,7 +3977,7 @@ extension Opsworks {
 
     public struct DescribeElasticLoadBalancersResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of ElasticLoadBalancer objects that describe the specified Elastic Load Balancing instances.
         public var elasticLoadBalancers: [ElasticLoadBalancer]? = nil
 
@@ -3996,7 +3996,7 @@ extension Opsworks {
 
     public struct TimeBasedAutoScalingConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The instance ID.
         public var instanceId: String? = nil
         /// A WeeklyAutoScalingSchedule object with the instance schedule.
@@ -4017,7 +4017,7 @@ extension Opsworks {
 
     public struct GetHostnameSuggestionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The generated host name.
         public var hostname: String? = nil
         /// The layer ID.
@@ -4038,7 +4038,7 @@ extension Opsworks {
 
     public struct EbsBlockDevice: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The snapshot ID.
         public var snapshotId: String? = nil
         /// The volume size, in GiB. For more information, see EbsBlockDevice.
@@ -4071,7 +4071,7 @@ extension Opsworks {
 
     public struct BlockDeviceMapping: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Suppresses the specified device included in the AMI's block device mapping.
         public var noDevice: String? = nil
         /// The virtual device name. For more information, see BlockDeviceMapping.
@@ -4100,7 +4100,7 @@ extension Opsworks {
 
     public struct DeregisterRdsDbInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon RDS instance's ARN.
         public var rdsDbInstanceArn: String = ""
 
@@ -4118,7 +4118,7 @@ extension Opsworks {
 
     public struct UpdateStackRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack's operating system, which must be set to one of the following:   A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS 7     Red Hat Enterprise Linux 7    A supported Windows operating system, such as Microsoft Windows Server 2012 R2 Base, Microsoft Windows Server 2012 R2 with SQL Server Express, Microsoft Windows Server 2012 R2 with SQL Server Standard, or Microsoft Windows Server 2012 R2 with SQL Server Web.   A custom AMI: Custom. You specify the custom AMI you want to use when you create instances. For more information on how to use custom AMIs with OpsWorks, see Using Custom AMIs.   The default option is the stack's current operating system. For more information on the supported operating systems, see AWS OpsWorks Operating Systems.
         public var defaultOs: String? = nil
         /// A ChefConfiguration object that specifies whether to enable Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create a New Stack.
@@ -4205,7 +4205,7 @@ extension Opsworks {
 
     public struct UpdateElasticIpRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The address.
         public var elasticIp: String = ""
         /// The new name.
@@ -4227,7 +4227,7 @@ extension Opsworks {
 
     public struct InstanceIdentity: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A JSON document that contains the metadata.
         public var document: String? = nil
         /// A signature that can be used to verify the document's accuracy and authenticity.
@@ -4248,7 +4248,7 @@ extension Opsworks {
 
     public struct DescribeInstancesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of Instance objects that describe the instances.
         public var instances: [Instance]? = nil
 
@@ -4267,7 +4267,7 @@ extension Opsworks {
 
     public struct LifecycleEventConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A ShutdownEventConfiguration object that specifies the Shutdown event configuration.
         public var shutdown: ShutdownEventConfiguration? = nil
 
@@ -4284,7 +4284,7 @@ extension Opsworks {
 
     public struct DescribeStackProvisioningParametersRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack ID
         public var stackId: String = ""
 
@@ -4302,7 +4302,7 @@ extension Opsworks {
 
     public struct DeleteAppRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The app ID.
         public var appId: String = ""
 
@@ -4320,7 +4320,7 @@ extension Opsworks {
 
     public struct DescribeDeploymentsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of Deployment objects that describe the deployments.
         public var deployments: [Deployment]? = nil
 
@@ -4339,7 +4339,7 @@ extension Opsworks {
 
     public struct DescribePermissionsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of Permission objects that describe the stack permissions.   If the request object contains only a stack ID, the array contains a Permission object with permissions for each of the stack IAM ARNs.   If the request object contains only an IAM ARN, the array contains a Permission object with permissions for each of the user's stack IDs.   If the request contains a stack ID and an IAM ARN, the array contains a single Permission object with permissions for the specified stack and IAM ARN.  
         public var permissions: [Permission]? = nil
 
@@ -4358,7 +4358,7 @@ extension Opsworks {
 
     public struct RegisterVolumeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The stack ID.
         public var stackId: String = ""
         /// The Amazon EBS volume ID.
@@ -4380,7 +4380,7 @@ extension Opsworks {
 
     public struct StartInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The instance ID.
         public var instanceId: String = ""
 
@@ -4398,7 +4398,7 @@ extension Opsworks {
 
     public struct Permission: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user's permission level, which must be the following:    deny     show     deploy     manage     iam_only    For more information on the permissions associated with these levels, see Managing User Permissions 
         public var level: String? = nil
         /// The Amazon Resource Name (ARN) for an AWS Identity and Access Management (IAM) role. For more information about IAM ARNs, see Using Identifiers.
@@ -4431,7 +4431,7 @@ extension Opsworks {
 
     public struct AssignVolumeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The instance ID.
         public var instanceId: String? = nil
         /// The volume ID.
@@ -4453,7 +4453,7 @@ extension Opsworks {
 
     public struct DeleteUserProfileRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user's IAM ARN. This can also be a federated user's ARN.
         public var iamUserArn: String = ""
 
@@ -4471,7 +4471,7 @@ extension Opsworks {
 
     public struct ElasticLoadBalancer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of subnet IDs, if the stack is running in a VPC.
         public var subnetIds: [String]? = nil
         /// A list of Availability Zones.
@@ -4526,7 +4526,7 @@ extension Opsworks {
 
     public struct DescribeElasticIpsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An ElasticIps object that describes the specified Elastic IP addresses.
         public var elasticIps: [ElasticIp]? = nil
 

@@ -31,7 +31,7 @@ extension Config {
 
     public struct ConfigStreamDeliveryInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The error message from the last attempted delivery.
         public var lastErrorMessage: String? = nil
         /// The error code from the last attempted delivery.
@@ -60,7 +60,7 @@ extension Config {
 
     public struct GetComplianceDetailsByConfigRuleResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether the AWS resource complies with the specified AWS Config rule.
         public var evaluationResults: [EvaluationResult]? = nil
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
@@ -83,7 +83,7 @@ extension Config {
 
     public struct GetComplianceDetailsByResourceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether the specified AWS resource complies each AWS Config rule.
         public var evaluationResults: [EvaluationResult]? = nil
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
@@ -106,7 +106,7 @@ extension Config {
 
     public struct Source: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether AWS or the customer owns and manages the AWS Config rule.
         public var owner: String = ""
         /// Provides the source and type of the event that causes AWS Config to evaluate your AWS resources.
@@ -135,7 +135,7 @@ extension Config {
 
     public struct DeleteConfigRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the AWS Config rule that you want to delete.
         public var configRuleName: String = ""
 
@@ -153,7 +153,7 @@ extension Config {
 
     public struct ConfigExportDeliveryInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The error message from the last attempted delivery.
         public var lastErrorMessage: String? = nil
         /// The time of the last attempted delivery.
@@ -190,7 +190,7 @@ extension Config {
 
     public struct SourceDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of notification that triggers AWS Config to run an evaluation for a rule. You can specify the following notification types:    ConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers a configuration item as a result of a resource change.    OversizedConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers an oversized configuration item. AWS Config may generate this notification type when a resource changes and the notification exceeds the maximum size allowed by Amazon SNS.    ScheduledNotification - Triggers a periodic evaluation at the frequency specified for MaximumExecutionFrequency.    ConfigurationSnapshotDeliveryCompleted - Triggers a periodic evaluation when AWS Config delivers a configuration snapshot.   If you want your custom rule to be triggered by configuration changes, specify both ConfigurationItemChangeNotification and OversizedConfigurationItemChangeNotification. 
         public var messageType: String? = nil
         /// The source of the event, such as an AWS service, that triggers AWS Config to evaluate your AWS resources.
@@ -215,7 +215,7 @@ extension Config {
 
     public struct DescribeConfigurationRecordersResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list that contains the descriptions of the specified configuration recorders.
         public var configurationRecorders: [ConfigurationRecorder]? = nil
 
@@ -234,7 +234,7 @@ extension Config {
 
     public struct DescribeConfigurationRecordersRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of configuration recorder names.
         public var configurationRecorderNames: [String]? = nil
 
@@ -253,7 +253,7 @@ extension Config {
 
     public struct ResourceIdentifier: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of resource.
         public var resourceType: String? = nil
         /// The ID of the resource (for example., sg-xxxxxx).
@@ -282,7 +282,7 @@ extension Config {
 
     public struct DeliveryChannel: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The prefix for the specified Amazon S3 bucket.
         public var s3KeyPrefix: String? = nil
         /// The name of the delivery channel. By default, AWS Config assigns the name "default" when creating the delivery channel. To change the delivery channel name, you must use the DeleteDeliveryChannel action to delete your current delivery channel, and then you must use the PutDeliveryChannel command to create a delivery channel that has the desired name.
@@ -314,7 +314,7 @@ extension Config {
 
     public struct PutConfigRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var configRule: ConfigRule = ConfigRule()
 
         public init() {}
@@ -331,7 +331,7 @@ extension Config {
 
     public struct DescribeDeliveryChannelsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list that contains the descriptions of the specified delivery channel.
         public var deliveryChannels: [DeliveryChannel]? = nil
 
@@ -350,7 +350,7 @@ extension Config {
 
     public struct DescribeConfigRuleEvaluationStatusResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
         public var nextToken: String? = nil
         /// Status information about your AWS managed Config rules.
@@ -373,7 +373,7 @@ extension Config {
 
     public struct DescribeComplianceByResourceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
         public var nextToken: String? = nil
         /// Indicates whether the specified AWS resource complies with all of the AWS Config rules that evaluate it.
@@ -396,7 +396,7 @@ extension Config {
 
     public struct DescribeConfigRulesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The names of the AWS Config rules for which you want details. If you do not specify any names, AWS Config returns details for all your rules.
         public var configRuleNames: [String]? = nil
         /// The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -419,7 +419,7 @@ extension Config {
 
     public struct DeliverConfigSnapshotResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the snapshot that is being created.
         public var configSnapshotId: String? = nil
 
@@ -436,7 +436,7 @@ extension Config {
 
     public struct ListDiscoveredResourcesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies whether AWS Config includes deleted resources in the results. By default, deleted resources are not included.
         public var includeDeletedResources: Bool? = nil
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -476,7 +476,7 @@ extension Config {
 
     public struct DeliverConfigSnapshotRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the delivery channel through which the snapshot is delivered.
         public var deliveryChannelName: String = ""
 
@@ -494,7 +494,7 @@ extension Config {
 
     public struct DescribeDeliveryChannelsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of delivery channel names.
         public var deliveryChannelNames: [String]? = nil
 
@@ -513,7 +513,7 @@ extension Config {
 
     public struct GetComplianceSummaryByResourceTypeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of resources that are compliant and the number that are noncompliant. If one or more resource types were provided with the request, the numbers are returned for each resource type. The maximum number returned is 100.
         public var complianceSummariesByResourceType: [ComplianceSummaryByResourceType]? = nil
 
@@ -532,7 +532,7 @@ extension Config {
 
     public struct DeleteEvaluationResultsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the Config rule for which you want to delete the evaluation results.
         public var configRuleName: String = ""
 
@@ -550,7 +550,7 @@ extension Config {
 
     public struct ConfigurationItem: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An identifier that indicates the ordering of the configuration items of a resource.
         public var configurationStateId: String? = nil
         /// The type of AWS resource.
@@ -643,7 +643,7 @@ extension Config {
 
     public struct PutConfigurationRecorderRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The configuration recorder object that records each configuration change made to the resources.
         public var configurationRecorder: ConfigurationRecorder = ConfigurationRecorder()
 
@@ -661,7 +661,7 @@ extension Config {
 
     public struct EvaluationResultIdentifier: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time of the event that triggered the evaluation of your AWS resources. The time can indicate when AWS Config delivered a configuration item change notification, or it can indicate when AWS Config delivered the configuration snapshot, depending on which event triggered the evaluation.
         public var orderingTimestamp: Date? = nil
         /// Identifies an AWS Config rule used to evaluate an AWS resource, and provides the type and ID of the evaluated resource.
@@ -682,7 +682,7 @@ extension Config {
 
     public struct RecordingGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies whether AWS Config records configuration changes for every supported type of regional resource. If you set this option to true, when AWS Config adds support for a new type of regional resource, it automatically starts recording resources of that type. If you set this option to true, you cannot enumerate a list of resourceTypes.
         public var allSupported: Bool? = nil
         /// Specifies whether AWS Config includes all supported types of global resources (for example, IAM resources) with the resources that it records. Before you can set this option to true, you must set the allSupported option to true. If you set this option to true, when AWS Config adds support for a new type of global resource, it automatically starts recording resources of that type. The configuration details for any global resource are the same in all regions. To prevent duplicate configuration items, you should consider customizing AWS Config in only one region to record global resources.
@@ -709,7 +709,7 @@ extension Config {
 
     public struct GetComplianceDetailsByConfigRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the AWS Config rule for which you want compliance information.
         public var configRuleName: String = ""
         /// The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
@@ -741,7 +741,7 @@ extension Config {
 
     public struct ComplianceSummaryByResourceType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of AWS resources that are compliant or noncompliant, up to a maximum of 100 for each compliance.
         public var complianceSummary: ComplianceSummary? = nil
         /// The type of AWS resource.
@@ -762,7 +762,7 @@ extension Config {
 
     public struct PutDeliveryChannelRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The configuration delivery channel object that delivers the configuration information to an Amazon S3 bucket, and to an Amazon SNS topic.
         public var deliveryChannel: DeliveryChannel = DeliveryChannel()
 
@@ -780,7 +780,7 @@ extension Config {
 
     public struct Evaluation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether the AWS resource complies with the AWS Config rule that it was evaluated against. For the Evaluation data type, AWS Config supports only the COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE values. AWS Config does not support the INSUFFICIENT_DATA value for this data type. Similarly, AWS Config does not accept INSUFFICIENT_DATA as the value for ComplianceType from a PutEvaluations request. For example, an AWS Lambda function for a custom Config rule cannot pass an INSUFFICIENT_DATA value to AWS Config.
         public var complianceType: String = ""
         /// The type of AWS resource that was evaluated.
@@ -817,7 +817,7 @@ extension Config {
 
     public struct StopConfigurationRecorderRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the recorder object that records each configuration change made to the resources.
         public var configurationRecorderName: String = ""
 
@@ -835,7 +835,7 @@ extension Config {
 
     public struct ConfigRule: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether the AWS Config rule is active or is currently being deleted by AWS Config. It can also indicate the evaluation status for the Config rule. AWS Config sets the state of the rule to EVALUATING temporarily after you use the StartConfigRulesEvaluation request to evaluate your resources against the Config rule. AWS Config sets the state of the rule to DELETING_RESULTS temporarily after you use the DeleteEvaluationResults request to delete the current evaluation results for the Config rule. AWS Config sets the state of a rule to DELETING temporarily after you use the DeleteConfigRule request to delete the rule. After AWS Config deletes the rule, the rule and all of its evaluations are erased and are no longer available.
         public var configRuleState: String? = nil
         /// The name that you assign to the AWS Config rule. The name is required if you are adding a new rule.
@@ -885,7 +885,7 @@ extension Config {
 
     public struct EvaluationResultQualifier: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the evaluated AWS resource.
         public var resourceId: String? = nil
         /// The type of AWS resource that was evaluated.
@@ -910,7 +910,7 @@ extension Config {
 
     public struct DescribeConfigurationRecorderStatusResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list that contains status of the specified recorders.
         public var configurationRecordersStatus: [ConfigurationRecorderStatus]? = nil
 
@@ -929,7 +929,7 @@ extension Config {
 
     public struct ComplianceSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time that AWS Config created the compliance summary.
         public var complianceSummaryTimestamp: Date? = nil
         /// The number of AWS Config rules or AWS resources that are noncompliant, up to a maximum of 25 for rules and 100 for resources.
@@ -954,7 +954,7 @@ extension Config {
 
     public struct Scope: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The resource types of only those AWS resources that you want to trigger an evaluation for the rule. You can only specify one type if you also specify a resource ID for ComplianceResourceId.
         public var complianceResourceTypes: [String]? = nil
         /// The IDs of the only AWS resource that you want to trigger an evaluation for the rule. If you specify a resource ID, you must specify one resource type for ComplianceResourceTypes.
@@ -985,7 +985,7 @@ extension Config {
 
     public struct ConfigRuleEvaluationStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time that AWS Config last failed to evaluate your AWS resources against the rule.
         public var lastFailedEvaluationTime: Date? = nil
         /// Indicates whether AWS Config has evaluated your resources against the rule at least once.    true - AWS Config has evaluated your AWS resources against the rule at least once.    false - AWS Config has not once finished evaluating your AWS resources against the rule.  
@@ -1042,7 +1042,7 @@ extension Config {
 
     public struct GetComplianceSummaryByConfigRuleResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of AWS Config rules that are compliant and the number that are noncompliant, up to a maximum of 25 for each.
         public var complianceSummary: ComplianceSummary? = nil
 
@@ -1059,7 +1059,7 @@ extension Config {
 
     public struct GetComplianceSummaryByResourceTypeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specify one or more resource types to get the number of resources that are compliant and the number that are noncompliant for each resource type. For this request, you can specify an AWS resource type such as AWS::EC2::Instance, and you can specify that the resource type is an AWS account by specifying AWS::::Account.
         public var resourceTypes: [String]? = nil
 
@@ -1078,7 +1078,7 @@ extension Config {
 
     public struct DescribeComplianceByConfigRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specify one or more AWS Config rule names to filter the results by rule.
         public var configRuleNames: [String]? = nil
         /// The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -1107,7 +1107,7 @@ extension Config {
 
     public struct GetComplianceDetailsByResourceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the AWS resource for which you want compliance information.
         public var resourceId: String = ""
         /// The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -1140,7 +1140,7 @@ extension Config {
 
     public struct ComplianceByResource: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether the AWS resource complies with all of the AWS Config rules that evaluated it.
         public var compliance: Compliance? = nil
         /// The ID of the AWS resource that was evaluated.
@@ -1165,7 +1165,7 @@ extension Config {
 
     public struct DescribeComplianceByConfigRuleResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether each of the specified AWS Config rules is compliant.
         public var complianceByConfigRules: [ComplianceByConfigRule]? = nil
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
@@ -1188,7 +1188,7 @@ extension Config {
 
     public struct DescribeConfigRuleEvaluationStatusRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the AWS managed Config rules for which you want status information. If you do not specify any names, AWS Config returns status information for all AWS managed Config rules that you use.
         public var configRuleNames: [String]? = nil
         /// The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
@@ -1215,7 +1215,7 @@ extension Config {
 
     public struct DeliveryChannelStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the delivery channel.
         public var name: String? = nil
         /// A list containing the status of the delivery of the configuration stream notification to the specified Amazon SNS topic.
@@ -1244,7 +1244,7 @@ extension Config {
 
     public struct StartConfigRulesEvaluationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1254,7 +1254,7 @@ extension Config {
 
     public struct ComplianceByConfigRule: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether the AWS Config rule is compliant.
         public var compliance: Compliance? = nil
         /// The name of the AWS Config rule.
@@ -1275,7 +1275,7 @@ extension Config {
 
     public struct GetResourceConfigHistoryResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list that contains the configuration history of one or more resources.
         public var configurationItems: [ConfigurationItem]? = nil
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
@@ -1298,7 +1298,7 @@ extension Config {
 
     public struct ComplianceContributorCount: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of AWS resources or AWS Config rules responsible for the current compliance of the item.
         public var cappedCount: Int32? = nil
         /// Indicates whether the maximum count is reached.
@@ -1319,7 +1319,7 @@ extension Config {
 
     public struct DeleteConfigurationRecorderRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the configuration recorder to be deleted. You can retrieve the name of your configuration recorder by using the DescribeConfigurationRecorders action.
         public var configurationRecorderName: String = ""
 
@@ -1337,7 +1337,7 @@ extension Config {
 
     public struct GetResourceConfigHistoryRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time stamp that indicates a later time. If not specified, current time is taken.
         public var laterTime: Date? = nil
         /// The maximum number of configuration items returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
@@ -1380,7 +1380,7 @@ extension Config {
 
     public struct Relationship: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The resource type of the related resource.
         public var resourceType: String? = nil
         /// The ID of the related resource (for example, sg-xxxxxx).
@@ -1409,7 +1409,7 @@ extension Config {
 
     public struct Compliance: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of AWS resources or AWS Config rules that cause a result of NON_COMPLIANT, up to a maximum number.
         public var complianceContributorCount: ComplianceContributorCount? = nil
         /// Indicates whether an AWS resource or AWS Config rule is compliant. A resource is compliant if it complies with all of the AWS Config rules that evaluate it, and it is noncompliant if it does not comply with one or more of these rules. A rule is compliant if all of the resources that the rule evaluates comply with it, and it is noncompliant if any of these resources do not comply. AWS Config returns the INSUFFICIENT_DATA value when no evaluation results are available for the AWS resource or Config rule. For the Compliance data type, AWS Config supports only COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA values. AWS Config does not support the NOT_APPLICABLE value for the Compliance data type.
@@ -1430,7 +1430,7 @@ extension Config {
 
     public struct DescribeConfigurationRecorderStatusRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name(s) of the configuration recorder. If the name is not specified, the action returns the current status of all the configuration recorders associated with the account.
         public var configurationRecorderNames: [String]? = nil
 
@@ -1449,7 +1449,7 @@ extension Config {
 
     public struct ConfigSnapshotDeliveryProperties: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The frequency with which AWS Config delivers configuration snapshots.
         public var deliveryFrequency: String? = nil
 
@@ -1466,7 +1466,7 @@ extension Config {
 
     public struct ListDiscoveredResourcesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The details that identify a resource that is discovered by AWS Config, including the resource type, ID, and (if available) the custom resource name.
         public var resourceIdentifiers: [ResourceIdentifier]? = nil
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
@@ -1489,7 +1489,7 @@ extension Config {
 
     public struct DeleteEvaluationResultsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1499,7 +1499,7 @@ extension Config {
 
     public struct DescribeConfigRulesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The details about your AWS Config rules.
         public var configRules: [ConfigRule]? = nil
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
@@ -1522,7 +1522,7 @@ extension Config {
 
     public struct EvaluationResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Uniquely identifies the evaluation result.
         public var evaluationResultIdentifier: EvaluationResultIdentifier? = nil
         /// The time when the AWS Config rule evaluated the AWS resource.
@@ -1559,7 +1559,7 @@ extension Config {
 
     public struct DescribeComplianceByResourceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
         public var limit: Int32? = nil
         /// The ID of the AWS resource for which you want compliance information. You can specify only one resource ID. If you specify a resource ID, you must also specify a type for ResourceType.
@@ -1594,7 +1594,7 @@ extension Config {
 
     public struct DescribeDeliveryChannelStatusResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list that contains the status of a specified delivery channel.
         public var deliveryChannelsStatus: [DeliveryChannelStatus]? = nil
 
@@ -1613,7 +1613,7 @@ extension Config {
 
     public struct PutEvaluationsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Requests that failed because of a client or server error.
         public var failedEvaluations: [Evaluation]? = nil
 
@@ -1632,7 +1632,7 @@ extension Config {
 
     public struct StartConfigRulesEvaluationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of names of Config rules that you want to run evaluations for.
         public var configRuleNames: [String]? = nil
 
@@ -1651,7 +1651,7 @@ extension Config {
 
     public struct StartConfigurationRecorderRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the recorder object that records each configuration change made to the resources.
         public var configurationRecorderName: String = ""
 
@@ -1669,7 +1669,7 @@ extension Config {
 
     public struct DeleteDeliveryChannelRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the delivery channel to delete.
         public var deliveryChannelName: String = ""
 
@@ -1687,7 +1687,7 @@ extension Config {
 
     public struct DescribeDeliveryChannelStatusRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of delivery channel names.
         public var deliveryChannelNames: [String]? = nil
 
@@ -1706,7 +1706,7 @@ extension Config {
 
     public struct ConfigurationRecorderStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the configuration recorder.
         public var name: String? = nil
         /// The time when the status was last changed.
@@ -1751,7 +1751,7 @@ extension Config {
 
     public struct ConfigurationRecorder: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the recorder. By default, AWS Config automatically assigns the name "default" when creating the configuration recorder. You cannot change the assigned name.
         public var name: String? = nil
         /// Specifies the types of AWS resource for which AWS Config records configuration changes.
@@ -1776,7 +1776,7 @@ extension Config {
 
     public struct PutEvaluationsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The assessments that the AWS Lambda function performs. Each evaluation identifies an AWS resource and indicates whether it complies with the AWS Config rule that invokes the AWS Lambda function.
         public var evaluations: [Evaluation]? = nil
         /// An encrypted token that associates an evaluation with an AWS Config rule. Identifies the rule and the event that triggered the evaluation

@@ -31,7 +31,7 @@ extension Cloudsearch {
 
     public struct DescribeScalingParametersRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var domainName: String = ""
 
         public init() {}
@@ -48,7 +48,7 @@ extension Cloudsearch {
 
     public struct IntOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
         public var returnEnabled: Bool? = nil
         /// Whether facet information can be returned for the field.
@@ -85,7 +85,7 @@ extension Cloudsearch {
 
     public struct ExpressionStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The expression that is evaluated for sorting while processing a search request.
         public var options: Expression = Expression()
         public var status: OptionStatus = OptionStatus()
@@ -107,7 +107,7 @@ extension Cloudsearch {
 
     public struct DescribeScalingParametersResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var scalingParameters: ScalingParametersStatus = ScalingParametersStatus()
 
         public init() {}
@@ -124,7 +124,7 @@ extension Cloudsearch {
 
     public struct AnalysisScheme: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var analysisSchemeLanguage: String = ""
         public var analysisSchemeName: String = ""
         public var analysisOptions: AnalysisOptions? = nil
@@ -148,7 +148,7 @@ extension Cloudsearch {
 
     public struct DeleteIndexFieldRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the index field your want to remove from the domain's indexing options.
         public var indexFieldName: String = ""
         public var domainName: String = ""
@@ -170,7 +170,7 @@ extension Cloudsearch {
 
     public struct DeleteExpressionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the expression being deleted.
         public var expression: ExpressionStatus = ExpressionStatus()
 
@@ -188,7 +188,7 @@ extension Cloudsearch {
 
     public struct LiteralOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
         public var returnEnabled: Bool? = nil
         /// Whether facet information can be returned for the field.
@@ -224,7 +224,7 @@ extension Cloudsearch {
 
     public struct DescribeAnalysisSchemesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The analysis schemes you want to describe.
         public var analysisSchemeNames: [String]? = nil
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
@@ -252,7 +252,7 @@ extension Cloudsearch {
 
     public struct OptionStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique integer that indicates when this option was last updated.
         public var updateVersion: Int32? = nil
         /// Indicates that the option will be deleted once processing is complete.
@@ -288,7 +288,7 @@ extension Cloudsearch {
 
     public struct DescribeDomainsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The names of the domains you want to include in the response.
         public var domainNames: [String]? = nil
 
@@ -307,7 +307,7 @@ extension Cloudsearch {
 
     public struct UpdateServiceAccessPoliciesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The access rules configured for the domain.
         public var accessPolicies: AccessPoliciesStatus = AccessPoliciesStatus()
 
@@ -325,7 +325,7 @@ extension Cloudsearch {
 
     public struct DoubleArrayOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
         public var returnEnabled: Bool? = nil
         /// A list of source fields to map to the field. 
@@ -358,7 +358,7 @@ extension Cloudsearch {
 
     public struct DomainStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var limits: Limits? = nil
         /// True if processing is being done to activate the current domain configuration.
         public var processing: Bool? = nil
@@ -422,7 +422,7 @@ extension Cloudsearch {
 
     public struct UpdateScalingParametersResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var scalingParameters: ScalingParametersStatus = ScalingParametersStatus()
 
         public init() {}
@@ -439,7 +439,7 @@ extension Cloudsearch {
 
     public struct ListDomainNamesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The names of the search domains owned by an account.
         public var domainNames: [String: String]? = nil
 
@@ -458,7 +458,7 @@ extension Cloudsearch {
 
     public struct DescribeAvailabilityOptionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public var deployed: Bool? = nil
         /// The name of the domain you want to describe.
@@ -480,7 +480,7 @@ extension Cloudsearch {
 
     public struct DeleteIndexFieldResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the index field being deleted.
         public var indexField: IndexFieldStatus = IndexFieldStatus()
 
@@ -498,7 +498,7 @@ extension Cloudsearch {
 
     public struct DefineSuggesterRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var suggester: Suggester = Suggester()
         public var domainName: String = ""
 
@@ -519,7 +519,7 @@ extension Cloudsearch {
 
     public struct DescribeIndexFieldsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public var deployed: Bool? = nil
         /// A list of the index fields you want to describe. If not specified, information is returned for all configured index fields.
@@ -547,7 +547,7 @@ extension Cloudsearch {
 
     public struct DeleteDomainResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var domainStatus: DomainStatus? = nil
 
         public init() {}
@@ -563,7 +563,7 @@ extension Cloudsearch {
 
     public struct Suggester: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var suggesterName: String = ""
         public var documentSuggesterOptions: DocumentSuggesterOptions = DocumentSuggesterOptions()
 
@@ -584,7 +584,7 @@ extension Cloudsearch {
 
     public struct ScalingParameters: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of replicas you want to preconfigure for each index partition.
         public var desiredReplicationCount: Int32? = nil
         /// The instance type that you want to preconfigure for your domain. For example, search.m1.small.
@@ -609,7 +609,7 @@ extension Cloudsearch {
 
     public struct DescribeServiceAccessPoliciesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public var deployed: Bool? = nil
         /// The name of the domain you want to describe.
@@ -631,7 +631,7 @@ extension Cloudsearch {
 
     public struct CreateDomainResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var domainStatus: DomainStatus? = nil
 
         public init() {}
@@ -647,7 +647,7 @@ extension Cloudsearch {
 
     public struct DocumentSuggesterOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An expression that computes a score for each suggestion to control how they are sorted. The scores are rounded to the nearest integer, with a floor of 0 and a ceiling of 2^31-1. A document's relevance score is not computed for suggestions, so sort expressions cannot reference the _score value. To sort suggestions using a numeric field or existing expression, simply specify the name of the field or expression. If no expression is configured for the suggester, the suggestions are sorted with the closest matches listed first.
         public var sortExpression: String? = nil
         /// The level of fuzziness allowed when suggesting matches for a string: none, low, or high. With none, the specified string is treated as an exact prefix. With low, suggestions must differ from the specified string by no more than one character. With high, suggestions can differ by up to two characters. The default is none. 
@@ -673,7 +673,7 @@ extension Cloudsearch {
 
     public struct DefineExpressionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var domainName: String = ""
         public var expression: Expression = Expression()
 
@@ -694,7 +694,7 @@ extension Cloudsearch {
 
     public struct TextArrayOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of an analysis scheme for a text-array field.
         public var analysisScheme: String? = nil
         /// Whether the contents of the field can be returned in the search results.
@@ -727,7 +727,7 @@ extension Cloudsearch {
 
     public struct DescribeDomainsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var domainStatusList: [DomainStatus] = []
 
         public init() {}
@@ -744,7 +744,7 @@ extension Cloudsearch {
 
     public struct DeleteSuggesterResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the suggester being deleted.
         public var suggester: SuggesterStatus = SuggesterStatus()
 
@@ -762,7 +762,7 @@ extension Cloudsearch {
 
     public struct DefineIndexFieldRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The index field and field options you want to configure. 
         public var indexField: IndexField = IndexField()
         public var domainName: String = ""
@@ -784,7 +784,7 @@ extension Cloudsearch {
 
     public struct DefineAnalysisSchemeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var analysisScheme: AnalysisScheme = AnalysisScheme()
         public var domainName: String = ""
 
@@ -805,7 +805,7 @@ extension Cloudsearch {
 
     public struct DeleteDomainRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the domain you want to permanently delete.
         public var domainName: String = ""
 
@@ -823,7 +823,7 @@ extension Cloudsearch {
 
     public struct IndexDocumentsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var domainName: String = ""
 
         public init() {}
@@ -840,7 +840,7 @@ extension Cloudsearch {
 
     public struct DeleteExpressionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the Expression to delete.
         public var expressionName: String = ""
         public var domainName: String = ""
@@ -862,7 +862,7 @@ extension Cloudsearch {
 
     public struct IndexFieldStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var options: IndexField = IndexField()
         public var status: OptionStatus = OptionStatus()
 
@@ -883,7 +883,7 @@ extension Cloudsearch {
 
     public struct DeleteAnalysisSchemeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the analysis scheme you want to delete.
         public var analysisSchemeName: String = ""
         public var domainName: String = ""
@@ -905,7 +905,7 @@ extension Cloudsearch {
 
     public struct ScalingParametersStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var options: ScalingParameters = ScalingParameters()
         public var status: OptionStatus = OptionStatus()
 
@@ -926,7 +926,7 @@ extension Cloudsearch {
 
     public struct AnalysisOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A JSON object that contains a collection of string:value pairs that each map a term to its stem. For example, {"term1": "stem1", "term2": "stem2", "term3": "stem3"}. The stemming dictionary is applied in addition to any algorithmic stemming. This enables you to override the results of the algorithmic stemming to correct specific cases of overstemming or understemming. The maximum size of a stemming dictionary is 500 KB.
         public var stemmingDictionary: String? = nil
         /// A JSON array that contains a collection of terms, tokens, readings and part of speech for Japanese Tokenizaiton. The Japanese tokenization dictionary enables you to override the default tokenization for selected terms. This is only valid for Japanese language fields.
@@ -959,7 +959,7 @@ extension Cloudsearch {
 
     public struct UpdateServiceAccessPoliciesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The access rules you want to configure. These rules replace any existing rules. 
         public var accessPolicies: String = ""
         public var domainName: String = ""
@@ -981,7 +981,7 @@ extension Cloudsearch {
 
     public struct DateArrayOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
         public var returnEnabled: Bool? = nil
         /// A list of source fields to map to the field. 
@@ -1014,7 +1014,7 @@ extension Cloudsearch {
 
     public struct DeleteAnalysisSchemeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the analysis scheme being deleted.
         public var analysisScheme: AnalysisSchemeStatus = AnalysisSchemeStatus()
 
@@ -1032,7 +1032,7 @@ extension Cloudsearch {
 
     public struct BuildSuggestersResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var fieldNames: [String]? = nil
 
         public init() {}
@@ -1050,7 +1050,7 @@ extension Cloudsearch {
 
     public struct AnalysisSchemeStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var options: AnalysisScheme = AnalysisScheme()
         public var status: OptionStatus = OptionStatus()
 
@@ -1071,7 +1071,7 @@ extension Cloudsearch {
 
     public struct AccessPoliciesStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var options: String = ""
         public var status: OptionStatus = OptionStatus()
 
@@ -1092,7 +1092,7 @@ extension Cloudsearch {
 
     public struct TextOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of an analysis scheme for a text field.
         public var analysisScheme: String? = nil
         /// Whether the contents of the field can be returned in the search results.
@@ -1128,7 +1128,7 @@ extension Cloudsearch {
 
     public struct IndexDocumentsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The names of the fields that are currently being indexed.
         public var fieldNames: [String]? = nil
 
@@ -1147,7 +1147,7 @@ extension Cloudsearch {
 
     public struct DefineExpressionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var expression: ExpressionStatus = ExpressionStatus()
 
         public init() {}
@@ -1164,7 +1164,7 @@ extension Cloudsearch {
 
     public struct UpdateAvailabilityOptionsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The newly-configured availability options. Indicates whether Multi-AZ is enabled for the domain. 
         public var availabilityOptions: AvailabilityOptionsStatus? = nil
 
@@ -1181,7 +1181,7 @@ extension Cloudsearch {
 
     public struct LiteralArrayOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
         public var returnEnabled: Bool? = nil
         /// A list of source fields to map to the field. 
@@ -1214,7 +1214,7 @@ extension Cloudsearch {
 
     public struct IntArrayOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
         public var returnEnabled: Bool? = nil
         /// A list of source fields to map to the field. 
@@ -1247,7 +1247,7 @@ extension Cloudsearch {
 
     public struct DescribeAnalysisSchemesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The analysis scheme descriptions.
         public var analysisSchemes: [AnalysisSchemeStatus] = []
 
@@ -1265,7 +1265,7 @@ extension Cloudsearch {
 
     public struct DescribeExpressionsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The expressions configured for the domain.
         public var expressions: [ExpressionStatus] = []
 
@@ -1283,7 +1283,7 @@ extension Cloudsearch {
 
     public struct Expression: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var expressionValue: String = ""
         public var expressionName: String = ""
 
@@ -1304,7 +1304,7 @@ extension Cloudsearch {
 
     public struct SuggesterStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var options: Suggester = Suggester()
         public var status: OptionStatus = OptionStatus()
 
@@ -1325,7 +1325,7 @@ extension Cloudsearch {
 
     public struct DescribeSuggestersRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public var deployed: Bool? = nil
         /// The suggesters you want to describe.
@@ -1353,7 +1353,7 @@ extension Cloudsearch {
 
     public struct IndexField: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var intOptions: IntOptions? = nil
         public var dateOptions: DateOptions? = nil
         public var textArrayOptions: TextArrayOptions? = nil
@@ -1408,7 +1408,7 @@ extension Cloudsearch {
 
     public struct LatLonOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
         public var returnEnabled: Bool? = nil
         /// Whether facet information can be returned for the field.
@@ -1444,7 +1444,7 @@ extension Cloudsearch {
 
     public struct DescribeExpressionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether to display the deployed configuration (true) or include any pending changes (false). Defaults to false.
         public var deployed: Bool? = nil
         /// Limits the DescribeExpressions response to the specified expressions. If not specified, all expressions are shown.
@@ -1472,7 +1472,7 @@ extension Cloudsearch {
 
     public struct DoubleOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
         public var returnEnabled: Bool? = nil
         /// Whether facet information can be returned for the field.
@@ -1509,7 +1509,7 @@ extension Cloudsearch {
 
     public struct DateOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Whether the contents of the field can be returned in the search results.
         public var returnEnabled: Bool? = nil
         /// Whether facet information can be returned for the field.
@@ -1545,7 +1545,7 @@ extension Cloudsearch {
 
     public struct UpdateAvailabilityOptionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// You expand an existing search domain to a second Availability Zone by setting the Multi-AZ option to true. Similarly, you can turn off the Multi-AZ option to downgrade the domain to a single Availability Zone by setting the Multi-AZ option to false. 
         public var multiAZ: Bool = false
         public var domainName: String = ""
@@ -1567,7 +1567,7 @@ extension Cloudsearch {
 
     public struct DescribeServiceAccessPoliciesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The access rules configured for the domain specified in the request.
         public var accessPolicies: AccessPoliciesStatus = AccessPoliciesStatus()
 
@@ -1585,7 +1585,7 @@ extension Cloudsearch {
 
     public struct BuildSuggestersRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var domainName: String = ""
 
         public init() {}
@@ -1602,7 +1602,7 @@ extension Cloudsearch {
 
     public struct AvailabilityOptionsStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The availability options configured for the domain.
         public var options: Bool = false
         public var status: OptionStatus = OptionStatus()
@@ -1624,7 +1624,7 @@ extension Cloudsearch {
 
     public struct ServiceEndpoint: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var endpoint: String? = nil
 
         public init() {}
@@ -1640,7 +1640,7 @@ extension Cloudsearch {
 
     public struct DeleteSuggesterRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the name of the suggester you want to delete.
         public var suggesterName: String = ""
         public var domainName: String = ""
@@ -1662,7 +1662,7 @@ extension Cloudsearch {
 
     public struct Limits: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var maximumReplicationCount: Int32 = 0
         public var maximumPartitionCount: Int32 = 0
 
@@ -1683,7 +1683,7 @@ extension Cloudsearch {
 
     public struct DescribeIndexFieldsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The index fields configured for the domain.
         public var indexFields: [IndexFieldStatus] = []
 
@@ -1701,7 +1701,7 @@ extension Cloudsearch {
 
     public struct UpdateScalingParametersRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var scalingParameters: ScalingParameters = ScalingParameters()
         public var domainName: String = ""
 
@@ -1722,7 +1722,7 @@ extension Cloudsearch {
 
     public struct DefineAnalysisSchemeResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var analysisScheme: AnalysisSchemeStatus = AnalysisSchemeStatus()
 
         public init() {}
@@ -1739,7 +1739,7 @@ extension Cloudsearch {
 
     public struct DefineSuggesterResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var suggester: SuggesterStatus = SuggesterStatus()
 
         public init() {}
@@ -1756,7 +1756,7 @@ extension Cloudsearch {
 
     public struct DefineIndexFieldResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var indexField: IndexFieldStatus = IndexFieldStatus()
 
         public init() {}
@@ -1773,7 +1773,7 @@ extension Cloudsearch {
 
     public struct DescribeSuggestersResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The suggesters configured for the domain specified in the request.
         public var suggesters: [SuggesterStatus] = []
 
@@ -1791,7 +1791,7 @@ extension Cloudsearch {
 
     public struct DescribeAvailabilityOptionsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The availability options configured for the domain. Indicates whether Multi-AZ is enabled for the domain. 
         public var availabilityOptions: AvailabilityOptionsStatus? = nil
 
@@ -1808,7 +1808,7 @@ extension Cloudsearch {
 
     public struct CreateDomainRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A name for the domain you are creating. Allowed characters are a-z (lower-case letters), 0-9, and hyphen (-). Domain names must start with a letter or number and be at least 3 and no more than 28 characters long.
         public var domainName: String = ""
 

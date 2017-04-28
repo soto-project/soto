@@ -31,7 +31,7 @@ extension Monitoring {
 
     public struct AlarmHistoryItem: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The descriptive name for the alarm.
         public var alarmName: String? = nil
         /// The time stamp for the alarm history item.
@@ -64,7 +64,7 @@ extension Monitoring {
 
     public struct EnableAlarmActionsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The names of the alarms.
         public var alarmNames: [String] = []
 
@@ -82,7 +82,7 @@ extension Monitoring {
 
     public struct MetricDatum: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the metric.
         public var metricName: String = ""
         /// The unit of the metric.
@@ -122,7 +122,7 @@ extension Monitoring {
 
     public struct DescribeAlarmsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The information for the specified alarms.
         public var metricAlarms: [MetricAlarm]? = nil
         /// The token that marks the start of the next batch of returned results.
@@ -145,7 +145,7 @@ extension Monitoring {
 
     public struct StatisticSet: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of samples used for the statistic set.
         public var sampleCount: Double = 0
         /// The minimum value of the sample set.
@@ -178,7 +178,7 @@ extension Monitoring {
 
     public struct DisableAlarmActionsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The names of the alarms.
         public var alarmNames: [String] = []
 
@@ -196,7 +196,7 @@ extension Monitoring {
 
     public struct Datapoint: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of metric values that contributed to the aggregate value of this data point.
         public var sampleCount: Double? = nil
         /// The time stamp used for the data point.
@@ -243,7 +243,7 @@ extension Monitoring {
 
     public struct PutMetricAlarmInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name for the metric associated with the alarm.
         public var metricName: String = ""
         /// The value against which the specified statistic is compared.
@@ -335,7 +335,7 @@ extension Monitoring {
 
     public struct DescribeAlarmHistoryInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the alarm.
         public var alarmName: String? = nil
         /// The maximum number of alarm history records to retrieve.
@@ -372,7 +372,7 @@ extension Monitoring {
 
     public struct DescribeAlarmsForMetricInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the metric.
         public var metricName: String = ""
         /// The period, in seconds, over which the statistic is applied.
@@ -417,7 +417,7 @@ extension Monitoring {
 
     public struct DescribeAlarmsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of alarm descriptions to retrieve.
         public var maxRecords: Int32? = nil
         /// The alarm name prefix. You cannot specify AlarmNames if this parameter is specified.
@@ -456,7 +456,7 @@ extension Monitoring {
 
     public struct ListMetricsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token that marks the start of the next batch of returned results.
         public var nextToken: String? = nil
         /// The metrics.
@@ -479,7 +479,7 @@ extension Monitoring {
 
     public struct MetricAlarm: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the metric associated with the alarm.
         public var metricName: String? = nil
         /// The value to compare with the specified statistic.
@@ -588,7 +588,7 @@ extension Monitoring {
 
     public struct Metric: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the metric.
         public var metricName: String? = nil
         /// The dimensions for the metric.
@@ -615,7 +615,7 @@ extension Monitoring {
 
     public struct ListMetricsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The namespace to filter against.
         public var namespace: String? = nil
         /// The name of the metric to filter against.
@@ -646,7 +646,7 @@ extension Monitoring {
 
     public struct DeleteAlarmsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The alarms to be deleted.
         public var alarmNames: [String] = []
 
@@ -664,7 +664,7 @@ extension Monitoring {
 
     public struct PutMetricDataInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The namespace for the metric data. You cannot specify a namespace that begins with "AWS/". Namespaces that begin with "AWS/" are reserved for use by Amazon Web Services products.
         public var namespace: String = ""
         /// The data for the metric.
@@ -687,7 +687,7 @@ extension Monitoring {
 
     public struct GetMetricStatisticsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time stamp that determines the first data point to return. Note that start times are evaluated relative to the time that CloudWatch receives the request. The value specified is inclusive; results include data points with the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-03T23:00:00Z). CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.   Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.   Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.  
         public var startTime: Date = Date()
         /// The name of the metric, with or without spaces.
@@ -747,7 +747,7 @@ extension Monitoring {
 
     public struct Dimension: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value representing the dimension measurement.
         public var value: String = ""
         /// The name of the dimension.
@@ -770,7 +770,7 @@ extension Monitoring {
 
     public struct GetMetricStatisticsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A label for the specified metric.
         public var label: String? = nil
         /// The data points for the specified metric.
@@ -793,7 +793,7 @@ extension Monitoring {
 
     public struct DescribeAlarmHistoryOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token that marks the start of the next batch of returned results.
         public var nextToken: String? = nil
         /// The alarm histories, in JSON format.
@@ -816,7 +816,7 @@ extension Monitoring {
 
     public struct SetAlarmStateInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name for the alarm. This name must be unique within the AWS account. The maximum length is 255 characters.
         public var alarmName: String = ""
         /// The reason that this alarm is set to this specific state, in JSON format.
@@ -848,7 +848,7 @@ extension Monitoring {
 
     public struct DescribeAlarmsForMetricOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The information for each alarm with the specified metric.
         public var metricAlarms: [MetricAlarm]? = nil
 
@@ -867,7 +867,7 @@ extension Monitoring {
 
     public struct DimensionFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the dimension to be matched.
         public var value: String? = nil
         /// The dimension name to be matched.

@@ -31,7 +31,7 @@ extension Importexport {
 
     public struct ListJobsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var marker: String? = nil
         public var maxJobs: Int32? = nil
         public var aPIVersion: String? = nil
@@ -53,7 +53,7 @@ extension Importexport {
 
     public struct CreateJobInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var jobType: String = ""
         public var manifestAddendum: String? = nil
         public var manifest: String = ""
@@ -84,7 +84,7 @@ extension Importexport {
 
     public struct GetShippingLabelInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var stateOrProvince: String? = nil
         public var city: String? = nil
         public var postalCode: String? = nil
@@ -134,7 +134,7 @@ extension Importexport {
 
     public struct GetStatusInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var jobId: String = ""
         public var aPIVersion: String? = nil
 
@@ -154,7 +154,7 @@ extension Importexport {
 
     public struct CreateJobOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var jobType: String? = nil
         public var artifactList: [Artifact]? = nil
         public var signatureFileContents: String? = nil
@@ -187,7 +187,7 @@ extension Importexport {
 
     public struct GetShippingLabelOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var warning: String? = nil
         public var shippingLabelURL: String? = nil
 
@@ -206,7 +206,7 @@ extension Importexport {
 
     public struct UpdateJobOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var success: Bool? = nil
         public var warningMessage: String? = nil
         public var artifactList: [Artifact]? = nil
@@ -230,7 +230,7 @@ extension Importexport {
 
     public struct UpdateJobInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var jobType: String = ""
         public var aPIVersion: String? = nil
         public var manifest: String = ""
@@ -262,7 +262,7 @@ extension Importexport {
 
     public struct Job: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var jobType: String? = nil
         public var creationDate: Date? = nil
         public var jobId: String? = nil
@@ -287,7 +287,7 @@ extension Importexport {
 
     public struct GetStatusOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var carrier: String? = nil
         public var artifactList: [Artifact]? = nil
         public var signature: String? = nil
@@ -350,7 +350,7 @@ extension Importexport {
 
     public struct ListJobsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var jobs: [Job]? = nil
         public var isTruncated: Bool? = nil
 
@@ -371,7 +371,7 @@ extension Importexport {
 
     public struct Artifact: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var uRL: String? = nil
         public var description: String? = nil
 
@@ -390,7 +390,7 @@ extension Importexport {
 
     public struct CancelJobInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var jobId: String = ""
         public var aPIVersion: String? = nil
 
@@ -410,7 +410,7 @@ extension Importexport {
 
     public struct CancelJobOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var success: Bool? = nil
 
         public init() {}

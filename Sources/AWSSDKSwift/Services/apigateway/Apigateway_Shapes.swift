@@ -31,8 +31,8 @@ extension Apigateway {
 
     public struct DeleteApiKeyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["api_Key": "apiKey"]
         }
         /// The identifier of the ApiKey resource to be deleted.
@@ -52,11 +52,11 @@ extension Apigateway {
 
     public struct PutRestApiRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "body"
-        public var queryParams: [String: String] {
+        public static let payload: String? = "body"
+        public static var queryParams: [String: String] {
             return ["failonwarnings": "failOnWarnings", "mode": "mode"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
         /// The identifier of the RestApi to be updated. 
@@ -95,8 +95,8 @@ extension Apigateway {
 
     public struct DeleteDomainNameRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["domain_name": "domainName"]
         }
         /// The name of the DomainName resource to be deleted.
@@ -116,8 +116,8 @@ extension Apigateway {
 
     public struct GetDocumentationVersionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["doc_version": "documentationVersion", "restapi_id": "restApiId"]
         }
         /// [Required] The version identifier of the to-be-retrieved documentation snapshot.
@@ -142,8 +142,8 @@ extension Apigateway {
 
     public struct GetUsagePlanKeyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["keyId": "keyId", "usageplanId": "usagePlanId"]
         }
         /// The key Id of the to-be-retrieved UsagePlanKey resource representing a plan customer.
@@ -168,8 +168,8 @@ extension Apigateway {
 
     public struct UpdateDocumentationVersionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["doc_version": "documentationVersion", "restapi_id": "restApiId"]
         }
         /// [Required] The version identifier of the to-be-updated documentation version.
@@ -200,8 +200,8 @@ extension Apigateway {
 
     public struct CreateModelRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
         /// The description of the model.
@@ -239,8 +239,8 @@ extension Apigateway {
 
     public struct UpdateMethodResponseRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// The RestApi identifier for the MethodResponse resource.
@@ -281,8 +281,8 @@ extension Apigateway {
 
     public struct UpdateDeploymentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["deployment_id": "deploymentId", "restapi_id": "restApiId"]
         }
         /// The replacement identifier for the Deployment resource to change information about.
@@ -313,8 +313,8 @@ extension Apigateway {
 
     public struct DeleteMethodRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
         /// The RestApi identifier for the Method resource.
@@ -344,8 +344,8 @@ extension Apigateway {
 
     public struct GetStageRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "stage_name": "stageName"]
         }
         /// The identifier of the RestApi resource for the Stage resource to get information about.
@@ -370,8 +370,8 @@ extension Apigateway {
 
     public struct GetApiKeysRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["includeValues": "includeValues", "position": "position", "limit": "limit", "name": "nameQuery", "customerId": "customerId"]
         }
         /// A boolean flag to specify whether (true) or not (false) the result contains key values.
@@ -406,7 +406,7 @@ extension Apigateway {
 
     public struct BasePathMappings: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The current page of any BasePathMapping resources in the collection of base path mapping resources.
         public var items: [BasePathMapping]? = nil
         public var position: String? = nil
@@ -428,11 +428,11 @@ extension Apigateway {
 
     public struct GetUsageRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["keyId": "keyId", "position": "position", "limit": "limit", "startDate": "startDate", "endDate": "endDate"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["usageplanId": "usagePlanId"]
         }
         /// The Id of the API key associated with the resultant usage data.
@@ -474,7 +474,7 @@ extension Apigateway {
 
     public struct SdkTypes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The set of SdkType items that comprise this view of the SdkTypes collection.
         public var items: [SdkType]? = nil
         public var position: String? = nil
@@ -496,8 +496,8 @@ extension Apigateway {
 
     public struct GetIntegrationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
         /// Specifies a get integration request's API identifier.
@@ -527,7 +527,7 @@ extension Apigateway {
 
     public struct RestApis: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of links to the current page of RestApi resources.
         public var items: [RestApi]? = nil
         public var position: String? = nil
@@ -549,8 +549,8 @@ extension Apigateway {
 
     public struct GetDocumentationPartRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["part_id": "documentationPartId", "restapi_id": "restApiId"]
         }
         /// [Required] The identifier of the to-be-retrieved documentation part.
@@ -575,11 +575,11 @@ extension Apigateway {
 
     public struct GetDocumentationVersionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["position": "position", "limit": "limit"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
         /// The position of the returned DocumentationVersion in the DocumentationVersions collection.
@@ -607,8 +607,8 @@ extension Apigateway {
 
     public struct UpdateBasePathMappingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["domain_name": "domainName", "base_path": "basePath"]
         }
         /// The base path of the BasePathMapping resource to change.
@@ -639,8 +639,8 @@ extension Apigateway {
 
     public struct DeleteClientCertificateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["clientcertificate_id": "clientCertificateId"]
         }
         /// The identifier of the ClientCertificate resource to be deleted.
@@ -660,8 +660,8 @@ extension Apigateway {
 
     public struct DeleteModelRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "model_name": "modelName"]
         }
         /// The RestApi under which the model will be deleted.
@@ -686,7 +686,7 @@ extension Apigateway {
 
     public struct Resource: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The parent resource's identifier.
         public var parentId: String? = nil
         /// The last path segment for this resource.
@@ -726,8 +726,8 @@ extension Apigateway {
 
     public struct DeleteDocumentationVersionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["doc_version": "documentationVersion", "restapi_id": "restApiId"]
         }
         /// [Required] The version identifier of a to-be-deleted documentation snapshot.
@@ -752,11 +752,11 @@ extension Apigateway {
 
     public struct GetAuthorizersRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["position": "position", "limit": "limit"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
         /// If not all Authorizer resources in the response were present, the position will specify where to start the next page of results.
@@ -784,7 +784,7 @@ extension Apigateway {
 
     public struct CreateDomainNameRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user-friendly name of the certificate.
         public var certificateName: String? = nil
         /// [Deprecated] Your certificate's private key.
@@ -822,7 +822,7 @@ extension Apigateway {
 
     public struct ApiKeyIds: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of all the ApiKey identifiers.
         public var ids: [String]? = nil
         /// A list of warning messages.
@@ -847,7 +847,7 @@ extension Apigateway {
 
     public struct Stage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The version of the associated API documentation.
         public var documentationVersion: String? = nil
         /// The status of the cache cluster for the stage, if enabled.
@@ -917,8 +917,8 @@ extension Apigateway {
 
     public struct GetMethodRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
         /// The RestApi identifier for the Method resource.
@@ -948,7 +948,7 @@ extension Apigateway {
 
     public struct UsagePlans: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Gets the current item when enumerating the collection of UsagePlan.
         public var items: [UsagePlan]? = nil
         public var position: String? = nil
@@ -970,8 +970,8 @@ extension Apigateway {
 
     public struct DeleteStageRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "stage_name": "stageName"]
         }
         /// The identifier of the RestApi resource for the Stage resource to delete.
@@ -996,8 +996,8 @@ extension Apigateway {
 
     public struct DeleteDeploymentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["deployment_id": "deploymentId", "restapi_id": "restApiId"]
         }
         /// The identifier of the Deployment resource to delete.
@@ -1022,8 +1022,8 @@ extension Apigateway {
 
     public struct TestInvokeAuthorizerRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "authorizer_id": "authorizerId"]
         }
         /// Specifies a test invoke authorizer request's Authorizer ID.
@@ -1074,8 +1074,8 @@ extension Apigateway {
 
     public struct PutMethodRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
         /// Specifies the identifier of an Authorizer to use on this Method, if the type is CUSTOM.
@@ -1134,11 +1134,11 @@ extension Apigateway {
 
     public struct GetBasePathMappingsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["position": "position", "limit": "limit"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["domain_name": "domainName"]
         }
         /// The position of the current BasePathMapping resource in the collection to get information about.
@@ -1166,7 +1166,7 @@ extension Apigateway {
 
     public struct PatchOperation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  Not supported.
         public var from: String? = nil
         /// The new target value of the update operation. 
@@ -1195,8 +1195,8 @@ extension Apigateway {
 
     public struct TestInvokeMethodRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
         /// A key-value map of headers to simulate an incoming invocation request.
@@ -1250,8 +1250,8 @@ extension Apigateway {
 
     public struct CreateDocumentationVersionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
         /// [Required] The version identifier of the new snapshot.
@@ -1284,11 +1284,11 @@ extension Apigateway {
 
     public struct GetDeploymentsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["position": "position", "limit": "limit"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
         /// The position of the current Deployment resource in the collection to get information about.
@@ -1316,8 +1316,8 @@ extension Apigateway {
 
     public struct DeleteUsagePlanKeyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["keyId": "keyId", "usageplanId": "usagePlanId"]
         }
         /// The Id of the UsagePlanKey resource to be deleted.
@@ -1342,7 +1342,7 @@ extension Apigateway {
 
     public struct TestInvokeMethodResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon API Gateway execution log for the test invoke request.
         public var log: String? = nil
         /// The HTTP status code.
@@ -1377,8 +1377,8 @@ extension Apigateway {
 
     public struct DeleteResourceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// The RestApi identifier for the Resource resource.
@@ -1403,8 +1403,8 @@ extension Apigateway {
 
     public struct GetSdkTypesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["position": "position", "limit": "limit"]
         }
         /// The position of the last fetched element in the SdkTypes collection.
@@ -1427,7 +1427,7 @@ extension Apigateway {
 
     public struct Models: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Gets the current Model resource in the collection.
         public var items: [Model]? = nil
         public var position: String? = nil
@@ -1449,7 +1449,7 @@ extension Apigateway {
 
     public struct Resources: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Gets the current Resource resource in the collection.
         public var items: [Resource]? = nil
         public var position: String? = nil
@@ -1471,8 +1471,8 @@ extension Apigateway {
 
     public struct ExportResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "body"
-        public var headerParams: [String: String] {
+        public static let payload: String? = "body"
+        public static var headerParams: [String: String] {
             return ["Content-Type": "contentType", "Content-Disposition": "contentDisposition"]
         }
         /// The content-type header value in the HTTP response. This will correspond to a valid 'accept' type in the request.
@@ -1499,11 +1499,11 @@ extension Apigateway {
 
     public struct GetModelRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["flatten": "flatten"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "model_name": "modelName"]
         }
         /// The RestApi identifier under which the Model exists.
@@ -1532,8 +1532,8 @@ extension Apigateway {
 
     public struct UpdateAuthorizerRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "authorizer_id": "authorizerId"]
         }
         /// The identifier of the Authorizer resource.
@@ -1564,7 +1564,7 @@ extension Apigateway {
 
     public struct StageKey: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of Stage resources that are associated with the ApiKey resource.
         public var restApiId: String? = nil
         /// The stage name in the RestApi that the stage key references.
@@ -1585,7 +1585,7 @@ extension Apigateway {
 
     public struct ApiKeys: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The current page of any ApiKey resources in the collection of ApiKey resources.
         public var items: [ApiKey]? = nil
         public var position: String? = nil
@@ -1613,8 +1613,8 @@ extension Apigateway {
 
     public struct CreateStageRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
         /// The version of the associated API documentation.
@@ -1666,8 +1666,8 @@ extension Apigateway {
 
     public struct GetSdkTypeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["sdktype_id": "id"]
         }
         /// The identifier of the queried SdkType instance.
@@ -1687,8 +1687,8 @@ extension Apigateway {
 
     public struct ImportApiKeysRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "body"
-        public var queryParams: [String: String] {
+        public static let payload: String? = "body"
+        public static var queryParams: [String: String] {
             return ["failonwarnings": "failOnWarnings", "format": "format"]
         }
         /// The payload of the POST request to import API keys. For the payload format, see API Key File Format.
@@ -1717,7 +1717,7 @@ extension Apigateway {
 
     public struct MethodSetting: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies whether data trace logging is enabled for this method, which effects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/dataTrace, and the value is a Boolean.
         public var dataTraceEnabled: Bool? = nil
         /// Specifies whether Amazon CloudWatch metrics are enabled for this method. The PATCH path for this setting is /{method_setting_key}/metrics/enabled, and the value is a Boolean.
@@ -1770,7 +1770,7 @@ extension Apigateway {
 
     public struct ApiKey: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the API Key.
         public var name: String? = nil
         /// The value of the API Key.
@@ -1821,8 +1821,8 @@ extension Apigateway {
 
     public struct UpdateIntegrationResponseRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// Specifies an update integration response request's API identifier.
@@ -1863,8 +1863,8 @@ extension Apigateway {
 
     public struct GetDomainNamesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["position": "position", "limit": "limit"]
         }
         /// The position of the current domain names to get information about.
@@ -1887,7 +1887,7 @@ extension Apigateway {
 
     public struct DocumentationPartLocation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the targeted API entity. It is a valid and required field for the API entity types of AUTHORIZER, MODEL, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY and RESPONSE_HEADER. It is an invalid field for any other entity type.
         public var name: String? = nil
         /// The HTTP verb of a method. It is a valid field for the API entity types of METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is * for any method. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's method attribute must match that of the parent entity exactly.
@@ -1921,7 +1921,7 @@ extension Apigateway {
 
     public struct MethodSnapshot: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies whether the method requires a valid ApiKey.
         public var apiKeyRequired: Bool? = nil
         /// Specifies the type of authorization used for the method.
@@ -1942,8 +1942,8 @@ extension Apigateway {
 
     public struct UpdateRestApiRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
         /// The ID of the RestApi you want to update.
@@ -1969,7 +1969,7 @@ extension Apigateway {
 
     public struct DomainName: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the certificate.
         public var certificateName: String? = nil
         /// The name of the DomainName resource.
@@ -2002,11 +2002,11 @@ extension Apigateway {
 
     public struct GetExportRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var headerParams: [String: String] {
+        public static let payload: String? = nil
+        public static var headerParams: [String: String] {
             return ["Accept": "accepts"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "stage_name": "stageName", "export_type": "exportType"]
         }
         /// The identifier of the RestApi to be exported.
@@ -2046,7 +2046,7 @@ extension Apigateway {
 
     public struct SdkConfigurationProperty: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of an SdkType configuration property.
         public var description: String? = nil
         /// The default value of an SdkType configuration property.
@@ -2079,11 +2079,11 @@ extension Apigateway {
 
     public struct GetModelsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["position": "position", "limit": "limit"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
         /// The position of the next set of results in the Models resource to get information about.
@@ -2111,8 +2111,8 @@ extension Apigateway {
 
     public struct PutIntegrationResponseRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["resource_id": "resourceId", "status_code": "statusCode", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
         /// Specifies the status code that is used to map the integration response to an existing MethodResponse.
@@ -2167,8 +2167,8 @@ extension Apigateway {
 
     public struct GetResourceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// The RestApi identifier for the resource.
@@ -2193,7 +2193,7 @@ extension Apigateway {
 
     public struct Deployments: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The current page of any Deployment resources in the collection of deployment resources.
         public var items: [Deployment]? = nil
         public var position: String? = nil
@@ -2215,8 +2215,8 @@ extension Apigateway {
 
     public struct FlushStageCacheRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "stage_name": "stageName"]
         }
         /// The API identifier of the stage to flush its cache.
@@ -2241,7 +2241,7 @@ extension Apigateway {
 
     public struct BasePathMapping: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The base path name that callers of the API must provide as part of the URL after the domain name.
         public var basePath: String? = nil
         /// The name of the API.
@@ -2266,8 +2266,8 @@ extension Apigateway {
 
     public struct GetClientCertificateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["clientcertificate_id": "clientCertificateId"]
         }
         /// The identifier of the ClientCertificate resource to be described.
@@ -2287,8 +2287,8 @@ extension Apigateway {
 
     public struct UpdateModelRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "model_name": "modelName"]
         }
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
@@ -2319,7 +2319,7 @@ extension Apigateway {
 
     public struct DocumentationPart: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The DocumentationPart identifier, generated by Amazon API Gateway when the DocumentationPart is created.
         public var id: String? = nil
         /// The location of the API entity to which the documentation applies. Valid fields depend on the targeted API entity type. All the valid location fields are not required. If not explicitly specified, a valid location field is treated as a wildcard and associated documentation content may be inherited by matching entities, unless overridden.
@@ -2344,7 +2344,7 @@ extension Apigateway {
 
     public struct ClientCertificates: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The current page of any ClientCertificate resources in the collection of ClientCertificate resources.
         public var items: [ClientCertificate]? = nil
         public var position: String? = nil
@@ -2366,8 +2366,8 @@ extension Apigateway {
 
     public struct DeleteBasePathMappingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["domain_name": "domainName", "base_path": "basePath"]
         }
         /// The base path name of the BasePathMapping resource to delete.
@@ -2392,8 +2392,8 @@ extension Apigateway {
 
     public struct UpdateUsageRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["keyId": "keyId", "usageplanId": "usagePlanId"]
         }
         /// The identifier of the API key associated with the usage plan in which a temporary extension is granted to the remaining quota.
@@ -2424,7 +2424,7 @@ extension Apigateway {
 
     public struct CreateUsagePlanRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The associated API stages of the usage plan.
         public var apiStages: [ApiStage]? = nil
         /// The name of the usage plan.
@@ -2460,7 +2460,7 @@ extension Apigateway {
 
     public struct SdkType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of an SdkType.
         public var description: String? = nil
         /// A list of configuration properties of an SdkType.
@@ -2491,7 +2491,7 @@ extension Apigateway {
 
     public struct Integration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the integration's responses.   Example: Get integration responses of a method Request  GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200 HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com X-Amz-Date: 20160607T191449Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160607/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash}  Response The successful response returns 200 OK status and a payload as follows: { "_links": { "curies": { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true }, "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.Content-Type": "'application/xml'" }, "responseTemplates": { "application/json": "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n" }, "statusCode": "200" }    Creating an API 
         public var integrationResponses: [String: IntegrationResponse]? = nil
         /// Specifies the integration's cache namespace.
@@ -2561,7 +2561,7 @@ extension Apigateway {
 
     public struct Usage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The usage data, as daily logs of used and remaining quotas, over the specified time interval indexed over the API keys in a usage plan. For example, {..., "values" : { "{api_key}" : [ [0, 100], [10, 90], [100, 10]]}, where {api_key} stands for an API key value and the daily log entry is of the format [used quota, remaining quota].
         public var items: [String: [[Int64]]]? = nil
         public var position: String? = nil
@@ -2592,7 +2592,7 @@ extension Apigateway {
 
     public struct Deployment: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description for the deployment resource.
         public var description: String? = nil
         /// A summary of the RestApi at the date and time that the deployment resource was created.
@@ -2632,11 +2632,11 @@ extension Apigateway {
 
     public struct ImportDocumentationPartsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "body"
-        public var queryParams: [String: String] {
+        public static let payload: String? = "body"
+        public static var queryParams: [String: String] {
             return ["failonwarnings": "failOnWarnings", "mode": "mode"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
         /// [Required] The identifier of an API of the to-be-imported documentation parts.
@@ -2669,7 +2669,7 @@ extension Apigateway {
 
     public struct ClientCertificate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the client certificate.
         public var clientCertificateId: String? = nil
         /// The description of the client certificate.
@@ -2702,7 +2702,7 @@ extension Apigateway {
 
     public struct Authorizers: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Gets the current list of Authorizer resources in the collection.
         public var items: [Authorizer]? = nil
         public var position: String? = nil
@@ -2724,7 +2724,7 @@ extension Apigateway {
 
     public struct DocumentationVersion: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of the API documentation snapshot.
         public var description: String? = nil
         /// The version identifier of the API documentation snapshot.
@@ -2749,8 +2749,8 @@ extension Apigateway {
 
     public struct CreateBasePathMappingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["domain_name": "domainName"]
         }
         /// The name of the API that you want to apply this mapping to.
@@ -2783,8 +2783,8 @@ extension Apigateway {
 
     public struct UpdateApiKeyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["api_Key": "apiKey"]
         }
         /// The identifier of the ApiKey resource to be updated.
@@ -2810,8 +2810,8 @@ extension Apigateway {
 
     public struct GetRestApiRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
         /// The identifier of the RestApi resource.
@@ -2831,7 +2831,7 @@ extension Apigateway {
 
     public struct Template: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Apache Velocity Template Language (VTL) template content used for the template resource.
         public var value: String? = nil
 
@@ -2848,11 +2848,11 @@ extension Apigateway {
 
     public struct GetApiKeyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["includeValue": "includeValue"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["api_Key": "apiKey"]
         }
         /// A boolean flag to specify whether (true) or not (false) the result contains the key value.
@@ -2876,8 +2876,8 @@ extension Apigateway {
 
     public struct CreateDocumentationPartRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
         /// [Required] The identifier of an API of the to-be-created documentation part.
@@ -2907,7 +2907,7 @@ extension Apigateway {
 
     public struct ThrottleSettings: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The API request burst limit, the maximum rate limit over a time ranging from one to a few seconds, depending upon whether the underlying token bucket is at its full capacity.
         public var burstLimit: Int32? = nil
         /// The API request steady-state rate limit.
@@ -2928,8 +2928,8 @@ extension Apigateway {
 
     public struct DeleteIntegrationResponseRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// Specifies a delete integration response request's API identifier.
@@ -2964,8 +2964,8 @@ extension Apigateway {
 
     public struct SdkResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "body"
-        public var headerParams: [String: String] {
+        public static let payload: String? = "body"
+        public static var headerParams: [String: String] {
             return ["Content-Type": "contentType", "Content-Disposition": "contentDisposition"]
         }
         /// The content-type header value in the HTTP response.
@@ -2992,8 +2992,8 @@ extension Apigateway {
 
     public struct UpdateResourceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// The RestApi identifier for the Resource resource.
@@ -3024,8 +3024,8 @@ extension Apigateway {
 
     public struct UpdateIntegrationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// Represents an update integration request's API identifier.
@@ -3061,7 +3061,7 @@ extension Apigateway {
 
     public struct UsagePlanKeys: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Gets the current item of the usage plan keys collection.
         public var items: [UsagePlanKey]? = nil
         public var position: String? = nil
@@ -3083,7 +3083,7 @@ extension Apigateway {
 
     public struct ApiStage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// API Id of the associated API stage in a usage plan.
         public var apiId: String? = nil
         /// API stage name of the associated API stage in a usage plan.
@@ -3104,8 +3104,8 @@ extension Apigateway {
 
     public struct CreateResourceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "parent_id": "parentId"]
         }
         /// The identifier of the RestApi for the resource. 
@@ -3135,8 +3135,8 @@ extension Apigateway {
 
     public struct GetMethodResponseRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// The RestApi identifier for the MethodResponse resource.
@@ -3171,11 +3171,11 @@ extension Apigateway {
 
     public struct GetDocumentationPartsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["position": "position", "name": "nameQuery", "limit": "limit", "path": "path", "type": "type"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
         /// The position of the to-be-retrieved documentation part in the DocumentationParts collection.
@@ -3215,8 +3215,8 @@ extension Apigateway {
 
     public struct GetDeploymentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["deployment_id": "deploymentId", "restapi_id": "restApiId"]
         }
         /// The identifier of the Deployment resource to get information about.
@@ -3241,7 +3241,7 @@ extension Apigateway {
 
     public struct UpdateAccountRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of update operations to be applied to the specified resource and in the order specified in this list.
         public var patchOperations: [PatchOperation]? = nil
 
@@ -3260,7 +3260,7 @@ extension Apigateway {
 
     public struct GenerateClientCertificateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of the ClientCertificate.
         public var description: String? = nil
 
@@ -3277,7 +3277,7 @@ extension Apigateway {
 
     public struct DomainNames: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The current page of any DomainName resources in the collection of DomainName resources.
         public var items: [DomainName]? = nil
         public var position: String? = nil
@@ -3299,8 +3299,8 @@ extension Apigateway {
 
     public struct PutMethodResponseRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// The RestApi identifier for the Method resource.
@@ -3347,7 +3347,7 @@ extension Apigateway {
 
     public struct UsagePlan: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The associated API stages of a usage plan.
         public var apiStages: [ApiStage]? = nil
         /// The maximum number of permitted requests per a given unit time interval.
@@ -3390,11 +3390,11 @@ extension Apigateway {
 
     public struct GetResourcesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["position": "position", "limit": "limit"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
         /// The position of the next set of results in the current Resources resource to get information about.
@@ -3422,7 +3422,7 @@ extension Apigateway {
 
     public struct RestApi: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
         public var binaryMediaTypes: [String]? = nil
         /// The API's name.
@@ -3467,7 +3467,7 @@ extension Apigateway {
 
     public struct IntegrationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the templates used to transform the integration response body. Response templates are represented as a key/value map, with a content-type as the key and a template as the value.
         public var responseTemplates: [String: String]? = nil
         /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string.  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
@@ -3504,7 +3504,7 @@ extension Apigateway {
 
     public struct Account: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of features supported for the account. When usage plans are enabled, the features list will include an entry of "UsagePlans".
         public var features: [String]? = nil
         /// The version of the API keys used for the account.
@@ -3535,8 +3535,8 @@ extension Apigateway {
 
     public struct CreateAuthorizerRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
         /// [Required] The name of the authorizer.
@@ -3597,11 +3597,11 @@ extension Apigateway {
 
     public struct GetStagesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["deploymentId": "deploymentId"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
         /// The stages' deployment identifiers.
@@ -3625,8 +3625,8 @@ extension Apigateway {
 
     public struct ImportRestApiRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "body"
-        public var queryParams: [String: String] {
+        public static let payload: String? = "body"
+        public static var queryParams: [String: String] {
             return ["failonwarnings": "failOnWarnings"]
         }
         /// A query parameter to indicate whether to rollback the API creation (true) or not (false) when a warning is encountered. The default value is false.
@@ -3656,8 +3656,8 @@ extension Apigateway {
 
     public struct GetRestApisRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["position": "position", "limit": "limit"]
         }
         /// The position of the current RestApis resource in the collection to get information about.
@@ -3680,8 +3680,8 @@ extension Apigateway {
 
     public struct GetSdkRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["sdk_type": "sdkType", "restapi_id": "restApiId", "stage_name": "stageName"]
         }
         /// The language for the generated SDK. Currently javascript, android, and objectivec (for iOS) are supported.
@@ -3717,7 +3717,7 @@ extension Apigateway {
 
     public struct TestInvokeAuthorizerResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var authorization: [String: [String]]? = nil
         /// The principal identity returned by the Authorizer
         public var principalId: String? = nil
@@ -3766,8 +3766,8 @@ extension Apigateway {
 
     public struct UpdateMethodRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// The RestApi identifier for the Method resource.
@@ -3803,7 +3803,7 @@ extension Apigateway {
 
     public struct Authorizer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// [Required] The name of the authorizer.
         public var name: String? = nil
         /// The identifier for the authorizer resource.
@@ -3858,8 +3858,8 @@ extension Apigateway {
 
     public struct GetUsagePlansRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["keyId": "keyId", "position": "position", "limit": "limit"]
         }
         /// The identifier of the API key associated with the usage plans.
@@ -3886,8 +3886,8 @@ extension Apigateway {
 
     public struct UpdateStageRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "stage_name": "stageName"]
         }
         /// The identifier of the RestApi resource for the Stage resource to change information about.
@@ -3918,8 +3918,8 @@ extension Apigateway {
 
     public struct GetClientCertificatesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["position": "position", "limit": "limit"]
         }
         /// The position of the current ClientCertificate resource in the collection to get information about.
@@ -3942,8 +3942,8 @@ extension Apigateway {
 
     public struct GetUsagePlanRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["usageplanId": "usagePlanId"]
         }
         /// The identifier of the UsagePlan resource to be retrieved.
@@ -3963,7 +3963,7 @@ extension Apigateway {
 
     public struct DocumentationParts: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The current page of DocumentationPart resources in the DocumentationParts collection.
         public var items: [DocumentationPart]? = nil
         public var position: String? = nil
@@ -3985,7 +3985,7 @@ extension Apigateway {
 
     public struct GetAccountRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -3995,8 +3995,8 @@ extension Apigateway {
 
     public struct DeleteDocumentationPartRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["part_id": "documentationPartId", "restapi_id": "restApiId"]
         }
         /// [Required] The identifier of the to-be-deleted documentation part.
@@ -4021,7 +4021,7 @@ extension Apigateway {
 
     public struct CreateRestApiRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of the RestApi.
         public var description: String? = nil
         /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
@@ -4057,8 +4057,8 @@ extension Apigateway {
 
     public struct CreateDeploymentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
         /// Enables a cache cluster for the Stage resource specified in the input.
@@ -4104,8 +4104,8 @@ extension Apigateway {
 
     public struct GetBasePathMappingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["domain_name": "domainName", "base_path": "basePath"]
         }
         /// The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Leave this blank if you do not want callers to specify any base path name after the domain name.
@@ -4130,7 +4130,7 @@ extension Apigateway {
 
     public struct UsagePlanKey: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of a usage plan key.
         public var name: String? = nil
         /// The value of a usage plan key.
@@ -4159,7 +4159,7 @@ extension Apigateway {
 
     public struct DocumentationVersions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The current page of DocumentationVersion items from the DocumentationVersions collection of an API.
         public var items: [DocumentationVersion]? = nil
         public var position: String? = nil
@@ -4181,8 +4181,8 @@ extension Apigateway {
 
     public struct UpdateDomainNameRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["domain_name": "domainName"]
         }
         /// The name of the DomainName resource to be changed.
@@ -4208,8 +4208,8 @@ extension Apigateway {
 
     public struct DeleteIntegrationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["resource_id": "resourceId", "restapi_id": "restApiId", "http_method": "httpMethod"]
         }
         /// Specifies a delete integration request's API identifier.
@@ -4239,8 +4239,8 @@ extension Apigateway {
 
     public struct CreateUsagePlanKeyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["usageplanId": "usagePlanId"]
         }
         /// The identifier of a UsagePlanKey resource for a plan customer.
@@ -4270,8 +4270,8 @@ extension Apigateway {
 
     public struct GetDomainNameRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["domain_name": "domainName"]
         }
         /// The name of the DomainName resource.
@@ -4291,8 +4291,8 @@ extension Apigateway {
 
     public struct GetAuthorizerRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "authorizer_id": "authorizerId"]
         }
         /// The identifier of the Authorizer resource.
@@ -4317,11 +4317,11 @@ extension Apigateway {
 
     public struct GetUsagePlanKeysRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["position": "position", "name": "nameQuery", "limit": "limit"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["usageplanId": "usagePlanId"]
         }
         /// A query parameter specifying the zero-based index specifying the position of a usage plan key.
@@ -4353,7 +4353,7 @@ extension Apigateway {
 
     public struct DocumentationPartIds: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of the returned documentation part identifiers.
         public var ids: [String]? = nil
         /// A list of warning messages reported during import of documentation parts.
@@ -4378,8 +4378,8 @@ extension Apigateway {
 
     public struct PutIntegrationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// Specifies a put integration input's cache namespace.
@@ -4456,8 +4456,8 @@ extension Apigateway {
 
     public struct UpdateClientCertificateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["clientcertificate_id": "clientCertificateId"]
         }
         /// The identifier of the ClientCertificate resource to be updated.
@@ -4483,8 +4483,8 @@ extension Apigateway {
 
     public struct DeleteRestApiRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId"]
         }
         /// The ID of the RestApi you want to delete.
@@ -4504,7 +4504,7 @@ extension Apigateway {
 
     public struct MethodResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A key-value map specifying required or optional response parameters that Amazon API Gateway can send back to the caller. A key defines a method response header and the value specifies whether the associated method response header is required or not. The expression of the key must match the pattern method.response.header.{name}, where name is a valid and unique header name. Amazon API Gateway passes certain integration response data to the method response headers specified here according to the mapping you prescribe in the API's IntegrationResponse. The integration response data that can be mapped include an integration response header expressed in integration.response.header.{name}, a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON expression without the $ prefix.)
         public var responseParameters: [String: Bool]? = nil
         /// Specifies the Model resources used for the response's content-type. Response models are represented as a key/value map, with a content-type as the key and a Model name as the value.
@@ -4533,8 +4533,8 @@ extension Apigateway {
 
     public struct GetModelTemplateRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "model_name": "modelName"]
         }
         /// The ID of the RestApi under which the model exists.
@@ -4559,7 +4559,7 @@ extension Apigateway {
 
     public struct Model: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of the model.
         public var description: String? = nil
         /// The content-type for the model.
@@ -4592,8 +4592,8 @@ extension Apigateway {
 
     public struct FlushStageAuthorizersCacheRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "stage_name": "stageName"]
         }
         /// The API identifier of the stage to flush.
@@ -4618,7 +4618,7 @@ extension Apigateway {
 
     public struct QuotaSettings: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time period in which the limit applies. Valid values are "DAY", "WEEK" or "MONTH".
         public var period: String? = nil
         /// The number of requests subtracted from the given limit in the initial time period.
@@ -4643,8 +4643,8 @@ extension Apigateway {
 
     public struct UpdateUsagePlanRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["usageplanId": "usagePlanId"]
         }
         /// The Id of the to-be-updated usage plan.
@@ -4670,7 +4670,7 @@ extension Apigateway {
 
     public struct Stages: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An individual Stage resource.
         public var item: [Stage]? = nil
 
@@ -4689,7 +4689,7 @@ extension Apigateway {
 
     public struct Method: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of an Authorizer to use on this method. The authorizationType must be CUSTOM.
         public var authorizerId: String? = nil
         /// Gets a method response associated with a given HTTP status code.   The collection of method responses are encapsulated in a key-value map, where the key is a response's HTTP status code and the value is a MethodResponse resource that specifies the response returned to the caller from the back end through the integration response. Example: Get a 200 OK response of a GET method Request  GET /restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200 HTTP/1.1 Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com Content-Length: 117 X-Amz-Date: 20160613T215008Z Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160613/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response The successful response returns a 200 OK status code and a payload similar to the following: { "_links": { "curies": { "href": "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html", "name": "methodresponse", "templated": true }, "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200", "title": "200" }, "methodresponse:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200" }, "methodresponse:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200" } }, "responseModels": { "application/json": "Empty" }, "responseParameters": { "method.response.header.operator": false, "method.response.header.operand_2": false, "method.response.header.operand_1": false }, "statusCode": "200" }    AWS CLI 
@@ -4749,8 +4749,8 @@ extension Apigateway {
 
     public struct DeleteMethodResponseRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// The RestApi identifier for the MethodResponse resource.
@@ -4785,8 +4785,8 @@ extension Apigateway {
 
     public struct DeleteUsagePlanRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["usageplanId": "usagePlanId"]
         }
         /// The Id of the to-be-deleted usage plan.
@@ -4806,8 +4806,8 @@ extension Apigateway {
 
     public struct UpdateDocumentationPartRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["part_id": "documentationPartId", "restapi_id": "restApiId"]
         }
         /// [Required] The identifier of the to-be-updated documentation part.
@@ -4838,7 +4838,7 @@ extension Apigateway {
 
     public struct CreateApiKeyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the ApiKey.
         public var name: String? = nil
         /// Specifies whether (true) or not (false) the key identifier is distinct from the created API key value.
@@ -4881,8 +4881,8 @@ extension Apigateway {
 
     public struct DeleteAuthorizerRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["restapi_id": "restApiId", "authorizer_id": "authorizerId"]
         }
         /// The identifier of the Authorizer resource.
@@ -4907,8 +4907,8 @@ extension Apigateway {
 
     public struct GetIntegrationResponseRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["http_method": "httpMethod", "status_code": "statusCode", "restapi_id": "restApiId", "resource_id": "resourceId"]
         }
         /// Specifies a get integration response request's API identifier.

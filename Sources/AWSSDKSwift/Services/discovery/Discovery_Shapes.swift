@@ -31,7 +31,7 @@ extension Discovery {
 
     public struct DisassociateConfigurationItemsFromApplicationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Configuration ID of an application from which each item will be disassociated.
         public var applicationConfigurationId: String = ""
         /// Configuration ID of each item be be disassociated from an application.
@@ -54,7 +54,7 @@ extension Discovery {
 
     public struct DescribeTagsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Depending on the input, this is a list of configuration items tagged with a specific tag, or a list of tags for a specific configuration item.
         public var tags: [ConfigurationTag]? = nil
         /// The call returns a token. Use this token to get the next set of results.
@@ -77,7 +77,7 @@ extension Discovery {
 
     public struct CreateTagsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Tags that you want to associate with one or more configuration items. Specify the tags that you want to create in a key-value format. For example:  {"key": "serverType", "value": "webServer"} 
         public var tags: [Tag] = []
         /// A list of configuration items that you want to tag.
@@ -100,7 +100,7 @@ extension Discovery {
 
     public struct DeleteTagsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -110,7 +110,7 @@ extension Discovery {
 
     public struct UpdateApplicationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -120,7 +120,7 @@ extension Discovery {
 
     public struct ListConfigurationsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A valid configuration identified by the Discovery Service. 
         public var configurationType: String = ""
         /// The total number of items to return. The maximum value is 100.
@@ -158,7 +158,7 @@ extension Discovery {
 
     public struct OrderByElement: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Field to order on.
         public var fieldName: String = ""
         /// Ordering direction.
@@ -180,7 +180,7 @@ extension Discovery {
 
     public struct AgentInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The health of the agent or connector.
         public var health: String? = nil
         /// Network details about the host where the agent or connector resides.
@@ -235,7 +235,7 @@ extension Discovery {
 
     public struct GetDiscoverySummaryResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Number of servers mapped to tags.
         public var serversMappedtoTags: Int64? = nil
         /// Number of applications discovered.
@@ -272,7 +272,7 @@ extension Discovery {
 
     public struct DescribeExportConfigurationsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique identifier that you can use to query the export status.
         public var exportIds: [String]? = nil
         /// A token to get the next set of results. For example, if you specified 100 IDs for DescribeExportConfigurationsRequest$exportIds but set DescribeExportConfigurationsRequest$maxResults to 10, you will get results in a set of 10. Use the token in the query to get the next set of 10.
@@ -299,7 +299,7 @@ extension Discovery {
 
     public struct ConfigurationTag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time the configuration tag was created in Coordinated Universal Time (UTC).
         public var timeOfCreation: Date? = nil
         /// A type of IT asset that you want to tag.
@@ -332,7 +332,7 @@ extension Discovery {
 
     public struct ListConfigurationsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Returns configuration details, including the configuration ID, attribute names, and attribute values.
         public var configurations: [[String: String]]? = nil
         /// Token to retrieve the next set of results. For example, if your call to ListConfigurations returned 100 items, but you set ListConfigurationsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
@@ -355,7 +355,7 @@ extension Discovery {
 
     public struct AgentConfigurationStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A description of the operation performed.
         public var description: String? = nil
         /// The agent/Connector ID.
@@ -380,7 +380,7 @@ extension Discovery {
 
     public struct DeleteApplicationsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Configuration ID of an application to be deleted.
         public var configurationIds: [String] = []
 
@@ -398,7 +398,7 @@ extension Discovery {
 
     public struct CustomerConnectorInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Number of unhealthy discovery connectors.
         public var unhealthyConnectors: Int32 = 0
         /// Number of healthy discovery connectors.
@@ -446,7 +446,7 @@ extension Discovery {
 
     public struct NeighborConnectionDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// ID of the server that accepted the networker connection.
         public var destinationServerId: String = ""
         /// Network protocol used for the connection.
@@ -482,7 +482,7 @@ extension Discovery {
 
     public struct StopDataCollectionByAgentIdsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of the agents or Connectors that you want to stop collecting data.
         public var agentIds: [String] = []
 
@@ -500,7 +500,7 @@ extension Discovery {
 
     public struct DescribeTagsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// You can filter the list using a key-value format. You can separate these items by using logical operators. Allowed filters include tagKey, tagValue, and configurationId.  For a complete list of filter options and guidance about using them with this action, see Managing AWS Application Discovery Service Agents and the AWS Application Discovery Connector .
         public var filters: [TagFilter]? = nil
         /// The total number of items to return in a single page of output. The maximum value is 100.
@@ -527,7 +527,7 @@ extension Discovery {
 
     public struct DeleteTagsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Tags that you want to delete from one or more configuration items. Specify the tags that you want to delete in a key-value format. For example:  {"key": "serverType", "value": "webServer"} 
         public var tags: [Tag]? = nil
         /// A list of configuration items with tags that you want to delete.
@@ -551,7 +551,7 @@ extension Discovery {
 
     public struct DescribeConfigurationsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more configuration IDs.
         public var configurationIds: [String] = []
 
@@ -569,7 +569,7 @@ extension Discovery {
 
     public struct ListServerNeighborsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// List of distinct servers that are one hop away from the given server.
         public var neighbors: [NeighborConnectionDetail] = []
         /// Token to retrieve the next set of results. For example, if you specified 100 IDs for ListServerNeighborsRequest$neighborConfigurationIds but set ListServerNeighborsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
@@ -595,7 +595,7 @@ extension Discovery {
 
     public struct AssociateConfigurationItemsToApplicationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -605,7 +605,7 @@ extension Discovery {
 
     public struct DescribeExportConfigurationsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A token to get the next set of results. For example, if you specified 100 IDs for DescribeExportConfigurationsRequest$exportIds but set DescribeExportConfigurationsRequest$maxResults to 10, you will get results in a set of 10. Use the token in the query to get the next set of 10.
         public var nextToken: String? = nil
         /// Returns export details. When the status is complete, the response includes a URL for an Amazon S3 bucket where you can view the data in a CSV file.
@@ -628,7 +628,7 @@ extension Discovery {
 
     public struct StopDataCollectionByAgentIdsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about agents or the Connector that were instructed to stop collecting data. Information includes the agent/Connector ID, a description of the operation performed, and whether or not the agent/Connector configuration was updated.
         public var agentsConfigurationStatus: [AgentConfigurationStatus]? = nil
 
@@ -647,7 +647,7 @@ extension Discovery {
 
     public struct StartDataCollectionByAgentIdsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about agents or the Connector that were instructed to start collecting data. Information includes the agent/Connector ID, a description of the operation performed, and whether or not the agent/Connector configuration was updated.
         public var agentsConfigurationStatus: [AgentConfigurationStatus]? = nil
 
@@ -666,7 +666,7 @@ extension Discovery {
 
     public struct CreateApplicationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Configuration ID of an application to be created.
         public var configurationId: String? = nil
 
@@ -683,7 +683,7 @@ extension Discovery {
 
     public struct TagFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A name of a tag filter.
         public var name: String = ""
         /// Values of a tag filter.
@@ -706,7 +706,7 @@ extension Discovery {
 
     public struct AssociateConfigurationItemsToApplicationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The configuration ID of an application with which items are to be associated.
         public var applicationConfigurationId: String = ""
         /// The ID of each configuration item to be associated with an application.
@@ -729,7 +729,7 @@ extension Discovery {
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A type of tag to filter on.
         public var key: String = ""
         /// A value for a tag key to filter on.
@@ -752,7 +752,7 @@ extension Discovery {
 
     public struct DeleteApplicationsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -762,7 +762,7 @@ extension Discovery {
 
     public struct ExportInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique identifier that you can use to query the export.
         public var exportId: String = ""
         /// The status of the configuration data export. The status can succeed, fail, or be in-progress.
@@ -799,7 +799,7 @@ extension Discovery {
 
     public struct DescribeAgentsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Lists agents or the Connector by ID or lists all agents/Connectors associated with your user account if you did not specify an agent/Connector ID. The output includes agent/Connector IDs, IP addresses, media access control (MAC) addresses, agent/Connector health, host name where the agent/Connector resides, and the version number of each agent/Connector.
         public var agentsInfo: [AgentInfo]? = nil
         /// Token to retrieve the next set of results. For example, if you specified 100 IDs for DescribeAgentsRequest$agentIds but set DescribeAgentsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
@@ -822,7 +822,7 @@ extension Discovery {
 
     public struct GetDiscoverySummaryRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -832,7 +832,7 @@ extension Discovery {
 
     public struct DescribeConfigurationsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A key in the response map. The value is an array of data.
         public var configurations: [[String: String]]? = nil
 
@@ -851,7 +851,7 @@ extension Discovery {
 
     public struct DescribeAgentsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The total number of agents/Connectors to return in a single page of output. The maximum value is 100.
         public var maxResults: Int32? = nil
         /// Token to retrieve the next set of results. For example, if you previously specified 100 IDs for DescribeAgentsRequest$agentIds but set DescribeAgentsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
@@ -884,7 +884,7 @@ extension Discovery {
 
     public struct ExportConfigurationsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique identifier that you can use to query the export status.
         public var exportId: String? = nil
 
@@ -901,7 +901,7 @@ extension Discovery {
 
     public struct CreateApplicationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Description of the application to be created.
         public var description: String? = nil
         /// Name of the application to be created.
@@ -923,7 +923,7 @@ extension Discovery {
 
     public struct DisassociateConfigurationItemsFromApplicationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -933,7 +933,7 @@ extension Discovery {
 
     public struct CustomerAgentInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Number of unhealthy discovery agents.
         public var unhealthyAgents: Int32 = 0
         /// Number of blacklisted discovery agents.
@@ -981,7 +981,7 @@ extension Discovery {
 
     public struct StartDataCollectionByAgentIdsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of the agents or Connectors that you want to start collecting data. If you send a request to an agent/Connector ID that you do not have permission to contact, according to your AWS account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents/Connectors and you do not have permission to contact some of those agents/Connectors, the system does not throw an exception. Instead, the system shows Failed in the Description field.
         public var agentIds: [String] = []
 
@@ -999,7 +999,7 @@ extension Discovery {
 
     public struct ListServerNeighborsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Maximum number of results to return in a single page of output.
         public var maxResults: Int32? = nil
         /// Flag to indicate if port and protocol information is needed as part of the response.
@@ -1035,7 +1035,7 @@ extension Discovery {
 
     public struct UpdateApplicationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// New description of the application to be updated.
         public var description: String? = nil
         /// New name of the application to be updated.
@@ -1061,7 +1061,7 @@ extension Discovery {
 
     public struct Filter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the filter.
         public var name: String = ""
         /// A string value that you want to filter on. For example, if you choose the destinationServer.osVersion filter name, you could specify Ubuntu for the value.
@@ -1089,7 +1089,7 @@ extension Discovery {
 
     public struct AgentNetworkInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The MAC address for the host where the agent/Connector resides.
         public var macAddress: String? = nil
         /// The IP address for the host where the agent/Connector resides.
@@ -1110,7 +1110,7 @@ extension Discovery {
 
     public struct CreateTagsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 

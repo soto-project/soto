@@ -31,7 +31,7 @@ extension Gamelift {
 
     public struct DeleteFleetInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a fleet to be deleted.
         public var fleetId: String = ""
 
@@ -49,7 +49,7 @@ extension Gamelift {
 
     public struct UpdateFleetCapacityInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Minimum value allowed for the fleet's instance count. Default if not set is 0.
         public var minSize: Int32? = nil
         /// Maximum value allowed for the fleet's instance count. Default if not set is 1.
@@ -79,7 +79,7 @@ extension Gamelift {
 
     public struct DescribePlayerSessionsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a player to retrieve player sessions for.
         public var playerId: String? = nil
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. If a player session ID is specified, this parameter is ignored.
@@ -116,7 +116,7 @@ extension Gamelift {
 
     public struct SearchGameSessionsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Instructions on how to sort the search results. If no sort expression is included, the request returns results in random order. A sort expression consists of the following elements:    Operand -- Name of a game session attribute. Valid values are gameSessionName, gameSessionId, creationTimeMillis, playerSessionCount, maximumSessions, hasAvailablePlayerSessions.    Order -- Valid sort orders are ASC (ascending) and DESC (descending).   For example, this sort expression returns the oldest active sessions first: "SortExpression": "creationTimeMillis ASC". Results with a null value for the sort operand are returned at the end of the list.
         public var sortExpression: String? = nil
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. The maximum number of results returned is 20, even if this value is not set or is set higher than 20. 
@@ -153,7 +153,7 @@ extension Gamelift {
 
     public struct PutScalingPolicyOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Descriptive label that is associated with a scaling policy. Policy names do not need to be unique.
         public var name: String? = nil
 
@@ -170,7 +170,7 @@ extension Gamelift {
 
     public struct ScalingPolicy: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Metric value used to trigger a scaling event.
         public var threshold: Double? = nil
         /// Current status of the scaling policy. The scaling policy is only in force when in an ACTIVE status.    ACTIVE – The scaling policy is currently in force.    UPDATE_REQUESTED – A request to update the scaling policy has been received.    UPDATING – A change is being made to the scaling policy.    DELETE_REQUESTED – A request to delete the scaling policy has been received.    DELETING – The scaling policy is being deleted.    DELETED – The scaling policy has been deleted.    ERROR – An error occurred in creating the policy. It should be removed and recreated.  
@@ -219,7 +219,7 @@ extension Gamelift {
 
     public struct GetGameSessionLogUrlOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Location of the requested game session logs, available for download.
         public var preSignedUrl: String? = nil
 
@@ -236,7 +236,7 @@ extension Gamelift {
 
     public struct Build: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Current status of the build. Possible build statuses include the following:    INITIALIZED – A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.     READY – The game build has been successfully uploaded. You can now create new fleets for this build.    FAILED – The game build upload failed. You cannot create new fleets for this build.   
         public var status: String? = nil
         /// Descriptive label that is associated with a build. Build names do not need to be unique. It can be set using CreateBuild or UpdateBuild.
@@ -277,7 +277,7 @@ extension Gamelift {
 
     public struct DescribeBuildInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a build to retrieve properties for.
         public var buildId: String = ""
 
@@ -295,7 +295,7 @@ extension Gamelift {
 
     public struct DescribeFleetPortSettingsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a fleet to retrieve port settings for.
         public var fleetId: String = ""
 
@@ -313,7 +313,7 @@ extension Gamelift {
 
     public struct DescribeFleetUtilizationOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public var nextToken: String? = nil
         /// Collection of objects containing utilization information for each requested fleet ID.
@@ -336,7 +336,7 @@ extension Gamelift {
 
     public struct UpdateGameSessionOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Object that contains the updated game session metadata.
         public var gameSession: GameSession? = nil
 
@@ -353,7 +353,7 @@ extension Gamelift {
 
     public struct ResolveAliasOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Fleet identifier that is associated with the requested alias.
         public var fleetId: String? = nil
 
@@ -370,7 +370,7 @@ extension Gamelift {
 
     public struct DescribeAliasInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a fleet alias. Specify the alias you want to retrieve.
         public var aliasId: String = ""
 
@@ -388,7 +388,7 @@ extension Gamelift {
 
     public struct UpdateGameSessionQueueInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order.
         public var destinations: [GameSessionQueueDestination]? = nil
         /// Descriptive label that is associated with queue. Queue names must be unique within each region.
@@ -416,7 +416,7 @@ extension Gamelift {
 
     public struct DescribeGameSessionPlacementOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Object that describes the requested game session placement.
         public var gameSessionPlacement: GameSessionPlacement? = nil
 
@@ -433,7 +433,7 @@ extension Gamelift {
 
     public struct GameSession: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var terminationTime: Date? = nil
         /// Time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
@@ -500,7 +500,7 @@ extension Gamelift {
 
     public struct ListBuildsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Collection of build records that match the request.
         public var builds: [Build]? = nil
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -523,7 +523,7 @@ extension Gamelift {
 
     public struct DescribeScalingPoliciesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public var nextToken: String? = nil
         /// Collection of objects containing the scaling policies matching the request.
@@ -546,7 +546,7 @@ extension Gamelift {
 
     public struct GameSessionPlacement: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Time stamp indicating when this request was placed in the queue. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var startTime: Date? = nil
         /// Current status of the game session placement request.    PENDING – The placement request is currently in the queue waiting to be processed.    FULFILLED – A new game session and player sessions (if requested) have been successfully created. Values for GameSessionArn and GameSessionRegion are available.     CANCELLED – The placement request was cancelled with a call to StopGameSessionPlacement.    TIMED_OUT – A new game session was not successfully created before the time limit expired. You can resubmit the placement request as needed.  
@@ -607,7 +607,7 @@ extension Gamelift {
 
     public struct ListBuildsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Build status to filter results by. To retrieve all builds, leave this parameter empty. Possible build statuses include the following:    INITIALIZED – A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.     READY – The game build has been successfully uploaded. You can now create new fleets for this build.    FAILED – The game build upload failed. You cannot create new fleets for this build.   
         public var status: String? = nil
         /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
@@ -632,7 +632,7 @@ extension Gamelift {
 
     public struct RuntimeConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Collection of server process configurations describing what server processes to run on each instance in a fleet
         public var serverProcesses: [ServerProcess]? = nil
 
@@ -651,7 +651,7 @@ extension Gamelift {
 
     public struct Instance: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Current status of the instance. Possible statuses include the following:    PENDING – The instance is in the process of being created and launching server processes as defined in the fleet's runtime configuration.     ACTIVE – The instance has been successfully created and at least one server process has successfully launched and reported back to Amazon GameLift that it is ready to host a game session. The instance is now considered ready to host game sessions.     TERMINATING – The instance is in the process of shutting down. This may happen to reduce capacity during a scaling down event or to recycle resources in the event of a problem.  
         public var status: String? = nil
         /// Unique identifier for an instance.
@@ -692,7 +692,7 @@ extension Gamelift {
 
     public struct EC2InstanceLimit: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Number of instances of the specified type that are currently in use by this AWS account.
         public var currentInstances: Int32? = nil
         /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
@@ -717,7 +717,7 @@ extension Gamelift {
 
     public struct DeleteGameSessionQueueOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -727,7 +727,7 @@ extension Gamelift {
 
     public struct DescribeFleetAttributesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Collection of objects containing attribute metadata for each requested fleet ID.
         public var fleetAttributes: [FleetAttributes]? = nil
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -750,7 +750,7 @@ extension Gamelift {
 
     public struct GetInstanceAccessOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Object that contains connection information for a fleet instance, including IP address and access credentials.
         public var instanceAccess: InstanceAccess? = nil
 
@@ -767,7 +767,7 @@ extension Gamelift {
 
     public struct StartGameSessionPlacementOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Object that describes the newly created game session placement. This object includes all the information provided in the request, as well as start/end time stamps and placement status. 
         public var gameSessionPlacement: GameSessionPlacement? = nil
 
@@ -784,7 +784,7 @@ extension Gamelift {
 
     public struct CreateGameSessionOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Object that describes the newly created game session record.
         public var gameSession: GameSession? = nil
 
@@ -801,7 +801,7 @@ extension Gamelift {
 
     public struct ListAliasesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Type of routing to filter results on. Use this parameter to retrieve only aliases of a certain type. To retrieve all aliases, leave this parameter empty. Possible routing types include the following:    SIMPLE – The alias resolves to one specific fleet. Use this type when routing to active fleets.    TERMINAL – The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the RoutingStrategy message embedded.  
         public var routingStrategyType: String? = nil
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
@@ -830,7 +830,7 @@ extension Gamelift {
 
     public struct UpdateRuntimeConfigurationOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The runtime configuration currently in force. If the update was successful, this object matches the one in the request.
         public var runtimeConfiguration: RuntimeConfiguration? = nil
 
@@ -847,7 +847,7 @@ extension Gamelift {
 
     public struct RequestUploadCredentialsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a build to get credentials for.
         public var buildId: String = ""
 
@@ -865,7 +865,7 @@ extension Gamelift {
 
     public struct StopGameSessionPlacementInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a game session placement to cancel.
         public var placementId: String = ""
 
@@ -883,7 +883,7 @@ extension Gamelift {
 
     public struct CreateFleetInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Policy that limits the number of game sessions an individual player can create over a span of time for this fleet.
         public var resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil
         /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
@@ -947,7 +947,7 @@ extension Gamelift {
 
     public struct UpdateBuildInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a build to update.
         public var buildId: String = ""
         /// Descriptive label that is associated with a build. Build names do not need to be unique. 
@@ -973,7 +973,7 @@ extension Gamelift {
 
     public struct ResolveAliasInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for the alias you want to resolve.
         public var aliasId: String = ""
 
@@ -991,7 +991,7 @@ extension Gamelift {
 
     public struct PlayerLatency: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a player associated with the latency data.
         public var playerId: String? = nil
         /// Name of the region that is associated with the latency value.
@@ -1016,7 +1016,7 @@ extension Gamelift {
 
     public struct CreatePlayerSessionsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for the game session to add players to.
         public var gameSessionId: String = ""
         /// List of unique identifiers for the players to be added.
@@ -1045,7 +1045,7 @@ extension Gamelift {
 
     public struct DescribeFleetPortSettingsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Object that contains port settings for the requested fleet ID.
         public var inboundPermissions: [IpPermission]? = nil
 
@@ -1064,7 +1064,7 @@ extension Gamelift {
 
     public struct DeleteAliasInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a fleet alias. Specify the alias you want to delete.
         public var aliasId: String = ""
 
@@ -1082,7 +1082,7 @@ extension Gamelift {
 
     public struct DescribeGameSessionQueuesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// List of queue names to retrieve information for. To request settings for all queues, leave this parameter empty.
         public var names: [String]? = nil
         /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
@@ -1109,7 +1109,7 @@ extension Gamelift {
 
     public struct Alias: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Time stamp indicating when this data object was last modified. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var lastUpdatedTime: Date? = nil
         /// Alias configuration for the alias, including routing type and settings.
@@ -1150,7 +1150,7 @@ extension Gamelift {
 
     public struct CreatePlayerSessionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for the game session to add a player to.
         public var gameSessionId: String = ""
         /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game.
@@ -1177,7 +1177,7 @@ extension Gamelift {
 
     public struct Event: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Additional information related to the event.
         public var message: String? = nil
         /// Unique identifier for an event resource, such as a fleet ID.
@@ -1210,7 +1210,7 @@ extension Gamelift {
 
     public struct UpdateGameSessionQueueOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Object that describes the newly updated game session queue.
         public var gameSessionQueue: GameSessionQueue? = nil
 
@@ -1227,7 +1227,7 @@ extension Gamelift {
 
     public struct GameSessionQueueDestination: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Amazon Resource Name (ARN) assigned to fleet or fleet alias. ARNs, which include a fleet ID or alias ID and a region name, provide a unique identifier across all regions. 
         public var destinationArn: String? = nil
 
@@ -1244,7 +1244,7 @@ extension Gamelift {
 
     public struct DesiredPlayerSession: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Developer-defined information related to a player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game.
         public var playerData: String? = nil
         /// Unique identifier for a player to associate with the player session.
@@ -1265,7 +1265,7 @@ extension Gamelift {
 
     public struct DescribeFleetUtilizationInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a fleet(s) to retrieve utilization data for. To request utilization data for all fleets, leave this parameter empty.
         public var fleetIds: [String]? = nil
         /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
@@ -1292,7 +1292,7 @@ extension Gamelift {
 
     public struct CreateAliasInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Object that specifies the fleet and routing type to use for the alias.
         public var routingStrategy: RoutingStrategy = RoutingStrategy()
         /// Descriptive label that is associated with an alias. Alias names do not need to be unique.
@@ -1319,7 +1319,7 @@ extension Gamelift {
 
     public struct ResourceCreationLimitPolicy: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Maximum number of game sessions that an individual can create during the policy period. 
         public var newGameSessionsPerCreator: Int32? = nil
         /// Time span used in evaluating the resource creation limit policy. 
@@ -1340,7 +1340,7 @@ extension Gamelift {
 
     public struct PutScalingPolicyInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Metric value used to trigger a scaling event.
         public var threshold: Double = 0
         /// Name of the Amazon GameLift-defined metric that is used to trigger an adjustment.    ActivatingGameSessions – number of game sessions in the process of being created (game session status = ACTIVATING).    ActiveGameSessions – number of game sessions currently running (game session status = ACTIVE).    CurrentPlayerSessions – number of active or reserved player sessions (player session status = ACTIVE or RESERVED).     AvailablePlayerSessions – number of player session slots currently available in active game sessions across the fleet, calculated by subtracting a game session's current player session count from its maximum player session count. This number includes game sessions that are not currently accepting players (game session PlayerSessionCreationPolicy = DENY_ALL).    ActiveInstances – number of instances currently running a game session.    IdleInstances – number of instances not currently running a game session.  
@@ -1393,7 +1393,7 @@ extension Gamelift {
 
     public struct DeleteBuildInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a build to delete.
         public var buildId: String = ""
 
@@ -1411,7 +1411,7 @@ extension Gamelift {
 
     public struct UpdateFleetAttributesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a fleet that was updated.
         public var fleetId: String? = nil
 
@@ -1428,7 +1428,7 @@ extension Gamelift {
 
     public struct DescribeGameSessionsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Game session status to filter results on. Possible game session statuses include ACTIVE, TERMINATED, ACTIVATING, and TERMINATING (the last two are transitory). 
         public var statusFilter: String? = nil
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
@@ -1465,7 +1465,7 @@ extension Gamelift {
 
     public struct CreateFleetOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Properties for the newly created fleet.
         public var fleetAttributes: FleetAttributes? = nil
 
@@ -1482,7 +1482,7 @@ extension Gamelift {
 
     public struct GameSessionQueue: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order.
         public var destinations: [GameSessionQueueDestination]? = nil
         /// Descriptive label that is associated with queue. Queue names must be unique within each region.
@@ -1509,7 +1509,7 @@ extension Gamelift {
 
     public struct DescribeFleetCapacityOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public var nextToken: String? = nil
         /// Collection of objects containing capacity information for each requested fleet ID. Leave this parameter empty to retrieve capacity information for all fleets.
@@ -1532,7 +1532,7 @@ extension Gamelift {
 
     public struct DescribeGameSessionDetailsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Game session status to filter results on. Possible game session statuses include ACTIVE, TERMINATED, ACTIVATING and TERMINATING (the last two are transitory). 
         public var statusFilter: String? = nil
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
@@ -1569,7 +1569,7 @@ extension Gamelift {
 
     public struct UpdateFleetPortSettingsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Collection of port settings to be added to the fleet record.
         public var inboundPermissionAuthorizations: [IpPermission]? = nil
         /// Unique identifier for a fleet to update port settings for.
@@ -1599,7 +1599,7 @@ extension Gamelift {
 
     public struct DescribeFleetCapacityInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a fleet(s) to retrieve capacity information for. To request capacity information for all fleets, leave this parameter empty.
         public var fleetIds: [String]? = nil
         /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
@@ -1626,7 +1626,7 @@ extension Gamelift {
 
     public struct InstanceCredentials: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// User login string.
         public var userName: String? = nil
         /// Secret string. For Windows instances, the secret is a password for use with Windows Remote Desktop. For Linux instances, it is a private key (which must be saved as a .pem file) for use with SSH.
@@ -1647,7 +1647,7 @@ extension Gamelift {
 
     public struct ServerProcess: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Optional list of parameters to pass to the server executable on launch.
         public var parameters: String? = nil
         /// Location of the server executable in a game build. All game builds are installed on instances at the root : for Windows instances C:\game, and for Linux instances /local/game. A Windows game build with an executable file located at MyGame\latest\server.exe must have a launch path of "C:\game\MyGame\latest\server.exe". A Linux game build with an executable file located at MyGame/latest/server.exe must have a launch path of "/local/game/MyGame/latest/server.exe". 
@@ -1674,7 +1674,7 @@ extension Gamelift {
 
     public struct RequestUploadCredentialsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Amazon S3 path and key, identifying where the game build files are stored.
         public var storageLocation: S3Location? = nil
         /// AWS credentials required when uploading a game build to the storage location. These credentials have a limited lifespan and are valid only for the build they were issued for.
@@ -1695,7 +1695,7 @@ extension Gamelift {
 
     public struct GameProperty: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// TBD
         public var value: String = ""
         /// TBD
@@ -1718,7 +1718,7 @@ extension Gamelift {
 
     public struct UpdateBuildOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Object that contains the updated build record.
         public var build: Build? = nil
 
@@ -1735,7 +1735,7 @@ extension Gamelift {
 
     public struct DescribeFleetAttributesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a fleet(s) to retrieve attributes for. To request attributes for all fleets, leave this parameter empty.
         public var fleetIds: [String]? = nil
         /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
@@ -1762,7 +1762,7 @@ extension Gamelift {
 
     public struct DescribeEC2InstanceLimitsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions. Leave this parameter blank to retrieve limits for all types.
         public var eC2InstanceType: String? = nil
 
@@ -1779,7 +1779,7 @@ extension Gamelift {
 
     public struct CreatePlayerSessionsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Collection of player session objects created for the added players.
         public var playerSessions: [PlayerSession]? = nil
 
@@ -1798,7 +1798,7 @@ extension Gamelift {
 
     public struct GetGameSessionLogUrlInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for the game session to get logs for.
         public var gameSessionId: String = ""
 
@@ -1816,7 +1816,7 @@ extension Gamelift {
 
     public struct DescribeEC2InstanceLimitsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Object that contains the maximum number of instances for the specified instance type.
         public var eC2InstanceLimits: [EC2InstanceLimit]? = nil
 
@@ -1835,7 +1835,7 @@ extension Gamelift {
 
     public struct EC2InstanceCounts: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Number of instances in the fleet that are no longer active but haven't yet been terminated.
         public var tERMINATING: Int32? = nil
         /// Minimum value allowed for the fleet's instance count.
@@ -1876,7 +1876,7 @@ extension Gamelift {
 
     public struct DescribePlayerSessionsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public var nextToken: String? = nil
         /// Collection of objects containing properties for each player session that matches the request.
@@ -1899,7 +1899,7 @@ extension Gamelift {
 
     public struct FleetCapacity: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Amazon GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
         public var instanceType: String? = nil
         /// Unique identifier for a fleet.
@@ -1924,7 +1924,7 @@ extension Gamelift {
 
     public struct GameSessionDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Current status of protection for the game session.    NoProtection – The game session can be terminated during a scale-down event.    FullProtection – If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
         public var protectionPolicy: String? = nil
         /// Object that describes a game session.
@@ -1945,7 +1945,7 @@ extension Gamelift {
 
     public struct CreateBuildInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build. If your game build contains multiple executables, they all must run on the same operating system.
         public var operatingSystem: String? = nil
         /// Amazon S3 location of the game build files to be uploaded. The S3 bucket must be owned by the same AWS account that you're using to manage Amazon GameLift. It also must in the same region that you want to create a new build in. Before calling CreateBuild with this location, you must allow Amazon GameLift to access your Amazon S3 bucket (see Create a Build with Files in Amazon S3).
@@ -1974,7 +1974,7 @@ extension Gamelift {
 
     public struct DescribeInstancesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Collection of objects containing properties for each instance returned.
         public var instances: [Instance]? = nil
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -1997,7 +1997,7 @@ extension Gamelift {
 
     public struct DescribeInstancesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
         public var limit: Int32? = nil
         /// Unique identifier for a fleet to retrieve instance information for.
@@ -2027,7 +2027,7 @@ extension Gamelift {
 
     public struct AwsCredentials: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Access key for an AWS account.
         public var accessKeyId: String? = nil
         /// Secret key for an AWS account.
@@ -2052,7 +2052,7 @@ extension Gamelift {
 
     public struct ListFleetsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a build to return fleets for. Use this parameter to return only fleets using the specified build. To retrieve all fleets, leave this parameter empty.
         public var buildId: String? = nil
         /// Token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
@@ -2077,7 +2077,7 @@ extension Gamelift {
 
     public struct DeleteScalingPolicyInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a fleet to be deleted.
         public var fleetId: String = ""
         /// Descriptive label that is associated with a scaling policy. Policy names do not need to be unique.
@@ -2100,7 +2100,7 @@ extension Gamelift {
 
     public struct PlayerSession: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Current status of the player session. Possible player session statuses include the following:    RESERVED – The player session request has been received, but the player has not yet connected to the server process and/or been validated.     ACTIVE – The player has been validated by the server process and is currently connected.    COMPLETED – The player connection has been dropped.    TIMEDOUT – A player session request was received, but the player did not connect and/or was not validated within the time-out limit (60 seconds).  
         public var status: String? = nil
         /// Unique identifier for a player session.
@@ -2153,7 +2153,7 @@ extension Gamelift {
 
     public struct FleetUtilization: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Maximum players allowed across all game sessions currently being hosted on all instances in the fleet.
         public var maximumPlayerSessionCount: Int32? = nil
         /// Number of server processes in an ACTIVE status currently running across all instances in the fleet
@@ -2186,7 +2186,7 @@ extension Gamelift {
 
     public struct DescribeGameSessionQueuesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Collection of objects that describes the requested game session queues.
         public var gameSessionQueues: [GameSessionQueue]? = nil
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -2209,7 +2209,7 @@ extension Gamelift {
 
     public struct DescribeGameSessionsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Collection of objects containing game session properties for each session matching the request.
         public var gameSessions: [GameSession]? = nil
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -2232,7 +2232,7 @@ extension Gamelift {
 
     public struct DescribeFleetEventsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Earliest date to retrieve event logs for. If no start time is specified, this call returns entries starting from when the fleet was created to the specified end time. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
         public var startTime: Date? = nil
         /// Most recent date to retrieve event logs for. If no end time is specified, this call returns entries from the specified start time up to the present. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
@@ -2266,7 +2266,7 @@ extension Gamelift {
 
     public struct S3Location: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Amazon S3 bucket identifier. This is the name of your S3 bucket.
         public var bucket: String? = nil
         /// Amazon Resource Name (ARN) for the access role that allows Amazon GameLift to access your S3 bucket.
@@ -2291,7 +2291,7 @@ extension Gamelift {
 
     public struct CreateGameSessionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a fleet to create a game session in. Each request must reference either a fleet ID or alias ID, but not both.
         public var fleetId: String? = nil
         /// Descriptive label that is associated with a game session. Session names do not need to be unique.
@@ -2335,7 +2335,7 @@ extension Gamelift {
 
     public struct UpdateGameSessionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Policy determining whether or not the game session accepts new players.
         public var playerSessionCreationPolicy: String? = nil
         /// Game session protection policy to apply to this game session only.    NoProtection – The game session can be terminated during a scale-down event.    FullProtection – If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.  
@@ -2369,7 +2369,7 @@ extension Gamelift {
 
     public struct CreateBuildOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Amazon S3 location specified in the request.
         public var storageLocation: S3Location? = nil
         /// This element is not currently in use.
@@ -2394,7 +2394,7 @@ extension Gamelift {
 
     public struct FleetAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var terminationTime: Date? = nil
         /// Identifier for a fleet that is unique across all regions.
@@ -2465,7 +2465,7 @@ extension Gamelift {
 
     public struct InstanceAccess: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Operating system that is running on the instance.
         public var operatingSystem: String? = nil
         /// Credentials required to access the instance.
@@ -2498,7 +2498,7 @@ extension Gamelift {
 
     public struct StopGameSessionPlacementOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Object that describes the cancelled game session placement, with cancelled status and an end time stamp. 
         public var gameSessionPlacement: GameSessionPlacement? = nil
 
@@ -2515,7 +2515,7 @@ extension Gamelift {
 
     public struct CreateGameSessionQueueOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Object that describes the newly created game session queue.
         public var gameSessionQueue: GameSessionQueue? = nil
 
@@ -2532,7 +2532,7 @@ extension Gamelift {
 
     public struct CreatePlayerSessionOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Object that describes the newly created player session record.
         public var playerSession: PlayerSession? = nil
 
@@ -2549,7 +2549,7 @@ extension Gamelift {
 
     public struct DescribeGameSessionDetailsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public var nextToken: String? = nil
         /// Collection of objects containing game session properties and the protection policy currently in force for each session matching the request.
@@ -2572,7 +2572,7 @@ extension Gamelift {
 
     public struct StartGameSessionPlacementInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Set of information on each player to create a player session for.
         public var desiredPlayerSessions: [DesiredPlayerSession]? = nil
         /// Unique identifier to assign to the new game session placement. This value is developer-defined. The value must be unique across all regions and cannot be reused unless you are resubmitting a cancelled or timed-out placement request.
@@ -2622,7 +2622,7 @@ extension Gamelift {
 
     public struct CreateAliasOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Object that describes the newly created alias record.
         public var alias: Alias? = nil
 
@@ -2639,7 +2639,7 @@ extension Gamelift {
 
     public struct DescribeScalingPoliciesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Scaling policy status to filter results on. A scaling policy is only in force when in an ACTIVE status.    ACTIVE – The scaling policy is currently in force.    UPDATEREQUESTED – A request to update the scaling policy has been received.    UPDATING – A change is being made to the scaling policy.    DELETEREQUESTED – A request to delete the scaling policy has been received.    DELETING – The scaling policy is being deleted.    DELETED – The scaling policy has been deleted.    ERROR – An error occurred in creating the policy. It should be removed and recreated.  
         public var statusFilter: String? = nil
         /// Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
@@ -2669,7 +2669,7 @@ extension Gamelift {
 
     public struct DescribeBuildOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Set of properties describing the requested build.
         public var build: Build? = nil
 
@@ -2686,7 +2686,7 @@ extension Gamelift {
 
     public struct UpdateFleetCapacityOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a fleet that was updated.
         public var fleetId: String? = nil
 
@@ -2703,7 +2703,7 @@ extension Gamelift {
 
     public struct UpdateFleetAttributesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Policy that limits the number of game sessions an individual player can create over a span of time. 
         public var resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil
         /// Human-readable description of a fleet.
@@ -2737,7 +2737,7 @@ extension Gamelift {
 
     public struct DeleteGameSessionQueueInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Descriptive label that is associated with queue. Queue names must be unique within each region.
         public var name: String = ""
 
@@ -2755,7 +2755,7 @@ extension Gamelift {
 
     public struct ListAliasesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Collection of alias records that match the list request.
         public var aliases: [Alias]? = nil
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -2778,7 +2778,7 @@ extension Gamelift {
 
     public struct IpPermission: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Starting value for a range of allowed port numbers.
         public var fromPort: Int32 = 0
         /// Ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be higher than FromPort.
@@ -2811,7 +2811,7 @@ extension Gamelift {
 
     public struct DescribeFleetEventsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public var nextToken: String? = nil
         /// Collection of objects containing event log entries for the specified fleet.
@@ -2834,7 +2834,7 @@ extension Gamelift {
 
     public struct DescribeAliasOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Object that contains the requested alias.
         public var alias: Alias? = nil
 
@@ -2851,7 +2851,7 @@ extension Gamelift {
 
     public struct GetInstanceAccessInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a fleet that contains the instance you want access to. The fleet can be in any of the following statuses: ACTIVATING, ACTIVE, or ERROR. Fleets with an ERROR status may be accessible for a short time before they are deleted.
         public var fleetId: String = ""
         /// Unique identifier for an instance you want to get access to. You can access an instance in any status.
@@ -2874,7 +2874,7 @@ extension Gamelift {
 
     public struct DescribeRuntimeConfigurationInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a fleet to get the runtime configuration for.
         public var fleetId: String = ""
 
@@ -2892,7 +2892,7 @@ extension Gamelift {
 
     public struct DescribeGameSessionPlacementInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a game session placement to retrieve.
         public var placementId: String = ""
 
@@ -2910,7 +2910,7 @@ extension Gamelift {
 
     public struct RoutingStrategy: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Type of routing strategy. Possible routing types include the following:    SIMPLE – The alias resolves to one specific fleet. Use this type when routing to active fleets.    TERMINAL – The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the RoutingStrategy message embedded.  
         public var type: String? = nil
         /// Unique identifier for a fleet that the alias points to.
@@ -2935,7 +2935,7 @@ extension Gamelift {
 
     public struct UpdateAliasInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Human-readable description of an alias.
         public var description: String? = nil
         /// Descriptive label that is associated with an alias. Alias names do not need to be unique.
@@ -2965,7 +2965,7 @@ extension Gamelift {
 
     public struct UpdateFleetPortSettingsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a fleet that was updated.
         public var fleetId: String? = nil
 
@@ -2982,7 +2982,7 @@ extension Gamelift {
 
     public struct UpdateRuntimeConfigurationInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique identifier for a fleet to update runtime configuration for.
         public var fleetId: String = ""
         /// Instructions for launching server processes on each instance in the fleet. The runtime configuration for a fleet has a collection of server process configurations, one for each type of server process to run on an instance. A server process configuration specifies the location of the server executable, launch parameters, and the number of concurrent processes with that configuration to maintain on each instance.
@@ -3005,7 +3005,7 @@ extension Gamelift {
 
     public struct CreateGameSessionQueueInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// List of fleets that can be used to fulfill game session placement requests in the queue. Fleets are identified by either a fleet ARN or a fleet alias ARN. Destinations are listed in default preference order.
         public var destinations: [GameSessionQueueDestination]? = nil
         /// Descriptive label that is associated with queue. Queue names must be unique within each region.
@@ -3033,7 +3033,7 @@ extension Gamelift {
 
     public struct SearchGameSessionsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Collection of objects containing game session properties for each session matching the request.
         public var gameSessions: [GameSession]? = nil
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
@@ -3056,7 +3056,7 @@ extension Gamelift {
 
     public struct UpdateAliasOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Object that contains the updated alias configuration.
         public var alias: Alias? = nil
 
@@ -3073,7 +3073,7 @@ extension Gamelift {
 
     public struct DescribeRuntimeConfigurationOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Instructions describing how server processes should be launched and maintained on each instance in the fleet.
         public var runtimeConfiguration: RuntimeConfiguration? = nil
 
@@ -3090,7 +3090,7 @@ extension Gamelift {
 
     public struct ListFleetsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Token that indicates where to resume retrieving results on the next call to this action. If no token is returned, these results represent the end of the list.
         public var nextToken: String? = nil
         /// Set of fleet IDs matching the list request. You can retrieve additional information about all returned fleets by passing this result set to a call to DescribeFleetAttributes, DescribeFleetCapacity, or DescribeFleetUtilization.

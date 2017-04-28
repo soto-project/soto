@@ -31,7 +31,7 @@ extension Swf {
 
     public struct RequestCancelWorkflowExecutionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The runId of the workflow execution to cancel.
         public var runId: String? = nil
         /// The workflowId of the workflow execution to cancel.
@@ -58,7 +58,7 @@ extension Swf {
 
     public struct CountClosedWorkflowExecutionsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If specified, indicates the type of the workflow executions to be counted. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
         public var typeFilter: WorkflowTypeFilter? = nil
         /// If specified, only workflow executions that match this close status are counted. This filter has an affect only if executionStatus is specified as CLOSED. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
@@ -100,7 +100,7 @@ extension Swf {
 
     public struct LambdaFunctionTimedOutEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var scheduledEventId: Int64 = 0
         /// The ID of the LambdaFunctionStarted event recorded in the history.
@@ -127,7 +127,7 @@ extension Swf {
 
     public struct ActivityType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of this activity. The combination of activity type name and version must be unique within a domain.
         public var name: String = ""
         /// The version of this activity. The combination of activity type name and version must be unique with in a domain.
@@ -150,7 +150,7 @@ extension Swf {
 
     public struct DecisionTask: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the DecisionTaskStarted event of the previous decision task of this workflow execution that was processed by the decider. This can be used to determine the events in the history new since the last decision task received by the decider.
         public var previousStartedEventId: Int64? = nil
         /// The opaque string used as a handle on the task. This token is used by workers to communicate progress and response information back to the system about the task.
@@ -196,7 +196,7 @@ extension Swf {
 
     public struct StartChildWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var initiatedEventId: Int64 = 0
         /// The workflow type provided in the StartChildWorkflowExecution decision that failed.
@@ -237,7 +237,7 @@ extension Swf {
 
     public struct WorkflowExecutionInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The workflow execution this information is about.
         public var execution: WorkflowExecution = WorkflowExecution()
         /// The time when the execution was started.
@@ -292,7 +292,7 @@ extension Swf {
 
     public struct CancelWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Optional. details of the cancellation.
         public var details: String? = nil
 
@@ -309,7 +309,7 @@ extension Swf {
 
     public struct WorkflowType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Required. The name of the workflow type. The combination of workflow type name and version must be unique with in a domain.
         public var name: String = ""
         /// Required. The version of the workflow type. The combination of workflow type name and version must be unique with in a domain.
@@ -332,7 +332,7 @@ extension Swf {
 
     public struct PollForDecisionTaskInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Identity of the decider making the request, which is recorded in the DecisionTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
         public var identity: String? = nil
         /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
@@ -371,7 +371,7 @@ extension Swf {
 
     public struct WorkflowTypeDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// General information about the workflow type. The status of the workflow type (returned in the WorkflowTypeInfo structure) can be one of the following.   REGISTERED: The type is registered and available. Workers supporting this type should be running.  DEPRECATED: The type was deprecated using DeprecateWorkflowType, but is still in use. You should keep workers supporting this type running. You cannot create new workflow executions of this type. 
         public var typeInfo: WorkflowTypeInfo = WorkflowTypeInfo()
         /// Configuration settings of the workflow type registered through RegisterWorkflowType
@@ -394,7 +394,7 @@ extension Swf {
 
     public struct DecisionTaskCompletedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the DecisionTaskScheduled event that was recorded when this decision task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var scheduledEventId: Int64 = 0
         /// The ID of the DecisionTaskStarted event recorded when this decision task was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -421,7 +421,7 @@ extension Swf {
 
     public struct DomainDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var domainInfo: DomainInfo = DomainInfo()
         public var configuration: DomainConfiguration = DomainConfiguration()
 
@@ -442,7 +442,7 @@ extension Swf {
 
     public struct RespondActivityTaskFailedInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Optional. Detailed information about the failure.
         public var details: String? = nil
         /// The taskToken of the ActivityTask.  taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
@@ -468,7 +468,7 @@ extension Swf {
 
     public struct CancelTimerFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelTimer decision to cancel this timer. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var decisionTaskCompletedEventId: Int64 = 0
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
@@ -496,7 +496,7 @@ extension Swf {
 
     public struct DescribeDomainInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the domain to describe.
         public var name: String = ""
 
@@ -514,7 +514,7 @@ extension Swf {
 
     public struct StartTimerDecisionAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Required. The unique ID of the timer. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
         public var timerId: String = ""
         /// Required. The duration to wait before firing the timer. The duration is specified in seconds; an integer greater than or equal to 0.
@@ -541,7 +541,7 @@ extension Swf {
 
     public struct DescribeWorkflowTypeInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the domain in which this workflow type is registered.
         public var domain: String = ""
         /// The workflow type to describe.
@@ -564,7 +564,7 @@ extension Swf {
 
     public struct ExecutionTimeFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the oldest start or close date and time to return.
         public var oldestDate: Date = Date()
         /// Specifies the latest start or close date and time to return.
@@ -586,7 +586,7 @@ extension Swf {
 
     public struct PollForActivityTaskInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Identity of the worker making the request, recorded in the ActivityTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
         public var identity: String? = nil
         /// The name of the domain that contains the task lists being polled.
@@ -613,7 +613,7 @@ extension Swf {
 
     public struct ListClosedWorkflowExecutionsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If specified, only executions of the type specified in the filter are returned. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
         public var typeFilter: WorkflowTypeFilter? = nil
         /// If specified, only workflow executions that match this close status are listed. For example, if TERMINATED is specified, then only TERMINATED workflow executions are listed. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
@@ -667,7 +667,7 @@ extension Swf {
 
     public struct ActivityTask: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The opaque string used as a handle on the task. This token is used by workers to communicate progress and response information back to the system about the task.
         public var taskToken: String = ""
         /// The inputs provided when the activity task was scheduled. The form of the input is user defined and should be meaningful to the activity implementation.
@@ -709,7 +709,7 @@ extension Swf {
 
     public struct DescribeActivityTypeInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The activity type to get information about. Activity types are identified by the name and version that were supplied when the activity was registered.
         public var activityType: ActivityType = ActivityType()
         /// The name of the domain in which the activity type is registered.
@@ -732,7 +732,7 @@ extension Swf {
 
     public struct TagFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Required. Specifies the tag that must be associated with the execution for it to meet the filter criteria.
         public var tag: String = ""
 
@@ -750,7 +750,7 @@ extension Swf {
 
     public struct TaskList: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the task list.
         public var name: String = ""
 
@@ -768,7 +768,7 @@ extension Swf {
 
     public struct WorkflowExecutionTerminatedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The details provided for the termination (if any).
         public var details: String? = nil
         /// The reason provided for the termination (if any).
@@ -798,7 +798,7 @@ extension Swf {
 
     public struct ScheduleActivityTaskFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the DecisionTaskCompleted event corresponding to the decision that resulted in the scheduling of this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var decisionTaskCompletedEventId: Int64 = 0
         /// The activity type provided in the ScheduleActivityTask decision that failed.
@@ -831,7 +831,7 @@ extension Swf {
 
     public struct RequestCancelExternalWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The runId of the external workflow execution to cancel.
         public var runId: String? = nil
         /// Required. The workflowId of the external workflow execution to cancel.
@@ -857,7 +857,7 @@ extension Swf {
 
     public struct StartWorkflowExecutionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of an IAM role that authorizes Amazon SWF to invoke AWS Lambda functions. In order for this workflow execution to invoke AWS Lambda functions, an appropriate IAM role must be specified either as a default for the workflow type or through this field.
         public var lambdaRole: String? = nil
         /// The total duration for this workflow execution. This overrides the defaultExecutionStartToCloseTimeout specified when registering the workflow type. The duration is specified in seconds; an integer greater than or equal to 0. Exceeding this limit will cause the workflow execution to time out. Unlike some of the other timeout parameters in Amazon SWF, you cannot specify a value of "NONE" for this timeout; there is a one-year max limit on the time that a workflow execution can run.  An execution start-to-close timeout must be specified either through this parameter or as a default when the workflow type is registered. If neither this parameter nor a default execution start-to-close timeout is specified, a fault is returned.
@@ -919,7 +919,7 @@ extension Swf {
 
     public struct ListWorkflowTypesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public var maximumPageSize: Int32? = nil
         /// If specified, lists the workflow type with this name.
@@ -958,7 +958,7 @@ extension Swf {
 
     public struct ScheduleLambdaFunctionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the scheduled AWS Lambda function.
         public var name: String = ""
         /// The unique Amazon SWF ID of the AWS Lambda task.
@@ -991,7 +991,7 @@ extension Swf {
 
     public struct ChildWorkflowExecutionCanceledEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Details of the cancellation (if provided).
         public var details: String? = nil
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -1028,7 +1028,7 @@ extension Swf {
 
     public struct ScheduleActivityTaskDecisionAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If set, specifies the name of the task list in which to schedule the activity task. If not specified, the defaultTaskList registered with the activity type will be used. A task list for this activity task must be specified either as a default for the activity type or through this field. If neither this field is set nor a default task list was specified at registration time then a fault will be returned. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
         public var taskList: TaskList? = nil
         /// Required. The activityId of the activity task. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
@@ -1083,7 +1083,7 @@ extension Swf {
 
     public struct ChildWorkflowExecutionTerminatedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var initiatedEventId: Int64 = 0
         /// The type of the child workflow execution.
@@ -1116,7 +1116,7 @@ extension Swf {
 
     public struct StartChildWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of an IAM role that authorizes Amazon SWF to invoke AWS Lambda functions. In order for this workflow execution to invoke AWS Lambda functions, an appropriate IAM role must be specified either as a default for the workflow type or through this field.
         public var lambdaRole: String? = nil
         /// The name of the task list to be used for decision tasks of the child workflow execution. A task list for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task list was specified at registration time then a fault will be returned. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
@@ -1177,7 +1177,7 @@ extension Swf {
 
     public struct WorkflowExecutionOpenCounts: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The count of AWS Lambda functions that are currently executing.
         public var openLambdaFunctions: Int32? = nil
         /// The count of activity tasks whose status is OPEN.
@@ -1214,7 +1214,7 @@ extension Swf {
 
     public struct CountOpenWorkflowExecutionsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies the type of the workflow executions to be counted. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
         public var typeFilter: WorkflowTypeFilter? = nil
         /// If specified, only workflow executions matching the WorkflowId in the filter are counted. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
@@ -1249,7 +1249,7 @@ extension Swf {
 
     public struct ChildWorkflowExecutionTimedOutEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var initiatedEventId: Int64 = 0
         /// The type of the timeout that caused the child workflow execution to time out.
@@ -1287,7 +1287,7 @@ extension Swf {
 
     public struct LambdaFunctionScheduledEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the scheduled AWS Lambda function.
         public var name: String = ""
         /// Input provided to the AWS Lambda function.
@@ -1323,7 +1323,7 @@ extension Swf {
 
     public struct TimerFiredEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the TimerStarted event that was recorded when this timer was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var startedEventId: Int64 = 0
         /// The unique ID of the timer that fired.
@@ -1346,7 +1346,7 @@ extension Swf {
 
     public struct ChildWorkflowExecutionStartedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var initiatedEventId: Int64 = 0
         /// The child workflow execution that was started.
@@ -1374,7 +1374,7 @@ extension Swf {
 
     public struct DeprecateWorkflowTypeInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the domain in which the workflow type is registered.
         public var domain: String = ""
         /// The workflow type to deprecate.
@@ -1397,7 +1397,7 @@ extension Swf {
 
     public struct CloseStatusFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Required. The close status that must match the close status of an execution for it to meet the criteria of this filter.
         public var status: String = ""
 
@@ -1415,7 +1415,7 @@ extension Swf {
 
     public struct WorkflowExecutionCancelRequestedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The external workflow execution for which the cancellation was requested.
         public var externalWorkflowExecution: WorkflowExecution? = nil
         /// If set, indicates that the request to cancel the workflow execution was automatically generated, and specifies the cause. This happens if the parent workflow execution times out or is terminated, and the child policy is set to cancel child executions.
@@ -1440,7 +1440,7 @@ extension Swf {
 
     public struct ActivityTaskCancelRequestedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RequestCancelActivityTask decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var decisionTaskCompletedEventId: Int64 = 0
         /// The unique ID of the task.
@@ -1463,7 +1463,7 @@ extension Swf {
 
     public struct WorkflowExecutionCanceledEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Details for the cancellation (if any).
         public var details: String? = nil
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelWorkflowExecution decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -1485,7 +1485,7 @@ extension Swf {
 
     public struct History: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public var nextPageToken: String? = nil
         /// The list of history events.
@@ -1507,7 +1507,7 @@ extension Swf {
 
     public struct DomainConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The retention period for workflow executions in this domain.
         public var workflowExecutionRetentionPeriodInDays: String = ""
 
@@ -1525,7 +1525,7 @@ extension Swf {
 
     public struct WorkflowExecutionStartedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IAM role attached to this workflow execution to use when invoking AWS Lambda functions.
         public var lambdaRole: String? = nil
         /// The source workflow execution that started this workflow execution. The member is not set if the workflow execution was not started by a workflow.
@@ -1590,7 +1590,7 @@ extension Swf {
 
     public struct WorkflowExecutionConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IAM role used by this workflow execution when invoking AWS Lambda functions.
         public var lambdaRole: String? = nil
         /// The total duration for this workflow execution. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
@@ -1631,7 +1631,7 @@ extension Swf {
 
     public struct WorkflowExecutionInfos: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public var nextPageToken: String? = nil
         /// The list of workflow information structures.
@@ -1653,7 +1653,7 @@ extension Swf {
 
     public struct ActivityTypeDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// General information about the activity type. The status of activity type (returned in the ActivityTypeInfo structure) can be one of the following.   REGISTERED: The type is registered and available. Workers supporting this type should be running.   DEPRECATED: The type was deprecated using DeprecateActivityType, but is still in use. You should keep workers supporting this type running. You cannot create new tasks of this type.  
         public var typeInfo: ActivityTypeInfo = ActivityTypeInfo()
         /// The configuration settings registered with the activity type.
@@ -1676,7 +1676,7 @@ extension Swf {
 
     public struct RegisterWorkflowTypeInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the workflow type. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
         public var name: String = ""
         /// If set, specifies the default maximum duration of decision tasks for this workflow type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
@@ -1732,7 +1732,7 @@ extension Swf {
 
     public struct CompleteWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The result of the workflow execution. The form of the result is implementation defined.
         public var result: String? = nil
 
@@ -1749,7 +1749,7 @@ extension Swf {
 
     public struct ActivityTypeInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of the activity type provided in RegisterActivityType.
         public var description: String? = nil
         /// The current status of the activity type.
@@ -1785,7 +1785,7 @@ extension Swf {
 
     public struct CompleteWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CompleteWorkflowExecution decision to complete this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var decisionTaskCompletedEventId: Int64 = 0
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
@@ -1808,7 +1808,7 @@ extension Swf {
 
     public struct TimerStartedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique ID of the timer that was started.
         public var timerId: String = ""
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the StartTimer decision for this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -1840,7 +1840,7 @@ extension Swf {
 
     public struct ExternalWorkflowExecutionSignaledEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the SignalExternalWorkflowExecutionInitiated event corresponding to the SignalExternalWorkflowExecution decision to request this signal. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var initiatedEventId: Int64 = 0
         ///  The external workflow execution that the signal was delivered to.
@@ -1863,7 +1863,7 @@ extension Swf {
 
     public struct LambdaFunctionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The details of the failure (if any).
         public var details: String? = nil
         /// The reason provided for the failure (if any).
@@ -1894,7 +1894,7 @@ extension Swf {
 
     public struct DecisionTaskTimedOutEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the DecisionTaskScheduled event that was recorded when this decision task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var scheduledEventId: Int64 = 0
         /// The ID of the DecisionTaskStarted event recorded when this decision task was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -1922,7 +1922,7 @@ extension Swf {
 
     public struct RecordActivityTaskHeartbeatInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If specified, contains details about the progress of the task.
         public var details: String? = nil
         /// The taskToken of the ActivityTask.  taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results. 
@@ -1944,7 +1944,7 @@ extension Swf {
 
     public struct RequestCancelExternalWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The runId of the external workflow execution.
         public var runId: String? = nil
         /// The ID of the RequestCancelExternalWorkflowExecutionInitiated event corresponding to the RequestCancelExternalWorkflowExecution decision to cancel this external workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -1984,7 +1984,7 @@ extension Swf {
 
     public struct RespondActivityTaskCompletedInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The taskToken of the ActivityTask.  taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
         public var taskToken: String = ""
         /// The result of the activity task. It is a free form string that is implementation specific.
@@ -2006,7 +2006,7 @@ extension Swf {
 
     public struct ListOpenWorkflowExecutionsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If specified, only executions of the type specified in the filter are returned. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
         public var typeFilter: WorkflowTypeFilter? = nil
         /// If specified, only executions that have the matching tag are listed. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
@@ -2053,7 +2053,7 @@ extension Swf {
 
     public struct CancelTimerDecisionAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Required. The unique ID of the timer to cancel.
         public var timerId: String = ""
 
@@ -2071,7 +2071,7 @@ extension Swf {
 
     public struct ActivityTaskStartedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the ActivityTaskScheduled event that was recorded when this activity task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var scheduledEventId: Int64 = 0
         /// Identity of the worker that was assigned this task. This aids diagnostics when problems arise. The form of this identity is user defined.
@@ -2093,7 +2093,7 @@ extension Swf {
 
     public struct RecordMarkerDecisionAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Optional. details of the marker.
         public var details: String? = nil
         /// Required. The name of the marker.
@@ -2115,7 +2115,7 @@ extension Swf {
 
     public struct LambdaFunctionStartedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var scheduledEventId: Int64 = 0
 
@@ -2133,7 +2133,7 @@ extension Swf {
 
     public struct DomainInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of the domain provided through RegisterDomain.
         public var description: String? = nil
         /// The name of the domain. This name is unique within the account.
@@ -2160,7 +2160,7 @@ extension Swf {
 
     public struct WorkflowExecutionFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The workflowId to pass of match the criteria of this filter.
         public var workflowId: String = ""
 
@@ -2178,7 +2178,7 @@ extension Swf {
 
     public struct SignalExternalWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The runId of the workflow execution to be signaled.
         public var runId: String? = nil
         /// Required. The name of the signal.The target workflow execution will use the signal name and input to process the signal.
@@ -2213,7 +2213,7 @@ extension Swf {
 
     public struct ActivityTaskCompletedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the ActivityTaskScheduled event that was recorded when this activity task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var scheduledEventId: Int64 = 0
         /// The results of the activity task (if any).
@@ -2240,7 +2240,7 @@ extension Swf {
 
     public struct RequestCancelActivityTaskFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RequestCancelActivityTask decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var decisionTaskCompletedEventId: Int64 = 0
         /// The activityId provided in the RequestCancelActivityTask decision that failed.
@@ -2268,7 +2268,7 @@ extension Swf {
 
     public struct HistoryEvent: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If the event is of type ScheduleActivityTaskFailed then this member is set and provides detailed information about the event. It is not set for other event types.
         public var scheduleActivityTaskFailedEventAttributes: ScheduleActivityTaskFailedEventAttributes? = nil
         /// If the event is of type ActivityTaskCompleted then this member is set and provides detailed information about the event. It is not set for other event types.
@@ -2505,7 +2505,7 @@ extension Swf {
 
     public struct WorkflowExecution: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A system-generated unique identifier for the workflow execution.
         public var runId: String = ""
         /// The user defined identifier associated with the workflow execution.
@@ -2528,7 +2528,7 @@ extension Swf {
 
     public struct Run: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The runId of a workflow execution. This ID is generated by the service and can be used to uniquely identify the workflow execution within a domain.
         public var runId: String? = nil
 
@@ -2545,7 +2545,7 @@ extension Swf {
 
     public struct LambdaFunctionCompletedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var scheduledEventId: Int64 = 0
         /// The ID of the LambdaFunctionStarted event recorded in the history.
@@ -2572,7 +2572,7 @@ extension Swf {
 
     public struct CountPendingActivityTasksInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the domain that contains the task list.
         public var domain: String = ""
         /// The name of the task list.
@@ -2595,7 +2595,7 @@ extension Swf {
 
     public struct WorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The details of the failure (if any).
         public var details: String? = nil
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the FailWorkflowExecution decision to fail this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -2621,7 +2621,7 @@ extension Swf {
 
     public struct RegisterDomainInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A text description of the domain.
         public var description: String? = nil
         /// Name of the domain to register. The name must be unique in the region that the domain is registered in. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
@@ -2648,7 +2648,7 @@ extension Swf {
 
     public struct WorkflowExecutionCompletedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CompleteWorkflowExecution decision to complete this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var decisionTaskCompletedEventId: Int64 = 0
         /// The result produced by the workflow execution upon successful completion.
@@ -2670,7 +2670,7 @@ extension Swf {
 
     public struct RecordMarkerFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RecordMarkerFailed decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var decisionTaskCompletedEventId: Int64 = 0
         /// The marker's name.
@@ -2698,7 +2698,7 @@ extension Swf {
 
     public struct DecisionTaskStartedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the DecisionTaskScheduled event that was recorded when this decision task was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var scheduledEventId: Int64 = 0
         /// Identity of the decider making the request. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
@@ -2720,7 +2720,7 @@ extension Swf {
 
     public struct DeprecateDomainInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the domain to deprecate.
         public var name: String = ""
 
@@ -2738,7 +2738,7 @@ extension Swf {
 
     public struct StartChildWorkflowExecutionInitiatedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IAM role attached to this workflow execution to use when invoking AWS Lambda functions.
         public var lambdaRole: String? = nil
         /// The name of the task list used for the decision tasks of the child workflow execution.
@@ -2806,7 +2806,7 @@ extension Swf {
 
     public struct RequestCancelExternalWorkflowExecutionInitiatedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The runId of the external workflow execution to be canceled.
         public var runId: String? = nil
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RequestCancelExternalWorkflowExecution decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -2837,7 +2837,7 @@ extension Swf {
 
     public struct ListDomainsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public var maximumPageSize: Int32? = nil
         /// When set to true, returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the domains.
@@ -2867,7 +2867,7 @@ extension Swf {
 
     public struct WorkflowTypeConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Optional. The default maximum duration, specified when registering the workflow type, for executions of this workflow type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
         public var defaultExecutionStartToCloseTimeout: String? = nil
         /// Optional. The default maximum duration, specified when registering the workflow type, that a decision task for executions of this workflow type might take before returning completion or failure. If the task does not close in the specified time then the task is automatically timed out and rescheduled. If the decider eventually reports a completion or failure, it is ignored. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
@@ -2904,7 +2904,7 @@ extension Swf {
 
     public struct FailWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the FailWorkflowExecution decision to fail this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var decisionTaskCompletedEventId: Int64 = 0
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
@@ -2927,7 +2927,7 @@ extension Swf {
 
     public struct RespondActivityTaskCanceledInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Optional. Information about the cancellation.
         public var details: String? = nil
         /// The taskToken of the ActivityTask. taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
@@ -2949,7 +2949,7 @@ extension Swf {
 
     public struct RegisterActivityTypeInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the activity type within the domain. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f - \u009f). Also, it must not contain the literal string quotarnquot.
         public var name: String = ""
         /// If set, specifies the default maximum duration that a worker can take to process tasks of this activity type. This default can be overridden when scheduling an activity task using the ScheduleActivityTask decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
@@ -3005,7 +3005,7 @@ extension Swf {
 
     public struct ActivityTaskTimedOutEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Contains the content of the details parameter for the last call made by the activity to RecordActivityTaskHeartbeat.
         public var details: String? = nil
         /// The type of the timeout that caused this event.
@@ -3037,7 +3037,7 @@ extension Swf {
 
     public struct ActivityTaskStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Set to true if cancellation of the task is requested.
         public var cancelRequested: Bool = false
 
@@ -3055,7 +3055,7 @@ extension Swf {
 
     public struct ActivityTaskScheduledEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The task list in which the activity task has been scheduled.
         public var taskList: TaskList = TaskList()
         /// The ID of the DecisionTaskCompleted event corresponding to the decision that resulted in the scheduling of this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -3116,7 +3116,7 @@ extension Swf {
 
     public struct TerminateWorkflowExecutionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The runId of the workflow execution to terminate.
         public var runId: String? = nil
         /// Optional. Details for terminating the workflow execution.
@@ -3155,7 +3155,7 @@ extension Swf {
 
     public struct ChildWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The details of the failure (if provided).
         public var details: String? = nil
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -3196,7 +3196,7 @@ extension Swf {
 
     public struct ChildWorkflowExecutionCompletedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the StartChildWorkflowExecutionInitiated event corresponding to the StartChildWorkflowExecution decision to start this child workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var initiatedEventId: Int64 = 0
         /// The type of the child workflow execution.
@@ -3233,7 +3233,7 @@ extension Swf {
 
     public struct RequestCancelActivityTaskDecisionAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The activityId of the activity task to be canceled.
         public var activityId: String = ""
 
@@ -3251,7 +3251,7 @@ extension Swf {
 
     public struct ContinueAsNewWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of an IAM role that authorizes Amazon SWF to invoke AWS Lambda functions. In order for this workflow execution to invoke AWS Lambda functions, an appropriate IAM role must be specified either as a default for the workflow type or through this field.
         public var lambdaRole: String? = nil
         public var workflowTypeVersion: String? = nil
@@ -3300,7 +3300,7 @@ extension Swf {
 
     public struct StartLambdaFunctionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the LambdaFunctionScheduled event that was recorded when this AWS Lambda function was scheduled. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var scheduledEventId: Int64? = nil
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
@@ -3325,7 +3325,7 @@ extension Swf {
 
     public struct SignalExternalWorkflowExecutionInitiatedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The runId of the external workflow execution to send the signal to.
         public var runId: String? = nil
         /// The name of the signal.
@@ -3365,7 +3365,7 @@ extension Swf {
 
     public struct WorkflowTypeFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Required. Name of the workflow type.
         public var name: String = ""
         /// Version of the workflow type.
@@ -3387,7 +3387,7 @@ extension Swf {
 
     public struct GetWorkflowExecutionHistoryInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public var maximumPageSize: Int32? = nil
         /// Specifies the workflow execution for which to return the history.
@@ -3422,7 +3422,7 @@ extension Swf {
 
     public struct ActivityTypeConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Optional. The default maximum duration, specified when registering the activity type, that a task of an activity type can wait before being assigned to a worker. You can override this default when scheduling a task through the ScheduleActivityTask decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
         public var defaultTaskScheduleToStartTimeout: String? = nil
         /// Optional. The default maximum duration for tasks of an activity type specified when registering the activity type. You can override this default when scheduling a task through the ScheduleActivityTask decision. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
@@ -3459,7 +3459,7 @@ extension Swf {
 
     public struct TimerCanceledEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the TimerStarted event that was recorded when this timer was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var startedEventId: Int64 = 0
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelTimer decision to cancel this timer. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -3487,7 +3487,7 @@ extension Swf {
 
     public struct ListActivityTypesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
         public var maximumPageSize: Int32? = nil
         /// If specified, only lists the activity types that have this name.
@@ -3526,7 +3526,7 @@ extension Swf {
 
     public struct FailWorkflowExecutionDecisionAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Optional. Details of the failure.
         public var details: String? = nil
         /// A descriptive reason for the failure that may help in diagnostics.
@@ -3547,7 +3547,7 @@ extension Swf {
 
     public struct PendingTaskCount: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If set to true, indicates that the actual count was more than the maximum supported by this API and the count returned is the truncated value.
         public var truncated: Bool? = nil
         /// The number of tasks in the task list.
@@ -3569,7 +3569,7 @@ extension Swf {
 
     public struct WorkflowExecutionContinuedAsNewEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IAM role attached to this workflow execution to use when invoking AWS Lambda functions.
         public var lambdaRole: String? = nil
         public var taskList: TaskList = TaskList()
@@ -3630,7 +3630,7 @@ extension Swf {
 
     public struct Decision: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Provides details of the ScheduleActivityTask decision. It is not set for other decision types.
         public var scheduleActivityTaskDecisionAttributes: ScheduleActivityTaskDecisionAttributes? = nil
         /// Provides details of the RequestCancelExternalWorkflowExecution decision. It is not set for other decision types.
@@ -3699,7 +3699,7 @@ extension Swf {
 
     public struct WorkflowTypeInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of the type registered through RegisterWorkflowType.
         public var description: String? = nil
         /// The current status of the workflow type.
@@ -3735,7 +3735,7 @@ extension Swf {
 
     public struct WorkflowExecutionSignaledEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the signal received. The decider can use the signal name and inputs to determine how to the process the signal.
         public var signalName: String = ""
         /// Inputs provided with the signal (if any). The decider can use the signal name and inputs to determine how to process the signal.
@@ -3765,7 +3765,7 @@ extension Swf {
 
     public struct ActivityTypeInfos: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public var nextPageToken: String? = nil
         /// List of activity type information.
@@ -3787,7 +3787,7 @@ extension Swf {
 
     public struct RespondDecisionTaskCompletedInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The taskToken from the DecisionTask. taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
         public var taskToken: String = ""
         /// User defined context to add to workflow execution.
@@ -3815,7 +3815,7 @@ extension Swf {
 
     public struct MarkerRecordedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Details of the marker (if any).
         public var details: String? = nil
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the RecordMarker decision that requested this marker. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -3842,7 +3842,7 @@ extension Swf {
 
     public struct WorkflowExecutionTimedOutEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The policy used for the child workflow executions of this workflow execution. The supported child policies are:  TERMINATE: the child executions will be terminated. REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event. ABANDON: no action will be taken. The child executions will continue to run. 
         public var childPolicy: String = ""
         /// The type of timeout that caused this event.
@@ -3865,7 +3865,7 @@ extension Swf {
 
     public struct ScheduleLambdaFunctionDecisionAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Required. The name of the AWS Lambda function to invoke.
         public var name: String = ""
         /// The input provided to the AWS Lambda function.
@@ -3896,7 +3896,7 @@ extension Swf {
 
     public struct DescribeWorkflowExecutionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The workflow execution to describe.
         public var execution: WorkflowExecution = WorkflowExecution()
         /// The name of the domain containing the workflow execution.
@@ -3919,7 +3919,7 @@ extension Swf {
 
     public struct ContinueAsNewWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the ContinueAsNewWorkflowExecution decision that started this execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var decisionTaskCompletedEventId: Int64 = 0
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
@@ -3942,7 +3942,7 @@ extension Swf {
 
     public struct WorkflowExecutionDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of tasks for this workflow execution. This includes open and closed tasks of all types.
         public var openCounts: WorkflowExecutionOpenCounts = WorkflowExecutionOpenCounts()
         /// Information about the workflow execution.
@@ -3978,7 +3978,7 @@ extension Swf {
 
     public struct ExternalWorkflowExecutionCancelRequestedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the RequestCancelExternalWorkflowExecutionInitiated event corresponding to the RequestCancelExternalWorkflowExecution decision to cancel this external workflow execution. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var initiatedEventId: Int64 = 0
         /// The external workflow execution to which the cancellation request was delivered.
@@ -4001,7 +4001,7 @@ extension Swf {
 
     public struct WorkflowTypeInfos: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public var nextPageToken: String? = nil
         /// The list of workflow type information.
@@ -4023,7 +4023,7 @@ extension Swf {
 
     public struct CancelWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the CancelWorkflowExecution decision for this cancellation request. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var decisionTaskCompletedEventId: Int64 = 0
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
@@ -4046,7 +4046,7 @@ extension Swf {
 
     public struct ActivityTaskCanceledEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Details of the cancellation (if any).
         public var details: String? = nil
         /// If set, contains the ID of the last ActivityTaskCancelRequested event recorded for this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -4077,7 +4077,7 @@ extension Swf {
 
     public struct WorkflowExecutionCount: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If set to true, indicates that the actual count was more than the maximum supported by this API and the count returned is the truncated value.
         public var truncated: Bool? = nil
         /// The number of workflow executions.
@@ -4099,7 +4099,7 @@ extension Swf {
 
     public struct CountPendingDecisionTasksInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the domain that contains the task list.
         public var domain: String = ""
         /// The name of the task list.
@@ -4122,7 +4122,7 @@ extension Swf {
 
     public struct DomainInfos: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken. Keep all other arguments unchanged. The configured maximumPageSize determines how many results can be returned in a single call.
         public var nextPageToken: String? = nil
         /// A list of DomainInfo structures.
@@ -4144,7 +4144,7 @@ extension Swf {
 
     public struct SignalWorkflowExecutionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The runId of the workflow execution to signal.
         public var runId: String? = nil
         /// The name of the signal. This name must be meaningful to the target workflow.
@@ -4180,7 +4180,7 @@ extension Swf {
 
     public struct SignalExternalWorkflowExecutionFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The runId of the external workflow execution that the signal was being delivered to.
         public var runId: String? = nil
         /// The ID of the SignalExternalWorkflowExecutionInitiated event corresponding to the SignalExternalWorkflowExecution decision to request this signal. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
@@ -4220,7 +4220,7 @@ extension Swf {
 
     public struct ActivityTaskFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The details of the failure (if any).
         public var details: String? = nil
         /// The reason provided for the failure (if any).
@@ -4251,7 +4251,7 @@ extension Swf {
 
     public struct StartTimerFailedEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the DecisionTaskCompleted event corresponding to the decision task that resulted in the StartTimer decision for this activity task. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         public var decisionTaskCompletedEventId: Int64 = 0
         /// The cause of the failure. This information is generated by the system and can be useful for diagnostic purposes. If cause is set to OPERATION_NOT_PERMITTED, the decision failed because it lacked sufficient permissions. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows.
@@ -4279,7 +4279,7 @@ extension Swf {
 
     public struct DecisionTaskScheduledEventAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum duration for this decision task. The task is considered timed out if it does not completed within this duration. The duration is specified in seconds; an integer greater than or equal to 0. The value "NONE" can be used to specify unlimited duration.
         public var startToCloseTimeout: String? = nil
         /// Optional. A task priority that, if set, specifies the priority for this decision task. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority. For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide.
@@ -4305,7 +4305,7 @@ extension Swf {
 
     public struct DeprecateActivityTypeInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The activity type to deprecate.
         public var activityType: ActivityType = ActivityType()
         /// The name of the domain in which the activity type is registered.

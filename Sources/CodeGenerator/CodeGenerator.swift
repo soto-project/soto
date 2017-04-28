@@ -449,26 +449,26 @@ extension AWSService {
                 code += "\(indt(1))public struct \(shape.name): AWSShape {\n"
                 code += "\(indt(2))/// The key for the payload\n"
                 if let payload = type.payload {
-                    code += "\(indt(2))public let _payload: String? = \"\(payload)\"\n"
+                    code += "\(indt(2))public static let payload: String? = \"\(payload)\"\n"
                 } else {
-                    code += "\(indt(2))public let _payload: String? = nil\n"
+                    code += "\(indt(2))public static let payload: String? = nil\n"
                 }
                 
                 let requestParam = type.members.toRequestParam()
                 if !requestParam.headerParams.isEmpty {
-                    code += "\(indt(2))public var headerParams: [String: String] {\n"
+                    code += "\(indt(2))public static var headerParams: [String: String] {\n"
                     code += "\(indt(3))return \(requestParam.headerParams)\n"
                     code += "\(indt(2))}\n"
                 }
                 
                 if !requestParam.queryParams.isEmpty {
-                    code += "\(indt(2))public var queryParams: [String: String] {\n"
+                    code += "\(indt(2))public static var queryParams: [String: String] {\n"
                     code += "\(indt(3))return \(requestParam.queryParams)\n"
                     code += "\(indt(2))}\n"
                 }
                 
                 if !requestParam.pathParams.isEmpty {
-                    code += "\(indt(2))public var pathParams: [String: String] {\n"
+                    code += "\(indt(2))public static var pathParams: [String: String] {\n"
                     code += "\(indt(3))return \(requestParam.pathParams)\n"
                     code += "\(indt(2))}\n"
                 }

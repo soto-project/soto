@@ -31,7 +31,7 @@ extension Codedeploy {
 
     public struct RevisionLocation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the location of application artifacts stored in Amazon S3. 
         public var s3Location: S3Location? = nil
         /// Information about the location of application artifacts stored in GitHub.
@@ -56,7 +56,7 @@ extension Codedeploy {
 
     public struct GetDeploymentConfigOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the deployment configuration.
         public var deploymentConfigInfo: DeploymentConfigInfo? = nil
 
@@ -73,7 +73,7 @@ extension Codedeploy {
 
     public struct CreateDeploymentOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique deployment ID.
         public var deploymentId: String? = nil
 
@@ -90,7 +90,7 @@ extension Codedeploy {
 
     public struct SkipWaitTimeForInstanceTerminationInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the blue/green deployment for which you want to skip the instance termination wait time.
         public var deploymentId: String? = nil
 
@@ -107,7 +107,7 @@ extension Codedeploy {
 
     public struct GetDeploymentOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the deployment.
         public var deploymentInfo: DeploymentInfo? = nil
 
@@ -124,7 +124,7 @@ extension Codedeploy {
 
     public struct BatchGetDeploymentInstancesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the instance.
         public var instancesSummary: [InstanceSummary]? = nil
         /// Information about errors that may have occurred during the API call.
@@ -147,7 +147,7 @@ extension Codedeploy {
 
     public struct GetDeploymentInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A deployment ID associated with the applicable IAM user or AWS account.
         public var deploymentId: String = ""
 
@@ -165,7 +165,7 @@ extension Codedeploy {
 
     public struct DeploymentStyle: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether to run a standard deployment or a blue/green deployment.
         public var deploymentType: String? = nil
         /// Indicates whether to route deployment traffic behind a load balancer.
@@ -186,7 +186,7 @@ extension Codedeploy {
 
     public struct DeploymentInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the instances that belong to the replacement environment in a blue/green deployment.
         public var targetInstances: TargetInstances? = nil
         /// A timestamp indicating when the deployment was complete.
@@ -291,7 +291,7 @@ extension Codedeploy {
 
     public struct BatchGetApplicationRevisionsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information to get about the application revisions, including type and location.
         public var revisions: [RevisionLocation] = []
         /// The name of an AWS CodeDeploy application about which to get revision information.
@@ -314,7 +314,7 @@ extension Codedeploy {
 
     public struct TimeRange: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The start time of the time range.  Specify null to leave the start time open-ended. 
         public var start: Date? = nil
         /// The end time of the time range.  Specify null to leave the end time open-ended. 
@@ -335,7 +335,7 @@ extension Codedeploy {
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The tag's value.
         public var value: String? = nil
         /// The tag's key.
@@ -356,7 +356,7 @@ extension Codedeploy {
 
     public struct BatchGetOnPremisesInstancesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The names of the on-premises instances about which to get information.
         public var instanceNames: [String]? = nil
 
@@ -375,7 +375,7 @@ extension Codedeploy {
 
     public struct TagFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The on-premises instance tag filter type:   KEY_ONLY: Key only.   VALUE_ONLY: Value only.   KEY_AND_VALUE: Key and value.  
         public var type: String? = nil
         /// The on-premises instance tag filter value.
@@ -400,7 +400,7 @@ extension Codedeploy {
 
     public struct ErrorInformation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// For information about additional error codes, see Error Codes for AWS CodeDeploy in the AWS CodeDeploy User Guide. The error code:   APPLICATION_MISSING: The application was missing. This error code will most likely be raised if the application is deleted after the deployment is created but before it is started.   DEPLOYMENT_GROUP_MISSING: The deployment group was missing. This error code will most likely be raised if the deployment group is deleted after the deployment is created but before it is started.   HEALTH_CONSTRAINTS: The deployment failed on too many instances to be successfully deployed within the instance health constraints specified.   HEALTH_CONSTRAINTS_INVALID: The revision cannot be successfully deployed within the instance health constraints specified.   IAM_ROLE_MISSING: The service role cannot be accessed.   IAM_ROLE_PERMISSIONS: The service role does not have the correct permissions.   INTERNAL_ERROR: There was an internal error.   NO_EC2_SUBSCRIPTION: The calling account is not subscribed to the Amazon EC2 service.   NO_INSTANCES: No instance were specified, or no instance can be found.   OVER_MAX_INSTANCES: The maximum number of instance was exceeded.   THROTTLED: The operation was throttled because the calling account exceeded the throttling limits of one or more AWS services.   TIMEOUT: The deployment has timed out.   REVISION_MISSING: The revision ID was missing. This error code will most likely be raised if the revision is deleted after the deployment is created but before it is started.  
         public var code: String? = nil
         /// An accompanying error message.
@@ -421,7 +421,7 @@ extension Codedeploy {
 
     public struct ListApplicationRevisionsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An identifier returned from the previous list application revisions call. It can be used to return the next set of applications in the list.
         public var nextToken: String? = nil
         /// The order in which to sort the list results:   ascending: ascending order.   descending: descending order.   If not specified, the results will be sorted in ascending order. If set to null, the results will be sorted in an arbitrary order.
@@ -463,7 +463,7 @@ extension Codedeploy {
 
     public struct BatchGetDeploymentsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the deployments.
         public var deploymentsInfo: [DeploymentInfo]? = nil
 
@@ -482,7 +482,7 @@ extension Codedeploy {
 
     public struct CreateApplicationInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the application. This name must be unique with the applicable IAM user or AWS account.
         public var applicationName: String = ""
 
@@ -500,7 +500,7 @@ extension Codedeploy {
 
     public struct UpdateDeploymentGroupOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the AWS account. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the AWS account.
         public var hooksNotCleanedUp: [AutoScalingGroup]? = nil
 
@@ -519,7 +519,7 @@ extension Codedeploy {
 
     public struct Alarm: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the alarm. Maximum length is 255 characters. Each alarm name can be used only once in a list of alarms.
         public var name: String? = nil
 
@@ -536,7 +536,7 @@ extension Codedeploy {
 
     public struct CreateDeploymentConfigOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique deployment configuration ID.
         public var deploymentConfigId: String? = nil
 
@@ -553,7 +553,7 @@ extension Codedeploy {
 
     public struct GetOnPremisesInstanceOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the on-premises instance.
         public var instanceInfo: InstanceInfo? = nil
 
@@ -570,7 +570,7 @@ extension Codedeploy {
 
     public struct GetDeploymentInstanceOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the instance.
         public var instanceSummary: InstanceSummary? = nil
 
@@ -587,7 +587,7 @@ extension Codedeploy {
 
     public struct DeploymentReadyOption: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about when to reroute traffic from an original environment to a replacement environment in a blue/green deployment.   CONTINUE_DEPLOYMENT: Register new instances with the load balancer immediately after the new application revision is installed on the instances in the replacement environment.   STOP_DEPLOYMENT: Do not register new instances with load balancer unless traffic is rerouted manually. If traffic is not rerouted manually before the end of the specified wait period, the deployment status is changed to Stopped.  
         public var actionOnTimeout: String? = nil
         /// The number of minutes to wait before the status of a blue/green deployment changed to Stopped if rerouting is not started manually. Applies only to the STOP_DEPLOYMENT option for actionOnTimeout
@@ -608,7 +608,7 @@ extension Codedeploy {
 
     public struct RollbackInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the deployment rollback.
         public var rollbackDeploymentId: String? = nil
         /// The deployment ID of the deployment that was underway and triggered a rollback deployment because it failed or was stopped.
@@ -633,7 +633,7 @@ extension Codedeploy {
 
     public struct ListDeploymentsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An identifier returned from the previous list deployments call. It can be used to return the next set of deployments in the list.
         public var nextToken: String? = nil
         /// A time range (start and end) for returning a subset of the list of deployments.
@@ -668,7 +668,7 @@ extension Codedeploy {
 
     public struct BatchGetDeploymentsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of deployment IDs, separated by spaces.
         public var deploymentIds: [String]? = nil
 
@@ -687,7 +687,7 @@ extension Codedeploy {
 
     public struct DeleteDeploymentGroupOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If the output contains no data, and the corresponding deployment group contained at least one Auto Scaling group, AWS CodeDeploy successfully removed all corresponding Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group. If the output contains data, AWS CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the Amazon EC2 instances in the Auto Scaling group.
         public var hooksNotCleanedUp: [AutoScalingGroup]? = nil
 
@@ -706,7 +706,7 @@ extension Codedeploy {
 
     public struct ListApplicationRevisionsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of locations that contain the matching revisions.
         public var revisions: [RevisionLocation]? = nil
         /// If a large amount of information is returned, an identifier will also be returned. It can be used in a subsequent list application revisions call to return the next set of application revisions in the list.
@@ -729,7 +729,7 @@ extension Codedeploy {
 
     public struct ListOnPremisesInstancesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of matching on-premises instance names.
         public var instanceNames: [String]? = nil
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list on-premises instances call to return the next set of on-premises instances in the list.
@@ -752,7 +752,7 @@ extension Codedeploy {
 
     public struct ListDeploymentConfigsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An identifier returned from the previous list deployment configurations call. It can be used to return the next set of deployment configurations in the list. 
         public var nextToken: String? = nil
 
@@ -769,7 +769,7 @@ extension Codedeploy {
 
     public struct BatchGetApplicationsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the applications.
         public var applicationsInfo: [ApplicationInfo]? = nil
 
@@ -788,7 +788,7 @@ extension Codedeploy {
 
     public struct BlueGreenDeploymentConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about whether to terminate instances in the original fleet during a blue/green deployment.
         public var terminateBlueInstancesOnDeploymentSuccess: BlueInstanceTerminationOption? = nil
         /// Information about how instances are provisioned for a replacement environment in a blue/green deployment.
@@ -813,7 +813,7 @@ extension Codedeploy {
 
     public struct BatchGetDeploymentGroupsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the deployment groups.
         public var deploymentGroupsInfo: [DeploymentGroupInfo]? = nil
         /// Information about errors that may have occurred during the API call.
@@ -836,7 +836,7 @@ extension Codedeploy {
 
     public struct ContinueDeploymentInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The deployment ID of the blue/green deployment for which you want to start rerouting traffic to the replacement environment.
         public var deploymentId: String? = nil
 
@@ -853,7 +853,7 @@ extension Codedeploy {
 
     public struct DeleteDeploymentConfigInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of a deployment configuration associated with the applicable IAM user or AWS account.
         public var deploymentConfigName: String = ""
 
@@ -871,7 +871,7 @@ extension Codedeploy {
 
     public struct AutoScalingGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Auto Scaling group name.
         public var name: String? = nil
         /// An Auto Scaling lifecycle event hook name.
@@ -892,7 +892,7 @@ extension Codedeploy {
 
     public struct ListDeploymentGroupsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An identifier returned from the previous list deployment groups call. It can be used to return the next set of deployment groups in the list.
         public var nextToken: String? = nil
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
@@ -914,7 +914,7 @@ extension Codedeploy {
 
     public struct ListDeploymentInstancesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A subset of instances to list by status:   Pending: Include those instance with pending deployments.   InProgress: Include those instance where deployments are still in progress.   Succeeded: Include those instances with successful deployments.   Failed: Include those instance with failed deployments.   Skipped: Include those instance with skipped deployments.   Unknown: Include those instance with deployments in an unknown state.  
         public var instanceStatusFilter: [String]? = nil
         /// The set of instances in a blue/green deployment, either those in the original environment ("BLUE") or those in the replacement environment ("GREEN"), for which you want to view instance information.
@@ -948,7 +948,7 @@ extension Codedeploy {
 
     public struct DeleteApplicationInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
         public var applicationName: String = ""
 
@@ -966,7 +966,7 @@ extension Codedeploy {
 
     public struct CreateDeploymentGroupInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of a new deployment group for the specified application.
         public var deploymentGroupName: String = ""
         /// A service role ARN that allows AWS CodeDeploy to act on the user's behalf when interacting with AWS services.
@@ -1042,7 +1042,7 @@ extension Codedeploy {
 
     public struct LoadBalancerInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array containing information about the load balancer in Elastic Load Balancing to use in a blue/green deployment.
         public var elbInfoList: [ELBInfo]? = nil
 
@@ -1061,7 +1061,7 @@ extension Codedeploy {
 
     public struct BatchGetDeploymentInstancesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique ID of a deployment.
         public var deploymentId: String = ""
         /// The unique IDs of instances in the deployment group.
@@ -1084,7 +1084,7 @@ extension Codedeploy {
 
     public struct BatchGetOnPremisesInstancesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the on-premises instances.
         public var instanceInfos: [InstanceInfo]? = nil
 
@@ -1103,7 +1103,7 @@ extension Codedeploy {
 
     public struct StopDeploymentOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the stop deployment operation:   Pending: The stop operation is pending.   Succeeded: The stop operation was successful.  
         public var status: String? = nil
         /// An accompanying status message.
@@ -1124,7 +1124,7 @@ extension Codedeploy {
 
     public struct AutoRollbackConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The event type or types that trigger a rollback.
         public var events: [String]? = nil
         /// Indicates whether a defined automatic rollback configuration is currently enabled.
@@ -1147,7 +1147,7 @@ extension Codedeploy {
 
     public struct ListDeploymentGroupsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of corresponding deployment group names.
         public var deploymentGroups: [String]? = nil
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment groups call to return the next set of deployment groups in the list.
@@ -1174,7 +1174,7 @@ extension Codedeploy {
 
     public struct ListDeploymentConfigsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment configurations call to return the next set of deployment configurations in the list.
         public var nextToken: String? = nil
         /// A list of deployment configurations, including built-in configurations such as CodeDeployDefault.OneAtATime.
@@ -1197,7 +1197,7 @@ extension Codedeploy {
 
     public struct AddTagsToOnPremisesInstancesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The tag key-value pairs to add to the on-premises instances. Keys and values are both required. Keys cannot be null or empty strings. Value-only tags are not allowed.
         public var tags: [Tag] = []
         /// The names of the on-premises instances to which to add tags.
@@ -1220,7 +1220,7 @@ extension Codedeploy {
 
     public struct GitHubLocation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The SHA1 commit ID of the GitHub commit that represents the bundled artifacts for the application revision.
         public var commitId: String? = nil
         /// The GitHub account and repository pair that stores a reference to the commit that represents the bundled artifacts for the application revision.  Specified as account/repository.
@@ -1241,7 +1241,7 @@ extension Codedeploy {
 
     public struct CreateDeploymentConfigInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the deployment configuration to create.
         public var deploymentConfigName: String = ""
         /// The minimum number of healthy instances that should be available at any time during the deployment. There are two parameters expected in the input: type and value. The type parameter takes either of the following values:   HOST_COUNT: The value parameter represents the minimum number of healthy instances as an absolute value.   FLEET_PERCENT: The value parameter represents the minimum number of healthy instances as a percentage of the total number of instances in the deployment. If you specify FLEET_PERCENT, at the start of the deployment, AWS CodeDeploy converts the percentage to the equivalent number of instance and rounds up fractional instances.   The value parameter takes an integer. For example, to set a minimum of 95% healthy instance, specify a type of FLEET_PERCENT and a value of 95.
@@ -1263,7 +1263,7 @@ extension Codedeploy {
 
     public struct ListOnPremisesInstancesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The on-premises instance tags that will be used to restrict the corresponding on-premises instance names returned.
         public var tagFilters: [TagFilter]? = nil
         /// An identifier returned from the previous list on-premises instances call. It can be used to return the next set of on-premises instances in the list.
@@ -1290,7 +1290,7 @@ extension Codedeploy {
 
     public struct RegisterApplicationRevisionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A comment about the revision.
         public var description: String? = nil
         /// Information about the application revision to register, including type and location.
@@ -1317,7 +1317,7 @@ extension Codedeploy {
 
     public struct CreateApplicationOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique application ID.
         public var applicationId: String? = nil
 
@@ -1334,7 +1334,7 @@ extension Codedeploy {
 
     public struct RemoveTagsFromOnPremisesInstancesInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The tag key-value pairs to remove from the on-premises instances.
         public var tags: [Tag] = []
         /// The names of the on-premises instances from which to remove tags.
@@ -1357,7 +1357,7 @@ extension Codedeploy {
 
     public struct RevisionInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about an application revision, including usage details and associated deployment groups.
         public var genericRevisionInfo: GenericRevisionInfo? = nil
         /// Information about the location and type of an application revision.
@@ -1378,7 +1378,7 @@ extension Codedeploy {
 
     public struct EC2TagFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The tag filter type:   KEY_ONLY: Key only.   VALUE_ONLY: Value only.   KEY_AND_VALUE: Key and value.  
         public var type: String? = nil
         /// The tag filter value.
@@ -1403,7 +1403,7 @@ extension Codedeploy {
 
     public struct DeploymentGroupInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The deployment group name.
         public var deploymentGroupName: String? = nil
         /// A service role ARN.
@@ -1484,7 +1484,7 @@ extension Codedeploy {
 
     public struct ListApplicationsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An identifier returned from the previous list applications call. It can be used to return the next set of applications in the list.
         public var nextToken: String? = nil
 
@@ -1501,7 +1501,7 @@ extension Codedeploy {
 
     public struct StopDeploymentInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique ID of a deployment.
         public var deploymentId: String = ""
         /// Indicates, when a deployment is stopped, whether instances that have been updated should be rolled back to the previous version of the application revision.
@@ -1523,7 +1523,7 @@ extension Codedeploy {
 
     public struct InstanceInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the IAM session associated with the on-premises instance.
         public var iamSessionArn: String? = nil
         /// The name of the on-premises instance.
@@ -1566,7 +1566,7 @@ extension Codedeploy {
 
     public struct ListApplicationsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list applications call to return the next set of applications, will also be returned. in the list.
         public var nextToken: String? = nil
         /// A list of application names.
@@ -1589,7 +1589,7 @@ extension Codedeploy {
 
     public struct Diagnostics: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the script.
         public var scriptName: String? = nil
         /// The message associated with the error.
@@ -1618,7 +1618,7 @@ extension Codedeploy {
 
     public struct GenericRevisionInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A comment about the revision.
         public var description: String? = nil
         /// When the revision was first used by AWS CodeDeploy.
@@ -1653,7 +1653,7 @@ extension Codedeploy {
 
     public struct BatchGetApplicationsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of application names separated by spaces.
         public var applicationNames: [String]? = nil
 
@@ -1672,7 +1672,7 @@ extension Codedeploy {
 
     public struct GetApplicationRevisionInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the application revision to get, including type and location.
         public var revision: RevisionLocation = RevisionLocation()
         /// The name of the application that corresponds to the revision.
@@ -1695,7 +1695,7 @@ extension Codedeploy {
 
     public struct ApplicationInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// True if the user has authenticated with GitHub for the specified application; otherwise, false.
         public var linkedToGitHub: Bool? = nil
         /// The time at which the application was created.
@@ -1724,7 +1724,7 @@ extension Codedeploy {
 
     public struct GetDeploymentGroupOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the deployment group.
         public var deploymentGroupInfo: DeploymentGroupInfo? = nil
 
@@ -1741,7 +1741,7 @@ extension Codedeploy {
 
     public struct BlueInstanceTerminationOption: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The action to take on instances in the original environment after a successful blue/green deployment.   TERMINATE: Instances are terminated after a specified wait time.   KEEP_ALIVE: Instances are left running after they are deregistered from the load balancer and removed from the deployment group.  
         public var action: String? = nil
         /// The number of minutes to wait after a successful blue/green deployment before terminating instances from the original environment.
@@ -1762,7 +1762,7 @@ extension Codedeploy {
 
     public struct TriggerConfig: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The event type or types for which notifications are triggered.
         public var triggerEvents: [String]? = nil
         /// The name of the notification trigger.
@@ -1789,7 +1789,7 @@ extension Codedeploy {
 
     public struct GetDeploymentGroupInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of an existing deployment group for the specified application.
         public var deploymentGroupName: String = ""
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
@@ -1812,7 +1812,7 @@ extension Codedeploy {
 
     public struct AlarmConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of alarms configured for the deployment group. A maximum of 10 alarms can be added to a deployment group.
         public var alarms: [Alarm]? = nil
         /// Indicates whether the alarm configuration is enabled.
@@ -1839,7 +1839,7 @@ extension Codedeploy {
 
     public struct BatchGetDeploymentGroupsInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The deployment groups' names.
         public var deploymentGroupNames: [String] = []
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
@@ -1862,7 +1862,7 @@ extension Codedeploy {
 
     public struct CreateDeploymentInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type and location of the revision to deploy.
         public var revision: RevisionLocation? = nil
         /// The name of a deployment configuration associated with the applicable IAM user or AWS account. If not specified, the value configured in the deployment group will be used as the default. If the deployment group does not have a deployment configuration associated with it, then CodeDeployDefault.OneAtATime will be used by default.
@@ -1912,7 +1912,7 @@ extension Codedeploy {
 
     public struct S3Location: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The file type of the application revision. Must be one of the following:   tar: A tar archive file.   tgz: A compressed tar archive file.   zip: A zip archive file.  
         public var bundleType: String? = nil
         /// A specific version of the Amazon S3 object that represents the bundled artifacts for the application revision. If the version is not specified, the system will use the most recent version by default.
@@ -1945,7 +1945,7 @@ extension Codedeploy {
 
     public struct GetApplicationOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the application.
         public var application: ApplicationInfo? = nil
 
@@ -1962,7 +1962,7 @@ extension Codedeploy {
 
     public struct ELBInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the load balancer that will be used to route traffic from original instances to replacement instances in a blue/green deployment.
         public var name: String? = nil
 
@@ -1979,7 +1979,7 @@ extension Codedeploy {
 
     public struct GetDeploymentConfigInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of a deployment configuration associated with the applicable IAM user or AWS account.
         public var deploymentConfigName: String = ""
 
@@ -1997,7 +1997,7 @@ extension Codedeploy {
 
     public struct ListDeploymentsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of deployment IDs.
         public var deployments: [String]? = nil
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployments call to return the next set of deployments in the list.
@@ -2020,7 +2020,7 @@ extension Codedeploy {
 
     public struct DeleteDeploymentGroupInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of an existing deployment group for the specified application.
         public var deploymentGroupName: String = ""
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
@@ -2043,7 +2043,7 @@ extension Codedeploy {
 
     public struct ListDeploymentInstancesOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If a large amount of information is returned, an identifier is also returned. It can be used in a subsequent list deployment instances call to return the next set of deployment instances in the list.
         public var nextToken: String? = nil
         /// A list of instance IDs.
@@ -2066,7 +2066,7 @@ extension Codedeploy {
 
     public struct DeregisterOnPremisesInstanceInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the on-premises instance to deregister.
         public var instanceName: String = ""
 
@@ -2084,7 +2084,7 @@ extension Codedeploy {
 
     public struct BatchGetApplicationRevisionsOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Additional information about the revisions, including the type and location.
         public var revisions: [RevisionInfo]? = nil
         /// Information about errors that may have occurred during the API call.
@@ -2111,7 +2111,7 @@ extension Codedeploy {
 
     public struct GetApplicationInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of an AWS CodeDeploy application associated with the applicable IAM user or AWS account.
         public var applicationName: String = ""
 
@@ -2129,7 +2129,7 @@ extension Codedeploy {
 
     public struct GetOnPremisesInstanceInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the on-premises instance about which to get information.
         public var instanceName: String = ""
 
@@ -2147,7 +2147,7 @@ extension Codedeploy {
 
     public struct GetApplicationRevisionOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Additional information about the revision, including type and location.
         public var revision: RevisionLocation? = nil
         /// General information about the revision.
@@ -2172,7 +2172,7 @@ extension Codedeploy {
 
     public struct GreenFleetProvisioningOption: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The method used to add instances to a replacement environment.   DISCOVER_EXISTING: Use instances that already exist or will be created manually.   COPY_AUTO_SCALING_GROUP: Use settings from a specified Auto Scaling group to define and create instances in a new Auto Scaling group.  
         public var action: String? = nil
 
@@ -2189,7 +2189,7 @@ extension Codedeploy {
 
     public struct DeploymentOverview: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of instances in which the deployment is in progress.
         public var inProgress: Int64? = nil
         /// The number of instances in the deployment in a pending state.
@@ -2226,7 +2226,7 @@ extension Codedeploy {
 
     public struct UpdateApplicationInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The new name to give the application.
         public var newApplicationName: String? = nil
         /// The current name of the application you want to change.
@@ -2247,7 +2247,7 @@ extension Codedeploy {
 
     public struct UpdateDeploymentGroupInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A replacement ARN for the service role, if you want to change it.
         public var serviceRoleArn: String? = nil
         /// The new name of the deployment group, if you want to change it.
@@ -2326,7 +2326,7 @@ extension Codedeploy {
 
     public struct CreateDeploymentGroupOutput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique deployment group ID.
         public var deploymentGroupId: String? = nil
 
@@ -2343,7 +2343,7 @@ extension Codedeploy {
 
     public struct InstanceSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The instance ID.
         public var instanceId: String? = nil
         /// The deployment status for this instance:   Pending: The deployment is pending for this instance.   In Progress: The deployment is in progress for this instance.   Succeeded: The deployment has succeeded for this instance.   Failed: The deployment has failed for this instance.   Skipped: The deployment has been skipped for this instance.   Unknown: The deployment status is unknown for this instance.  
@@ -2382,7 +2382,7 @@ extension Codedeploy {
 
     public struct RegisterOnPremisesInstanceInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the IAM session to associate with the on-premises instance.
         public var iamSessionArn: String? = nil
         /// The ARN of the IAM user to associate with the on-premises instance.
@@ -2408,7 +2408,7 @@ extension Codedeploy {
 
     public struct DeploymentConfigInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The deployment configuration name.
         public var deploymentConfigName: String? = nil
         /// Information about the number or percentage of minimum healthy instance.
@@ -2437,7 +2437,7 @@ extension Codedeploy {
 
     public struct LifecycleEvent: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Diagnostic information about the deployment lifecycle event.
         public var diagnostics: Diagnostics? = nil
         /// The deployment lifecycle event status:   Pending: The deployment lifecycle event is pending.   InProgress: The deployment lifecycle event is in progress.   Succeeded: The deployment lifecycle event ran successfully.   Failed: The deployment lifecycle event has failed.   Skipped: The deployment lifecycle event has been skipped.   Unknown: The deployment lifecycle event is unknown.  
@@ -2470,7 +2470,7 @@ extension Codedeploy {
 
     public struct TargetInstances: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The tag filter key, type, and value used to identify Amazon EC2 instances in a replacement environment for a blue/green deployment.
         public var tagFilters: [EC2TagFilter]? = nil
         /// The names of one or more Auto Scaling groups to identify a replacement environment for a blue/green deployment.
@@ -2495,7 +2495,7 @@ extension Codedeploy {
 
     public struct GetDeploymentInstanceInput: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique ID of an instance in the deployment group.
         public var instanceId: String = ""
         /// The unique ID of a deployment.
@@ -2518,7 +2518,7 @@ extension Codedeploy {
 
     public struct MinimumHealthyHosts: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The minimum healthy instance type:   HOST_COUNT: The minimum number of healthy instance as an absolute value.   FLEET_PERCENT: The minimum number of healthy instance as a percentage of the total number of instance in the deployment.   In an example of nine instance, if a HOST_COUNT of six is specified, deploy to up to three instances at a time. The deployment will be successful if six or more instances are deployed to successfully; otherwise, the deployment fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instance at a time. The deployment will be successful if four or more instance are deployed to successfully; otherwise, the deployment fails.  In a call to the get deployment configuration operation, CodeDeployDefault.OneAtATime will return a minimum healthy instance type of MOST_CONCURRENCY and a value of 1. This means a deployment to only one instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to HOST_COUNT or FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime, AWS CodeDeploy will try to ensure that all instances but one are kept in a healthy state during the deployment. Although this allows one instance at a time to be taken offline for a new deployment, it also means that if the deployment to the last instance fails, the overall deployment still succeeds. 
         public var type: String? = nil
         /// The minimum healthy instance value.

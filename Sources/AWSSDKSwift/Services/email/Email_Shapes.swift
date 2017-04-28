@@ -31,7 +31,7 @@ extension Email {
 
     public struct VerifyEmailAddressRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The email address to be verified.
         public var emailAddress: String = ""
 
@@ -49,7 +49,7 @@ extension Email {
 
     public struct ListReceiptFiltersResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of IP address filter data structures, which each consist of a name, an IP address range, and whether to allow or block mail from it.
         public var filters: [ReceiptFilter]? = nil
 
@@ -68,7 +68,7 @@ extension Email {
 
     public struct DescribeReceiptRuleResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A data structure that contains the specified receipt rule's name, actions, recipients, domains, enabled status, scan status, and Transport Layer Security (TLS) policy.
         public var rule: ReceiptRule? = nil
 
@@ -85,7 +85,7 @@ extension Email {
 
     public struct CloneReceiptRuleSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the rule set to create. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
         public var ruleSetName: String = ""
         /// The name of the rule set to clone.
@@ -108,7 +108,7 @@ extension Email {
 
     public struct GetIdentityNotificationAttributesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A map of Identity to IdentityNotificationAttributes.
         public var notificationAttributes: [String: IdentityNotificationAttributes] = [:]
 
@@ -131,7 +131,7 @@ extension Email {
 
     public struct DeleteConfigurationSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -141,7 +141,7 @@ extension Email {
 
     public struct VerifyDomainIdentityRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The domain to be verified.
         public var domain: String = ""
 
@@ -159,7 +159,7 @@ extension Email {
 
     public struct SetIdentityNotificationTopicRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of notifications that will be published to the specified Amazon SNS topic.
         public var notificationType: String = ""
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic. If the parameter is omitted from the request or a null value is passed, SnsTopic is cleared and publishing is disabled.
@@ -186,7 +186,7 @@ extension Email {
 
     public struct CreateConfigurationSetEventDestinationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -196,7 +196,7 @@ extension Email {
 
     public struct SetReceiptRulePositionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -206,7 +206,7 @@ extension Email {
 
     public struct EventDestination: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An object that contains the names, default values, and sources of the dimensions associated with an Amazon CloudWatch event destination.
         public var cloudWatchDestination: CloudWatchDestination? = nil
         /// The type of email sending events to publish to the event destination.
@@ -241,7 +241,7 @@ extension Email {
 
     public struct IdentityNotificationAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES will publish complaint notifications.
         public var complaintTopic: String = ""
         /// Describes whether Amazon SES will forward bounce and complaint notifications as email. true indicates that Amazon SES will forward bounce and complaint notifications as email, while false indicates that bounce and complaint notifications will be published only to the specified bounce and complaint Amazon SNS topics.
@@ -286,7 +286,7 @@ extension Email {
 
     public struct SendBounceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Message-related DSN fields. If not specified, Amazon SES will choose the values.
         public var messageDsn: MessageDsn? = nil
         /// A list of recipients of the bounced message, including the information required to create the Delivery Status Notifications (DSNs) for the recipients. You must specify at least one BouncedRecipientInfo in the list.
@@ -326,7 +326,7 @@ extension Email {
 
     public struct MessageDsn: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// When the message was received by the reporting mail transfer agent (MTA), in RFC 822 date-time format.
         public var arrivalDate: Date? = nil
         /// Additional X-headers to include in the DSN.
@@ -354,7 +354,7 @@ extension Email {
 
     public struct ExtensionField: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the header to add. Must be less than 2048 characters, and must not contain newline characters ("\r" or "\n").
         public var value: String = ""
         /// The name of the header to add. Must be between 1 and 50 characters, inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes only.
@@ -377,7 +377,7 @@ extension Email {
 
     public struct ConfigurationSet: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the configuration set. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 64 characters.  
         public var name: String = ""
 
@@ -395,7 +395,7 @@ extension Email {
 
     public struct ListIdentitiesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of the identities to list. Possible values are "EmailAddress" and "Domain". If this parameter is omitted, then all identities will be listed.
         public var identityType: String? = nil
         /// The token to use for pagination.
@@ -420,7 +420,7 @@ extension Email {
 
     public struct SetIdentityHeadersInNotificationsEnabledResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -430,7 +430,7 @@ extension Email {
 
     public struct KinesisFirehoseDestination: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the IAM role under which Amazon SES publishes email sending events to the Amazon Kinesis Firehose stream.
         public var iAMRoleARN: String = ""
         /// The ARN of the Amazon Kinesis Firehose stream to which to publish email sending events.
@@ -453,7 +453,7 @@ extension Email {
 
     public struct DescribeReceiptRuleSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the receipt rule set to describe.
         public var ruleSetName: String = ""
 
@@ -471,7 +471,7 @@ extension Email {
 
     public struct DescribeConfigurationSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of event destinations associated with the configuration set. 
         public var eventDestinations: [EventDestination]? = nil
         /// The configuration set object associated with the specified configuration set.
@@ -494,7 +494,7 @@ extension Email {
 
     public struct SetActiveReceiptRuleSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the receipt rule set to make active. Setting this value to null disables all email receiving.
         public var ruleSetName: String? = nil
 
@@ -511,7 +511,7 @@ extension Email {
 
     public struct IdentityVerificationAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The verification status of the identity: "Pending", "Success", "Failed", or "TemporaryFailure".
         public var verificationStatus: String = ""
         /// The verification token for a domain identity. Null for email address identities.
@@ -533,7 +533,7 @@ extension Email {
 
     public struct CloneReceiptRuleSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -543,7 +543,7 @@ extension Email {
 
     public struct UpdateConfigurationSetEventDestinationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -553,7 +553,7 @@ extension Email {
 
     public struct GetIdentityVerificationAttributesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of identities.
         public var identities: [String] = []
 
@@ -571,7 +571,7 @@ extension Email {
 
     public struct RawMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The raw data of the message. The client must ensure that the message format complies with Internet email standards regarding email header fields, MIME types, MIME encoding, and base64 encoding. The To:, CC:, and BCC: headers in the raw message can contain a group list. If you are using SendRawEmail with sending authorization, you can include X-headers in the raw message to specify the "Source," "From," and "Return-Path" addresses. For more information, see the documentation for SendRawEmail.   Do not include these X-headers in the DKIM signature, because they are removed by Amazon SES before sending the email.  For more information, go to the Amazon SES Developer Guide. 
         public var data: Data = Data()
 
@@ -589,7 +589,7 @@ extension Email {
 
     public struct DeleteReceiptRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the receipt rule to delete.
         public var ruleName: String = ""
         /// The name of the receipt rule set that contains the receipt rule to delete.
@@ -612,7 +612,7 @@ extension Email {
 
     public struct DeleteReceiptFilterRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the IP address filter to delete.
         public var filterName: String = ""
 
@@ -630,7 +630,7 @@ extension Email {
 
     public struct ListIdentityPoliciesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identity that is associated with the policy for which the policies will be listed. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
         public var identity: String = ""
 
@@ -648,7 +648,7 @@ extension Email {
 
     public struct Destination: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The CC: field(s) of the message.
         public var ccAddresses: [String]? = nil
         /// The BCC: field(s) of the message.
@@ -679,7 +679,7 @@ extension Email {
 
     public struct ListConfigurationSetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A token returned from a previous call to ListConfigurationSets to indicate the position of the configuration set in the configuration set list.
         public var nextToken: String? = nil
         /// The number of configuration sets to return.
@@ -700,7 +700,7 @@ extension Email {
 
     public struct DescribeReceiptRuleSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The metadata for the receipt rule set, which consists of the rule set name and the timestamp of when the rule set was created.
         public var metadata: ReceiptRuleSetMetadata? = nil
         /// A list of the receipt rules that belong to the specified receipt rule set.
@@ -723,7 +723,7 @@ extension Email {
 
     public struct ListReceiptFiltersRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -733,7 +733,7 @@ extension Email {
 
     public struct Content: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The character set of the content.
         public var charset: String? = nil
         /// The textual data of the content.
@@ -755,7 +755,7 @@ extension Email {
 
     public struct GetIdentityMailFromDomainAttributesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A map of identities to custom MAIL FROM attributes.
         public var mailFromDomainAttributes: [String: IdentityMailFromDomainAttributes] = [:]
 
@@ -778,7 +778,7 @@ extension Email {
 
     public struct CloudWatchDimensionConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The place where Amazon SES finds the value of a dimension to publish to Amazon CloudWatch. If you want Amazon SES to use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail/SendRawEmail API, choose messageTag. If you want Amazon SES to use your own email headers, choose emailHeader.
         public var dimensionValueSource: String = ""
         /// The name of an Amazon CloudWatch dimension associated with an email sending metric. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
@@ -806,7 +806,7 @@ extension Email {
 
     public struct ReceiptAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Saves the received message to an Amazon Simple Storage Service (Amazon S3) bucket and, optionally, publishes a notification to Amazon SNS.
         public var s3Action: S3Action? = nil
         /// Calls Amazon WorkMail and, optionally, publishes a notification to Amazon SNS.
@@ -847,7 +847,7 @@ extension Email {
 
     public struct CreateReceiptRuleSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the rule set to create. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
         public var ruleSetName: String = ""
 
@@ -865,7 +865,7 @@ extension Email {
 
     public struct DeleteReceiptRuleSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -875,7 +875,7 @@ extension Email {
 
     public struct ListIdentityPoliciesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of names of policies that apply to the specified identity.
         public var policyNames: [String] = []
 
@@ -893,7 +893,7 @@ extension Email {
 
     public struct CreateConfigurationSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -903,7 +903,7 @@ extension Email {
 
     public struct BouncedRecipientInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The email address of the recipient of the bounced email.
         public var recipient: String = ""
         /// Recipient-related DSN fields, most of which would normally be filled in automatically when provided with a BounceType. You must provide either this parameter or BounceType.
@@ -933,7 +933,7 @@ extension Email {
 
     public struct SetReceiptRulePositionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the receipt rule to reposition.
         public var ruleName: String = ""
         /// The name of the receipt rule set that contains the receipt rule to reposition.
@@ -960,7 +960,7 @@ extension Email {
 
     public struct SNSAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The encoding to use for the email within the Amazon SNS notification. UTF-8 is easier to use, but may not preserve all special characters when a message was encoded with a different encoding format. Base64 preserves all special characters. The default value is UTF-8.
         public var encoding: String? = nil
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
@@ -982,7 +982,7 @@ extension Email {
 
     public struct CreateReceiptFilterResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -992,7 +992,7 @@ extension Email {
 
     public struct DeleteConfigurationSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the configuration set to delete.
         public var configurationSetName: String = ""
 
@@ -1010,7 +1010,7 @@ extension Email {
 
     public struct DeleteIdentityPolicyResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1020,7 +1020,7 @@ extension Email {
 
     public struct DescribeReceiptRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the receipt rule.
         public var ruleName: String = ""
         /// The name of the receipt rule set to which the receipt rule belongs.
@@ -1043,7 +1043,7 @@ extension Email {
 
     public struct DeleteVerifiedEmailAddressRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An email address to be removed from the list of verified addresses.
         public var emailAddress: String = ""
 
@@ -1061,7 +1061,7 @@ extension Email {
 
     public struct SetIdentityMailFromDomainResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1071,7 +1071,7 @@ extension Email {
 
     public struct CreateReceiptRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of an existing rule after which the new rule will be placed. If this parameter is null, the new rule will be inserted at the beginning of the rule list.
         public var after: String? = nil
         /// The name of the rule set to which to add the rule.
@@ -1098,7 +1098,7 @@ extension Email {
 
     public struct DeleteConfigurationSetEventDestinationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1108,7 +1108,7 @@ extension Email {
 
     public struct SendEmailResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique message identifier returned from the SendEmail action. 
         public var messageId: String = ""
 
@@ -1126,7 +1126,7 @@ extension Email {
 
     public struct LambdaAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the AWS Lambda function. An example of an AWS Lambda function ARN is arn:aws:lambda:us-west-2:account-id:function:MyFunction. For more information about AWS Lambda, see the AWS Lambda Developer Guide.
         public var functionArn: String = ""
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the Lambda action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
@@ -1152,7 +1152,7 @@ extension Email {
 
     public struct GetSendQuotaResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of emails that Amazon SES can accept from the user's account per second.  The rate at which Amazon SES accepts the user's messages might be less than the maximum send rate. 
         public var maxSendRate: Double? = nil
         /// The maximum number of emails the user is allowed to send in a 24-hour interval. A value of -1 signifies an unlimited quota.
@@ -1177,7 +1177,7 @@ extension Email {
 
     public struct BounceAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the bounce action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public var topicArn: String? = nil
         /// The SMTP reply code, as defined by RFC 5321.
@@ -1213,7 +1213,7 @@ extension Email {
 
     public struct GetSendStatisticsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of data points, each of which represents 15 minutes of activity.
         public var sendDataPoints: [SendDataPoint]? = nil
 
@@ -1232,7 +1232,7 @@ extension Email {
 
     public struct DeleteReceiptRuleResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1242,7 +1242,7 @@ extension Email {
 
     public struct SetIdentityDkimEnabledRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Sets whether DKIM signing is enabled for an identity. Set to true to enable DKIM signing for this identity; false to disable it. 
         public var dkimEnabled: Bool = false
         /// The identity for which DKIM signing should be enabled or disabled.
@@ -1265,7 +1265,7 @@ extension Email {
 
     public struct DescribeActiveReceiptRuleSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The metadata for the currently active receipt rule set. The metadata consists of the rule set name and a timestamp of when the rule set was created.
         public var metadata: ReceiptRuleSetMetadata? = nil
         /// The receipt rules that belong to the active rule set.
@@ -1288,7 +1288,7 @@ extension Email {
 
     public struct GetIdentityMailFromDomainAttributesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of one or more identities.
         public var identities: [String] = []
 
@@ -1306,7 +1306,7 @@ extension Email {
 
     public struct PutIdentityPolicyResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1316,7 +1316,7 @@ extension Email {
 
     public struct CreateConfigurationSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A data structure that contains the name of the configuration set.
         public var configurationSet: ConfigurationSet = ConfigurationSet()
 
@@ -1334,7 +1334,7 @@ extension Email {
 
     public struct SetActiveReceiptRuleSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1344,7 +1344,7 @@ extension Email {
 
     public struct PutIdentityPolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The text of the policy in JSON format. The policy cannot exceed 4 KB. For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide. 
         public var policy: String = ""
         /// The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
@@ -1372,7 +1372,7 @@ extension Email {
 
     public struct Message: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The message body.
         public var body: Body = Body()
         /// The subject of the message: A short summary of the content, which will appear in the recipient's inbox.
@@ -1395,7 +1395,7 @@ extension Email {
 
     public struct DeleteReceiptFilterResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1405,7 +1405,7 @@ extension Email {
 
     public struct GetIdentityVerificationAttributesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A map of Identities to IdentityVerificationAttributes objects.
         public var verificationAttributes: [String: IdentityVerificationAttributes] = [:]
 
@@ -1428,7 +1428,7 @@ extension Email {
 
     public struct SetIdentityFeedbackForwardingEnabledResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1438,7 +1438,7 @@ extension Email {
 
     public struct DescribeConfigurationSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the configuration set to describe.
         public var configurationSetName: String = ""
         /// A list of configuration set attributes to return.
@@ -1462,7 +1462,7 @@ extension Email {
 
     public struct CreateReceiptRuleResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1472,7 +1472,7 @@ extension Email {
 
     public struct VerifyDomainIdentityResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A TXT record that must be placed in the DNS settings for the domain, in order to complete domain verification.
         public var verificationToken: String = ""
 
@@ -1490,7 +1490,7 @@ extension Email {
 
     public struct SetIdentityNotificationTopicResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1500,7 +1500,7 @@ extension Email {
 
     public struct DeleteIdentityRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identity to be removed from the list of identities for the AWS Account.
         public var identity: String = ""
 
@@ -1518,7 +1518,7 @@ extension Email {
 
     public struct AddHeaderAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the header to add. Must be between 1 and 50 characters, inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes only.
         public var headerName: String = ""
         /// Must be less than 2048 characters, and must not contain newline characters ("\r" or "\n").
@@ -1541,7 +1541,7 @@ extension Email {
 
     public struct CreateReceiptFilterRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A data structure that describes the IP address filter to create, which consists of a name, an IP address range, and whether to allow or block mail from it.
         public var filter: ReceiptFilter = ReceiptFilter()
 
@@ -1559,7 +1559,7 @@ extension Email {
 
     public struct GetIdentityPoliciesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A map of policy names to policies.
         public var policies: [String: String] = [:]
 
@@ -1577,7 +1577,7 @@ extension Email {
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the configuration set that you want to update.
         public var configurationSetName: String = ""
         /// The event destination object that you want to apply to the specified configuration set.
@@ -1600,7 +1600,7 @@ extension Email {
 
     public struct GetIdentityDkimAttributesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of one or more verified identities - email addresses, domains, or both.
         public var identities: [String] = []
 
@@ -1618,7 +1618,7 @@ extension Email {
 
     public struct IdentityDkimAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Describes whether Amazon SES has successfully verified the DKIM DNS records (tokens) published in the domain name's DNS. (This only applies to domain identities, not email address identities.)
         public var dkimVerificationStatus: String = ""
         /// A set of character strings that represent the domain's identity. Using these tokens, you will need to create DNS CNAME records that point to DKIM public keys hosted by Amazon SES. Amazon Web Services will eventually detect that you have updated your DNS records; this detection process may take up to 72 hours. Upon successful detection, Amazon SES will be able to DKIM-sign email originating from that domain. (This only applies to domain identities, not email address identities.) For more information about creating DNS records using DKIM tokens, go to the Amazon SES Developer Guide.
@@ -1647,7 +1647,7 @@ extension Email {
 
     public struct IdentityMailFromDomainAttributes: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The action that Amazon SES takes if it cannot successfully read the required MX record when you send an email. A value of UseDefaultValue indicates that if Amazon SES cannot read the required MX record, it uses amazonses.com (or a subdomain of that) as the MAIL FROM domain. A value of RejectMessage indicates that if Amazon SES cannot read the required MX record, Amazon SES returns a MailFromDomainNotVerified error and does not send the email. The custom MAIL FROM setup states that result in this behavior are Pending, Failed, and TemporaryFailure.
         public var behaviorOnMXFailure: String = ""
         /// The state that indicates whether Amazon SES has successfully read the MX record required for custom MAIL FROM domain setup. If the state is Success, Amazon SES uses the specified custom MAIL FROM domain when the verified identity sends an email. All other states indicate that Amazon SES takes the action described by BehaviorOnMXFailure.
@@ -1675,7 +1675,7 @@ extension Email {
 
     public struct SetIdentityDkimEnabledResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1685,7 +1685,7 @@ extension Email {
 
     public struct S3Action: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the Amazon SNS topic to notify when the message is saved to the Amazon S3 bucket. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public var topicArn: String? = nil
         /// The name of the Amazon S3 bucket to which to save the received email.
@@ -1715,7 +1715,7 @@ extension Email {
 
     public struct ReceiptFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the IP address filter. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
         public var name: String = ""
         /// A structure that provides the IP addresses to block or allow, and whether to block or allow incoming mail from them.
@@ -1738,7 +1738,7 @@ extension Email {
 
     public struct UpdateReceiptRuleRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A data structure that contains the updated receipt rule information.
         public var rule: ReceiptRule = ReceiptRule()
         /// The name of the receipt rule set to which the receipt rule belongs.
@@ -1761,7 +1761,7 @@ extension Email {
 
     public struct CreateConfigurationSetEventDestinationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the configuration set to which to apply the event destination.
         public var configurationSetName: String = ""
         /// An object that describes the AWS service to which Amazon SES will publish the email sending events associated with the specified configuration set.
@@ -1784,7 +1784,7 @@ extension Email {
 
     public struct Body: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The content of the message, in HTML format. Use this for email clients that can process HTML. You can include clickable links, formatted text, and much more in an HTML message.
         public var html: Content? = nil
         /// The content of the message, in text format. Use this for text-based email clients, or clients on high-latency networks (such as mobile devices).
@@ -1805,7 +1805,7 @@ extension Email {
 
     public struct VerifyEmailIdentityRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The email address to be verified.
         public var emailAddress: String = ""
 
@@ -1823,7 +1823,7 @@ extension Email {
 
     public struct ListIdentitiesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of identities.
         public var identities: [String] = []
         /// The token used for pagination.
@@ -1845,7 +1845,7 @@ extension Email {
 
     public struct ListReceiptRuleSetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A token returned from a previous call to ListReceiptRuleSets to indicate the position in the receipt rule set list.
         public var nextToken: String? = nil
 
@@ -1862,7 +1862,7 @@ extension Email {
 
     public struct MessageTag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the tag. The value must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
         public var value: String = ""
         /// The name of the tag. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 256 characters.  
@@ -1885,7 +1885,7 @@ extension Email {
 
     public struct SendBounceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The message ID of the bounce message.
         public var messageId: String? = nil
 
@@ -1902,7 +1902,7 @@ extension Email {
 
     public struct CloudWatchDestination: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of dimensions upon which to categorize your emails when you publish email sending events to Amazon CloudWatch.
         public var dimensionConfigurations: [CloudWatchDimensionConfiguration] = []
 
@@ -1920,7 +1920,7 @@ extension Email {
 
     public struct ReceiptRuleSetMetadata: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the receipt rule set. The name must:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).   Start and end with a letter or number.   Contain less than 64 characters.  
         public var name: String? = nil
         /// The date and time the receipt rule set was created.
@@ -1941,7 +1941,7 @@ extension Email {
 
     public struct DeleteReceiptRuleSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the receipt rule set to delete.
         public var ruleSetName: String = ""
 
@@ -1959,7 +1959,7 @@ extension Email {
 
     public struct ReorderReceiptRuleSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1969,7 +1969,7 @@ extension Email {
 
     public struct ListReceiptRuleSetsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A token indicating that there are additional receipt rule sets available to be listed. Pass this token to successive calls of ListReceiptRuleSets to retrieve up to 100 receipt rule sets at a time.
         public var nextToken: String? = nil
         /// The metadata for the currently active receipt rule set. The metadata consists of the rule set name and the timestamp of when the rule set was created.
@@ -1992,7 +1992,7 @@ extension Email {
 
     public struct SetIdentityHeadersInNotificationsEnabledRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Sets whether Amazon SES includes the original email headers in Amazon SNS notifications of the specified notification type. A value of true specifies that Amazon SES will include headers in notifications, and a value of false specifies that Amazon SES will not include headers in notifications. This value can only be set when NotificationType is already set to use a particular Amazon SNS topic.
         public var enabled: Bool = false
         /// The notification type for which to enable or disable headers in notifications. 
@@ -2020,7 +2020,7 @@ extension Email {
 
     public struct SetIdentityFeedbackForwardingEnabledRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Sets whether Amazon SES will forward bounce and complaint notifications as email. true specifies that Amazon SES will forward bounce and complaint notifications as email, in addition to any Amazon SNS topic publishing otherwise specified. false specifies that Amazon SES will publish bounce and complaint notifications only through Amazon SNS. This value can only be set to false when Amazon SNS topics are set for both Bounce and Complaint notification types.
         public var forwardingEnabled: Bool = false
         /// The identity for which to set bounce and complaint notification forwarding. Examples: user@example.com, example.com.
@@ -2043,7 +2043,7 @@ extension Email {
 
     public struct GetIdentityDkimAttributesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The DKIM attributes for an email address or a domain.
         public var dkimAttributes: [String: IdentityDkimAttributes] = [:]
 
@@ -2066,7 +2066,7 @@ extension Email {
 
     public struct GetIdentityNotificationAttributesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of one or more identities. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com.
         public var identities: [String] = []
 
@@ -2084,7 +2084,7 @@ extension Email {
 
     public struct WorkmailAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the WorkMail action is called. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public var topicArn: String? = nil
         /// The ARN of the Amazon WorkMail organization. An example of an Amazon WorkMail organization ARN is arn:aws:workmail:us-west-2:123456789012:organization/m-68755160c4cb4e29a2b2f8fb58f359d7. For information about Amazon WorkMail organizations, see the Amazon WorkMail Administrator Guide.
@@ -2106,7 +2106,7 @@ extension Email {
 
     public struct StopAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the stop action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic. For more information about Amazon SNS topics, see the Amazon SNS Developer Guide.
         public var topicArn: String? = nil
         /// The scope to which the Stop action applies. That is, what is being stopped.
@@ -2128,7 +2128,7 @@ extension Email {
 
     public struct VerifyDomainDkimRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the domain to be verified for Easy DKIM signing.
         public var domain: String = ""
 
@@ -2146,7 +2146,7 @@ extension Email {
 
     public struct SendRawEmailRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the configuration set to use when you send an email using SendRawEmail.
         public var configurationSetName: String? = nil
         /// The raw text of the message. The client is responsible for ensuring the following:   Message must contain a header and a body, separated by a blank line.   All required header fields must be present.   Each part of a multipart MIME message must be formatted properly.   MIME content types must be among those supported by Amazon SES. For more information, go to the Amazon SES Developer Guide.   Must be base64-encoded.  
@@ -2196,7 +2196,7 @@ extension Email {
 
     public struct VerifyEmailIdentityResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2206,7 +2206,7 @@ extension Email {
 
     public struct DeleteIdentityPolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the policy to be deleted.
         public var policyName: String = ""
         /// The identity that is associated with the policy that you want to delete. You can specify the identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
@@ -2229,7 +2229,7 @@ extension Email {
 
     public struct SendRawEmailResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique message identifier returned from the SendRawEmail action. 
         public var messageId: String = ""
 
@@ -2247,7 +2247,7 @@ extension Email {
 
     public struct SetIdentityMailFromDomainRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The action that you want Amazon SES to take if it cannot successfully read the required MX record when you send an email. If you choose UseDefaultValue, Amazon SES will use amazonses.com (or a subdomain of that) as the MAIL FROM domain. If you choose RejectMessage, Amazon SES will return a MailFromDomainNotVerified error and not send the email. The action specified in BehaviorOnMXFailure is taken when the custom MAIL FROM domain setup is in the Pending, Failed, and TemporaryFailure states.
         public var behaviorOnMXFailure: String? = nil
         /// The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must 1) be a subdomain of the verified identity, 2) not be used in a "From" address if the MAIL FROM domain is the destination of email feedback forwarding (for more information, see the Amazon SES Developer Guide), and 3) not be used to receive emails. A value of null disables the custom MAIL FROM setting for the identity.
@@ -2273,7 +2273,7 @@ extension Email {
 
     public struct DeleteConfigurationSetEventDestinationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the configuration set from which to delete the event destination.
         public var configurationSetName: String = ""
         /// The name of the event destination to delete.
@@ -2296,7 +2296,7 @@ extension Email {
 
     public struct DescribeActiveReceiptRuleSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2306,7 +2306,7 @@ extension Email {
 
     public struct UpdateReceiptRuleResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2316,7 +2316,7 @@ extension Email {
 
     public struct SendEmailRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the configuration set to use when you send an email using SendEmail.
         public var configurationSetName: String? = nil
         /// The destination for this email, composed of To:, CC:, and BCC: fields.
@@ -2372,7 +2372,7 @@ extension Email {
 
     public struct ListVerifiedEmailAddressesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of email addresses that have been verified.
         public var verifiedEmailAddresses: [String]? = nil
 
@@ -2391,7 +2391,7 @@ extension Email {
 
     public struct ReceiptRule: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specifies whether Amazon SES should require that incoming email is delivered over a connection encrypted with Transport Layer Security (TLS). If this parameter is set to Require, Amazon SES will bounce emails that are not received over TLS. The default is Optional.
         public var tlsPolicy: String? = nil
         /// If true, then messages to which this receipt rule applies are scanned for spam and viruses. The default value is false.
@@ -2433,7 +2433,7 @@ extension Email {
 
     public struct ReorderReceiptRuleSetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the receipt rule set to reorder.
         public var ruleSetName: String = ""
         /// A list of the specified receipt rule set's receipt rules in the order that you want to put them.
@@ -2456,7 +2456,7 @@ extension Email {
 
     public struct GetIdentityPoliciesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of the names of policies to be retrieved. You can retrieve a maximum of 20 policies at a time. If you do not know the names of the policies that are attached to the identity, you can use ListIdentityPolicies.
         public var policyNames: [String] = []
         /// The identity for which the policies will be retrieved. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you must own the identity.
@@ -2479,7 +2479,7 @@ extension Email {
 
     public struct RecipientDsnFields: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status code that indicates what went wrong. This is required by RFC 3464.
         public var status: String = ""
         /// Additional X-headers to include in the DSN.
@@ -2524,7 +2524,7 @@ extension Email {
 
     public struct ReceiptIpFilter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether to block or allow incoming mail from the specified IP addresses.
         public var policy: String = ""
         /// A single IP address or a range of IP addresses that you want to block or allow, specified in Classless Inter-Domain Routing (CIDR) notation. An example of a single email address is 10.0.0.1. An example of a range of IP addresses is 10.0.0.1/24. For more information about CIDR notation, see RFC 2317.
@@ -2547,7 +2547,7 @@ extension Email {
 
     public struct CreateReceiptRuleSetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -2557,7 +2557,7 @@ extension Email {
 
     public struct SendDataPoint: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Number of emails that have been sent.
         public var deliveryAttempts: Int64? = nil
         /// Time of the data point.
@@ -2590,7 +2590,7 @@ extension Email {
 
     public struct ListConfigurationSetsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of configuration sets.
         public var configurationSets: [ConfigurationSet]? = nil
         /// A token indicating that there are additional configuration sets available to be listed. Pass this token to successive calls of ListConfigurationSets. 
@@ -2613,7 +2613,7 @@ extension Email {
 
     public struct VerifyDomainDkimResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A set of character strings that represent the domain's identity. If the identity is an email address, the tokens represent the domain of that address. Using these tokens, you will need to create DNS CNAME records that point to DKIM public keys hosted by Amazon SES. Amazon Web Services will eventually detect that you have updated your DNS records; this detection process may take up to 72 hours. Upon successful detection, Amazon SES will be able to DKIM-sign emails originating from that domain. For more information about creating DNS records using DKIM tokens, go to the Amazon SES Developer Guide.
         public var dkimTokens: [String] = []
 
@@ -2631,7 +2631,7 @@ extension Email {
 
     public struct DeleteIdentityResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 

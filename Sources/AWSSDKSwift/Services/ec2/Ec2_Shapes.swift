@@ -31,7 +31,7 @@ extension Ec2 {
 
     public struct DescribeVpcClassicLinkResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ClassicLink status of one or more VPCs.
         public var vpcs: [VpcClassicLink]? = nil
 
@@ -50,7 +50,7 @@ extension Ec2 {
 
     public struct GetConsoleScreenshotRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// When set to true, acts as keystroke input and wakes up an instance that's in standby or "sleep" mode.
         public var wakeUp: Bool? = nil
         /// The ID of the instance.
@@ -76,7 +76,7 @@ extension Ec2 {
 
     public struct DescribeIamInstanceProfileAssociationsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more IAM instance profile associations.
         public var associationIds: [String]? = nil
         /// One or more filters.    instance-id - The ID of the instance.    state - The state of the association (associating | associated | disassociating | disassociated).  
@@ -109,7 +109,7 @@ extension Ec2 {
 
     public struct DescribeInstanceAttributeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the instance.
@@ -136,7 +136,7 @@ extension Ec2 {
 
     public struct BlobAttributeValue: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var value: Data? = nil
 
         public init() {}
@@ -152,7 +152,7 @@ extension Ec2 {
 
     public struct ModifyVolumeAttributeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// Indicates whether the volume should be auto-enabled for I/O operations.
@@ -178,7 +178,7 @@ extension Ec2 {
 
     public struct InternetGatewayAttachment: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String? = nil
         /// The current state of the attachment.
@@ -199,7 +199,7 @@ extension Ec2 {
 
     public struct DescribeScheduledInstanceAvailabilityResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public var nextToken: String? = nil
         /// Information about the available Scheduled Instances.
@@ -222,7 +222,7 @@ extension Ec2 {
 
     public struct DescribeAddressesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more Elastic IP addresses.
         public var addresses: [Address]? = nil
 
@@ -241,7 +241,7 @@ extension Ec2 {
 
     public struct DescribeNatGatewaysResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the NAT gateways.
         public var natGateways: [NatGateway]? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -264,7 +264,7 @@ extension Ec2 {
 
     public struct CreateEgressOnlyInternetGatewayRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC for which to create the egress-only Internet gateway.
         public var vpcId: String = ""
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -290,7 +290,7 @@ extension Ec2 {
 
     public struct ModifyVpcAttributeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String = ""
         /// Indicates whether the DNS resolution is supported for the VPC. If enabled, queries to the Amazon provided DNS server at the 169.254.169.253 IP address, or the reserved IP address at the base of the VPC network range "plus two" will succeed. If disabled, the Amazon provided DNS service in the VPC that resolves public DNS hostnames to IP addresses is not enabled. You cannot modify the DNS resolution and DNS hostnames attributes in the same request. Use separate requests for each attribute.
@@ -316,7 +316,7 @@ extension Ec2 {
 
     public struct CreateVpcPeeringConnectionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The AWS account ID of the owner of the peer VPC. Default: Your AWS account ID
         public var peerOwnerId: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -345,7 +345,7 @@ extension Ec2 {
 
     public struct Host: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see How to Ensure Idempotency in the Amazon Elastic Compute Cloud User Guide. 
         public var clientToken: String? = nil
         /// Whether auto-placement is on or off.
@@ -396,7 +396,7 @@ extension Ec2 {
 
     public struct TargetReservationValue: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The configuration of the Convertible Reserved Instances that make up the exchange.
         public var targetConfiguration: TargetConfiguration? = nil
         /// The total value of the Convertible Reserved Instances that make up the exchange. This is the sum of the list value, remaining upfront price, and additional upfront cost of the exchange.
@@ -417,7 +417,7 @@ extension Ec2 {
 
     public struct ImportKeyPairResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The key pair name you provided.
         public var keyName: String? = nil
         /// The MD5 public key fingerprint as specified in section 4 of RFC 4716.
@@ -438,7 +438,7 @@ extension Ec2 {
 
     public struct DescribeSnapshotsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The NextToken value to include in a future DescribeSnapshots request. When the results of a DescribeSnapshots request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public var nextToken: String? = nil
         /// Information about the snapshots.
@@ -461,7 +461,7 @@ extension Ec2 {
 
     public struct DescribeInstanceStatusRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more filters.    availability-zone - The Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is an opaque internal value and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).  
         public var filters: [Filter]? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -502,7 +502,7 @@ extension Ec2 {
 
     public struct VolumeStatusItem: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The details of the operation.
         public var actions: [VolumeStatusAction]? = nil
         /// The volume status.
@@ -539,7 +539,7 @@ extension Ec2 {
 
     public struct CreateRouteTableResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the route table.
         public var routeTable: RouteTable? = nil
 
@@ -556,7 +556,7 @@ extension Ec2 {
 
     public struct EnableVpcClassicLinkRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -578,7 +578,7 @@ extension Ec2 {
 
     public struct InstanceNetworkInterface: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the subnet.
         public var subnetId: String? = nil
         /// The ID of the network interface.
@@ -657,7 +657,7 @@ extension Ec2 {
 
     public struct CreateNetworkInterfaceResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the network interface.
         public var networkInterface: NetworkInterface? = nil
 
@@ -674,7 +674,7 @@ extension Ec2 {
 
     public struct ResetInstanceAttributeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the instance.
@@ -701,7 +701,7 @@ extension Ec2 {
 
     public struct Monitoring: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public var state: String? = nil
 
@@ -718,7 +718,7 @@ extension Ec2 {
 
     public struct RequestSpotLaunchSpecification: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more block device mapping entries. Although you can specify encrypted EBS volumes in this block device mapping for your Spot Instances, these volumes are not encrypted.
         public var blockDeviceMappings: [BlockDeviceMapping]? = nil
         /// The ID of the subnet in which to launch the instance.
@@ -800,7 +800,7 @@ extension Ec2 {
 
     public struct AssociateVpcCidrBlockRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String = ""
         /// Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IPv6 addresses, or the size of the CIDR block.
@@ -822,7 +822,7 @@ extension Ec2 {
 
     public struct ImageDiskContainer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The S3 bucket for the disk image.
         public var userBucket: UserBucket? = nil
         /// The format of the disk image being imported. Valid values: RAW | VHD | VMDK | OVA 
@@ -859,7 +859,7 @@ extension Ec2 {
 
     public struct PurchaseReservedInstancesOfferingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Reserved Instance offering to purchase.
         public var reservedInstancesOfferingId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -890,7 +890,7 @@ extension Ec2 {
 
     public struct ReservedInstances: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The recurring charge tag assigned to the resource.
         public var recurringCharges: [RecurringCharge]? = nil
         /// Any tags assigned to the resource.
@@ -979,7 +979,7 @@ extension Ec2 {
 
     public struct NetworkInterfaceIpv6Address: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IPv6 address.
         public var ipv6Address: String? = nil
 
@@ -996,7 +996,7 @@ extension Ec2 {
 
     public struct DescribeCustomerGatewaysRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more customer gateway IDs. Default: Describes all your customer gateways.
         public var customerGatewayIds: [String]? = nil
         /// One or more filters.    bgp-asn - The customer gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN).    customer-gateway-id - The ID of the customer gateway.    ip-address - The IP address of the customer gateway's Internet-routable external interface.    state - The state of the customer gateway (pending | available | deleting | deleted).    type - The type of customer gateway. Currently, the only supported type is ipsec.1.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.  
@@ -1025,7 +1025,7 @@ extension Ec2 {
 
     public struct NetworkInterface: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the subnet.
         public var subnetId: String? = nil
         /// The ID of the network interface.
@@ -1126,7 +1126,7 @@ extension Ec2 {
 
     public struct Subnet: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether instances launched in this subnet receive a public IPv4 address.
         public var mapPublicIpOnLaunch: Bool? = nil
         /// The ID of the subnet.
@@ -1187,7 +1187,7 @@ extension Ec2 {
 
     public struct CancelSpotInstanceRequestsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more Spot instance requests.
         public var cancelledSpotInstanceRequests: [CancelledSpotInstanceRequest]? = nil
 
@@ -1206,7 +1206,7 @@ extension Ec2 {
 
     public struct EnableVolumeIORequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the volume.
         public var volumeId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -1228,7 +1228,7 @@ extension Ec2 {
 
     public struct AssociateSubnetCidrBlockResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the subnet.
         public var subnetId: String? = nil
         /// Information about the IPv6 CIDR block association.
@@ -1249,7 +1249,7 @@ extension Ec2 {
 
     public struct EventInformation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The event. The following are the error events.    iamFleetRoleInvalid - The Spot fleet did not have the required permissions either to launch or terminate an instance.    launchSpecTemporarilyBlacklisted - The configuration is not valid and several attempts to launch instances have failed. For more information, see the description of the event.    spotFleetRequestConfigurationInvalid - The configuration is not valid. For more information, see the description of the event.    spotInstanceCountLimitExceeded - You've reached the limit on the number of Spot instances that you can launch.   The following are the fleetRequestChange events.    active - The Spot fleet has been validated and Amazon EC2 is attempting to maintain the target number of running Spot instances.    cancelled - The Spot fleet is canceled and has no running Spot instances. The Spot fleet will be deleted two days after its instances were terminated.    cancelled_running - The Spot fleet is canceled and will not launch additional Spot instances, but its existing Spot instances continue to run until they are interrupted or terminated.    cancelled_terminating - The Spot fleet is canceled and its Spot instances are terminating.    expired - The Spot fleet request has expired. A subsequent event indicates that the instances were terminated, if the request was created with TerminateInstancesWithExpiration set.    modify_in_progress - A request to modify the Spot fleet request was accepted and is in progress.    modify_successful - The Spot fleet request was modified.    price_update - The bid price for a launch configuration was adjusted because it was too high. This change is permanent.    submitted - The Spot fleet request is being evaluated and Amazon EC2 is preparing to launch the target number of Spot instances.   The following are the instanceChange events.    launched - A bid was fulfilled and a new instance was launched.    terminated - An instance was terminated by the user.  
         public var eventSubType: String? = nil
         /// The ID of the instance. This information is available only for instanceChange events.
@@ -1274,7 +1274,7 @@ extension Ec2 {
 
     public struct DescribeSubnetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more subnet IDs. Default: Describes all your subnets.
         public var subnetIds: [String]? = nil
         /// One or more filters.    availabilityZone - The Availability Zone for the subnet. You can also use availability-zone as the filter name.    available-ip-address-count - The number of IPv4 addresses in the subnet that are available.    cidrBlock - The IPv4 CIDR block of the subnet. The CIDR block you specify must exactly match the subnet's CIDR block for information to be returned for the subnet. You can also use cidr or cidr-block as the filter names.    defaultForAz - Indicates whether this is the default subnet for the Availability Zone. You can also use default-for-az as the filter name.    ipv6-cidr-block-association.ipv6-cidr-block - An IPv6 CIDR block associated with the subnet.    ipv6-cidr-block-association.association-id - An association ID for an IPv6 CIDR block associated with the subnet.    ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the subnet.    state - The state of the subnet (pending | available).    subnet-id - The ID of the subnet.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-id - The ID of the VPC for the subnet.  
@@ -1303,7 +1303,7 @@ extension Ec2 {
 
     public struct DescribeTagsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return..
         public var nextToken: String? = nil
         /// A list of tags.
@@ -1326,7 +1326,7 @@ extension Ec2 {
 
     public struct AcceptReservedInstancesExchangeQuoteResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the successful exchange.
         public var exchangeId: String? = nil
 
@@ -1343,7 +1343,7 @@ extension Ec2 {
 
     public struct DescribeNatGatewaysRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more filters.    nat-gateway-id - The ID of the NAT gateway.    state - The state of the NAT gateway (pending | failed | available | deleting | deleted).    subnet-id - The ID of the subnet in which the NAT gateway resides.    vpc-id - The ID of the VPC in which the NAT gateway resides.  
         public var filter: [Filter]? = nil
         /// One or more NAT gateway IDs.
@@ -1376,7 +1376,7 @@ extension Ec2 {
 
     public struct NetworkInterfacePrivateIpAddress: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The private IPv4 address.
         public var privateIpAddress: String? = nil
         /// The private DNS name.
@@ -1405,7 +1405,7 @@ extension Ec2 {
 
     public struct DescribeNetworkAclsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more network ACLs.
         public var networkAcls: [NetworkAcl]? = nil
 
@@ -1424,7 +1424,7 @@ extension Ec2 {
 
     public struct ReservedInstancesListing: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the Reserved Instance listing.
         public var status: String? = nil
         /// The price of the Reserved Instance listing.
@@ -1483,7 +1483,7 @@ extension Ec2 {
 
     public struct DeleteNetworkAclRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the network ACL.
@@ -1505,7 +1505,7 @@ extension Ec2 {
 
     public struct AllocateHostsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// This is enabled by default. This property allows instances to be automatically placed onto available Dedicated Hosts, when you are launching instances without specifying a host ID. Default: Enabled
         public var autoPlacement: String? = nil
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see How to Ensure Idempotency in the Amazon Elastic Compute Cloud User Guide. 
@@ -1541,7 +1541,7 @@ extension Ec2 {
 
     public struct DescribeVpcEndpointServicesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The token for the next set of items to return. (You received this token from a prior call.)
@@ -1566,7 +1566,7 @@ extension Ec2 {
 
     public struct UnassignIpv6AddressesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IPv6 addresses to unassign from the network interface.
         public var ipv6Addresses: [String] = []
         /// The ID of the network interface.
@@ -1589,7 +1589,7 @@ extension Ec2 {
 
     public struct BundleInstanceResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the bundle task.
         public var bundleTask: BundleTask? = nil
 
@@ -1606,7 +1606,7 @@ extension Ec2 {
 
     public struct DeletePlacementGroupRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The name of the placement group.
@@ -1628,7 +1628,7 @@ extension Ec2 {
 
     public struct PrefixListId: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the prefix.
         public var prefixListId: String? = nil
 
@@ -1645,7 +1645,7 @@ extension Ec2 {
 
     public struct PeeringConnectionOptionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If true, enables outbound communication from instances in a local VPC to an EC2-Classic instance that's linked to a peer VPC via ClassicLink.
         public var allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil
         /// If true, enables a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC.
@@ -1670,7 +1670,7 @@ extension Ec2 {
 
     public struct AccountAttributeValue: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the attribute.
         public var attributeValue: String? = nil
 
@@ -1687,7 +1687,7 @@ extension Ec2 {
 
     public struct PurchaseScheduledInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more purchase requests.
         public var purchaseRequests: [PurchaseRequest] = []
         /// Unique, case-sensitive identifier that ensures the idempotency of the request. For more information, see Ensuring Idempotency.
@@ -1713,7 +1713,7 @@ extension Ec2 {
 
     public struct DescribeHostReservationOfferingsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// This is the maximum duration of the reservation you'd like to purchase, specified in seconds. Reservations are available in one-year and three-year terms. The number of seconds specified must be the number of seconds in a year (365x24x60x60) times one of the supported durations (1 or 3). For example, specify 94608000 for three years.
         public var maxDuration: Int32? = nil
         /// This is the minimum duration of the reservation you'd like to purchase, specified in seconds. Reservations are available in one-year and three-year terms. The number of seconds specified must be the number of seconds in a year (365x24x60x60) times one of the supported durations (1 or 3). For example, specify 31536000 for one year.
@@ -1752,7 +1752,7 @@ extension Ec2 {
 
     public struct StopInstancesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more stopped instances.
         public var stoppingInstances: [InstanceStateChange]? = nil
 
@@ -1771,7 +1771,7 @@ extension Ec2 {
 
     public struct DescribeScheduledInstanceAvailabilityRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time period for the first schedule to start.
         public var firstSlotStartTimeRange: SlotDateTimeRangeRequest = SlotDateTimeRangeRequest()
         /// The minimum available duration, in hours. The minimum required duration is 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours.
@@ -1820,7 +1820,7 @@ extension Ec2 {
 
     public struct ReservedInstancesModificationResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID for the Reserved Instances that were created as part of the modification request. This field is only available when the modification is fulfilled.
         public var reservedInstancesId: String? = nil
         /// The target Reserved Instances configurations supplied as part of the modification request.
@@ -1841,7 +1841,7 @@ extension Ec2 {
 
     public struct EnableVpcClassicLinkDnsSupportResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public var `return`: Bool? = nil
 
@@ -1858,7 +1858,7 @@ extension Ec2 {
 
     public struct ImportVolumeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The disk image.
         public var image: DiskImageDetail = DiskImageDetail()
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -1894,7 +1894,7 @@ extension Ec2 {
 
     public struct DescribeAddressesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// [EC2-Classic] One or more Elastic IP addresses. Default: Describes all your Elastic IP addresses.
         public var publicIps: [String]? = nil
         /// [EC2-VPC] One or more allocation IDs. Default: Describes all your Elastic IP addresses.
@@ -1929,7 +1929,7 @@ extension Ec2 {
 
     public struct Ipv6CidrBlock: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IPv6 CIDR block.
         public var ipv6CidrBlock: String? = nil
 
@@ -1946,7 +1946,7 @@ extension Ec2 {
 
     public struct SecurityGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// [EC2-VPC] One or more outbound rules associated with the security group.
         public var ipPermissionsEgress: [IpPermission]? = nil
         /// The name of the security group.
@@ -1997,7 +1997,7 @@ extension Ec2 {
 
     public struct DescribeAccountAttributesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more account attributes.
         public var accountAttributes: [AccountAttribute]? = nil
 
@@ -2016,7 +2016,7 @@ extension Ec2 {
 
     public struct ReplaceRouteRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// [IPv4 traffic only] The ID of a NAT gateway.
         public var natGatewayId: String? = nil
         /// The ID of a network interface.
@@ -2070,7 +2070,7 @@ extension Ec2 {
 
     public struct CreateRouteRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// [IPv4 traffic only] The ID of a NAT gateway.
         public var natGatewayId: String? = nil
         /// The ID of a network interface.
@@ -2124,7 +2124,7 @@ extension Ec2 {
 
     public struct DeleteVpnConnectionRouteRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPN connection.
         public var vpnConnectionId: String = ""
         /// The CIDR block associated with the local subnet of the customer network.
@@ -2147,7 +2147,7 @@ extension Ec2 {
 
     public struct KeyPairInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the key pair.
         public var keyName: String? = nil
         /// If you used CreateKeyPair to create the key pair, this is the SHA-1 digest of the DER encoded private key. If you used ImportKeyPair to provide AWS the public key, this is the MD5 public key fingerprint as specified in section 4 of RFC4716.
@@ -2168,7 +2168,7 @@ extension Ec2 {
 
     public struct VolumeAttachment: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time stamp when the attachment initiated.
         public var attachTime: Date? = nil
         /// Indicates whether the EBS volume is deleted on instance termination.
@@ -2205,7 +2205,7 @@ extension Ec2 {
 
     public struct ImportSnapshotTask: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A description of the import snapshot task.
         public var description: String? = nil
         /// Describes an import snapshot task.
@@ -2230,7 +2230,7 @@ extension Ec2 {
 
     public struct CreateNatGatewayRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The subnet in which to create the NAT gateway.
         public var subnetId: String = ""
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency. Constraint: Maximum 64 ASCII characters.
@@ -2257,7 +2257,7 @@ extension Ec2 {
 
     public struct AttachVpnGatewayResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the attachment.
         public var vpcAttachment: VpcAttachment? = nil
 
@@ -2274,7 +2274,7 @@ extension Ec2 {
 
     public struct RequestSpotInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The required duration for the Spot instances (also known as Spot blocks), in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or 360). The duration period starts as soon as your Spot instance receives its instance ID. At the end of the duration period, Amazon EC2 marks the Spot instance for termination and provides a Spot instance termination notice, which gives the instance a two-minute warning before it terminates. Note that you can't specify an Availability Zone group or a launch group if you specify a duration.
         public var blockDurationMinutes: Int32? = nil
         /// The user-specified name for a logical grouping of bids. When you specify an Availability Zone group in a Spot Instance request, all Spot instances in the request are launched in the same Availability Zone. Instance proximity is maintained with this parameter, but the choice of Availability Zone is not. The group applies only to bids for Spot Instances of the same instance type. Any additional Spot instance requests that are specified with the same Availability Zone group name are launched in that same Availability Zone, as long as at least one instance from the group is still active. If there is no active instance running in the Availability Zone group that you specify for a new Spot instance request (all instances are terminated, the bid is expired, or the bid falls below current market), then Amazon EC2 launches the instance in any Availability Zone where the constraint can be met. Consequently, the subsequent set of Spot instances could be placed in a different zone from the original request, even if you specified the same Availability Zone group. Default: Instances are launched in any available Availability Zone.
@@ -2331,7 +2331,7 @@ extension Ec2 {
 
     public struct DescribeImagesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more filters.    architecture - The image architecture (i386 | x86_64).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name for the EBS volume (for example, /dev/sdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the EBS volume.    block-device-mapping.volume-size - The volume size of the EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the EBS volume (gp2 | io1 | st1 | sc1 | standard).    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - String value from an Amazon-maintained list (amazon | aws-marketplace | microsoft) of snapshot owners. Not to be confused with the user-configured AWS account alias, which is set from the IAM console.    owner-id - The AWS account ID of the image owner.    platform - The platform. To only list Windows-based AMIs, use windows.    product-code - The product code.    product-code.type - The type of the product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    virtualization-type - The virtualization type (paravirtual | hvm).  
         public var filters: [Filter]? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -2372,7 +2372,7 @@ extension Ec2 {
 
     public struct HostOffering: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The upfront price of the offering. Does not apply to No Upfront offerings.
         public var upfrontPrice: String? = nil
         /// The available payment option.
@@ -2413,7 +2413,7 @@ extension Ec2 {
 
     public struct InstanceNetworkInterfaceSpecification: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The index of the device on the instance for the network interface attachment. If you are specifying a network interface in a RunInstances request, you must provide the device index.
         public var deviceIndex: Int32? = nil
         /// The ID of the subnet associated with the network string. Applies only if creating a network interface when launching an instance.
@@ -2480,7 +2480,7 @@ extension Ec2 {
 
     public struct DeleteRouteTableRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the route table.
         public var routeTableId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -2502,7 +2502,7 @@ extension Ec2 {
 
     public struct NatGatewayAddress: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the network interface associated with the NAT gateway.
         public var networkInterfaceId: String? = nil
         /// The Elastic IP address associated with the NAT gateway.
@@ -2531,7 +2531,7 @@ extension Ec2 {
 
     public struct DescribeNetworkInterfaceAttributeResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description of the network interface.
         public var description: AttributeValue? = nil
         /// The ID of the network interface.
@@ -2566,7 +2566,7 @@ extension Ec2 {
 
     public struct ModifyVpcEndpointResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public var `return`: Bool? = nil
 
@@ -2583,7 +2583,7 @@ extension Ec2 {
 
     public struct ImportSnapshotRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Token to enable idempotency for VM import requests.
         public var clientToken: String? = nil
         /// The name of the role to use when not using the default role, 'vmimport'.
@@ -2620,7 +2620,7 @@ extension Ec2 {
 
     public struct CreateVpcRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The tenancy options for instances launched into the VPC. For default, instances are launched with shared tenancy by default. You can launch instances with any tenancy into a shared tenancy VPC. For dedicated, instances are launched as dedicated tenancy instances by default. You can only launch instances with a tenancy of dedicated or host into a dedicated tenancy VPC.   Important: The host value cannot be used with this parameter. Use the default or dedicated values only. Default: default 
         public var instanceTenancy: String? = nil
         /// Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IP addresses, or the size of the CIDR block.
@@ -2650,7 +2650,7 @@ extension Ec2 {
 
     public struct CreateRouteTableRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -2672,7 +2672,7 @@ extension Ec2 {
 
     public struct DescribeVpcsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more VPCs.
         public var vpcs: [Vpc]? = nil
 
@@ -2691,7 +2691,7 @@ extension Ec2 {
 
     public struct ImportInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The disk image.
         public var diskImages: [DiskImage]? = nil
         /// The instance operating system.
@@ -2727,7 +2727,7 @@ extension Ec2 {
 
     public struct CreateVpcEndpointRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
         public var clientToken: String? = nil
         /// The AWS service name, in the form com.amazonaws.region.service . To get a list of available services, use the DescribeVpcEndpointServices request.
@@ -2768,7 +2768,7 @@ extension Ec2 {
 
     public struct MovingAddressStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the Elastic IP address that's being moved to the EC2-VPC platform, or restored to the EC2-Classic platform.
         public var moveStatus: String? = nil
         /// The Elastic IP address.
@@ -2789,7 +2789,7 @@ extension Ec2 {
 
     public struct DeregisterImageRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the AMI.
@@ -2811,7 +2811,7 @@ extension Ec2 {
 
     public struct DeleteSnapshotRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the EBS snapshot.
         public var snapshotId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -2833,7 +2833,7 @@ extension Ec2 {
 
     public struct DescribeReservedInstancesOfferingsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum duration (in seconds) to filter when searching for offerings. Default: 94608000 (3 years)
         public var maxDuration: Int64? = nil
         /// The tenancy of the instances covered by the reservation. A Reserved Instance with a tenancy of dedicated is applied to instances that run in a VPC on single-tenant hardware (i.e., Dedicated Instances). Default: default 
@@ -2910,7 +2910,7 @@ extension Ec2 {
 
     public struct CancelledSpotInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Spot instance request.
         public var spotInstanceRequestId: String? = nil
         /// The state of the Spot instance request.
@@ -2931,7 +2931,7 @@ extension Ec2 {
 
     public struct ModifyImageAttributeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more product codes. After you add a product code to an AMI, it can't be removed. This is only valid when modifying the productCodes attribute.
         public var productCodes: [String]? = nil
         /// A description for the AMI.
@@ -2991,7 +2991,7 @@ extension Ec2 {
 
     public struct SubnetIpv6CidrBlockAssociation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the state of the CIDR block.
         public var ipv6CidrBlockState: SubnetCidrBlockState? = nil
         /// The IPv6 CIDR block.
@@ -3016,7 +3016,7 @@ extension Ec2 {
 
     public struct CreateDhcpOptionsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A set of DHCP options.
         public var dhcpOptions: DhcpOptions? = nil
 
@@ -3033,7 +3033,7 @@ extension Ec2 {
 
     public struct InstanceNetworkInterfaceAssociation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The public DNS name.
         public var publicDnsName: String? = nil
         /// The ID of the owner of the Elastic IP address.
@@ -3058,7 +3058,7 @@ extension Ec2 {
 
     public struct EbsInstanceBlockDevice: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time stamp when the attachment initiated.
         public var attachTime: Date? = nil
         /// Indicates whether the volume is deleted on instance termination.
@@ -3087,7 +3087,7 @@ extension Ec2 {
 
     public struct CancelImportTaskRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The reason for canceling the task.
@@ -3112,7 +3112,7 @@ extension Ec2 {
 
     public struct ReservedInstanceReservationValue: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Convertible Reserved Instance that you are exchanging.
         public var reservedInstanceId: String? = nil
         /// The total value of the Convertible Reserved Instance that you are exchanging.
@@ -3133,7 +3133,7 @@ extension Ec2 {
 
     public struct CreateFlowLogsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of the flow logs.
         public var flowLogIds: [String]? = nil
         /// Information about the flow logs that could not be created successfully.
@@ -3162,7 +3162,7 @@ extension Ec2 {
 
     public struct StopInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// One or more instance IDs.
@@ -3188,7 +3188,7 @@ extension Ec2 {
 
     public struct AvailabilityZone: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the Availability Zone.
         public var zoneName: String? = nil
         /// The state of the Availability Zone.
@@ -3219,7 +3219,7 @@ extension Ec2 {
 
     public struct VolumeStatusDetails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the volume status.
         public var name: String? = nil
         /// The intended status of the volume status.
@@ -3240,7 +3240,7 @@ extension Ec2 {
 
     public struct DisassociateIamInstanceProfileResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the IAM instance profile association.
         public var iamInstanceProfileAssociation: IamInstanceProfileAssociation? = nil
 
@@ -3257,7 +3257,7 @@ extension Ec2 {
 
     public struct DescribeReservedInstancesModificationsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to retrieve the next page of results.
         public var nextToken: String? = nil
         /// One or more filters.    client-token - The idempotency token for the modification request.    create-date - The time when the modification request was created.    effective-date - The time when the modification becomes effective.    modification-result.reserved-instances-id - The ID for the Reserved Instances created as part of the modification request. This ID is only available when the status of the modification is fulfilled.    modification-result.target-configuration.availability-zone - The Availability Zone for the new Reserved Instances.    modification-result.target-configuration.instance-count  - The number of new Reserved Instances.    modification-result.target-configuration.instance-type - The instance type of the new Reserved Instances.    modification-result.target-configuration.platform - The network platform of the new Reserved Instances (EC2-Classic | EC2-VPC).    reserved-instances-id - The ID of the Reserved Instances modified.    reserved-instances-modification-id - The ID of the modification request.    status - The status of the Reserved Instances modification request (processing | fulfilled | failed).    status-message - The reason for the status.    update-date - The time when the modification request was last updated.  
@@ -3286,7 +3286,7 @@ extension Ec2 {
 
     public struct SpotInstanceStateFault: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The reason code for the Spot instance state change.
         public var code: String? = nil
         /// The message for the Spot instance state change.
@@ -3307,7 +3307,7 @@ extension Ec2 {
 
     public struct DescribeImagesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more images.
         public var images: [Image]? = nil
 
@@ -3326,7 +3326,7 @@ extension Ec2 {
 
     public struct ScheduledInstancesPlacement: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Availability Zone.
         public var availabilityZone: String? = nil
         /// The name of the placement group.
@@ -3347,7 +3347,7 @@ extension Ec2 {
 
     public struct CancelSpotFleetRequestsSuccessItem: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The current state of the Spot fleet request.
         public var currentSpotFleetRequestState: String = ""
         /// The previous state of the Spot fleet request.
@@ -3375,7 +3375,7 @@ extension Ec2 {
 
     public struct AuthorizeSecurityGroupIngressRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// [EC2-Classic] The AWS account number for the source security group, if the source security group is in a different account. You can't specify this parameter in combination with the following parameters: the CIDR IP address range, the IP protocol, the start of the port range, and the end of the port range. Creates rules that grant full ICMP, UDP, and TCP access. To create a rule with a specific IP protocol and port range, use a set of IP permissions instead.
         public var sourceSecurityGroupOwnerId: String? = nil
         /// [EC2-Classic, default VPC] The name of the security group.
@@ -3430,7 +3430,7 @@ extension Ec2 {
 
     public struct PortRange: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The first port in the range.
         public var from: Int32? = nil
         /// The last port in the range.
@@ -3451,7 +3451,7 @@ extension Ec2 {
 
     public struct InstanceState: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The current state of the instance.
         public var name: String? = nil
         /// The low byte represents the state. The high byte is an opaque internal value and should be ignored.    0 : pending     16 : running     32 : shutting-down     48 : terminated     64 : stopping     80 : stopped   
@@ -3472,7 +3472,7 @@ extension Ec2 {
 
     public struct InstancePrivateIpAddress: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The private IPv4 address of the network interface.
         public var privateIpAddress: String? = nil
         /// The private IPv4 DNS name.
@@ -3501,7 +3501,7 @@ extension Ec2 {
 
     public struct HostProperties: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of sockets on the Dedicated Host.
         public var sockets: Int32? = nil
         /// The instance type size that the Dedicated Host supports (for example, m3.medium).
@@ -3530,7 +3530,7 @@ extension Ec2 {
 
     public struct UnassignPrivateIpAddressesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the network interface.
         public var networkInterfaceId: String = ""
         /// The secondary private IP addresses to unassign from the network interface. You can specify this option multiple times to unassign more than one IP address.
@@ -3553,7 +3553,7 @@ extension Ec2 {
 
     public struct SecurityGroupReference: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC with the referencing security group.
         public var referencingVpcId: String = ""
         /// The ID of your security group.
@@ -3580,7 +3580,7 @@ extension Ec2 {
 
     public struct PriceSchedule: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The current price schedule, as determined by the term remaining for the Reserved Instance in the listing. A specific price schedule is always in effect, but only one price schedule can be active at any time. Take, for example, a Reserved Instance listing that has five months remaining in its term. When you specify price schedules for five months and two months, this means that schedule 1, covering the first three months of the remaining term, will be active during months 5, 4, and 3. Then schedule 2, covering the last two months of the term, will be active for months 2 and 1.
         public var active: Bool? = nil
         /// The currency for transacting the Reserved Instance resale. At this time, the only supported currency is USD.
@@ -3609,7 +3609,7 @@ extension Ec2 {
 
     public struct DescribePrefixListsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more prefix list IDs.
         public var prefixListIds: [String]? = nil
         /// One or more filters.    prefix-list-id: The ID of a prefix list.    prefix-list-name: The name of a prefix list.  
@@ -3646,7 +3646,7 @@ extension Ec2 {
 
     public struct DiskImage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the disk image.
         public var image: DiskImageDetail? = nil
         /// Information about the volume.
@@ -3671,7 +3671,7 @@ extension Ec2 {
 
     public struct DescribeRouteTablesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more route table IDs. Default: Describes all your route tables.
         public var routeTableIds: [String]? = nil
         /// One or more filters.    association.route-table-association-id - The ID of an association ID for the route table.    association.route-table-id - The ID of the route table involved in the association.    association.subnet-id - The ID of the subnet involved in the association.    association.main - Indicates whether the route table is the main route table for the VPC (true | false).    route-table-id - The ID of the route table.    route.destination-cidr-block - The IPv4 CIDR range specified in a route in the table.    route.destination-ipv6-cidr-block - The IPv6 CIDR range specified in a route in the route table.    route.destination-prefix-list-id - The ID (prefix) of the AWS service specified in a route in the table.    route.egress-only-internet-gateway-id - The ID of an egress-only Internet gateway specified in a route in the route table.    route.gateway-id - The ID of a gateway specified in a route in the table.    route.instance-id - The ID of an instance specified in a route in the table.    route.nat-gateway-id - The ID of a NAT gateway.    route.origin - Describes how the route was created. CreateRouteTable indicates that the route was automatically created when the route table was created; CreateRoute indicates that the route was manually added to the route table; EnableVgwRoutePropagation indicates that the route was propagated by route propagation.    route.state - The state of a route in the route table (active | blackhole). The blackhole state indicates that the route's target isn't available (for example, the specified gateway isn't attached to the VPC, the specified NAT instance has been terminated, and so on).    route.vpc-peering-connection-id - The ID of a VPC peering connection specified in a route in the table.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-id - The ID of the VPC for the route table.  
@@ -3700,7 +3700,7 @@ extension Ec2 {
 
     public struct DescribeInternetGatewaysResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more Internet gateways.
         public var internetGateways: [InternetGateway]? = nil
 
@@ -3719,7 +3719,7 @@ extension Ec2 {
 
     public struct InstanceNetworkInterfaceAttachment: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time stamp when the attachment initiated.
         public var attachTime: Date? = nil
         /// Indicates whether the network interface is deleted when the instance is terminated.
@@ -3752,7 +3752,7 @@ extension Ec2 {
 
     public struct DisassociateVpcCidrBlockRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The association ID for the CIDR block.
         public var associationId: String = ""
 
@@ -3770,7 +3770,7 @@ extension Ec2 {
 
     public struct DescribeVpcPeeringConnectionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// One or more filters.    accepter-vpc-info.cidr-block - The IPv4 CIDR block of the peer VPC.    accepter-vpc-info.owner-id - The AWS account ID of the owner of the peer VPC.    accepter-vpc-info.vpc-id - The ID of the peer VPC.    expiration-time - The expiration date and time for the VPC peering connection.    requester-vpc-info.cidr-block - The IPv4 CIDR block of the requester's VPC.    requester-vpc-info.owner-id - The AWS account ID of the owner of the requester VPC.    requester-vpc-info.vpc-id - The ID of the requester VPC.    status-code - The status of the VPC peering connection (pending-acceptance | failed | expired | provisioning | active | deleted | rejected).    status-message - A message that provides more information about the status of the VPC peering connection, if applicable.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-peering-connection-id - The ID of the VPC peering connection.  
@@ -3799,7 +3799,7 @@ extension Ec2 {
 
     public struct DetachClassicLinkVpcRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC to which the instance is linked.
         public var vpcId: String = ""
         /// The ID of the instance to unlink from the VPC.
@@ -3826,7 +3826,7 @@ extension Ec2 {
 
     public struct ReservationValue: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The hourly rate of the reservation.
         public var hourlyPrice: String? = nil
         /// The balance of the total value (the sum of remainingUpfrontValue + hourlyPrice * number of hours remaining).
@@ -3851,7 +3851,7 @@ extension Ec2 {
 
     public struct DetachClassicLinkVpcResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public var `return`: Bool? = nil
 
@@ -3868,7 +3868,7 @@ extension Ec2 {
 
     public struct S3Storage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that Amazon EC2 creates on your behalf. If you specify a bucket that belongs to someone else, Amazon EC2 returns an error.
         public var bucket: String? = nil
         /// The access key ID of the owner of the bucket. Before you specify a value for your access key ID, review and follow the guidance in Best Practices for Managing AWS Access Keys.
@@ -3901,7 +3901,7 @@ extension Ec2 {
 
     public struct DescribeInstancesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public var nextToken: String? = nil
         /// Zero or more reservations.
@@ -3924,7 +3924,7 @@ extension Ec2 {
 
     public struct DescribeReservedInstancesListingsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more Reserved Instance IDs.
         public var reservedInstancesId: String? = nil
         /// One or more Reserved Instance listing IDs.
@@ -3951,7 +3951,7 @@ extension Ec2 {
 
     public struct CancelBundleTaskRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the bundle task.
         public var bundleId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -3973,7 +3973,7 @@ extension Ec2 {
 
     public struct DeleteCustomerGatewayRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the customer gateway.
         public var customerGatewayId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -3995,7 +3995,7 @@ extension Ec2 {
 
     public struct DescribeHostsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the Dedicated Hosts.
         public var hosts: [Host]? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -4018,7 +4018,7 @@ extension Ec2 {
 
     public struct PurchaseHostReservationResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Describes the details of the purchase.
         public var purchase: [Purchase]? = nil
         /// The total amount that will be charged to your account when you purchase the reservation.
@@ -4053,7 +4053,7 @@ extension Ec2 {
 
     public struct DeleteEgressOnlyInternetGatewayResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public var returnCode: Bool? = nil
 
@@ -4070,7 +4070,7 @@ extension Ec2 {
 
     public struct DeleteVolumeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the volume.
         public var volumeId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -4092,7 +4092,7 @@ extension Ec2 {
 
     public struct TargetConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Convertible Reserved Instance offering.
         public var offeringId: String? = nil
         /// The number of instances the Convertible Reserved Instance offering can be applied to. This parameter is reserved and cannot be specified in a request
@@ -4113,7 +4113,7 @@ extension Ec2 {
 
     public struct CreateCustomerGatewayResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the customer gateway.
         public var customerGateway: CustomerGateway? = nil
 
@@ -4130,7 +4130,7 @@ extension Ec2 {
 
     public struct DescribeBundleTasksResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more bundle tasks.
         public var bundleTasks: [BundleTask]? = nil
 
@@ -4149,7 +4149,7 @@ extension Ec2 {
 
     public struct GetReservedInstancesExchangeQuoteResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The new end date of the reservation term.
         public var outputReservedInstancesWillExpireAt: Date? = nil
         /// The cost associated with the Reserved Instance.
@@ -4202,7 +4202,7 @@ extension Ec2 {
 
     public struct InstanceExportDetails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the resource being exported.
         public var instanceId: String? = nil
         /// The target virtualization environment.
@@ -4223,7 +4223,7 @@ extension Ec2 {
 
     public struct NetworkAcl: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether this is the default network ACL for the VPC.
         public var isDefault: Bool? = nil
         /// One or more entries (rules) in the network ACL.
@@ -4266,7 +4266,7 @@ extension Ec2 {
 
     public struct RevokeSecurityGroupIngressRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// [EC2-Classic] The AWS account ID of the source security group, if the source security group is in a different account. You can't specify this parameter in combination with the following parameters: the CIDR IP address range, the IP protocol, the start of the port range, and the end of the port range. To revoke a specific rule for an IP protocol and port range, use a set of IP permissions instead.
         public var sourceSecurityGroupOwnerId: String? = nil
         /// [EC2-Classic, default VPC] The name of the security group.
@@ -4321,7 +4321,7 @@ extension Ec2 {
 
     public struct DescribeKeyPairsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more key pairs.
         public var keyPairs: [KeyPairInfo]? = nil
 
@@ -4340,7 +4340,7 @@ extension Ec2 {
 
     public struct ScheduledInstancesPrivateIpAddressConfig: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether this is a primary IPv4 address. Otherwise, this is a secondary IPv4 address.
         public var primary: Bool? = nil
         /// The IPv4 address.
@@ -4361,7 +4361,7 @@ extension Ec2 {
 
     public struct CancelReservedInstancesListingResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Reserved Instance listing.
         public var reservedInstancesListings: [ReservedInstancesListing]? = nil
 
@@ -4380,7 +4380,7 @@ extension Ec2 {
 
     public struct AcceptReservedInstancesExchangeQuoteRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of the Convertible Reserved Instances to exchange for other Convertible Reserved Instances of the same or higher value.
         public var reservedInstanceIds: [String] = []
         /// The configurations of the Convertible Reserved Instance offerings that you are purchasing in this exchange.
@@ -4408,7 +4408,7 @@ extension Ec2 {
 
     public struct BundleInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the instance to bundle. Type: String Default: None Required: Yes
         public var instanceId: String = ""
         /// The bucket in which to store the AMI. You can specify a bucket that you already own or a new bucket that Amazon EC2 creates on your behalf. If you specify a bucket that belongs to someone else, Amazon EC2 returns an error.
@@ -4435,7 +4435,7 @@ extension Ec2 {
 
     public struct DescribeVolumesModificationsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Token for pagination, null if there are no more results 
         public var nextToken: String? = nil
         /// A list of returned VolumeModification objects.
@@ -4458,7 +4458,7 @@ extension Ec2 {
 
     public struct DescribeVpcClassicLinkRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// One or more filters.    is-classic-link-enabled - Whether the VPC is enabled for ClassicLink (true | false).    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.  
@@ -4487,7 +4487,7 @@ extension Ec2 {
 
     public struct DescribeVolumeAttributeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the volume.
@@ -4513,7 +4513,7 @@ extension Ec2 {
 
     public struct GetPasswordDataRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Windows instance.
         public var instanceId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -4535,7 +4535,7 @@ extension Ec2 {
 
     public struct ReportInstanceStatusRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time at which the reported instance health state began.
         public var startTime: Date? = nil
         /// The status of all instances listed.
@@ -4579,7 +4579,7 @@ extension Ec2 {
 
     public struct AllocateHostsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the allocated Dedicated Host. This is used when you want to launch an instance onto a specific host.
         public var hostIds: [String]? = nil
 
@@ -4598,7 +4598,7 @@ extension Ec2 {
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 255 Unicode characters.
         public var value: String? = nil
         /// The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 127 Unicode characters. May not begin with aws: 
@@ -4619,7 +4619,7 @@ extension Ec2 {
 
     public struct DescribeRegionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The names of one or more regions.
         public var regionNames: [String]? = nil
         /// One or more filters.    endpoint - The endpoint of the region (for example, ec2.us-east-1.amazonaws.com).    region-name - The name of the region (for example, us-east-1).  
@@ -4648,7 +4648,7 @@ extension Ec2 {
 
     public struct TagDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The tag key.
         public var key: String? = nil
         /// The ID of the resource. For example, ami-1a2b3c4d.
@@ -4677,7 +4677,7 @@ extension Ec2 {
 
     public struct ProvisionedBandwidth: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Reserved. If you need to sustain traffic greater than the documented limits, contact us through the Support Center.
         public var provisioned: String? = nil
         /// Reserved. If you need to sustain traffic greater than the documented limits, contact us through the Support Center.
@@ -4710,7 +4710,7 @@ extension Ec2 {
 
     public struct DescribeSnapshotAttributeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the EBS snapshot.
         public var snapshotId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -4737,7 +4737,7 @@ extension Ec2 {
 
     public struct DescribeSpotDatafeedSubscriptionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
 
@@ -4754,7 +4754,7 @@ extension Ec2 {
 
     public struct DescribeSnapshotAttributeResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of permissions for creating volumes from the snapshot.
         public var createVolumePermissions: [CreateVolumePermission]? = nil
         /// A list of product codes.
@@ -4783,7 +4783,7 @@ extension Ec2 {
 
     public struct RecurringCharge: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The frequency of the recurring charge.
         public var frequency: String? = nil
         /// The amount of the recurring charge.
@@ -4804,7 +4804,7 @@ extension Ec2 {
 
     public struct DeleteVpcPeeringConnectionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the VPC peering connection.
@@ -4826,7 +4826,7 @@ extension Ec2 {
 
     public struct DescribeAvailabilityZonesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The names of one or more Availability Zones.
@@ -4855,7 +4855,7 @@ extension Ec2 {
 
     public struct AssociateRouteTableResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The route table association ID (needed to disassociate the route table).
         public var associationId: String? = nil
 
@@ -4872,7 +4872,7 @@ extension Ec2 {
 
     public struct IcmpTypeCode: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ICMP type. A value of -1 means all types.
         public var type: Int32? = nil
         /// The ICMP code. A value of -1 means all codes for the specified ICMP type.
@@ -4893,7 +4893,7 @@ extension Ec2 {
 
     public struct DeleteFlowLogsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more flow log IDs.
         public var flowLogIds: [String] = []
 
@@ -4911,7 +4911,7 @@ extension Ec2 {
 
     public struct DescribeVpnConnectionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more VPN connection IDs. Default: Describes your VPN connections.
         public var vpnConnectionIds: [String]? = nil
         /// One or more filters.    customer-gateway-configuration - The configuration information for the customer gateway.    customer-gateway-id - The ID of a customer gateway associated with the VPN connection.    state - The state of the VPN connection (pending | available | deleting | deleted).    option.static-routes-only - Indicates whether the connection has static routes only. Used for devices that do not support Border Gateway Protocol (BGP).    route.destination-cidr-block - The destination CIDR block. This corresponds to the subnet used in a customer data center.    bgp-asn - The BGP Autonomous System Number (ASN) associated with a BGP device.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    type - The type of VPN connection. Currently the only supported type is ipsec.1.    vpn-connection-id - The ID of the VPN connection.    vpn-gateway-id - The ID of a virtual private gateway associated with the VPN connection.  
@@ -4940,7 +4940,7 @@ extension Ec2 {
 
     public struct ReservedInstanceLimitPrice: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The currency in which the limitPrice amount is specified. At this time, the only supported currency is USD.
         public var currencyCode: String? = nil
         /// Used for Reserved Instance Marketplace offerings. Specifies the limit price on the total order (instanceCount * price).
@@ -4961,7 +4961,7 @@ extension Ec2 {
 
     public struct NewDhcpConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var key: String? = nil
         public var values: [String]? = nil
 
@@ -4982,7 +4982,7 @@ extension Ec2 {
 
     public struct NetworkAclEntry: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IPv4 network range to allow or deny, in CIDR notation.
         public var cidrBlock: String? = nil
         /// ICMP protocol: The ICMP type and code.
@@ -5027,7 +5027,7 @@ extension Ec2 {
 
     public struct Vpc: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether the VPC is the default VPC.
         public var isDefault: Bool? = nil
         /// The ID of the VPC.
@@ -5076,7 +5076,7 @@ extension Ec2 {
 
     public struct AvailabilityZoneMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The message about the Availability Zone.
         public var message: String? = nil
 
@@ -5093,7 +5093,7 @@ extension Ec2 {
 
     public struct DescribeStaleSecurityGroupsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the VPC.
@@ -5123,7 +5123,7 @@ extension Ec2 {
 
     public struct RestoreAddressToClassicRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The Elastic IP address.
@@ -5145,7 +5145,7 @@ extension Ec2 {
 
     public struct RouteTable: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The routes in the route table.
         public var routes: [Route]? = nil
         /// Any virtual private gateway (VGW) propagating routes.
@@ -5190,7 +5190,7 @@ extension Ec2 {
 
     public struct VolumeStatusEvent: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The earliest start time of the event.
         public var notBefore: Date? = nil
         /// The type of this event.
@@ -5223,7 +5223,7 @@ extension Ec2 {
 
     public struct ModifyVpcEndpointRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more route tables IDs to associate with the endpoint.
         public var addRouteTableIds: [String]? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -5265,7 +5265,7 @@ extension Ec2 {
 
     public struct VpcClassicLink: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String? = nil
         /// Any tags assigned to the VPC.
@@ -5292,7 +5292,7 @@ extension Ec2 {
 
     public struct DisassociateIamInstanceProfileRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the IAM instance profile association.
         public var associationId: String = ""
 
@@ -5310,7 +5310,7 @@ extension Ec2 {
 
     public struct DescribeHostReservationOfferingsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the offerings.
         public var offeringSet: [HostOffering]? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -5333,7 +5333,7 @@ extension Ec2 {
 
     public struct VpcCidrBlockState: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The state of the CIDR block.
         public var state: String? = nil
         /// A message about the status of the CIDR block, if applicable.
@@ -5354,7 +5354,7 @@ extension Ec2 {
 
     public struct NetworkAclAssociation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the subnet.
         public var subnetId: String? = nil
         /// The ID of the association between a network ACL and a subnet.
@@ -5379,7 +5379,7 @@ extension Ec2 {
 
     public struct DeleteNatGatewayRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the NAT gateway.
         public var natGatewayId: String = ""
 
@@ -5397,7 +5397,7 @@ extension Ec2 {
 
     public struct PurchaseScheduledInstancesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the Scheduled Instances.
         public var scheduledInstanceSet: [ScheduledInstance]? = nil
 
@@ -5416,7 +5416,7 @@ extension Ec2 {
 
     public struct DescribeVolumeStatusResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public var nextToken: String? = nil
         /// A list of volumes.
@@ -5439,7 +5439,7 @@ extension Ec2 {
 
     public struct AvailableCapacity: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The total number of instances that the Dedicated Host supports.
         public var availableInstanceCapacity: [InstanceCapacity]? = nil
         /// The number of vCPUs available on the Dedicated Host.
@@ -5462,7 +5462,7 @@ extension Ec2 {
 
     public struct SpotPrice: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date and time the request was created, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public var timestamp: Date? = nil
         /// The instance type. Note that T2 and HS1 instance types are not supported.
@@ -5495,7 +5495,7 @@ extension Ec2 {
 
     public struct ReservedInstancesConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The network platform of the modified Reserved Instances, which is either EC2-Classic or EC2-VPC.
         public var platform: String? = nil
         /// The number of modified Reserved Instances.
@@ -5528,7 +5528,7 @@ extension Ec2 {
 
     public struct CreatePlacementGroupRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The placement strategy.
@@ -5555,7 +5555,7 @@ extension Ec2 {
 
     public struct DescribeSecurityGroupReferencesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more security group IDs in your account.
         public var groupId: [String] = []
         /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -5577,7 +5577,7 @@ extension Ec2 {
 
     public struct DescribeVolumesModificationsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more volume IDs for which in-progress modifications will be described.
         public var volumeIds: [String]? = nil
         /// One or more filters. Supported filters: volume-id, modification-state, target-size, target-iops, target-volume-type, original-size, original-iops, original-volume-type, start-time. 
@@ -5614,7 +5614,7 @@ extension Ec2 {
 
     public struct ImageAttribute: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more block device mapping entries.
         public var blockDeviceMappings: [BlockDeviceMapping]? = nil
         /// One or more product codes.
@@ -5665,7 +5665,7 @@ extension Ec2 {
 
     public struct CreateInstanceExportTaskRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The target virtualization environment.
         public var targetEnvironment: String? = nil
         /// The format and location for an instance export task.
@@ -5695,7 +5695,7 @@ extension Ec2 {
 
     public struct CreateFlowLogsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of traffic to log.
         public var trafficType: String = ""
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
@@ -5737,7 +5737,7 @@ extension Ec2 {
 
     public struct ImportImageTask: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The license type of the virtual machine.
         public var licenseType: String? = nil
         /// A brief status for the import image task.
@@ -5796,7 +5796,7 @@ extension Ec2 {
 
     public struct DescribeVolumesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the volumes.
         public var volumes: [Volume]? = nil
         /// The NextToken value to include in a future DescribeVolumes request. When the results of a DescribeVolumes request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -5819,7 +5819,7 @@ extension Ec2 {
 
     public struct ModifyInstancePlacementRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The new affinity setting for the instance.
         public var affinity: String? = nil
         /// The ID of the Dedicated Host that the instance will have affinity with.
@@ -5849,7 +5849,7 @@ extension Ec2 {
 
     public struct ScheduledInstancesLaunchSpecification: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more block device mapping entries.
         public var blockDeviceMappings: [ScheduledInstancesBlockDeviceMapping]? = nil
         /// The ID of the subnet in which to launch the instances.
@@ -5925,7 +5925,7 @@ extension Ec2 {
 
     public struct DisableVpcClassicLinkRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -5947,7 +5947,7 @@ extension Ec2 {
 
     public struct MoveAddressToVpcResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the move of the IP address.
         public var status: String? = nil
         /// The allocation ID for the Elastic IP address.
@@ -5968,7 +5968,7 @@ extension Ec2 {
 
     public struct DeleteVpnConnectionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPN connection.
         public var vpnConnectionId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -5990,7 +5990,7 @@ extension Ec2 {
 
     public struct CreateVolumePermission: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The specific AWS account ID that is to be added or removed from a volume's list of create volume permissions.
         public var userId: String? = nil
         /// The specific group that is to be added or removed from a volume's list of create volume permissions.
@@ -6011,7 +6011,7 @@ extension Ec2 {
 
     public struct CustomerGateway: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the customer gateway.
         public var customerGatewayId: String? = nil
         /// The customer gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN).
@@ -6050,7 +6050,7 @@ extension Ec2 {
 
     public struct DescribeAccountAttributesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more account attribute names.
         public var attributeNames: [String]? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -6073,7 +6073,7 @@ extension Ec2 {
 
     public struct CreateVpnGatewayRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of VPN connection this virtual private gateway supports.
         public var type: String = ""
         /// The Availability Zone for the virtual private gateway.
@@ -6099,7 +6099,7 @@ extension Ec2 {
 
     public struct DeleteSpotDatafeedSubscriptionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
 
@@ -6116,7 +6116,7 @@ extension Ec2 {
 
     public struct Route: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the egress-only Internet gateway.
         public var egressOnlyInternetGatewayId: String? = nil
         /// The ID of the network interface.
@@ -6177,7 +6177,7 @@ extension Ec2 {
 
     public struct CancelSpotFleetRequestsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the Spot fleet requests that are successfully canceled.
         public var successfulFleetRequests: [CancelSpotFleetRequestsSuccessItem]? = nil
         /// Information about the Spot fleet requests that are not successfully canceled.
@@ -6202,7 +6202,7 @@ extension Ec2 {
 
     public struct DeleteSecurityGroupRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the security group. Required for a nondefault VPC.
@@ -6227,7 +6227,7 @@ extension Ec2 {
 
     public struct CreateVpcResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the VPC.
         public var vpc: Vpc? = nil
 
@@ -6244,7 +6244,7 @@ extension Ec2 {
 
     public struct DescribeInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64).    association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    availability-zone - The Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2010-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name for the EBS volume (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    client-token - The idempotency token you provided when you launched the instance.    dns-name - The public DNS name of the instance.    group-id - The ID of the security group for the instance. EC2-Classic only.    group-name - The name of the security group for the instance. EC2-Classic only.    host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen).    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance or a Scheduled Instance (spot | scheduled).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is an opaque internal value and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched.    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by AWS.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    owner-id - The AWS account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    platform - The platform. Use windows if you have Windows instances; otherwise, leave blank.    private-dns-name - The private IPv4 DNS name of the instance.    private-ip-address - The private IPv4 address of the instance.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, AWS Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you'll get one reservation ID. If you launch ten instances using the same launch request, you'll also get one reservation ID.    root-device-name - The name of the root device for the instance (for example, /dev/sda1 or /dev/xvda).    root-device-type - The type of root device that the instance uses (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    tenancy - The tenancy of an instance (dedicated | default | host).    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.  
         public var filters: [Filter]? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -6281,7 +6281,7 @@ extension Ec2 {
 
     public struct DescribeScheduledInstancesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public var nextToken: String? = nil
         /// Information about the Scheduled Instances.
@@ -6304,7 +6304,7 @@ extension Ec2 {
 
     public struct DeleteNetworkAclEntryRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the network ACL.
         public var networkAclId: String = ""
         /// The rule number of the entry to delete.
@@ -6336,7 +6336,7 @@ extension Ec2 {
 
     public struct ResetSnapshotAttributeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the snapshot.
         public var snapshotId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -6363,7 +6363,7 @@ extension Ec2 {
 
     public struct VpnGateway: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Any VPCs attached to the virtual private gateway.
         public var vpcAttachments: [VpcAttachment]? = nil
         /// The ID of the virtual private gateway.
@@ -6404,7 +6404,7 @@ extension Ec2 {
 
     public struct CancelSpotFleetRequestsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// Indicates whether to terminate instances for a Spot fleet request if it is canceled successfully.
@@ -6431,7 +6431,7 @@ extension Ec2 {
 
     public struct DescribeVolumeStatusRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more volume IDs. Default: Describes all your volumes.
         public var volumeIds: [String]? = nil
         /// One or more filters.    action.code - The action code for the event (for example, enable-volume-io).    action.description - A description of the action.    action.event-id - The event ID associated with the action.    availability-zone - The Availability Zone of the instance.    event.description - A description of the event.    event.event-id - The event ID.    event.event-type - The event type (for io-enabled: passed | failed; for io-performance: io-performance:degraded | io-performance:severely-degraded | io-performance:stalled).    event.not-after - The latest end time for the event.    event.not-before - The earliest start time for the event.    volume-status.details-name - The cause for volume-status.status (io-enabled | io-performance).    volume-status.details-status - The status of volume-status.details-name (for io-enabled: passed | failed; for io-performance: normal | degraded | severely-degraded | stalled).    volume-status.status - The status of the volume (ok | impaired | warning | insufficient-data).  
@@ -6468,7 +6468,7 @@ extension Ec2 {
 
     public struct DescribeSecurityGroupsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more security group IDs. Required for security groups in a nondefault VPC. Default: Describes all your security groups.
         public var groupIds: [String]? = nil
         /// One or more filters. If using multiple filters for rules, the results include security groups for which any combination of rules - not necessarily a single rule - match all filters.    description - The description of the security group.    egress.ip-permission.prefix-list-id - The ID (prefix) of the AWS service to which the security group allows access.    group-id - The ID of the security group.     group-name - The name of the security group.    ip-permission.cidr - An IPv4 CIDR range that has been granted permission in a security group rule.    ip-permission.from-port - The start of port range for the TCP and UDP protocols, or an ICMP type number.    ip-permission.group-id - The ID of a security group that has been granted permission.    ip-permission.group-name - The name of a security group that has been granted permission.    ip-permission.ipv6-cidr - An IPv6 CIDR range that has been granted permission in a security group rule.    ip-permission.protocol - The IP protocol for the permission (tcp | udp | icmp or a protocol number).    ip-permission.to-port - The end of port range for the TCP and UDP protocols, or an ICMP code.    ip-permission.user-id - The ID of an AWS account that has been granted permission.    owner-id - The AWS account ID of the owner of the security group.    tag-key - The key of a tag assigned to the security group.    tag-value - The value of a tag assigned to the security group.    vpc-id - The ID of the VPC specified when the security group was created.  
@@ -6503,7 +6503,7 @@ extension Ec2 {
 
     public struct Snapshot: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Encrypted Amazon EBS snapshots are copied asynchronously. If a snapshot copy operation fails (for example, if the proper AWS Key Management Service (AWS KMS) permissions are not obtained) this field displays error state details to help you diagnose why the error occurred. This parameter is only returned by the DescribeSnapshots API operation.
         public var stateMessage: String? = nil
         /// The snapshot state.
@@ -6574,7 +6574,7 @@ extension Ec2 {
 
     public struct DescribeVpcsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// One or more filters.    cidr - The IPv4 CIDR block of the VPC. The CIDR block you specify must exactly match the VPC's CIDR block for information to be returned for the VPC. Must contain the slash followed by one or two digits (for example, /28).    dhcp-options-id - The ID of a set of DHCP options.    ipv6-cidr-block-association.ipv6-cidr-block - An IPv6 CIDR block associated with the VPC.    ipv6-cidr-block-association.association-id - The association ID for an IPv6 CIDR block associated with the VPC.    ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the VPC.    isDefault - Indicates whether the VPC is the default VPC.    state - The state of the VPC (pending | available).    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-id - The ID of the VPC.  
@@ -6603,7 +6603,7 @@ extension Ec2 {
 
     public struct DescribeIdFormatResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the ID format for the resource.
         public var statuses: [IdFormat]? = nil
 
@@ -6622,7 +6622,7 @@ extension Ec2 {
 
     public struct RegisterImageRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The billing product codes.
         public var billingProducts: [String]? = nil
         /// One or more block device mapping entries.
@@ -6692,7 +6692,7 @@ extension Ec2 {
 
     public struct DescribeMovingAddressesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more Elastic IP addresses.
         public var publicIps: [String]? = nil
         /// One or more filters.    moving-status - The status of the Elastic IP address (MovingToVpc | RestoringToClassic).  
@@ -6729,7 +6729,7 @@ extension Ec2 {
 
     public struct MonitorInstancesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The monitoring information.
         public var instanceMonitorings: [InstanceMonitoring]? = nil
 
@@ -6748,7 +6748,7 @@ extension Ec2 {
 
     public struct AssignIpv6AddressesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IPv6 addresses assigned to the network interface.
         public var assignedIpv6Addresses: [String]? = nil
         /// The ID of the network interface.
@@ -6771,7 +6771,7 @@ extension Ec2 {
 
     public struct AssignPrivateIpAddressesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether to allow an IP address that is already assigned to another network interface or instance to be reassigned to the specified network interface.
         public var allowReassignment: Bool? = nil
         /// The ID of the network interface.
@@ -6803,7 +6803,7 @@ extension Ec2 {
 
     public struct RunInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If you set this parameter to true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. To change this attribute to false after launch, use ModifyInstanceAttribute. Alternatively, if you set InstanceInitiatedShutdownBehavior to terminate, you can terminate the instance by running the shutdown command from the instance. Default: false 
         public var disableApiTermination: Bool? = nil
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency. Constraints: Maximum 64 ASCII characters
@@ -6929,7 +6929,7 @@ extension Ec2 {
 
     public struct SpotInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Availability Zone in which the bid is launched.
         public var launchedAvailabilityZone: String? = nil
         /// The ID of the Spot instance request.
@@ -7016,7 +7016,7 @@ extension Ec2 {
 
     public struct RebootInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more instance IDs.
         public var instanceIds: [String] = []
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -7038,7 +7038,7 @@ extension Ec2 {
 
     public struct VpcPeeringConnectionStateReason: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the VPC peering connection.
         public var code: String? = nil
         /// A message that provides more information about the status, if applicable.
@@ -7059,7 +7059,7 @@ extension Ec2 {
 
     public struct ScheduledInstance: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The platform (Linux/UNIX or Windows).
         public var platform: String? = nil
         /// The time that the previous schedule ended or will end.
@@ -7132,7 +7132,7 @@ extension Ec2 {
 
     public struct DescribeSpotFleetInstancesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public var nextToken: String? = nil
         /// The ID of the Spot fleet request.
@@ -7159,7 +7159,7 @@ extension Ec2 {
 
     public struct ProductCode: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of product code.
         public var productCodeType: String? = nil
         /// The product code.
@@ -7180,7 +7180,7 @@ extension Ec2 {
 
     public struct InstanceStatusEvent: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The event code.
         public var code: String? = nil
         /// The earliest scheduled start time for the event.
@@ -7209,7 +7209,7 @@ extension Ec2 {
 
     public struct DescribeVolumeAttributeResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of product codes.
         public var productCodes: [ProductCode]? = nil
         /// The ID of the volume.
@@ -7236,7 +7236,7 @@ extension Ec2 {
 
     public struct DeleteNetworkInterfaceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the network interface.
         public var networkInterfaceId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -7258,7 +7258,7 @@ extension Ec2 {
 
     public struct SpotDatafeedSubscription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon S3 bucket where the Spot instance data feed is located.
         public var bucket: String? = nil
         /// The AWS account ID of the account.
@@ -7291,7 +7291,7 @@ extension Ec2 {
 
     public struct ImportImageRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the disk containers.
         public var diskContainers: [ImageDiskContainer]? = nil
         /// The operating system of the virtual machine. Valid values: Windows | Linux 
@@ -7346,7 +7346,7 @@ extension Ec2 {
 
     public struct ImportInstanceVolumeDetailItem: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the import of this particular disk image.
         public var status: String = ""
         /// The number of bytes converted so far.
@@ -7392,7 +7392,7 @@ extension Ec2 {
 
     public struct UnsuccessfulItem: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the resource.
         public var resourceId: String? = nil
         /// Information about the error.
@@ -7414,7 +7414,7 @@ extension Ec2 {
 
     public struct DescribeIamInstanceProfileAssociationsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public var nextToken: String? = nil
         /// Information about one or more IAM instance profile associations.
@@ -7437,7 +7437,7 @@ extension Ec2 {
 
     public struct ModifySpotFleetRequestResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Is true if the request succeeds, and an error otherwise.
         public var `return`: Bool? = nil
 
@@ -7454,7 +7454,7 @@ extension Ec2 {
 
     public struct Volume: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The volume type. This can be gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.
         public var volumeType: String? = nil
         /// The volume state.
@@ -7519,7 +7519,7 @@ extension Ec2 {
 
     public struct PurchaseHostReservationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The currency in which the totalUpfrontPrice, LimitPrice, and totalHourlyPrice amounts are specified. At this time, the only supported currency is USD.
         public var currencyCode: String? = nil
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see How to Ensure Idempotency in the Amazon Elastic Compute Cloud User Guide.
@@ -7554,7 +7554,7 @@ extension Ec2 {
 
     public struct SubnetCidrBlockState: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The state of a CIDR block.
         public var state: String? = nil
         /// A message about the status of the CIDR block, if applicable.
@@ -7575,7 +7575,7 @@ extension Ec2 {
 
     public struct InstanceAttribute: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The block device mapping of the instance.
         public var blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil
         /// If the value is true, you can't terminate the instance through the Amazon EC2 console, CLI, or API; otherwise, you can.
@@ -7654,7 +7654,7 @@ extension Ec2 {
 
     public struct DescribeConversionTasksResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the conversion tasks.
         public var conversionTasks: [ConversionTask]? = nil
 
@@ -7673,7 +7673,7 @@ extension Ec2 {
 
     public struct ModifySnapshotAttributeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The account ID to modify for the snapshot.
         public var userIds: [String]? = nil
         /// The ID of the snapshot.
@@ -7719,7 +7719,7 @@ extension Ec2 {
 
     public struct AttachClassicLinkVpcResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public var `return`: Bool? = nil
 
@@ -7736,7 +7736,7 @@ extension Ec2 {
 
     public struct ModifySpotFleetRequestRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The size of the fleet.
         public var targetCapacity: Int32? = nil
         /// The ID of the Spot fleet request.
@@ -7762,7 +7762,7 @@ extension Ec2 {
 
     public struct HostReservation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The upfront price of the reservation.
         public var upfrontPrice: String? = nil
         /// The state of the reservation.
@@ -7829,7 +7829,7 @@ extension Ec2 {
 
     public struct CreateReservedInstancesListingResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the Standard Reserved Instance listing.
         public var reservedInstancesListings: [ReservedInstancesListing]? = nil
 
@@ -7848,7 +7848,7 @@ extension Ec2 {
 
     public struct DescribeHostsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more filters.    instance-type - The instance type size that the Dedicated Host is configured to support.    auto-placement - Whether auto-placement is enabled or disabled (on | off).    host-reservation-id - The ID of the reservation assigned to this host.    client-token - The idempotency token you provided when you launched the instance    state- The allocation state of the Dedicated Host (available | under-assessment | permanent-failure | released | released-permanent-failure).    availability-zone - The Availability Zone of the host.  
         public var filter: [Filter]? = nil
         /// The IDs of the Dedicated Hosts. The IDs are used for targeted instance launches.
@@ -7881,7 +7881,7 @@ extension Ec2 {
 
     public struct AllocateAddressRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Set to vpc to allocate the address for use with instances in a VPC. Default: The address is for use with instances in EC2-Classic.
         public var domain: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -7902,7 +7902,7 @@ extension Ec2 {
 
     public struct DescribeBundleTasksRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// One or more filters.    bundle-id - The ID of the bundle task.    error-code - If the task failed, the error code returned.    error-message - If the task failed, the error message returned.    instance-id - The ID of the instance.    progress - The level of task completion, as a percentage (for example, 20%).    s3-bucket - The Amazon S3 bucket to store the AMI.    s3-prefix - The beginning of the AMI name.    start-time - The time the task started (for example, 2013-09-15T17:15:20.000Z).    state - The state of the task (pending | waiting-for-shutdown | bundling | storing | cancelling | complete | failed).    update-time - The time of the most recent update for the task.  
@@ -7931,7 +7931,7 @@ extension Ec2 {
 
     public struct RunScheduledInstancesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of the newly launched instances.
         public var instanceIdSet: [String]? = nil
 
@@ -7950,7 +7950,7 @@ extension Ec2 {
 
     public struct DescribeVpcEndpointServicesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of supported AWS services.
         public var serviceNames: [String]? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -7973,7 +7973,7 @@ extension Ec2 {
 
     public struct AssociateVpcCidrBlockResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String? = nil
         /// Information about the IPv6 CIDR block association.
@@ -7994,7 +7994,7 @@ extension Ec2 {
 
     public struct UserData: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user data. If you are using an AWS SDK or command line tool, Base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide Base64-encoded text.
         public var data: String? = nil
 
@@ -8011,7 +8011,7 @@ extension Ec2 {
 
     public struct AssociateAddressRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// [EC2-VPC] The primary or secondary private IP address to associate with the Elastic IP address. If no private IP address is specified, the Elastic IP address is associated with the primary private IP address.
         public var privateIpAddress: String? = nil
         /// [EC2-VPC] The ID of the network interface. If the instance has more than one network interface, you must specify a network interface ID.
@@ -8052,7 +8052,7 @@ extension Ec2 {
 
     public struct DisassociateSubnetCidrBlockRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The association ID for the CIDR block.
         public var associationId: String = ""
 
@@ -8070,7 +8070,7 @@ extension Ec2 {
 
     public struct DeleteEgressOnlyInternetGatewayRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the egress-only Internet gateway.
         public var egressOnlyInternetGatewayId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8092,7 +8092,7 @@ extension Ec2 {
 
     public struct AuthorizeSecurityGroupEgressRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The AWS account number for a destination security group. To authorize outbound access to a destination security group, we recommend that you use a set of IP permissions instead.
         public var sourceSecurityGroupOwnerId: String? = nil
         /// A set of IP permissions. You can't specify a destination security group and a CIDR IP address range.
@@ -8144,7 +8144,7 @@ extension Ec2 {
 
     public struct FlowLog: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the flow log group.
         public var logGroupName: String? = nil
         /// The status of the flow log (ACTIVE).
@@ -8193,7 +8193,7 @@ extension Ec2 {
 
     public struct CreateVpcEndpointResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request.
         public var clientToken: String? = nil
         /// Information about the endpoint.
@@ -8214,7 +8214,7 @@ extension Ec2 {
 
     public struct AttachNetworkInterfaceResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the network interface attachment.
         public var attachmentId: String? = nil
 
@@ -8231,7 +8231,7 @@ extension Ec2 {
 
     public struct DescribeVpcEndpointsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// Information about the endpoints.
@@ -8254,7 +8254,7 @@ extension Ec2 {
 
     public struct CreateKeyPairRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique name for the key pair. Constraints: Up to 255 ASCII characters
         public var keyName: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8276,7 +8276,7 @@ extension Ec2 {
 
     public struct StaleSecurityGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the stale inbound rules in the security group.
         public var staleIpPermissions: [StaleIpPermission]? = nil
         /// Information about the stale outbound rules in the security group.
@@ -8318,7 +8318,7 @@ extension Ec2 {
 
     public struct ConfirmProductInstanceResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The AWS account ID of the instance owner. This is only present if the product code is attached to the instance.
         public var ownerId: String? = nil
         /// The return value of the request. Returns true if the specified product code is owned by the requester and associated with the specified instance.
@@ -8339,7 +8339,7 @@ extension Ec2 {
 
     public struct ImportKeyPairRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique name for the key pair.
         public var keyName: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8366,7 +8366,7 @@ extension Ec2 {
 
     public struct RunInstancesMonitoringEnabled: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public var enabled: Bool = false
 
@@ -8384,7 +8384,7 @@ extension Ec2 {
 
     public struct GetPasswordDataResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time the data was last updated.
         public var timestamp: Date? = nil
         /// The password of the instance.
@@ -8409,7 +8409,7 @@ extension Ec2 {
 
     public struct IdFormat: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date in UTC at which you are permanently switched over to using longer IDs. If a deadline is not yet available for this resource type, this field is not returned.
         public var deadline: Date? = nil
         /// The type of resource.
@@ -8434,7 +8434,7 @@ extension Ec2 {
 
     public struct DescribeClassicLinkInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more filters.    group-id - The ID of a VPC security group that's associated with the instance.    instance-id - The ID of the instance.    tag:key=value - The key/value combination of a tag assigned to the resource.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    vpc-id - The ID of the VPC that the instance is linked to.  
         public var filters: [Filter]? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8471,7 +8471,7 @@ extension Ec2 {
 
     public struct RunScheduledInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique, case-sensitive identifier that ensures the idempotency of the request. For more information, see Ensuring Idempotency.
         public var clientToken: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8506,7 +8506,7 @@ extension Ec2 {
 
     public struct BlockDeviceMapping: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Suppresses the specified device included in the block device mapping of the AMI.
         public var noDevice: String? = nil
         /// The virtual device name (ephemeralN). Instance store volumes are numbered starting from 0. An instance type with 2 available instance store volumes can specify mappings for ephemeral0 and ephemeral1.The number of available instance store volumes depends on the instance type. After you connect to the instance, you must mount the volume. Constraints: For M3 instances, you must specify instance store volumes in the block device mapping for the instance. When you launch an M3 instance, we ignore any instance store volumes specified in the block device mapping for the AMI.
@@ -8535,7 +8535,7 @@ extension Ec2 {
 
     public struct ReplaceIamInstanceProfileAssociationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IAM instance profile.
         public var iamInstanceProfile: IamInstanceProfileSpecification = IamInstanceProfileSpecification()
         /// The ID of the existing IAM instance profile association.
@@ -8558,7 +8558,7 @@ extension Ec2 {
 
     public struct ScheduledInstancesIpv6Address: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IPv6 address.
         public var ipv6Address: String? = nil
 
@@ -8575,7 +8575,7 @@ extension Ec2 {
 
     public struct DescribeSpotFleetRequestHistoryRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The starting date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public var startTime: Date = Date()
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8614,7 +8614,7 @@ extension Ec2 {
 
     public struct ScheduledInstanceAvailability: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The platform (Linux/UNIX or Windows).
         public var platform: String? = nil
         /// The total number of hours for a single instance for the entire term.
@@ -8679,7 +8679,7 @@ extension Ec2 {
 
     public struct VolumeDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The size of the volume, in GiB.
         public var size: Int64 = 0
 
@@ -8697,7 +8697,7 @@ extension Ec2 {
 
     public struct ReleaseHostsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of the Dedicated Hosts you want to release.
         public var hostIds: [String] = []
 
@@ -8715,7 +8715,7 @@ extension Ec2 {
 
     public struct InstanceStatusDetails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of instance status.
         public var name: String? = nil
         /// The status.
@@ -8740,7 +8740,7 @@ extension Ec2 {
 
     public struct StartInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// One or more instance IDs.
@@ -8766,7 +8766,7 @@ extension Ec2 {
 
     public struct SlotStartTimeRangeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The earliest date and time, in UTC, for the Scheduled Instance to start.
         public var earliestTime: Date? = nil
         /// The latest date and time, in UTC, for the Scheduled Instance to start.
@@ -8787,7 +8787,7 @@ extension Ec2 {
 
     public struct CreateRouteResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public var `return`: Bool? = nil
 
@@ -8804,7 +8804,7 @@ extension Ec2 {
 
     public struct DescribeReservedInstancesListingsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the Reserved Instance listing.
         public var reservedInstancesListings: [ReservedInstancesListing]? = nil
 
@@ -8823,7 +8823,7 @@ extension Ec2 {
 
     public struct GetHostReservationPurchasePreviewResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The purchase information of the Dedicated Host Reservation and the Dedicated Hosts associated with it.
         public var purchase: [Purchase]? = nil
         /// The potential total upfront price. This is billed immediately.
@@ -8854,7 +8854,7 @@ extension Ec2 {
 
     public struct ExportTask: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the instance to export.
         public var instanceExportDetails: InstanceExportDetails? = nil
         /// The ID of the export task.
@@ -8891,7 +8891,7 @@ extension Ec2 {
 
     public struct CreateSpotDatafeedSubscriptionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon S3 bucket in which to store the Spot instance data feed.
         public var bucket: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8917,7 +8917,7 @@ extension Ec2 {
 
     public struct DescribeScheduledInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time period for the first schedule to start.
         public var slotStartTimeRange: SlotStartTimeRangeRequest? = nil
         /// The maximum number of results to return in a single call. This value can be between 5 and 300. The default value is 100. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -8958,7 +8958,7 @@ extension Ec2 {
 
     public struct DeleteSubnetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the subnet.
         public var subnetId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -8980,7 +8980,7 @@ extension Ec2 {
 
     public struct EbsInstanceBlockDeviceSpecification: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether the volume is deleted on instance termination.
         public var deleteOnTermination: Bool? = nil
         /// The ID of the EBS volume.
@@ -9001,7 +9001,7 @@ extension Ec2 {
 
     public struct NetworkInterfaceAttachment: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The device index of the network interface attachment on the instance.
         public var deviceIndex: Int32? = nil
         /// The attachment state.
@@ -9042,7 +9042,7 @@ extension Ec2 {
 
     public struct DescribePrefixListsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public var nextToken: String? = nil
         /// All available prefix lists.
@@ -9065,7 +9065,7 @@ extension Ec2 {
 
     public struct ReplaceRouteTableAssociationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the new route table to associate with the subnet.
@@ -9092,7 +9092,7 @@ extension Ec2 {
 
     public struct InstanceStatusSummary: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The system instance health or application instance health.
         public var details: [InstanceStatusDetails]? = nil
         /// The status.
@@ -9115,7 +9115,7 @@ extension Ec2 {
 
     public struct UnsuccessfulItemError: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The error code.
         public var code: String = ""
         /// The error message accompanying the error code.
@@ -9138,7 +9138,7 @@ extension Ec2 {
 
     public struct RestoreAddressToClassicResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The move status for the IP address.
         public var status: String? = nil
         /// The Elastic IP address.
@@ -9159,7 +9159,7 @@ extension Ec2 {
 
     public struct CopyImageResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the new AMI.
         public var imageId: String? = nil
 
@@ -9176,7 +9176,7 @@ extension Ec2 {
 
     public struct DescribeSecurityGroupReferencesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the VPCs with the referencing security groups.
         public var securityGroupReferenceSet: [SecurityGroupReference]? = nil
 
@@ -9195,7 +9195,7 @@ extension Ec2 {
 
     public struct LaunchPermission: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The AWS account ID.
         public var userId: String? = nil
         /// The name of the group.
@@ -9216,7 +9216,7 @@ extension Ec2 {
 
     public struct ImportImageResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The license type of the virtual machine.
         public var licenseType: String? = nil
         /// A brief status of the task.
@@ -9275,7 +9275,7 @@ extension Ec2 {
 
     public struct DescribeVpcPeeringConnectionsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the VPC peering connections.
         public var vpcPeeringConnections: [VpcPeeringConnection]? = nil
 
@@ -9294,7 +9294,7 @@ extension Ec2 {
 
     public struct DiskImageDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The disk image format.
         public var format: String = ""
         /// A presigned URL for the import manifest stored in Amazon S3 and presented here as an Amazon S3 presigned URL. For information about creating a presigned URL for an Amazon S3 object, read the "Query String Request Authentication Alternative" section of the Authenticating REST Requests topic in the Amazon Simple Storage Service Developer Guide. For information about the import manifest referenced by this API action, see VM Import Manifest.
@@ -9322,7 +9322,7 @@ extension Ec2 {
 
     public struct PrefixList: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the prefix.
         public var prefixListId: String? = nil
         /// The IP address range of the AWS service.
@@ -9349,7 +9349,7 @@ extension Ec2 {
 
     public struct ModifyIdFormatRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of resource: instance | reservation | snapshot | volume 
         public var resource: String = ""
         /// Indicate whether the resource should use longer IDs (17-character IDs).
@@ -9372,7 +9372,7 @@ extension Ec2 {
 
     public struct DescribeTagsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more filters.    key - The tag key.    resource-id - The resource ID.    resource-type - The resource type (customer-gateway | dhcp-options | image | instance | internet-gateway | network-acl | network-interface | reserved-instances | route-table | security-group | snapshot | spot-instances-request | subnet | volume | vpc | vpn-connection | vpn-gateway).    value - The tag value.  
         public var filters: [Filter]? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9403,7 +9403,7 @@ extension Ec2 {
 
     public struct BundleTask: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time this task started.
         public var startTime: Date? = nil
         /// If the task fails, a description of the error.
@@ -9448,7 +9448,7 @@ extension Ec2 {
 
     public struct DetachNetworkInterfaceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the attachment.
@@ -9474,7 +9474,7 @@ extension Ec2 {
 
     public struct DescribeRegionsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more regions.
         public var regions: [Region]? = nil
 
@@ -9493,7 +9493,7 @@ extension Ec2 {
 
     public struct GetConsoleOutputRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the instance.
         public var instanceId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9515,7 +9515,7 @@ extension Ec2 {
 
     public struct CreateVpnConnectionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether the VPN connection requires static routes. If you are creating a VPN connection for a device that does not support BGP, you must specify true. Default: false 
         public var options: VpnConnectionOptionsSpecification? = nil
         /// The ID of the customer gateway.
@@ -9551,7 +9551,7 @@ extension Ec2 {
 
     public struct DescribeSpotPriceHistoryResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public var nextToken: String? = nil
         /// The historical Spot prices.
@@ -9574,7 +9574,7 @@ extension Ec2 {
 
     public struct CreateSecurityGroupResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the security group.
         public var groupId: String? = nil
 
@@ -9591,7 +9591,7 @@ extension Ec2 {
 
     public struct CreateNatGatewayResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique, case-sensitive identifier to ensure the idempotency of the request. Only returned if a client token was provided in the request.
         public var clientToken: String? = nil
         /// Information about the NAT gateway.
@@ -9612,7 +9612,7 @@ extension Ec2 {
 
     public struct SpotPlacement: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Availability Zone. [Spot fleet only] To specify multiple Availability Zones, separate them using commas; for example, "us-west-2a, us-west-2b".
         public var availabilityZone: String? = nil
         /// The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for Spot instances.
@@ -9637,7 +9637,7 @@ extension Ec2 {
 
     public struct Instance: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The idempotency token you provided when you launched the instance, if applicable.
         public var clientToken: String? = nil
         /// The root device name (for example, /dev/sda1 or /dev/xvda).
@@ -9812,7 +9812,7 @@ extension Ec2 {
 
     public struct AttachVolumeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The device name to expose to the instance (for example, /dev/sdh or xvdh).
         public var device: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -9844,7 +9844,7 @@ extension Ec2 {
 
     public struct DisableVpcClassicLinkResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public var `return`: Bool? = nil
 
@@ -9861,7 +9861,7 @@ extension Ec2 {
 
     public struct AcceptVpcPeeringConnectionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the VPC peering connection.
@@ -9882,7 +9882,7 @@ extension Ec2 {
 
     public struct DescribeFlowLogsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more filters.    deliver-log-status - The status of the logs delivery (SUCCESS | FAILED).    flow-log-id - The ID of the flow log.    log-group-name - The name of the log group.    resource-id - The ID of the VPC, subnet, or network interface.    traffic-type - The type of traffic (ACCEPT | REJECT | ALL)  
         public var filter: [Filter]? = nil
         /// One or more flow log IDs.
@@ -9915,7 +9915,7 @@ extension Ec2 {
 
     public struct HostInstance: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The instance type size (for example, m3.medium) of the running instance.
         public var instanceType: String? = nil
         /// the IDs of instances that are running on the Dedicated Host.
@@ -9936,7 +9936,7 @@ extension Ec2 {
 
     public struct DescribeSpotDatafeedSubscriptionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Spot instance data feed subscription.
         public var spotDatafeedSubscription: SpotDatafeedSubscription? = nil
 
@@ -9953,7 +9953,7 @@ extension Ec2 {
 
     public struct SpotFleetMonitoring: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Enables monitoring for the instance. Default: false 
         public var enabled: Bool? = nil
 
@@ -9970,7 +9970,7 @@ extension Ec2 {
 
     public struct Storage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An Amazon S3 storage location.
         public var s3: S3Storage? = nil
 
@@ -9987,7 +9987,7 @@ extension Ec2 {
 
     public struct ImportInstanceLaunchSpecification: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// [EC2-VPC] An available IP address from the IP address range of the subnet.
         public var privateIpAddress: String? = nil
         /// [EC2-VPC] The ID of the subnet in which to launch the instance.
@@ -10048,7 +10048,7 @@ extension Ec2 {
 
     public struct SpotInstanceStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The description for the status code.
         public var message: String? = nil
         /// The status code. For a list of status codes, see Spot Bid Status Codes in the Amazon Elastic Compute Cloud User Guide.
@@ -10073,7 +10073,7 @@ extension Ec2 {
 
     public struct InstanceIpv6Address: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IPv6 address.
         public var ipv6Address: String? = nil
 
@@ -10090,7 +10090,7 @@ extension Ec2 {
 
     public struct StaleIpPermission: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more prefix list IDs for an AWS service. Not applicable for stale security group rules.
         public var prefixListIds: [String]? = nil
         /// One or more security group pairs. Returns the ID of the referenced security group and VPC, and the ID and status of the VPC peering connection.
@@ -10133,7 +10133,7 @@ extension Ec2 {
 
     public struct IamInstanceProfile: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the instance profile.
         public var arn: String? = nil
         /// The ID of the instance profile.
@@ -10154,7 +10154,7 @@ extension Ec2 {
 
     public struct DescribeSecurityGroupsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more security groups.
         public var securityGroups: [SecurityGroup]? = nil
 
@@ -10173,7 +10173,7 @@ extension Ec2 {
 
     public struct Purchase: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The upfront price of the reservation.
         public var upfrontPrice: String? = nil
         /// The IDs of the Dedicated Hosts associated with the reservation.
@@ -10220,7 +10220,7 @@ extension Ec2 {
 
     public struct RequestSpotFleetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The configuration for the Spot fleet request.
         public var spotFleetRequestConfig: SpotFleetRequestConfigData = SpotFleetRequestConfigData()
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10242,7 +10242,7 @@ extension Ec2 {
 
     public struct ReservedInstancesOffering: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The recurring charge tag assigned to the resource.
         public var recurringCharges: [RecurringCharge]? = nil
         /// The usage price of the Reserved Instance, per hour.
@@ -10319,7 +10319,7 @@ extension Ec2 {
 
     public struct InstanceCount: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The states of the listed Reserved Instances.
         public var state: String? = nil
         /// The number of listed Reserved Instances in the state specified by the state.
@@ -10340,7 +10340,7 @@ extension Ec2 {
 
     public struct DescribeNetworkInterfacesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// One or more network interface IDs. Default: Describes all your network interfaces.
@@ -10369,7 +10369,7 @@ extension Ec2 {
 
     public struct CreateNetworkAclResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the network ACL.
         public var networkAcl: NetworkAcl? = nil
 
@@ -10386,7 +10386,7 @@ extension Ec2 {
 
     public struct InstanceBlockDeviceMapping: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Parameters used to automatically set up EBS volumes when the instance is launched.
         public var ebs: EbsInstanceBlockDevice? = nil
         /// The device name exposed to the instance (for example, /dev/sdh or xvdh).
@@ -10407,7 +10407,7 @@ extension Ec2 {
 
     public struct VolumeStatusAction: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The code identifying the operation, for example, enable-volume-io.
         public var code: String? = nil
         /// The event type associated with this operation.
@@ -10436,7 +10436,7 @@ extension Ec2 {
 
     public struct CreateReservedInstancesListingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list specifying the price of the Standard Reserved Instance for each month remaining in the Reserved Instance term.
         public var priceSchedules: [PriceScheduleSpecification] = []
         /// The number of instances that are a part of a Reserved Instance account to be listed in the Reserved Instance Marketplace. This number should be less than or equal to the instance count associated with the Reserved Instance ID specified in this call.
@@ -10469,7 +10469,7 @@ extension Ec2 {
 
     public struct DescribeRouteTablesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more route tables.
         public var routeTables: [RouteTable]? = nil
 
@@ -10488,7 +10488,7 @@ extension Ec2 {
 
     public struct AssociateIamInstanceProfileResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the IAM instance profile association.
         public var iamInstanceProfileAssociation: IamInstanceProfileAssociation? = nil
 
@@ -10505,7 +10505,7 @@ extension Ec2 {
 
     public struct DhcpOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the set of DHCP options.
         public var dhcpOptionsId: String? = nil
         /// One or more DHCP options in the set.
@@ -10534,7 +10534,7 @@ extension Ec2 {
 
     public struct DescribeClassicLinkInstancesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more linked EC2-Classic instances.
         public var instances: [ClassicLinkInstance]? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -10557,7 +10557,7 @@ extension Ec2 {
 
     public struct CopyImageRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The full ARN of the AWS Key Management Service (AWS KMS) CMK to use when encrypting the snapshots of an image during a copy operation. This parameter is only required if you want to use a non-default CMK; if this parameter is not specified, the default CMK for EBS is used. The ARN contains the arn:aws:kms namespace, followed by the region of the CMK, the AWS account ID of the CMK owner, the key namespace, and then the CMK ID. For example, arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef. The specified CMK must exist in the region that the snapshot is being copied to. If a KmsKeyId is specified, the Encrypted flag must also be set.
         public var kmsKeyId: String? = nil
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see How to Ensure Idempotency in the Amazon Elastic Compute Cloud User Guide.
@@ -10605,7 +10605,7 @@ extension Ec2 {
 
     public struct DescribeNetworkAclsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// One or more network ACL IDs. Default: Describes all your network ACLs.
@@ -10634,7 +10634,7 @@ extension Ec2 {
 
     public struct TerminateInstancesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more terminated instances.
         public var terminatingInstances: [InstanceStateChange]? = nil
 
@@ -10653,7 +10653,7 @@ extension Ec2 {
 
     public struct CreateVolumeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The volume type. This can be gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes. Default: standard 
         public var volumeType: String? = nil
         /// Specifies whether the volume should be encrypted. Encrypted Amazon EBS volumes may only be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are automatically encrypted. There is no way to create an encrypted volume from an unencrypted snapshot or vice versa. If your AMI uses encrypted volumes, you can only launch it on supported instance types. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
@@ -10699,7 +10699,7 @@ extension Ec2 {
 
     public struct DescribeImportSnapshotTasksRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more filters.
         public var filters: [Filter]? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10736,7 +10736,7 @@ extension Ec2 {
 
     public struct DisassociateSubnetCidrBlockResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the subnet.
         public var subnetId: String? = nil
         /// Information about the IPv6 CIDR block association.
@@ -10757,7 +10757,7 @@ extension Ec2 {
 
     public struct AllocateAddressResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// [EC2-VPC] The ID that AWS assigns to represent the allocation of the Elastic IP address for use with instances in a VPC.
         public var allocationId: String? = nil
         /// Indicates whether this Elastic IP address is for use with instances in EC2-Classic (standard) or instances in a VPC (vpc).
@@ -10782,7 +10782,7 @@ extension Ec2 {
 
     public struct VolumeModification: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Modification start time 
         public var startTime: Date? = nil
         /// Original IOPS rate of the volume being modified.
@@ -10843,7 +10843,7 @@ extension Ec2 {
 
     public struct UserBucket: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the S3 bucket where the disk image is located.
         public var s3Bucket: String? = nil
         /// The file name of the disk image.
@@ -10864,7 +10864,7 @@ extension Ec2 {
 
     public struct AssociateDhcpOptionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String = ""
         /// The ID of the DHCP options set, or default to associate no DHCP options with the VPC.
@@ -10891,7 +10891,7 @@ extension Ec2 {
 
     public struct CreateSnapshotRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the EBS volume.
@@ -10917,7 +10917,7 @@ extension Ec2 {
 
     public struct DescribeIdFormatRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of resource: instance | reservation | snapshot | volume 
         public var resource: String? = nil
 
@@ -10934,7 +10934,7 @@ extension Ec2 {
 
     public struct DescribeHostReservationsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more host reservation IDs.
         public var hostReservationIdSet: [String]? = nil
         /// One or more filters.    instance-family - The instance family (e.g., m4).    payment-option - The payment option (NoUpfront | PartialUpfront | AllUpfront).    state - The state of the reservation (payment-pending | payment-failed | active | retired).  
@@ -10967,7 +10967,7 @@ extension Ec2 {
 
     public struct GetHostReservationPurchasePreviewRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID/s of the Dedicated Host/s that the reservation will be associated with.
         public var hostIdSet: [String] = []
         /// The offering ID of the reservation.
@@ -10990,7 +10990,7 @@ extension Ec2 {
 
     public struct ActiveInstance: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The instance type.
         public var instanceType: String? = nil
         /// The health status of the instance. If the status of both the instance status check and the system status check is impaired, the health status of the instance is unhealthy. Otherwise, the health status is healthy.
@@ -11019,7 +11019,7 @@ extension Ec2 {
 
     public struct DescribeMovingAddressesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public var nextToken: String? = nil
         /// The status for each Elastic IP address.
@@ -11042,7 +11042,7 @@ extension Ec2 {
 
     public struct ExportToS3Task: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The encryption key for your S3 bucket.
         public var s3Key: String? = nil
         /// The container format used to combine disk images with metadata (such as OVF). If absent, only the disk image is exported.
@@ -11071,7 +11071,7 @@ extension Ec2 {
 
     public struct VpcAttachment: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String? = nil
         /// The current state of the attachment.
@@ -11092,7 +11092,7 @@ extension Ec2 {
 
     public struct Ipv6Range: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IPv6 CIDR range. You can either specify a CIDR range or a source security group, not both. To specify a single IPv6 address, use the /128 prefix.
         public var cidrIpv6: String? = nil
 
@@ -11109,7 +11109,7 @@ extension Ec2 {
 
     public struct DisableVpcClassicLinkDnsSupportResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public var `return`: Bool? = nil
 
@@ -11126,7 +11126,7 @@ extension Ec2 {
 
     public struct CreateTagsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// One or more tags. The value parameter is required, but if you don't want the tag to have a value, specify the parameter with no value, and we set the value to an empty string. 
@@ -11153,7 +11153,7 @@ extension Ec2 {
 
     public struct DescribeSnapshotsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more AWS accounts IDs that can create volumes from the snapshot.
         public var restorableByUserIds: [String]? = nil
         /// One or more snapshot IDs. Default: Describes snapshots for which you have launch permissions.
@@ -11202,7 +11202,7 @@ extension Ec2 {
 
     public struct CancelReservedInstancesListingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Reserved Instance listing.
         public var reservedInstancesListingId: String = ""
 
@@ -11220,7 +11220,7 @@ extension Ec2 {
 
     public struct ScheduledInstancesMonitoring: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether monitoring is enabled.
         public var enabled: Bool? = nil
 
@@ -11237,7 +11237,7 @@ extension Ec2 {
 
     public struct CreateNetworkInterfaceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A description for the network interface.
         public var description: String? = nil
         /// The ID of the subnet to associate with the network interface.
@@ -11293,7 +11293,7 @@ extension Ec2 {
 
     public struct ModifyReservedInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of the Reserved Instances to modify.
         public var reservedInstancesIds: [String] = []
         /// The configuration settings for the Reserved Instances to modify.
@@ -11320,7 +11320,7 @@ extension Ec2 {
 
     public struct CancelSpotFleetRequestsErrorItem: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Spot fleet request.
         public var spotFleetRequestId: String = ""
         /// The error.
@@ -11343,7 +11343,7 @@ extension Ec2 {
 
     public struct CreateInstanceExportTaskResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the instance export task.
         public var exportTask: ExportTask? = nil
 
@@ -11360,7 +11360,7 @@ extension Ec2 {
 
     public struct DescribeVolumesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more volume IDs.
         public var volumeIds: [String]? = nil
         /// One or more filters.    attachment.attach-time - The time stamp when the attachment initiated.    attachment.delete-on-termination - Whether the volume is deleted on instance termination.    attachment.device - The device name that is exposed to the instance (for example, /dev/sda1).    attachment.instance-id - The ID of the instance the volume is attached to.    attachment.status - The attachment state (attaching | attached | detaching | detached).    availability-zone - The Availability Zone in which the volume was created.    create-time - The time stamp when the volume was created.    encrypted - The encryption status of the volume.    size - The size of the volume, in GiB.    snapshot-id - The snapshot from which the volume was created.    status - The status of the volume (creating | available | in-use | deleting | deleted | error).    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    volume-id - The volume ID.    volume-type - The Amazon EBS volume type. This can be gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.  
@@ -11397,7 +11397,7 @@ extension Ec2 {
 
     public struct DeleteVpnGatewayRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the virtual private gateway.
@@ -11419,7 +11419,7 @@ extension Ec2 {
 
     public struct DescribeReservedInstancesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of Reserved Instances.
         public var reservedInstances: [ReservedInstances]? = nil
 
@@ -11438,7 +11438,7 @@ extension Ec2 {
 
     public struct EnableVpcClassicLinkDnsSupportRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String? = nil
 
@@ -11455,7 +11455,7 @@ extension Ec2 {
 
     public struct DescribeNetworkInterfaceAttributeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the network interface.
@@ -11481,7 +11481,7 @@ extension Ec2 {
 
     public struct SlotDateTimeRangeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The earliest date and time, in UTC, for the Scheduled Instance to start.
         public var earliestTime: Date = Date()
         /// The latest date and time, in UTC, for the Scheduled Instance to start. This value must be later than or equal to the earliest date and at most three months in the future.
@@ -11504,7 +11504,7 @@ extension Ec2 {
 
     public struct DeleteVpcRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -11526,7 +11526,7 @@ extension Ec2 {
 
     public struct InstanceBlockDeviceMappingSpecification: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// suppress the specified device included in the block device mapping.
         public var noDevice: String? = nil
         /// The virtual device name.
@@ -11555,7 +11555,7 @@ extension Ec2 {
 
     public struct InstanceMonitoring: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The monitoring for the instance.
         public var monitoring: Monitoring? = nil
         /// The ID of the instance.
@@ -11576,7 +11576,7 @@ extension Ec2 {
 
     public struct DescribeVpcEndpointsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more endpoint IDs.
         public var vpcEndpointIds: [String]? = nil
         /// One or more filters.    service-name: The name of the AWS service.    vpc-id: The ID of the VPC in which the endpoint resides.    vpc-endpoint-id: The ID of the endpoint.    vpc-endpoint-state: The state of the endpoint. (pending | available | deleting | deleted)  
@@ -11613,7 +11613,7 @@ extension Ec2 {
 
     public struct DescribeFlowLogsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public var nextToken: String? = nil
         /// Information about the flow logs.
@@ -11636,7 +11636,7 @@ extension Ec2 {
 
     public struct EnableVpcClassicLinkResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public var `return`: Bool? = nil
 
@@ -11653,7 +11653,7 @@ extension Ec2 {
 
     public struct CreateVpnConnectionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the VPN connection.
         public var vpnConnection: VpnConnection? = nil
 
@@ -11670,7 +11670,7 @@ extension Ec2 {
 
     public struct PropagatingVgw: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the virtual private gateway (VGW).
         public var gatewayId: String? = nil
 
@@ -11687,7 +11687,7 @@ extension Ec2 {
 
     public struct StartInstancesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more started instances.
         public var startingInstances: [InstanceStateChange]? = nil
 
@@ -11706,7 +11706,7 @@ extension Ec2 {
 
     public struct RevokeSecurityGroupEgressRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The AWS account number for a destination security group. To revoke outbound access to a destination security group, we recommend that you use a set of IP permissions instead.
         public var sourceSecurityGroupOwnerId: String? = nil
         /// A set of IP permissions. You can't specify a destination security group and a CIDR IP address range.
@@ -11758,7 +11758,7 @@ extension Ec2 {
 
     public struct DescribeImportImageTasksResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use to get the next page of results. This value is null when there are no more results to return.
         public var nextToken: String? = nil
         /// A list of zero or more import image tasks that are currently active or were completed or canceled in the previous 7 days.
@@ -11781,7 +11781,7 @@ extension Ec2 {
 
     public struct InstanceStateChange: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The previous state of the instance.
         public var previousState: InstanceState? = nil
         /// The ID of the instance.
@@ -11806,7 +11806,7 @@ extension Ec2 {
 
     public struct GroupIdentifier: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the security group.
         public var groupId: String? = nil
         /// The name of the security group.
@@ -11827,7 +11827,7 @@ extension Ec2 {
 
     public struct CreateSubnetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the VPC.
@@ -11862,7 +11862,7 @@ extension Ec2 {
 
     public struct ReservedInstancesId: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Reserved Instance.
         public var reservedInstancesId: String? = nil
 
@@ -11879,7 +11879,7 @@ extension Ec2 {
 
     public struct ResetNetworkInterfaceAttributeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the network interface.
@@ -11905,7 +11905,7 @@ extension Ec2 {
 
     public struct DescribeInternetGatewaysRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more Internet gateway IDs. Default: Describes all your Internet gateways.
         public var internetGatewayIds: [String]? = nil
         /// One or more filters.    attachment.state - The current state of the attachment between the gateway and the VPC (available). Present only if a VPC is attached.    attachment.vpc-id - The ID of an attached VPC.    internet-gateway-id - The ID of the Internet gateway.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.  
@@ -11934,7 +11934,7 @@ extension Ec2 {
 
     public struct DescribeIdentityIdFormatRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the principal, which can be an IAM role, IAM user, or the root user.
         public var principalArn: String = ""
         /// The type of resource: instance | reservation | snapshot | volume 
@@ -11956,7 +11956,7 @@ extension Ec2 {
 
     public struct Image: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Any block device mapping entries.
         public var blockDeviceMappings: [BlockDeviceMapping]? = nil
         /// The value is Windows for Windows AMIs; otherwise blank.
@@ -12071,7 +12071,7 @@ extension Ec2 {
 
     public struct VpnConnectionOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether the VPN connection uses static routes only. Static routes must be used for devices that don't support BGP.
         public var staticRoutesOnly: Bool? = nil
 
@@ -12088,7 +12088,7 @@ extension Ec2 {
 
     public struct DescribeImportImageTasksRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Filter tasks using the task-state filter and one of the following values: active, completed, deleting, deleted.
         public var filters: [Filter]? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12125,7 +12125,7 @@ extension Ec2 {
 
     public struct NatGateway: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the subnet in which the NAT gateway is located.
         public var subnetId: String? = nil
         /// The ID of the NAT gateway.
@@ -12180,7 +12180,7 @@ extension Ec2 {
 
     public struct InstanceCapacity: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The instance type size supported by the Dedicated Host.
         public var instanceType: String? = nil
         /// The total number of instances that can be launched onto the Dedicated Host.
@@ -12205,7 +12205,7 @@ extension Ec2 {
 
     public struct UnassignIpv6AddressesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the network interface.
         public var networkInterfaceId: String? = nil
         /// The IPv6 addresses that have been unassigned from the network interface.
@@ -12228,7 +12228,7 @@ extension Ec2 {
 
     public struct ClassicLinkDnsSupport: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String? = nil
         /// Indicates whether ClassicLink DNS support is enabled for the VPC.
@@ -12249,7 +12249,7 @@ extension Ec2 {
 
     public struct CancelImportTaskResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The current state of the task being canceled.
         public var previousState: String? = nil
         /// The current state of the task being canceled.
@@ -12274,7 +12274,7 @@ extension Ec2 {
 
     public struct PriceScheduleSpecification: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The fixed price for the term.
         public var price: Double? = nil
         /// The currency for transacting the Reserved Instance resale. At this time, the only supported currency is USD.
@@ -12299,7 +12299,7 @@ extension Ec2 {
 
     public struct DescribeIdentityIdFormatResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the ID format for the resources.
         public var statuses: [IdFormat]? = nil
 
@@ -12318,7 +12318,7 @@ extension Ec2 {
 
     public struct CreateVpnConnectionRouteRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPN connection.
         public var vpnConnectionId: String = ""
         /// The CIDR block associated with the local subnet of the customer network.
@@ -12341,7 +12341,7 @@ extension Ec2 {
 
     public struct ImportVolumeResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the conversion task.
         public var conversionTask: ConversionTask? = nil
 
@@ -12358,7 +12358,7 @@ extension Ec2 {
 
     public struct VpnConnection: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The VPN connection options.
         public var options: VpnConnectionOptions? = nil
         /// The ID of the customer gateway at your end of the VPN connection.
@@ -12417,7 +12417,7 @@ extension Ec2 {
 
     public struct Address: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the AWS account that owns the network interface.
         public var networkInterfaceOwnerId: String? = nil
         /// The ID of the network interface.
@@ -12462,7 +12462,7 @@ extension Ec2 {
 
     public struct DescribeVpnGatewaysRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more virtual private gateway IDs. Default: Describes all your virtual private gateways.
         public var vpnGatewayIds: [String]? = nil
         /// One or more filters.    attachment.state - The current state of the attachment between the gateway and the VPC (attaching | attached | detaching | detached).    attachment.vpc-id - The ID of an attached VPC.    availability-zone - The Availability Zone for the virtual private gateway (if applicable).    state - The state of the virtual private gateway (pending | available | deleting | deleted).    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    type - The type of virtual private gateway. Currently the only supported type is ipsec.1.    vpn-gateway-id - The ID of the virtual private gateway.  
@@ -12491,7 +12491,7 @@ extension Ec2 {
 
     public struct TerminateInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more instance IDs. Constraints: Up to 1000 instance IDs. We recommend breaking up this request into smaller batches.
         public var instanceIds: [String] = []
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12513,7 +12513,7 @@ extension Ec2 {
 
     public struct PurchaseReservedInstancesOfferingResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of the purchased Reserved Instances.
         public var reservedInstancesId: String? = nil
 
@@ -12530,7 +12530,7 @@ extension Ec2 {
 
     public struct CreateNetworkAclRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12552,7 +12552,7 @@ extension Ec2 {
 
     public struct DescribeVpnConnectionsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more VPN connections.
         public var vpnConnections: [VpnConnection]? = nil
 
@@ -12571,7 +12571,7 @@ extension Ec2 {
 
     public struct ImportInstanceTaskDetails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The instance operating system.
         public var platform: String? = nil
         /// One or more volumes.
@@ -12601,7 +12601,7 @@ extension Ec2 {
 
     public struct BundleTaskError: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The error code.
         public var code: String? = nil
         /// The error message.
@@ -12622,7 +12622,7 @@ extension Ec2 {
 
     public struct AccountAttribute: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the account attribute.
         public var attributeName: String? = nil
         /// One or more values for the account attribute.
@@ -12645,7 +12645,7 @@ extension Ec2 {
 
     public struct ModifyReservedInstancesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID for the modification.
         public var reservedInstancesModificationId: String? = nil
 
@@ -12662,7 +12662,7 @@ extension Ec2 {
 
     public struct CreateCustomerGatewayRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// For devices that support BGP, the customer gateway's BGP ASN. Default: 65000
         public var bgpAsn: Int32 = 0
         /// The Internet-routable IP address for the customer gateway's outside interface. The address must be static.
@@ -12694,7 +12694,7 @@ extension Ec2 {
 
     public struct CancelSpotInstanceRequestsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// One or more Spot instance request IDs.
@@ -12716,7 +12716,7 @@ extension Ec2 {
 
     public struct DescribeEgressOnlyInternetGatewaysResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use to retrieve the next page of results.
         public var nextToken: String? = nil
         /// Information about the egress-only Internet gateways.
@@ -12739,7 +12739,7 @@ extension Ec2 {
 
     public struct CreateSecurityGroupRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the security group. Constraints: Up to 255 characters in length Constraints for EC2-Classic: ASCII characters Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!$*
         public var groupName: String = ""
         /// [EC2-VPC] The ID of the VPC. Required for EC2-VPC.
@@ -12770,7 +12770,7 @@ extension Ec2 {
 
     public struct MoveAddressToVpcRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The Elastic IP address.
@@ -12792,7 +12792,7 @@ extension Ec2 {
 
     public struct DescribeSpotFleetRequestHistoryResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The last date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). All records up to this time were retrieved. If nextToken indicates that there are more results, this value is not present.
         public var lastEvaluatedTime: Date = Date()
         /// The starting date and time for the events, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
@@ -12829,7 +12829,7 @@ extension Ec2 {
 
     public struct CreateInternetGatewayResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the Internet gateway.
         public var internetGateway: InternetGateway? = nil
 
@@ -12846,7 +12846,7 @@ extension Ec2 {
 
     public struct DescribeImageAttributeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The AMI attribute.  Note: Depending on your account privileges, the blockDeviceMapping attribute may return a Client.AuthFailure error. If this happens, use DescribeImages to get information about the block device mapping for the AMI.
         public var attribute: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12873,7 +12873,7 @@ extension Ec2 {
 
     public struct ReplaceNetworkAclEntryRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IPv4 network range to allow or deny, in CIDR notation (for example 172.16.0.0/24).
         public var cidrBlock: String? = nil
         /// ICMP protocol: The ICMP or ICMPv6 type and code. Required if specifying the ICMP (1) protocol, or protocol 58 (ICMPv6) with an IPv6 CIDR block.
@@ -12931,7 +12931,7 @@ extension Ec2 {
 
     public struct DeleteKeyPairRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the key pair.
         public var keyName: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12953,7 +12953,7 @@ extension Ec2 {
 
     public struct EbsBlockDevice: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the snapshot.
         public var snapshotId: String? = nil
         /// Indicates whether the EBS volume is deleted on instance termination.
@@ -12990,7 +12990,7 @@ extension Ec2 {
 
     public struct DescribeExportTasksResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the export tasks.
         public var exportTasks: [ExportTask]? = nil
 
@@ -13009,7 +13009,7 @@ extension Ec2 {
 
     public struct CreateVpcPeeringConnectionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the VPC peering connection.
         public var vpcPeeringConnection: VpcPeeringConnection? = nil
 
@@ -13026,7 +13026,7 @@ extension Ec2 {
 
     public struct IpRange: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IPv4 CIDR range. You can either specify a CIDR range or a source security group, not both. To specify a single IPv4 address, use the /32 prefix.
         public var cidrIp: String? = nil
 
@@ -13043,7 +13043,7 @@ extension Ec2 {
 
     public struct DhcpConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of a DHCP option.
         public var key: String? = nil
         /// One or more values for the DHCP option.
@@ -13066,7 +13066,7 @@ extension Ec2 {
 
     public struct CancelConversionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the conversion task.
@@ -13092,7 +13092,7 @@ extension Ec2 {
 
     public struct ModifyInstancePlacementResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Is true if the request succeeds, and an error otherwise.
         public var `return`: Bool? = nil
 
@@ -13109,7 +13109,7 @@ extension Ec2 {
 
     public struct DescribeVpcAttributeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13136,7 +13136,7 @@ extension Ec2 {
 
     public struct ReservedInstancesModification: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of one or more Reserved Instances.
         public var reservedInstancesIds: [ReservedInstancesId]? = nil
         /// The status of the Reserved Instances modification request.
@@ -13189,7 +13189,7 @@ extension Ec2 {
 
     public struct DescribeAvailabilityZonesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more Availability Zones.
         public var availabilityZones: [AvailabilityZone]? = nil
 
@@ -13208,7 +13208,7 @@ extension Ec2 {
 
     public struct RejectVpcPeeringConnectionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of the VPC peering connection.
@@ -13230,7 +13230,7 @@ extension Ec2 {
 
     public struct ReplaceIamInstanceProfileAssociationResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the IAM instance profile association.
         public var iamInstanceProfileAssociation: IamInstanceProfileAssociation? = nil
 
@@ -13247,7 +13247,7 @@ extension Ec2 {
 
     public struct CreateImageResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the new AMI.
         public var imageId: String? = nil
 
@@ -13264,7 +13264,7 @@ extension Ec2 {
 
     public struct ImportVolumeTaskDetails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The image.
         public var image: DiskImageDescription = DiskImageDescription()
         /// The number of bytes converted so far.
@@ -13301,7 +13301,7 @@ extension Ec2 {
 
     public struct NetworkInterfaceAssociation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The address of the Elastic IP address bound to the network interface.
         public var publicIp: String? = nil
         /// The association ID.
@@ -13334,7 +13334,7 @@ extension Ec2 {
 
     public struct ScheduledInstanceRecurrenceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The days. For a monthly schedule, this is one or more days of the month (1-31). For a weekly schedule, this is one or more days of the week (1-7, where 1 is Sunday). You can't specify this value with a daily schedule. If the occurrence is relative to the end of the month, you can specify only a single day.
         public var occurrenceDays: [Int32]? = nil
         /// The frequency (Daily, Weekly, or Monthly).
@@ -13369,7 +13369,7 @@ extension Ec2 {
 
     public struct Filter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the filter. Filter names are case-sensitive.
         public var name: String? = nil
         /// One or more filter values. Filter values are case-sensitive.
@@ -13392,7 +13392,7 @@ extension Ec2 {
 
     public struct MonitorInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more instance IDs.
         public var instanceIds: [String] = []
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -13414,7 +13414,7 @@ extension Ec2 {
 
     public struct LaunchSpecification: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more block device mapping entries. Although you can specify encrypted EBS volumes in this block device mapping for your Spot Instances, these volumes are not encrypted.
         public var blockDeviceMappings: [BlockDeviceMapping]? = nil
         /// The ID of the subnet in which to launch the instance.
@@ -13492,7 +13492,7 @@ extension Ec2 {
 
     public struct RequestSpotInstancesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more Spot instance requests.
         public var spotInstanceRequests: [SpotInstanceRequest]? = nil
 
@@ -13511,7 +13511,7 @@ extension Ec2 {
 
     public struct CreateNetworkAclEntryRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IPv4 network range to allow or deny, in CIDR notation (for example 172.16.0.0/24).
         public var cidrBlock: String? = nil
         /// ICMP protocol: The ICMP or ICMPv6 type and code. Required if specifying the ICMP protocol, or protocol 58 (ICMPv6) with an IPv6 CIDR block.
@@ -13569,7 +13569,7 @@ extension Ec2 {
 
     public struct CancelBundleTaskResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the bundle task.
         public var bundleTask: BundleTask? = nil
 
@@ -13586,7 +13586,7 @@ extension Ec2 {
 
     public struct VpcPeeringConnection: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the requester VPC.
         public var requesterVpcInfo: VpcPeeringConnectionVpcInfo? = nil
         /// Information about the accepter VPC. CIDR block information is not returned when creating a VPC peering connection, or when describing a VPC peering connection that's in the initiating-request or pending-acceptance state.
@@ -13625,7 +13625,7 @@ extension Ec2 {
 
     public struct RegisterImageResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the newly registered AMI.
         public var imageId: String? = nil
 
@@ -13642,7 +13642,7 @@ extension Ec2 {
 
     public struct ClientData: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A user-defined comment about the disk upload.
         public var comment: String? = nil
         /// The time that the disk upload starts.
@@ -13671,7 +13671,7 @@ extension Ec2 {
 
     public struct RejectVpcPeeringConnectionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public var `return`: Bool? = nil
 
@@ -13688,7 +13688,7 @@ extension Ec2 {
 
     public struct DiskImageDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The disk image format.
         public var format: String = ""
         /// The checksum computed for the disk image.
@@ -13720,7 +13720,7 @@ extension Ec2 {
 
     public struct CreateSubnetResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the subnet.
         public var subnet: Subnet? = nil
 
@@ -13737,7 +13737,7 @@ extension Ec2 {
 
     public struct GetConsoleOutputResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time the output was last updated.
         public var timestamp: Date? = nil
         /// The ID of the instance.
@@ -13762,7 +13762,7 @@ extension Ec2 {
 
     public struct DisassociateRouteTableRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The association ID representing the current association between the route table and subnet.
@@ -13784,7 +13784,7 @@ extension Ec2 {
 
     public struct AssignIpv6AddressesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of IPv6 addresses to assign to the network interface. Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You can't use this option if specifying specific IPv6 addresses.
         public var ipv6AddressCount: Int32? = nil
         /// One or more specific IPv6 addresses to be assigned to the network interface. You can't use this option if you're specifying a number of IPv6 addresses.
@@ -13812,7 +13812,7 @@ extension Ec2 {
 
     public struct DescribeImportSnapshotTasksResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use to get the next page of results. This value is null when there are no more results to return.
         public var nextToken: String? = nil
         /// A list of zero or more import snapshot tasks that are currently active or were completed or canceled in the previous 7 days.
@@ -13835,7 +13835,7 @@ extension Ec2 {
 
     public struct VolumeStatusInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The details of the volume status.
         public var details: [VolumeStatusDetails]? = nil
         /// The status of the volume.
@@ -13858,7 +13858,7 @@ extension Ec2 {
 
     public struct DisableVpcClassicLinkDnsSupportRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String? = nil
 
@@ -13875,7 +13875,7 @@ extension Ec2 {
 
     public struct DescribeSubnetsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more subnets.
         public var subnets: [Subnet]? = nil
 
@@ -13894,7 +13894,7 @@ extension Ec2 {
 
     public struct DeleteVpcPeeringConnectionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Returns true if the request succeeds; otherwise, it returns an error.
         public var `return`: Bool? = nil
 
@@ -13911,7 +13911,7 @@ extension Ec2 {
 
     public struct UserBucketDetails: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The S3 bucket from which the disk image was created.
         public var s3Bucket: String? = nil
         /// The file name of the disk image.
@@ -13932,7 +13932,7 @@ extension Ec2 {
 
     public struct RequestSpotFleetResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Spot fleet request.
         public var spotFleetRequestId: String = ""
 
@@ -13950,7 +13950,7 @@ extension Ec2 {
 
     public struct DeleteVpcEndpointsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the endpoints that were not successfully deleted.
         public var unsuccessful: [UnsuccessfulItem]? = nil
 
@@ -13969,7 +13969,7 @@ extension Ec2 {
 
     public struct DescribeEgressOnlyInternetGatewaysRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned NextToken value. This value can be between 5 and 1000; if MaxResults is given a value larger than 1000, only 1000 results are returned.
         public var maxResults: Int32? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14000,7 +14000,7 @@ extension Ec2 {
 
     public struct AttachInternetGatewayRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String = ""
         /// The ID of the Internet gateway.
@@ -14027,7 +14027,7 @@ extension Ec2 {
 
     public struct CopySnapshotResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the new snapshot.
         public var snapshotId: String? = nil
 
@@ -14044,7 +14044,7 @@ extension Ec2 {
 
     public struct VpcIpv6CidrBlockAssociation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the state of the CIDR block.
         public var ipv6CidrBlockState: VpcCidrBlockState? = nil
         /// The IPv6 CIDR block.
@@ -14069,7 +14069,7 @@ extension Ec2 {
 
     public struct ScheduledInstancesIamInstanceProfile: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name.
         public var name: String? = nil
         /// The Amazon Resource Name (ARN).
@@ -14090,7 +14090,7 @@ extension Ec2 {
 
     public struct AcceptVpcPeeringConnectionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the VPC peering connection.
         public var vpcPeeringConnection: VpcPeeringConnection? = nil
 
@@ -14107,7 +14107,7 @@ extension Ec2 {
 
     public struct ImportSnapshotResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A description of the import snapshot task.
         public var description: String? = nil
         /// Information about the import snapshot task.
@@ -14132,7 +14132,7 @@ extension Ec2 {
 
     public struct SnapshotDiskContainer: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The S3 bucket for the disk image.
         public var userBucket: UserBucket? = nil
         /// The format of the disk image being imported. Valid values: RAW | VHD | VMDK | OVA 
@@ -14161,7 +14161,7 @@ extension Ec2 {
 
     public struct DeleteFlowLogsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the flow logs that could not be deleted successfully.
         public var unsuccessful: [UnsuccessfulItem]? = nil
 
@@ -14180,7 +14180,7 @@ extension Ec2 {
 
     public struct DescribeDhcpOptionsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more DHCP options sets.
         public var dhcpOptions: [DhcpOptions]? = nil
 
@@ -14199,7 +14199,7 @@ extension Ec2 {
 
     public struct DeleteRouteRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the route table.
         public var routeTableId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14229,7 +14229,7 @@ extension Ec2 {
 
     public struct IamInstanceProfileAssociation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time the IAM instance profile was associated with the instance.
         public var timestamp: Date? = nil
         /// The ID of the association.
@@ -14262,7 +14262,7 @@ extension Ec2 {
 
     public struct PeeringConnectionOptions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If true, enables outbound communication from instances in a local VPC to an EC2-Classic instance that's linked to a peer VPC via ClassicLink.
         public var allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil
         /// If true, enables a local VPC to resolve public DNS hostnames to private IP addresses when queried from instances in the peer VPC.
@@ -14287,7 +14287,7 @@ extension Ec2 {
 
     public struct DetachVpnGatewayRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14314,7 +14314,7 @@ extension Ec2 {
 
     public struct RouteTableAssociation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the subnet. A subnet ID is not returned for an implicit association.
         public var subnetId: String? = nil
         /// The ID of the route table.
@@ -14343,7 +14343,7 @@ extension Ec2 {
 
     public struct UnmonitorInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more instance IDs.
         public var instanceIds: [String] = []
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14365,7 +14365,7 @@ extension Ec2 {
 
     public struct DescribeExportTasksRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more export task IDs.
         public var exportTaskIds: [String]? = nil
 
@@ -14384,7 +14384,7 @@ extension Ec2 {
 
     public struct PricingDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The price per instance.
         public var price: Double? = nil
         /// The number of reservations available for the price.
@@ -14405,7 +14405,7 @@ extension Ec2 {
 
     public struct GetConsoleScreenshotResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the instance.
         public var instanceId: String? = nil
         /// The data that comprises the image.
@@ -14426,7 +14426,7 @@ extension Ec2 {
 
     public struct DescribeReservedInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more Reserved Instance IDs. Default: Describes all your Reserved Instances, or only those otherwise specified.
         public var reservedInstancesIds: [String]? = nil
         /// One or more filters.    availability-zone - The Availability Zone where the Reserved Instance can be used.    duration - The duration of the Reserved Instance (one year or three years), in seconds (31536000 | 94608000).    end - The time when the Reserved Instance expires (for example, 2015-08-07T11:54:42.000Z).    fixed-price - The purchase price of the Reserved Instance (for example, 9800.0).    instance-type - The instance type that is covered by the reservation.    scope - The scope of the Reserved Instance (Region or Availability Zone).    product-description - The Reserved Instance product platform description. Instances that include (Amazon VPC) in the product platform description will only be displayed to EC2-Classic account holders and are for use with Amazon VPC (Linux/UNIX | Linux/UNIX (Amazon VPC) | SUSE Linux | SUSE Linux (Amazon VPC) | Red Hat Enterprise Linux | Red Hat Enterprise Linux (Amazon VPC) | Windows | Windows (Amazon VPC) | Windows with SQL Server Standard | Windows with SQL Server Standard (Amazon VPC) | Windows with SQL Server Web | Windows with SQL Server Web (Amazon VPC) | Windows with SQL Server Enterprise | Windows with SQL Server Enterprise (Amazon VPC)).    reserved-instances-id - The ID of the Reserved Instance.    start - The time at which the Reserved Instance purchase request was placed (for example, 2014-08-07T11:54:42.000Z).    state - The state of the Reserved Instance (payment-pending | active | payment-failed | retired).    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    usage-price - The usage price of the Reserved Instance, per hour (for example, 0.84).  
@@ -14463,7 +14463,7 @@ extension Ec2 {
 
     public struct Placement: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The affinity setting for the instance on the Dedicated Host. This parameter is not supported for the ImportInstance command.
         public var affinity: String? = nil
         /// The name of the placement group the instance is in (for cluster compute instances).
@@ -14496,7 +14496,7 @@ extension Ec2 {
 
     public struct DescribeStaleSecurityGroupsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the stale security groups.
         public var staleSecurityGroupSet: [StaleSecurityGroup]? = nil
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
@@ -14519,7 +14519,7 @@ extension Ec2 {
 
     public struct ScheduledInstancesNetworkInterface: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The index of the device for the network interface attachment.
         public var deviceIndex: Int32? = nil
         /// The ID of the subnet.
@@ -14586,7 +14586,7 @@ extension Ec2 {
 
     public struct UserIdGroupPair: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of an AWS account. For a referenced security group in another VPC, the account ID of the referenced security group is returned. [EC2-Classic] Required when adding or removing rules that reference a security group in another AWS account.
         public var userId: String? = nil
         /// The status of a VPC peering connection, if applicable.
@@ -14623,7 +14623,7 @@ extension Ec2 {
 
     public struct DescribeConversionTasksRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// One or more conversion task IDs.
@@ -14646,7 +14646,7 @@ extension Ec2 {
 
     public struct ModifySubnetAttributeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Specify true to indicate that network interfaces created in the specified subnet should be assigned a public IPv4 address. This includes a network interface that's created when launching an instance into the subnet (the instance therefore receives a public IPv4 address).
         public var mapPublicIpOnLaunch: AttributeBooleanValue? = nil
         /// The ID of the subnet.
@@ -14672,7 +14672,7 @@ extension Ec2 {
 
     public struct PlacementGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The state of the placement group.
         public var state: String? = nil
         /// The placement strategy.
@@ -14697,7 +14697,7 @@ extension Ec2 {
 
     public struct AssociateAddressResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// [EC2-VPC] The ID that represents the association of the Elastic IP address with an instance.
         public var associationId: String? = nil
 
@@ -14714,7 +14714,7 @@ extension Ec2 {
 
     public struct Reservation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the requester that launched the instances on your behalf (for example, AWS Management Console or Auto Scaling).
         public var requesterId: String? = nil
         /// One or more instances.
@@ -14751,7 +14751,7 @@ extension Ec2 {
 
     public struct SpotFleetRequestConfigData: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of units to request. You can choose to set the target capacity in terms of instances or a performance characteristic that is important to your application workload, such as vCPUs, memory, or I/O.
         public var targetCapacity: Int32 = 0
         /// A unique, case-sensitive identifier you provide to ensure idempotency of your listings. This helps avoid duplicate listings. For more information, see Ensuring Idempotency.
@@ -14820,7 +14820,7 @@ extension Ec2 {
 
     public struct DeleteInternetGatewayRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the Internet gateway.
         public var internetGatewayId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -14842,7 +14842,7 @@ extension Ec2 {
 
     public struct ScheduledInstancesBlockDeviceMapping: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Suppresses the specified device included in the block device mapping of the AMI.
         public var noDevice: String? = nil
         /// The virtual device name (ephemeralN). Instance store volumes are numbered starting from 0. An instance type with two available instance store volumes can specify mappings for ephemeral0 and ephemeral1.The number of available instance store volumes depends on the instance type. After you connect to the instance, you must mount the volume. Constraints: For M3 instances, you must specify instance store volumes in the block device mapping for the instance. When you launch an M3 instance, we ignore any instance store volumes specified in the block device mapping for the AMI.
@@ -14871,7 +14871,7 @@ extension Ec2 {
 
     public struct StateReason: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The reason code for the state change.
         public var code: String? = nil
         /// The message for the state change.    Server.InsufficientInstanceCapacity: There was insufficient instance capacity to satisfy the launch request.    Server.InternalError: An internal error occurred during instance launch, resulting in termination.    Server.ScheduledStop: The instance was stopped due to a scheduled retirement.    Server.SpotInstanceTermination: A Spot instance was terminated due to an increase in the market price.    Client.InternalError: A client error caused the instance to terminate on launch.    Client.InstanceInitiatedShutdown: The instance was shut down using the shutdown -h command from the instance.    Client.UserInitiatedShutdown: The instance was shut down using the Amazon EC2 API.    Client.VolumeLimitExceeded: The limit on the number of EBS volumes or total storage was exceeded. Decrease usage or request an increase in your limits.    Client.InvalidSnapshot.NotFound: The specified snapshot was not found.  
@@ -14892,7 +14892,7 @@ extension Ec2 {
 
     public struct DeleteTagsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// One or more tags to delete. If you omit the value parameter, we delete the tag regardless of its value. If you specify this parameter with an empty string as the value, we delete the key only if its value is an empty string.
@@ -14920,7 +14920,7 @@ extension Ec2 {
 
     public struct DescribeSpotInstanceRequestsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// One or more filters.    availability-zone-group - The Availability Zone group.    create-time - The time stamp when the Spot instance request was created.    fault-code - The fault code related to the request.    fault-message - The fault message related to the request.    instance-id - The ID of the instance that fulfilled the request.    launch-group - The Spot instance launch group.    launch.block-device-mapping.delete-on-termination - Indicates whether the Amazon EBS volume is deleted on instance termination.    launch.block-device-mapping.device-name - The device name for the Amazon EBS volume (for example, /dev/sdh).    launch.block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    launch.block-device-mapping.volume-size - The size of the Amazon EBS volume, in GiB.    launch.block-device-mapping.volume-type - The type of the Amazon EBS volume: gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1for Cold HDD, or standard for Magnetic.    launch.group-id - The security group for the instance.    launch.image-id - The ID of the AMI.    launch.instance-type - The type of instance (for example, m3.medium).    launch.kernel-id - The kernel ID.    launch.key-name - The name of the key pair the instance launched with.    launch.monitoring-enabled - Whether monitoring is enabled for the Spot instance.    launch.ramdisk-id - The RAM disk ID.    network-interface.network-interface-id - The ID of the network interface.    network-interface.device-index - The index of the device for the network interface attachment on the instance.    network-interface.subnet-id - The ID of the subnet for the instance.    network-interface.description - A description of the network interface.    network-interface.private-ip-address - The primary private IP address of the network interface.    network-interface.delete-on-termination - Indicates whether the network interface is deleted when the instance is terminated.    network-interface.group-id - The ID of the security group associated with the network interface.    network-interface.group-name - The name of the security group associated with the network interface.    network-interface.addresses.primary - Indicates whether the IP address is the primary private IP address.    product-description - The product description associated with the instance (Linux/UNIX | Windows).    spot-instance-request-id - The Spot instance request ID.    spot-price - The maximum hourly price for any Spot instance launched to fulfill the request.    state - The state of the Spot instance request (open | active | closed | cancelled | failed). Spot bid status information can help you track your Amazon EC2 Spot instance requests. For more information, see Spot Bid Status in the Amazon Elastic Compute Cloud User Guide.    status-code - The short code describing the most recent evaluation of your Spot instance request.    status-message - The message explaining the status of the Spot instance request.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.    type - The type of Spot instance request (one-time | persistent).    launched-availability-zone - The Availability Zone in which the bid is launched.    valid-from - The start date of the request.    valid-until - The end date of the request.  
@@ -14949,7 +14949,7 @@ extension Ec2 {
 
     public struct AttachClassicLinkVpcRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The ID of a ClassicLink-enabled VPC.
@@ -14981,7 +14981,7 @@ extension Ec2 {
 
     public struct ReleaseHostsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of the Dedicated Hosts that were successfully released.
         public var successful: [String]? = nil
         /// The IDs of the Dedicated Hosts that could not be released, including an error message.
@@ -15006,7 +15006,7 @@ extension Ec2 {
 
     public struct ExportToS3TaskSpecification: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The image is written to a single object in the S3 bucket at the S3 key s3prefix + exportTaskId + '.' + diskImageFormat.
         public var s3Prefix: String? = nil
         /// The container format used to combine disk images with metadata (such as OVF). If absent, only the disk image is exported.
@@ -15035,7 +15035,7 @@ extension Ec2 {
 
     public struct CancelSpotFleetRequestsError: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The error code.
         public var code: String = ""
         /// The description for the error code.
@@ -15058,7 +15058,7 @@ extension Ec2 {
 
     public struct DescribeKeyPairsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// One or more filters.    fingerprint - The fingerprint of the key pair.    key-name - The name of the key pair.  
@@ -15087,7 +15087,7 @@ extension Ec2 {
 
     public struct DescribeReservedInstancesOfferingsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of Reserved Instances offerings.
         public var reservedInstancesOfferings: [ReservedInstancesOffering]? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -15110,7 +15110,7 @@ extension Ec2 {
 
     public struct VpnStaticRoute: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The CIDR block associated with the local subnet of the customer data center.
         public var destinationCidrBlock: String? = nil
         /// The current state of the static route.
@@ -15135,7 +15135,7 @@ extension Ec2 {
 
     public struct CopySnapshotRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A description for the EBS snapshot.
         public var description: String? = nil
         /// The full ARN of the AWS Key Management Service (AWS KMS) CMK to use when creating the snapshot copy. This parameter is only required if you want to use a non-default CMK; if this parameter is not specified, the default CMK for EBS is used. The ARN contains the arn:aws:kms namespace, followed by the region of the CMK, the AWS account ID of the CMK owner, the key namespace, and then the CMK ID. For example, arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef. The specified CMK must exist in the region that the snapshot is being copied to. If a KmsKeyId is specified, the Encrypted flag must also be set.
@@ -15182,7 +15182,7 @@ extension Ec2 {
 
     public struct DescribePlacementGroupsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more placement groups.
         public var placementGroups: [PlacementGroup]? = nil
 
@@ -15201,7 +15201,7 @@ extension Ec2 {
 
     public struct DetachVolumeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The device name.
         public var device: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -15235,7 +15235,7 @@ extension Ec2 {
 
     public struct EgressOnlyInternetGateway: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the egress-only Internet gateway.
         public var egressOnlyInternetGatewayId: String? = nil
         /// Information about the attachment of the egress-only Internet gateway.
@@ -15258,7 +15258,7 @@ extension Ec2 {
 
     public struct EnableVgwRoutePropagationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the virtual private gateway.
         public var gatewayId: String = ""
         /// The ID of the route table.
@@ -15281,7 +15281,7 @@ extension Ec2 {
 
     public struct GetReservedInstancesExchangeQuoteRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of the Convertible Reserved Instances to exchange.
         public var reservedInstanceIds: [String] = []
         /// The configuration requirements of the Convertible Reserved Instances to exchange for your current Convertible Reserved Instances.
@@ -15309,7 +15309,7 @@ extension Ec2 {
 
     public struct SpotFleetLaunchSpecification: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more block device mapping entries.
         public var blockDeviceMappings: [BlockDeviceMapping]? = nil
         /// The ID of the subnet in which to launch the instances. To specify multiple subnets, separate them using commas; for example, "subnet-a61dafcf, subnet-65ea5f08".
@@ -15396,7 +15396,7 @@ extension Ec2 {
 
     public struct Region: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The region service endpoint.
         public var endpoint: String? = nil
         /// The name of the region.
@@ -15417,7 +15417,7 @@ extension Ec2 {
 
     public struct PurchaseRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The purchase token.
         public var purchaseToken: String = ""
         /// The number of instances.
@@ -15440,7 +15440,7 @@ extension Ec2 {
 
     public struct DetachInternetGatewayRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String = ""
         /// The ID of the Internet gateway.
@@ -15467,7 +15467,7 @@ extension Ec2 {
 
     public struct DescribeVpcClassicLinkDnsSupportResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the ClassicLink DNS support status of the VPCs.
         public var vpcs: [ClassicLinkDnsSupport]? = nil
         /// The token to use when requesting the next set of items.
@@ -15490,7 +15490,7 @@ extension Ec2 {
 
     public struct CreateInternetGatewayRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
 
@@ -15507,7 +15507,7 @@ extension Ec2 {
 
     public struct VpnConnectionOptionsSpecification: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether the VPN connection uses static routes only. Static routes must be used for devices that don't support BGP.
         public var staticRoutesOnly: Bool? = nil
 
@@ -15524,7 +15524,7 @@ extension Ec2 {
 
     public struct HistoryRecord: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The event type.    error - Indicates an error with the Spot fleet request.    fleetRequestChange - Indicates a change in the status or configuration of the Spot fleet request.    instanceChange - Indicates that an instance was launched or terminated.  
         public var eventType: String = ""
         /// The date and time of the event, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
@@ -15552,7 +15552,7 @@ extension Ec2 {
 
     public struct DescribeSpotFleetRequestsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token required to retrieve the next set of results. This value is null when there are no more results to return.
         public var nextToken: String? = nil
         /// Information about the configuration of your Spot fleet.
@@ -15574,7 +15574,7 @@ extension Ec2 {
 
     public struct VpcPeeringConnectionOptionsDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether a local VPC can communicate with a ClassicLink connection in the peer VPC over the VPC peering connection.
         public var allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil
         /// Indicates whether a local VPC can resolve public DNS hostnames to private IP addresses when queried from instances in a peer VPC.
@@ -15599,7 +15599,7 @@ extension Ec2 {
 
     public struct InstanceStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The intended state of the instance. DescribeInstanceStatus requires that an instance be in the running state.
         public var instanceState: InstanceState? = nil
         /// Reports impaired functionality that stems from issues related to the systems that support an instance, such as hardware failures and network connectivity problems.
@@ -15638,7 +15638,7 @@ extension Ec2 {
 
     public struct VpcPeeringConnectionVpcInfo: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the VPC peering connection options for the accepter or requester VPC.
         public var peeringOptions: VpcPeeringConnectionOptionsDescription? = nil
         /// The IPv6 CIDR block for the VPC.
@@ -15673,7 +15673,7 @@ extension Ec2 {
 
     public struct SnapshotTaskDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A brief status for the import snapshot task.
         public var status: String? = nil
         /// The percentage of completion for the import snapshot task.
@@ -15722,7 +15722,7 @@ extension Ec2 {
 
     public struct CreateSpotDatafeedSubscriptionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Spot instance data feed subscription.
         public var spotDatafeedSubscription: SpotDatafeedSubscription? = nil
 
@@ -15739,7 +15739,7 @@ extension Ec2 {
 
     public struct DescribeSpotInstanceRequestsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more Spot instance requests.
         public var spotInstanceRequests: [SpotInstanceRequest]? = nil
 
@@ -15758,7 +15758,7 @@ extension Ec2 {
 
     public struct ModifyVpcPeeringConnectionOptionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The VPC peering connection options for the accepter VPC.
         public var accepterPeeringConnectionOptions: PeeringConnectionOptionsRequest? = nil
         /// The VPC peering connection options for the requester VPC.
@@ -15788,7 +15788,7 @@ extension Ec2 {
 
     public struct IamInstanceProfileSpecification: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the instance profile.
         public var name: String? = nil
         /// The Amazon Resource Name (ARN) of the instance profile.
@@ -15809,7 +15809,7 @@ extension Ec2 {
 
     public struct ConfirmProductInstanceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the instance.
         public var instanceId: String = ""
         /// The product code. This must be a product code that you own.
@@ -15836,7 +15836,7 @@ extension Ec2 {
 
     public struct DisableVgwRoutePropagationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the virtual private gateway.
         public var gatewayId: String = ""
         /// The ID of the route table.
@@ -15859,7 +15859,7 @@ extension Ec2 {
 
     public struct DescribeSpotPriceHistoryRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date and time, up to the past 90 days, from which to start retrieving the price history data, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public var startTime: Date? = nil
         /// The maximum number of results to return in a single call. Specify a value between 1 and 1000. The default value is 1000. To retrieve the remaining results, make another call with the returned NextToken value.
@@ -15914,7 +15914,7 @@ extension Ec2 {
 
     public struct ConversionTask: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If the task is for importing an instance, this contains information about the import instance task.
         public var importInstance: ImportInstanceTaskDetails? = nil
         /// The time when the task expires. If the upload isn't complete before the expiration time, we automatically cancel the task.
@@ -15959,7 +15959,7 @@ extension Ec2 {
 
     public struct ReplaceRouteTableAssociationResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the new association.
         public var newAssociationId: String? = nil
 
@@ -15976,7 +15976,7 @@ extension Ec2 {
 
     public struct ModifyVolumeResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A VolumeModification object.
         public var volumeModification: VolumeModification? = nil
 
@@ -15993,7 +15993,7 @@ extension Ec2 {
 
     public struct KeyPair: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the key pair.
         public var keyName: String? = nil
         /// The SHA-1 digest of the DER encoded private key.
@@ -16018,7 +16018,7 @@ extension Ec2 {
 
     public struct DescribeVpnGatewaysResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more virtual private gateways.
         public var vpnGateways: [VpnGateway]? = nil
 
@@ -16037,7 +16037,7 @@ extension Ec2 {
 
     public struct DescribeSpotFleetInstancesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The token for the next set of results.
@@ -16067,7 +16067,7 @@ extension Ec2 {
 
     public struct DeleteVpcEndpointsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more endpoint IDs.
         public var vpcEndpointIds: [String] = []
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -16089,7 +16089,7 @@ extension Ec2 {
 
     public struct DescribeReservedInstancesModificationsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public var nextToken: String? = nil
         /// The Reserved Instance modification information.
@@ -16112,7 +16112,7 @@ extension Ec2 {
 
     public struct AssociateSubnetCidrBlockRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IPv6 CIDR block for your subnet. The subnet must have a /64 prefix length.
         public var ipv6CidrBlock: String = ""
         /// The ID of your subnet.
@@ -16135,7 +16135,7 @@ extension Ec2 {
 
     public struct DescribeDhcpOptionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of one or more DHCP options sets. Default: Describes all your DHCP options sets.
         public var dhcpOptionsIds: [String]? = nil
         /// One or more filters.    dhcp-options-id - The ID of a set of DHCP options.    key - The key for one of the options (for example, domain-name).    value - The value for one of the options.    tag:key=value - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.    tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag:key=value filter.    tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.  
@@ -16164,7 +16164,7 @@ extension Ec2 {
 
     public struct LaunchPermissionModifications: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The AWS account ID to remove from the list of launch permissions for the AMI.
         public var remove: [LaunchPermission]? = nil
         /// The AWS account ID to add to the list of launch permissions for the AMI.
@@ -16189,7 +16189,7 @@ extension Ec2 {
 
     public struct ModifyHostsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The host IDs of the Dedicated Hosts you want to modify.
         public var hostIds: [String] = []
         /// Specify whether to enable or disable auto-placement.
@@ -16212,7 +16212,7 @@ extension Ec2 {
 
     public struct ReleaseAddressRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// [EC2-VPC] The allocation ID. Required for EC2-VPC.
@@ -16237,7 +16237,7 @@ extension Ec2 {
 
     public struct VpcEndpoint: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date and time the VPC endpoint was created.
         public var creationTimestamp: Date? = nil
         /// The ID of the VPC to which the endpoint is associated.
@@ -16280,7 +16280,7 @@ extension Ec2 {
 
     public struct AssociateIamInstanceProfileRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the instance.
         public var instanceId: String = ""
         /// The IAM instance profile.
@@ -16303,7 +16303,7 @@ extension Ec2 {
 
     public struct DisassociateVpcCidrBlockResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String? = nil
         /// Information about the IPv6 CIDR block association.
@@ -16324,7 +16324,7 @@ extension Ec2 {
 
     public struct DeleteDhcpOptionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the DHCP options set.
         public var dhcpOptionsId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -16346,7 +16346,7 @@ extension Ec2 {
 
     public struct DescribeHostReservationsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Details about the reservation's configuration.
         public var hostReservationSet: [HostReservation]? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -16369,7 +16369,7 @@ extension Ec2 {
 
     public struct ModifyNetworkInterfaceAttributeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A description for the network interface.
         public var description: AttributeValue? = nil
         /// The ID of the network interface.
@@ -16409,7 +16409,7 @@ extension Ec2 {
 
     public struct AttributeBooleanValue: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The attribute value. The valid values are true or false.
         public var value: Bool? = nil
 
@@ -16426,7 +16426,7 @@ extension Ec2 {
 
     public struct AttachVpnGatewayRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -16453,7 +16453,7 @@ extension Ec2 {
 
     public struct CreateEgressOnlyInternetGatewayResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request.
         public var clientToken: String? = nil
         /// Information about the egress-only Internet gateway.
@@ -16474,7 +16474,7 @@ extension Ec2 {
 
     public struct NetworkInterfaceAttachmentChanges: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether the network interface is deleted when the instance is terminated.
         public var deleteOnTermination: Bool? = nil
         /// The ID of the network interface attachment.
@@ -16495,7 +16495,7 @@ extension Ec2 {
 
     public struct CancelExportTaskRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the export task. This is the ID returned by CreateInstanceExportTask.
         public var exportTaskId: String = ""
 
@@ -16513,7 +16513,7 @@ extension Ec2 {
 
     public struct ResetImageAttributeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The attribute to reset (currently you can only reset the launch permission attribute).
         public var attribute: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -16540,7 +16540,7 @@ extension Ec2 {
 
     public struct AssociateRouteTableRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the subnet.
         public var subnetId: String = ""
         /// The ID of the route table.
@@ -16567,7 +16567,7 @@ extension Ec2 {
 
     public struct PrivateIpAddressSpecification: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates whether the private IPv4 address is the primary private IPv4 address. Only one IPv4 address can be designated as primary.
         public var primary: Bool? = nil
         /// The private IPv4 addresses.
@@ -16589,7 +16589,7 @@ extension Ec2 {
 
     public struct ClassicLinkInstance: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String? = nil
         /// The ID of the instance.
@@ -16622,7 +16622,7 @@ extension Ec2 {
 
     public struct DescribePlacementGroupsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// One or more filters.    group-name - The name of the placement group.    state - The state of the placement group (pending | available | deleting | deleted).    strategy - The strategy of the placement group (cluster).  
@@ -16651,7 +16651,7 @@ extension Ec2 {
 
     public struct ReplaceNetworkAclAssociationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the current association between the original network ACL and the subnet.
         public var associationId: String = ""
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -16678,7 +16678,7 @@ extension Ec2 {
 
     public struct CreateImageRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more block device mappings.
         public var blockDeviceMappings: [BlockDeviceMapping]? = nil
         /// A description for the new image.
@@ -16719,7 +16719,7 @@ extension Ec2 {
 
     public struct ModifyVpcPeeringConnectionOptionsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the VPC peering connection options for the accepter VPC.
         public var accepterPeeringConnectionOptions: PeeringConnectionOptions? = nil
         /// Information about the VPC peering connection options for the requester VPC.
@@ -16740,7 +16740,7 @@ extension Ec2 {
 
     public struct DescribeVpcAttributeResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the VPC.
         public var vpcId: String? = nil
         /// Indicates whether DNS resolution is enabled for the VPC. If this attribute is true, the Amazon DNS server resolves DNS hostnames for your instances to their corresponding IP addresses; otherwise, it does not.
@@ -16765,7 +16765,7 @@ extension Ec2 {
 
     public struct ModifyVolumeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Target EBS volume type of the volume to be modified  The API does not support modifications for volume type standard. You also cannot change the type of a volume to standard.  Default: If no type is specified, the existing type is retained. 
         public var volumeType: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -16798,7 +16798,7 @@ extension Ec2 {
 
     public struct DescribeCustomerGatewaysResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more customer gateways.
         public var customerGateways: [CustomerGateway]? = nil
 
@@ -16817,7 +16817,7 @@ extension Ec2 {
 
     public struct ModifyInstanceAttributeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Modifies the DeleteOnTermination attribute for volumes that are currently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination, the default is true and the volume is deleted when the instance is terminated. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Updating the Block Device Mapping when Launching an Instance in the Amazon Elastic Compute Cloud User Guide.
         public var blockDeviceMappings: [InstanceBlockDeviceMappingSpecification]? = nil
         /// If the value is true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. You cannot use this paramater for Spot Instances.
@@ -16899,7 +16899,7 @@ extension Ec2 {
 
     public struct ScheduledInstanceRecurrence: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The frequency (Daily, Weekly, or Monthly).
         public var frequency: String? = nil
         /// The unit for occurrenceDaySet (DayOfWeek or DayOfMonth).
@@ -16934,7 +16934,7 @@ extension Ec2 {
 
     public struct CreateVpnGatewayResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the virtual private gateway.
         public var vpnGateway: VpnGateway? = nil
 
@@ -16951,7 +16951,7 @@ extension Ec2 {
 
     public struct SnapshotDetail: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A brief status of the snapshot creation.
         public var status: String? = nil
         /// The percentage of progress for the task.
@@ -17004,7 +17004,7 @@ extension Ec2 {
 
     public struct DescribeVpcClassicLinkDnsSupportRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more VPC IDs.
         public var vpcIds: [String]? = nil
         /// The token for the next set of items to return. (You received this token from a prior call.)
@@ -17031,7 +17031,7 @@ extension Ec2 {
 
     public struct DeleteNatGatewayResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the NAT gateway.
         public var natGatewayId: String? = nil
 
@@ -17048,7 +17048,7 @@ extension Ec2 {
 
     public struct AttachNetworkInterfaceRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The index of the device for the network interface attachment.
         public var deviceIndex: Int32 = 0
         /// The ID of the network interface.
@@ -17080,7 +17080,7 @@ extension Ec2 {
 
     public struct IpPermission: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more security group and AWS account ID pairs.
         public var userIdGroupPairs: [UserIdGroupPair]? = nil
         /// One or more IPv4 ranges.
@@ -17129,7 +17129,7 @@ extension Ec2 {
 
     public struct VgwTelemetry: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the VPN tunnel.
         public var status: String? = nil
         /// The date and time of the last change in status.
@@ -17162,7 +17162,7 @@ extension Ec2 {
 
     public struct ReplaceNetworkAclAssociationResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the new association.
         public var newAssociationId: String? = nil
 
@@ -17179,7 +17179,7 @@ extension Ec2 {
 
     public struct DiskImageVolumeDescription: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The size of the volume, in GiB.
         public var size: Int64? = nil
         /// The volume identifier.
@@ -17201,7 +17201,7 @@ extension Ec2 {
 
     public struct AttributeValue: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The attribute value. Note that the value is case-sensitive.
         public var value: String? = nil
 
@@ -17218,7 +17218,7 @@ extension Ec2 {
 
     public struct ImportInstanceResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about the conversion task.
         public var conversionTask: ConversionTask? = nil
 
@@ -17235,7 +17235,7 @@ extension Ec2 {
 
     public struct CreateDhcpOptionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A DHCP configuration option.
         public var dhcpConfigurations: [NewDhcpConfiguration] = []
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -17257,7 +17257,7 @@ extension Ec2 {
 
     public struct ModifyIdentityIdFormatRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN of the principal, which can be an IAM user, IAM role, or the root user. Specify all to modify the ID format for all IAM users, IAM roles, and the root user of the account.
         public var principalArn: String = ""
         /// The type of resource: instance | reservation | snapshot | volume 
@@ -17285,7 +17285,7 @@ extension Ec2 {
 
     public struct SpotFleetRequestConfig: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The state of the Spot fleet request.
         public var spotFleetRequestState: String = ""
         /// The creation date and time of the request.
@@ -17322,7 +17322,7 @@ extension Ec2 {
 
     public struct ModifyHostsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The IDs of the Dedicated Hosts that were successfully modified.
         public var successful: [String]? = nil
         /// The IDs of the Dedicated Hosts that could not be modified. Check whether the setting you requested can be used.
@@ -17347,7 +17347,7 @@ extension Ec2 {
 
     public struct DisassociateAddressRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// [EC2-Classic] The Elastic IP address. Required for EC2-Classic.
         public var publicIp: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -17372,7 +17372,7 @@ extension Ec2 {
 
     public struct ScheduledInstancesEbs: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the snapshot.
         public var snapshotId: String? = nil
         /// Indicates whether the volume is deleted on instance termination.
@@ -17409,7 +17409,7 @@ extension Ec2 {
 
     public struct UnmonitorInstancesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The monitoring information.
         public var instanceMonitorings: [InstanceMonitoring]? = nil
 
@@ -17428,7 +17428,7 @@ extension Ec2 {
 
     public struct InternetGateway: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Any tags assigned to the Internet gateway.
         public var tags: [Tag]? = nil
         /// The ID of the Internet gateway.
@@ -17457,7 +17457,7 @@ extension Ec2 {
 
     public struct CreateVolumePermissionModifications: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Removes a specific AWS account ID or group from a volume's list of create volume permissions.
         public var remove: [CreateVolumePermission]? = nil
         /// Adds a specific AWS account ID or group to a volume's list of create volume permissions.
@@ -17482,7 +17482,7 @@ extension Ec2 {
 
     public struct DescribeSpotFleetRequestsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public var dryRun: Bool? = nil
         /// The IDs of the Spot fleet requests.
@@ -17513,7 +17513,7 @@ extension Ec2 {
 
     public struct DescribeNetworkInterfacesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Information about one or more network interfaces.
         public var networkInterfaces: [NetworkInterface]? = nil
 
@@ -17532,7 +17532,7 @@ extension Ec2 {
 
     public struct TargetConfigurationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Convertible Reserved Instance offering ID.
         public var offeringId: String = ""
         /// The number of instances the Covertible Reserved Instance offering can be applied to. This parameter is reserved and cannot be specified in a request
@@ -17554,7 +17554,7 @@ extension Ec2 {
 
     public struct DescribeInstanceStatusResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// One or more instance status descriptions.
         public var instanceStatuses: [InstanceStatus]? = nil
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.

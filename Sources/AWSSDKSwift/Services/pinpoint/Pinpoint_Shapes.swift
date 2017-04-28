@@ -31,7 +31,7 @@ extension Pinpoint {
 
     public struct EndpointBatchRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// List of items to update. Maximum 100 items
         public var item: [EndpointBatchItem]? = nil
 
@@ -50,7 +50,7 @@ extension Pinpoint {
 
     public struct UpdateEndpointsBatchResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "MessageBody"
+        public static let payload: String? = "MessageBody"
         public var messageBody: MessageBody = MessageBody()
 
         public init() {}
@@ -67,11 +67,11 @@ extension Pinpoint {
 
     public struct GetCampaignActivitiesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["token": "Token", "page-size": "PageSize"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["campaign-id": "CampaignId", "application-id": "ApplicationId"]
         }
         public var pageSize: String? = nil
@@ -100,7 +100,7 @@ extension Pinpoint {
 
     public struct EndpointRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The endpoint status. Can be either ACTIVE or INACTIVE. Will be set to INACTIVE if a delivery fails. Will be set to ACTIVE if the address is updated.
         public var endpointStatus: String? = nil
         /// Indicates whether a user has opted out of receiving messages with one of the following values:  ALL – User receives all messages. NONE – User receives no messages.
@@ -163,7 +163,7 @@ extension Pinpoint {
 
     public struct UpdateApplicationSettingsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "ApplicationSettingsResource"
+        public static let payload: String? = "ApplicationSettingsResource"
         public var applicationSettingsResource: ApplicationSettingsResource = ApplicationSettingsResource()
 
         public init() {}
@@ -180,8 +180,8 @@ extension Pinpoint {
 
     public struct GetGcmChannelRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
         public var applicationId: String = ""
@@ -200,7 +200,7 @@ extension Pinpoint {
 
     public struct GCMChannelRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Platform credential API key from Google.
         public var apiKey: String? = nil
 
@@ -217,8 +217,8 @@ extension Pinpoint {
 
     public struct CreateCampaignRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "WriteCampaignRequest"
-        public var pathParams: [String: String] {
+        public static let payload: String? = "WriteCampaignRequest"
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
         public var applicationId: String = ""
@@ -241,8 +241,8 @@ extension Pinpoint {
 
     public struct GetSegmentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId", "segment-id": "SegmentId"]
         }
         public var segmentId: String = ""
@@ -265,7 +265,7 @@ extension Pinpoint {
 
     public struct QuietTime: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The default end time for quiet time in ISO 8601 format.
         public var end: String? = nil
         /// The default start time for quiet time in ISO 8601 format.
@@ -286,8 +286,8 @@ extension Pinpoint {
 
     public struct DeleteApnsChannelRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
         public var applicationId: String = ""
@@ -306,8 +306,8 @@ extension Pinpoint {
 
     public struct DeleteCampaignRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["campaign-id": "CampaignId", "application-id": "ApplicationId"]
         }
         public var campaignId: String = ""
@@ -330,7 +330,7 @@ extension Pinpoint {
 
     public struct DeleteGcmChannelResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "GCMChannelResponse"
+        public static let payload: String? = "GCMChannelResponse"
         public var gCMChannelResponse: GCMChannelResponse = GCMChannelResponse()
 
         public init() {}
@@ -347,11 +347,11 @@ extension Pinpoint {
 
     public struct GetSegmentsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["token": "Token", "page-size": "PageSize"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
         public var pageSize: String? = nil
@@ -376,7 +376,7 @@ extension Pinpoint {
 
     public struct GetImportJobResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "ImportJobResponse"
+        public static let payload: String? = "ImportJobResponse"
         public var importJobResponse: ImportJobResponse = ImportJobResponse()
 
         public init() {}
@@ -393,8 +393,8 @@ extension Pinpoint {
 
     public struct CreateSegmentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "WriteSegmentRequest"
-        public var pathParams: [String: String] {
+        public static let payload: String? = "WriteSegmentRequest"
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
         public var applicationId: String = ""
@@ -417,11 +417,11 @@ extension Pinpoint {
 
     public struct GetSegmentVersionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["token": "Token", "page-size": "PageSize"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["segment-id": "SegmentId", "application-id": "ApplicationId"]
         }
         public var pageSize: String? = nil
@@ -450,7 +450,7 @@ extension Pinpoint {
 
     public struct Message: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var action: String? = nil
         /// The URL to open in the user's mobile browser. Used if the value for Action is URL.
         public var url: String? = nil
@@ -498,8 +498,8 @@ extension Pinpoint {
 
     public struct GetApplicationSettingsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
         public var applicationId: String = ""
@@ -518,8 +518,8 @@ extension Pinpoint {
 
     public struct GetSegmentVersionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["segment-id": "SegmentId", "version": "Version", "application-id": "ApplicationId"]
         }
         public var applicationId: String = ""
@@ -546,7 +546,7 @@ extension Pinpoint {
 
     public struct SegmentLocation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The country filter according to ISO 3166-1 Alpha-2 codes.
         public var country: SetDimension? = nil
 
@@ -563,7 +563,7 @@ extension Pinpoint {
 
     public struct WriteCampaignRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The custom name of a variation of the campaign used for A/B testing.
         public var treatmentName: String? = nil
         /// The version of the segment to which the campaign sends messages.
@@ -626,8 +626,8 @@ extension Pinpoint {
 
     public struct UpdateApplicationSettingsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "WriteApplicationSettingsRequest"
-        public var pathParams: [String: String] {
+        public static let payload: String? = "WriteApplicationSettingsRequest"
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
         public var writeApplicationSettingsRequest: WriteApplicationSettingsRequest = WriteApplicationSettingsRequest()
@@ -650,7 +650,7 @@ extension Pinpoint {
 
     public struct WriteTreatmentResource: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The campaign schedule.
         public var schedule: Schedule? = nil
         /// A custom description for the treatment.
@@ -683,7 +683,7 @@ extension Pinpoint {
 
     public struct TreatmentResource: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The custom name of a variation of the campaign used for A/B testing.
         public var treatmentName: String? = nil
         /// A custom description for the treatment.
@@ -724,7 +724,7 @@ extension Pinpoint {
 
     public struct EndpointResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Custom user-specific attributes that your app reports to Amazon Pinpoint.
         public var user: EndpointUser? = nil
         /// The ShardId of endpoint
@@ -807,8 +807,8 @@ extension Pinpoint {
 
     public struct GetImportJobRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["job-id": "JobId", "application-id": "ApplicationId"]
         }
         public var jobId: String = ""
@@ -831,7 +831,7 @@ extension Pinpoint {
 
     public struct CampaignResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The campaign limits settings.
         public var limits: CampaignLimits? = nil
         /// The custom name of a variation of the campaign used for A/B testing.
@@ -922,7 +922,7 @@ extension Pinpoint {
 
     public struct WriteApplicationSettingsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The default campaign limits for the app. These limits apply to each campaign for the app, unless the campaign overrides the default with limits of its own.
         public var limits: CampaignLimits? = nil
         /// The default quiet time for the app. Each campaign for this app sends no messages during this time unless the campaign overrides the default with a quiet time of its own.
@@ -943,8 +943,8 @@ extension Pinpoint {
 
     public struct GetCampaignRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["campaign-id": "CampaignId", "application-id": "ApplicationId"]
         }
         public var campaignId: String = ""
@@ -967,8 +967,8 @@ extension Pinpoint {
 
     public struct UpdateEndpointRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "EndpointRequest"
-        public var pathParams: [String: String] {
+        public static let payload: String? = "EndpointRequest"
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId", "endpoint-id": "EndpointId"]
         }
         public var endpointRequest: EndpointRequest = EndpointRequest()
@@ -995,7 +995,7 @@ extension Pinpoint {
 
     public struct GetSegmentImportJobsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "ImportJobsResponse"
+        public static let payload: String? = "ImportJobsResponse"
         public var importJobsResponse: ImportJobsResponse = ImportJobsResponse()
 
         public init() {}
@@ -1012,7 +1012,7 @@ extension Pinpoint {
 
     public struct UpdateGcmChannelResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "GCMChannelResponse"
+        public static let payload: String? = "GCMChannelResponse"
         public var gCMChannelResponse: GCMChannelResponse = GCMChannelResponse()
 
         public init() {}
@@ -1029,7 +1029,7 @@ extension Pinpoint {
 
     public struct EndpointBatchItem: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var channelType: String? = nil
         /// Custom user-specific attributes that your app reports to Amazon Pinpoint.
         public var user: EndpointUser? = nil
@@ -1095,7 +1095,7 @@ extension Pinpoint {
 
     public struct CampaignsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of campaigns.
         public var item: [CampaignResponse]? = nil
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
@@ -1118,7 +1118,7 @@ extension Pinpoint {
 
     public struct GCMChannelResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var id: String? = nil
         /// The platform type. Will be GCM
         public var platform: String? = nil
@@ -1165,7 +1165,7 @@ extension Pinpoint {
 
     public struct ActivitiesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// List of campaign activities
         public var item: [ActivityResponse]? = nil
 
@@ -1184,7 +1184,7 @@ extension Pinpoint {
 
     public struct GetEndpointResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "EndpointResponse"
+        public static let payload: String? = "EndpointResponse"
         public var endpointResponse: EndpointResponse = EndpointResponse()
 
         public init() {}
@@ -1201,7 +1201,7 @@ extension Pinpoint {
 
     public struct EndpointLocation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The longitude of the endpoint location. Rounded to one decimal (Roughly corresponding to a mile).
         public var longitude: Double? = nil
         /// Country according to ISO 3166-1 Alpha-2 codes. For example, US.
@@ -1238,8 +1238,8 @@ extension Pinpoint {
 
     public struct GetApnsChannelRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
         public var applicationId: String = ""
@@ -1258,7 +1258,7 @@ extension Pinpoint {
 
     public struct RecencyDimension: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var duration: String? = nil
         public var recencyType: String? = nil
 
@@ -1277,7 +1277,7 @@ extension Pinpoint {
 
     public struct Schedule: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The scheduled time that the campaign begins in ISO 8601 format.
         public var startTime: String? = nil
         /// The scheduled time that the campaign ends in ISO 8601 format.
@@ -1313,7 +1313,7 @@ extension Pinpoint {
 
     public struct GetApnsChannelResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "APNSChannelResponse"
+        public static let payload: String? = "APNSChannelResponse"
         public var aPNSChannelResponse: APNSChannelResponse = APNSChannelResponse()
 
         public init() {}
@@ -1330,7 +1330,7 @@ extension Pinpoint {
 
     public struct SegmentImportResource: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A unique, custom ID assigned to the IAM role that restricts who can assume the role.
         public var externalId: String? = nil
         public var format: String? = nil
@@ -1362,7 +1362,7 @@ extension Pinpoint {
 
     public struct ImportJobRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A URL that points to the location within an Amazon S3 bucket that contains the endpoints to import. The location can be a folder or a single file. The URL should follow this format: s3://bucket-name/folder-name/file-name  Amazon Pinpoint will import endpoints from this location and any subfolders it contains.
         public var s3Url: String? = nil
         /// Sets whether the endpoints create a segment when they are imported.
@@ -1406,11 +1406,11 @@ extension Pinpoint {
 
     public struct GetCampaignsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["token": "Token", "page-size": "PageSize"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
         public var pageSize: String? = nil
@@ -1435,8 +1435,8 @@ extension Pinpoint {
 
     public struct CreateImportJobRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "ImportJobRequest"
-        public var pathParams: [String: String] {
+        public static let payload: String? = "ImportJobRequest"
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
         public var importJobRequest: ImportJobRequest = ImportJobRequest()
@@ -1459,7 +1459,7 @@ extension Pinpoint {
 
     public struct ImportJobResource: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A URL that points to the location within an Amazon S3 bucket that contains the endpoints to import. The location can be a folder or a single file. The URL should follow this format: s3://bucket-name/folder-name/file-name  Amazon Pinpoint will import endpoints from this location and any subfolders it contains.
         public var s3Url: String? = nil
         /// Sets whether the endpoints create a segment when they are imported.
@@ -1503,7 +1503,7 @@ extension Pinpoint {
 
     public struct SetDimension: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var dimensionType: String? = nil
         public var values: [String]? = nil
 
@@ -1524,7 +1524,7 @@ extension Pinpoint {
 
     public struct APNSChannelRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The distribution certificate from Apple.
         public var certificate: String? = nil
         /// The certificate private key.
@@ -1545,7 +1545,7 @@ extension Pinpoint {
 
     public struct GetCampaignVersionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "CampaignResponse"
+        public static let payload: String? = "CampaignResponse"
         public var campaignResponse: CampaignResponse = CampaignResponse()
 
         public init() {}
@@ -1562,7 +1562,7 @@ extension Pinpoint {
 
     public struct EndpointUser: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique ID of the user.
         public var userId: String? = nil
         public var userAttributes: [String: [String]]? = nil
@@ -1589,7 +1589,7 @@ extension Pinpoint {
 
     public struct MessageBody: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var requestID: String? = nil
         public var message: String? = nil
 
@@ -1608,7 +1608,7 @@ extension Pinpoint {
 
     public struct SegmentDimensions: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The segment demographics attributes.
         public var demographic: SegmentDemographics? = nil
         /// The segment behaviors attributes.
@@ -1644,7 +1644,7 @@ extension Pinpoint {
 
     public struct GetGcmChannelResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "GCMChannelResponse"
+        public static let payload: String? = "GCMChannelResponse"
         public var gCMChannelResponse: GCMChannelResponse = GCMChannelResponse()
 
         public init() {}
@@ -1661,7 +1661,7 @@ extension Pinpoint {
 
     public struct GetSegmentVersionsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "SegmentsResponse"
+        public static let payload: String? = "SegmentsResponse"
         public var segmentsResponse: SegmentsResponse = SegmentsResponse()
 
         public init() {}
@@ -1678,7 +1678,7 @@ extension Pinpoint {
 
     public struct ApplicationSettingsResource: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date that the settings were last updated in ISO 8601 format.
         public var lastModifiedDate: String? = nil
         /// The default campaign limits for the app. These limits apply to each campaign for the app, unless the campaign overrides the default with limits of its own.
@@ -1707,7 +1707,7 @@ extension Pinpoint {
 
     public struct UpdateEndpointResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "MessageBody"
+        public static let payload: String? = "MessageBody"
         public var messageBody: MessageBody = MessageBody()
 
         public init() {}
@@ -1724,7 +1724,7 @@ extension Pinpoint {
 
     public struct GetCampaignActivitiesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "ActivitiesResponse"
+        public static let payload: String? = "ActivitiesResponse"
         public var activitiesResponse: ActivitiesResponse = ActivitiesResponse()
 
         public init() {}
@@ -1741,11 +1741,11 @@ extension Pinpoint {
 
     public struct GetCampaignVersionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["token": "Token", "page-size": "PageSize"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["campaign-id": "CampaignId", "application-id": "ApplicationId"]
         }
         public var pageSize: String? = nil
@@ -1774,7 +1774,7 @@ extension Pinpoint {
 
     public struct AttributeDimension: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var attributeType: String? = nil
         public var values: [String]? = nil
 
@@ -1795,8 +1795,8 @@ extension Pinpoint {
 
     public struct UpdateEndpointsBatchRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "EndpointBatchRequest"
-        public var pathParams: [String: String] {
+        public static let payload: String? = "EndpointBatchRequest"
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
         public var endpointBatchRequest: EndpointBatchRequest = EndpointBatchRequest()
@@ -1819,7 +1819,7 @@ extension Pinpoint {
 
     public struct APNSChannelResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var id: String? = nil
         /// The platform type. Will be APNS.
         public var platform: String? = nil
@@ -1862,7 +1862,7 @@ extension Pinpoint {
 
     public struct SegmentsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of segments.
         public var item: [SegmentResponse]? = nil
         /// An identifier used to retrieve the next page of results. The token is null if no additional pages exist.
@@ -1885,7 +1885,7 @@ extension Pinpoint {
 
     public struct SegmentResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique segment ID.
         public var id: String? = nil
         /// The name of segment
@@ -1933,7 +1933,7 @@ extension Pinpoint {
 
     public struct ImportJobResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The date the import job completed in ISO 8601 format.
         public var completionDate: String? = nil
         /// The import job settings.
@@ -1998,7 +1998,7 @@ extension Pinpoint {
 
     public struct CreateImportJobResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "ImportJobResponse"
+        public static let payload: String? = "ImportJobResponse"
         public var importJobResponse: ImportJobResponse = ImportJobResponse()
 
         public init() {}
@@ -2015,7 +2015,7 @@ extension Pinpoint {
 
     public struct GetApplicationSettingsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "ApplicationSettingsResource"
+        public static let payload: String? = "ApplicationSettingsResource"
         public var applicationSettingsResource: ApplicationSettingsResource = ApplicationSettingsResource()
 
         public init() {}
@@ -2032,7 +2032,7 @@ extension Pinpoint {
 
     public struct GetImportJobsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "ImportJobsResponse"
+        public static let payload: String? = "ImportJobsResponse"
         public var importJobsResponse: ImportJobsResponse = ImportJobsResponse()
 
         public init() {}
@@ -2049,7 +2049,7 @@ extension Pinpoint {
 
     public struct GetCampaignResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "CampaignResponse"
+        public static let payload: String? = "CampaignResponse"
         public var campaignResponse: CampaignResponse = CampaignResponse()
 
         public init() {}
@@ -2066,8 +2066,8 @@ extension Pinpoint {
 
     public struct UpdateSegmentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "WriteSegmentRequest"
-        public var pathParams: [String: String] {
+        public static let payload: String? = "WriteSegmentRequest"
+        public static var pathParams: [String: String] {
             return ["segment-id": "SegmentId", "application-id": "ApplicationId"]
         }
         public var applicationId: String = ""
@@ -2094,8 +2094,8 @@ extension Pinpoint {
 
     public struct DeleteGcmChannelRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
         public var applicationId: String = ""
@@ -2114,7 +2114,7 @@ extension Pinpoint {
 
     public struct UpdateApnsChannelResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "APNSChannelResponse"
+        public static let payload: String? = "APNSChannelResponse"
         public var aPNSChannelResponse: APNSChannelResponse = APNSChannelResponse()
 
         public init() {}
@@ -2131,8 +2131,8 @@ extension Pinpoint {
 
     public struct UpdateGcmChannelRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "GCMChannelRequest"
-        public var pathParams: [String: String] {
+        public static let payload: String? = "GCMChannelRequest"
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
         public var gCMChannelRequest: GCMChannelRequest = GCMChannelRequest()
@@ -2155,7 +2155,7 @@ extension Pinpoint {
 
     public struct DeleteCampaignResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "CampaignResponse"
+        public static let payload: String? = "CampaignResponse"
         public var campaignResponse: CampaignResponse = CampaignResponse()
 
         public init() {}
@@ -2172,7 +2172,7 @@ extension Pinpoint {
 
     public struct CampaignLimits: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum number of messages that the campaign can send daily.
         public var daily: Int32? = nil
         /// The maximum total number of messages that the campaign can send.
@@ -2193,7 +2193,7 @@ extension Pinpoint {
 
     public struct SegmentDemographics: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The device make criteria for the segment.
         public var make: SetDimension? = nil
         /// The device platform criteria for the segment.
@@ -2226,7 +2226,7 @@ extension Pinpoint {
 
     public struct CreateCampaignResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "CampaignResponse"
+        public static let payload: String? = "CampaignResponse"
         public var campaignResponse: CampaignResponse = CampaignResponse()
 
         public init() {}
@@ -2243,7 +2243,7 @@ extension Pinpoint {
 
     public struct ActivityResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ID of the campaign to which the activity applies.
         public var campaignId: String? = nil
         /// The scheduled start time for the activity in ISO 8601 format.
@@ -2300,7 +2300,7 @@ extension Pinpoint {
 
     public struct GetSegmentResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "SegmentResponse"
+        public static let payload: String? = "SegmentResponse"
         public var segmentResponse: SegmentResponse = SegmentResponse()
 
         public init() {}
@@ -2317,11 +2317,11 @@ extension Pinpoint {
 
     public struct GetSegmentImportJobsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["token": "Token", "page-size": "PageSize"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["segment-id": "SegmentId", "application-id": "ApplicationId"]
         }
         public var pageSize: String? = nil
@@ -2350,8 +2350,8 @@ extension Pinpoint {
 
     public struct UpdateApnsChannelRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "APNSChannelRequest"
-        public var pathParams: [String: String] {
+        public static let payload: String? = "APNSChannelRequest"
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
         public var aPNSChannelRequest: APNSChannelRequest = APNSChannelRequest()
@@ -2374,8 +2374,8 @@ extension Pinpoint {
 
     public struct UpdateCampaignRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "WriteCampaignRequest"
-        public var pathParams: [String: String] {
+        public static let payload: String? = "WriteCampaignRequest"
+        public static var pathParams: [String: String] {
             return ["campaign-id": "CampaignId", "application-id": "ApplicationId"]
         }
         public var applicationId: String = ""
@@ -2402,7 +2402,7 @@ extension Pinpoint {
 
     public struct CreateSegmentResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "SegmentResponse"
+        public static let payload: String? = "SegmentResponse"
         public var segmentResponse: SegmentResponse = SegmentResponse()
 
         public init() {}
@@ -2419,7 +2419,7 @@ extension Pinpoint {
 
     public struct DeleteSegmentResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "SegmentResponse"
+        public static let payload: String? = "SegmentResponse"
         public var segmentResponse: SegmentResponse = SegmentResponse()
 
         public init() {}
@@ -2436,7 +2436,7 @@ extension Pinpoint {
 
     public struct GetSegmentsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "SegmentsResponse"
+        public static let payload: String? = "SegmentsResponse"
         public var segmentsResponse: SegmentsResponse = SegmentsResponse()
 
         public init() {}
@@ -2453,7 +2453,7 @@ extension Pinpoint {
 
     public struct GetCampaignVersionsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "CampaignsResponse"
+        public static let payload: String? = "CampaignsResponse"
         public var campaignsResponse: CampaignsResponse = CampaignsResponse()
 
         public init() {}
@@ -2470,7 +2470,7 @@ extension Pinpoint {
 
     public struct GetCampaignsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "CampaignsResponse"
+        public static let payload: String? = "CampaignsResponse"
         public var campaignsResponse: CampaignsResponse = CampaignsResponse()
 
         public init() {}
@@ -2487,7 +2487,7 @@ extension Pinpoint {
 
     public struct GetSegmentVersionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "SegmentResponse"
+        public static let payload: String? = "SegmentResponse"
         public var segmentResponse: SegmentResponse = SegmentResponse()
 
         public init() {}
@@ -2504,8 +2504,8 @@ extension Pinpoint {
 
     public struct GetEndpointRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId", "endpoint-id": "EndpointId"]
         }
         public var endpointId: String = ""
@@ -2528,8 +2528,8 @@ extension Pinpoint {
 
     public struct GetCampaignVersionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["campaign-id": "CampaignId", "version": "Version", "application-id": "ApplicationId"]
         }
         public var applicationId: String = ""
@@ -2556,7 +2556,7 @@ extension Pinpoint {
 
     public struct UpdateCampaignResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "CampaignResponse"
+        public static let payload: String? = "CampaignResponse"
         public var campaignResponse: CampaignResponse = CampaignResponse()
 
         public init() {}
@@ -2573,7 +2573,7 @@ extension Pinpoint {
 
     public struct SegmentBehaviors: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The recency of use.
         public var recency: RecencyDimension? = nil
 
@@ -2590,7 +2590,7 @@ extension Pinpoint {
 
     public struct UpdateSegmentResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "SegmentResponse"
+        public static let payload: String? = "SegmentResponse"
         public var segmentResponse: SegmentResponse = SegmentResponse()
 
         public init() {}
@@ -2607,7 +2607,7 @@ extension Pinpoint {
 
     public struct CampaignState: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var campaignStatus: String? = nil
 
         public init() {}
@@ -2623,7 +2623,7 @@ extension Pinpoint {
 
     public struct DeleteApnsChannelResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "APNSChannelResponse"
+        public static let payload: String? = "APNSChannelResponse"
         public var aPNSChannelResponse: APNSChannelResponse = APNSChannelResponse()
 
         public init() {}
@@ -2640,8 +2640,8 @@ extension Pinpoint {
 
     public struct DeleteSegmentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId", "segment-id": "SegmentId"]
         }
         public var segmentId: String = ""
@@ -2664,7 +2664,7 @@ extension Pinpoint {
 
     public struct ImportJobsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of import jobs for the application.
         public var item: [ImportJobResponse]? = nil
         /// The string that you use in a subsequent request to get the next page of results in a paginated response.
@@ -2687,11 +2687,11 @@ extension Pinpoint {
 
     public struct GetImportJobsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["token": "Token", "page-size": "PageSize"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["application-id": "ApplicationId"]
         }
         public var pageSize: String? = nil
@@ -2716,7 +2716,7 @@ extension Pinpoint {
 
     public struct MessageConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The message that the campaign delivers to GCM channels. Overrides the default message.
         public var gCMMessage: Message? = nil
         /// The message that the campaign delivers to APNS channels. Overrides the default message.
@@ -2741,7 +2741,7 @@ extension Pinpoint {
 
     public struct EndpointDemographic: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The endpoint locale in the following format: The ISO 639-1 alpha-2 code, followed by an underscore, followed by an ISO 3166-1 alpha-2 value. 
         public var locale: String? = nil
         /// The endpoint platform, such as ios or android.
@@ -2786,7 +2786,7 @@ extension Pinpoint {
 
     public struct WriteSegmentRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of segment
         public var name: String? = nil
         /// The segment dimensions attributes.

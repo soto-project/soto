@@ -31,8 +31,8 @@ extension Lambda {
 
     public struct ListFunctionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["Marker": "Marker", "MaxItems": "MaxItems"]
         }
         /// Optional string. An opaque pagination token returned from a previous ListFunctions operation. If present, indicates where to continue the listing. 
@@ -55,7 +55,7 @@ extension Lambda {
 
     public struct EventSourceMappingConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The UTC time string indicating the last time the event mapping was updated.
         public var lastModified: Date? = nil
         /// The AWS Lambda assigned opaque identifier for the mapping.
@@ -100,11 +100,11 @@ extension Lambda {
 
     public struct DeleteFunctionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["Qualifier": "Qualifier"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
         /// The Lambda function to delete.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
@@ -128,8 +128,8 @@ extension Lambda {
 
     public struct UpdateAliasRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Name": "Name", "FunctionName": "FunctionName"]
         }
         /// The function name for which the alias is created.
@@ -162,14 +162,14 @@ extension Lambda {
 
     public struct InvocationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "Payload"
-        public var headerParams: [String: String] {
+        public static let payload: String? = "Payload"
+        public static var headerParams: [String: String] {
             return ["X-Amz-Log-Type": "LogType", "X-Amz-Client-Context": "ClientContext", "X-Amz-Invocation-Type": "InvocationType"]
         }
-        public var queryParams: [String: String] {
+        public static var queryParams: [String: String] {
             return ["Qualifier": "Qualifier"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
         /// The Lambda function name.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
@@ -209,7 +209,7 @@ extension Lambda {
 
     public struct DeadLetterConfig: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic you specify as your Dead Letter Queue (DLQ).
         public var targetArn: String? = nil
 
@@ -226,11 +226,11 @@ extension Lambda {
 
     public struct AddPermissionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["Qualifier": "Qualifier"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
         /// A unique statement identifier.
@@ -281,7 +281,7 @@ extension Lambda {
 
     public struct CreateEventSourceMappingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Lambda function to invoke when AWS Lambda detects an event on the stream.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail).   If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). For more information about versioning, see AWS Lambda Function Versioning and Aliases  AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail).  Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length.
         public var functionName: String = ""
         /// The largest number of records that AWS Lambda will retrieve from your event source at the time of invoking your function. Your function receives an event with all the retrieved records. The default is 100 records.
@@ -321,7 +321,7 @@ extension Lambda {
 
     public struct EnvironmentError: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The error code returned by the environment error object.
         public var errorCode: String? = nil
         /// The message returned by the environment error object.
@@ -342,8 +342,8 @@ extension Lambda {
 
     public struct InvokeAsyncRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "InvokeArgs"
-        public var pathParams: [String: String] {
+        public static let payload: String? = "InvokeArgs"
+        public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
         /// The Lambda function name.
@@ -368,7 +368,7 @@ extension Lambda {
 
     public struct Environment: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The key-value pairs that represent your environment's configuration settings. The value you specify cannot contain a ",".
         public var variables: [String: String]? = nil
 
@@ -387,11 +387,11 @@ extension Lambda {
 
     public struct ListVersionsByFunctionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["Marker": "Marker", "MaxItems": "MaxItems"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
         ///  Optional string. An opaque pagination token returned from a previous ListVersionsByFunction operation. If present, indicates where to continue the listing. 
@@ -419,7 +419,7 @@ extension Lambda {
 
     public struct ListAliasesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of aliases.
         public var aliases: [AliasConfiguration]? = nil
         /// A string, present if there are more aliases.
@@ -442,7 +442,7 @@ extension Lambda {
 
     public struct FunctionCode: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon S3 object (the deployment package) version you want to upload.
         public var s3ObjectVersion: String? = nil
         /// The Amazon S3 object (the deployment package) key name you want to upload.
@@ -471,7 +471,7 @@ extension Lambda {
 
     public struct FunctionCodeLocation: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The presigned URL you can use to download the function's .zip file that you previously uploaded. The URL is valid for up to 10 minutes.
         public var location: String? = nil
         /// The repository from which you can download the function.
@@ -492,8 +492,8 @@ extension Lambda {
 
     public struct UpdateFunctionCodeRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
         /// The Amazon S3 object (the deployment package) version you want to upload.
@@ -533,11 +533,11 @@ extension Lambda {
 
     public struct RemovePermissionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["Qualifier": "Qualifier"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName", "StatementId": "StatementId"]
         }
         /// You can specify this optional parameter to remove permission associated with a specific function version or function alias. If you don't specify this parameter, the API removes permission associated with the unqualified function ARN.
@@ -566,8 +566,8 @@ extension Lambda {
 
     public struct ListEventSourceMappingsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["MaxItems": "MaxItems", "FunctionName": "FunctionName", "EventSourceArn": "EventSourceArn", "Marker": "Marker"]
         }
         /// Optional integer. Specifies the maximum number of event sources to return in response. This value must be greater than 0.
@@ -598,8 +598,8 @@ extension Lambda {
 
     public struct CreateAliasRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
         /// Name of the Lambda function for which you want to create an alias.
@@ -633,8 +633,8 @@ extension Lambda {
 
     public struct UpdateEventSourceMappingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["UUID": "UUID"]
         }
         /// The event source mapping identifier.
@@ -666,11 +666,11 @@ extension Lambda {
 
     public struct GetFunctionConfigurationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["Qualifier": "Qualifier"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
         /// The name of the Lambda function for which you want to retrieve the configuration information.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
@@ -694,7 +694,7 @@ extension Lambda {
 
     public struct InvokeAsyncResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// It will be 202 upon success.
         public var status: Int32? = nil
 
@@ -711,7 +711,7 @@ extension Lambda {
 
     public struct GetAccountSettingsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -721,8 +721,8 @@ extension Lambda {
 
     public struct GetAliasRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Name": "Name", "FunctionName": "FunctionName"]
         }
         /// Name of the alias for which you want to retrieve information.
@@ -747,8 +747,8 @@ extension Lambda {
 
     public struct InvocationResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = "Payload"
-        public var headerParams: [String: String] {
+        public static let payload: String? = "Payload"
+        public static var headerParams: [String: String] {
             return ["X-Amz-Log-Result": "LogResult", "X-Amz-Function-Error": "FunctionError"]
         }
         /// The HTTP status code will be in the 200 range for successful request. For the RequestResonse invocation type this status code will be 200. For the Event invocation type this status code will be 202. For the DryRun invocation type the status code will be 204. 
@@ -779,7 +779,7 @@ extension Lambda {
 
     public struct AddPermissionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The permission statement you specified in the request. The response returns the same as a string using a backslash ("\") as an escape character in the JSON.
         public var statement: String? = nil
 
@@ -796,8 +796,8 @@ extension Lambda {
 
     public struct UpdateFunctionConfigurationRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
         /// The Amazon Resource Name (ARN) of the KMS key used to encrypt your function's environment variables. If you elect to use the AWS Lambda default service key, pass in an empty string ("") for this parameter.
@@ -856,7 +856,7 @@ extension Lambda {
 
     public struct ListFunctionsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of Lambda functions.
         public var functions: [FunctionConfiguration]? = nil
         /// A string, present if there are more functions.
@@ -879,7 +879,7 @@ extension Lambda {
 
     public struct CreateFunctionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// If your Lambda function accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID.
         public var vpcConfig: VpcConfig? = nil
         /// The parent object that contains the target Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic. 
@@ -948,7 +948,7 @@ extension Lambda {
 
     public struct VpcConfigResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The VPC ID associated with you Lambda function.
         public var vpcId: String? = nil
         /// A list of subnet IDs associated with the Lambda function.
@@ -977,11 +977,11 @@ extension Lambda {
 
     public struct GetPolicyRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["Qualifier": "Qualifier"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
         /// Function name whose resource policy you want to retrieve.  You can specify the function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). If you are using versioning, you can also provide a qualified function ARN (ARN that is qualified with function version or alias name as suffix). AWS Lambda also allows you to specify only the function name with the account ID qualifier (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
@@ -1005,7 +1005,7 @@ extension Lambda {
 
     public struct FunctionConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// VPC configuration associated with your Lambda function.
         public var vpcConfig: VpcConfigResponse? = nil
         /// The parent object that contains the target Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
@@ -1082,7 +1082,7 @@ extension Lambda {
 
     public struct GetPolicyResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The resource policy associated with the specified function. The response returns the same as a string using a backslash ("\") as an escape character in the JSON.
         public var policy: String? = nil
 
@@ -1099,7 +1099,7 @@ extension Lambda {
 
     public struct ListVersionsByFunctionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of Lambda function versions.
         public var versions: [FunctionConfiguration]? = nil
         /// A string, present if there are more function versions.
@@ -1122,7 +1122,7 @@ extension Lambda {
 
     public struct AccountLimit: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Size, in bytes, of a single zipped code/dependencies package you can upload for your Lambda function(.zip/.jar file). Try using Amazon S3 for uploading larger files. Default limit is 50 MB.
         public var codeSizeZipped: Int64? = nil
         /// Size, in bytes, of code/dependencies that you can zip into a deployment package (uncompressed zip/jar size) for uploading. The default limit is 250 MB.
@@ -1151,7 +1151,7 @@ extension Lambda {
 
     public struct AliasConfiguration: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Function version to which the alias points.
         public var functionVersion: String? = nil
         /// Lambda function ARN that is qualified using the alias name as the suffix. For example, if you create an alias called BETA that points to a helloworld function version, the ARN is arn:aws:lambda:aws-regions:acct-id:function:helloworld:BETA.
@@ -1180,8 +1180,8 @@ extension Lambda {
 
     public struct DeleteAliasRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["Name": "Name", "FunctionName": "FunctionName"]
         }
         /// Name of the alias to delete.
@@ -1206,11 +1206,11 @@ extension Lambda {
 
     public struct ListAliasesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["FunctionVersion": "FunctionVersion", "MaxItems": "MaxItems", "Marker": "Marker"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
         /// Optional integer. Specifies the maximum number of aliases to return in response. This parameter value must be greater than 0.
@@ -1242,7 +1242,7 @@ extension Lambda {
 
     public struct EnvironmentResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var error: EnvironmentError? = nil
         /// The key-value pairs returned that represent your environment's configuration settings or error information.
         public var variables: [String: String]? = nil
@@ -1264,7 +1264,7 @@ extension Lambda {
 
     public struct AccountUsage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of your account's existing functions per region.
         public var functionCount: Int64? = nil
         /// Total size, in bytes, of the account's deployment packages per region.
@@ -1285,7 +1285,7 @@ extension Lambda {
 
     public struct VpcConfig: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of one or more subnet IDs in your VPC.
         public var subnetIds: [String]? = nil
         /// A list of one or more security groups IDs in your VPC.
@@ -1310,8 +1310,8 @@ extension Lambda {
 
     public struct DeleteEventSourceMappingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["UUID": "UUID"]
         }
         /// The event source mapping ID.
@@ -1331,8 +1331,8 @@ extension Lambda {
 
     public struct GetEventSourceMappingRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["UUID": "UUID"]
         }
         /// The AWS Lambda assigned ID of the event source mapping.
@@ -1352,8 +1352,8 @@ extension Lambda {
 
     public struct PublishVersionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var pathParams: [String: String] {
+        public static let payload: String? = nil
+        public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
         /// The description for the version you are publishing. If not provided, AWS Lambda copies the description from the $LATEST version.
@@ -1381,7 +1381,7 @@ extension Lambda {
 
     public struct GetFunctionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var configuration: FunctionConfiguration? = nil
         public var code: FunctionCodeLocation? = nil
 
@@ -1400,11 +1400,11 @@ extension Lambda {
 
     public struct GetFunctionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
-        public var queryParams: [String: String] {
+        public static let payload: String? = nil
+        public static var queryParams: [String: String] {
             return ["Qualifier": "Qualifier"]
         }
-        public var pathParams: [String: String] {
+        public static var pathParams: [String: String] {
             return ["FunctionName": "FunctionName"]
         }
         /// The Lambda function name.  You can specify a function name (for example, Thumbnail) or you can specify Amazon Resource Name (ARN) of the function (for example, arn:aws:lambda:us-west-2:account-id:function:ThumbNail). AWS Lambda also allows you to specify a partial ARN (for example, account-id:Thumbnail). Note that the length constraint applies only to the ARN. If you specify only the function name, it is limited to 64 character in length. 
@@ -1428,7 +1428,7 @@ extension Lambda {
 
     public struct ListEventSourceMappingsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// An array of EventSourceMappingConfiguration objects.
         public var eventSourceMappings: [EventSourceMappingConfiguration]? = nil
         /// A string, present if there are more event source mappings.
@@ -1451,7 +1451,7 @@ extension Lambda {
 
     public struct GetAccountSettingsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         public var accountUsage: AccountUsage? = nil
         public var accountLimit: AccountLimit? = nil
 

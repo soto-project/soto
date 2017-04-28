@@ -31,7 +31,7 @@ extension Dms {
 
     public struct ModifyReplicationSubnetGroupResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The modified replication subnet group.
         public var replicationSubnetGroup: ReplicationSubnetGroup? = nil
 
@@ -48,7 +48,7 @@ extension Dms {
 
     public struct CreateReplicationTaskResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The replication task that was created.
         public var replicationTask: ReplicationTask? = nil
 
@@ -65,7 +65,7 @@ extension Dms {
 
     public struct CreateReplicationSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The EC2 subnet IDs for the subnet group.
         public var subnetIds: [String] = []
         /// The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, spaces, underscores, or hyphens. Must not be "default". Example: mySubnetgroup 
@@ -99,7 +99,7 @@ extension Dms {
 
     public struct ModifyEndpointResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The modified endpoint.
         public var endpoint: Endpoint? = nil
 
@@ -116,7 +116,7 @@ extension Dms {
 
     public struct DescribeReplicationSubnetGroupsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public var maxRecords: Int32? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -143,7 +143,7 @@ extension Dms {
 
     public struct DescribeEndpointsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public var maxRecords: Int32? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -170,7 +170,7 @@ extension Dms {
 
     public struct DeleteEndpointMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public var endpointArn: String = ""
 
@@ -188,7 +188,7 @@ extension Dms {
 
     public struct Endpoint: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The KMS key identifier that will be used to encrypt the connection parameters. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
         public var kmsKeyId: String? = nil
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
@@ -253,7 +253,7 @@ extension Dms {
 
     public struct DescribeOrderableReplicationInstancesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The order-able replication instances available.
         public var orderableReplicationInstances: [OrderableReplicationInstance]? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -276,7 +276,7 @@ extension Dms {
 
     public struct DescribeTableStatisticsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public var marker: String? = nil
         /// The table statistics.
@@ -303,7 +303,7 @@ extension Dms {
 
     public struct DescribeEndpointTypesMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public var maxRecords: Int32? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -330,7 +330,7 @@ extension Dms {
 
     public struct DeleteReplicationInstanceMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the replication instance to be deleted.
         public var replicationInstanceArn: String = ""
 
@@ -348,7 +348,7 @@ extension Dms {
 
     public struct SupportedEndpointType: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The database engine name. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, SYBASE, and SQLSERVER.
         public var engineName: String? = nil
         /// The type of endpoint.
@@ -373,7 +373,7 @@ extension Dms {
 
     public struct DescribeCertificatesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The pagination token.
         public var marker: String? = nil
         /// The Secure Sockets Layer (SSL) certificates associated with the replication instance.
@@ -396,7 +396,7 @@ extension Dms {
 
     public struct RemoveTagsFromResourceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -406,7 +406,7 @@ extension Dms {
 
     public struct DescribeReplicationTasksMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public var maxRecords: Int32? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -433,7 +433,7 @@ extension Dms {
 
     public struct DeleteReplicationInstanceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The replication instance that was deleted.
         public var replicationInstance: ReplicationInstance? = nil
 
@@ -450,7 +450,7 @@ extension Dms {
 
     public struct Tag: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public var value: String? = nil
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and cannot be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
@@ -471,7 +471,7 @@ extension Dms {
 
     public struct AddTagsToResourceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -481,7 +481,7 @@ extension Dms {
 
     public struct ListTagsForResourceMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) string that uniquely identifies the AWS DMS resource.
         public var resourceArn: String = ""
 
@@ -499,7 +499,7 @@ extension Dms {
 
     public struct DescribeEndpointTypesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public var marker: String? = nil
         /// The type of endpoints that are supported.
@@ -522,7 +522,7 @@ extension Dms {
 
     public struct StartReplicationTaskMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Number (ARN) of the replication task to be started.
         public var replicationTaskArn: String = ""
         /// The start time for the Change Data Capture (CDC) operation.
@@ -549,7 +549,7 @@ extension Dms {
 
     public struct CreateReplicationInstanceMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
         public var multiAZ: Bool? = nil
         /// Tags to be associated with the replication instance.
@@ -620,7 +620,7 @@ extension Dms {
 
     public struct DeleteCertificateResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Secure Sockets Layer (SSL) certificate.
         public var certificate: Certificate? = nil
 
@@ -637,7 +637,7 @@ extension Dms {
 
     public struct DescribeConnectionsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public var marker: String? = nil
         /// A description of the connections.
@@ -660,7 +660,7 @@ extension Dms {
 
     public struct DescribeTableStatisticsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public var marker: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
@@ -686,7 +686,7 @@ extension Dms {
 
     public struct DescribeRefreshSchemasStatusMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public var endpointArn: String = ""
 
@@ -704,7 +704,7 @@ extension Dms {
 
     public struct RemoveTagsFromResourceMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// &gt;The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be removed from.
         public var resourceArn: String = ""
         /// The tag key (name) of the tag to be removed.
@@ -727,7 +727,7 @@ extension Dms {
 
     public struct ModifyReplicationInstanceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The modified replication instance.
         public var replicationInstance: ReplicationInstance? = nil
 
@@ -744,7 +744,7 @@ extension Dms {
 
     public struct DescribeReplicationSubnetGroupsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public var marker: String? = nil
         /// A description of the replication subnet groups.
@@ -767,7 +767,7 @@ extension Dms {
 
     public struct DescribeAccountAttributesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Account quota information.
         public var accountQuotas: [AccountQuota]? = nil
 
@@ -786,7 +786,7 @@ extension Dms {
 
     public struct DescribeSchemasResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public var marker: String? = nil
         /// The described schema.
@@ -809,7 +809,7 @@ extension Dms {
 
     public struct DescribeAccountAttributesMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -819,7 +819,7 @@ extension Dms {
 
     public struct Certificate: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The beginning date that the certificate is valid.
         public var validFromDate: Date? = nil
         /// The key length of the cryptographic algorithm being used.
@@ -872,7 +872,7 @@ extension Dms {
 
     public struct ListTagsForResourceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of tags for the resource.
         public var tagList: [Tag]? = nil
 
@@ -891,7 +891,7 @@ extension Dms {
 
     public struct Subnet: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The subnet identifier.
         public var subnetIdentifier: String? = nil
         /// The Availability Zone of the subnet.
@@ -916,7 +916,7 @@ extension Dms {
 
     public struct StartReplicationTaskResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The replication task started.
         public var replicationTask: ReplicationTask? = nil
 
@@ -933,7 +933,7 @@ extension Dms {
 
     public struct AvailabilityZone: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the availability zone.
         public var name: String? = nil
 
@@ -950,7 +950,7 @@ extension Dms {
 
     public struct Connection: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The error message when the connection last failed.
         public var lastFailureMessage: String? = nil
         /// The replication instance identifier. This parameter is stored as a lowercase string.
@@ -987,7 +987,7 @@ extension Dms {
 
     public struct RefreshSchemasStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The last failure message for the schema.
         public var lastFailureMessage: String? = nil
         /// The Amazon Resource Name (ARN) of the replication instance.
@@ -1020,7 +1020,7 @@ extension Dms {
 
     public struct DeleteReplicationTaskMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the replication task to be deleted.
         public var replicationTaskArn: String = ""
 
@@ -1038,7 +1038,7 @@ extension Dms {
 
     public struct DescribeReplicationInstancesMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public var maxRecords: Int32? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1065,7 +1065,7 @@ extension Dms {
 
     public struct RefreshSchemasMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the replication instance.
         public var replicationInstanceArn: String = ""
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
@@ -1088,7 +1088,7 @@ extension Dms {
 
     public struct ModifyReplicationInstanceMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible. Constraints: This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the replication instance's current version.
         public var allowMajorVersionUpgrade: Bool? = nil
         /// The replication instance identifier. This parameter is stored as a lowercase string.
@@ -1148,7 +1148,7 @@ extension Dms {
 
     public struct AccountQuota: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The maximum allowed value for the quota.
         public var max: Int64? = nil
         /// The amount currently used toward the quota maximum.
@@ -1173,7 +1173,7 @@ extension Dms {
 
     public struct DescribeCertificatesMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 10
         public var maxRecords: Int32? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1200,7 +1200,7 @@ extension Dms {
 
     public struct CreateEndpointMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The KMS key identifier that will be used to encrypt the connection parameters. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
         public var kmsKeyId: String? = nil
         /// The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
@@ -1270,7 +1270,7 @@ extension Dms {
 
     public struct ReplicationSubnetGroup: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the subnet group.
         public var subnetGroupStatus: String? = nil
         /// The subnets that are in the subnet group.
@@ -1305,7 +1305,7 @@ extension Dms {
 
     public struct TestConnectionResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The connection tested.
         public var connection: Connection? = nil
 
@@ -1322,7 +1322,7 @@ extension Dms {
 
     public struct DeleteReplicationTaskResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The deleted replication task.
         public var replicationTask: ReplicationTask? = nil
 
@@ -1339,7 +1339,7 @@ extension Dms {
 
     public struct CreateReplicationSubnetGroupResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The replication subnet group that was created.
         public var replicationSubnetGroup: ReplicationSubnetGroup? = nil
 
@@ -1356,7 +1356,7 @@ extension Dms {
 
     public struct TableStatistics: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of delete actions performed on a table.
         public var deletes: Int64? = nil
         /// The number of update actions performed on a table.
@@ -1405,7 +1405,7 @@ extension Dms {
 
     public struct ImportCertificateMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The location of the imported Oracle Wallet certificate for use with SSL.
         public var certificateWallet: Data? = nil
         /// The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
@@ -1431,7 +1431,7 @@ extension Dms {
 
     public struct TestConnectionMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the replication instance.
         public var replicationInstanceArn: String = ""
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
@@ -1454,7 +1454,7 @@ extension Dms {
 
     public struct CreateEndpointResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The endpoint that was created.
         public var endpoint: Endpoint? = nil
 
@@ -1471,7 +1471,7 @@ extension Dms {
 
     public struct CreateReplicationInstanceResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The replication instance that was created.
         public var replicationInstance: ReplicationInstance? = nil
 
@@ -1488,7 +1488,7 @@ extension Dms {
 
     public struct ModifyReplicationTaskMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The path of the JSON file that contains the table mappings. Preceed the path with "file://". For example, --table-mappings file://mappingfile.json
         public var tableMappings: String? = nil
         /// The Amazon Resource Name (ARN) of the replication task.
@@ -1526,7 +1526,7 @@ extension Dms {
 
     public struct ModifyReplicationSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of subnet IDs.
         public var subnetIds: [String] = []
         /// The name of the replication instance subnet group.
@@ -1553,7 +1553,7 @@ extension Dms {
 
     public struct OrderableReplicationInstance: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The version of the replication engine.
         public var engineVersion: String? = nil
         /// The compute and memory capacity of the replication instance.  Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge  
@@ -1594,7 +1594,7 @@ extension Dms {
 
     public struct ReplicationTaskStats: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of tables loaded for this task.
         public var tablesLoaded: Int32? = nil
         /// The elapsed time of the task, in milliseconds.
@@ -1631,7 +1631,7 @@ extension Dms {
 
     public struct ModifyReplicationTaskResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The replication task that was modified.
         public var replicationTask: ReplicationTask? = nil
 
@@ -1648,7 +1648,7 @@ extension Dms {
 
     public struct DeleteEndpointResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The endpoint that was deleted.
         public var endpoint: Endpoint? = nil
 
@@ -1665,7 +1665,7 @@ extension Dms {
 
     public struct StopReplicationTaskResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The replication task stopped.
         public var replicationTask: ReplicationTask? = nil
 
@@ -1682,7 +1682,7 @@ extension Dms {
 
     public struct ReplicationTask: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The statistics for the task, including elapsed time, tables loaded, and table errors.
         public var replicationTaskStats: ReplicationTaskStats? = nil
         /// The last error (failure) message generated for the replication instance.
@@ -1751,7 +1751,7 @@ extension Dms {
 
     public struct RefreshSchemasResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the refreshed schema.
         public var refreshSchemasStatus: RefreshSchemasStatus? = nil
 
@@ -1768,7 +1768,7 @@ extension Dms {
 
     public struct DeleteCertificateMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the deleted certificate.
         public var certificateArn: String = ""
 
@@ -1786,7 +1786,7 @@ extension Dms {
 
     public struct DescribeRefreshSchemasStatusResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the schema.
         public var refreshSchemasStatus: RefreshSchemasStatus? = nil
 
@@ -1803,7 +1803,7 @@ extension Dms {
 
     public struct DescribeSchemasMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public var marker: String? = nil
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
@@ -1829,7 +1829,7 @@ extension Dms {
 
     public struct StopReplicationTaskMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Number(ARN) of the replication task to be stopped.
         public var replicationTaskArn: String = ""
 
@@ -1847,7 +1847,7 @@ extension Dms {
 
     public struct DescribeReplicationTasksResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public var marker: String? = nil
         /// A description of the replication tasks.
@@ -1870,7 +1870,7 @@ extension Dms {
 
     public struct AddTagsToResourceMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be added to. AWS DMS resources include a replication instance, endpoint, and a replication task.
         public var resourceArn: String = ""
         /// The tag to be assigned to the DMS resource.
@@ -1893,7 +1893,7 @@ extension Dms {
 
     public struct DescribeConnectionsMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public var maxRecords: Int32? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -1920,7 +1920,7 @@ extension Dms {
 
     public struct DeleteReplicationSubnetGroupResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1930,7 +1930,7 @@ extension Dms {
 
     public struct DeleteReplicationSubnetGroupMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The subnet group name of the replication instance.
         public var replicationSubnetGroupIdentifier: String = ""
 
@@ -1948,7 +1948,7 @@ extension Dms {
 
     public struct ReplicationPendingModifiedValues: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true. 
         public var multiAZ: Bool? = nil
         /// The engine version number of the replication instance.
@@ -1977,7 +1977,7 @@ extension Dms {
 
     public struct ReplicationInstance: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The time the replication instance was created.
         public var instanceCreateTime: Date? = nil
         /// The pending modification values.
@@ -2080,7 +2080,7 @@ extension Dms {
 
     public struct ImportCertificateResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The certificate to be uploaded.
         public var certificate: Certificate? = nil
 
@@ -2097,7 +2097,7 @@ extension Dms {
 
     public struct DescribeEndpointsResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public var marker: String? = nil
         /// Endpoint description.
@@ -2120,7 +2120,7 @@ extension Dms {
 
     public struct ModifyEndpointMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The type of endpoint.
         public var endpointType: String? = nil
         /// The name of the server where the endpoint database resides.
@@ -2182,7 +2182,7 @@ extension Dms {
 
     public struct DescribeOrderableReplicationInstancesMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public var maxRecords: Int32? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
@@ -2203,7 +2203,7 @@ extension Dms {
 
     public struct VpcSecurityGroupMembership: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The status of the VPC security group.
         public var status: String? = nil
         /// The VPC security group Id.
@@ -2224,7 +2224,7 @@ extension Dms {
 
     public struct CreateReplicationTaskMessage: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The path of the JSON file that contains the table mappings. Preceed the path with "file://". For example, --table-mappings file://mappingfile.json
         public var tableMappings: String = ""
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
@@ -2281,7 +2281,7 @@ extension Dms {
 
     public struct Filter: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the filter.
         public var name: String = ""
         /// The filter value.
@@ -2304,7 +2304,7 @@ extension Dms {
 
     public struct DescribeReplicationInstancesResponse: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
         public var marker: String? = nil
         /// The replication instances described.

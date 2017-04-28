@@ -31,7 +31,7 @@ extension Appstream2 {
 
     public struct DescribeSessionsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public var nextToken: String? = nil
         /// The list of streaming sessions.
@@ -54,7 +54,7 @@ extension Appstream2 {
 
     public struct ListAssociatedFleetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the stack whose associated fleets are listed.
         public var stackName: String = ""
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
@@ -76,7 +76,7 @@ extension Appstream2 {
 
     public struct DescribeStacksResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of stack details.
         public var stacks: [Stack]? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -99,7 +99,7 @@ extension Appstream2 {
 
     public struct DeleteStackResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -109,7 +109,7 @@ extension Appstream2 {
 
     public struct ComputeCapacity: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The desired number of streaming instances.
         public var desiredInstances: Int32 = 0
 
@@ -127,7 +127,7 @@ extension Appstream2 {
 
     public struct DescribeImagesRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A specific list of images to describe.
         public var names: [String]? = nil
 
@@ -146,7 +146,7 @@ extension Appstream2 {
 
     public struct DescribeImagesResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of images.
         public var images: [Image]? = nil
 
@@ -165,7 +165,7 @@ extension Appstream2 {
 
     public struct DescribeSessionsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The user for whom to list sessions. Use null to describe all the sessions for the stack and fleet.
         public var userId: String? = nil
         /// The size of each page of results. The default value is 20 and the maximum supported value is 50.
@@ -200,7 +200,7 @@ extension Appstream2 {
 
     public struct Session: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The identifier of the user for whom the session was created.
         public var userId: String = ""
         /// The name of the stack for which the streaming session was created.
@@ -238,7 +238,7 @@ extension Appstream2 {
 
     public struct ListAssociatedFleetsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public var nextToken: String? = nil
         /// The names of associated fleets.
@@ -261,7 +261,7 @@ extension Appstream2 {
 
     public struct DescribeFleetsRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public var nextToken: String? = nil
         /// The fleet names to describe. Use null to describe all the fleets for the AWS account.
@@ -284,7 +284,7 @@ extension Appstream2 {
 
     public struct FleetError: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The error message generated when the fleet has errors.
         public var errorMessage: String? = nil
         /// The error code for the fleet error.
@@ -305,7 +305,7 @@ extension Appstream2 {
 
     public struct ListAssociatedStacksResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public var nextToken: String? = nil
         /// The names of associated stacks.
@@ -328,7 +328,7 @@ extension Appstream2 {
 
     public struct UpdateFleetResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of fleet details.
         public var fleet: Fleet? = nil
 
@@ -345,7 +345,7 @@ extension Appstream2 {
 
     public struct ExpireSessionResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -355,7 +355,7 @@ extension Appstream2 {
 
     public struct DisassociateFleetResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -365,7 +365,7 @@ extension Appstream2 {
 
     public struct DeleteFleetResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -375,7 +375,7 @@ extension Appstream2 {
 
     public struct CreateFleetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The parameters for the capacity allocated to the fleet.
         public var computeCapacity: ComputeCapacity = ComputeCapacity()
         /// The VPC configuration for the fleet.
@@ -428,7 +428,7 @@ extension Appstream2 {
 
     public struct Stack: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A meaningful description for the stack.
         public var description: String? = nil
         /// The ARN of the stack.
@@ -462,7 +462,7 @@ extension Appstream2 {
 
     public struct UpdateStackResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// A list of stack details.
         public var stack: Stack? = nil
 
@@ -479,7 +479,7 @@ extension Appstream2 {
 
     public struct UpdateFleetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Delete the VPC association for the specified fleet.
         public var deleteVpcConfig: Bool? = nil
         /// The parameters for the capacity allocated to the fleet. 
@@ -533,7 +533,7 @@ extension Appstream2 {
 
     public struct DisassociateFleetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the stack with which the fleet is associated.
         public var stackName: String = ""
         /// The name of the fleet to disassociate.
@@ -556,7 +556,7 @@ extension Appstream2 {
 
     public struct Application: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// Additional attributes that describes the application.
         public var metadata: [String: String]? = nil
         /// The unique identifier for the application.
@@ -599,7 +599,7 @@ extension Appstream2 {
 
     public struct Fleet: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The ARN for the fleet.
         public var arn: String = ""
         /// The VPC configuration for the fleet.
@@ -672,7 +672,7 @@ extension Appstream2 {
 
     public struct StartFleetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the fleet to start.
         public var name: String = ""
 
@@ -690,7 +690,7 @@ extension Appstream2 {
 
     public struct StartFleetResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -700,7 +700,7 @@ extension Appstream2 {
 
     public struct VpcConfig: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The list of subnets to which a network interface is established from the fleet instance.
         public var subnetIds: [String] = []
 
@@ -718,7 +718,7 @@ extension Appstream2 {
 
     public struct DescribeStacksRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public var nextToken: String? = nil
         /// The stack names to describe. Use null to describe all the stacks for the AWS account.
@@ -741,7 +741,7 @@ extension Appstream2 {
 
     public struct ImageStateChangeReason: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The state change reason code of the image.
         public var code: String? = nil
         /// The state change reason message to the end user.
@@ -762,7 +762,7 @@ extension Appstream2 {
 
     public struct ListAssociatedStacksRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public var nextToken: String? = nil
         /// The name of the fleet whose associated stacks are listed.
@@ -784,7 +784,7 @@ extension Appstream2 {
 
     public struct CreateStackRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier for this stack.
         public var name: String = ""
         /// The name displayed to end users on the AppStream 2.0 portal.
@@ -810,7 +810,7 @@ extension Appstream2 {
 
     public struct UpdateStackRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the stack to update.
         public var name: String = ""
         /// The name displayed to end users on the AppStream 2.0 portal.
@@ -836,7 +836,7 @@ extension Appstream2 {
 
     public struct StopFleetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the fleet to stop.
         public var name: String = ""
 
@@ -854,7 +854,7 @@ extension Appstream2 {
 
     public struct ExpireSessionRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The unique identifier of the streaming session to be stopped.
         public var sessionId: String = ""
 
@@ -872,7 +872,7 @@ extension Appstream2 {
 
     public struct CreateFleetResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The details for the created fleet.
         public var fleet: Fleet? = nil
 
@@ -889,7 +889,7 @@ extension Appstream2 {
 
     public struct CreateStreamingURLRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The validity duration of the URL in seconds. After this duration, the URL returned by this operation becomes invalid.
         public var validity: Int64? = nil
         /// A unique user ID for whom the URL is generated.
@@ -929,7 +929,7 @@ extension Appstream2 {
 
     public struct ComputeCapacityStatus: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The number of currently available instances that can be used to stream sessions.
         public var available: Int32? = nil
         /// The number of instances that are being used for streaming.
@@ -959,7 +959,7 @@ extension Appstream2 {
 
     public struct CreateStreamingURLResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The URL to start the AppStream 2.0 streaming session.
         public var streamingURL: String? = nil
         /// Elapsed seconds after the Unix epoch, at which time this URL expires.
@@ -980,7 +980,7 @@ extension Appstream2 {
 
     public struct AssociateFleetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the stack to which the fleet is associated.
         public var stackName: String = ""
         /// The name of the fleet to associate.
@@ -1003,7 +1003,7 @@ extension Appstream2 {
 
     public struct DescribeFleetsResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public var nextToken: String? = nil
         /// The list of fleet details.
@@ -1026,7 +1026,7 @@ extension Appstream2 {
 
     public struct Image: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The reason why the last state change occurred.
         public var stateChangeReason: ImageStateChangeReason? = nil
         /// The ARN for the image.
@@ -1086,7 +1086,7 @@ extension Appstream2 {
 
     public struct DeleteStackRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the stack to delete.
         public var name: String = ""
 
@@ -1104,7 +1104,7 @@ extension Appstream2 {
 
     public struct StopFleetResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
@@ -1114,7 +1114,7 @@ extension Appstream2 {
 
     public struct CreateStackResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The details for the created stack.
         public var stack: Stack? = nil
 
@@ -1131,7 +1131,7 @@ extension Appstream2 {
 
     public struct DeleteFleetRequest: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
         /// The name of the fleet to be deleted.
         public var name: String = ""
 
@@ -1149,7 +1149,7 @@ extension Appstream2 {
 
     public struct AssociateFleetResult: AWSShape {
         /// The key for the payload
-        public let _payload: String? = nil
+        public static let payload: String? = nil
 
         public init() {}
 
