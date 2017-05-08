@@ -193,7 +193,7 @@ public struct AWSClient {
                 throw AWSRawError(errorCode: errorCode, message: message)
             }
             
-            throw AWSRawError(errorCode: "Unknown", message: nil)
+            throw AWSRawError(errorCode: "Unknown", message: String(data: data, encoding: .utf8))
         }
         
         var outputDict: [String: Any] = [:]
