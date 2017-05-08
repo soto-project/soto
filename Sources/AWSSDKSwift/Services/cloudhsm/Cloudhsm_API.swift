@@ -42,6 +42,7 @@ public struct Cloudhsm {
             amzTarget: "CloudHsmFrontendService",
             service: "cloudhsm",
             serviceProtocol: .json,
+            apiVersion: "2014-05-30",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [CloudhsmError.self]

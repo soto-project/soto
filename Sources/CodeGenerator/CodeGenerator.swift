@@ -181,12 +181,14 @@ extension AWSService {
         }
         code += "\(indt(3))service: \"\(endpointPrefix)\",\n"
         code += "\(indt(3))serviceProtocol: .\(serviceProtocol),\n"
+        code += "\(indt(3))apiVersion: \"\(version)\",\n"
         code += "\(indt(3))endpoint: endpoint,\n"
         code += "\(indt(3))middlewares: \(middlewares)"
         if !errorShapeNames.isEmpty {
             code += ",\n"
-            code += "\(indt(3))possibleErrorTypes: [\(serviceErrorName).self]\n"
+            code += "\(indt(3))possibleErrorTypes: [\(serviceErrorName).self]"
         }
+        code += "\n"
         code += indt(2)+")\n"
         code += "\(indt(1))}\n"
         code += "\n"

@@ -42,6 +42,7 @@ public struct Events {
             amzTarget: "AWSEvents",
             service: "events",
             serviceProtocol: .json,
+            apiVersion: "2015-10-07",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [EventsError.self]

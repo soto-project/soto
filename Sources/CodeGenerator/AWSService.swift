@@ -18,8 +18,12 @@ struct AWSService {
     var errorShapeNames = [String]()
     var shapeDoc: [String: [String: String]] = [:]
     
+    var version: String {
+        return apiJSON["metadata"]["apiVersion"].stringValue
+    }
+    
     var serviceProtocol: ServiceProtocol {
-        return ServiceProtocol(rawValue: apiJSON["metadata"]["protocol"].stringValue) ?? .json
+        return ServiceProtocol(rawValue: apiJSON["metadata"]["protocol"].stringValue)
     }
     
     var endpointPrefix: String {

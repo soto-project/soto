@@ -41,6 +41,7 @@ public struct Sts {
             region: region,
             service: "sts",
             serviceProtocol: .query,
+            apiVersion: "2011-06-15",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [StsError.self]

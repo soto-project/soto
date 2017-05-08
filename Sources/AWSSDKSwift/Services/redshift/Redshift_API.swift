@@ -41,6 +41,7 @@ public struct Redshift {
             region: region,
             service: "redshift",
             serviceProtocol: .query,
+            apiVersion: "2012-12-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [RedshiftError.self]

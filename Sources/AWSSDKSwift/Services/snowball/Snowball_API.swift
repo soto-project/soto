@@ -42,6 +42,7 @@ public struct Snowball {
             amzTarget: "AWSIESnowballJobManagementService",
             service: "snowball",
             serviceProtocol: .json,
+            apiVersion: "2016-06-30",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [SnowballError.self]

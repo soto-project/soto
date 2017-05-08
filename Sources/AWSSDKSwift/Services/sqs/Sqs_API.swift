@@ -41,6 +41,7 @@ public struct Sqs {
             region: region,
             service: "sqs",
             serviceProtocol: .query,
+            apiVersion: "2012-11-05",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [SqsError.self]

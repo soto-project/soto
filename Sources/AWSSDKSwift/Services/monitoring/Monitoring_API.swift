@@ -41,6 +41,7 @@ public struct Monitoring {
             region: region,
             service: "monitoring",
             serviceProtocol: .query,
+            apiVersion: "2010-08-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [MonitoringError.self]

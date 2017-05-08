@@ -41,6 +41,7 @@ public struct Sdb {
             region: region,
             service: "sdb",
             serviceProtocol: .query,
+            apiVersion: "2009-04-15",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [SdbError.self]

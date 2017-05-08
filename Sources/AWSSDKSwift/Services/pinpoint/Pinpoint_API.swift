@@ -40,7 +40,8 @@ public struct Pinpoint {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "pinpoint",
-            serviceProtocol: .json,
+            serviceProtocol: .restjson,
+            apiVersion: "2016-12-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [PinpointError.self]

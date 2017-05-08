@@ -42,6 +42,7 @@ public struct OpsworksCm {
             amzTarget: "OpsWorksCM_V2016_11_01",
             service: "opsworks-cm",
             serviceProtocol: .json,
+            apiVersion: "2016-11-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [OpsworksCmError.self]

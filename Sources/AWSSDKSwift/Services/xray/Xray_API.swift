@@ -40,7 +40,8 @@ public struct Xray {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "xray",
-            serviceProtocol: .json,
+            serviceProtocol: .restjson,
+            apiVersion: "2016-04-12",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [XrayError.self]

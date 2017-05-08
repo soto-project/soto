@@ -40,7 +40,8 @@ public struct Glacier {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "glacier",
-            serviceProtocol: .json,
+            serviceProtocol: .restjson,
+            apiVersion: "2012-06-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [GlacierError.self]

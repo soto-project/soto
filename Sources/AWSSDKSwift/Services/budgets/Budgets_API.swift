@@ -42,6 +42,7 @@ public struct Budgets {
             amzTarget: "AWSBudgetServiceGateway",
             service: "budgets",
             serviceProtocol: .json,
+            apiVersion: "2016-10-20",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [BudgetsError.self]

@@ -42,6 +42,7 @@ public struct Storagegateway {
             amzTarget: "StorageGateway_20130630",
             service: "storagegateway",
             serviceProtocol: .json,
+            apiVersion: "2013-06-30",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [StoragegatewayError.self]

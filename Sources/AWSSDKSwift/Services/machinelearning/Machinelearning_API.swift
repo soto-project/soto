@@ -42,6 +42,7 @@ public struct Machinelearning {
             amzTarget: "AmazonML_20141212",
             service: "machinelearning",
             serviceProtocol: .json,
+            apiVersion: "2014-12-12",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [MachinelearningError.self]

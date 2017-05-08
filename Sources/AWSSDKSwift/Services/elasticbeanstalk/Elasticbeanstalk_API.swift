@@ -41,6 +41,7 @@ public struct Elasticbeanstalk {
             region: region,
             service: "elasticbeanstalk",
             serviceProtocol: .query,
+            apiVersion: "2010-12-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [ElasticbeanstalkError.self]

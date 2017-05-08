@@ -44,25 +44,6 @@ extension Collection where Iterator.Element == Member {
             case .uri(let replaceTo, let replaceToKey):
                 pathParams[replaceTo] = replaceToKey
             }
-//            switch member.shape.type {
-//            case .structure(let type):
-//                for member in type.members {
-//                    if let loc = member.location {
-//                        switch loc {
-//                        case .header(let replaceTo, let keyForHeader):
-//                            headersParams[replaceTo] = keyForHeader
-//                            
-//                        case .querystring(let replaceTo, let keyForQuery):
-//                            queryParams[replaceTo] = keyForQuery
-//                            
-//                        case .uri(let replaceTo, let replaceToKey):
-//                            pathParams[replaceTo] = replaceToKey
-//                        }
-//                    }
-//                }
-//            default:
-//                break
-//            }
         }
         return RequestParam(pathParams: pathParams, queryParams: queryParams, headerParams: headersParams)
     }

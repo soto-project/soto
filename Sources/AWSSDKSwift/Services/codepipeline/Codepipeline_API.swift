@@ -42,6 +42,7 @@ public struct Codepipeline {
             amzTarget: "CodePipeline_20150709",
             service: "codepipeline",
             serviceProtocol: .json,
+            apiVersion: "2015-07-09",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [CodepipelineError.self]

@@ -42,6 +42,7 @@ public struct Firehose {
             amzTarget: "Firehose_20150804",
             service: "firehose",
             serviceProtocol: .json,
+            apiVersion: "2015-08-04",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [FirehoseError.self]

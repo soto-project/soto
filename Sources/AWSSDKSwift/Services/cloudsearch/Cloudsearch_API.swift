@@ -41,6 +41,7 @@ public struct Cloudsearch {
             region: region,
             service: "cloudsearch",
             serviceProtocol: .query,
+            apiVersion: "2013-01-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [CloudsearchError.self]

@@ -41,6 +41,7 @@ public struct Route53 {
             region: region,
             service: "route53",
             serviceProtocol: .restxml,
+            apiVersion: "2013-04-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [Route53Error.self]

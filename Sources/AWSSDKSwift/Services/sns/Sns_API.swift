@@ -41,6 +41,7 @@ public struct Sns {
             region: region,
             service: "sns",
             serviceProtocol: .query,
+            apiVersion: "2010-03-31",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [SnsError.self]

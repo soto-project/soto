@@ -42,6 +42,7 @@ public struct Support {
             amzTarget: "AWSSupport_20130415",
             service: "support",
             serviceProtocol: .json,
+            apiVersion: "2013-04-15",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [SupportError.self]

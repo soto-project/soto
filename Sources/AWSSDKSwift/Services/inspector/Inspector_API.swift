@@ -42,6 +42,7 @@ public struct Inspector {
             amzTarget: "InspectorService",
             service: "inspector",
             serviceProtocol: .json,
+            apiVersion: "2016-02-16",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [InspectorError.self]

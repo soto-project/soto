@@ -41,6 +41,7 @@ public struct Elasticache {
             region: region,
             service: "elasticache",
             serviceProtocol: .query,
+            apiVersion: "2015-02-02",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [ElasticacheError.self]

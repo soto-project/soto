@@ -42,6 +42,7 @@ public struct Codedeploy {
             amzTarget: "CodeDeploy_20141006",
             service: "codedeploy",
             serviceProtocol: .json,
+            apiVersion: "2014-10-06",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [CodedeployError.self]

@@ -42,6 +42,7 @@ public struct Streamsdynamodb {
             amzTarget: "DynamoDBStreams_20120810",
             service: "streams.dynamodb",
             serviceProtocol: .json,
+            apiVersion: "2012-08-10",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [StreamsdynamodbError.self]

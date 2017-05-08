@@ -42,6 +42,7 @@ public struct Ecs {
             amzTarget: "AmazonEC2ContainerServiceV20141113",
             service: "ecs",
             serviceProtocol: .json,
+            apiVersion: "2014-11-13",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [EcsError.self]

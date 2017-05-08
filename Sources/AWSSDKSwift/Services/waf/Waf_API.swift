@@ -42,6 +42,7 @@ public struct Waf {
             amzTarget: "AWSWAF_20150824",
             service: "waf",
             serviceProtocol: .json,
+            apiVersion: "2015-08-24",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [WafError.self]

@@ -40,7 +40,8 @@ public struct Dataiot {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "data.iot",
-            serviceProtocol: .json,
+            serviceProtocol: .restjson,
+            apiVersion: "2015-05-28",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [DataiotError.self]

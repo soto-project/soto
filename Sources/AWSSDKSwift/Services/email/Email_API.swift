@@ -41,6 +41,7 @@ public struct Email {
             region: region,
             service: "email",
             serviceProtocol: .query,
+            apiVersion: "2010-12-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [EmailError.self]

@@ -42,6 +42,7 @@ public struct Route53domains {
             amzTarget: "Route53Domains_v20140515",
             service: "route53domains",
             serviceProtocol: .json,
+            apiVersion: "2014-05-15",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [Route53domainsError.self]

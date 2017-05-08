@@ -42,6 +42,7 @@ public struct States {
             amzTarget: "AWSStepFunctions",
             service: "states",
             serviceProtocol: .json,
+            apiVersion: "2016-11-23",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [StatesError.self]

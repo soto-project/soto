@@ -42,6 +42,7 @@ public struct Codebuild {
             amzTarget: "CodeBuild_20161006",
             service: "codebuild",
             serviceProtocol: .json,
+            apiVersion: "2016-10-06",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [CodebuildError.self]

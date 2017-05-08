@@ -42,6 +42,7 @@ public struct Logs {
             amzTarget: "Logs_20140328",
             service: "logs",
             serviceProtocol: .json,
+            apiVersion: "2014-03-28",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [LogsError.self]

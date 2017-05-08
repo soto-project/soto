@@ -42,6 +42,7 @@ public struct Health {
             amzTarget: "AWSHealth_20160804",
             service: "health",
             serviceProtocol: .json,
+            apiVersion: "2016-08-04",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [HealthError.self]

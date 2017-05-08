@@ -42,6 +42,7 @@ public struct Marketplacecommerceanalytics {
             amzTarget: "MarketplaceCommerceAnalytics20150701",
             service: "marketplacecommerceanalytics",
             serviceProtocol: .json,
+            apiVersion: "2015-07-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [MarketplacecommerceanalyticsError.self]

@@ -40,7 +40,8 @@ public struct Elastictranscoder {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "elastictranscoder",
-            serviceProtocol: .json,
+            serviceProtocol: .restjson,
+            apiVersion: "2012-09-25",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [ElastictranscoderError.self]

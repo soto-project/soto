@@ -42,6 +42,7 @@ public struct Ssm {
             amzTarget: "AmazonSSM",
             service: "ssm",
             serviceProtocol: .json,
+            apiVersion: "2014-11-06",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [SsmError.self]

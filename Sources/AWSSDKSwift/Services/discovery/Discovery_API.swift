@@ -42,6 +42,7 @@ public struct Discovery {
             amzTarget: "AWSPoseidonService_V2015_11_01",
             service: "discovery",
             serviceProtocol: .json,
+            apiVersion: "2015-11-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [DiscoveryError.self]

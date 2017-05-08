@@ -42,6 +42,7 @@ public struct Cloudtrail {
             amzTarget: "com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101",
             service: "cloudtrail",
             serviceProtocol: .json,
+            apiVersion: "2013-11-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [CloudtrailError.self]

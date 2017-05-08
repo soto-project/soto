@@ -40,7 +40,8 @@ public struct Batch {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "batch",
-            serviceProtocol: .json,
+            serviceProtocol: .restjson,
+            apiVersion: "2016-08-10",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [BatchError.self]

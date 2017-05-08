@@ -42,6 +42,7 @@ public struct Acm {
             amzTarget: "CertificateManager",
             service: "acm",
             serviceProtocol: .json,
+            apiVersion: "2015-12-08",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [AcmError.self]
