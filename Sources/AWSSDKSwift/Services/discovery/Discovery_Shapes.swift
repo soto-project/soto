@@ -54,21 +54,17 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Depending on the input, this is a list of configuration items tagged with a specific tag, or a list of tags for a specific configuration item.
-        public let tags: [ConfigurationTag]?
+        public let tags: ConfigurationTagSet?
         /// The call returns a token. Use this token to get the next set of results.
         public let nextToken: String?
 
-        public init(tags: [ConfigurationTag]? = nil, nextToken: String? = nil) {
+        public init(tags: ConfigurationTagSet? = nil, nextToken: String? = nil) {
             self.tags = tags
             self.nextToken = nextToken
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let tags = dictionary["tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try ConfigurationTag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["tags"] as? [String: Any] { self.tags = try Discovery.ConfigurationTagSet(dictionary: tags) } else { self.tags = nil }
             self.nextToken = dictionary["nextToken"] as? String
         }
     }
@@ -77,18 +73,18 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Tags that you want to associate with one or more configuration items. Specify the tags that you want to create in a key-value format. For example:  {"key": "serverType", "value": "webServer"} 
-        public let tags: [Tag]
+        public let tags: TagSet
         /// A list of configuration items that you want to tag.
         public let configurationIds: [String]
 
-        public init(tags: [Tag], configurationIds: [String]) {
+        public init(tags: TagSet, configurationIds: [String]) {
             self.tags = tags
             self.configurationIds = configurationIds
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
+            guard let tags = dictionary["tags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("tags") }
+            self.tags = try Discovery.TagSet(dictionary: tags)
             guard let configurationIds = dictionary["configurationIds"] as? [String] else { throw InitializableError.missingRequiredParam("configurationIds") }
             self.configurationIds = configurationIds
         }
@@ -99,6 +95,20 @@ extension Discovery {
         public static let payload: String? = nil
 
         public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct FilterValues: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let item: [String]?
+
+        public init(item: [String]? = nil) {
+            self.item = item
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.item = dictionary["Item"] as? [String]
         }
     }
 
@@ -146,6 +156,24 @@ extension Discovery {
                 self.orderBy = try orderBy.map({ try OrderByElement(dictionary: $0) })
             } else { 
                 self.orderBy = nil
+            }
+        }
+    }
+
+    public struct TagSet: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let item: [Tag]?
+
+        public init(item: [Tag]? = nil) {
+            self.item = item
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["Item"] as? [[String: Any]] {
+                self.item = try item.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.item = nil
             }
         }
     }
@@ -499,21 +527,17 @@ extension Discovery {
         /// The key for the payload
         public static let payload: String? = nil
         /// Tags that you want to delete from one or more configuration items. Specify the tags that you want to delete in a key-value format. For example:  {"key": "serverType", "value": "webServer"} 
-        public let tags: [Tag]?
+        public let tags: TagSet?
         /// A list of configuration items with tags that you want to delete.
         public let configurationIds: [String]
 
-        public init(tags: [Tag]? = nil, configurationIds: [String]) {
+        public init(tags: TagSet? = nil, configurationIds: [String]) {
             self.tags = tags
             self.configurationIds = configurationIds
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let tags = dictionary["tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["tags"] as? [String: Any] { self.tags = try Discovery.TagSet(dictionary: tags) } else { self.tags = nil }
             guard let configurationIds = dictionary["configurationIds"] as? [String] else { throw InitializableError.missingRequiredParam("configurationIds") }
             self.configurationIds = configurationIds
         }
@@ -649,9 +673,9 @@ extension Discovery {
         /// A name of a tag filter.
         public let name: String
         /// Values of a tag filter.
-        public let values: [String]
+        public let values: FilterValues
 
-        public init(name: String, values: [String]) {
+        public init(name: String, values: FilterValues) {
             self.name = name
             self.values = values
         }
@@ -659,8 +683,8 @@ extension Discovery {
         public init(dictionary: [String: Any]) throws {
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
-            guard let values = dictionary["values"] as? [String] else { throw InitializableError.missingRequiredParam("values") }
-            self.values = values
+            guard let values = dictionary["values"] as? [String: Any] else { throw InitializableError.missingRequiredParam("values") }
+            self.values = try Discovery.FilterValues(dictionary: values)
         }
     }
 
@@ -792,6 +816,24 @@ extension Discovery {
 
         public init(dictionary: [String: Any]) throws {
             self.configurations = dictionary["configurations"] as? [[String: String]]
+        }
+    }
+
+    public struct ConfigurationTagSet: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let item: [ConfigurationTag]?
+
+        public init(item: [ConfigurationTag]? = nil) {
+            self.item = item
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["Item"] as? [[String: Any]] {
+                self.item = try item.map({ try ConfigurationTag(dictionary: $0) })
+            } else { 
+                self.item = nil
+            }
         }
     }
 
@@ -993,11 +1035,11 @@ extension Discovery {
         /// The name of the filter.
         public let name: String
         /// A string value that you want to filter on. For example, if you choose the destinationServer.osVersion filter name, you could specify Ubuntu for the value.
-        public let values: [String]
+        public let values: FilterValues
         /// A conditional operator. The following operators are valid: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the system utilizes all filters as though concatenated by AND. If you specify multiple values for a particular filter, the system differentiates the values using OR. Calling either DescribeConfigurations or ListConfigurations returns attributes of matching configuration items.
         public let condition: String
 
-        public init(name: String, values: [String], condition: String) {
+        public init(name: String, values: FilterValues, condition: String) {
             self.name = name
             self.values = values
             self.condition = condition
@@ -1006,8 +1048,8 @@ extension Discovery {
         public init(dictionary: [String: Any]) throws {
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
-            guard let values = dictionary["values"] as? [String] else { throw InitializableError.missingRequiredParam("values") }
-            self.values = values
+            guard let values = dictionary["values"] as? [String: Any] else { throw InitializableError.missingRequiredParam("values") }
+            self.values = try Discovery.FilterValues(dictionary: values)
             guard let condition = dictionary["condition"] as? String else { throw InitializableError.missingRequiredParam("condition") }
             self.condition = condition
         }

@@ -35,20 +35,16 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of ClusterSubnetGroup instances. 
-        public let clusterSubnetGroups: [ClusterSubnetGroup]?
+        public let clusterSubnetGroups: ClusterSubnetGroups?
 
-        public init(marker: String? = nil, clusterSubnetGroups: [ClusterSubnetGroup]? = nil) {
+        public init(marker: String? = nil, clusterSubnetGroups: ClusterSubnetGroups? = nil) {
             self.marker = marker
             self.clusterSubnetGroups = clusterSubnetGroups
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let clusterSubnetGroups = dictionary["ClusterSubnetGroups"] as? [[String: Any]] {
-                self.clusterSubnetGroups = try clusterSubnetGroups.map({ try ClusterSubnetGroup(dictionary: $0) })
-            } else { 
-                self.clusterSubnetGroups = nil
-            }
+            if let clusterSubnetGroups = dictionary["ClusterSubnetGroups"] as? [String: Any] { self.clusterSubnetGroups = try Redshift.ClusterSubnetGroups(dictionary: clusterSubnetGroups) } else { self.clusterSubnetGroups = nil }
         }
     }
 
@@ -72,20 +68,16 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of Event instances. 
-        public let events: [Event]?
+        public let events: EventList?
 
-        public init(marker: String? = nil, events: [Event]? = nil) {
+        public init(marker: String? = nil, events: EventList? = nil) {
             self.marker = marker
             self.events = events
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let events = dictionary["Events"] as? [[String: Any]] {
-                self.events = try events.map({ try Event(dictionary: $0) })
-            } else { 
-                self.events = nil
-            }
+            if let events = dictionary["Events"] as? [String: Any] { self.events = try Redshift.EventList(dictionary: events) } else { self.events = nil }
         }
     }
 
@@ -95,20 +87,16 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of tags with their associated resources.
-        public let taggedResources: [TaggedResource]?
+        public let taggedResources: TaggedResourceList?
 
-        public init(marker: String? = nil, taggedResources: [TaggedResource]? = nil) {
+        public init(marker: String? = nil, taggedResources: TaggedResourceList? = nil) {
             self.marker = marker
             self.taggedResources = taggedResources
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let taggedResources = dictionary["TaggedResources"] as? [[String: Any]] {
-                self.taggedResources = try taggedResources.map({ try TaggedResource(dictionary: $0) })
-            } else { 
-                self.taggedResources = nil
-            }
+            if let taggedResources = dictionary["TaggedResources"] as? [String: Any] { self.taggedResources = try Redshift.TaggedResourceList(dictionary: taggedResources) } else { self.taggedResources = nil }
         }
     }
 
@@ -160,20 +148,16 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of ClusterSecurityGroup instances. 
-        public let clusterSecurityGroups: [ClusterSecurityGroup]?
+        public let clusterSecurityGroups: ClusterSecurityGroups?
 
-        public init(marker: String? = nil, clusterSecurityGroups: [ClusterSecurityGroup]? = nil) {
+        public init(marker: String? = nil, clusterSecurityGroups: ClusterSecurityGroups? = nil) {
             self.marker = marker
             self.clusterSecurityGroups = clusterSecurityGroups
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [[String: Any]] {
-                self.clusterSecurityGroups = try clusterSecurityGroups.map({ try ClusterSecurityGroup(dictionary: $0) })
-            } else { 
-                self.clusterSecurityGroups = nil
-            }
+            if let clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [String: Any] { self.clusterSecurityGroups = try Redshift.ClusterSecurityGroups(dictionary: clusterSecurityGroups) } else { self.clusterSecurityGroups = nil }
         }
     }
 
@@ -240,19 +224,51 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// An OrderableClusterOption structure containing information about orderable options for the cluster.
-        public let orderableClusterOptions: [OrderableClusterOption]?
+        public let orderableClusterOptions: OrderableClusterOptionsList?
 
-        public init(marker: String? = nil, orderableClusterOptions: [OrderableClusterOption]? = nil) {
+        public init(marker: String? = nil, orderableClusterOptions: OrderableClusterOptionsList? = nil) {
             self.marker = marker
             self.orderableClusterOptions = orderableClusterOptions
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let orderableClusterOptions = dictionary["OrderableClusterOptions"] as? [[String: Any]] {
-                self.orderableClusterOptions = try orderableClusterOptions.map({ try OrderableClusterOption(dictionary: $0) })
+            if let orderableClusterOptions = dictionary["OrderableClusterOptions"] as? [String: Any] { self.orderableClusterOptions = try Redshift.OrderableClusterOptionsList(dictionary: orderableClusterOptions) } else { self.orderableClusterOptions = nil }
+        }
+    }
+
+    public struct AccountsWithRestoreAccessList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let accountWithRestoreAccess: [AccountWithRestoreAccess]?
+
+        public init(accountWithRestoreAccess: [AccountWithRestoreAccess]? = nil) {
+            self.accountWithRestoreAccess = accountWithRestoreAccess
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let accountWithRestoreAccess = dictionary["AccountWithRestoreAccess"] as? [[String: Any]] {
+                self.accountWithRestoreAccess = try accountWithRestoreAccess.map({ try AccountWithRestoreAccess(dictionary: $0) })
             } else { 
-                self.orderableClusterOptions = nil
+                self.accountWithRestoreAccess = nil
+            }
+        }
+    }
+
+    public struct ClusterList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let cluster: [Cluster]?
+
+        public init(cluster: [Cluster]? = nil) {
+            self.cluster = cluster
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let cluster = dictionary["Cluster"] as? [[String: Any]] {
+                self.cluster = try cluster.map({ try Cluster(dictionary: $0) })
+            } else { 
+                self.cluster = nil
             }
         }
     }
@@ -301,6 +317,60 @@ extension Redshift {
         }
     }
 
+    public struct ReservedNodeList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let reservedNode: [ReservedNode]?
+
+        public init(reservedNode: [ReservedNode]? = nil) {
+            self.reservedNode = reservedNode
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let reservedNode = dictionary["ReservedNode"] as? [[String: Any]] {
+                self.reservedNode = try reservedNode.map({ try ReservedNode(dictionary: $0) })
+            } else { 
+                self.reservedNode = nil
+            }
+        }
+    }
+
+    public struct ClusterVersionList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let clusterVersion: [ClusterVersion]?
+
+        public init(clusterVersion: [ClusterVersion]? = nil) {
+            self.clusterVersion = clusterVersion
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let clusterVersion = dictionary["ClusterVersion"] as? [[String: Any]] {
+                self.clusterVersion = try clusterVersion.map({ try ClusterVersion(dictionary: $0) })
+            } else { 
+                self.clusterVersion = nil
+            }
+        }
+    }
+
+    public struct ClusterParameterGroupStatusList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let clusterParameterGroup: [ClusterParameterGroupStatus]?
+
+        public init(clusterParameterGroup: [ClusterParameterGroupStatus]? = nil) {
+            self.clusterParameterGroup = clusterParameterGroup
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let clusterParameterGroup = dictionary["ClusterParameterGroup"] as? [[String: Any]] {
+                self.clusterParameterGroup = try clusterParameterGroup.map({ try ClusterParameterGroupStatus(dictionary: $0) })
+            } else { 
+                self.clusterParameterGroup = nil
+            }
+        }
+    }
+
     public struct CreateClusterParameterGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -321,20 +391,16 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of HsmConfiguration objects.
-        public let hsmConfigurations: [HsmConfiguration]?
+        public let hsmConfigurations: HsmConfigurationList?
 
-        public init(marker: String? = nil, hsmConfigurations: [HsmConfiguration]? = nil) {
+        public init(marker: String? = nil, hsmConfigurations: HsmConfigurationList? = nil) {
             self.marker = marker
             self.hsmConfigurations = hsmConfigurations
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let hsmConfigurations = dictionary["HsmConfigurations"] as? [[String: Any]] {
-                self.hsmConfigurations = try hsmConfigurations.map({ try HsmConfiguration(dictionary: $0) })
-            } else { 
-                self.hsmConfigurations = nil
-            }
+            if let hsmConfigurations = dictionary["HsmConfigurations"] as? [String: Any] { self.hsmConfigurations = try Redshift.HsmConfigurationList(dictionary: hsmConfigurations) } else { self.hsmConfigurations = nil }
         }
     }
 
@@ -399,21 +465,21 @@ extension Redshift {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request.
-        public let subnetIds: [String]
+        public let subnetIds: SubnetIdentifierList
         /// The name of the subnet group to be modified.
         public let clusterSubnetGroupName: String
         /// A text description of the subnet group to be modified.
         public let description: String?
 
-        public init(subnetIds: [String], clusterSubnetGroupName: String, description: String? = nil) {
+        public init(subnetIds: SubnetIdentifierList, clusterSubnetGroupName: String, description: String? = nil) {
             self.subnetIds = subnetIds
             self.clusterSubnetGroupName = clusterSubnetGroupName
             self.description = description
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let subnetIds = dictionary["SubnetIds"] as? [String] else { throw InitializableError.missingRequiredParam("SubnetIds") }
-            self.subnetIds = subnetIds
+            guard let subnetIds = dictionary["SubnetIds"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SubnetIds") }
+            self.subnetIds = try Redshift.SubnetIdentifierList(dictionary: subnetIds)
             guard let clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("ClusterSubnetGroupName") }
             self.clusterSubnetGroupName = clusterSubnetGroupName
             self.description = dictionary["Description"] as? String
@@ -431,6 +497,24 @@ extension Redshift {
 
         public init(dictionary: [String: Any]) throws {
             if let tableRestoreStatus = dictionary["TableRestoreStatus"] as? [String: Any] { self.tableRestoreStatus = try Redshift.TableRestoreStatus(dictionary: tableRestoreStatus) } else { self.tableRestoreStatus = nil }
+        }
+    }
+
+    public struct TableRestoreStatusList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let tableRestoreStatus: [TableRestoreStatus]?
+
+        public init(tableRestoreStatus: [TableRestoreStatus]? = nil) {
+            self.tableRestoreStatus = tableRestoreStatus
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let tableRestoreStatus = dictionary["TableRestoreStatus"] as? [[String: Any]] {
+                self.tableRestoreStatus = try tableRestoreStatus.map({ try TableRestoreStatus(dictionary: $0) })
+            } else { 
+                self.tableRestoreStatus = nil
+            }
         }
     }
 
@@ -454,17 +538,17 @@ extension Redshift {
         /// The status of the cluster subnet group. Possible values are Complete, Incomplete and Invalid. 
         public let subnetGroupStatus: String?
         /// A list of the VPC Subnet elements. 
-        public let subnets: [Subnet]?
+        public let subnets: SubnetList?
         /// The VPC ID of the cluster subnet group.
         public let vpcId: String?
         /// The list of tags for the cluster subnet group.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// The name of the cluster subnet group.
         public let clusterSubnetGroupName: String?
         /// The description of the cluster subnet group.
         public let description: String?
 
-        public init(subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil, tags: [Tag]? = nil, clusterSubnetGroupName: String? = nil, description: String? = nil) {
+        public init(subnetGroupStatus: String? = nil, subnets: SubnetList? = nil, vpcId: String? = nil, tags: TagList? = nil, clusterSubnetGroupName: String? = nil, description: String? = nil) {
             self.subnetGroupStatus = subnetGroupStatus
             self.subnets = subnets
             self.vpcId = vpcId
@@ -475,17 +559,9 @@ extension Redshift {
 
         public init(dictionary: [String: Any]) throws {
             self.subnetGroupStatus = dictionary["SubnetGroupStatus"] as? String
-            if let subnets = dictionary["Subnets"] as? [[String: Any]] {
-                self.subnets = try subnets.map({ try Subnet(dictionary: $0) })
-            } else { 
-                self.subnets = nil
-            }
+            if let subnets = dictionary["Subnets"] as? [String: Any] { self.subnets = try Redshift.SubnetList(dictionary: subnets) } else { self.subnets = nil }
             self.vpcId = dictionary["VpcId"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             self.clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String
             self.description = dictionary["Description"] as? String
         }
@@ -499,7 +575,7 @@ extension Redshift {
         /// The password required to access the HSM partition.
         public let hsmPartitionPassword: String
         /// A list of tag instances.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// The HSMs public certificate file. When using Cloud HSM, the file name is server.pem.
         public let hsmServerPublicCertificate: String
         /// The IP address that the Amazon Redshift cluster must use to access the HSM.
@@ -509,7 +585,7 @@ extension Redshift {
         /// A text description of the HSM configuration to be created.
         public let description: String
 
-        public init(hsmPartitionName: String, hsmPartitionPassword: String, tags: [Tag]? = nil, hsmServerPublicCertificate: String, hsmIpAddress: String, hsmConfigurationIdentifier: String, description: String) {
+        public init(hsmPartitionName: String, hsmPartitionPassword: String, tags: TagList? = nil, hsmServerPublicCertificate: String, hsmIpAddress: String, hsmConfigurationIdentifier: String, description: String) {
             self.hsmPartitionName = hsmPartitionName
             self.hsmPartitionPassword = hsmPartitionPassword
             self.tags = tags
@@ -524,11 +600,7 @@ extension Redshift {
             self.hsmPartitionName = hsmPartitionName
             guard let hsmPartitionPassword = dictionary["HsmPartitionPassword"] as? String else { throw InitializableError.missingRequiredParam("HsmPartitionPassword") }
             self.hsmPartitionPassword = hsmPartitionPassword
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             guard let hsmServerPublicCertificate = dictionary["HsmServerPublicCertificate"] as? String else { throw InitializableError.missingRequiredParam("HsmServerPublicCertificate") }
             self.hsmServerPublicCertificate = hsmServerPublicCertificate
             guard let hsmIpAddress = dictionary["HsmIpAddress"] as? String else { throw InitializableError.missingRequiredParam("HsmIpAddress") }
@@ -684,7 +756,7 @@ extension Redshift {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of availability zones for the orderable cluster.
-        public let availabilityZones: [AvailabilityZone]?
+        public let availabilityZones: AvailabilityZoneList?
         /// The cluster type, for example multi-node. 
         public let clusterType: String?
         /// The version of the orderable cluster.
@@ -692,7 +764,7 @@ extension Redshift {
         /// The node type for the orderable cluster.
         public let nodeType: String?
 
-        public init(availabilityZones: [AvailabilityZone]? = nil, clusterType: String? = nil, clusterVersion: String? = nil, nodeType: String? = nil) {
+        public init(availabilityZones: AvailabilityZoneList? = nil, clusterType: String? = nil, clusterVersion: String? = nil, nodeType: String? = nil) {
             self.availabilityZones = availabilityZones
             self.clusterType = clusterType
             self.clusterVersion = clusterVersion
@@ -700,11 +772,7 @@ extension Redshift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let availabilityZones = dictionary["AvailabilityZones"] as? [[String: Any]] {
-                self.availabilityZones = try availabilityZones.map({ try AvailabilityZone(dictionary: $0) })
-            } else { 
-                self.availabilityZones = nil
-            }
+            if let availabilityZones = dictionary["AvailabilityZones"] as? [String: Any] { self.availabilityZones = try Redshift.AvailabilityZoneList(dictionary: availabilityZones) } else { self.availabilityZones = nil }
             self.clusterType = dictionary["ClusterType"] as? String
             self.clusterVersion = dictionary["ClusterVersion"] as? String
             self.nodeType = dictionary["NodeType"] as? String
@@ -721,17 +789,17 @@ extension Redshift {
         /// The name of the event subscription to be created. Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let subscriptionName: String
         /// A list of tag instances.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// Specifies the Amazon Redshift event categories to be published by the event notification subscription. Values: Configuration, Management, Monitoring, Security
-        public let eventCategories: [String]?
+        public let eventCategories: EventCategoriesList?
         /// A Boolean value; set to true to activate the subscription, set to false to create the subscription but not active it. 
         public let enabled: Bool?
         /// The type of source that will be generating the events. For example, if you want to be notified of events generated by a cluster, you would set this parameter to cluster. If this value is not specified, events are returned for all Amazon Redshift objects in your AWS account. You must specify a source type in order to specify source IDs. Valid values: cluster, cluster-parameter-group, cluster-security-group, and cluster-snapshot.
         public let sourceType: String?
         /// A list of one or more identifiers of Amazon Redshift source objects. All of the objects must be of the same type as was specified in the source type parameter. The event subscription will return only events generated by the specified objects. If not specified, then events are returned for all objects within the source type specified. Example: my-cluster-1, my-cluster-2 Example: my-snapshot-20131010
-        public let sourceIds: [String]?
+        public let sourceIds: SourceIdsList?
 
-        public init(severity: String? = nil, snsTopicArn: String, subscriptionName: String, tags: [Tag]? = nil, eventCategories: [String]? = nil, enabled: Bool? = nil, sourceType: String? = nil, sourceIds: [String]? = nil) {
+        public init(severity: String? = nil, snsTopicArn: String, subscriptionName: String, tags: TagList? = nil, eventCategories: EventCategoriesList? = nil, enabled: Bool? = nil, sourceType: String? = nil, sourceIds: SourceIdsList? = nil) {
             self.severity = severity
             self.snsTopicArn = snsTopicArn
             self.subscriptionName = subscriptionName
@@ -748,15 +816,29 @@ extension Redshift {
             self.snsTopicArn = snsTopicArn
             guard let subscriptionName = dictionary["SubscriptionName"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionName") }
             self.subscriptionName = subscriptionName
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.eventCategories = dictionary["EventCategories"] as? [String]
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
+            if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Redshift.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
             self.enabled = dictionary["Enabled"] as? Bool
             self.sourceType = dictionary["SourceType"] as? String
-            self.sourceIds = dictionary["SourceIds"] as? [String]
+            if let sourceIds = dictionary["SourceIds"] as? [String: Any] { self.sourceIds = try Redshift.SourceIdsList(dictionary: sourceIds) } else { self.sourceIds = nil }
+        }
+    }
+
+    public struct ClusterIamRoleList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let clusterIamRole: [ClusterIamRole]?
+
+        public init(clusterIamRole: [ClusterIamRole]? = nil) {
+            self.clusterIamRole = clusterIamRole
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let clusterIamRole = dictionary["ClusterIamRole"] as? [[String: Any]] {
+                self.clusterIamRole = try clusterIamRole.map({ try ClusterIamRole(dictionary: $0) })
+            } else { 
+                self.clusterIamRole = nil
+            }
         }
     }
 
@@ -764,18 +846,14 @@ extension Redshift {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of event categories descriptions.
-        public let eventCategoriesMapList: [EventCategoriesMap]?
+        public let eventCategoriesMapList: EventCategoriesMapList?
 
-        public init(eventCategoriesMapList: [EventCategoriesMap]? = nil) {
+        public init(eventCategoriesMapList: EventCategoriesMapList? = nil) {
             self.eventCategoriesMapList = eventCategoriesMapList
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let eventCategoriesMapList = dictionary["EventCategoriesMapList"] as? [[String: Any]] {
-                self.eventCategoriesMapList = try eventCategoriesMapList.map({ try EventCategoriesMap(dictionary: $0) })
-            } else { 
-                self.eventCategoriesMapList = nil
-            }
+            if let eventCategoriesMapList = dictionary["EventCategoriesMapList"] as? [String: Any] { self.eventCategoriesMapList = try Redshift.EventCategoriesMapList(dictionary: eventCategoriesMapList) } else { self.eventCategoriesMapList = nil }
         }
     }
 
@@ -798,26 +876,40 @@ extension Redshift {
         }
     }
 
+    public struct IPRangeList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let iPRange: [IPRange]?
+
+        public init(iPRange: [IPRange]? = nil) {
+            self.iPRange = iPRange
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let iPRange = dictionary["IPRange"] as? [[String: Any]] {
+                self.iPRange = try iPRange.map({ try IPRange(dictionary: $0) })
+            } else { 
+                self.iPRange = nil
+            }
+        }
+    }
+
     public struct HsmClientCertificateMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of the identifiers for one or more HSM client certificates used by Amazon Redshift clusters to store and retrieve database encryption keys in an HSM.
-        public let hsmClientCertificates: [HsmClientCertificate]?
+        public let hsmClientCertificates: HsmClientCertificateList?
 
-        public init(marker: String? = nil, hsmClientCertificates: [HsmClientCertificate]? = nil) {
+        public init(marker: String? = nil, hsmClientCertificates: HsmClientCertificateList? = nil) {
             self.marker = marker
             self.hsmClientCertificates = hsmClientCertificates
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let hsmClientCertificates = dictionary["HsmClientCertificates"] as? [[String: Any]] {
-                self.hsmClientCertificates = try hsmClientCertificates.map({ try HsmClientCertificate(dictionary: $0) })
-            } else { 
-                self.hsmClientCertificates = nil
-            }
+            if let hsmClientCertificates = dictionary["HsmClientCertificates"] as? [String: Any] { self.hsmClientCertificates = try Redshift.HsmClientCertificateList(dictionary: hsmClientCertificates) } else { self.hsmClientCertificates = nil }
         }
     }
 
@@ -895,15 +987,15 @@ extension Redshift {
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
         /// A tag value or values for which you want to return all matching cluster security groups that are associated with the specified tag value or values. For example, suppose that you have security groups that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the security groups that have either or both of these tag values associated with them.
-        public let tagValues: [String]?
+        public let tagValues: TagValueList?
         /// A tag key or keys for which you want to return all matching cluster security groups that are associated with the specified key or keys. For example, suppose that you have security groups that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the security groups that have either or both of these tag keys associated with them.
-        public let tagKeys: [String]?
+        public let tagKeys: TagKeyList?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterSecurityGroups request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the ClusterSecurityGroupName parameter or the Marker parameter, but not both. 
         public let marker: String?
         /// The name of a cluster security group for which you are requesting details. You can specify either the Marker parameter or a ClusterSecurityGroupName parameter, but not both.   Example: securitygroup1 
         public let clusterSecurityGroupName: String?
 
-        public init(maxRecords: Int32? = nil, tagValues: [String]? = nil, tagKeys: [String]? = nil, marker: String? = nil, clusterSecurityGroupName: String? = nil) {
+        public init(maxRecords: Int32? = nil, tagValues: TagValueList? = nil, tagKeys: TagKeyList? = nil, marker: String? = nil, clusterSecurityGroupName: String? = nil) {
             self.maxRecords = maxRecords
             self.tagValues = tagValues
             self.tagKeys = tagKeys
@@ -913,8 +1005,8 @@ extension Redshift {
 
         public init(dictionary: [String: Any]) throws {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.tagValues = dictionary["TagValues"] as? [String]
-            self.tagKeys = dictionary["TagKeys"] as? [String]
+            if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
+            if let tagKeys = dictionary["TagKeys"] as? [String: Any] { self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys) } else { self.tagKeys = nil }
             self.marker = dictionary["Marker"] as? String
             self.clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? String
         }
@@ -926,11 +1018,11 @@ extension Redshift {
         /// The name for the security group. Amazon Redshift stores the value as a lowercase string. Constraints:   Must contain no more than 255 alphanumeric characters or hyphens.   Must not be "Default".   Must be unique for all security groups that are created by your AWS account.   Example: examplesecuritygroup 
         public let clusterSecurityGroupName: String
         /// A list of tag instances.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// A description for the security group.
         public let description: String
 
-        public init(clusterSecurityGroupName: String, tags: [Tag]? = nil, description: String) {
+        public init(clusterSecurityGroupName: String, tags: TagList? = nil, description: String) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
             self.tags = tags
             self.description = description
@@ -939,13 +1031,23 @@ extension Redshift {
         public init(dictionary: [String: Any]) throws {
             guard let clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? String else { throw InitializableError.missingRequiredParam("ClusterSecurityGroupName") }
             self.clusterSecurityGroupName = clusterSecurityGroupName
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
             self.description = description
+        }
+    }
+
+    public struct VpcSecurityGroupIdList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let vpcSecurityGroupId: [String]?
+
+        public init(vpcSecurityGroupId: [String]? = nil) {
+            self.vpcSecurityGroupId = vpcSecurityGroupId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.vpcSecurityGroupId = dictionary["VpcSecurityGroupId"] as? [String]
         }
     }
 
@@ -955,15 +1057,15 @@ extension Redshift {
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
         /// A tag value or values for which you want to return all matching HSM configurations that are associated with the specified tag value or values. For example, suppose that you have HSM configurations that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the HSM configurations that have either or both of these tag values associated with them.
-        public let tagValues: [String]?
+        public let tagValues: TagValueList?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeHsmConfigurations request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The identifier of a specific Amazon Redshift HSM configuration to be described. If no identifier is specified, information is returned for all HSM configurations owned by your AWS customer account.
         public let hsmConfigurationIdentifier: String?
         /// A tag key or keys for which you want to return all matching HSM configurations that are associated with the specified key or keys. For example, suppose that you have HSM configurations that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the HSM configurations that have either or both of these tag keys associated with them.
-        public let tagKeys: [String]?
+        public let tagKeys: TagKeyList?
 
-        public init(maxRecords: Int32? = nil, tagValues: [String]? = nil, marker: String? = nil, hsmConfigurationIdentifier: String? = nil, tagKeys: [String]? = nil) {
+        public init(maxRecords: Int32? = nil, tagValues: TagValueList? = nil, marker: String? = nil, hsmConfigurationIdentifier: String? = nil, tagKeys: TagKeyList? = nil) {
             self.maxRecords = maxRecords
             self.tagValues = tagValues
             self.marker = marker
@@ -973,10 +1075,28 @@ extension Redshift {
 
         public init(dictionary: [String: Any]) throws {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.tagValues = dictionary["TagValues"] as? [String]
+            if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
             self.marker = dictionary["Marker"] as? String
             self.hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String
-            self.tagKeys = dictionary["TagKeys"] as? [String]
+            if let tagKeys = dictionary["TagKeys"] as? [String: Any] { self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys) } else { self.tagKeys = nil }
+        }
+    }
+
+    public struct EventList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let event: [Event]?
+
+        public init(event: [Event]? = nil) {
+            self.event = event
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let event = dictionary["Event"] as? [[String: Any]] {
+                self.event = try event.map({ try Event(dictionary: $0) })
+            } else { 
+                self.event = nil
+            }
         }
     }
 
@@ -994,6 +1114,24 @@ extension Redshift {
         }
     }
 
+    public struct EventInfoMapList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let eventInfoMap: [EventInfoMap]?
+
+        public init(eventInfoMap: [EventInfoMap]? = nil) {
+            self.eventInfoMap = eventInfoMap
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let eventInfoMap = dictionary["EventInfoMap"] as? [[String: Any]] {
+                self.eventInfoMap = try eventInfoMap.map({ try EventInfoMap(dictionary: $0) })
+            } else { 
+                self.eventInfoMap = nil
+            }
+        }
+    }
+
     public struct ClusterParameterGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1002,11 +1140,11 @@ extension Redshift {
         /// The name of the cluster parameter group family that this cluster parameter group is compatible with.
         public let parameterGroupFamily: String?
         /// The list of tags for the cluster parameter group.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// The description of the parameter group.
         public let description: String?
 
-        public init(parameterGroupName: String? = nil, parameterGroupFamily: String? = nil, tags: [Tag]? = nil, description: String? = nil) {
+        public init(parameterGroupName: String? = nil, parameterGroupFamily: String? = nil, tags: TagList? = nil, description: String? = nil) {
             self.parameterGroupName = parameterGroupName
             self.parameterGroupFamily = parameterGroupFamily
             self.tags = tags
@@ -1016,11 +1154,7 @@ extension Redshift {
         public init(dictionary: [String: Any]) throws {
             self.parameterGroupName = dictionary["ParameterGroupName"] as? String
             self.parameterGroupFamily = dictionary["ParameterGroupFamily"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             self.description = dictionary["Description"] as? String
         }
     }
@@ -1031,7 +1165,7 @@ extension Redshift {
         /// The time the reservation started. You purchase a reserved node offering for a duration. This is the start time of that duration.
         public let startTime: Date?
         /// The recurring charges for the reserved node.
-        public let recurringCharges: [RecurringCharge]?
+        public let recurringCharges: RecurringChargeList?
         /// The number of reserved compute nodes.
         public let nodeCount: Int32?
         /// The hourly rate Amazon Redshift charges you for this reserved node.
@@ -1053,7 +1187,7 @@ extension Redshift {
         /// The fixed cost Amazon Redshift charges you for this reserved node.
         public let fixedPrice: Double?
 
-        public init(startTime: Date? = nil, recurringCharges: [RecurringCharge]? = nil, nodeCount: Int32? = nil, usagePrice: Double? = nil, state: String? = nil, nodeType: String? = nil, reservedNodeId: String? = nil, currencyCode: String? = nil, reservedNodeOfferingId: String? = nil, duration: Int32? = nil, offeringType: String? = nil, fixedPrice: Double? = nil) {
+        public init(startTime: Date? = nil, recurringCharges: RecurringChargeList? = nil, nodeCount: Int32? = nil, usagePrice: Double? = nil, state: String? = nil, nodeType: String? = nil, reservedNodeId: String? = nil, currencyCode: String? = nil, reservedNodeOfferingId: String? = nil, duration: Int32? = nil, offeringType: String? = nil, fixedPrice: Double? = nil) {
             self.startTime = startTime
             self.recurringCharges = recurringCharges
             self.nodeCount = nodeCount
@@ -1070,11 +1204,7 @@ extension Redshift {
 
         public init(dictionary: [String: Any]) throws {
             self.startTime = dictionary["StartTime"] as? Date
-            if let recurringCharges = dictionary["RecurringCharges"] as? [[String: Any]] {
-                self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
-            } else { 
-                self.recurringCharges = nil
-            }
+            if let recurringCharges = dictionary["RecurringCharges"] as? [String: Any] { self.recurringCharges = try Redshift.RecurringChargeList(dictionary: recurringCharges) } else { self.recurringCharges = nil }
             self.nodeCount = dictionary["NodeCount"] as? Int32
             self.usagePrice = dictionary["UsagePrice"] as? Double
             self.state = dictionary["State"] as? String
@@ -1127,13 +1257,13 @@ extension Redshift {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of security groups to be associated with this cluster. Default: The default cluster security group for Amazon Redshift. Cluster security groups only apply to clusters outside of VPCs.
-        public let clusterSecurityGroups: [String]?
+        public let clusterSecurityGroups: ClusterSecurityGroupNameList?
         /// The name of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
         public let snapshotClusterIdentifier: String?
         /// The AWS customer account used to create or copy the snapshot. Required if you are restoring a snapshot you do not own, optional if you own the snapshot.
         public let ownerAccount: String?
         /// A list of Virtual Private Cloud (VPC) security groups to be associated with the cluster. Default: The default VPC security group is associated with the cluster. VPC security groups only apply to clusters in VPCs.
-        public let vpcSecurityGroupIds: [String]?
+        public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled.  Default: false
         public let enhancedVpcRouting: Bool?
         /// The node type that the restored cluster will be provisioned with. Default: The node type of the cluster from which the snapshot was taken. You can modify this if you are using any DS node type. In that case, you can choose to restore into another DS node type of the same size. For example, you can restore ds1.8xlarge into ds2.8xlarge, or ds2.xlarge into ds1.xlarge. If you have a DC instance type, you must restore into that same instance type and size. In other words, you can only restore a dc1.large instance type into another dc1.large instance type. For more information about node types, see  About Clusters and Nodes in the Amazon Redshift Cluster Management Guide 
@@ -1151,7 +1281,7 @@ extension Redshift {
         /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
         public let hsmConfigurationIdentifier: String?
         /// A list of AWS Identity and Access Management (IAM) roles that can be used by the cluster to access other AWS services. You must supply the IAM roles in their Amazon Resource Name (ARN) format. You can supply up to 10 IAM roles in a single request. A cluster can have up to 10 IAM roles associated at any time.
-        public let iamRoles: [String]?
+        public let iamRoles: IamRoleArnList?
         /// The name of the snapshot from which to create the new cluster. This parameter isn't case sensitive. Example: my-snapshot-id 
         public let snapshotIdentifier: String
         /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
@@ -1171,7 +1301,7 @@ extension Redshift {
         /// The AWS Key Management Service (KMS) key ID of the encryption key that you want to use to encrypt data in the cluster that you restore from a shared snapshot.
         public let kmsKeyId: String?
 
-        public init(clusterSecurityGroups: [String]? = nil, snapshotClusterIdentifier: String? = nil, ownerAccount: String? = nil, vpcSecurityGroupIds: [String]? = nil, enhancedVpcRouting: Bool? = nil, nodeType: String? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, availabilityZone: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, publiclyAccessible: Bool? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, snapshotIdentifier: String, hsmClientCertificateIdentifier: String? = nil, elasticIp: String? = nil, preferredMaintenanceWindow: String? = nil, clusterSubnetGroupName: String? = nil, additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, port: Int32? = nil, kmsKeyId: String? = nil) {
+        public init(clusterSecurityGroups: ClusterSecurityGroupNameList? = nil, snapshotClusterIdentifier: String? = nil, ownerAccount: String? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, enhancedVpcRouting: Bool? = nil, nodeType: String? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, availabilityZone: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, publiclyAccessible: Bool? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: IamRoleArnList? = nil, snapshotIdentifier: String, hsmClientCertificateIdentifier: String? = nil, elasticIp: String? = nil, preferredMaintenanceWindow: String? = nil, clusterSubnetGroupName: String? = nil, additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, port: Int32? = nil, kmsKeyId: String? = nil) {
             self.clusterSecurityGroups = clusterSecurityGroups
             self.snapshotClusterIdentifier = snapshotClusterIdentifier
             self.ownerAccount = ownerAccount
@@ -1197,10 +1327,10 @@ extension Redshift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [String]
+            if let clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [String: Any] { self.clusterSecurityGroups = try Redshift.ClusterSecurityGroupNameList(dictionary: clusterSecurityGroups) } else { self.clusterSecurityGroups = nil }
             self.snapshotClusterIdentifier = dictionary["SnapshotClusterIdentifier"] as? String
             self.ownerAccount = dictionary["OwnerAccount"] as? String
-            self.vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String]
+            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String: Any] { self.vpcSecurityGroupIds = try Redshift.VpcSecurityGroupIdList(dictionary: vpcSecurityGroupIds) } else { self.vpcSecurityGroupIds = nil }
             self.enhancedVpcRouting = dictionary["EnhancedVpcRouting"] as? Bool
             self.nodeType = dictionary["NodeType"] as? String
             guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
@@ -1210,7 +1340,7 @@ extension Redshift {
             self.automatedSnapshotRetentionPeriod = dictionary["AutomatedSnapshotRetentionPeriod"] as? Int32
             self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
             self.hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String
-            self.iamRoles = dictionary["IamRoles"] as? [String]
+            if let iamRoles = dictionary["IamRoles"] as? [String: Any] { self.iamRoles = try Redshift.IamRoleArnList(dictionary: iamRoles) } else { self.iamRoles = nil }
             guard let snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SnapshotIdentifier") }
             self.snapshotIdentifier = snapshotIdentifier
             self.hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String
@@ -1230,9 +1360,9 @@ extension Redshift {
         /// The Amazon Resource Name (ARN) from which you want to remove the tag or tags. For example, arn:aws:redshift:us-east-1:123456789:cluster:t1. 
         public let resourceName: String
         /// The tag key that you want to delete.
-        public let tagKeys: [String]
+        public let tagKeys: TagKeyList
 
-        public init(resourceName: String, tagKeys: [String]) {
+        public init(resourceName: String, tagKeys: TagKeyList) {
             self.resourceName = resourceName
             self.tagKeys = tagKeys
         }
@@ -1240,8 +1370,8 @@ extension Redshift {
         public init(dictionary: [String: Any]) throws {
             guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
             self.resourceName = resourceName
-            guard let tagKeys = dictionary["TagKeys"] as? [String] else { throw InitializableError.missingRequiredParam("TagKeys") }
-            self.tagKeys = tagKeys
+            guard let tagKeys = dictionary["TagKeys"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TagKeys") }
+            self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys)
         }
     }
 
@@ -1267,20 +1397,16 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// The list of ReservedNode objects.
-        public let reservedNodes: [ReservedNode]?
+        public let reservedNodes: ReservedNodeList?
 
-        public init(marker: String? = nil, reservedNodes: [ReservedNode]? = nil) {
+        public init(marker: String? = nil, reservedNodes: ReservedNodeList? = nil) {
             self.marker = marker
             self.reservedNodes = reservedNodes
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let reservedNodes = dictionary["ReservedNodes"] as? [[String: Any]] {
-                self.reservedNodes = try reservedNodes.map({ try ReservedNode(dictionary: $0) })
-            } else { 
-                self.reservedNodes = nil
-            }
+            if let reservedNodes = dictionary["ReservedNodes"] as? [String: Any] { self.reservedNodes = try Redshift.ReservedNodeList(dictionary: reservedNodes) } else { self.reservedNodes = nil }
         }
     }
 
@@ -1304,24 +1430,20 @@ extension Redshift {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of names of parameters to be reset. If ResetAllParameters option is not used, then at least one parameter name must be supplied.  Constraints: A maximum of 20 parameters can be reset in a single request.
-        public let parameters: [Parameter]?
+        public let parameters: ParametersList?
         /// If true, all parameters in the specified parameter group will be reset to their default values.  Default: true 
         public let resetAllParameters: Bool?
         /// The name of the cluster parameter group to be reset.
         public let parameterGroupName: String
 
-        public init(parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil, parameterGroupName: String) {
+        public init(parameters: ParametersList? = nil, resetAllParameters: Bool? = nil, parameterGroupName: String) {
             self.parameters = parameters
             self.resetAllParameters = resetAllParameters
             self.parameterGroupName = parameterGroupName
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
+            if let parameters = dictionary["Parameters"] as? [String: Any] { self.parameters = try Redshift.ParametersList(dictionary: parameters) } else { self.parameters = nil }
             self.resetAllParameters = dictionary["ResetAllParameters"] as? Bool
             guard let parameterGroupName = dictionary["ParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupName") }
             self.parameterGroupName = parameterGroupName
@@ -1371,6 +1493,34 @@ extension Redshift {
         }
     }
 
+    public struct IamRoleArnList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let iamRoleArn: [String]?
+
+        public init(iamRoleArn: [String]? = nil) {
+            self.iamRoleArn = iamRoleArn
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.iamRoleArn = dictionary["IamRoleArn"] as? [String]
+        }
+    }
+
+    public struct SourceIdsList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let sourceId: [String]?
+
+        public init(sourceId: [String]? = nil) {
+            self.sourceId = sourceId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.sourceId = dictionary["SourceId"] as? [String]
+        }
+    }
+
     public struct ClusterVersion: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1391,6 +1541,20 @@ extension Redshift {
             self.clusterVersion = dictionary["ClusterVersion"] as? String
             self.clusterParameterGroupFamily = dictionary["ClusterParameterGroupFamily"] as? String
             self.description = dictionary["Description"] as? String
+        }
+    }
+
+    public struct SubnetIdentifierList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let subnetIdentifier: [String]?
+
+        public init(subnetIdentifier: [String]? = nil) {
+            self.subnetIdentifier = subnetIdentifier
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.subnetIdentifier = dictionary["SubnetIdentifier"] as? [String]
         }
     }
 
@@ -1424,11 +1588,11 @@ extension Redshift {
         /// The AWS ID of the owner of the EC2 security group specified in the EC2SecurityGroupName field. 
         public let eC2SecurityGroupOwnerId: String?
         /// The list of tags for the EC2 security group.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// The name of the EC2 Security Group.
         public let eC2SecurityGroupName: String?
 
-        public init(status: String? = nil, eC2SecurityGroupOwnerId: String? = nil, tags: [Tag]? = nil, eC2SecurityGroupName: String? = nil) {
+        public init(status: String? = nil, eC2SecurityGroupOwnerId: String? = nil, tags: TagList? = nil, eC2SecurityGroupName: String? = nil) {
             self.status = status
             self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
             self.tags = tags
@@ -1438,11 +1602,7 @@ extension Redshift {
         public init(dictionary: [String: Any]) throws {
             self.status = dictionary["Status"] as? String
             self.eC2SecurityGroupOwnerId = dictionary["EC2SecurityGroupOwnerId"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             self.eC2SecurityGroupName = dictionary["EC2SecurityGroupName"] as? String
         }
     }
@@ -1502,11 +1662,11 @@ extension Redshift {
         /// The Amazon Redshift engine version to which the cluster parameter group applies. The cluster engine version determines the set of parameters. To get a list of valid parameter group family names, you can call DescribeClusterParameterGroups. By default, Amazon Redshift returns a list of all the parameter groups that are owned by your AWS account, including the default parameter groups for each Amazon Redshift engine version. The parameter group family names associated with the default parameter groups provide you the valid values. For example, a valid family name is "redshift-1.0". 
         public let parameterGroupFamily: String
         /// A list of tag instances.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// A description of the parameter group.
         public let description: String
 
-        public init(parameterGroupName: String, parameterGroupFamily: String, tags: [Tag]? = nil, description: String) {
+        public init(parameterGroupName: String, parameterGroupFamily: String, tags: TagList? = nil, description: String) {
             self.parameterGroupName = parameterGroupName
             self.parameterGroupFamily = parameterGroupFamily
             self.tags = tags
@@ -1518,11 +1678,7 @@ extension Redshift {
             self.parameterGroupName = parameterGroupName
             guard let parameterGroupFamily = dictionary["ParameterGroupFamily"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupFamily") }
             self.parameterGroupFamily = parameterGroupFamily
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
             self.description = description
         }
@@ -1534,15 +1690,15 @@ extension Redshift {
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
         /// A tag value or values for which you want to return all matching HSM client certificates that are associated with the specified tag value or values. For example, suppose that you have HSM client certificates that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the HSM client certificates that have either or both of these tag values associated with them.
-        public let tagValues: [String]?
+        public let tagValues: TagValueList?
         /// The identifier of a specific HSM client certificate for which you want information. If no identifier is specified, information is returned for all HSM client certificates owned by your AWS customer account.
         public let hsmClientCertificateIdentifier: String?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeHsmClientCertificates request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// A tag key or keys for which you want to return all matching HSM client certificates that are associated with the specified key or keys. For example, suppose that you have HSM client certificates that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the HSM client certificates that have either or both of these tag keys associated with them.
-        public let tagKeys: [String]?
+        public let tagKeys: TagKeyList?
 
-        public init(maxRecords: Int32? = nil, tagValues: [String]? = nil, hsmClientCertificateIdentifier: String? = nil, marker: String? = nil, tagKeys: [String]? = nil) {
+        public init(maxRecords: Int32? = nil, tagValues: TagValueList? = nil, hsmClientCertificateIdentifier: String? = nil, marker: String? = nil, tagKeys: TagKeyList? = nil) {
             self.maxRecords = maxRecords
             self.tagValues = tagValues
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
@@ -1552,10 +1708,10 @@ extension Redshift {
 
         public init(dictionary: [String: Any]) throws {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.tagValues = dictionary["TagValues"] as? [String]
+            if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
             self.hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String
             self.marker = dictionary["Marker"] as? String
-            self.tagKeys = dictionary["TagKeys"] as? [String]
+            if let tagKeys = dictionary["TagKeys"] as? [String: Any] { self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys) } else { self.tagKeys = nil }
         }
     }
 
@@ -1581,19 +1737,33 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of Version elements. 
-        public let clusterVersions: [ClusterVersion]?
+        public let clusterVersions: ClusterVersionList?
 
-        public init(marker: String? = nil, clusterVersions: [ClusterVersion]? = nil) {
+        public init(marker: String? = nil, clusterVersions: ClusterVersionList? = nil) {
             self.marker = marker
             self.clusterVersions = clusterVersions
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let clusterVersions = dictionary["ClusterVersions"] as? [[String: Any]] {
-                self.clusterVersions = try clusterVersions.map({ try ClusterVersion(dictionary: $0) })
+            if let clusterVersions = dictionary["ClusterVersions"] as? [String: Any] { self.clusterVersions = try Redshift.ClusterVersionList(dictionary: clusterVersions) } else { self.clusterVersions = nil }
+        }
+    }
+
+    public struct ClusterSecurityGroups: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let clusterSecurityGroup: [ClusterSecurityGroup]?
+
+        public init(clusterSecurityGroup: [ClusterSecurityGroup]? = nil) {
+            self.clusterSecurityGroup = clusterSecurityGroup
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let clusterSecurityGroup = dictionary["ClusterSecurityGroup"] as? [[String: Any]] {
+                self.clusterSecurityGroup = try clusterSecurityGroup.map({ try ClusterSecurityGroup(dictionary: $0) })
             } else { 
-                self.clusterVersions = nil
+                self.clusterSecurityGroup = nil
             }
         }
     }
@@ -1610,13 +1780,13 @@ extension Redshift {
         /// The identifier of the event.
         public let eventId: String?
         /// A list of the event categories. Values: Configuration, Management, Monitoring, Security
-        public let eventCategories: [String]?
+        public let eventCategories: EventCategoriesList?
         /// The identifier for the source of the event.
         public let sourceIdentifier: String?
         /// The date and time of the event.
         public let date: Date?
 
-        public init(severity: String? = nil, message: String? = nil, sourceType: String? = nil, eventId: String? = nil, eventCategories: [String]? = nil, sourceIdentifier: String? = nil, date: Date? = nil) {
+        public init(severity: String? = nil, message: String? = nil, sourceType: String? = nil, eventId: String? = nil, eventCategories: EventCategoriesList? = nil, sourceIdentifier: String? = nil, date: Date? = nil) {
             self.severity = severity
             self.message = message
             self.sourceType = sourceType
@@ -1631,9 +1801,27 @@ extension Redshift {
             self.message = dictionary["Message"] as? String
             self.sourceType = dictionary["SourceType"] as? String
             self.eventId = dictionary["EventId"] as? String
-            self.eventCategories = dictionary["EventCategories"] as? [String]
+            if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Redshift.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
             self.sourceIdentifier = dictionary["SourceIdentifier"] as? String
             self.date = dictionary["Date"] as? Date
+        }
+    }
+
+    public struct SnapshotList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let snapshot: [Snapshot]?
+
+        public init(snapshot: [Snapshot]? = nil) {
+            self.snapshot = snapshot
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let snapshot = dictionary["Snapshot"] as? [[String: Any]] {
+                self.snapshot = try snapshot.map({ try Snapshot(dictionary: $0) })
+            } else { 
+                self.snapshot = nil
+            }
         }
     }
 
@@ -1641,7 +1829,7 @@ extension Redshift {
         /// The key for the payload
         public static let payload: String? = nil
         /// The charge to your account regardless of whether you are creating any clusters using the node offering. Recurring charges are only in effect for heavy-utilization reserved nodes.
-        public let recurringCharges: [RecurringCharge]?
+        public let recurringCharges: RecurringChargeList?
         /// The rate you are charged for each hour the cluster that is using the offering is running.
         public let usagePrice: Double?
         /// The node type offered by the reserved node offering.
@@ -1657,7 +1845,7 @@ extension Redshift {
         /// The upfront fixed charge you will pay to purchase the specific reserved node offering.
         public let fixedPrice: Double?
 
-        public init(recurringCharges: [RecurringCharge]? = nil, usagePrice: Double? = nil, nodeType: String? = nil, currencyCode: String? = nil, reservedNodeOfferingId: String? = nil, duration: Int32? = nil, offeringType: String? = nil, fixedPrice: Double? = nil) {
+        public init(recurringCharges: RecurringChargeList? = nil, usagePrice: Double? = nil, nodeType: String? = nil, currencyCode: String? = nil, reservedNodeOfferingId: String? = nil, duration: Int32? = nil, offeringType: String? = nil, fixedPrice: Double? = nil) {
             self.recurringCharges = recurringCharges
             self.usagePrice = usagePrice
             self.nodeType = nodeType
@@ -1669,11 +1857,7 @@ extension Redshift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let recurringCharges = dictionary["RecurringCharges"] as? [[String: Any]] {
-                self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
-            } else { 
-                self.recurringCharges = nil
-            }
+            if let recurringCharges = dictionary["RecurringCharges"] as? [String: Any] { self.recurringCharges = try Redshift.RecurringChargeList(dictionary: recurringCharges) } else { self.recurringCharges = nil }
             self.usagePrice = dictionary["UsagePrice"] as? Double
             self.nodeType = dictionary["NodeType"] as? String
             self.currencyCode = dictionary["CurrencyCode"] as? String
@@ -1718,20 +1902,16 @@ extension Redshift {
         /// The source type, such as cluster or cluster-snapshot, that the returned categories belong to.
         public let sourceType: String?
         /// The events in the event category.
-        public let events: [EventInfoMap]?
+        public let events: EventInfoMapList?
 
-        public init(sourceType: String? = nil, events: [EventInfoMap]? = nil) {
+        public init(sourceType: String? = nil, events: EventInfoMapList? = nil) {
             self.sourceType = sourceType
             self.events = events
         }
 
         public init(dictionary: [String: Any]) throws {
             self.sourceType = dictionary["SourceType"] as? String
-            if let events = dictionary["Events"] as? [[String: Any]] {
-                self.events = try events.map({ try EventInfoMap(dictionary: $0) })
-            } else { 
-                self.events = nil
-            }
+            if let events = dictionary["Events"] as? [String: Any] { self.events = try Redshift.EventInfoMapList(dictionary: events) } else { self.events = nil }
         }
     }
 
@@ -1884,15 +2064,15 @@ extension Redshift {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a single request.
-        public let subnetIds: [String]
+        public let subnetIds: SubnetIdentifierList
         /// The name for the subnet group. Amazon Redshift stores the value as a lowercase string. Constraints:   Must contain no more than 255 alphanumeric characters or hyphens.   Must not be "Default".   Must be unique for all subnet groups that are created by your AWS account.   Example: examplesubnetgroup 
         public let clusterSubnetGroupName: String
         /// A list of tag instances.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// A description for the subnet group.
         public let description: String
 
-        public init(subnetIds: [String], clusterSubnetGroupName: String, tags: [Tag]? = nil, description: String) {
+        public init(subnetIds: SubnetIdentifierList, clusterSubnetGroupName: String, tags: TagList? = nil, description: String) {
             self.subnetIds = subnetIds
             self.clusterSubnetGroupName = clusterSubnetGroupName
             self.tags = tags
@@ -1900,15 +2080,11 @@ extension Redshift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let subnetIds = dictionary["SubnetIds"] as? [String] else { throw InitializableError.missingRequiredParam("SubnetIds") }
-            self.subnetIds = subnetIds
+            guard let subnetIds = dictionary["SubnetIds"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SubnetIds") }
+            self.subnetIds = try Redshift.SubnetIdentifierList(dictionary: subnetIds)
             guard let clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("ClusterSubnetGroupName") }
             self.clusterSubnetGroupName = clusterSubnetGroupName
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             guard let description = dictionary["Description"] as? String else { throw InitializableError.missingRequiredParam("Description") }
             self.description = description
         }
@@ -1966,6 +2142,20 @@ extension Redshift {
 
         public init(dictionary: [String: Any]) throws {
             if let cluster = dictionary["Cluster"] as? [String: Any] { self.cluster = try Redshift.Cluster(dictionary: cluster) } else { self.cluster = nil }
+        }
+    }
+
+    public struct RestorableNodeTypeList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let nodeType: [String]?
+
+        public init(nodeType: [String]? = nil) {
+            self.nodeType = nodeType
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.nodeType = dictionary["NodeType"] as? [String]
         }
     }
 
@@ -2122,25 +2312,35 @@ extension Redshift {
         }
     }
 
+    public struct TagValueList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let tagValue: [String]?
+
+        public init(tagValue: [String]? = nil) {
+            self.tagValue = tagValue
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.tagValue = dictionary["TagValue"] as? [String]
+        }
+    }
+
     public struct EventSubscriptionsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of event subscriptions.
-        public let eventSubscriptionsList: [EventSubscription]?
+        public let eventSubscriptionsList: EventSubscriptionsList?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
 
-        public init(eventSubscriptionsList: [EventSubscription]? = nil, marker: String? = nil) {
+        public init(eventSubscriptionsList: EventSubscriptionsList? = nil, marker: String? = nil) {
             self.eventSubscriptionsList = eventSubscriptionsList
             self.marker = marker
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let eventSubscriptionsList = dictionary["EventSubscriptionsList"] as? [[String: Any]] {
-                self.eventSubscriptionsList = try eventSubscriptionsList.map({ try EventSubscription(dictionary: $0) })
-            } else { 
-                self.eventSubscriptionsList = nil
-            }
+            if let eventSubscriptionsList = dictionary["EventSubscriptionsList"] as? [String: Any] { self.eventSubscriptionsList = try Redshift.EventSubscriptionsList(dictionary: eventSubscriptionsList) } else { self.eventSubscriptionsList = nil }
             self.marker = dictionary["Marker"] as? String
         }
     }
@@ -2164,25 +2364,39 @@ extension Redshift {
         }
     }
 
+    public struct EventSubscriptionsList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let eventSubscription: [EventSubscription]?
+
+        public init(eventSubscription: [EventSubscription]? = nil) {
+            self.eventSubscription = eventSubscription
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let eventSubscription = dictionary["EventSubscription"] as? [[String: Any]] {
+                self.eventSubscription = try eventSubscription.map({ try EventSubscription(dictionary: $0) })
+            } else { 
+                self.eventSubscription = nil
+            }
+        }
+    }
+
     public struct TableRestoreStatusMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of status details for one or more table restore requests.
-        public let tableRestoreStatusDetails: [TableRestoreStatus]?
+        public let tableRestoreStatusDetails: TableRestoreStatusList?
         /// A pagination token that can be used in a subsequent DescribeTableRestoreStatus request.
         public let marker: String?
 
-        public init(tableRestoreStatusDetails: [TableRestoreStatus]? = nil, marker: String? = nil) {
+        public init(tableRestoreStatusDetails: TableRestoreStatusList? = nil, marker: String? = nil) {
             self.tableRestoreStatusDetails = tableRestoreStatusDetails
             self.marker = marker
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let tableRestoreStatusDetails = dictionary["TableRestoreStatusDetails"] as? [[String: Any]] {
-                self.tableRestoreStatusDetails = try tableRestoreStatusDetails.map({ try TableRestoreStatus(dictionary: $0) })
-            } else { 
-                self.tableRestoreStatusDetails = nil
-            }
+            if let tableRestoreStatusDetails = dictionary["TableRestoreStatusDetails"] as? [String: Any] { self.tableRestoreStatusDetails = try Redshift.TableRestoreStatusList(dictionary: tableRestoreStatusDetails) } else { self.tableRestoreStatusDetails = nil }
             self.marker = dictionary["Marker"] as? String
         }
     }
@@ -2198,6 +2412,24 @@ extension Redshift {
 
         public init(dictionary: [String: Any]) throws {
             if let eventSubscription = dictionary["EventSubscription"] as? [String: Any] { self.eventSubscription = try Redshift.EventSubscription(dictionary: eventSubscription) } else { self.eventSubscription = nil }
+        }
+    }
+
+    public struct ReservedNodeOfferingList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let reservedNodeOffering: [ReservedNodeOffering]?
+
+        public init(reservedNodeOffering: [ReservedNodeOffering]? = nil) {
+            self.reservedNodeOffering = reservedNodeOffering
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let reservedNodeOffering = dictionary["ReservedNodeOffering"] as? [[String: Any]] {
+                self.reservedNodeOffering = try reservedNodeOffering.map({ try ReservedNodeOffering(dictionary: $0) })
+            } else { 
+                self.reservedNodeOffering = nil
+            }
         }
     }
 
@@ -2224,24 +2456,20 @@ extension Redshift {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of tags for the HSM client certificate.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// The public key that the Amazon Redshift cluster will use to connect to the HSM. You must register the public key in the HSM.
         public let hsmClientCertificatePublicKey: String?
         /// The identifier of the HSM client certificate.
         public let hsmClientCertificateIdentifier: String?
 
-        public init(tags: [Tag]? = nil, hsmClientCertificatePublicKey: String? = nil, hsmClientCertificateIdentifier: String? = nil) {
+        public init(tags: TagList? = nil, hsmClientCertificatePublicKey: String? = nil, hsmClientCertificateIdentifier: String? = nil) {
             self.tags = tags
             self.hsmClientCertificatePublicKey = hsmClientCertificatePublicKey
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             self.hsmClientCertificatePublicKey = dictionary["HsmClientCertificatePublicKey"] as? String
             self.hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String
         }
@@ -2259,11 +2487,11 @@ extension Redshift {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterSnapshots request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// A tag key or keys for which you want to return all matching cluster snapshots that are associated with the specified key or keys. For example, suppose that you have snapshots that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the snapshots that have either or both of these tag keys associated with them.
-        public let tagKeys: [String]?
+        public let tagKeys: TagKeyList?
         /// The identifier of the cluster for which information about snapshots is requested.
         public let clusterIdentifier: String?
         /// A tag value or values for which you want to return all matching cluster snapshots that are associated with the specified tag value or values. For example, suppose that you have snapshots that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the snapshots that have either or both of these tag values associated with them.
-        public let tagValues: [String]?
+        public let tagValues: TagValueList?
         /// The type of snapshots for which you are requesting information. By default, snapshots of all types are returned. Valid Values: automated | manual 
         public let snapshotType: String?
         /// A time value that requests only snapshots created at or before the specified time. The time value is specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2012-07-16T18:00:00Z 
@@ -2271,7 +2499,7 @@ extension Redshift {
         /// The AWS customer account used to create or copy the snapshot. Use this field to filter the results to snapshots owned by a particular account. To describe snapshots you own, either specify your AWS customer account, or do not specify the parameter.
         public let ownerAccount: String?
 
-        public init(startTime: Date? = nil, maxRecords: Int32? = nil, snapshotIdentifier: String? = nil, marker: String? = nil, tagKeys: [String]? = nil, clusterIdentifier: String? = nil, tagValues: [String]? = nil, snapshotType: String? = nil, endTime: Date? = nil, ownerAccount: String? = nil) {
+        public init(startTime: Date? = nil, maxRecords: Int32? = nil, snapshotIdentifier: String? = nil, marker: String? = nil, tagKeys: TagKeyList? = nil, clusterIdentifier: String? = nil, tagValues: TagValueList? = nil, snapshotType: String? = nil, endTime: Date? = nil, ownerAccount: String? = nil) {
             self.startTime = startTime
             self.maxRecords = maxRecords
             self.snapshotIdentifier = snapshotIdentifier
@@ -2289,9 +2517,9 @@ extension Redshift {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             self.snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String
             self.marker = dictionary["Marker"] as? String
-            self.tagKeys = dictionary["TagKeys"] as? [String]
+            if let tagKeys = dictionary["TagKeys"] as? [String: Any] { self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys) } else { self.tagKeys = nil }
             self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
-            self.tagValues = dictionary["TagValues"] as? [String]
+            if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
             self.snapshotType = dictionary["SnapshotType"] as? String
             self.endTime = dictionary["EndTime"] as? Date
             self.ownerAccount = dictionary["OwnerAccount"] as? String
@@ -2320,20 +2548,30 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of ClusterParameterGroup instances. Each instance describes one cluster parameter group. 
-        public let parameterGroups: [ClusterParameterGroup]?
+        public let parameterGroups: ParameterGroupList?
 
-        public init(marker: String? = nil, parameterGroups: [ClusterParameterGroup]? = nil) {
+        public init(marker: String? = nil, parameterGroups: ParameterGroupList? = nil) {
             self.marker = marker
             self.parameterGroups = parameterGroups
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let parameterGroups = dictionary["ParameterGroups"] as? [[String: Any]] {
-                self.parameterGroups = try parameterGroups.map({ try ClusterParameterGroup(dictionary: $0) })
-            } else { 
-                self.parameterGroups = nil
-            }
+            if let parameterGroups = dictionary["ParameterGroups"] as? [String: Any] { self.parameterGroups = try Redshift.ParameterGroupList(dictionary: parameterGroups) } else { self.parameterGroups = nil }
+        }
+    }
+
+    public struct EventCategoriesList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let eventCategory: [String]?
+
+        public init(eventCategory: [String]? = nil) {
+            self.eventCategory = eventCategory
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.eventCategory = dictionary["EventCategory"] as? [String]
         }
     }
 
@@ -2358,6 +2596,24 @@ extension Redshift {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             guard let parameterGroupFamily = dictionary["ParameterGroupFamily"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupFamily") }
             self.parameterGroupFamily = parameterGroupFamily
+        }
+    }
+
+    public struct RecurringChargeList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let recurringCharge: [RecurringCharge]?
+
+        public init(recurringCharge: [RecurringCharge]? = nil) {
+            self.recurringCharge = recurringCharge
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let recurringCharge = dictionary["RecurringCharge"] as? [[String: Any]] {
+                self.recurringCharge = try recurringCharge.map({ try RecurringCharge(dictionary: $0) })
+            } else { 
+                self.recurringCharge = nil
+            }
         }
     }
 
@@ -2451,7 +2707,7 @@ extension Redshift {
         /// The maximum number or response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. 
         public let maxRecords: Int32?
         /// A tag value or values for which you want to return all matching resources that are associated with the specified value or values. For example, suppose that you have resources tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with all resources that have either or both of these tag values associated with them.
-        public let tagValues: [String]?
+        public let tagValues: TagValueList?
         /// The type of resource with which you want to view tags. Valid resource types are:    Cluster   CIDR/IP   EC2 security group   Snapshot   Cluster security group   Subnet group   HSM connection   HSM certificate   Parameter group   Snapshot copy grant   For more information about Amazon Redshift resource types and constructing ARNs, go to Constructing an Amazon Redshift Amazon Resource Name (ARN) in the Amazon Redshift Cluster Management Guide. 
         public let resourceType: String?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the marker parameter and retrying the command. If the marker field is empty, all response records have been retrieved for the request. 
@@ -2459,9 +2715,9 @@ extension Redshift {
         /// The Amazon Resource Name (ARN) for which you want to describe the tag or tags. For example, arn:aws:redshift:us-east-1:123456789:cluster:t1. 
         public let resourceName: String?
         /// A tag key or keys for which you want to return all matching resources that are associated with the specified key or keys. For example, suppose that you have resources tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with all resources that have either or both of these tag keys associated with them.
-        public let tagKeys: [String]?
+        public let tagKeys: TagKeyList?
 
-        public init(maxRecords: Int32? = nil, tagValues: [String]? = nil, resourceType: String? = nil, marker: String? = nil, resourceName: String? = nil, tagKeys: [String]? = nil) {
+        public init(maxRecords: Int32? = nil, tagValues: TagValueList? = nil, resourceType: String? = nil, marker: String? = nil, resourceName: String? = nil, tagKeys: TagKeyList? = nil) {
             self.maxRecords = maxRecords
             self.tagValues = tagValues
             self.resourceType = resourceType
@@ -2472,11 +2728,29 @@ extension Redshift {
 
         public init(dictionary: [String: Any]) throws {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.tagValues = dictionary["TagValues"] as? [String]
+            if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
             self.resourceType = dictionary["ResourceType"] as? String
             self.marker = dictionary["Marker"] as? String
             self.resourceName = dictionary["ResourceName"] as? String
-            self.tagKeys = dictionary["TagKeys"] as? [String]
+            if let tagKeys = dictionary["TagKeys"] as? [String: Any] { self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys) } else { self.tagKeys = nil }
+        }
+    }
+
+    public struct ClusterSubnetGroups: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let clusterSubnetGroup: [ClusterSubnetGroup]?
+
+        public init(clusterSubnetGroup: [ClusterSubnetGroup]? = nil) {
+            self.clusterSubnetGroup = clusterSubnetGroup
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let clusterSubnetGroup = dictionary["ClusterSubnetGroup"] as? [[String: Any]] {
+                self.clusterSubnetGroup = try clusterSubnetGroup.map({ try ClusterSubnetGroup(dictionary: $0) })
+            } else { 
+                self.clusterSubnetGroup = nil
+            }
         }
     }
 
@@ -2498,7 +2772,7 @@ extension Redshift {
         /// The number of megabytes that have been transferred to the snapshot backup.
         public let backupProgressInMegaBytes: Double?
         /// The list of node types that this cluster snapshot is able to restore into.
-        public let restorableNodeTypes: [String]?
+        public let restorableNodeTypes: RestorableNodeTypeList?
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled.  Default: false
         public let enhancedVpcRouting: Bool?
         /// A boolean that indicates whether the snapshot data is encrypted using the HSM keys of the source cluster. true indicates that the data is encrypted using HSM keys.
@@ -2516,7 +2790,7 @@ extension Redshift {
         /// The time (UTC) when Amazon Redshift began the snapshot. A snapshot contains a copy of the cluster data as of this exact time.
         public let snapshotCreateTime: Date?
         /// A list of the AWS customer accounts authorized to restore the snapshot. Returns null if no accounts are authorized. Visible only to the snapshot owner. 
-        public let accountsWithRestoreAccess: [AccountWithRestoreAccess]?
+        public let accountsWithRestoreAccess: AccountsWithRestoreAccessList?
         /// The number of nodes in the cluster.
         public let numberOfNodes: Int32?
         /// The AWS Key Management Service (KMS) key ID of the encryption key that was used to encrypt data in the cluster from which the snapshot was taken.
@@ -2524,7 +2798,7 @@ extension Redshift {
         /// The source region from which the snapshot was copied.
         public let sourceRegion: String?
         /// The list of tags for the cluster snapshot.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// The node type of the nodes in the cluster.
         public let nodeType: String?
         /// The snapshot type. Snapshots created using CreateClusterSnapshot and CopyClusterSnapshot will be of type "manual". 
@@ -2542,7 +2816,7 @@ extension Redshift {
         /// The port that the cluster is listening on.
         public let port: Int32?
 
-        public init(actualIncrementalBackupSizeInMegaBytes: Double? = nil, dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, ownerAccount: String? = nil, backupProgressInMegaBytes: Double? = nil, restorableNodeTypes: [String]? = nil, enhancedVpcRouting: Bool? = nil, encryptedWithHSM: Bool? = nil, clusterIdentifier: String? = nil, availabilityZone: String? = nil, status: String? = nil, estimatedSecondsToCompletion: Int64? = nil, vpcId: String? = nil, snapshotCreateTime: Date? = nil, accountsWithRestoreAccess: [AccountWithRestoreAccess]? = nil, numberOfNodes: Int32? = nil, kmsKeyId: String? = nil, sourceRegion: String? = nil, tags: [Tag]? = nil, nodeType: String? = nil, snapshotType: String? = nil, clusterCreateTime: Date? = nil, snapshotIdentifier: String? = nil, masterUsername: String? = nil, totalBackupSizeInMegaBytes: Double? = nil, elapsedTimeInSeconds: Int64? = nil, port: Int32? = nil) {
+        public init(actualIncrementalBackupSizeInMegaBytes: Double? = nil, dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, ownerAccount: String? = nil, backupProgressInMegaBytes: Double? = nil, restorableNodeTypes: RestorableNodeTypeList? = nil, enhancedVpcRouting: Bool? = nil, encryptedWithHSM: Bool? = nil, clusterIdentifier: String? = nil, availabilityZone: String? = nil, status: String? = nil, estimatedSecondsToCompletion: Int64? = nil, vpcId: String? = nil, snapshotCreateTime: Date? = nil, accountsWithRestoreAccess: AccountsWithRestoreAccessList? = nil, numberOfNodes: Int32? = nil, kmsKeyId: String? = nil, sourceRegion: String? = nil, tags: TagList? = nil, nodeType: String? = nil, snapshotType: String? = nil, clusterCreateTime: Date? = nil, snapshotIdentifier: String? = nil, masterUsername: String? = nil, totalBackupSizeInMegaBytes: Double? = nil, elapsedTimeInSeconds: Int64? = nil, port: Int32? = nil) {
             self.actualIncrementalBackupSizeInMegaBytes = actualIncrementalBackupSizeInMegaBytes
             self.dBName = dBName
             self.clusterVersion = clusterVersion
@@ -2582,7 +2856,7 @@ extension Redshift {
             self.currentBackupRateInMegaBytesPerSecond = dictionary["CurrentBackupRateInMegaBytesPerSecond"] as? Double
             self.ownerAccount = dictionary["OwnerAccount"] as? String
             self.backupProgressInMegaBytes = dictionary["BackupProgressInMegaBytes"] as? Double
-            self.restorableNodeTypes = dictionary["RestorableNodeTypes"] as? [String]
+            if let restorableNodeTypes = dictionary["RestorableNodeTypes"] as? [String: Any] { self.restorableNodeTypes = try Redshift.RestorableNodeTypeList(dictionary: restorableNodeTypes) } else { self.restorableNodeTypes = nil }
             self.enhancedVpcRouting = dictionary["EnhancedVpcRouting"] as? Bool
             self.encryptedWithHSM = dictionary["EncryptedWithHSM"] as? Bool
             self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
@@ -2591,19 +2865,11 @@ extension Redshift {
             self.estimatedSecondsToCompletion = dictionary["EstimatedSecondsToCompletion"] as? Int64
             self.vpcId = dictionary["VpcId"] as? String
             self.snapshotCreateTime = dictionary["SnapshotCreateTime"] as? Date
-            if let accountsWithRestoreAccess = dictionary["AccountsWithRestoreAccess"] as? [[String: Any]] {
-                self.accountsWithRestoreAccess = try accountsWithRestoreAccess.map({ try AccountWithRestoreAccess(dictionary: $0) })
-            } else { 
-                self.accountsWithRestoreAccess = nil
-            }
+            if let accountsWithRestoreAccess = dictionary["AccountsWithRestoreAccess"] as? [String: Any] { self.accountsWithRestoreAccess = try Redshift.AccountsWithRestoreAccessList(dictionary: accountsWithRestoreAccess) } else { self.accountsWithRestoreAccess = nil }
             self.numberOfNodes = dictionary["NumberOfNodes"] as? Int32
             self.kmsKeyId = dictionary["KmsKeyId"] as? String
             self.sourceRegion = dictionary["SourceRegion"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             self.nodeType = dictionary["NodeType"] as? String
             self.snapshotType = dictionary["SnapshotType"] as? String
             self.clusterCreateTime = dictionary["ClusterCreateTime"] as? Date
@@ -2625,7 +2891,7 @@ extension Redshift {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic used by the event notification subscription.
         public let snsTopicArn: String?
         /// A list of the sources that publish events to the Amazon Redshift event notification subscription.
-        public let sourceIdsList: [String]?
+        public let sourceIdsList: SourceIdsList?
         /// The source type of the events returned the Amazon Redshift event notification, such as cluster, or cluster-snapshot.
         public let sourceType: String?
         /// The name of the Amazon Redshift event notification subscription.
@@ -2633,15 +2899,15 @@ extension Redshift {
         /// A Boolean value indicating whether the subscription is enabled. true indicates the subscription is enabled.
         public let enabled: Bool?
         /// The list of tags for the event subscription.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// The AWS customer account associated with the Amazon Redshift event notification subscription.
         public let customerAwsId: String?
         /// The list of Amazon Redshift event categories specified in the event notification subscription. Values: Configuration, Management, Monitoring, Security
-        public let eventCategoriesList: [String]?
+        public let eventCategoriesList: EventCategoriesList?
         /// The date and time the Amazon Redshift event notification subscription was created.
         public let subscriptionCreationTime: Date?
 
-        public init(severity: String? = nil, status: String? = nil, snsTopicArn: String? = nil, sourceIdsList: [String]? = nil, sourceType: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, tags: [Tag]? = nil, customerAwsId: String? = nil, eventCategoriesList: [String]? = nil, subscriptionCreationTime: Date? = nil) {
+        public init(severity: String? = nil, status: String? = nil, snsTopicArn: String? = nil, sourceIdsList: SourceIdsList? = nil, sourceType: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, tags: TagList? = nil, customerAwsId: String? = nil, eventCategoriesList: EventCategoriesList? = nil, subscriptionCreationTime: Date? = nil) {
             self.severity = severity
             self.status = status
             self.snsTopicArn = snsTopicArn
@@ -2659,18 +2925,32 @@ extension Redshift {
             self.severity = dictionary["Severity"] as? String
             self.status = dictionary["Status"] as? String
             self.snsTopicArn = dictionary["SnsTopicArn"] as? String
-            self.sourceIdsList = dictionary["SourceIdsList"] as? [String]
+            if let sourceIdsList = dictionary["SourceIdsList"] as? [String: Any] { self.sourceIdsList = try Redshift.SourceIdsList(dictionary: sourceIdsList) } else { self.sourceIdsList = nil }
             self.sourceType = dictionary["SourceType"] as? String
             self.custSubscriptionId = dictionary["CustSubscriptionId"] as? String
             self.enabled = dictionary["Enabled"] as? Bool
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             self.customerAwsId = dictionary["CustomerAwsId"] as? String
-            self.eventCategoriesList = dictionary["EventCategoriesList"] as? [String]
+            if let eventCategoriesList = dictionary["EventCategoriesList"] as? [String: Any] { self.eventCategoriesList = try Redshift.EventCategoriesList(dictionary: eventCategoriesList) } else { self.eventCategoriesList = nil }
             self.subscriptionCreationTime = dictionary["SubscriptionCreationTime"] as? Date
+        }
+    }
+
+    public struct VpcSecurityGroupMembershipList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let vpcSecurityGroup: [VpcSecurityGroupMembership]?
+
+        public init(vpcSecurityGroup: [VpcSecurityGroupMembership]? = nil) {
+            self.vpcSecurityGroup = vpcSecurityGroup
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let vpcSecurityGroup = dictionary["VpcSecurityGroup"] as? [[String: Any]] {
+                self.vpcSecurityGroup = try vpcSecurityGroup.map({ try VpcSecurityGroupMembership(dictionary: $0) })
+            } else { 
+                self.vpcSecurityGroup = nil
+            }
         }
     }
 
@@ -2680,11 +2960,11 @@ extension Redshift {
         /// The name of the snapshot copy grant. This name must be unique in the region for the AWS account. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.  
         public let snapshotCopyGrantName: String
         /// A list of tag instances.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// The unique identifier of the customer master key (CMK) to which to grant Amazon Redshift permission. If no key is specified, the default key is used.
         public let kmsKeyId: String?
 
-        public init(snapshotCopyGrantName: String, tags: [Tag]? = nil, kmsKeyId: String? = nil) {
+        public init(snapshotCopyGrantName: String, tags: TagList? = nil, kmsKeyId: String? = nil) {
             self.snapshotCopyGrantName = snapshotCopyGrantName
             self.tags = tags
             self.kmsKeyId = kmsKeyId
@@ -2693,12 +2973,26 @@ extension Redshift {
         public init(dictionary: [String: Any]) throws {
             guard let snapshotCopyGrantName = dictionary["SnapshotCopyGrantName"] as? String else { throw InitializableError.missingRequiredParam("SnapshotCopyGrantName") }
             self.snapshotCopyGrantName = snapshotCopyGrantName
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        }
+    }
+
+    public struct TagList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let tag: [Tag]?
+
+        public init(tag: [Tag]? = nil) {
+            self.tag = tag
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let tag = dictionary["Tag"] as? [[String: Any]] {
+                self.tag = try tag.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tag = nil
+            }
         }
     }
 
@@ -2736,6 +3030,24 @@ extension Redshift {
         }
     }
 
+    public struct AvailabilityZoneList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let availabilityZone: [AvailabilityZone]?
+
+        public init(availabilityZone: [AvailabilityZone]? = nil) {
+            self.availabilityZone = availabilityZone
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let availabilityZone = dictionary["AvailabilityZone"] as? [[String: Any]] {
+                self.availabilityZone = try availabilityZone.map({ try AvailabilityZone(dictionary: $0) })
+            } else { 
+                self.availabilityZone = nil
+            }
+        }
+    }
+
     public struct DeleteClusterParameterGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2756,23 +3068,37 @@ extension Redshift {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of tag instances.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// The identifier to be assigned to the new HSM client certificate that the cluster will use to connect to the HSM to use the database encryption keys.
         public let hsmClientCertificateIdentifier: String
 
-        public init(tags: [Tag]? = nil, hsmClientCertificateIdentifier: String) {
+        public init(tags: TagList? = nil, hsmClientCertificateIdentifier: String) {
             self.tags = tags
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             guard let hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String else { throw InitializableError.missingRequiredParam("HsmClientCertificateIdentifier") }
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
+        }
+    }
+
+    public struct TaggedResourceList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let taggedResource: [TaggedResource]?
+
+        public init(taggedResource: [TaggedResource]? = nil) {
+            self.taggedResource = taggedResource
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let taggedResource = dictionary["TaggedResource"] as? [[String: Any]] {
+                self.taggedResource = try taggedResource.map({ try TaggedResource(dictionary: $0) })
+            } else { 
+                self.taggedResource = nil
+            }
         }
     }
 
@@ -2782,15 +3108,15 @@ extension Redshift {
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
         /// A tag value or values for which you want to return all matching resources that are associated with the specified value or values. For example, suppose that you have resources tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with all resources that have either or both of these tag values associated with them.
-        public let tagValues: [String]?
+        public let tagValues: TagValueList?
         /// The name of the snapshot copy grant.
         public let snapshotCopyGrantName: String?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeSnapshotCopyGrant request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the SnapshotCopyGrantName parameter or the Marker parameter, but not both. 
         public let marker: String?
         /// A tag key or keys for which you want to return all matching resources that are associated with the specified key or keys. For example, suppose that you have resources tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with all resources that have either or both of these tag keys associated with them.
-        public let tagKeys: [String]?
+        public let tagKeys: TagKeyList?
 
-        public init(maxRecords: Int32? = nil, tagValues: [String]? = nil, snapshotCopyGrantName: String? = nil, marker: String? = nil, tagKeys: [String]? = nil) {
+        public init(maxRecords: Int32? = nil, tagValues: TagValueList? = nil, snapshotCopyGrantName: String? = nil, marker: String? = nil, tagKeys: TagKeyList? = nil) {
             self.maxRecords = maxRecords
             self.tagValues = tagValues
             self.snapshotCopyGrantName = snapshotCopyGrantName
@@ -2800,10 +3126,10 @@ extension Redshift {
 
         public init(dictionary: [String: Any]) throws {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.tagValues = dictionary["TagValues"] as? [String]
+            if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
             self.snapshotCopyGrantName = dictionary["SnapshotCopyGrantName"] as? String
             self.marker = dictionary["Marker"] as? String
-            self.tagKeys = dictionary["TagKeys"] as? [String]
+            if let tagKeys = dictionary["TagKeys"] as? [String: Any] { self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys) } else { self.tagKeys = nil }
         }
     }
 
@@ -2813,20 +3139,16 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of Cluster objects, where each object describes one cluster. 
-        public let clusters: [Cluster]?
+        public let clusters: ClusterList?
 
-        public init(marker: String? = nil, clusters: [Cluster]? = nil) {
+        public init(marker: String? = nil, clusters: ClusterList? = nil) {
             self.marker = marker
             self.clusters = clusters
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let clusters = dictionary["Clusters"] as? [[String: Any]] {
-                self.clusters = try clusters.map({ try Cluster(dictionary: $0) })
-            } else { 
-                self.clusters = nil
-            }
+            if let clusters = dictionary["Clusters"] as? [String: Any] { self.clusters = try Redshift.ClusterList(dictionary: clusters) } else { self.clusters = nil }
         }
     }
 
@@ -2848,24 +3170,20 @@ extension Redshift {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of cluster default parameters.
-        public let parameters: [Parameter]?
+        public let parameters: ParametersList?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// The name of the cluster parameter group family to which the engine default parameters apply.
         public let parameterGroupFamily: String?
 
-        public init(parameters: [Parameter]? = nil, marker: String? = nil, parameterGroupFamily: String? = nil) {
+        public init(parameters: ParametersList? = nil, marker: String? = nil, parameterGroupFamily: String? = nil) {
             self.parameters = parameters
             self.marker = marker
             self.parameterGroupFamily = parameterGroupFamily
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
+            if let parameters = dictionary["Parameters"] as? [String: Any] { self.parameters = try Redshift.ParametersList(dictionary: parameters) } else { self.parameters = nil }
             self.marker = dictionary["Marker"] as? String
             self.parameterGroupFamily = dictionary["ParameterGroupFamily"] as? String
         }
@@ -2875,13 +3193,13 @@ extension Redshift {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of cluster security groups to be authorized on this cluster. This change is asynchronously applied as soon as possible. Security groups currently associated with the cluster, and not in the list of groups to apply, will be revoked from the cluster. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
-        public let clusterSecurityGroups: [String]?
+        public let clusterSecurityGroups: ClusterSecurityGroupNameList?
         /// The new version number of the Amazon Redshift engine to upgrade to. For major version upgrades, if a non-default cluster parameter group is currently in use, a new cluster parameter group in the cluster parameter group family for the new version must be specified. The new cluster parameter group can be the default for that cluster parameter group family. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide. Example: 1.0 
         public let clusterVersion: String?
         /// The new identifier for the cluster. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an AWS account.   Example: examplecluster 
         public let newClusterIdentifier: String?
         /// A list of virtual private cloud (VPC) security groups to be associated with the cluster.
-        public let vpcSecurityGroupIds: [String]?
+        public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
         /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter. When you submit your request to resize a cluster, Amazon Redshift sets access permissions for the cluster to read-only. After Amazon Redshift provisions a new cluster according to your resize requirements, there will be a temporary outage while the old cluster is deleted and your connection is switched to the new cluster. When the new connection is complete, the original access permissions for the cluster are restored. You can use DescribeResize to track the progress of the resize request.  Valid Values:  ds1.xlarge | ds1.8xlarge |  ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge.
         public let nodeType: String?
         /// The new cluster type. When you submit your cluster resize request, your existing cluster goes into a read-only mode. After Amazon Redshift provisions a new cluster based on your resize requirements, there will be outage for a period while the old cluster is deleted and your connection is switched to the new cluster. You can use DescribeResize to track the progress of the resize request.  Valid Values:  multi-node | single-node  
@@ -2911,7 +3229,7 @@ extension Redshift {
         /// The new number of nodes of the cluster. If you specify a new number of nodes, you must also specify the node type parameter. When you submit your request to resize a cluster, Amazon Redshift sets access permissions for the cluster to read-only. After Amazon Redshift provisions a new cluster according to your resize requirements, there will be a temporary outage while the old cluster is deleted and your connection is switched to the new cluster. When the new connection is complete, the original access permissions for the cluster are restored. You can use DescribeResize to track the progress of the resize request.  Valid Values: Integer greater than 0.
         public let numberOfNodes: Int32?
 
-        public init(clusterSecurityGroups: [String]? = nil, clusterVersion: String? = nil, newClusterIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil, nodeType: String? = nil, clusterType: String? = nil, clusterIdentifier: String, enhancedVpcRouting: Bool? = nil, masterUserPassword: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, hsmConfigurationIdentifier: String? = nil, publiclyAccessible: Bool? = nil, clusterParameterGroupName: String? = nil, hsmClientCertificateIdentifier: String? = nil, elasticIp: String? = nil, preferredMaintenanceWindow: String? = nil, allowVersionUpgrade: Bool? = nil, numberOfNodes: Int32? = nil) {
+        public init(clusterSecurityGroups: ClusterSecurityGroupNameList? = nil, clusterVersion: String? = nil, newClusterIdentifier: String? = nil, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, nodeType: String? = nil, clusterType: String? = nil, clusterIdentifier: String, enhancedVpcRouting: Bool? = nil, masterUserPassword: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, hsmConfigurationIdentifier: String? = nil, publiclyAccessible: Bool? = nil, clusterParameterGroupName: String? = nil, hsmClientCertificateIdentifier: String? = nil, elasticIp: String? = nil, preferredMaintenanceWindow: String? = nil, allowVersionUpgrade: Bool? = nil, numberOfNodes: Int32? = nil) {
             self.clusterSecurityGroups = clusterSecurityGroups
             self.clusterVersion = clusterVersion
             self.newClusterIdentifier = newClusterIdentifier
@@ -2933,10 +3251,10 @@ extension Redshift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [String]
+            if let clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [String: Any] { self.clusterSecurityGroups = try Redshift.ClusterSecurityGroupNameList(dictionary: clusterSecurityGroups) } else { self.clusterSecurityGroups = nil }
             self.clusterVersion = dictionary["ClusterVersion"] as? String
             self.newClusterIdentifier = dictionary["NewClusterIdentifier"] as? String
-            self.vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String]
+            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String: Any] { self.vpcSecurityGroupIds = try Redshift.VpcSecurityGroupIdList(dictionary: vpcSecurityGroupIds) } else { self.vpcSecurityGroupIds = nil }
             self.nodeType = dictionary["NodeType"] as? String
             self.clusterType = dictionary["ClusterType"] as? String
             guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
@@ -2969,21 +3287,39 @@ extension Redshift {
         }
     }
 
+    public struct HsmConfigurationList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let hsmConfiguration: [HsmConfiguration]?
+
+        public init(hsmConfiguration: [HsmConfiguration]? = nil) {
+            self.hsmConfiguration = hsmConfiguration
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let hsmConfiguration = dictionary["HsmConfiguration"] as? [[String: Any]] {
+                self.hsmConfiguration = try hsmConfiguration.map({ try HsmConfiguration(dictionary: $0) })
+            } else { 
+                self.hsmConfiguration = nil
+            }
+        }
+    }
+
     public struct DescribeClusterSubnetGroupsMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
         /// A tag value or values for which you want to return all matching cluster subnet groups that are associated with the specified tag value or values. For example, suppose that you have subnet groups that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the subnet groups that have either or both of these tag values associated with them.
-        public let tagValues: [String]?
+        public let tagValues: TagValueList?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterSubnetGroups request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// The name of the cluster subnet group for which information is requested.
         public let clusterSubnetGroupName: String?
         /// A tag key or keys for which you want to return all matching cluster subnet groups that are associated with the specified key or keys. For example, suppose that you have subnet groups that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the subnet groups that have either or both of these tag keys associated with them.
-        public let tagKeys: [String]?
+        public let tagKeys: TagKeyList?
 
-        public init(maxRecords: Int32? = nil, tagValues: [String]? = nil, marker: String? = nil, clusterSubnetGroupName: String? = nil, tagKeys: [String]? = nil) {
+        public init(maxRecords: Int32? = nil, tagValues: TagValueList? = nil, marker: String? = nil, clusterSubnetGroupName: String? = nil, tagKeys: TagKeyList? = nil) {
             self.maxRecords = maxRecords
             self.tagValues = tagValues
             self.marker = marker
@@ -2993,10 +3329,10 @@ extension Redshift {
 
         public init(dictionary: [String: Any]) throws {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.tagValues = dictionary["TagValues"] as? [String]
+            if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
             self.marker = dictionary["Marker"] as? String
             self.clusterSubnetGroupName = dictionary["ClusterSubnetGroupName"] as? String
-            self.tagKeys = dictionary["TagKeys"] as? [String]
+            if let tagKeys = dictionary["TagKeys"] as? [String: Any] { self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys) } else { self.tagKeys = nil }
         }
     }
 
@@ -3006,11 +3342,11 @@ extension Redshift {
         /// The unique identifier of the cluster for which you want to associate or disassociate IAM roles.
         public let clusterIdentifier: String
         /// Zero or more IAM roles to associate with the cluster. The roles must be in their Amazon Resource Name (ARN) format. You can associate up to 10 IAM roles with a single cluster in a single request.
-        public let addIamRoles: [String]?
+        public let addIamRoles: IamRoleArnList?
         /// Zero or more IAM roles in ARN format to disassociate from the cluster. You can disassociate up to 10 IAM roles from a single cluster in a single request.
-        public let removeIamRoles: [String]?
+        public let removeIamRoles: IamRoleArnList?
 
-        public init(clusterIdentifier: String, addIamRoles: [String]? = nil, removeIamRoles: [String]? = nil) {
+        public init(clusterIdentifier: String, addIamRoles: IamRoleArnList? = nil, removeIamRoles: IamRoleArnList? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.addIamRoles = addIamRoles
             self.removeIamRoles = removeIamRoles
@@ -3019,8 +3355,8 @@ extension Redshift {
         public init(dictionary: [String: Any]) throws {
             guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
             self.clusterIdentifier = clusterIdentifier
-            self.addIamRoles = dictionary["AddIamRoles"] as? [String]
-            self.removeIamRoles = dictionary["RemoveIamRoles"] as? [String]
+            if let addIamRoles = dictionary["AddIamRoles"] as? [String: Any] { self.addIamRoles = try Redshift.IamRoleArnList(dictionary: addIamRoles) } else { self.addIamRoles = nil }
+            if let removeIamRoles = dictionary["RemoveIamRoles"] as? [String: Any] { self.removeIamRoles = try Redshift.IamRoleArnList(dictionary: removeIamRoles) } else { self.removeIamRoles = nil }
         }
     }
 
@@ -3049,11 +3385,11 @@ extension Redshift {
         /// The cluster identifier for which you want a snapshot.
         public let clusterIdentifier: String
         /// A list of tag instances.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// A unique identifier for the snapshot that you are requesting. This identifier must be unique for all snapshots within the AWS account. Constraints:   Cannot be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
         public let snapshotIdentifier: String
 
-        public init(clusterIdentifier: String, tags: [Tag]? = nil, snapshotIdentifier: String) {
+        public init(clusterIdentifier: String, tags: TagList? = nil, snapshotIdentifier: String) {
             self.clusterIdentifier = clusterIdentifier
             self.tags = tags
             self.snapshotIdentifier = snapshotIdentifier
@@ -3062,13 +3398,27 @@ extension Redshift {
         public init(dictionary: [String: Any]) throws {
             guard let clusterIdentifier = dictionary["ClusterIdentifier"] as? String else { throw InitializableError.missingRequiredParam("ClusterIdentifier") }
             self.clusterIdentifier = clusterIdentifier
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             guard let snapshotIdentifier = dictionary["SnapshotIdentifier"] as? String else { throw InitializableError.missingRequiredParam("SnapshotIdentifier") }
             self.snapshotIdentifier = snapshotIdentifier
+        }
+    }
+
+    public struct ClusterSecurityGroupMembershipList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let clusterSecurityGroup: [ClusterSecurityGroupMembership]?
+
+        public init(clusterSecurityGroup: [ClusterSecurityGroupMembership]? = nil) {
+            self.clusterSecurityGroup = clusterSecurityGroup
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let clusterSecurityGroup = dictionary["ClusterSecurityGroup"] as? [[String: Any]] {
+                self.clusterSecurityGroup = try clusterSecurityGroup.map({ try ClusterSecurityGroupMembership(dictionary: $0) })
+            } else { 
+                self.clusterSecurityGroup = nil
+            }
         }
     }
 
@@ -3078,20 +3428,16 @@ extension Redshift {
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of Parameter instances. Each instance lists the parameters of one cluster parameter group. 
-        public let parameters: [Parameter]?
+        public let parameters: ParametersList?
 
-        public init(marker: String? = nil, parameters: [Parameter]? = nil) {
+        public init(marker: String? = nil, parameters: ParametersList? = nil) {
             self.marker = marker
             self.parameters = parameters
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
+            if let parameters = dictionary["Parameters"] as? [String: Any] { self.parameters = try Redshift.ParametersList(dictionary: parameters) } else { self.parameters = nil }
         }
     }
 
@@ -3115,15 +3461,15 @@ extension Redshift {
         /// A description of the security group.
         public let description: String?
         /// A list of IP ranges (CIDR blocks) that are permitted to access clusters associated with this cluster security group.
-        public let iPRanges: [IPRange]?
+        public let iPRanges: IPRangeList?
         /// A list of EC2 security groups that are permitted to access clusters associated with this cluster security group.
-        public let eC2SecurityGroups: [EC2SecurityGroup]?
+        public let eC2SecurityGroups: EC2SecurityGroupList?
         /// The list of tags for the cluster security group.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// The name of the cluster security group to which the operation was applied.
         public let clusterSecurityGroupName: String?
 
-        public init(description: String? = nil, iPRanges: [IPRange]? = nil, eC2SecurityGroups: [EC2SecurityGroup]? = nil, tags: [Tag]? = nil, clusterSecurityGroupName: String? = nil) {
+        public init(description: String? = nil, iPRanges: IPRangeList? = nil, eC2SecurityGroups: EC2SecurityGroupList? = nil, tags: TagList? = nil, clusterSecurityGroupName: String? = nil) {
             self.description = description
             self.iPRanges = iPRanges
             self.eC2SecurityGroups = eC2SecurityGroups
@@ -3133,21 +3479,9 @@ extension Redshift {
 
         public init(dictionary: [String: Any]) throws {
             self.description = dictionary["Description"] as? String
-            if let iPRanges = dictionary["IPRanges"] as? [[String: Any]] {
-                self.iPRanges = try iPRanges.map({ try IPRange(dictionary: $0) })
-            } else { 
-                self.iPRanges = nil
-            }
-            if let eC2SecurityGroups = dictionary["EC2SecurityGroups"] as? [[String: Any]] {
-                self.eC2SecurityGroups = try eC2SecurityGroups.map({ try EC2SecurityGroup(dictionary: $0) })
-            } else { 
-                self.eC2SecurityGroups = nil
-            }
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let iPRanges = dictionary["IPRanges"] as? [String: Any] { self.iPRanges = try Redshift.IPRangeList(dictionary: iPRanges) } else { self.iPRanges = nil }
+            if let eC2SecurityGroups = dictionary["EC2SecurityGroups"] as? [String: Any] { self.eC2SecurityGroups = try Redshift.EC2SecurityGroupList(dictionary: eC2SecurityGroups) } else { self.eC2SecurityGroups = nil }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             self.clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? String
         }
     }
@@ -3179,21 +3513,17 @@ extension Redshift {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of ReservedNodeOffering objects.
-        public let reservedNodeOfferings: [ReservedNodeOffering]?
+        public let reservedNodeOfferings: ReservedNodeOfferingList?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
 
-        public init(reservedNodeOfferings: [ReservedNodeOffering]? = nil, marker: String? = nil) {
+        public init(reservedNodeOfferings: ReservedNodeOfferingList? = nil, marker: String? = nil) {
             self.reservedNodeOfferings = reservedNodeOfferings
             self.marker = marker
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let reservedNodeOfferings = dictionary["ReservedNodeOfferings"] as? [[String: Any]] {
-                self.reservedNodeOfferings = try reservedNodeOfferings.map({ try ReservedNodeOffering(dictionary: $0) })
-            } else { 
-                self.reservedNodeOfferings = nil
-            }
+            if let reservedNodeOfferings = dictionary["ReservedNodeOfferings"] as? [String: Any] { self.reservedNodeOfferings = try Redshift.ReservedNodeOfferingList(dictionary: reservedNodeOfferings) } else { self.reservedNodeOfferings = nil }
             self.marker = dictionary["Marker"] as? String
         }
     }
@@ -3221,25 +3551,71 @@ extension Redshift {
         }
     }
 
+    public struct OrderableClusterOptionsList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let orderableClusterOption: [OrderableClusterOption]?
+
+        public init(orderableClusterOption: [OrderableClusterOption]? = nil) {
+            self.orderableClusterOption = orderableClusterOption
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let orderableClusterOption = dictionary["OrderableClusterOption"] as? [[String: Any]] {
+                self.orderableClusterOption = try orderableClusterOption.map({ try OrderableClusterOption(dictionary: $0) })
+            } else { 
+                self.orderableClusterOption = nil
+            }
+        }
+    }
+
+    public struct TagKeyList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let tagKey: [String]?
+
+        public init(tagKey: [String]? = nil) {
+            self.tagKey = tagKey
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.tagKey = dictionary["TagKey"] as? [String]
+        }
+    }
+
     public struct SnapshotCopyGrantMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeSnapshotCopyGrant request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the SnapshotCopyGrantName parameter or the Marker parameter, but not both. 
         public let marker: String?
         /// The list of SnapshotCopyGrant objects.
-        public let snapshotCopyGrants: [SnapshotCopyGrant]?
+        public let snapshotCopyGrants: SnapshotCopyGrantList?
 
-        public init(marker: String? = nil, snapshotCopyGrants: [SnapshotCopyGrant]? = nil) {
+        public init(marker: String? = nil, snapshotCopyGrants: SnapshotCopyGrantList? = nil) {
             self.marker = marker
             self.snapshotCopyGrants = snapshotCopyGrants
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let snapshotCopyGrants = dictionary["SnapshotCopyGrants"] as? [[String: Any]] {
-                self.snapshotCopyGrants = try snapshotCopyGrants.map({ try SnapshotCopyGrant(dictionary: $0) })
+            if let snapshotCopyGrants = dictionary["SnapshotCopyGrants"] as? [String: Any] { self.snapshotCopyGrants = try Redshift.SnapshotCopyGrantList(dictionary: snapshotCopyGrants) } else { self.snapshotCopyGrants = nil }
+        }
+    }
+
+    public struct SnapshotCopyGrantList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let snapshotCopyGrant: [SnapshotCopyGrant]?
+
+        public init(snapshotCopyGrant: [SnapshotCopyGrant]? = nil) {
+            self.snapshotCopyGrant = snapshotCopyGrant
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let snapshotCopyGrant = dictionary["SnapshotCopyGrant"] as? [[String: Any]] {
+                self.snapshotCopyGrant = try snapshotCopyGrant.map({ try SnapshotCopyGrant(dictionary: $0) })
             } else { 
-                self.snapshotCopyGrants = nil
+                self.snapshotCopyGrant = nil
             }
         }
     }
@@ -3248,7 +3624,7 @@ extension Redshift {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of Amazon Virtual Private Cloud (Amazon VPC) security groups that are associated with the cluster. This parameter is returned only if the cluster is in a VPC.
-        public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
+        public let vpcSecurityGroups: VpcSecurityGroupMembershipList?
         /// The nodes in the cluster.
         public let clusterNodes: [ClusterNode]?
         /// The name of the initial database that was created when the cluster was created. This same name is returned for the life of the cluster. If an initial database was not specified, a database named devdev was created by default. 
@@ -3268,7 +3644,7 @@ extension Redshift {
         /// The name of the Availability Zone in which the cluster is located.
         public let availabilityZone: String?
         /// A list of AWS Identity and Access Management (IAM) roles that can be used by the cluster to access other AWS services.
-        public let iamRoles: [ClusterIamRole]?
+        public let iamRoles: ClusterIamRoleList?
         ///  The current state of the cluster. Possible values are the following:    available     creating     deleting     final-snapshot     hardware-failure     incompatible-hsm     incompatible-network     incompatible-parameters     incompatible-restore     modifying     rebooting     renaming     resizing     rotating-keys     storage-full     updating-hsm   
         public let clusterStatus: String?
         /// The identifier of the VPC the cluster is in, if the cluster is in a VPC.
@@ -3286,11 +3662,11 @@ extension Redshift {
         /// A value that, if present, indicates that changes to the cluster are pending. Specific pending changes are identified by subelements.
         public let pendingModifiedValues: PendingModifiedValues?
         /// A list of cluster security group that are associated with the cluster. Each security group is represented by an element that contains ClusterSecurityGroup.Name and ClusterSecurityGroup.Status subelements.  Cluster security groups are used when the cluster is not created in an Amazon Virtual Private Cloud (VPC). Clusters that are created in a VPC use VPC security groups, which are listed by the VpcSecurityGroups parameter. 
-        public let clusterSecurityGroups: [ClusterSecurityGroupMembership]?
+        public let clusterSecurityGroups: ClusterSecurityGroupMembershipList?
         /// The list of cluster parameter groups that are associated with this cluster. Each parameter group in the list is returned with its status.
-        public let clusterParameterGroups: [ClusterParameterGroupStatus]?
+        public let clusterParameterGroups: ClusterParameterGroupStatusList?
         /// The list of tags for the cluster.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// The node type for the nodes in the cluster.
         public let nodeType: String?
         /// The public key for the cluster.
@@ -3314,7 +3690,7 @@ extension Redshift {
         /// The status of a modify operation, if any, initiated for the cluster.
         public let modifyStatus: String?
 
-        public init(vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil, clusterNodes: [ClusterNode]? = nil, dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, clusterIdentifier: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, enhancedVpcRouting: Bool? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, availabilityZone: String? = nil, iamRoles: [ClusterIamRole]? = nil, clusterStatus: String? = nil, vpcId: String? = nil, preferredMaintenanceWindow: String? = nil, numberOfNodes: Int32? = nil, endpoint: Endpoint? = nil, clusterRevisionNumber: String? = nil, kmsKeyId: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, tags: [Tag]? = nil, nodeType: String? = nil, clusterPublicKey: String? = nil, hsmStatus: HsmStatus? = nil, clusterCreateTime: Date? = nil, publiclyAccessible: Bool? = nil, elasticIpStatus: ElasticIpStatus? = nil, restoreStatus: RestoreStatus? = nil, clusterSubnetGroupName: String? = nil, masterUsername: String? = nil, allowVersionUpgrade: Bool? = nil, modifyStatus: String? = nil) {
+        public init(vpcSecurityGroups: VpcSecurityGroupMembershipList? = nil, clusterNodes: [ClusterNode]? = nil, dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, clusterIdentifier: String? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, enhancedVpcRouting: Bool? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, availabilityZone: String? = nil, iamRoles: ClusterIamRoleList? = nil, clusterStatus: String? = nil, vpcId: String? = nil, preferredMaintenanceWindow: String? = nil, numberOfNodes: Int32? = nil, endpoint: Endpoint? = nil, clusterRevisionNumber: String? = nil, kmsKeyId: String? = nil, pendingModifiedValues: PendingModifiedValues? = nil, clusterSecurityGroups: ClusterSecurityGroupMembershipList? = nil, clusterParameterGroups: ClusterParameterGroupStatusList? = nil, tags: TagList? = nil, nodeType: String? = nil, clusterPublicKey: String? = nil, hsmStatus: HsmStatus? = nil, clusterCreateTime: Date? = nil, publiclyAccessible: Bool? = nil, elasticIpStatus: ElasticIpStatus? = nil, restoreStatus: RestoreStatus? = nil, clusterSubnetGroupName: String? = nil, masterUsername: String? = nil, allowVersionUpgrade: Bool? = nil, modifyStatus: String? = nil) {
             self.vpcSecurityGroups = vpcSecurityGroups
             self.clusterNodes = clusterNodes
             self.dBName = dBName
@@ -3351,11 +3727,7 @@ extension Redshift {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let vpcSecurityGroups = dictionary["VpcSecurityGroups"] as? [[String: Any]] {
-                self.vpcSecurityGroups = try vpcSecurityGroups.map({ try VpcSecurityGroupMembership(dictionary: $0) })
-            } else { 
-                self.vpcSecurityGroups = nil
-            }
+            if let vpcSecurityGroups = dictionary["VpcSecurityGroups"] as? [String: Any] { self.vpcSecurityGroups = try Redshift.VpcSecurityGroupMembershipList(dictionary: vpcSecurityGroups) } else { self.vpcSecurityGroups = nil }
             if let clusterNodes = dictionary["ClusterNodes"] as? [[String: Any]] {
                 self.clusterNodes = try clusterNodes.map({ try ClusterNode(dictionary: $0) })
             } else { 
@@ -3369,11 +3741,7 @@ extension Redshift {
             self.enhancedVpcRouting = dictionary["EnhancedVpcRouting"] as? Bool
             if let clusterSnapshotCopyStatus = dictionary["ClusterSnapshotCopyStatus"] as? [String: Any] { self.clusterSnapshotCopyStatus = try Redshift.ClusterSnapshotCopyStatus(dictionary: clusterSnapshotCopyStatus) } else { self.clusterSnapshotCopyStatus = nil }
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
-            if let iamRoles = dictionary["IamRoles"] as? [[String: Any]] {
-                self.iamRoles = try iamRoles.map({ try ClusterIamRole(dictionary: $0) })
-            } else { 
-                self.iamRoles = nil
-            }
+            if let iamRoles = dictionary["IamRoles"] as? [String: Any] { self.iamRoles = try Redshift.ClusterIamRoleList(dictionary: iamRoles) } else { self.iamRoles = nil }
             self.clusterStatus = dictionary["ClusterStatus"] as? String
             self.vpcId = dictionary["VpcId"] as? String
             self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
@@ -3382,21 +3750,9 @@ extension Redshift {
             self.clusterRevisionNumber = dictionary["ClusterRevisionNumber"] as? String
             self.kmsKeyId = dictionary["KmsKeyId"] as? String
             if let pendingModifiedValues = dictionary["PendingModifiedValues"] as? [String: Any] { self.pendingModifiedValues = try Redshift.PendingModifiedValues(dictionary: pendingModifiedValues) } else { self.pendingModifiedValues = nil }
-            if let clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [[String: Any]] {
-                self.clusterSecurityGroups = try clusterSecurityGroups.map({ try ClusterSecurityGroupMembership(dictionary: $0) })
-            } else { 
-                self.clusterSecurityGroups = nil
-            }
-            if let clusterParameterGroups = dictionary["ClusterParameterGroups"] as? [[String: Any]] {
-                self.clusterParameterGroups = try clusterParameterGroups.map({ try ClusterParameterGroupStatus(dictionary: $0) })
-            } else { 
-                self.clusterParameterGroups = nil
-            }
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [String: Any] { self.clusterSecurityGroups = try Redshift.ClusterSecurityGroupMembershipList(dictionary: clusterSecurityGroups) } else { self.clusterSecurityGroups = nil }
+            if let clusterParameterGroups = dictionary["ClusterParameterGroups"] as? [String: Any] { self.clusterParameterGroups = try Redshift.ClusterParameterGroupStatusList(dictionary: clusterParameterGroups) } else { self.clusterParameterGroups = nil }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             self.nodeType = dictionary["NodeType"] as? String
             self.clusterPublicKey = dictionary["ClusterPublicKey"] as? String
             if let hsmStatus = dictionary["HsmStatus"] as? [String: Any] { self.hsmStatus = try Redshift.HsmStatus(dictionary: hsmStatus) } else { self.hsmStatus = nil }
@@ -3437,13 +3793,13 @@ extension Redshift {
         /// The type of source that will be generating the events. For example, if you want to be notified of events generated by a cluster, you would set this parameter to cluster. If this value is not specified, events are returned for all Amazon Redshift objects in your AWS account. You must specify a source type in order to specify source IDs. Valid values: cluster, cluster-parameter-group, cluster-security-group, and cluster-snapshot.
         public let sourceType: String?
         /// Specifies the Amazon Redshift event categories to be published by the event notification subscription. Values: Configuration, Management, Monitoring, Security
-        public let eventCategories: [String]?
+        public let eventCategories: EventCategoriesList?
         /// A Boolean value indicating if the subscription is enabled. true indicates the subscription is enabled 
         public let enabled: Bool?
         /// A list of one or more identifiers of Amazon Redshift source objects. All of the objects must be of the same type as was specified in the source type parameter. The event subscription will return only events generated by the specified objects. If not specified, then events are returned for all objects within the source type specified. Example: my-cluster-1, my-cluster-2 Example: my-snapshot-20131010
-        public let sourceIds: [String]?
+        public let sourceIds: SourceIdsList?
 
-        public init(severity: String? = nil, snsTopicArn: String? = nil, subscriptionName: String, sourceType: String? = nil, eventCategories: [String]? = nil, enabled: Bool? = nil, sourceIds: [String]? = nil) {
+        public init(severity: String? = nil, snsTopicArn: String? = nil, subscriptionName: String, sourceType: String? = nil, eventCategories: EventCategoriesList? = nil, enabled: Bool? = nil, sourceIds: SourceIdsList? = nil) {
             self.severity = severity
             self.snsTopicArn = snsTopicArn
             self.subscriptionName = subscriptionName
@@ -3459,9 +3815,9 @@ extension Redshift {
             guard let subscriptionName = dictionary["SubscriptionName"] as? String else { throw InitializableError.missingRequiredParam("SubscriptionName") }
             self.subscriptionName = subscriptionName
             self.sourceType = dictionary["SourceType"] as? String
-            self.eventCategories = dictionary["EventCategories"] as? [String]
+            if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Redshift.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
             self.enabled = dictionary["Enabled"] as? Bool
-            self.sourceIds = dictionary["SourceIds"] as? [String]
+            if let sourceIds = dictionary["SourceIds"] as? [String: Any] { self.sourceIds = try Redshift.SourceIdsList(dictionary: sourceIds) } else { self.sourceIds = nil }
         }
     }
 
@@ -3525,13 +3881,13 @@ extension Redshift {
         /// The name of the partition in the HSM where the Amazon Redshift clusters will store their database encryption keys.
         public let hsmPartitionName: String?
         /// The list of tags for the HSM configuration.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// The name of the Amazon Redshift HSM configuration.
         public let hsmConfigurationIdentifier: String?
         /// A text description of the HSM configuration.
         public let description: String?
 
-        public init(hsmIpAddress: String? = nil, hsmPartitionName: String? = nil, tags: [Tag]? = nil, hsmConfigurationIdentifier: String? = nil, description: String? = nil) {
+        public init(hsmIpAddress: String? = nil, hsmPartitionName: String? = nil, tags: TagList? = nil, hsmConfigurationIdentifier: String? = nil, description: String? = nil) {
             self.hsmIpAddress = hsmIpAddress
             self.hsmPartitionName = hsmPartitionName
             self.tags = tags
@@ -3542,11 +3898,7 @@ extension Redshift {
         public init(dictionary: [String: Any]) throws {
             self.hsmIpAddress = dictionary["HsmIpAddress"] as? String
             self.hsmPartitionName = dictionary["HsmPartitionName"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             self.hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String
             self.description = dictionary["Description"] as? String
         }
@@ -3568,21 +3920,39 @@ extension Redshift {
         }
     }
 
+    public struct HsmClientCertificateList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let hsmClientCertificate: [HsmClientCertificate]?
+
+        public init(hsmClientCertificate: [HsmClientCertificate]? = nil) {
+            self.hsmClientCertificate = hsmClientCertificate
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let hsmClientCertificate = dictionary["HsmClientCertificate"] as? [[String: Any]] {
+                self.hsmClientCertificate = try hsmClientCertificate.map({ try HsmClientCertificate(dictionary: $0) })
+            } else { 
+                self.hsmClientCertificate = nil
+            }
+        }
+    }
+
     public struct DescribeClustersMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The unique identifier of a cluster whose properties you are requesting. This parameter is case sensitive. The default is that all clusters defined for an account are returned.
         public let clusterIdentifier: String?
         /// A tag value or values for which you want to return all matching clusters that are associated with the specified tag value or values. For example, suppose that you have clusters that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the clusters that have either or both of these tag values associated with them.
-        public let tagValues: [String]?
+        public let tagValues: TagValueList?
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusters request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.  Constraints: You can specify either the ClusterIdentifier parameter or the Marker parameter, but not both. 
         public let marker: String?
         /// A tag key or keys for which you want to return all matching clusters that are associated with the specified key or keys. For example, suppose that you have clusters that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the clusters that have either or both of these tag keys associated with them.
-        public let tagKeys: [String]?
+        public let tagKeys: TagKeyList?
 
-        public init(clusterIdentifier: String? = nil, tagValues: [String]? = nil, maxRecords: Int32? = nil, marker: String? = nil, tagKeys: [String]? = nil) {
+        public init(clusterIdentifier: String? = nil, tagValues: TagValueList? = nil, maxRecords: Int32? = nil, marker: String? = nil, tagKeys: TagKeyList? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.tagValues = tagValues
             self.maxRecords = maxRecords
@@ -3592,10 +3962,10 @@ extension Redshift {
 
         public init(dictionary: [String: Any]) throws {
             self.clusterIdentifier = dictionary["ClusterIdentifier"] as? String
-            self.tagValues = dictionary["TagValues"] as? [String]
+            if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             self.marker = dictionary["Marker"] as? String
-            self.tagKeys = dictionary["TagKeys"] as? [String]
+            if let tagKeys = dictionary["TagKeys"] as? [String: Any] { self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys) } else { self.tagKeys = nil }
         }
     }
 
@@ -3643,6 +4013,24 @@ extension Redshift {
         }
     }
 
+    public struct EC2SecurityGroupList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let eC2SecurityGroup: [EC2SecurityGroup]?
+
+        public init(eC2SecurityGroup: [EC2SecurityGroup]? = nil) {
+            self.eC2SecurityGroup = eC2SecurityGroup
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let eC2SecurityGroup = dictionary["EC2SecurityGroup"] as? [[String: Any]] {
+                self.eC2SecurityGroup = try eC2SecurityGroup.map({ try EC2SecurityGroup(dictionary: $0) })
+            } else { 
+                self.eC2SecurityGroup = nil
+            }
+        }
+    }
+
     public struct EnableLoggingMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -3668,26 +4056,40 @@ extension Redshift {
         }
     }
 
+    public struct SubnetList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let subnet: [Subnet]?
+
+        public init(subnet: [Subnet]? = nil) {
+            self.subnet = subnet
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let subnet = dictionary["Subnet"] as? [[String: Any]] {
+                self.subnet = try subnet.map({ try Subnet(dictionary: $0) })
+            } else { 
+                self.subnet = nil
+            }
+        }
+    }
+
     public struct SnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request. 
         public let marker: String?
         /// A list of Snapshot instances. 
-        public let snapshots: [Snapshot]?
+        public let snapshots: SnapshotList?
 
-        public init(marker: String? = nil, snapshots: [Snapshot]? = nil) {
+        public init(marker: String? = nil, snapshots: SnapshotList? = nil) {
             self.marker = marker
             self.snapshots = snapshots
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let snapshots = dictionary["Snapshots"] as? [[String: Any]] {
-                self.snapshots = try snapshots.map({ try Snapshot(dictionary: $0) })
-            } else { 
-                self.snapshots = nil
-            }
+            if let snapshots = dictionary["Snapshots"] as? [String: Any] { self.snapshots = try Redshift.SnapshotList(dictionary: snapshots) } else { self.snapshots = nil }
         }
     }
 
@@ -3715,7 +4117,7 @@ extension Redshift {
         /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
         public let hsmConfigurationIdentifier: String?
         /// A list of AWS Identity and Access Management (IAM) roles that can be used by the cluster to access other AWS services. You must supply the IAM roles in their Amazon Resource Name (ARN) format. You can supply up to 10 IAM roles in a single request. A cluster can have up to 10 IAM roles associated with it at any time.
-        public let iamRoles: [String]?
+        public let iamRoles: IamRoleArnList?
         /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
         public let hsmClientCertificateIdentifier: String?
         /// The Elastic IP (EIP) address for the cluster. Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. For more information about provisioning clusters in EC2-VPC, go to Supported Platforms to Launch Your Cluster in the Amazon Redshift Cluster Management Guide.
@@ -3727,13 +4129,13 @@ extension Redshift {
         /// The AWS Key Management Service (KMS) key ID of the encryption key that you want to use to encrypt data in the cluster.
         public let kmsKeyId: String?
         /// A list of security groups to be associated with this cluster. Default: The default cluster security group for Amazon Redshift.
-        public let clusterSecurityGroups: [String]?
+        public let clusterSecurityGroups: ClusterSecurityGroupNameList?
         /// A list of tag instances.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values: ds1.xlarge | ds1.8xlarge | ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge. 
         public let nodeType: String
         /// A list of Virtual Private Cloud (VPC) security groups to be associated with the cluster. Default: The default VPC security group is associated with the cluster.
-        public let vpcSecurityGroupIds: [String]?
+        public let vpcSecurityGroupIds: VpcSecurityGroupIdList?
         /// The name of the parameter group to be associated with this cluster. Default: The default Amazon Redshift cluster parameter group. For information about the default parameter group, go to Working with Amazon Redshift Parameter Groups  Constraints:   Must be 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
         public let clusterParameterGroupName: String?
         /// If true, the cluster can be accessed from a public network. 
@@ -3749,7 +4151,7 @@ extension Redshift {
         /// The port number on which the cluster accepts incoming connections. The cluster is accessible only via the JDBC and ODBC connection strings. Part of the connection string requires the port on which the cluster will listen for incoming connections. Default: 5439  Valid Values: 1150-65535 
         public let port: Int32?
 
-        public init(dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, clusterIdentifier: String, clusterType: String? = nil, enhancedVpcRouting: Bool? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, masterUserPassword: String, availabilityZone: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, hsmClientCertificateIdentifier: String? = nil, elasticIp: String? = nil, preferredMaintenanceWindow: String? = nil, numberOfNodes: Int32? = nil, kmsKeyId: String? = nil, clusterSecurityGroups: [String]? = nil, tags: [Tag]? = nil, nodeType: String, vpcSecurityGroupIds: [String]? = nil, clusterParameterGroupName: String? = nil, publiclyAccessible: Bool? = nil, masterUsername: String, clusterSubnetGroupName: String? = nil, additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, port: Int32? = nil) {
+        public init(dBName: String? = nil, clusterVersion: String? = nil, encrypted: Bool? = nil, clusterIdentifier: String, clusterType: String? = nil, enhancedVpcRouting: Bool? = nil, automatedSnapshotRetentionPeriod: Int32? = nil, masterUserPassword: String, availabilityZone: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: IamRoleArnList? = nil, hsmClientCertificateIdentifier: String? = nil, elasticIp: String? = nil, preferredMaintenanceWindow: String? = nil, numberOfNodes: Int32? = nil, kmsKeyId: String? = nil, clusterSecurityGroups: ClusterSecurityGroupNameList? = nil, tags: TagList? = nil, nodeType: String, vpcSecurityGroupIds: VpcSecurityGroupIdList? = nil, clusterParameterGroupName: String? = nil, publiclyAccessible: Bool? = nil, masterUsername: String, clusterSubnetGroupName: String? = nil, additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, port: Int32? = nil) {
             self.dBName = dBName
             self.clusterVersion = clusterVersion
             self.encrypted = encrypted
@@ -3792,21 +4194,17 @@ extension Redshift {
             self.masterUserPassword = masterUserPassword
             self.availabilityZone = dictionary["AvailabilityZone"] as? String
             self.hsmConfigurationIdentifier = dictionary["HsmConfigurationIdentifier"] as? String
-            self.iamRoles = dictionary["IamRoles"] as? [String]
+            if let iamRoles = dictionary["IamRoles"] as? [String: Any] { self.iamRoles = try Redshift.IamRoleArnList(dictionary: iamRoles) } else { self.iamRoles = nil }
             self.hsmClientCertificateIdentifier = dictionary["HsmClientCertificateIdentifier"] as? String
             self.elasticIp = dictionary["ElasticIp"] as? String
             self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
             self.numberOfNodes = dictionary["NumberOfNodes"] as? Int32
             self.kmsKeyId = dictionary["KmsKeyId"] as? String
-            self.clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [String]
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let clusterSecurityGroups = dictionary["ClusterSecurityGroups"] as? [String: Any] { self.clusterSecurityGroups = try Redshift.ClusterSecurityGroupNameList(dictionary: clusterSecurityGroups) } else { self.clusterSecurityGroups = nil }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             guard let nodeType = dictionary["NodeType"] as? String else { throw InitializableError.missingRequiredParam("NodeType") }
             self.nodeType = nodeType
-            self.vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String]
+            if let vpcSecurityGroupIds = dictionary["VpcSecurityGroupIds"] as? [String: Any] { self.vpcSecurityGroupIds = try Redshift.VpcSecurityGroupIdList(dictionary: vpcSecurityGroupIds) } else { self.vpcSecurityGroupIds = nil }
             self.clusterParameterGroupName = dictionary["ClusterParameterGroupName"] as? String
             self.publiclyAccessible = dictionary["PubliclyAccessible"] as? Bool
             guard let masterUsername = dictionary["MasterUsername"] as? String else { throw InitializableError.missingRequiredParam("MasterUsername") }
@@ -3824,11 +4222,11 @@ extension Redshift {
         /// The name of the snapshot copy grant.
         public let snapshotCopyGrantName: String?
         /// A list of tag instances.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// The unique identifier of the customer master key (CMK) in AWS KMS to which Amazon Redshift is granted permission.
         public let kmsKeyId: String?
 
-        public init(snapshotCopyGrantName: String? = nil, tags: [Tag]? = nil, kmsKeyId: String? = nil) {
+        public init(snapshotCopyGrantName: String? = nil, tags: TagList? = nil, kmsKeyId: String? = nil) {
             self.snapshotCopyGrantName = snapshotCopyGrantName
             self.tags = tags
             self.kmsKeyId = kmsKeyId
@@ -3836,12 +4234,22 @@ extension Redshift {
 
         public init(dictionary: [String: Any]) throws {
             self.snapshotCopyGrantName = dictionary["SnapshotCopyGrantName"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             self.kmsKeyId = dictionary["KmsKeyId"] as? String
+        }
+    }
+
+    public struct ClusterSecurityGroupNameList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let clusterSecurityGroupName: [String]?
+
+        public init(clusterSecurityGroupName: [String]? = nil) {
+            self.clusterSecurityGroupName = clusterSecurityGroupName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.clusterSecurityGroupName = dictionary["ClusterSecurityGroupName"] as? [String]
         }
     }
 
@@ -4037,20 +4445,38 @@ extension Redshift {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more name/value pairs to add as tags to the specified resource. Each tag name is passed in with the parameter Key and the corresponding value is passed in with the parameter Value. The Key and Value parameters are separated by a comma (,). Separate multiple tags with a space. For example, --tags "Key"="owner","Value"="admin" "Key"="environment","Value"="test" "Key"="version","Value"="1.0". 
-        public let tags: [Tag]
+        public let tags: TagList
         /// The Amazon Resource Name (ARN) to which you want to add the tag or tags. For example, arn:aws:redshift:us-east-1:123456789:cluster:t1. 
         public let resourceName: String
 
-        public init(tags: [Tag], resourceName: String) {
+        public init(tags: TagList, resourceName: String) {
             self.tags = tags
             self.resourceName = resourceName
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
+            guard let tags = dictionary["Tags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try Redshift.TagList(dictionary: tags)
             guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
             self.resourceName = resourceName
+        }
+    }
+
+    public struct ParameterGroupList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let clusterParameterGroup: [ClusterParameterGroup]?
+
+        public init(clusterParameterGroup: [ClusterParameterGroup]? = nil) {
+            self.clusterParameterGroup = clusterParameterGroup
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let clusterParameterGroup = dictionary["ClusterParameterGroup"] as? [[String: Any]] {
+                self.clusterParameterGroup = try clusterParameterGroup.map({ try ClusterParameterGroup(dictionary: $0) })
+            } else { 
+                self.clusterParameterGroup = nil
+            }
         }
     }
 
@@ -4060,11 +4486,11 @@ extension Redshift {
         /// The status of the IP range, for example, "authorized".
         public let status: String?
         /// The list of tags for the IP range.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// The IP range in Classless Inter-Domain Routing (CIDR) notation.
         public let cIDRIP: String?
 
-        public init(status: String? = nil, tags: [Tag]? = nil, cIDRIP: String? = nil) {
+        public init(status: String? = nil, tags: TagList? = nil, cIDRIP: String? = nil) {
             self.status = status
             self.tags = tags
             self.cIDRIP = cIDRIP
@@ -4072,11 +4498,7 @@ extension Redshift {
 
         public init(dictionary: [String: Any]) throws {
             self.status = dictionary["Status"] as? String
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Redshift.TagList(dictionary: tags) } else { self.tags = nil }
             self.cIDRIP = dictionary["CIDRIP"] as? String
         }
     }
@@ -4107,15 +4529,15 @@ extension Redshift {
         /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
         public let maxRecords: Int32?
         /// A tag value or values for which you want to return all matching cluster parameter groups that are associated with the specified tag value or values. For example, suppose that you have parameter groups that are tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with the parameter groups that have either or both of these tag values associated with them.
-        public let tagValues: [String]?
+        public let tagValues: TagValueList?
         /// The name of a specific parameter group for which to return details. By default, details about all parameter groups and the default parameter group are returned.
         public let parameterGroupName: String?
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeClusterParameterGroups request exceed the value specified in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. 
         public let marker: String?
         /// A tag key or keys for which you want to return all matching cluster parameter groups that are associated with the specified key or keys. For example, suppose that you have parameter groups that are tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with the parameter groups that have either or both of these tag keys associated with them.
-        public let tagKeys: [String]?
+        public let tagKeys: TagKeyList?
 
-        public init(maxRecords: Int32? = nil, tagValues: [String]? = nil, parameterGroupName: String? = nil, marker: String? = nil, tagKeys: [String]? = nil) {
+        public init(maxRecords: Int32? = nil, tagValues: TagValueList? = nil, parameterGroupName: String? = nil, marker: String? = nil, tagKeys: TagKeyList? = nil) {
             self.maxRecords = maxRecords
             self.tagValues = tagValues
             self.parameterGroupName = parameterGroupName
@@ -4125,10 +4547,28 @@ extension Redshift {
 
         public init(dictionary: [String: Any]) throws {
             self.maxRecords = dictionary["MaxRecords"] as? Int32
-            self.tagValues = dictionary["TagValues"] as? [String]
+            if let tagValues = dictionary["TagValues"] as? [String: Any] { self.tagValues = try Redshift.TagValueList(dictionary: tagValues) } else { self.tagValues = nil }
             self.parameterGroupName = dictionary["ParameterGroupName"] as? String
             self.marker = dictionary["Marker"] as? String
-            self.tagKeys = dictionary["TagKeys"] as? [String]
+            if let tagKeys = dictionary["TagKeys"] as? [String: Any] { self.tagKeys = try Redshift.TagKeyList(dictionary: tagKeys) } else { self.tagKeys = nil }
+        }
+    }
+
+    public struct ParametersList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let parameter: [Parameter]?
+
+        public init(parameter: [Parameter]? = nil) {
+            self.parameter = parameter
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let parameter = dictionary["Parameter"] as? [[String: Any]] {
+                self.parameter = try parameter.map({ try Parameter(dictionary: $0) })
+            } else { 
+                self.parameter = nil
+            }
         }
     }
 
@@ -4152,18 +4592,18 @@ extension Redshift {
         /// The key for the payload
         public static let payload: String? = nil
         /// An array of parameters to be modified. A maximum of 20 parameters can be modified in a single request. For each parameter to be modified, you must supply at least the parameter name and parameter value; other name-value pairs of the parameter are optional. For the workload management (WLM) configuration, you must supply all the name-value pairs in the wlm_json_configuration parameter.
-        public let parameters: [Parameter]
+        public let parameters: ParametersList
         /// The name of the parameter group to be modified.
         public let parameterGroupName: String
 
-        public init(parameters: [Parameter], parameterGroupName: String) {
+        public init(parameters: ParametersList, parameterGroupName: String) {
             self.parameters = parameters
             self.parameterGroupName = parameterGroupName
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let parameters = dictionary["Parameters"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Parameters") }
-            self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
+            guard let parameters = dictionary["Parameters"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Parameters") }
+            self.parameters = try Redshift.ParametersList(dictionary: parameters)
             guard let parameterGroupName = dictionary["ParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("ParameterGroupName") }
             self.parameterGroupName = parameterGroupName
         }
@@ -4222,9 +4662,9 @@ extension Redshift {
         /// The description of an Amazon Redshift event.
         public let eventDescription: String?
         /// The category of an Amazon Redshift event.
-        public let eventCategories: [String]?
+        public let eventCategories: EventCategoriesList?
 
-        public init(severity: String? = nil, eventId: String? = nil, eventDescription: String? = nil, eventCategories: [String]? = nil) {
+        public init(severity: String? = nil, eventId: String? = nil, eventDescription: String? = nil, eventCategories: EventCategoriesList? = nil) {
             self.severity = severity
             self.eventId = eventId
             self.eventDescription = eventDescription
@@ -4235,7 +4675,25 @@ extension Redshift {
             self.severity = dictionary["Severity"] as? String
             self.eventId = dictionary["EventId"] as? String
             self.eventDescription = dictionary["EventDescription"] as? String
-            self.eventCategories = dictionary["EventCategories"] as? [String]
+            if let eventCategories = dictionary["EventCategories"] as? [String: Any] { self.eventCategories = try Redshift.EventCategoriesList(dictionary: eventCategories) } else { self.eventCategories = nil }
+        }
+    }
+
+    public struct EventCategoriesMapList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let eventCategoriesMap: [EventCategoriesMap]?
+
+        public init(eventCategoriesMap: [EventCategoriesMap]? = nil) {
+            self.eventCategoriesMap = eventCategoriesMap
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let eventCategoriesMap = dictionary["EventCategoriesMap"] as? [[String: Any]] {
+                self.eventCategoriesMap = try eventCategoriesMap.map({ try EventCategoriesMap(dictionary: $0) })
+            } else { 
+                self.eventCategoriesMap = nil
+            }
         }
     }
 

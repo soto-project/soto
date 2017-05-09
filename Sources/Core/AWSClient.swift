@@ -97,6 +97,7 @@ public struct AWSClient {
     
     public func send<Output: AWSShape, Input: AWSShape>(operation operationName: String, path: String, httpMethod: String, input: Input)
         throws -> Output {
+
         let request = try createRequest(
             operation: operationName,
             path: path,
@@ -145,28 +146,30 @@ public struct AWSClient {
         var responseBody: Body = .empty
         let data = response.body.asData()
         
-        switch serviceProtocol {
-        case .json, .restjson:
-            if let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                responseBody = .json(dictionary)
-            }
-            
-        case .restxml:
-            let xmlNode = try XML2Parser(data: data).parse()
-            responseBody = .xml(xmlNode)
-            
-        case .other(let proto):
-            switch proto.lowercased() {
-            case "ec2":
+        if !data.isEmpty {
+            switch serviceProtocol {
+            case .json, .restjson:
+                if let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                    responseBody = .json(dictionary)
+                }
+                
+            case .restxml:
                 let xmlNode = try XML2Parser(data: data).parse()
                 responseBody = .xml(xmlNode)
+                
+            case .other(let proto):
+                switch proto.lowercased() {
+                case "ec2":
+                    let xmlNode = try XML2Parser(data: data).parse()
+                    responseBody = .xml(xmlNode)
+                    
+                default:
+                    responseBody = .buffer(data)
+                }
                 
             default:
                 responseBody = .buffer(data)
             }
-            
-        default:
-            responseBody = .buffer(data)
         }
         
         var responseHeaders: [String: String] = [:]
@@ -218,8 +221,8 @@ public struct AWSClient {
         case .xml(let node):
             let str = XMLNodeSerializer(node: node).serializeToJSON()
             outputDict = try JSONSerialization.jsonObject(with: str.data(using: .utf8)!, options: []) as? [String: Any] ?? [:]
-            if let _outputDict = outputDict[operationName+"Response"] as? [String: Any] {
-                outputDict = _outputDict
+            if let childOutputDict = outputDict[operationName+"Response"] as? [String: Any] {
+                outputDict = childOutputDict
             }
             
         case .buffer(let data):
@@ -250,7 +253,6 @@ public struct AWSClient {
         var body: Body = .empty
         var path = path
         var queryParams = [URLQueryItem]()
-        var urlString = "\(endpoint)\(path)"
         
         if let ctx = context {
             let mirror = Mirror(reflecting: ctx.input)
@@ -290,10 +292,10 @@ public struct AWSClient {
             case .query:
                 let dict = try ctx.input.serializeToDictionary()
                 let params = dict.map({ "\($0.key)=\($0.value)" }).joined(separator: "&")
-                if urlString.contains("?") {
-                    urlString += "&" + params
+                if path.contains("?") {
+                    path += "&" + params
                 } else {
-                    urlString += "?" + params
+                    path += "?" + params
                 }
                 
             case .restxml:
@@ -319,7 +321,7 @@ public struct AWSClient {
         
         return AWSRequest(
             region: self.signer.region,
-            url: URL(string: urlString)!,
+            url: URL(string:  "\(endpoint)\(path)")!,
             service: signer.service,
             amzTarget: amzTarget,
             operation: operationName,

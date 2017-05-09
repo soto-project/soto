@@ -64,9 +64,9 @@ extension Sdb {
         /// The name of the domain in which to perform the operation.
         public let domainName: String
         /// The names of the attributes.
-        public let attributeNames: [String]?
+        public let attributeNames: AttributeNameList?
 
-        public init(consistentRead: Bool? = nil, itemName: String, domainName: String, attributeNames: [String]? = nil) {
+        public init(consistentRead: Bool? = nil, itemName: String, domainName: String, attributeNames: AttributeNameList? = nil) {
             self.consistentRead = consistentRead
             self.itemName = itemName
             self.domainName = domainName
@@ -79,7 +79,7 @@ extension Sdb {
             self.itemName = itemName
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
-            self.attributeNames = dictionary["AttributeNames"] as? [String]
+            if let attributeNames = dictionary["AttributeNames"] as? [String: Any] { self.attributeNames = try Sdb.AttributeNameList(dictionary: attributeNames) } else { self.attributeNames = nil }
         }
     }
 
@@ -102,22 +102,36 @@ extension Sdb {
         }
     }
 
+    public struct AttributeList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let attribute: [Attribute]?
+
+        public init(attribute: [Attribute]? = nil) {
+            self.attribute = attribute
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let attribute = dictionary["Attribute"] as? [[String: Any]] {
+                self.attribute = try attribute.map({ try Attribute(dictionary: $0) })
+            } else { 
+                self.attribute = nil
+            }
+        }
+    }
+
     public struct GetAttributesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of attributes returned by the operation.
-        public let attributes: [Attribute]?
+        public let attributes: AttributeList?
 
-        public init(attributes: [Attribute]? = nil) {
+        public init(attributes: AttributeList? = nil) {
             self.attributes = attributes
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
-            } else { 
-                self.attributes = nil
-            }
+            if let attributes = dictionary["Attributes"] as? [String: Any] { self.attributes = try Sdb.AttributeList(dictionary: attributes) } else { self.attributes = nil }
         }
     }
 
@@ -149,18 +163,18 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of items on which to perform the operation.
-        public let items: [DeletableItem]
+        public let items: DeletableItemList
         /// The name of the domain in which the attributes are being deleted.
         public let domainName: String
 
-        public init(items: [DeletableItem], domainName: String) {
+        public init(items: DeletableItemList, domainName: String) {
             self.items = items
             self.domainName = domainName
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let items = dictionary["Items"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Items") }
-            self.items = try items.map({ try DeletableItem(dictionary: $0) })
+            guard let items = dictionary["Items"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Items") }
+            self.items = try Sdb.DeletableItemList(dictionary: items)
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
         }
@@ -212,9 +226,9 @@ extension Sdb {
         /// The name of the item.
         public let name: String
         /// A list of attributes.
-        public let attributes: [Attribute]
+        public let attributes: AttributeList
 
-        public init(alternateNameEncoding: String? = nil, name: String, attributes: [Attribute]) {
+        public init(alternateNameEncoding: String? = nil, name: String, attributes: AttributeList) {
             self.alternateNameEncoding = alternateNameEncoding
             self.name = name
             self.attributes = attributes
@@ -224,8 +238,8 @@ extension Sdb {
             self.alternateNameEncoding = dictionary["AlternateNameEncoding"] as? String
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            guard let attributes = dictionary["Attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Attributes") }
-            self.attributes = try attributes.map({ try Attribute(dictionary: $0) })
+            guard let attributes = dictionary["Attributes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Attributes") }
+            self.attributes = try Sdb.AttributeList(dictionary: attributes)
         }
     }
 
@@ -292,18 +306,18 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of items on which to perform the operation.
-        public let items: [ReplaceableItem]
+        public let items: ReplaceableItemList
         /// The name of the domain in which the attributes are being stored.
         public let domainName: String
 
-        public init(items: [ReplaceableItem], domainName: String) {
+        public init(items: ReplaceableItemList, domainName: String) {
             self.items = items
             self.domainName = domainName
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let items = dictionary["Items"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Items") }
-            self.items = try items.map({ try ReplaceableItem(dictionary: $0) })
+            guard let items = dictionary["Items"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Items") }
+            self.items = try Sdb.ReplaceableItemList(dictionary: items)
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
         }
@@ -315,18 +329,50 @@ extension Sdb {
         /// The name of the replaceable item.
         public let name: String
         /// The list of attributes for a replaceable item.
-        public let attributes: [ReplaceableAttribute]
+        public let attributes: ReplaceableAttributeList
 
-        public init(name: String, attributes: [ReplaceableAttribute]) {
+        public init(name: String, attributes: ReplaceableAttributeList) {
             self.name = name
             self.attributes = attributes
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            guard let name = dictionary["ItemName"] as? String else { throw InitializableError.missingRequiredParam("ItemName") }
             self.name = name
-            guard let attributes = dictionary["Attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Attributes") }
-            self.attributes = try attributes.map({ try ReplaceableAttribute(dictionary: $0) })
+            guard let attributes = dictionary["Attributes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Attributes") }
+            self.attributes = try Sdb.ReplaceableAttributeList(dictionary: attributes)
+        }
+    }
+
+    public struct DeletableItemList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let item: [DeletableItem]?
+
+        public init(item: [DeletableItem]? = nil) {
+            self.item = item
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["Item"] as? [[String: Any]] {
+                self.item = try item.map({ try DeletableItem(dictionary: $0) })
+            } else { 
+                self.item = nil
+            }
+        }
+    }
+
+    public struct AttributeNameList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let attributeName: [String]?
+
+        public init(attributeName: [String]? = nil) {
+            self.attributeName = attributeName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.attributeName = dictionary["AttributeName"] as? [String]
         }
     }
 
@@ -334,21 +380,17 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         public let name: String
-        public let attributes: [DeletableAttribute]?
+        public let attributes: DeletableAttributeList?
 
-        public init(name: String, attributes: [DeletableAttribute]? = nil) {
+        public init(name: String, attributes: DeletableAttributeList? = nil) {
             self.name = name
             self.attributes = attributes
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            guard let name = dictionary["ItemName"] as? String else { throw InitializableError.missingRequiredParam("ItemName") }
             self.name = name
-            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try DeletableAttribute(dictionary: $0) })
-            } else { 
-                self.attributes = nil
-            }
+            if let attributes = dictionary["Attributes"] as? [String: Any] { self.attributes = try Sdb.DeletableAttributeList(dictionary: attributes) } else { self.attributes = nil }
         }
     }
 
@@ -375,19 +417,37 @@ extension Sdb {
         }
     }
 
+    public struct ItemList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let item: [Item]?
+
+        public init(item: [Item]? = nil) {
+            self.item = item
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["Item"] as? [[String: Any]] {
+                self.item = try item.map({ try Item(dictionary: $0) })
+            } else { 
+                self.item = nil
+            }
+        }
+    }
+
     public struct PutAttributesRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the item.
         public let itemName: String
         /// The list of attributes.
-        public let attributes: [ReplaceableAttribute]
+        public let attributes: ReplaceableAttributeList
         /// The name of the domain in which to perform the operation.
         public let domainName: String
         /// The update condition which, if specified, determines whether the specified attributes will be updated or not. The update condition must be satisfied in order for this request to be processed and the attributes to be updated.
         public let expected: UpdateCondition?
 
-        public init(itemName: String, attributes: [ReplaceableAttribute], domainName: String, expected: UpdateCondition? = nil) {
+        public init(itemName: String, attributes: ReplaceableAttributeList, domainName: String, expected: UpdateCondition? = nil) {
             self.itemName = itemName
             self.attributes = attributes
             self.domainName = domainName
@@ -397,8 +457,8 @@ extension Sdb {
         public init(dictionary: [String: Any]) throws {
             guard let itemName = dictionary["ItemName"] as? String else { throw InitializableError.missingRequiredParam("ItemName") }
             self.itemName = itemName
-            guard let attributes = dictionary["Attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Attributes") }
-            self.attributes = try attributes.map({ try ReplaceableAttribute(dictionary: $0) })
+            guard let attributes = dictionary["Attributes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Attributes") }
+            self.attributes = try Sdb.ReplaceableAttributeList(dictionary: attributes)
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
             if let expected = dictionary["Expected"] as? [String: Any] { self.expected = try Sdb.UpdateCondition(dictionary: expected) } else { self.expected = nil }
@@ -431,13 +491,13 @@ extension Sdb {
         /// The name of the item. Similar to rows on a spreadsheet, items represent individual objects that contain one or more value-attribute pairs.
         public let itemName: String
         /// A list of Attributes. Similar to columns on a spreadsheet, attributes represent categories of data that can be assigned to items.
-        public let attributes: [DeletableAttribute]?
+        public let attributes: DeletableAttributeList?
         /// The name of the domain in which to perform the operation.
         public let domainName: String
         /// The update condition which, if specified, determines whether the specified attributes will be deleted or not. The update condition must be satisfied in order for this request to be processed and the attributes to be deleted.
         public let expected: UpdateCondition?
 
-        public init(itemName: String, attributes: [DeletableAttribute]? = nil, domainName: String, expected: UpdateCondition? = nil) {
+        public init(itemName: String, attributes: DeletableAttributeList? = nil, domainName: String, expected: UpdateCondition? = nil) {
             self.itemName = itemName
             self.attributes = attributes
             self.domainName = domainName
@@ -447,11 +507,7 @@ extension Sdb {
         public init(dictionary: [String: Any]) throws {
             guard let itemName = dictionary["ItemName"] as? String else { throw InitializableError.missingRequiredParam("ItemName") }
             self.itemName = itemName
-            if let attributes = dictionary["Attributes"] as? [[String: Any]] {
-                self.attributes = try attributes.map({ try DeletableAttribute(dictionary: $0) })
-            } else { 
-                self.attributes = nil
-            }
+            if let attributes = dictionary["Attributes"] as? [String: Any] { self.attributes = try Sdb.DeletableAttributeList(dictionary: attributes) } else { self.attributes = nil }
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
             if let expected = dictionary["Expected"] as? [String: Any] { self.expected = try Sdb.UpdateCondition(dictionary: expected) } else { self.expected = nil }
@@ -464,16 +520,70 @@ extension Sdb {
         /// An opaque token indicating that there are more domains than the specified MaxNumberOfDomains still available.
         public let nextToken: String?
         /// A list of domain names that match the expression.
-        public let domainNames: [String]?
+        public let domainNames: DomainNameList?
 
-        public init(nextToken: String? = nil, domainNames: [String]? = nil) {
+        public init(nextToken: String? = nil, domainNames: DomainNameList? = nil) {
             self.nextToken = nextToken
             self.domainNames = domainNames
         }
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["NextToken"] as? String
-            self.domainNames = dictionary["DomainNames"] as? [String]
+            if let domainNames = dictionary["DomainNames"] as? [String: Any] { self.domainNames = try Sdb.DomainNameList(dictionary: domainNames) } else { self.domainNames = nil }
+        }
+    }
+
+    public struct ReplaceableAttributeList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let attribute: [ReplaceableAttribute]?
+
+        public init(attribute: [ReplaceableAttribute]? = nil) {
+            self.attribute = attribute
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let attribute = dictionary["Attribute"] as? [[String: Any]] {
+                self.attribute = try attribute.map({ try ReplaceableAttribute(dictionary: $0) })
+            } else { 
+                self.attribute = nil
+            }
+        }
+    }
+
+    public struct DeletableAttributeList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let attribute: [DeletableAttribute]?
+
+        public init(attribute: [DeletableAttribute]? = nil) {
+            self.attribute = attribute
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let attribute = dictionary["Attribute"] as? [[String: Any]] {
+                self.attribute = try attribute.map({ try DeletableAttribute(dictionary: $0) })
+            } else { 
+                self.attribute = nil
+            }
+        }
+    }
+
+    public struct ReplaceableItemList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let item: [ReplaceableItem]?
+
+        public init(item: [ReplaceableItem]? = nil) {
+            self.item = item
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["Item"] as? [[String: Any]] {
+                self.item = try item.map({ try ReplaceableItem(dictionary: $0) })
+            } else { 
+                self.item = nil
+            }
         }
     }
 
@@ -481,21 +591,17 @@ extension Sdb {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of items that match the select expression.
-        public let items: [Item]?
+        public let items: ItemList?
         /// An opaque token indicating that more items than MaxNumberOfItems were matched, the response size exceeded 1 megabyte, or the execution time exceeded 5 seconds.
         public let nextToken: String?
 
-        public init(items: [Item]? = nil, nextToken: String? = nil) {
+        public init(items: ItemList? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [[String: Any]] {
-                self.items = try items.map({ try Item(dictionary: $0) })
-            } else { 
-                self.items = nil
-            }
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Sdb.ItemList(dictionary: items) } else { self.items = nil }
             self.nextToken = dictionary["NextToken"] as? String
         }
     }
@@ -513,6 +619,20 @@ extension Sdb {
         public init(dictionary: [String: Any]) throws {
             guard let domainName = dictionary["DomainName"] as? String else { throw InitializableError.missingRequiredParam("DomainName") }
             self.domainName = domainName
+        }
+    }
+
+    public struct DomainNameList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let domainName: [String]?
+
+        public init(domainName: [String]? = nil) {
+            self.domainName = domainName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.domainName = dictionary["DomainName"] as? [String]
         }
     }
 

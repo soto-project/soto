@@ -40,7 +40,7 @@ extension Sms {
     public struct Connector: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let capabilityList: [String]?
+        public let capabilityList: ConnectorCapabilityList?
         public let status: String?
         public let ipAddress: String?
         public let vmManagerId: String?
@@ -51,7 +51,7 @@ extension Sms {
         public let macAddress: String?
         public let associatedOn: Date?
 
-        public init(capabilityList: [String]? = nil, status: String? = nil, ipAddress: String? = nil, vmManagerId: String? = nil, version: String? = nil, vmManagerType: String? = nil, connectorId: String? = nil, vmManagerName: String? = nil, macAddress: String? = nil, associatedOn: Date? = nil) {
+        public init(capabilityList: ConnectorCapabilityList? = nil, status: String? = nil, ipAddress: String? = nil, vmManagerId: String? = nil, version: String? = nil, vmManagerType: String? = nil, connectorId: String? = nil, vmManagerName: String? = nil, macAddress: String? = nil, associatedOn: Date? = nil) {
             self.capabilityList = capabilityList
             self.status = status
             self.ipAddress = ipAddress
@@ -65,7 +65,7 @@ extension Sms {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.capabilityList = dictionary["capabilityList"] as? [String]
+            if let capabilityList = dictionary["capabilityList"] as? [String: Any] { self.capabilityList = try Sms.ConnectorCapabilityList(dictionary: capabilityList) } else { self.capabilityList = nil }
             self.status = dictionary["status"] as? String
             self.ipAddress = dictionary["ipAddress"] as? String
             self.vmManagerId = dictionary["vmManagerId"] as? String
@@ -127,12 +127,12 @@ extension Sms {
     public struct GetServersResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let serverList: [Server]?
+        public let serverList: ServerList?
         public let serverCatalogStatus: String?
         public let nextToken: String?
         public let lastModifiedOn: Date?
 
-        public init(serverList: [Server]? = nil, serverCatalogStatus: String? = nil, nextToken: String? = nil, lastModifiedOn: Date? = nil) {
+        public init(serverList: ServerList? = nil, serverCatalogStatus: String? = nil, nextToken: String? = nil, lastModifiedOn: Date? = nil) {
             self.serverList = serverList
             self.serverCatalogStatus = serverCatalogStatus
             self.nextToken = nextToken
@@ -140,11 +140,7 @@ extension Sms {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let serverList = dictionary["serverList"] as? [[String: Any]] {
-                self.serverList = try serverList.map({ try Server(dictionary: $0) })
-            } else { 
-                self.serverList = nil
-            }
+            if let serverList = dictionary["serverList"] as? [String: Any] { self.serverList = try Sms.ServerList(dictionary: serverList) } else { self.serverList = nil }
             self.serverCatalogStatus = dictionary["serverCatalogStatus"] as? String
             self.nextToken = dictionary["nextToken"] as? String
             self.lastModifiedOn = dictionary["lastModifiedOn"] as? Date
@@ -223,6 +219,20 @@ extension Sms {
         }
     }
 
+    public struct ConnectorCapabilityList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let item: [String]?
+
+        public init(item: [String]? = nil) {
+            self.item = item
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.item = dictionary["Item"] as? [String]
+        }
+    }
+
     public struct ReplicationRun: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -270,7 +280,7 @@ extension Sms {
         /// The key for the payload
         public static let payload: String? = nil
         public let state: String?
-        public let replicationRunList: [ReplicationRun]?
+        public let replicationRunList: ReplicationRunList?
         public let nextReplicationRunStartTime: Date?
         public let vmServer: VmServer?
         public let licenseType: String?
@@ -284,7 +294,7 @@ extension Sms {
         public let seedReplicationTime: Date?
         public let serverType: String?
 
-        public init(state: String? = nil, replicationRunList: [ReplicationRun]? = nil, nextReplicationRunStartTime: Date? = nil, vmServer: VmServer? = nil, licenseType: String? = nil, description: String? = nil, serverId: String? = nil, latestAmiId: String? = nil, frequency: Int32? = nil, statusMessage: String? = nil, replicationJobId: String? = nil, roleName: String? = nil, seedReplicationTime: Date? = nil, serverType: String? = nil) {
+        public init(state: String? = nil, replicationRunList: ReplicationRunList? = nil, nextReplicationRunStartTime: Date? = nil, vmServer: VmServer? = nil, licenseType: String? = nil, description: String? = nil, serverId: String? = nil, latestAmiId: String? = nil, frequency: Int32? = nil, statusMessage: String? = nil, replicationJobId: String? = nil, roleName: String? = nil, seedReplicationTime: Date? = nil, serverType: String? = nil) {
             self.state = state
             self.replicationRunList = replicationRunList
             self.nextReplicationRunStartTime = nextReplicationRunStartTime
@@ -303,11 +313,7 @@ extension Sms {
 
         public init(dictionary: [String: Any]) throws {
             self.state = dictionary["state"] as? String
-            if let replicationRunList = dictionary["replicationRunList"] as? [[String: Any]] {
-                self.replicationRunList = try replicationRunList.map({ try ReplicationRun(dictionary: $0) })
-            } else { 
-                self.replicationRunList = nil
-            }
+            if let replicationRunList = dictionary["replicationRunList"] as? [String: Any] { self.replicationRunList = try Sms.ReplicationRunList(dictionary: replicationRunList) } else { self.replicationRunList = nil }
             self.nextReplicationRunStartTime = dictionary["nextReplicationRunStartTime"] as? Date
             if let vmServer = dictionary["vmServer"] as? [String: Any] { self.vmServer = try Sms.VmServer(dictionary: vmServer) } else { self.vmServer = nil }
             self.licenseType = dictionary["licenseType"] as? String
@@ -331,6 +337,24 @@ extension Sms {
         }
     }
 
+    public struct ServerList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let item: [Server]?
+
+        public init(item: [Server]? = nil) {
+            self.item = item
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["Item"] as? [[String: Any]] {
+                self.item = try item.map({ try Server(dictionary: $0) })
+            } else { 
+                self.item = nil
+            }
+        }
+    }
+
     public struct DeleteReplicationJobResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -339,24 +363,38 @@ extension Sms {
         }
     }
 
+    public struct ReplicationJobList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let item: [ReplicationJob]?
+
+        public init(item: [ReplicationJob]? = nil) {
+            self.item = item
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["Item"] as? [[String: Any]] {
+                self.item = try item.map({ try ReplicationJob(dictionary: $0) })
+            } else { 
+                self.item = nil
+            }
+        }
+    }
+
     public struct GetConnectorsResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         public let nextToken: String?
-        public let connectorList: [Connector]?
+        public let connectorList: ConnectorList?
 
-        public init(nextToken: String? = nil, connectorList: [Connector]? = nil) {
+        public init(nextToken: String? = nil, connectorList: ConnectorList? = nil) {
             self.nextToken = nextToken
             self.connectorList = connectorList
         }
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["nextToken"] as? String
-            if let connectorList = dictionary["connectorList"] as? [[String: Any]] {
-                self.connectorList = try connectorList.map({ try Connector(dictionary: $0) })
-            } else { 
-                self.connectorList = nil
-            }
+            if let connectorList = dictionary["connectorList"] as? [String: Any] { self.connectorList = try Sms.ConnectorList(dictionary: connectorList) } else { self.connectorList = nil }
         }
     }
 
@@ -423,6 +461,24 @@ extension Sms {
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["nextToken"] as? String
             self.maxResults = dictionary["maxResults"] as? Int32
+        }
+    }
+
+    public struct ConnectorList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let item: [Connector]?
+
+        public init(item: [Connector]? = nil) {
+            self.item = item
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["Item"] as? [[String: Any]] {
+                self.item = try item.map({ try Connector(dictionary: $0) })
+            } else { 
+                self.item = nil
+            }
         }
     }
 
@@ -500,6 +556,24 @@ extension Sms {
         }
     }
 
+    public struct ReplicationRunList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let item: [ReplicationRun]?
+
+        public init(item: [ReplicationRun]? = nil) {
+            self.item = item
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["Item"] as? [[String: Any]] {
+                self.item = try item.map({ try ReplicationRun(dictionary: $0) })
+            } else { 
+                self.item = nil
+            }
+        }
+    }
+
     public struct StartOnDemandReplicationRunRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -522,20 +596,16 @@ extension Sms {
         /// The key for the payload
         public static let payload: String? = nil
         public let nextToken: String?
-        public let replicationJobList: [ReplicationJob]?
+        public let replicationJobList: ReplicationJobList?
 
-        public init(nextToken: String? = nil, replicationJobList: [ReplicationJob]? = nil) {
+        public init(nextToken: String? = nil, replicationJobList: ReplicationJobList? = nil) {
             self.nextToken = nextToken
             self.replicationJobList = replicationJobList
         }
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["nextToken"] as? String
-            if let replicationJobList = dictionary["replicationJobList"] as? [[String: Any]] {
-                self.replicationJobList = try replicationJobList.map({ try ReplicationJob(dictionary: $0) })
-            } else { 
-                self.replicationJobList = nil
-            }
+            if let replicationJobList = dictionary["replicationJobList"] as? [String: Any] { self.replicationJobList = try Sms.ReplicationJobList(dictionary: replicationJobList) } else { self.replicationJobList = nil }
         }
     }
 
@@ -558,10 +628,10 @@ extension Sms {
         /// The key for the payload
         public static let payload: String? = nil
         public let replicationJob: ReplicationJob?
-        public let replicationRunList: [ReplicationRun]?
+        public let replicationRunList: ReplicationRunList?
         public let nextToken: String?
 
-        public init(replicationJob: ReplicationJob? = nil, replicationRunList: [ReplicationRun]? = nil, nextToken: String? = nil) {
+        public init(replicationJob: ReplicationJob? = nil, replicationRunList: ReplicationRunList? = nil, nextToken: String? = nil) {
             self.replicationJob = replicationJob
             self.replicationRunList = replicationRunList
             self.nextToken = nextToken
@@ -569,11 +639,7 @@ extension Sms {
 
         public init(dictionary: [String: Any]) throws {
             if let replicationJob = dictionary["replicationJob"] as? [String: Any] { self.replicationJob = try Sms.ReplicationJob(dictionary: replicationJob) } else { self.replicationJob = nil }
-            if let replicationRunList = dictionary["replicationRunList"] as? [[String: Any]] {
-                self.replicationRunList = try replicationRunList.map({ try ReplicationRun(dictionary: $0) })
-            } else { 
-                self.replicationRunList = nil
-            }
+            if let replicationRunList = dictionary["replicationRunList"] as? [String: Any] { self.replicationRunList = try Sms.ReplicationRunList(dictionary: replicationRunList) } else { self.replicationRunList = nil }
             self.nextToken = dictionary["nextToken"] as? String
         }
     }

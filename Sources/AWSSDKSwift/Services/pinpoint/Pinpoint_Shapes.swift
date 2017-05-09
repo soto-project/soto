@@ -85,10 +85,10 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? String
-            guard let campaignId = dictionary["CampaignId"] as? String else { throw InitializableError.missingRequiredParam("CampaignId") }
+            self.pageSize = dictionary["Page-size"] as? String
+            guard let campaignId = dictionary["Campaign-id"] as? String else { throw InitializableError.missingRequiredParam("Campaign-id") }
             self.campaignId = campaignId
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
             self.token = dictionary["Token"] as? String
         }
@@ -187,7 +187,7 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
         }
     }
@@ -222,7 +222,7 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
             guard let writeCampaignRequest = dictionary["WriteCampaignRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WriteCampaignRequest") }
             self.writeCampaignRequest = try Pinpoint.WriteCampaignRequest(dictionary: writeCampaignRequest)
@@ -244,9 +244,9 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let segmentId = dictionary["SegmentId"] as? String else { throw InitializableError.missingRequiredParam("SegmentId") }
+            guard let segmentId = dictionary["Segment-id"] as? String else { throw InitializableError.missingRequiredParam("Segment-id") }
             self.segmentId = segmentId
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
         }
     }
@@ -283,7 +283,7 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
         }
     }
@@ -303,9 +303,9 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let campaignId = dictionary["CampaignId"] as? String else { throw InitializableError.missingRequiredParam("CampaignId") }
+            guard let campaignId = dictionary["Campaign-id"] as? String else { throw InitializableError.missingRequiredParam("Campaign-id") }
             self.campaignId = campaignId
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
         }
     }
@@ -345,8 +345,8 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? String
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.pageSize = dictionary["Page-size"] as? String
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
             self.token = dictionary["Token"] as? String
         }
@@ -382,7 +382,7 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
             guard let writeSegmentRequest = dictionary["WriteSegmentRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WriteSegmentRequest") }
             self.writeSegmentRequest = try Pinpoint.WriteSegmentRequest(dictionary: writeSegmentRequest)
@@ -411,11 +411,11 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? String
+            self.pageSize = dictionary["Page-size"] as? String
             self.token = dictionary["Token"] as? String
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
-            guard let segmentId = dictionary["SegmentId"] as? String else { throw InitializableError.missingRequiredParam("SegmentId") }
+            guard let segmentId = dictionary["Segment-id"] as? String else { throw InitializableError.missingRequiredParam("Segment-id") }
             self.segmentId = segmentId
         }
     }
@@ -479,7 +479,7 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
         }
     }
@@ -501,9 +501,9 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
-            guard let segmentId = dictionary["SegmentId"] as? String else { throw InitializableError.missingRequiredParam("SegmentId") }
+            guard let segmentId = dictionary["Segment-id"] as? String else { throw InitializableError.missingRequiredParam("Segment-id") }
             self.segmentId = segmentId
             guard let version = dictionary["Version"] as? String else { throw InitializableError.missingRequiredParam("Version") }
             self.version = version
@@ -605,7 +605,7 @@ extension Pinpoint {
         public init(dictionary: [String: Any]) throws {
             guard let writeApplicationSettingsRequest = dictionary["WriteApplicationSettingsRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WriteApplicationSettingsRequest") }
             self.writeApplicationSettingsRequest = try Pinpoint.WriteApplicationSettingsRequest(dictionary: writeApplicationSettingsRequest)
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
         }
     }
@@ -780,9 +780,9 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let jobId = dictionary["JobId"] as? String else { throw InitializableError.missingRequiredParam("JobId") }
+            guard let jobId = dictionary["Job-id"] as? String else { throw InitializableError.missingRequiredParam("Job-id") }
             self.jobId = jobId
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
         }
     }
@@ -912,9 +912,9 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let campaignId = dictionary["CampaignId"] as? String else { throw InitializableError.missingRequiredParam("CampaignId") }
+            guard let campaignId = dictionary["Campaign-id"] as? String else { throw InitializableError.missingRequiredParam("Campaign-id") }
             self.campaignId = campaignId
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
         }
     }
@@ -938,9 +938,9 @@ extension Pinpoint {
         public init(dictionary: [String: Any]) throws {
             guard let endpointRequest = dictionary["EndpointRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EndpointRequest") }
             self.endpointRequest = try Pinpoint.EndpointRequest(dictionary: endpointRequest)
-            guard let endpointId = dictionary["EndpointId"] as? String else { throw InitializableError.missingRequiredParam("EndpointId") }
+            guard let endpointId = dictionary["Endpoint-id"] as? String else { throw InitializableError.missingRequiredParam("Endpoint-id") }
             self.endpointId = endpointId
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
         }
     }
@@ -1193,7 +1193,7 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
         }
     }
@@ -1356,8 +1356,8 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? String
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.pageSize = dictionary["Page-size"] as? String
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
             self.token = dictionary["Token"] as? String
         }
@@ -1380,7 +1380,7 @@ extension Pinpoint {
         public init(dictionary: [String: Any]) throws {
             guard let importJobRequest = dictionary["ImportJobRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ImportJobRequest") }
             self.importJobRequest = try Pinpoint.ImportJobRequest(dictionary: importJobRequest)
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
         }
     }
@@ -1667,10 +1667,10 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? String
-            guard let campaignId = dictionary["CampaignId"] as? String else { throw InitializableError.missingRequiredParam("CampaignId") }
+            self.pageSize = dictionary["Page-size"] as? String
+            guard let campaignId = dictionary["Campaign-id"] as? String else { throw InitializableError.missingRequiredParam("Campaign-id") }
             self.campaignId = campaignId
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
             self.token = dictionary["Token"] as? String
         }
@@ -1710,7 +1710,7 @@ extension Pinpoint {
         public init(dictionary: [String: Any]) throws {
             guard let endpointBatchRequest = dictionary["EndpointBatchRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("EndpointBatchRequest") }
             self.endpointBatchRequest = try Pinpoint.EndpointBatchRequest(dictionary: endpointBatchRequest)
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
         }
     }
@@ -1963,9 +1963,9 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
-            guard let segmentId = dictionary["SegmentId"] as? String else { throw InitializableError.missingRequiredParam("SegmentId") }
+            guard let segmentId = dictionary["Segment-id"] as? String else { throw InitializableError.missingRequiredParam("Segment-id") }
             self.segmentId = segmentId
             guard let writeSegmentRequest = dictionary["WriteSegmentRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WriteSegmentRequest") }
             self.writeSegmentRequest = try Pinpoint.WriteSegmentRequest(dictionary: writeSegmentRequest)
@@ -1985,7 +1985,7 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
         }
     }
@@ -2022,7 +2022,7 @@ extension Pinpoint {
         public init(dictionary: [String: Any]) throws {
             guard let gCMChannelRequest = dictionary["GCMChannelRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("GCMChannelRequest") }
             self.gCMChannelRequest = try Pinpoint.GCMChannelRequest(dictionary: gCMChannelRequest)
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
         }
     }
@@ -2199,11 +2199,11 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? String
+            self.pageSize = dictionary["Page-size"] as? String
             self.token = dictionary["Token"] as? String
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
-            guard let segmentId = dictionary["SegmentId"] as? String else { throw InitializableError.missingRequiredParam("SegmentId") }
+            guard let segmentId = dictionary["Segment-id"] as? String else { throw InitializableError.missingRequiredParam("Segment-id") }
             self.segmentId = segmentId
         }
     }
@@ -2225,7 +2225,7 @@ extension Pinpoint {
         public init(dictionary: [String: Any]) throws {
             guard let aPNSChannelRequest = dictionary["APNSChannelRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("APNSChannelRequest") }
             self.aPNSChannelRequest = try Pinpoint.APNSChannelRequest(dictionary: aPNSChannelRequest)
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
         }
     }
@@ -2247,9 +2247,9 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
-            guard let campaignId = dictionary["CampaignId"] as? String else { throw InitializableError.missingRequiredParam("CampaignId") }
+            guard let campaignId = dictionary["Campaign-id"] as? String else { throw InitializableError.missingRequiredParam("Campaign-id") }
             self.campaignId = campaignId
             guard let writeCampaignRequest = dictionary["WriteCampaignRequest"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WriteCampaignRequest") }
             self.writeCampaignRequest = try Pinpoint.WriteCampaignRequest(dictionary: writeCampaignRequest)
@@ -2361,9 +2361,9 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let endpointId = dictionary["EndpointId"] as? String else { throw InitializableError.missingRequiredParam("EndpointId") }
+            guard let endpointId = dictionary["Endpoint-id"] as? String else { throw InitializableError.missingRequiredParam("Endpoint-id") }
             self.endpointId = endpointId
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
         }
     }
@@ -2385,9 +2385,9 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
-            guard let campaignId = dictionary["CampaignId"] as? String else { throw InitializableError.missingRequiredParam("CampaignId") }
+            guard let campaignId = dictionary["Campaign-id"] as? String else { throw InitializableError.missingRequiredParam("Campaign-id") }
             self.campaignId = campaignId
             guard let version = dictionary["Version"] as? String else { throw InitializableError.missingRequiredParam("Version") }
             self.version = version
@@ -2483,9 +2483,9 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let segmentId = dictionary["SegmentId"] as? String else { throw InitializableError.missingRequiredParam("SegmentId") }
+            guard let segmentId = dictionary["Segment-id"] as? String else { throw InitializableError.missingRequiredParam("Segment-id") }
             self.segmentId = segmentId
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
         }
     }
@@ -2533,8 +2533,8 @@ extension Pinpoint {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.pageSize = dictionary["PageSize"] as? String
-            guard let applicationId = dictionary["ApplicationId"] as? String else { throw InitializableError.missingRequiredParam("ApplicationId") }
+            self.pageSize = dictionary["Page-size"] as? String
+            guard let applicationId = dictionary["Application-id"] as? String else { throw InitializableError.missingRequiredParam("Application-id") }
             self.applicationId = applicationId
             self.token = dictionary["Token"] as? String
         }

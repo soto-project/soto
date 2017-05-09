@@ -898,7 +898,7 @@ extension Es {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let aRN = dictionary["ARN"] as? String else { throw InitializableError.missingRequiredParam("ARN") }
+            guard let aRN = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
             self.aRN = aRN
         }
     }

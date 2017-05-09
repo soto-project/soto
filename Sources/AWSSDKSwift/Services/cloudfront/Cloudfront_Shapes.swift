@@ -75,6 +75,24 @@ extension Cloudfront {
         }
     }
 
+    public struct CloudFrontOriginAccessIdentitySummaryList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let cloudFrontOriginAccessIdentitySummary: [CloudFrontOriginAccessIdentitySummary]?
+
+        public init(cloudFrontOriginAccessIdentitySummary: [CloudFrontOriginAccessIdentitySummary]? = nil) {
+            self.cloudFrontOriginAccessIdentitySummary = cloudFrontOriginAccessIdentitySummary
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let cloudFrontOriginAccessIdentitySummary = dictionary["CloudFrontOriginAccessIdentitySummary"] as? [[String: Any]] {
+                self.cloudFrontOriginAccessIdentitySummary = try cloudFrontOriginAccessIdentitySummary.map({ try CloudFrontOriginAccessIdentitySummary(dictionary: $0) })
+            } else { 
+                self.cloudFrontOriginAccessIdentitySummary = nil
+            }
+        }
+    }
+
     public struct Signer: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -141,6 +159,38 @@ extension Cloudfront {
         }
     }
 
+    public struct QueryStringCacheKeysList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let name: [String]?
+
+        public init(name: [String]? = nil) {
+            self.name = name
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? [String]
+        }
+    }
+
+    public struct InvalidationSummaryList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let invalidationSummary: [InvalidationSummary]?
+
+        public init(invalidationSummary: [InvalidationSummary]? = nil) {
+            self.invalidationSummary = invalidationSummary
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let invalidationSummary = dictionary["InvalidationSummary"] as? [[String: Any]] {
+                self.invalidationSummary = try invalidationSummary.map({ try InvalidationSummary(dictionary: $0) })
+            } else { 
+                self.invalidationSummary = nil
+            }
+        }
+    }
+
     public struct InvalidationBatch: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -166,20 +216,20 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Optional: A complex type that contains trusted signers for this cache behavior. If Quantity is 0, you can omit Items.
-        public let items: [String]?
+        public let items: AwsAccountNumberList?
         /// Specifies whether you want to require viewers to use signed URLs to access the files specified by PathPattern and TargetOriginId.
         public let enabled: Bool
         /// The number of trusted signers for this cache behavior.
         public let quantity: Int32
 
-        public init(items: [String]? = nil, enabled: Bool, quantity: Int32) {
+        public init(items: AwsAccountNumberList? = nil, enabled: Bool, quantity: Int32) {
             self.items = items
             self.enabled = enabled
             self.quantity = quantity
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.items = dictionary["Items"] as? [String]
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.AwsAccountNumberList(dictionary: items) } else { self.items = nil }
             guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
             self.enabled = enabled
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
@@ -206,17 +256,17 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains one Name element for each header that you want CloudFront to forward to the origin and to vary on for this cache behavior. If Quantity is 0, omit Items.
-        public let items: [String]?
+        public let items: HeaderList?
         /// The number of different headers that you want CloudFront to forward to the origin for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:    Forward all headers to your origin: Specify 1 for Quantity and * for Name.  If you configure CloudFront to forward all headers to your origin, CloudFront doesn't cache the objects associated with this cache behavior. Instead, it sends every request to the origin.     Forward a whitelist of headers you specify: Specify the number of headers that you want to forward, and specify the header names in Name elements. CloudFront caches your objects based on the values in all of the specified headers. CloudFront also forwards the headers that it forwards by default, but it caches your objects based only on the headers that you specify.     Forward only the default headers: Specify 0 for Quantity and omit Items. In this configuration, CloudFront doesn't cache based on the values in the request headers.  
         public let quantity: Int32
 
-        public init(items: [String]? = nil, quantity: Int32) {
+        public init(items: HeaderList? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.items = dictionary["Items"] as? [String]
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.HeaderList(dictionary: items) } else { self.items = nil }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -242,17 +292,17 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// (Optional) A list that contains the query string parameters that you want CloudFront to use as a basis for caching for this cache behavior. If Quantity is 0, you can omit Items. 
-        public let items: [String]?
+        public let items: QueryStringCacheKeysList?
         /// The number of whitelisted query string parameters for this cache behavior.
         public let quantity: Int32
 
-        public init(items: [String]? = nil, quantity: Int32) {
+        public init(items: QueryStringCacheKeysList? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.items = dictionary["Items"] as? [String]
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.QueryStringCacheKeysList(dictionary: items) } else { self.items = nil }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -262,21 +312,17 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Optional: A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0, you can omit Items.
-        public let items: [LambdaFunctionAssociation]?
+        public let items: LambdaFunctionAssociationList?
         /// The number of Lambda function associations for this cache behavior.
         public let quantity: Int32
 
-        public init(items: [LambdaFunctionAssociation]? = nil, quantity: Int32) {
+        public init(items: LambdaFunctionAssociationList? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [[String: Any]] {
-                self.items = try items.map({ try LambdaFunctionAssociation(dictionary: $0) })
-            } else { 
-                self.items = nil
-            }
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.LambdaFunctionAssociationList(dictionary: items) } else { self.items = nil }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -305,19 +351,33 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains a list of the paths that you want to invalidate.
-        public let items: [String]?
+        public let items: PathList?
         /// The number of objects that you want to invalidate.
         public let quantity: Int32
 
-        public init(items: [String]? = nil, quantity: Int32) {
+        public init(items: PathList? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.items = dictionary["Items"] as? [String]
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.PathList(dictionary: items) } else { self.items = nil }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
+        }
+    }
+
+    public struct SslProtocolsList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let sslProtocol: [String]?
+
+        public init(sslProtocol: [String]? = nil) {
+            self.sslProtocol = sslProtocol
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.sslProtocol = dictionary["SslProtocol"] as? [String]
         }
     }
 
@@ -376,6 +436,20 @@ extension Cloudfront {
             guard let viewerProtocolPolicy = dictionary["ViewerProtocolPolicy"] as? String else { throw InitializableError.missingRequiredParam("ViewerProtocolPolicy") }
             self.viewerProtocolPolicy = viewerProtocolPolicy
             if let allowedMethods = dictionary["AllowedMethods"] as? [String: Any] { self.allowedMethods = try Cloudfront.AllowedMethods(dictionary: allowedMethods) } else { self.allowedMethods = nil }
+        }
+    }
+
+    public struct PathList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let path: [String]?
+
+        public init(path: [String]? = nil) {
+            self.path = path
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.path = dictionary["Path"] as? [String]
         }
     }
 
@@ -492,7 +566,7 @@ extension Cloudfront {
             self.id = id
             guard let cloudFrontOriginAccessIdentityConfig = dictionary["CloudFrontOriginAccessIdentityConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CloudFrontOriginAccessIdentityConfig") }
             self.cloudFrontOriginAccessIdentityConfig = try Cloudfront.CloudFrontOriginAccessIdentityConfig(dictionary: cloudFrontOriginAccessIdentityConfig)
-            self.ifMatch = dictionary["IfMatch"] as? String
+            self.ifMatch = dictionary["If-Match"] as? String
         }
     }
 
@@ -702,21 +776,17 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains origins for this distribution.
-        public let items: [Origin]?
+        public let items: OriginList?
         /// The number of origins for this distribution.
         public let quantity: Int32
 
-        public init(items: [Origin]? = nil, quantity: Int32) {
+        public init(items: OriginList? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [[String: Any]] {
-                self.items = try items.map({ try Origin(dictionary: $0) })
-            } else { 
-                self.items = nil
-            }
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.OriginList(dictionary: items) } else { self.items = nil }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -756,11 +826,11 @@ extension Cloudfront {
         /// The value that you provided for the Marker request parameter.
         public let marker: String
         /// A complex type that contains one InvalidationSummary element for each invalidation batch created by the current AWS account.
-        public let items: [InvalidationSummary]?
+        public let items: InvalidationSummaryList?
         /// The number of invalidation batches that were created by the current AWS account. 
         public let quantity: Int32
 
-        public init(maxItems: Int32, isTruncated: Bool, nextMarker: String? = nil, marker: String, items: [InvalidationSummary]? = nil, quantity: Int32) {
+        public init(maxItems: Int32, isTruncated: Bool, nextMarker: String? = nil, marker: String, items: InvalidationSummaryList? = nil, quantity: Int32) {
             self.maxItems = maxItems
             self.isTruncated = isTruncated
             self.nextMarker = nextMarker
@@ -777,11 +847,7 @@ extension Cloudfront {
             self.nextMarker = dictionary["NextMarker"] as? String
             guard let marker = dictionary["Marker"] as? String else { throw InitializableError.missingRequiredParam("Marker") }
             self.marker = marker
-            if let items = dictionary["Items"] as? [[String: Any]] {
-                self.items = try items.map({ try InvalidationSummary(dictionary: $0) })
-            } else { 
-                self.items = nil
-            }
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.InvalidationSummaryList(dictionary: items) } else { self.items = nil }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -840,6 +906,38 @@ extension Cloudfront {
         }
     }
 
+    public struct LocationList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let location: [String]?
+
+        public init(location: [String]? = nil) {
+            self.location = location
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.location = dictionary["Location"] as? [String]
+        }
+    }
+
+    public struct SignerList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let signer: [Signer]?
+
+        public init(signer: [Signer]? = nil) {
+            self.signer = signer
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let signer = dictionary["Signer"] as? [[String: Any]] {
+                self.signer = try signer.map({ try Signer(dictionary: $0) })
+            } else { 
+                self.signer = nil
+            }
+        }
+    }
+
     public struct UpdateDistributionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = "DistributionConfig"
@@ -865,9 +963,27 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id
-            self.ifMatch = dictionary["IfMatch"] as? String
+            self.ifMatch = dictionary["If-Match"] as? String
             guard let distributionConfig = dictionary["DistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("DistributionConfig") }
             self.distributionConfig = try Cloudfront.DistributionConfig(dictionary: distributionConfig)
+        }
+    }
+
+    public struct CacheBehaviorList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let cacheBehavior: [CacheBehavior]?
+
+        public init(cacheBehavior: [CacheBehavior]? = nil) {
+            self.cacheBehavior = cacheBehavior
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let cacheBehavior = dictionary["CacheBehavior"] as? [[String: Any]] {
+                self.cacheBehavior = try cacheBehavior.map({ try CacheBehavior(dictionary: $0) })
+            } else { 
+                self.cacheBehavior = nil
+            }
         }
     }
 
@@ -964,21 +1080,17 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// Optional: A complex type that contains cache behaviors for this distribution. If Quantity is 0, you can omit Items.
-        public let items: [CacheBehavior]?
+        public let items: CacheBehaviorList?
         /// The number of cache behaviors for this distribution. 
         public let quantity: Int32
 
-        public init(items: [CacheBehavior]? = nil, quantity: Int32) {
+        public init(items: CacheBehaviorList? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [[String: Any]] {
-                self.items = try items.map({ try CacheBehavior(dictionary: $0) })
-            } else { 
-                self.items = nil
-            }
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.CacheBehaviorList(dictionary: items) } else { self.items = nil }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -1014,20 +1126,20 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains the HTTP methods that you want CloudFront to process and forward to your origin.
-        public let items: [String]
+        public let items: MethodsList
         public let cachedMethods: CachedMethods?
         /// The number of HTTP methods that you want CloudFront to forward to your origin. Valid values are 2 (for GET and HEAD requests), 3 (for GET, HEAD, and OPTIONS requests) and 7 (for GET, HEAD, OPTIONS, PUT, PATCH, POST, and DELETE requests).
         public let quantity: Int32
 
-        public init(items: [String], cachedMethods: CachedMethods? = nil, quantity: Int32) {
+        public init(items: MethodsList, cachedMethods: CachedMethods? = nil, quantity: Int32) {
             self.items = items
             self.cachedMethods = cachedMethods
             self.quantity = quantity
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let items = dictionary["Items"] as? [String] else { throw InitializableError.missingRequiredParam("Items") }
-            self.items = items
+            guard let items = dictionary["Items"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Items") }
+            self.items = try Cloudfront.MethodsList(dictionary: items)
             if let cachedMethods = dictionary["CachedMethods"] as? [String: Any] { self.cachedMethods = try Cloudfront.CachedMethods(dictionary: cachedMethods) } else { self.cachedMethods = nil }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
@@ -1157,18 +1269,18 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list that contains allowed SSL/TLS protocols for this distribution.
-        public let items: [String]
+        public let items: SslProtocolsList
         /// The number of SSL/TLS protocols that you want to allow CloudFront to use when establishing an HTTPS connection with this origin. 
         public let quantity: Int32
 
-        public init(items: [String], quantity: Int32) {
+        public init(items: SslProtocolsList, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let items = dictionary["Items"] as? [String] else { throw InitializableError.missingRequiredParam("Items") }
-            self.items = items
+            guard let items = dictionary["Items"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Items") }
+            self.items = try Cloudfront.SslProtocolsList(dictionary: items)
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -1269,11 +1381,11 @@ extension Cloudfront {
         /// The value you provided for the Marker request parameter.
         public let marker: String
         /// A complex type that contains one DistributionSummary element for each distribution that was created by the current AWS account.
-        public let items: [DistributionSummary]?
+        public let items: DistributionSummaryList?
         /// The number of distributions that were created by the current AWS account. 
         public let quantity: Int32
 
-        public init(maxItems: Int32, isTruncated: Bool, nextMarker: String? = nil, marker: String, items: [DistributionSummary]? = nil, quantity: Int32) {
+        public init(maxItems: Int32, isTruncated: Bool, nextMarker: String? = nil, marker: String, items: DistributionSummaryList? = nil, quantity: Int32) {
             self.maxItems = maxItems
             self.isTruncated = isTruncated
             self.nextMarker = nextMarker
@@ -1290,11 +1402,7 @@ extension Cloudfront {
             self.nextMarker = dictionary["NextMarker"] as? String
             guard let marker = dictionary["Marker"] as? String else { throw InitializableError.missingRequiredParam("Marker") }
             self.marker = marker
-            if let items = dictionary["Items"] as? [[String: Any]] {
-                self.items = try items.map({ try DistributionSummary(dictionary: $0) })
-            } else { 
-                self.items = nil
-            }
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.DistributionSummaryList(dictionary: items) } else { self.items = nil }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -1304,14 +1412,14 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A complex type that contains Tag key elements.
-        public let items: [String]?
+        public let items: TagKeyList?
 
-        public init(items: [String]? = nil) {
+        public init(items: TagKeyList? = nil) {
             self.items = items
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.items = dictionary["Items"] as? [String]
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.TagKeyList(dictionary: items) } else { self.items = nil }
         }
     }
 
@@ -1381,6 +1489,20 @@ extension Cloudfront {
         public init(dictionary: [String: Any]) throws {
             guard let tags = dictionary["Tags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Tags") }
             self.tags = try Cloudfront.Tags(dictionary: tags)
+        }
+    }
+
+    public struct HeaderList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let name: [String]?
+
+        public init(name: [String]? = nil) {
+            self.name = name
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? [String]
         }
     }
 
@@ -1626,21 +1748,17 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         ///  Optional: A list that contains one OriginCustomHeader element for each custom header that you want CloudFront to forward to the origin. If Quantity is 0, omit Items.
-        public let items: [OriginCustomHeader]?
+        public let items: OriginCustomHeadersList?
         /// The number of custom headers, if any, for this distribution.
         public let quantity: Int32
 
-        public init(items: [OriginCustomHeader]? = nil, quantity: Int32) {
+        public init(items: OriginCustomHeadersList? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [[String: Any]] {
-                self.items = try items.map({ try OriginCustomHeader(dictionary: $0) })
-            } else { 
-                self.items = nil
-            }
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.OriginCustomHeadersList(dictionary: items) } else { self.items = nil }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -1650,18 +1768,18 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains the HTTP methods that you want CloudFront to cache responses to.
-        public let items: [String]
+        public let items: MethodsList
         /// The number of HTTP methods for which you want CloudFront to cache responses. Valid values are 2 (for caching responses to GET and HEAD requests) and 3 (for caching responses to GET, HEAD, and OPTIONS requests).
         public let quantity: Int32
 
-        public init(items: [String], quantity: Int32) {
+        public init(items: MethodsList, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let items = dictionary["Items"] as? [String] else { throw InitializableError.missingRequiredParam("Items") }
-            self.items = items
+            guard let items = dictionary["Items"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Items") }
+            self.items = try Cloudfront.MethodsList(dictionary: items)
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -1821,6 +1939,20 @@ extension Cloudfront {
         }
     }
 
+    public struct KeyPairIdList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let keyPairId: [String]?
+
+        public init(keyPairId: [String]? = nil) {
+            self.keyPairId = keyPairId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.keyPairId = dictionary["KeyPairId"] as? [String]
+        }
+    }
+
     public struct CustomErrorResponse: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1896,6 +2028,24 @@ extension Cloudfront {
         }
     }
 
+    public struct TagList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let tag: [Tag]?
+
+        public init(tag: [Tag]? = nil) {
+            self.tag = tag
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let tag = dictionary["Tag"] as? [[String: Any]] {
+                self.tag = try tag.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tag = nil
+            }
+        }
+    }
+
     public struct GetDistributionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1945,20 +2095,20 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A complex type that contains a Location element for each country in which you want CloudFront either to distribute your content (whitelist) or not distribute your content (blacklist). The Location element is a two-letter, uppercase country code for a country that you want to include in your blacklist or whitelist. Include one Location element for each country. CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list in the CloudFront console, which includes both country names and codes.
-        public let items: [String]?
+        public let items: LocationList?
         /// The method that you want to use to restrict distribution of your content by country:    none: No geo restriction is enabled, meaning access to content is not restricted by client geo location.    blacklist: The Location elements specify the countries in which you do not want CloudFront to distribute your content.    whitelist: The Location elements specify the countries in which you want CloudFront to distribute your content.  
         public let restrictionType: String
         /// When geo restriction is enabled, this is the number of countries in your whitelist or blacklist. Otherwise, when it is not enabled, Quantity is 0, and you can omit Items.
         public let quantity: Int32
 
-        public init(items: [String]? = nil, restrictionType: String, quantity: Int32) {
+        public init(items: LocationList? = nil, restrictionType: String, quantity: Int32) {
             self.items = items
             self.restrictionType = restrictionType
             self.quantity = quantity
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.items = dictionary["Items"] as? [String]
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.LocationList(dictionary: items) } else { self.items = nil }
             guard let restrictionType = dictionary["RestrictionType"] as? String else { throw InitializableError.missingRequiredParam("RestrictionType") }
             self.restrictionType = restrictionType
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
@@ -1978,11 +2128,11 @@ extension Cloudfront {
         /// The value you provided for the Marker request parameter. 
         public let marker: String
         /// A complex type that contains one StreamingDistributionSummary element for each distribution that was created by the current AWS account.
-        public let items: [StreamingDistributionSummary]?
+        public let items: StreamingDistributionSummaryList?
         /// The number of streaming distributions that were created by the current AWS account. 
         public let quantity: Int32
 
-        public init(maxItems: Int32, isTruncated: Bool, nextMarker: String? = nil, marker: String, items: [StreamingDistributionSummary]? = nil, quantity: Int32) {
+        public init(maxItems: Int32, isTruncated: Bool, nextMarker: String? = nil, marker: String, items: StreamingDistributionSummaryList? = nil, quantity: Int32) {
             self.maxItems = maxItems
             self.isTruncated = isTruncated
             self.nextMarker = nextMarker
@@ -1999,11 +2149,7 @@ extension Cloudfront {
             self.nextMarker = dictionary["NextMarker"] as? String
             guard let marker = dictionary["Marker"] as? String else { throw InitializableError.missingRequiredParam("Marker") }
             self.marker = marker
-            if let items = dictionary["Items"] as? [[String: Any]] {
-                self.items = try items.map({ try StreamingDistributionSummary(dictionary: $0) })
-            } else { 
-                self.items = nil
-            }
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.StreamingDistributionSummaryList(dictionary: items) } else { self.items = nil }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -2030,6 +2176,20 @@ extension Cloudfront {
         }
     }
 
+    public struct AliasList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let cNAME: [String]?
+
+        public init(cNAME: [String]? = nil) {
+            self.cNAME = cNAME
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.cNAME = dictionary["CNAME"] as? [String]
+        }
+    }
+
     public struct ListInvalidationsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = "InvalidationList"
@@ -2042,6 +2202,60 @@ extension Cloudfront {
 
         public init(dictionary: [String: Any]) throws {
             if let invalidationList = dictionary["InvalidationList"] as? [String: Any] { self.invalidationList = try Cloudfront.InvalidationList(dictionary: invalidationList) } else { self.invalidationList = nil }
+        }
+    }
+
+    public struct CustomErrorResponseList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let customErrorResponse: [CustomErrorResponse]?
+
+        public init(customErrorResponse: [CustomErrorResponse]? = nil) {
+            self.customErrorResponse = customErrorResponse
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let customErrorResponse = dictionary["CustomErrorResponse"] as? [[String: Any]] {
+                self.customErrorResponse = try customErrorResponse.map({ try CustomErrorResponse(dictionary: $0) })
+            } else { 
+                self.customErrorResponse = nil
+            }
+        }
+    }
+
+    public struct DistributionSummaryList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let distributionSummary: [DistributionSummary]?
+
+        public init(distributionSummary: [DistributionSummary]? = nil) {
+            self.distributionSummary = distributionSummary
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let distributionSummary = dictionary["DistributionSummary"] as? [[String: Any]] {
+                self.distributionSummary = try distributionSummary.map({ try DistributionSummary(dictionary: $0) })
+            } else { 
+                self.distributionSummary = nil
+            }
+        }
+    }
+
+    public struct OriginCustomHeadersList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let originCustomHeader: [OriginCustomHeader]?
+
+        public init(originCustomHeader: [OriginCustomHeader]? = nil) {
+            self.originCustomHeader = originCustomHeader
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let originCustomHeader = dictionary["OriginCustomHeader"] as? [[String: Any]] {
+                self.originCustomHeader = try originCustomHeader.map({ try OriginCustomHeader(dictionary: $0) })
+            } else { 
+                self.originCustomHeader = nil
+            }
         }
     }
 
@@ -2100,24 +2314,20 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains one Signer complex type for each trusted signer that is specified in the TrustedSigners complex type. For more information, see ActiveTrustedSigners. 
-        public let items: [Signer]?
+        public let items: SignerList?
         /// Enabled is true if any of the AWS accounts listed in the TrustedSigners complex type for this RTMP distribution have active CloudFront key pairs. If not, Enabled is false. For more information, see ActiveTrustedSigners.
         public let enabled: Bool
         /// A complex type that contains one Signer complex type for each trusted signer specified in the TrustedSigners complex type. For more information, see ActiveTrustedSigners.
         public let quantity: Int32
 
-        public init(items: [Signer]? = nil, enabled: Bool, quantity: Int32) {
+        public init(items: SignerList? = nil, enabled: Bool, quantity: Int32) {
             self.items = items
             self.enabled = enabled
             self.quantity = quantity
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [[String: Any]] {
-                self.items = try items.map({ try Signer(dictionary: $0) })
-            } else { 
-                self.items = nil
-            }
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.SignerList(dictionary: items) } else { self.items = nil }
             guard let enabled = dictionary["Enabled"] as? Bool else { throw InitializableError.missingRequiredParam("Enabled") }
             self.enabled = enabled
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
@@ -2173,6 +2383,20 @@ extension Cloudfront {
         }
     }
 
+    public struct MethodsList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let method: [String]?
+
+        public init(method: [String]? = nil) {
+            self.method = method
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.method = dictionary["Method"] as? [String]
+        }
+    }
+
     public struct DeleteCloudFrontOriginAccessIdentityRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2193,7 +2417,7 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.ifMatch = dictionary["IfMatch"] as? String
+            self.ifMatch = dictionary["If-Match"] as? String
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id
         }
@@ -2220,6 +2444,38 @@ extension Cloudfront {
             self.invalidationBatch = try Cloudfront.InvalidationBatch(dictionary: invalidationBatch)
             guard let distributionId = dictionary["DistributionId"] as? String else { throw InitializableError.missingRequiredParam("DistributionId") }
             self.distributionId = distributionId
+        }
+    }
+
+    public struct TagKeyList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let key: [String]?
+
+        public init(key: [String]? = nil) {
+            self.key = key
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.key = dictionary["Key"] as? [String]
+        }
+    }
+
+    public struct OriginList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let origin: [Origin]?
+
+        public init(origin: [Origin]? = nil) {
+            self.origin = origin
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let origin = dictionary["Origin"] as? [[String: Any]] {
+                self.origin = try origin.map({ try Origin(dictionary: $0) })
+            } else { 
+                self.origin = nil
+            }
         }
     }
 
@@ -2290,17 +2546,17 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber. For more information, see ActiveTrustedSigners.
-        public let items: [String]?
+        public let items: KeyPairIdList?
         /// The number of active CloudFront key pairs for AwsAccountNumber. For more information, see ActiveTrustedSigners.
         public let quantity: Int32
 
-        public init(items: [String]? = nil, quantity: Int32) {
+        public init(items: KeyPairIdList? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.items = dictionary["Items"] as? [String]
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.KeyPairIdList(dictionary: items) } else { self.items = nil }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -2347,17 +2603,49 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         ///  A complex type that contains Tag elements.
-        public let items: [Tag]?
+        public let items: TagList?
 
-        public init(items: [Tag]? = nil) {
+        public init(items: TagList? = nil) {
             self.items = items
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [[String: Any]] {
-                self.items = try items.map({ try Tag(dictionary: $0) })
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.TagList(dictionary: items) } else { self.items = nil }
+        }
+    }
+
+    public struct LambdaFunctionAssociationList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let lambdaFunctionAssociation: [LambdaFunctionAssociation]?
+
+        public init(lambdaFunctionAssociation: [LambdaFunctionAssociation]? = nil) {
+            self.lambdaFunctionAssociation = lambdaFunctionAssociation
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let lambdaFunctionAssociation = dictionary["LambdaFunctionAssociation"] as? [[String: Any]] {
+                self.lambdaFunctionAssociation = try lambdaFunctionAssociation.map({ try LambdaFunctionAssociation(dictionary: $0) })
             } else { 
-                self.items = nil
+                self.lambdaFunctionAssociation = nil
+            }
+        }
+    }
+
+    public struct StreamingDistributionSummaryList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let streamingDistributionSummary: [StreamingDistributionSummary]?
+
+        public init(streamingDistributionSummary: [StreamingDistributionSummary]? = nil) {
+            self.streamingDistributionSummary = streamingDistributionSummary
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let streamingDistributionSummary = dictionary["StreamingDistributionSummary"] as? [[String: Any]] {
+                self.streamingDistributionSummary = try streamingDistributionSummary.map({ try StreamingDistributionSummary(dictionary: $0) })
+            } else { 
+                self.streamingDistributionSummary = nil
             }
         }
     }
@@ -2429,7 +2717,7 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.ifMatch = dictionary["IfMatch"] as? String
+            self.ifMatch = dictionary["If-Match"] as? String
             guard let streamingDistributionConfig = dictionary["StreamingDistributionConfig"] as? [String: Any] else { throw InitializableError.missingRequiredParam("StreamingDistributionConfig") }
             self.streamingDistributionConfig = try Cloudfront.StreamingDistributionConfig(dictionary: streamingDistributionConfig)
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
@@ -2449,11 +2737,11 @@ extension Cloudfront {
         /// Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page). 
         public let marker: String
         /// A complex type that contains one CloudFrontOriginAccessIdentitySummary element for each origin access identity that was created by the current AWS account.
-        public let items: [CloudFrontOriginAccessIdentitySummary]?
+        public let items: CloudFrontOriginAccessIdentitySummaryList?
         /// The number of CloudFront origin access identities that were created by the current AWS account. 
         public let quantity: Int32
 
-        public init(maxItems: Int32, isTruncated: Bool, nextMarker: String? = nil, marker: String, items: [CloudFrontOriginAccessIdentitySummary]? = nil, quantity: Int32) {
+        public init(maxItems: Int32, isTruncated: Bool, nextMarker: String? = nil, marker: String, items: CloudFrontOriginAccessIdentitySummaryList? = nil, quantity: Int32) {
             self.maxItems = maxItems
             self.isTruncated = isTruncated
             self.nextMarker = nextMarker
@@ -2470,11 +2758,7 @@ extension Cloudfront {
             self.nextMarker = dictionary["NextMarker"] as? String
             guard let marker = dictionary["Marker"] as? String else { throw InitializableError.missingRequiredParam("Marker") }
             self.marker = marker
-            if let items = dictionary["Items"] as? [[String: Any]] {
-                self.items = try items.map({ try CloudFrontOriginAccessIdentitySummary(dictionary: $0) })
-            } else { 
-                self.items = nil
-            }
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.CloudFrontOriginAccessIdentitySummaryList(dictionary: items) } else { self.items = nil }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -2650,7 +2934,7 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.ifMatch = dictionary["IfMatch"] as? String
+            self.ifMatch = dictionary["If-Match"] as? String
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id
         }
@@ -2660,21 +2944,17 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains a CustomErrorResponse element for each HTTP status code for which you want to specify a custom error page and/or a caching duration. 
-        public let items: [CustomErrorResponse]?
+        public let items: CustomErrorResponseList?
         /// The number of HTTP status codes for which you want to specify a custom error page and/or a caching duration. If Quantity is 0, you can omit Items.
         public let quantity: Int32
 
-        public init(items: [CustomErrorResponse]? = nil, quantity: Int32) {
+        public init(items: CustomErrorResponseList? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["Items"] as? [[String: Any]] {
-                self.items = try items.map({ try CustomErrorResponse(dictionary: $0) })
-            } else { 
-                self.items = nil
-            }
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.CustomErrorResponseList(dictionary: items) } else { self.items = nil }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -2684,19 +2964,47 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains one Name element for each cookie that you want CloudFront to forward to the origin for this cache behavior.
-        public let items: [String]?
+        public let items: CookieNameList?
         /// The number of different cookies that you want CloudFront to forward to the origin for this cache behavior.
         public let quantity: Int32
 
-        public init(items: [String]? = nil, quantity: Int32) {
+        public init(items: CookieNameList? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.items = dictionary["Items"] as? [String]
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.CookieNameList(dictionary: items) } else { self.items = nil }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
+        }
+    }
+
+    public struct CookieNameList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let name: [String]?
+
+        public init(name: [String]? = nil) {
+            self.name = name
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.name = dictionary["Name"] as? [String]
+        }
+    }
+
+    public struct AwsAccountNumberList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let awsAccountNumber: [String]?
+
+        public init(awsAccountNumber: [String]? = nil) {
+            self.awsAccountNumber = awsAccountNumber
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.awsAccountNumber = dictionary["AwsAccountNumber"] as? [String]
         }
     }
 
@@ -2704,17 +3012,17 @@ extension Cloudfront {
         /// The key for the payload
         public static let payload: String? = nil
         /// A complex type that contains the CNAME aliases, if any, that you want to associate with this distribution.
-        public let items: [String]?
+        public let items: AliasList?
         /// The number of CNAME aliases, if any, that you want to associate with this distribution.
         public let quantity: Int32
 
-        public init(items: [String]? = nil, quantity: Int32) {
+        public init(items: AliasList? = nil, quantity: Int32) {
             self.items = items
             self.quantity = quantity
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.items = dictionary["Items"] as? [String]
+            if let items = dictionary["Items"] as? [String: Any] { self.items = try Cloudfront.AliasList(dictionary: items) } else { self.items = nil }
             guard let quantity = dictionary["Quantity"] as? Int32 else { throw InitializableError.missingRequiredParam("Quantity") }
             self.quantity = quantity
         }
@@ -2740,7 +3048,7 @@ extension Cloudfront {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.ifMatch = dictionary["IfMatch"] as? String
+            self.ifMatch = dictionary["If-Match"] as? String
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id
         }

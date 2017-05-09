@@ -43,7 +43,7 @@ extension Dataiot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            guard let thingName = dictionary["ThingName"] as? String else { throw InitializableError.missingRequiredParam("ThingName") }
             self.thingName = thingName
         }
     }
@@ -62,7 +62,7 @@ extension Dataiot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            guard let thingName = dictionary["ThingName"] as? String else { throw InitializableError.missingRequiredParam("ThingName") }
             self.thingName = thingName
         }
     }
@@ -106,9 +106,9 @@ extension Dataiot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.qos = dictionary["qos"] as? Int32
+            self.qos = dictionary["Qos"] as? Int32
             self.payload = dictionary["payload"] as? Data
-            guard let topic = dictionary["topic"] as? String else { throw InitializableError.missingRequiredParam("topic") }
+            guard let topic = dictionary["Topic"] as? String else { throw InitializableError.missingRequiredParam("Topic") }
             self.topic = topic
         }
     }
@@ -162,7 +162,7 @@ extension Dataiot {
         public init(dictionary: [String: Any]) throws {
             guard let payload = dictionary["payload"] as? Data else { throw InitializableError.missingRequiredParam("payload") }
             self.payload = payload
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            guard let thingName = dictionary["ThingName"] as? String else { throw InitializableError.missingRequiredParam("ThingName") }
             self.thingName = thingName
         }
     }

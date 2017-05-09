@@ -53,19 +53,10 @@ public class XML2Parser: NSObject, XMLParserDelegate {
         if nodeTree == nil {
             nodeTree = node
         } else {
-            // array value
-            if lastElementName == elementName {
-                if let arrayNode = currentNode?.children.filter({ $0.elementName.lowercased() == elementName.lowercased() }).first {
-                    currentNode = arrayNode
-                    return
-                }
-            }
-            
             node.parent = currentNode
             currentNode?.children.append(node)
         }
         
-        lastElementName = elementName
         currentNode = node
     }
     
@@ -80,5 +71,6 @@ public class XML2Parser: NSObject, XMLParserDelegate {
             }
             currentNode = currentNode?.parent
         }
+        lastElementName = elementName.upperFirst()
     }
 }

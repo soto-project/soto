@@ -49,19 +49,33 @@ extension Elasticache {
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
         /// A list of events. Each element in the list contains detailed information about one event.
-        public let events: [Event]?
+        public let events: EventList?
 
-        public init(marker: String? = nil, events: [Event]? = nil) {
+        public init(marker: String? = nil, events: EventList? = nil) {
             self.marker = marker
             self.events = events
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let events = dictionary["Events"] as? [[String: Any]] {
-                self.events = try events.map({ try Event(dictionary: $0) })
+            if let events = dictionary["Events"] as? [String: Any] { self.events = try Elasticache.EventList(dictionary: events) } else { self.events = nil }
+        }
+    }
+
+    public struct NodeGroupList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let nodeGroup: [NodeGroup]?
+
+        public init(nodeGroup: [NodeGroup]? = nil) {
+            self.nodeGroup = nodeGroup
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let nodeGroup = dictionary["NodeGroup"] as? [[String: Any]] {
+                self.nodeGroup = try nodeGroup.map({ try NodeGroup(dictionary: $0) })
             } else { 
-                self.events = nil
+                self.nodeGroup = nil
             }
         }
     }
@@ -82,17 +96,17 @@ extension Elasticache {
         /// The identifier for the replication group.
         public let replicationGroupId: String?
         /// A single element list with information about the nodes in the replication group.
-        public let nodeGroups: [NodeGroup]?
+        public let nodeGroups: NodeGroupList?
         /// Indicates the status of Multi-AZ for this replication group.  ElastiCache Multi-AZ replication groups are not supported on:   Redis versions earlier than 2.8.6.   Redis (cluster mode disabled):T1 and T2 cache node types. Redis (cluster mode enabled): T1 node types.   
         public let automaticFailover: String?
         /// The names of all the cache clusters that are part of this replication group.
-        public let memberClusters: [String]?
+        public let memberClusters: ClusterIdList?
         /// The number of days for which ElastiCache retains automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.   If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
         public let snapshotRetentionLimit: Int32?
         /// The description of the replication group.
         public let description: String?
 
-        public init(pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, status: String? = nil, configurationEndpoint: Endpoint? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, replicationGroupId: String? = nil, nodeGroups: [NodeGroup]? = nil, automaticFailover: String? = nil, memberClusters: [String]? = nil, snapshotRetentionLimit: Int32? = nil, description: String? = nil) {
+        public init(pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, status: String? = nil, configurationEndpoint: Endpoint? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, replicationGroupId: String? = nil, nodeGroups: NodeGroupList? = nil, automaticFailover: String? = nil, memberClusters: ClusterIdList? = nil, snapshotRetentionLimit: Int32? = nil, description: String? = nil) {
             self.pendingModifiedValues = pendingModifiedValues
             self.status = status
             self.configurationEndpoint = configurationEndpoint
@@ -113,15 +127,29 @@ extension Elasticache {
             self.snapshottingClusterId = dictionary["SnapshottingClusterId"] as? String
             self.snapshotWindow = dictionary["SnapshotWindow"] as? String
             self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
-            if let nodeGroups = dictionary["NodeGroups"] as? [[String: Any]] {
-                self.nodeGroups = try nodeGroups.map({ try NodeGroup(dictionary: $0) })
-            } else { 
-                self.nodeGroups = nil
-            }
+            if let nodeGroups = dictionary["NodeGroups"] as? [String: Any] { self.nodeGroups = try Elasticache.NodeGroupList(dictionary: nodeGroups) } else { self.nodeGroups = nil }
             self.automaticFailover = dictionary["AutomaticFailover"] as? String
-            self.memberClusters = dictionary["MemberClusters"] as? [String]
+            if let memberClusters = dictionary["MemberClusters"] as? [String: Any] { self.memberClusters = try Elasticache.ClusterIdList(dictionary: memberClusters) } else { self.memberClusters = nil }
             self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
             self.description = dictionary["Description"] as? String
+        }
+    }
+
+    public struct ReplicationGroupList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let replicationGroup: [ReplicationGroup]?
+
+        public init(replicationGroup: [ReplicationGroup]? = nil) {
+            self.replicationGroup = replicationGroup
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let replicationGroup = dictionary["ReplicationGroup"] as? [[String: Any]] {
+                self.replicationGroup = try replicationGroup.map({ try ReplicationGroup(dictionary: $0) })
+            } else { 
+                self.replicationGroup = nil
+            }
         }
     }
 
@@ -131,20 +159,16 @@ extension Elasticache {
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
         /// A list of cache subnet groups. Each element in the list contains detailed information about one group.
-        public let cacheSubnetGroups: [CacheSubnetGroup]?
+        public let cacheSubnetGroups: CacheSubnetGroups?
 
-        public init(marker: String? = nil, cacheSubnetGroups: [CacheSubnetGroup]? = nil) {
+        public init(marker: String? = nil, cacheSubnetGroups: CacheSubnetGroups? = nil) {
             self.marker = marker
             self.cacheSubnetGroups = cacheSubnetGroups
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let cacheSubnetGroups = dictionary["CacheSubnetGroups"] as? [[String: Any]] {
-                self.cacheSubnetGroups = try cacheSubnetGroups.map({ try CacheSubnetGroup(dictionary: $0) })
-            } else { 
-                self.cacheSubnetGroups = nil
-            }
+            if let cacheSubnetGroups = dictionary["CacheSubnetGroups"] as? [String: Any] { self.cacheSubnetGroups = try Elasticache.CacheSubnetGroups(dictionary: cacheSubnetGroups) } else { self.cacheSubnetGroups = nil }
         }
     }
 
@@ -178,6 +202,24 @@ extension Elasticache {
         public init(dictionary: [String: Any]) throws {
             self.address = dictionary["Address"] as? String
             self.port = dictionary["Port"] as? Int32
+        }
+    }
+
+    public struct ReservedCacheNodesOfferingList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let reservedCacheNodesOffering: [ReservedCacheNodesOffering]?
+
+        public init(reservedCacheNodesOffering: [ReservedCacheNodesOffering]? = nil) {
+            self.reservedCacheNodesOffering = reservedCacheNodesOffering
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let reservedCacheNodesOffering = dictionary["ReservedCacheNodesOffering"] as? [[String: Any]] {
+                self.reservedCacheNodesOffering = try reservedCacheNodesOffering.map({ try ReservedCacheNodesOffering(dictionary: $0) })
+            } else { 
+                self.reservedCacheNodesOffering = nil
+            }
         }
     }
 
@@ -222,19 +264,47 @@ extension Elasticache {
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
         /// A list of cache clusters. Each item in the list contains detailed information about one cache cluster.
-        public let cacheClusters: [CacheCluster]?
+        public let cacheClusters: CacheClusterList?
 
-        public init(marker: String? = nil, cacheClusters: [CacheCluster]? = nil) {
+        public init(marker: String? = nil, cacheClusters: CacheClusterList? = nil) {
             self.marker = marker
             self.cacheClusters = cacheClusters
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let cacheClusters = dictionary["CacheClusters"] as? [[String: Any]] {
-                self.cacheClusters = try cacheClusters.map({ try CacheCluster(dictionary: $0) })
+            if let cacheClusters = dictionary["CacheClusters"] as? [String: Any] { self.cacheClusters = try Elasticache.CacheClusterList(dictionary: cacheClusters) } else { self.cacheClusters = nil }
+        }
+    }
+
+    public struct SecurityGroupIdsList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let securityGroupId: [String]?
+
+        public init(securityGroupId: [String]? = nil) {
+            self.securityGroupId = securityGroupId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.securityGroupId = dictionary["SecurityGroupId"] as? [String]
+        }
+    }
+
+    public struct ReservedCacheNodeList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let reservedCacheNode: [ReservedCacheNode]?
+
+        public init(reservedCacheNode: [ReservedCacheNode]? = nil) {
+            self.reservedCacheNode = reservedCacheNode
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let reservedCacheNode = dictionary["ReservedCacheNode"] as? [[String: Any]] {
+                self.reservedCacheNode = try reservedCacheNode.map({ try ReservedCacheNode(dictionary: $0) })
             } else { 
-                self.cacheClusters = nil
+                self.reservedCacheNode = nil
             }
         }
     }
@@ -275,7 +345,7 @@ extension Elasticache {
         /// The number of cache nodes that have been reserved.
         public let cacheNodeCount: Int32?
         /// The recurring price charged to run this reserved cache node.
-        public let recurringCharges: [RecurringCharge]?
+        public let recurringCharges: RecurringChargeList?
         /// The fixed price charged for this reserved cache node.
         public let fixedPrice: Double?
         /// The hourly price charged for this reserved cache node.
@@ -295,7 +365,7 @@ extension Elasticache {
         /// The description of the reserved cache node.
         public let productDescription: String?
 
-        public init(startTime: Date? = nil, cacheNodeCount: Int32? = nil, recurringCharges: [RecurringCharge]? = nil, fixedPrice: Double? = nil, usagePrice: Double? = nil, state: String? = nil, cacheNodeType: String? = nil, reservedCacheNodeId: String? = nil, duration: Int32? = nil, reservedCacheNodesOfferingId: String? = nil, offeringType: String? = nil, productDescription: String? = nil) {
+        public init(startTime: Date? = nil, cacheNodeCount: Int32? = nil, recurringCharges: RecurringChargeList? = nil, fixedPrice: Double? = nil, usagePrice: Double? = nil, state: String? = nil, cacheNodeType: String? = nil, reservedCacheNodeId: String? = nil, duration: Int32? = nil, reservedCacheNodesOfferingId: String? = nil, offeringType: String? = nil, productDescription: String? = nil) {
             self.startTime = startTime
             self.cacheNodeCount = cacheNodeCount
             self.recurringCharges = recurringCharges
@@ -313,11 +383,7 @@ extension Elasticache {
         public init(dictionary: [String: Any]) throws {
             self.startTime = dictionary["StartTime"] as? Date
             self.cacheNodeCount = dictionary["CacheNodeCount"] as? Int32
-            if let recurringCharges = dictionary["RecurringCharges"] as? [[String: Any]] {
-                self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
-            } else { 
-                self.recurringCharges = nil
-            }
+            if let recurringCharges = dictionary["RecurringCharges"] as? [String: Any] { self.recurringCharges = try Elasticache.RecurringChargeList(dictionary: recurringCharges) } else { self.recurringCharges = nil }
             self.fixedPrice = dictionary["FixedPrice"] as? Double
             self.usagePrice = dictionary["UsagePrice"] as? Double
             self.state = dictionary["State"] as? String
@@ -355,11 +421,11 @@ extension Elasticache {
         /// The name of the cache parameter group to reset.
         public let cacheParameterGroupName: String
         /// An array of parameter names to reset to their default values. If ResetAllParameters is true, do not use ParameterNameValues. If ResetAllParameters is false, you must specify the name of at least one parameter to reset.
-        public let parameterNameValues: [ParameterNameValue]?
+        public let parameterNameValues: ParameterNameValueList?
         /// If true, all parameters in the cache parameter group are reset to their default values. If false, only the parameters listed by ParameterNameValues are reset to their default values. Valid values: true | false 
         public let resetAllParameters: Bool?
 
-        public init(cacheParameterGroupName: String, parameterNameValues: [ParameterNameValue]? = nil, resetAllParameters: Bool? = nil) {
+        public init(cacheParameterGroupName: String, parameterNameValues: ParameterNameValueList? = nil, resetAllParameters: Bool? = nil) {
             self.cacheParameterGroupName = cacheParameterGroupName
             self.parameterNameValues = parameterNameValues
             self.resetAllParameters = resetAllParameters
@@ -368,11 +434,7 @@ extension Elasticache {
         public init(dictionary: [String: Any]) throws {
             guard let cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheParameterGroupName") }
             self.cacheParameterGroupName = cacheParameterGroupName
-            if let parameterNameValues = dictionary["ParameterNameValues"] as? [[String: Any]] {
-                self.parameterNameValues = try parameterNameValues.map({ try ParameterNameValue(dictionary: $0) })
-            } else { 
-                self.parameterNameValues = nil
-            }
+            if let parameterNameValues = dictionary["ParameterNameValues"] as? [String: Any] { self.parameterNameValues = try Elasticache.ParameterNameValueList(dictionary: parameterNameValues) } else { self.parameterNameValues = nil }
             self.resetAllParameters = dictionary["ResetAllParameters"] as? Bool
         }
     }
@@ -407,13 +469,45 @@ extension Elasticache {
         }
     }
 
+    public struct CacheEngineVersionList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let cacheEngineVersion: [CacheEngineVersion]?
+
+        public init(cacheEngineVersion: [CacheEngineVersion]? = nil) {
+            self.cacheEngineVersion = cacheEngineVersion
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let cacheEngineVersion = dictionary["CacheEngineVersion"] as? [[String: Any]] {
+                self.cacheEngineVersion = try cacheEngineVersion.map({ try CacheEngineVersion(dictionary: $0) })
+            } else { 
+                self.cacheEngineVersion = nil
+            }
+        }
+    }
+
+    public struct PreferredAvailabilityZoneList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let preferredAvailabilityZone: [String]?
+
+        public init(preferredAvailabilityZone: [String]? = nil) {
+            self.preferredAvailabilityZone = preferredAvailabilityZone
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.preferredAvailabilityZone = dictionary["PreferredAvailabilityZone"] as? [String]
+        }
+    }
+
     public struct ReservedCacheNodesOffering: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The offering type.
         public let offeringType: String?
         /// The recurring price charged to run this reserved cache node.
-        public let recurringCharges: [RecurringCharge]?
+        public let recurringCharges: RecurringChargeList?
         /// The hourly price charged for this offering.
         public let usagePrice: Double?
         /// The cache node type for the reserved cache node. Valid node types are as follows:   General purpose:   Current generation: cache.t2.micro, cache.t2.small, cache.t2.medium, cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge, cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge    Previous generation: cache.t1.micro, cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge      Compute optimized: cache.c1.xlarge    Memory optimized:   Current generation: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge    Previous generation: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge       Notes:    All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).   Redis backup/restore is not supported for Redis (cluster mode disabled) T1 and T2 instances. Backup/restore is supported on Redis (cluster mode enabled) T2 instances.   Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.   For a complete listing of node types and specifications, see Amazon ElastiCache Product Features and Details and either Cache Node Type-Specific Parameters for Memcached or Cache Node Type-Specific Parameters for Redis.
@@ -427,7 +521,7 @@ extension Elasticache {
         /// The cache engine used by the offering.
         public let productDescription: String?
 
-        public init(offeringType: String? = nil, recurringCharges: [RecurringCharge]? = nil, usagePrice: Double? = nil, cacheNodeType: String? = nil, duration: Int32? = nil, reservedCacheNodesOfferingId: String? = nil, fixedPrice: Double? = nil, productDescription: String? = nil) {
+        public init(offeringType: String? = nil, recurringCharges: RecurringChargeList? = nil, usagePrice: Double? = nil, cacheNodeType: String? = nil, duration: Int32? = nil, reservedCacheNodesOfferingId: String? = nil, fixedPrice: Double? = nil, productDescription: String? = nil) {
             self.offeringType = offeringType
             self.recurringCharges = recurringCharges
             self.usagePrice = usagePrice
@@ -440,17 +534,31 @@ extension Elasticache {
 
         public init(dictionary: [String: Any]) throws {
             self.offeringType = dictionary["OfferingType"] as? String
-            if let recurringCharges = dictionary["RecurringCharges"] as? [[String: Any]] {
-                self.recurringCharges = try recurringCharges.map({ try RecurringCharge(dictionary: $0) })
-            } else { 
-                self.recurringCharges = nil
-            }
+            if let recurringCharges = dictionary["RecurringCharges"] as? [String: Any] { self.recurringCharges = try Elasticache.RecurringChargeList(dictionary: recurringCharges) } else { self.recurringCharges = nil }
             self.usagePrice = dictionary["UsagePrice"] as? Double
             self.cacheNodeType = dictionary["CacheNodeType"] as? String
             self.duration = dictionary["Duration"] as? Int32
             self.reservedCacheNodesOfferingId = dictionary["ReservedCacheNodesOfferingId"] as? String
             self.fixedPrice = dictionary["FixedPrice"] as? Double
             self.productDescription = dictionary["ProductDescription"] as? String
+        }
+    }
+
+    public struct CacheSecurityGroupMembershipList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let cacheSecurityGroup: [CacheSecurityGroupMembership]?
+
+        public init(cacheSecurityGroup: [CacheSecurityGroupMembership]? = nil) {
+            self.cacheSecurityGroup = cacheSecurityGroup
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let cacheSecurityGroup = dictionary["CacheSecurityGroup"] as? [[String: Any]] {
+                self.cacheSecurityGroup = try cacheSecurityGroup.map({ try CacheSecurityGroupMembership(dictionary: $0) })
+            } else { 
+                self.cacheSecurityGroup = nil
+            }
         }
     }
 
@@ -499,6 +607,24 @@ extension Elasticache {
         }
     }
 
+    public struct CacheNodeTypeSpecificValueList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let cacheNodeTypeSpecificValue: [CacheNodeTypeSpecificValue]?
+
+        public init(cacheNodeTypeSpecificValue: [CacheNodeTypeSpecificValue]? = nil) {
+            self.cacheNodeTypeSpecificValue = cacheNodeTypeSpecificValue
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let cacheNodeTypeSpecificValue = dictionary["CacheNodeTypeSpecificValue"] as? [[String: Any]] {
+                self.cacheNodeTypeSpecificValue = try cacheNodeTypeSpecificValue.map({ try CacheNodeTypeSpecificValue(dictionary: $0) })
+            } else { 
+                self.cacheNodeTypeSpecificValue = nil
+            }
+        }
+    }
+
     public struct CreateSnapshotMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -520,6 +646,24 @@ extension Elasticache {
             guard let snapshotName = dictionary["SnapshotName"] as? String else { throw InitializableError.missingRequiredParam("SnapshotName") }
             self.snapshotName = snapshotName
             self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
+        }
+    }
+
+    public struct CacheClusterList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let cacheCluster: [CacheCluster]?
+
+        public init(cacheCluster: [CacheCluster]? = nil) {
+            self.cacheCluster = cacheCluster
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let cacheCluster = dictionary["CacheCluster"] as? [[String: Any]] {
+                self.cacheCluster = try cacheCluster.map({ try CacheCluster(dictionary: $0) })
+            } else { 
+                self.cacheCluster = nil
+            }
         }
     }
 
@@ -609,17 +753,17 @@ extension Elasticache {
         /// Specifies whether the nodes in this Memcached cluster are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. This parameter is only supported for Memcached cache clusters. If the AZMode and PreferredAvailabilityZones are not specified, ElastiCache assumes single-az mode.
         public let aZMode: String?
         /// A single-element string list containing an Amazon Resource Name (ARN) that uniquely identifies a Redis RDB snapshot file stored in Amazon S3. The snapshot file is used to populate the node group (shard). The Amazon S3 object name in the ARN cannot contain any commas.  This parameter is only valid if the Engine parameter is redis.  Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb 
-        public let snapshotArns: [String]?
+        public let snapshotArns: SnapshotArnsList?
         /// A list of security group names to associate with this cache cluster. Use this parameter only when you are creating a cache cluster outside of an Amazon Virtual Private Cloud (Amazon VPC).
-        public let cacheSecurityGroupNames: [String]?
+        public let cacheSecurityGroupNames: CacheSecurityGroupNameList?
         /// The initial number of cache nodes that the cache cluster has. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20. If you need more than 20 nodes for your Memcached cluster, please fill out the ElastiCache Limit Increase Request form at http://aws.amazon.com/contact-us/elasticache-node-limit-request/.
         public let numCacheNodes: Int32?
         /// A list of cost allocation tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// A list of the Availability Zones in which cache nodes are created. The order of the zones in the list is not important. This option is only supported on Memcached.  If you are creating your cache cluster in an Amazon VPC (recommended) you can only locate nodes in Availability Zones that are associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheNodes.  If you want all the nodes in the same Availability Zone, use PreferredAvailabilityZone instead, or repeat the Availability Zone multiple times in the list. Default: System chosen Availability Zones.
-        public let preferredAvailabilityZones: [String]?
+        public let preferredAvailabilityZones: PreferredAvailabilityZoneList?
         /// One or more VPC security groups associated with the cache cluster. Use this parameter only when you are creating a cache cluster in an Amazon Virtual Private Cloud (Amazon VPC).
-        public let securityGroupIds: [String]?
+        public let securityGroupIds: SecurityGroupIdsList?
         /// The name of a Redis snapshot from which to restore data into the new node group (shard). The snapshot status changes to restoring while the new node group (shard) is being created.  This parameter is only valid if the Engine parameter is redis. 
         public let snapshotName: String?
         /// This parameter is currently disabled.
@@ -651,7 +795,7 @@ extension Elasticache {
         /// The number of days for which ElastiCache retains automatic snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot taken today is retained for 5 days before being deleted.  This parameter is only valid if the Engine parameter is redis.  Default: 0 (i.e., automatic backups are disabled for this cache cluster).
         public let snapshotRetentionLimit: Int32?
 
-        public init(authToken: String? = nil, aZMode: String? = nil, snapshotArns: [String]? = nil, cacheSecurityGroupNames: [String]? = nil, numCacheNodes: Int32? = nil, tags: [Tag]? = nil, preferredAvailabilityZones: [String]? = nil, securityGroupIds: [String]? = nil, snapshotName: String? = nil, autoMinorVersionUpgrade: Bool? = nil, notificationTopicArn: String? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, replicationGroupId: String? = nil, preferredAvailabilityZone: String? = nil, cacheSubnetGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, engine: String? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheClusterId: String, port: Int32? = nil, snapshotRetentionLimit: Int32? = nil) {
+        public init(authToken: String? = nil, aZMode: String? = nil, snapshotArns: SnapshotArnsList? = nil, cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, numCacheNodes: Int32? = nil, tags: TagList? = nil, preferredAvailabilityZones: PreferredAvailabilityZoneList? = nil, securityGroupIds: SecurityGroupIdsList? = nil, snapshotName: String? = nil, autoMinorVersionUpgrade: Bool? = nil, notificationTopicArn: String? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, replicationGroupId: String? = nil, preferredAvailabilityZone: String? = nil, cacheSubnetGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, engine: String? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheClusterId: String, port: Int32? = nil, snapshotRetentionLimit: Int32? = nil) {
             self.authToken = authToken
             self.aZMode = aZMode
             self.snapshotArns = snapshotArns
@@ -680,16 +824,12 @@ extension Elasticache {
         public init(dictionary: [String: Any]) throws {
             self.authToken = dictionary["AuthToken"] as? String
             self.aZMode = dictionary["AZMode"] as? String
-            self.snapshotArns = dictionary["SnapshotArns"] as? [String]
-            self.cacheSecurityGroupNames = dictionary["CacheSecurityGroupNames"] as? [String]
+            if let snapshotArns = dictionary["SnapshotArns"] as? [String: Any] { self.snapshotArns = try Elasticache.SnapshotArnsList(dictionary: snapshotArns) } else { self.snapshotArns = nil }
+            if let cacheSecurityGroupNames = dictionary["CacheSecurityGroupNames"] as? [String: Any] { self.cacheSecurityGroupNames = try Elasticache.CacheSecurityGroupNameList(dictionary: cacheSecurityGroupNames) } else { self.cacheSecurityGroupNames = nil }
             self.numCacheNodes = dictionary["NumCacheNodes"] as? Int32
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
-            self.preferredAvailabilityZones = dictionary["PreferredAvailabilityZones"] as? [String]
-            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Elasticache.TagList(dictionary: tags) } else { self.tags = nil }
+            if let preferredAvailabilityZones = dictionary["PreferredAvailabilityZones"] as? [String: Any] { self.preferredAvailabilityZones = try Elasticache.PreferredAvailabilityZoneList(dictionary: preferredAvailabilityZones) } else { self.preferredAvailabilityZones = nil }
+            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String: Any] { self.securityGroupIds = try Elasticache.SecurityGroupIdsList(dictionary: securityGroupIds) } else { self.securityGroupIds = nil }
             self.snapshotName = dictionary["SnapshotName"] as? String
             self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
             self.notificationTopicArn = dictionary["NotificationTopicArn"] as? String
@@ -750,19 +890,33 @@ extension Elasticache {
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
         /// A list of cache parameter groups. Each element in the list contains detailed information about one cache parameter group.
-        public let cacheParameterGroups: [CacheParameterGroup]?
+        public let cacheParameterGroups: CacheParameterGroupList?
 
-        public init(marker: String? = nil, cacheParameterGroups: [CacheParameterGroup]? = nil) {
+        public init(marker: String? = nil, cacheParameterGroups: CacheParameterGroupList? = nil) {
             self.marker = marker
             self.cacheParameterGroups = cacheParameterGroups
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let cacheParameterGroups = dictionary["CacheParameterGroups"] as? [[String: Any]] {
-                self.cacheParameterGroups = try cacheParameterGroups.map({ try CacheParameterGroup(dictionary: $0) })
+            if let cacheParameterGroups = dictionary["CacheParameterGroups"] as? [String: Any] { self.cacheParameterGroups = try Elasticache.CacheParameterGroupList(dictionary: cacheParameterGroups) } else { self.cacheParameterGroups = nil }
+        }
+    }
+
+    public struct EventList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let event: [Event]?
+
+        public init(event: [Event]? = nil) {
+            self.event = event
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let event = dictionary["Event"] as? [[String: Any]] {
+                self.event = try event.map({ try Event(dictionary: $0) })
             } else { 
-                self.cacheParameterGroups = nil
+                self.event = nil
             }
         }
     }
@@ -798,34 +952,44 @@ extension Elasticache {
         }
     }
 
+    public struct NodeGroupMemberList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let nodeGroupMember: [NodeGroupMember]?
+
+        public init(nodeGroupMember: [NodeGroupMember]? = nil) {
+            self.nodeGroupMember = nodeGroupMember
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let nodeGroupMember = dictionary["NodeGroupMember"] as? [[String: Any]] {
+                self.nodeGroupMember = try nodeGroupMember.map({ try NodeGroupMember(dictionary: $0) })
+            } else { 
+                self.nodeGroupMember = nil
+            }
+        }
+    }
+
     public struct CacheParameterGroupDetails: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
-        public let cacheNodeTypeSpecificParameters: [CacheNodeTypeSpecificParameter]?
+        public let cacheNodeTypeSpecificParameters: CacheNodeTypeSpecificParametersList?
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
         /// A list of Parameter instances.
-        public let parameters: [Parameter]?
+        public let parameters: ParametersList?
 
-        public init(cacheNodeTypeSpecificParameters: [CacheNodeTypeSpecificParameter]? = nil, marker: String? = nil, parameters: [Parameter]? = nil) {
+        public init(cacheNodeTypeSpecificParameters: CacheNodeTypeSpecificParametersList? = nil, marker: String? = nil, parameters: ParametersList? = nil) {
             self.cacheNodeTypeSpecificParameters = cacheNodeTypeSpecificParameters
             self.marker = marker
             self.parameters = parameters
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let cacheNodeTypeSpecificParameters = dictionary["CacheNodeTypeSpecificParameters"] as? [[String: Any]] {
-                self.cacheNodeTypeSpecificParameters = try cacheNodeTypeSpecificParameters.map({ try CacheNodeTypeSpecificParameter(dictionary: $0) })
-            } else { 
-                self.cacheNodeTypeSpecificParameters = nil
-            }
+            if let cacheNodeTypeSpecificParameters = dictionary["CacheNodeTypeSpecificParameters"] as? [String: Any] { self.cacheNodeTypeSpecificParameters = try Elasticache.CacheNodeTypeSpecificParametersList(dictionary: cacheNodeTypeSpecificParameters) } else { self.cacheNodeTypeSpecificParameters = nil }
             self.marker = dictionary["Marker"] as? String
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
+            if let parameters = dictionary["Parameters"] as? [String: Any] { self.parameters = try Elasticache.ParametersList(dictionary: parameters) } else { self.parameters = nil }
         }
     }
 
@@ -879,6 +1043,20 @@ extension Elasticache {
 
         public init(dictionary: [String: Any]) throws {
             if let cacheSecurityGroup = dictionary["CacheSecurityGroup"] as? [String: Any] { self.cacheSecurityGroup = try Elasticache.CacheSecurityGroup(dictionary: cacheSecurityGroup) } else { self.cacheSecurityGroup = nil }
+        }
+    }
+
+    public struct SubnetIdentifierList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let subnetIdentifier: [String]?
+
+        public init(subnetIdentifier: [String]? = nil) {
+            self.subnetIdentifier = subnetIdentifier
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.subnetIdentifier = dictionary["SubnetIdentifier"] as? [String]
         }
     }
 
@@ -977,11 +1155,11 @@ extension Elasticache {
         /// The name of the cache parameter group.
         public let cacheParameterGroupName: String?
         /// A list of the cache node IDs which need to be rebooted for parameter changes to be applied. A node ID is a numeric identifier (0001, 0002, etc.).
-        public let cacheNodeIdsToReboot: [String]?
+        public let cacheNodeIdsToReboot: CacheNodeIdsList?
         /// The status of parameter updates.
         public let parameterApplyStatus: String?
 
-        public init(cacheParameterGroupName: String? = nil, cacheNodeIdsToReboot: [String]? = nil, parameterApplyStatus: String? = nil) {
+        public init(cacheParameterGroupName: String? = nil, cacheNodeIdsToReboot: CacheNodeIdsList? = nil, parameterApplyStatus: String? = nil) {
             self.cacheParameterGroupName = cacheParameterGroupName
             self.cacheNodeIdsToReboot = cacheNodeIdsToReboot
             self.parameterApplyStatus = parameterApplyStatus
@@ -989,7 +1167,7 @@ extension Elasticache {
 
         public init(dictionary: [String: Any]) throws {
             self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
-            self.cacheNodeIdsToReboot = dictionary["CacheNodeIdsToReboot"] as? [String]
+            if let cacheNodeIdsToReboot = dictionary["CacheNodeIdsToReboot"] as? [String: Any] { self.cacheNodeIdsToReboot = try Elasticache.CacheNodeIdsList(dictionary: cacheNodeIdsToReboot) } else { self.cacheNodeIdsToReboot = nil }
             self.parameterApplyStatus = dictionary["ParameterApplyStatus"] as? String
         }
     }
@@ -1018,6 +1196,24 @@ extension Elasticache {
             self.message = dictionary["Message"] as? String
             self.sourceType = dictionary["SourceType"] as? String
             self.date = dictionary["Date"] as? Date
+        }
+    }
+
+    public struct SnapshotList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let snapshot: [Snapshot]?
+
+        public init(snapshot: [Snapshot]? = nil) {
+            self.snapshot = snapshot
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let snapshot = dictionary["Snapshot"] as? [[String: Any]] {
+                self.snapshot = try snapshot.map({ try Snapshot(dictionary: $0) })
+            } else { 
+                self.snapshot = nil
+            }
         }
     }
 
@@ -1071,7 +1267,7 @@ extension Elasticache {
         /// This parameter is currently disabled.
         public let autoMinorVersionUpgrade: Bool?
         /// A list of cache nodes that are members of the cache cluster.
-        public let cacheNodes: [CacheNode]?
+        public let cacheNodes: CacheNodeList?
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cache cluster. Example: 05:00-09:00 
         public let snapshotWindow: String?
         public let notificationConfiguration: NotificationConfiguration?
@@ -1088,7 +1284,7 @@ extension Elasticache {
         public let replicationGroupId: String?
         public let cacheParameterGroup: CacheParameterGroupStatus?
         /// A list of cache security group elements, composed of name and status sub-elements.
-        public let cacheSecurityGroups: [CacheSecurityGroupMembership]?
+        public let cacheSecurityGroups: CacheSecurityGroupMembershipList?
         /// The URL of the web page where you can download the latest ElastiCache client library.
         public let clientDownloadLandingPage: String?
         /// The user-supplied identifier of the cache cluster. This identifier is a unique key that identifies a cache cluster.
@@ -1098,7 +1294,7 @@ extension Elasticache {
         /// The name of the cache engine (memcached or redis) to be used for this cache cluster.
         public let engine: String?
 
-        public init(pendingModifiedValues: PendingModifiedValues? = nil, snapshotRetentionLimit: Int32? = nil, cacheSubnetGroupName: String? = nil, cacheClusterCreateTime: Date? = nil, numCacheNodes: Int32? = nil, cacheClusterStatus: String? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodes: [CacheNode]? = nil, snapshotWindow: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, engineVersion: String? = nil, preferredMaintenanceWindow: String? = nil, configurationEndpoint: Endpoint? = nil, preferredAvailabilityZone: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, replicationGroupId: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: [CacheSecurityGroupMembership]? = nil, clientDownloadLandingPage: String? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, engine: String? = nil) {
+        public init(pendingModifiedValues: PendingModifiedValues? = nil, snapshotRetentionLimit: Int32? = nil, cacheSubnetGroupName: String? = nil, cacheClusterCreateTime: Date? = nil, numCacheNodes: Int32? = nil, cacheClusterStatus: String? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodes: CacheNodeList? = nil, snapshotWindow: String? = nil, notificationConfiguration: NotificationConfiguration? = nil, engineVersion: String? = nil, preferredMaintenanceWindow: String? = nil, configurationEndpoint: Endpoint? = nil, preferredAvailabilityZone: String? = nil, securityGroups: [SecurityGroupMembership]? = nil, replicationGroupId: String? = nil, cacheParameterGroup: CacheParameterGroupStatus? = nil, cacheSecurityGroups: CacheSecurityGroupMembershipList? = nil, clientDownloadLandingPage: String? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, engine: String? = nil) {
             self.pendingModifiedValues = pendingModifiedValues
             self.snapshotRetentionLimit = snapshotRetentionLimit
             self.cacheSubnetGroupName = cacheSubnetGroupName
@@ -1131,11 +1327,7 @@ extension Elasticache {
             self.numCacheNodes = dictionary["NumCacheNodes"] as? Int32
             self.cacheClusterStatus = dictionary["CacheClusterStatus"] as? String
             self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
-            if let cacheNodes = dictionary["CacheNodes"] as? [[String: Any]] {
-                self.cacheNodes = try cacheNodes.map({ try CacheNode(dictionary: $0) })
-            } else { 
-                self.cacheNodes = nil
-            }
+            if let cacheNodes = dictionary["CacheNodes"] as? [String: Any] { self.cacheNodes = try Elasticache.CacheNodeList(dictionary: cacheNodes) } else { self.cacheNodes = nil }
             self.snapshotWindow = dictionary["SnapshotWindow"] as? String
             if let notificationConfiguration = dictionary["NotificationConfiguration"] as? [String: Any] { self.notificationConfiguration = try Elasticache.NotificationConfiguration(dictionary: notificationConfiguration) } else { self.notificationConfiguration = nil }
             self.engineVersion = dictionary["EngineVersion"] as? String
@@ -1149,11 +1341,7 @@ extension Elasticache {
             }
             self.replicationGroupId = dictionary["ReplicationGroupId"] as? String
             if let cacheParameterGroup = dictionary["CacheParameterGroup"] as? [String: Any] { self.cacheParameterGroup = try Elasticache.CacheParameterGroupStatus(dictionary: cacheParameterGroup) } else { self.cacheParameterGroup = nil }
-            if let cacheSecurityGroups = dictionary["CacheSecurityGroups"] as? [[String: Any]] {
-                self.cacheSecurityGroups = try cacheSecurityGroups.map({ try CacheSecurityGroupMembership(dictionary: $0) })
-            } else { 
-                self.cacheSecurityGroups = nil
-            }
+            if let cacheSecurityGroups = dictionary["CacheSecurityGroups"] as? [String: Any] { self.cacheSecurityGroups = try Elasticache.CacheSecurityGroupMembershipList(dictionary: cacheSecurityGroups) } else { self.cacheSecurityGroups = nil }
             self.clientDownloadLandingPage = dictionary["ClientDownloadLandingPage"] as? String
             self.cacheClusterId = dictionary["CacheClusterId"] as? String
             self.cacheNodeType = dictionary["CacheNodeType"] as? String
@@ -1167,20 +1355,16 @@ extension Elasticache {
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
         /// A list of cache security groups. Each element in the list contains detailed information about one group.
-        public let cacheSecurityGroups: [CacheSecurityGroup]?
+        public let cacheSecurityGroups: CacheSecurityGroups?
 
-        public init(marker: String? = nil, cacheSecurityGroups: [CacheSecurityGroup]? = nil) {
+        public init(marker: String? = nil, cacheSecurityGroups: CacheSecurityGroups? = nil) {
             self.marker = marker
             self.cacheSecurityGroups = cacheSecurityGroups
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let cacheSecurityGroups = dictionary["CacheSecurityGroups"] as? [[String: Any]] {
-                self.cacheSecurityGroups = try cacheSecurityGroups.map({ try CacheSecurityGroup(dictionary: $0) })
-            } else { 
-                self.cacheSecurityGroups = nil
-            }
+            if let cacheSecurityGroups = dictionary["CacheSecurityGroups"] as? [String: Any] { self.cacheSecurityGroups = try Elasticache.CacheSecurityGroups(dictionary: cacheSecurityGroups) } else { self.cacheSecurityGroups = nil }
         }
     }
 
@@ -1244,20 +1428,16 @@ extension Elasticache {
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// A list of snapshots. Each item in the list contains detailed information about one snapshot.
-        public let snapshots: [Snapshot]?
+        public let snapshots: SnapshotList?
 
-        public init(marker: String? = nil, snapshots: [Snapshot]? = nil) {
+        public init(marker: String? = nil, snapshots: SnapshotList? = nil) {
             self.marker = marker
             self.snapshots = snapshots
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let snapshots = dictionary["Snapshots"] as? [[String: Any]] {
-                self.snapshots = try snapshots.map({ try Snapshot(dictionary: $0) })
-            } else { 
-                self.snapshots = nil
-            }
+            if let snapshots = dictionary["Snapshots"] as? [String: Any] { self.snapshots = try Elasticache.SnapshotList(dictionary: snapshots) } else { self.snapshots = nil }
         }
     }
 
@@ -1286,9 +1466,9 @@ extension Elasticache {
         /// The name of the cache parameter group to modify.
         public let cacheParameterGroupName: String
         /// An array of parameter names and values for the parameter update. You must supply at least one parameter name and value; subsequent arguments are optional. A maximum of 20 parameters may be modified per request.
-        public let parameterNameValues: [ParameterNameValue]
+        public let parameterNameValues: ParameterNameValueList
 
-        public init(cacheParameterGroupName: String, parameterNameValues: [ParameterNameValue]) {
+        public init(cacheParameterGroupName: String, parameterNameValues: ParameterNameValueList) {
             self.cacheParameterGroupName = cacheParameterGroupName
             self.parameterNameValues = parameterNameValues
         }
@@ -1296,8 +1476,8 @@ extension Elasticache {
         public init(dictionary: [String: Any]) throws {
             guard let cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheParameterGroupName") }
             self.cacheParameterGroupName = cacheParameterGroupName
-            guard let parameterNameValues = dictionary["ParameterNameValues"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("ParameterNameValues") }
-            self.parameterNameValues = try parameterNameValues.map({ try ParameterNameValue(dictionary: $0) })
+            guard let parameterNameValues = dictionary["ParameterNameValues"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ParameterNameValues") }
+            self.parameterNameValues = try Elasticache.ParameterNameValueList(dictionary: parameterNameValues)
         }
     }
 
@@ -1305,20 +1485,56 @@ extension Elasticache {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of cost allocation tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value.
-        public let tags: [Tag]
+        public let tags: TagList
         /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
         public let resourceName: String
 
-        public init(tags: [Tag], resourceName: String) {
+        public init(tags: TagList, resourceName: String) {
             self.tags = tags
             self.resourceName = resourceName
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let tags = dictionary["Tags"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Tags") }
-            self.tags = try tags.map({ try Tag(dictionary: $0) })
+            guard let tags = dictionary["Tags"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Tags") }
+            self.tags = try Elasticache.TagList(dictionary: tags)
             guard let resourceName = dictionary["ResourceName"] as? String else { throw InitializableError.missingRequiredParam("ResourceName") }
             self.resourceName = resourceName
+        }
+    }
+
+    public struct CacheSubnetGroups: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let cacheSubnetGroup: [CacheSubnetGroup]?
+
+        public init(cacheSubnetGroup: [CacheSubnetGroup]? = nil) {
+            self.cacheSubnetGroup = cacheSubnetGroup
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let cacheSubnetGroup = dictionary["CacheSubnetGroup"] as? [[String: Any]] {
+                self.cacheSubnetGroup = try cacheSubnetGroup.map({ try CacheSubnetGroup(dictionary: $0) })
+            } else { 
+                self.cacheSubnetGroup = nil
+            }
+        }
+    }
+
+    public struct CacheNodeList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let cacheNode: [CacheNode]?
+
+        public init(cacheNode: [CacheNode]? = nil) {
+            self.cacheNode = cacheNode
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let cacheNode = dictionary["CacheNode"] as? [[String: Any]] {
+                self.cacheNode = try cacheNode.map({ try CacheNode(dictionary: $0) })
+            } else { 
+                self.cacheNode = nil
+            }
         }
     }
 
@@ -1342,11 +1558,11 @@ extension Elasticache {
         /// The name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup 
         public let cacheSubnetGroupName: String
         /// The EC2 subnet IDs for the cache subnet group.
-        public let subnetIds: [String]?
+        public let subnetIds: SubnetIdentifierList?
         /// A description of the cache subnet group.
         public let cacheSubnetGroupDescription: String?
 
-        public init(cacheSubnetGroupName: String, subnetIds: [String]? = nil, cacheSubnetGroupDescription: String? = nil) {
+        public init(cacheSubnetGroupName: String, subnetIds: SubnetIdentifierList? = nil, cacheSubnetGroupDescription: String? = nil) {
             self.cacheSubnetGroupName = cacheSubnetGroupName
             self.subnetIds = subnetIds
             self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
@@ -1355,7 +1571,7 @@ extension Elasticache {
         public init(dictionary: [String: Any]) throws {
             guard let cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheSubnetGroupName") }
             self.cacheSubnetGroupName = cacheSubnetGroupName
-            self.subnetIds = dictionary["SubnetIds"] as? [String]
+            if let subnetIds = dictionary["SubnetIds"] as? [String: Any] { self.subnetIds = try Elasticache.SubnetIdentifierList(dictionary: subnetIds) } else { self.subnetIds = nil }
             self.cacheSubnetGroupDescription = dictionary["CacheSubnetGroupDescription"] as? String
         }
     }
@@ -1378,15 +1594,15 @@ extension Elasticache {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of cache node IDs to be removed. A node ID is a numeric identifier (0001, 0002, etc.). This parameter is only valid when NumCacheNodes is less than the existing number of cache nodes. The number of cache node IDs supplied in this parameter must match the difference between the existing number of cache nodes in the cluster or pending cache nodes, whichever is greater, and the value of NumCacheNodes in the request. For example: If you have 3 active cache nodes, 7 pending cache nodes, and the number of cache nodes in this ModifyCacheCluser call is 5, you must list 2 (7 - 5) cache node IDs to remove.
-        public let cacheNodeIdsToRemove: [String]?
+        public let cacheNodeIdsToRemove: CacheNodeIdsList?
         /// A list of cache security group names to authorize on this cache cluster. This change is asynchronously applied as soon as possible. You can use this parameter only with clusters that are created outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be "Default".
-        public let cacheSecurityGroupNames: [String]?
+        public let cacheSecurityGroupNames: CacheSecurityGroupNameList?
         /// The number of cache nodes that the cache cluster should have. If the value for NumCacheNodes is greater than the sum of the number of current cache nodes and the number of cache nodes pending creation (which may be zero), more nodes are added. If the value is less than the number of existing cache nodes, nodes are removed. If the value is equal to the number of current cache nodes, any pending add or remove requests are canceled. If you are removing cache nodes, you must use the CacheNodeIdsToRemove parameter to provide the IDs of the specific cache nodes to remove. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.  Adding or removing Memcached cache nodes can be applied immediately or as a pending operation (see ApplyImmediately). A pending operation to modify the number of cache nodes in a cluster during its maintenance window, whether by adding or removing nodes in accordance with the scale out architecture, is not queued. The customer's latest request to add or remove nodes to the cluster overrides any previous pending operations to modify the number of cache nodes in the cluster. For example, a request to remove 2 nodes would override a previous pending operation to remove 3 nodes. Similarly, a request to add 2 nodes would override a previous pending operation to remove 3 nodes and vice versa. As Memcached cache nodes may now be provisioned in different Availability Zones with flexible cache node placement, a request to add nodes does not automatically override a previous pending operation to add nodes. The customer can modify the previous pending operation to add more nodes or explicitly cancel the pending request and retry the new request. To cancel pending operations to modify the number of cache nodes in a cluster, use the ModifyCacheCluster request and set NumCacheNodes equal to the number of cache nodes currently in the cache cluster. 
         public let numCacheNodes: Int32?
         /// The status of the Amazon SNS notification topic. Notifications are sent only if the status is active. Valid values: active | inactive 
         public let notificationTopicStatus: String?
         /// Specifies the VPC Security Groups associated with the cache cluster. This parameter can be used only with clusters that are created in an Amazon Virtual Private Cloud (Amazon VPC).
-        public let securityGroupIds: [String]?
+        public let securityGroupIds: SecurityGroupIdsList?
         /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cache cluster. If false, changes to the cache cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first.  If you perform a ModifyCacheCluster before a pending modification is applied, the pending modification is replaced by the newer modification.  Valid values: true | false  Default: false 
         public let applyImmediately: Bool?
         /// This parameter is currently disabled.
@@ -1402,7 +1618,7 @@ extension Elasticache {
         /// The name of the cache parameter group to apply to this cache cluster. This change is asynchronously applied as soon as possible for parameters when the ApplyImmediately parameter is specified as true for this request.
         public let cacheParameterGroupName: String?
         /// The list of Availability Zones where the new Memcached cache nodes are created. This parameter is only valid when NumCacheNodes in the request is greater than the sum of the number of active cache nodes and the number of cache nodes pending creation (which may be zero). The number of Availability Zones supplied in this list must match the cache nodes being added in this request. This option is only supported on Memcached clusters. Scenarios:    Scenario 1: You have 3 active nodes and wish to add 2 nodes. Specify NumCacheNodes=5 (3 + 2) and optionally specify two Availability Zones for the two new nodes.    Scenario 2: You have 3 active nodes and 2 nodes pending creation (from the scenario 1 call) and want to add 1 more node. Specify NumCacheNodes=6 ((3 + 2) + 1) and optionally specify an Availability Zone for the new node.    Scenario 3: You want to cancel all pending operations. Specify NumCacheNodes=3 to cancel all pending operations.   The Availability Zone placement of nodes pending creation cannot be modified. If you wish to cancel any nodes pending creation, add 0 nodes by setting NumCacheNodes to the number of current nodes. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes can be located in different Availability Zones. For guidance on how to move existing Memcached nodes to different Availability Zones, see the Availability Zone Considerations section of Cache Node Considerations for Memcached.  Impact of new add/remove requests upon pending requests    Scenario-1   Pending Action: Delete   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending delete.     Scenario-2   Pending Action: Delete   New Request: Create   Result: The new create, pending or immediate, replaces the pending delete.     Scenario-3   Pending Action: Create   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending create.     Scenario-4   Pending Action: Create   New Request: Create   Result: The new create is added to the pending create.   Important: If the new create request is Apply Immediately - Yes, all creates are performed immediately. If the new create request is Apply Immediately - No, all creates are pending.     
-        public let newAvailabilityZones: [String]?
+        public let newAvailabilityZones: PreferredAvailabilityZoneList?
         /// A valid cache node type that you want to scale this cache cluster up to.
         public let cacheNodeType: String?
         /// The number of days for which ElastiCache retains automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
@@ -1412,7 +1628,7 @@ extension Elasticache {
         /// Specifies whether the new nodes in this Memcached cache cluster are all created in a single Availability Zone or created across multiple Availability Zones. Valid values: single-az | cross-az. This option is only supported for Memcached cache clusters.  You cannot specify single-az if the Memcached cache cluster already has cache nodes in different Availability Zones. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes are located in different Availability Zones. For instructions on how to move existing Memcached nodes to different Availability Zones, see the Availability Zone Considerations section of Cache Node Considerations for Memcached. 
         public let aZMode: String?
 
-        public init(cacheNodeIdsToRemove: [String]? = nil, cacheSecurityGroupNames: [String]? = nil, numCacheNodes: Int32? = nil, notificationTopicStatus: String? = nil, securityGroupIds: [String]? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, notificationTopicArn: String? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, preferredMaintenanceWindow: String? = nil, cacheParameterGroupName: String? = nil, newAvailabilityZones: [String]? = nil, cacheNodeType: String? = nil, snapshotRetentionLimit: Int32? = nil, cacheClusterId: String, aZMode: String? = nil) {
+        public init(cacheNodeIdsToRemove: CacheNodeIdsList? = nil, cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, numCacheNodes: Int32? = nil, notificationTopicStatus: String? = nil, securityGroupIds: SecurityGroupIdsList? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, notificationTopicArn: String? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, preferredMaintenanceWindow: String? = nil, cacheParameterGroupName: String? = nil, newAvailabilityZones: PreferredAvailabilityZoneList? = nil, cacheNodeType: String? = nil, snapshotRetentionLimit: Int32? = nil, cacheClusterId: String, aZMode: String? = nil) {
             self.cacheNodeIdsToRemove = cacheNodeIdsToRemove
             self.cacheSecurityGroupNames = cacheSecurityGroupNames
             self.numCacheNodes = numCacheNodes
@@ -1433,11 +1649,11 @@ extension Elasticache {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.cacheNodeIdsToRemove = dictionary["CacheNodeIdsToRemove"] as? [String]
-            self.cacheSecurityGroupNames = dictionary["CacheSecurityGroupNames"] as? [String]
+            if let cacheNodeIdsToRemove = dictionary["CacheNodeIdsToRemove"] as? [String: Any] { self.cacheNodeIdsToRemove = try Elasticache.CacheNodeIdsList(dictionary: cacheNodeIdsToRemove) } else { self.cacheNodeIdsToRemove = nil }
+            if let cacheSecurityGroupNames = dictionary["CacheSecurityGroupNames"] as? [String: Any] { self.cacheSecurityGroupNames = try Elasticache.CacheSecurityGroupNameList(dictionary: cacheSecurityGroupNames) } else { self.cacheSecurityGroupNames = nil }
             self.numCacheNodes = dictionary["NumCacheNodes"] as? Int32
             self.notificationTopicStatus = dictionary["NotificationTopicStatus"] as? String
-            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
+            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String: Any] { self.securityGroupIds = try Elasticache.SecurityGroupIdsList(dictionary: securityGroupIds) } else { self.securityGroupIds = nil }
             self.applyImmediately = dictionary["ApplyImmediately"] as? Bool
             self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
             self.notificationTopicArn = dictionary["NotificationTopicArn"] as? String
@@ -1445,7 +1661,7 @@ extension Elasticache {
             self.engineVersion = dictionary["EngineVersion"] as? String
             self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
             self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
-            self.newAvailabilityZones = dictionary["NewAvailabilityZones"] as? [String]
+            if let newAvailabilityZones = dictionary["NewAvailabilityZones"] as? [String: Any] { self.newAvailabilityZones = try Elasticache.PreferredAvailabilityZoneList(dictionary: newAvailabilityZones) } else { self.newAvailabilityZones = nil }
             self.cacheNodeType = dictionary["CacheNodeType"] as? String
             self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
             guard let cacheClusterId = dictionary["CacheClusterId"] as? String else { throw InitializableError.missingRequiredParam("CacheClusterId") }
@@ -1522,19 +1738,37 @@ extension Elasticache {
         }
     }
 
+    public struct RecurringChargeList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let recurringCharge: [RecurringCharge]?
+
+        public init(recurringCharge: [RecurringCharge]? = nil) {
+            self.recurringCharge = recurringCharge
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let recurringCharge = dictionary["RecurringCharge"] as? [[String: Any]] {
+                self.recurringCharge = try recurringCharge.map({ try RecurringCharge(dictionary: $0) })
+            } else { 
+                self.recurringCharge = nil
+            }
+        }
+    }
+
     public struct EngineDefaults: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// Specifies the name of the cache parameter group family to which the engine default parameters apply. Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2 
         public let cacheParameterGroupFamily: String?
         /// Contains a list of engine default parameters.
-        public let parameters: [Parameter]?
+        public let parameters: ParametersList?
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
         /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
-        public let cacheNodeTypeSpecificParameters: [CacheNodeTypeSpecificParameter]?
+        public let cacheNodeTypeSpecificParameters: CacheNodeTypeSpecificParametersList?
 
-        public init(cacheParameterGroupFamily: String? = nil, parameters: [Parameter]? = nil, marker: String? = nil, cacheNodeTypeSpecificParameters: [CacheNodeTypeSpecificParameter]? = nil) {
+        public init(cacheParameterGroupFamily: String? = nil, parameters: ParametersList? = nil, marker: String? = nil, cacheNodeTypeSpecificParameters: CacheNodeTypeSpecificParametersList? = nil) {
             self.cacheParameterGroupFamily = cacheParameterGroupFamily
             self.parameters = parameters
             self.marker = marker
@@ -1543,17 +1777,9 @@ extension Elasticache {
 
         public init(dictionary: [String: Any]) throws {
             self.cacheParameterGroupFamily = dictionary["CacheParameterGroupFamily"] as? String
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try Parameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
+            if let parameters = dictionary["Parameters"] as? [String: Any] { self.parameters = try Elasticache.ParametersList(dictionary: parameters) } else { self.parameters = nil }
             self.marker = dictionary["Marker"] as? String
-            if let cacheNodeTypeSpecificParameters = dictionary["CacheNodeTypeSpecificParameters"] as? [[String: Any]] {
-                self.cacheNodeTypeSpecificParameters = try cacheNodeTypeSpecificParameters.map({ try CacheNodeTypeSpecificParameter(dictionary: $0) })
-            } else { 
-                self.cacheNodeTypeSpecificParameters = nil
-            }
+            if let cacheNodeTypeSpecificParameters = dictionary["CacheNodeTypeSpecificParameters"] as? [String: Any] { self.cacheNodeTypeSpecificParameters = try Elasticache.CacheNodeTypeSpecificParametersList(dictionary: cacheNodeTypeSpecificParameters) } else { self.cacheNodeTypeSpecificParameters = nil }
         }
     }
 
@@ -1671,7 +1897,7 @@ extension Elasticache {
         /// The name of the compute and memory capacity node type for the source cache cluster. Valid node types are as follows:   General purpose:   Current generation: cache.t2.micro, cache.t2.small, cache.t2.medium, cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge, cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge    Previous generation: cache.t1.micro, cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge      Compute optimized: cache.c1.xlarge    Memory optimized:   Current generation: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge    Previous generation: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge       Notes:    All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).   Redis backup/restore is not supported for Redis (cluster mode disabled) T1 and T2 instances. Backup/restore is supported on Redis (cluster mode enabled) T2 instances.   Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.   For a complete listing of node types and specifications, see Amazon ElastiCache Product Features and Details and either Cache Node Type-Specific Parameters for Memcached or Cache Node Type-Specific Parameters for Redis.
         public let cacheNodeType: String?
         /// A list of the cache nodes in the source cache cluster.
-        public let nodeSnapshots: [NodeSnapshot]?
+        public let nodeSnapshots: NodeSnapshotList?
         /// The name of the cache engine (memcached or redis) used by the source cache cluster.
         public let engine: String?
         /// The name of the cache subnet group associated with the source cache cluster.
@@ -1681,7 +1907,7 @@ extension Elasticache {
         /// For an automatic snapshot, the number of days for which ElastiCache retains the snapshot before deleting it. For manual snapshots, this field reflects the SnapshotRetentionLimit for the source cache cluster when the snapshot was created. This field is otherwise ignored: Manual snapshots do not expire, and can only be deleted using the DeleteSnapshot operation.   Important If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
         public let snapshotRetentionLimit: Int32?
 
-        public init(port: Int32? = nil, cacheClusterId: String? = nil, cacheClusterCreateTime: Date? = nil, numCacheNodes: Int32? = nil, automaticFailover: String? = nil, topicArn: String? = nil, snapshotStatus: String? = nil, snapshotSource: String? = nil, snapshotName: String? = nil, autoMinorVersionUpgrade: Bool? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, vpcId: String? = nil, cacheParameterGroupName: String? = nil, replicationGroupId: String? = nil, numNodeGroups: Int32? = nil, replicationGroupDescription: String? = nil, preferredAvailabilityZone: String? = nil, cacheNodeType: String? = nil, nodeSnapshots: [NodeSnapshot]? = nil, engine: String? = nil, cacheSubnetGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, snapshotRetentionLimit: Int32? = nil) {
+        public init(port: Int32? = nil, cacheClusterId: String? = nil, cacheClusterCreateTime: Date? = nil, numCacheNodes: Int32? = nil, automaticFailover: String? = nil, topicArn: String? = nil, snapshotStatus: String? = nil, snapshotSource: String? = nil, snapshotName: String? = nil, autoMinorVersionUpgrade: Bool? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, vpcId: String? = nil, cacheParameterGroupName: String? = nil, replicationGroupId: String? = nil, numNodeGroups: Int32? = nil, replicationGroupDescription: String? = nil, preferredAvailabilityZone: String? = nil, cacheNodeType: String? = nil, nodeSnapshots: NodeSnapshotList? = nil, engine: String? = nil, cacheSubnetGroupName: String? = nil, preferredMaintenanceWindow: String? = nil, snapshotRetentionLimit: Int32? = nil) {
             self.port = port
             self.cacheClusterId = cacheClusterId
             self.cacheClusterCreateTime = cacheClusterCreateTime
@@ -1728,11 +1954,7 @@ extension Elasticache {
             self.replicationGroupDescription = dictionary["ReplicationGroupDescription"] as? String
             self.preferredAvailabilityZone = dictionary["PreferredAvailabilityZone"] as? String
             self.cacheNodeType = dictionary["CacheNodeType"] as? String
-            if let nodeSnapshots = dictionary["NodeSnapshots"] as? [[String: Any]] {
-                self.nodeSnapshots = try nodeSnapshots.map({ try NodeSnapshot(dictionary: $0) })
-            } else { 
-                self.nodeSnapshots = nil
-            }
+            if let nodeSnapshots = dictionary["NodeSnapshots"] as? [String: Any] { self.nodeSnapshots = try Elasticache.NodeSnapshotList(dictionary: nodeSnapshots) } else { self.nodeSnapshots = nil }
             self.engine = dictionary["Engine"] as? String
             self.cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String
             self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
@@ -1788,6 +2010,24 @@ extension Elasticache {
         }
     }
 
+    public struct TagList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let tag: [Tag]?
+
+        public init(tag: [Tag]? = nil) {
+            self.tag = tag
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let tag = dictionary["Tag"] as? [[String: Any]] {
+                self.tag = try tag.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tag = nil
+            }
+        }
+    }
+
     public struct ReplicationGroupPendingModifiedValues: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1807,26 +2047,36 @@ extension Elasticache {
         }
     }
 
+    public struct ClusterIdList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let clusterId: [String]?
+
+        public init(clusterId: [String]? = nil) {
+            self.clusterId = clusterId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.clusterId = dictionary["ClusterId"] as? [String]
+        }
+    }
+
     public struct ReplicationGroupMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
         /// A list of replication groups. Each item in the list contains detailed information about one replication group.
-        public let replicationGroups: [ReplicationGroup]?
+        public let replicationGroups: ReplicationGroupList?
 
-        public init(marker: String? = nil, replicationGroups: [ReplicationGroup]? = nil) {
+        public init(marker: String? = nil, replicationGroups: ReplicationGroupList? = nil) {
             self.marker = marker
             self.replicationGroups = replicationGroups
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let replicationGroups = dictionary["ReplicationGroups"] as? [[String: Any]] {
-                self.replicationGroups = try replicationGroups.map({ try ReplicationGroup(dictionary: $0) })
-            } else { 
-                self.replicationGroups = nil
-            }
+            if let replicationGroups = dictionary["ReplicationGroups"] as? [String: Any] { self.replicationGroups = try Elasticache.ReplicationGroupList(dictionary: replicationGroups) } else { self.replicationGroups = nil }
         }
     }
 
@@ -1859,19 +2109,33 @@ extension Elasticache {
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
         /// A list of reserved cache node offerings. Each element in the list contains detailed information about one offering.
-        public let reservedCacheNodesOfferings: [ReservedCacheNodesOffering]?
+        public let reservedCacheNodesOfferings: ReservedCacheNodesOfferingList?
 
-        public init(marker: String? = nil, reservedCacheNodesOfferings: [ReservedCacheNodesOffering]? = nil) {
+        public init(marker: String? = nil, reservedCacheNodesOfferings: ReservedCacheNodesOfferingList? = nil) {
             self.marker = marker
             self.reservedCacheNodesOfferings = reservedCacheNodesOfferings
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let reservedCacheNodesOfferings = dictionary["ReservedCacheNodesOfferings"] as? [[String: Any]] {
-                self.reservedCacheNodesOfferings = try reservedCacheNodesOfferings.map({ try ReservedCacheNodesOffering(dictionary: $0) })
+            if let reservedCacheNodesOfferings = dictionary["ReservedCacheNodesOfferings"] as? [String: Any] { self.reservedCacheNodesOfferings = try Elasticache.ReservedCacheNodesOfferingList(dictionary: reservedCacheNodesOfferings) } else { self.reservedCacheNodesOfferings = nil }
+        }
+    }
+
+    public struct CacheNodeTypeSpecificParametersList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let cacheNodeTypeSpecificParameter: [CacheNodeTypeSpecificParameter]?
+
+        public init(cacheNodeTypeSpecificParameter: [CacheNodeTypeSpecificParameter]? = nil) {
+            self.cacheNodeTypeSpecificParameter = cacheNodeTypeSpecificParameter
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let cacheNodeTypeSpecificParameter = dictionary["CacheNodeTypeSpecificParameter"] as? [[String: Any]] {
+                self.cacheNodeTypeSpecificParameter = try cacheNodeTypeSpecificParameter.map({ try CacheNodeTypeSpecificParameter(dictionary: $0) })
             } else { 
-                self.reservedCacheNodesOfferings = nil
+                self.cacheNodeTypeSpecificParameter = nil
             }
         }
     }
@@ -1882,13 +2146,13 @@ extension Elasticache {
         /// A string that specifies the keyspaces as a series of comma separated values. Keyspaces are 0 to 16,383. The string is in the format startkey-endkey. Example: "0-3999" 
         public let slots: String?
         /// A list of Availability Zones to be used for the read replicas. The number of Availability Zones in this list must match the value of ReplicaCount or ReplicasPerNodeGroup if not specified.
-        public let replicaAvailabilityZones: [String]?
+        public let replicaAvailabilityZones: AvailabilityZonesList?
         /// The Availability Zone where the primary node of this node group (shard) is launched.
         public let primaryAvailabilityZone: String?
         /// The number of read replica nodes in this node group (shard).
         public let replicaCount: Int32?
 
-        public init(slots: String? = nil, replicaAvailabilityZones: [String]? = nil, primaryAvailabilityZone: String? = nil, replicaCount: Int32? = nil) {
+        public init(slots: String? = nil, replicaAvailabilityZones: AvailabilityZonesList? = nil, primaryAvailabilityZone: String? = nil, replicaCount: Int32? = nil) {
             self.slots = slots
             self.replicaAvailabilityZones = replicaAvailabilityZones
             self.primaryAvailabilityZone = primaryAvailabilityZone
@@ -1897,7 +2161,7 @@ extension Elasticache {
 
         public init(dictionary: [String: Any]) throws {
             self.slots = dictionary["Slots"] as? String
-            self.replicaAvailabilityZones = dictionary["ReplicaAvailabilityZones"] as? [String]
+            if let replicaAvailabilityZones = dictionary["ReplicaAvailabilityZones"] as? [String: Any] { self.replicaAvailabilityZones = try Elasticache.AvailabilityZonesList(dictionary: replicaAvailabilityZones) } else { self.replicaAvailabilityZones = nil }
             self.primaryAvailabilityZone = dictionary["PrimaryAvailabilityZone"] as? String
             self.replicaCount = dictionary["ReplicaCount"] as? Int32
         }
@@ -2088,15 +2352,15 @@ extension Elasticache {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of Amazon Resource Names (ARN) that uniquely identify the Redis RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the replication group. The Amazon S3 object name in the ARN cannot contain any commas. The list must match the number of node groups (shards) in the replication group, which means you cannot repartition.  This parameter is only valid if the Engine parameter is redis.  Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb 
-        public let snapshotArns: [String]?
+        public let snapshotArns: SnapshotArnsList?
         /// A list of cache security group names to associate with this replication group.
-        public let cacheSecurityGroupNames: [String]?
+        public let cacheSecurityGroupNames: CacheSecurityGroupNameList?
         /// An optional parameter that specifies the number of replica nodes in each node group (shard). Valid values are 0 to 5.
         public let replicasPerNodeGroup: Int32?
         /// This parameter is currently disabled.
         public let autoMinorVersionUpgrade: Bool?
         /// A list of node group (shard) configuration options. Each node group (shard) configuration has the following: Slots, PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount. If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to configure one node group (shard) or you can omit this parameter.
-        public let nodeGroupConfiguration: [NodeGroupConfiguration]?
+        public let nodeGroupConfiguration: NodeGroupConfigurationList?
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.  This parameter is only valid if the Engine parameter is redis. 
         public let snapshotWindow: String?
         /// The version number of the cache engine to be used for the cache clusters in this replication group. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version) in the ElastiCache User Guide, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cache cluster or replication group and create it anew with the earlier engine version. 
@@ -2112,13 +2376,13 @@ extension Elasticache {
         /// The number of days for which ElastiCache retains automatic snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  This parameter is only valid if the Engine parameter is redis.  Default: 0 (i.e., automatic backups are disabled for this cache cluster).
         public let snapshotRetentionLimit: Int32?
         /// A list of EC2 Availability Zones in which the replication group's cache clusters are created. The order of the Availability Zones in the list is the order in which clusters are allocated. The primary cluster is created in the first AZ in the list. This parameter is not used if there is more than one node group (shard). You should use NodeGroupConfiguration instead.  If you are creating your replication group in an Amazon VPC (recommended), you can only locate cache clusters in Availability Zones associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheClusters.  Default: system chosen Availability Zones.
-        public let preferredCacheClusterAZs: [String]?
+        public let preferredCacheClusterAZs: AvailabilityZonesList?
         /// A list of cost allocation tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value.
-        public let tags: [Tag]?
+        public let tags: TagList?
         /// The number of clusters this replication group initially has. This parameter is not used if there is more than one node group (shard). You should use ReplicasPerNodeGroup instead. If Multi-AZ is enabled, the value of this parameter must be at least 2. The maximum permitted value for NumCacheClusters is 6 (primary plus 5 replicas).
         public let numCacheClusters: Int32?
         /// One or more Amazon VPC security groups associated with this replication group. Use this parameter only when you are creating a replication group in an Amazon Virtual Private Cloud (Amazon VPC).
-        public let securityGroupIds: [String]?
+        public let securityGroupIds: SecurityGroupIdsList?
         /// The name of a snapshot from which to restore data into the new replication group. The snapshot status changes to restoring while the new replication group is being created.  This parameter is only valid if the Engine parameter is redis. 
         public let snapshotName: String?
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cache cluster owner. 
@@ -2140,7 +2404,7 @@ extension Elasticache {
         /// The port number on which each member of the replication group accepts connections.
         public let port: Int32?
 
-        public init(snapshotArns: [String]? = nil, cacheSecurityGroupNames: [String]? = nil, replicasPerNodeGroup: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, nodeGroupConfiguration: [NodeGroupConfiguration]? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, replicationGroupId: String, primaryClusterId: String? = nil, preferredMaintenanceWindow: String? = nil, automaticFailoverEnabled: Bool? = nil, snapshotRetentionLimit: Int32? = nil, preferredCacheClusterAZs: [String]? = nil, tags: [Tag]? = nil, numCacheClusters: Int32? = nil, securityGroupIds: [String]? = nil, snapshotName: String? = nil, notificationTopicArn: String? = nil, cacheSubnetGroupName: String? = nil, cacheParameterGroupName: String? = nil, numNodeGroups: Int32? = nil, replicationGroupDescription: String, engine: String? = nil, cacheNodeType: String? = nil, authToken: String? = nil, port: Int32? = nil) {
+        public init(snapshotArns: SnapshotArnsList? = nil, cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, replicasPerNodeGroup: Int32? = nil, autoMinorVersionUpgrade: Bool? = nil, nodeGroupConfiguration: NodeGroupConfigurationList? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, replicationGroupId: String, primaryClusterId: String? = nil, preferredMaintenanceWindow: String? = nil, automaticFailoverEnabled: Bool? = nil, snapshotRetentionLimit: Int32? = nil, preferredCacheClusterAZs: AvailabilityZonesList? = nil, tags: TagList? = nil, numCacheClusters: Int32? = nil, securityGroupIds: SecurityGroupIdsList? = nil, snapshotName: String? = nil, notificationTopicArn: String? = nil, cacheSubnetGroupName: String? = nil, cacheParameterGroupName: String? = nil, numNodeGroups: Int32? = nil, replicationGroupDescription: String, engine: String? = nil, cacheNodeType: String? = nil, authToken: String? = nil, port: Int32? = nil) {
             self.snapshotArns = snapshotArns
             self.cacheSecurityGroupNames = cacheSecurityGroupNames
             self.replicasPerNodeGroup = replicasPerNodeGroup
@@ -2170,15 +2434,11 @@ extension Elasticache {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.snapshotArns = dictionary["SnapshotArns"] as? [String]
-            self.cacheSecurityGroupNames = dictionary["CacheSecurityGroupNames"] as? [String]
+            if let snapshotArns = dictionary["SnapshotArns"] as? [String: Any] { self.snapshotArns = try Elasticache.SnapshotArnsList(dictionary: snapshotArns) } else { self.snapshotArns = nil }
+            if let cacheSecurityGroupNames = dictionary["CacheSecurityGroupNames"] as? [String: Any] { self.cacheSecurityGroupNames = try Elasticache.CacheSecurityGroupNameList(dictionary: cacheSecurityGroupNames) } else { self.cacheSecurityGroupNames = nil }
             self.replicasPerNodeGroup = dictionary["ReplicasPerNodeGroup"] as? Int32
             self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
-            if let nodeGroupConfiguration = dictionary["NodeGroupConfiguration"] as? [[String: Any]] {
-                self.nodeGroupConfiguration = try nodeGroupConfiguration.map({ try NodeGroupConfiguration(dictionary: $0) })
-            } else { 
-                self.nodeGroupConfiguration = nil
-            }
+            if let nodeGroupConfiguration = dictionary["NodeGroupConfiguration"] as? [String: Any] { self.nodeGroupConfiguration = try Elasticache.NodeGroupConfigurationList(dictionary: nodeGroupConfiguration) } else { self.nodeGroupConfiguration = nil }
             self.snapshotWindow = dictionary["SnapshotWindow"] as? String
             self.engineVersion = dictionary["EngineVersion"] as? String
             guard let replicationGroupId = dictionary["ReplicationGroupId"] as? String else { throw InitializableError.missingRequiredParam("ReplicationGroupId") }
@@ -2187,14 +2447,10 @@ extension Elasticache {
             self.preferredMaintenanceWindow = dictionary["PreferredMaintenanceWindow"] as? String
             self.automaticFailoverEnabled = dictionary["AutomaticFailoverEnabled"] as? Bool
             self.snapshotRetentionLimit = dictionary["SnapshotRetentionLimit"] as? Int32
-            self.preferredCacheClusterAZs = dictionary["PreferredCacheClusterAZs"] as? [String]
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let preferredCacheClusterAZs = dictionary["PreferredCacheClusterAZs"] as? [String: Any] { self.preferredCacheClusterAZs = try Elasticache.AvailabilityZonesList(dictionary: preferredCacheClusterAZs) } else { self.preferredCacheClusterAZs = nil }
+            if let tags = dictionary["Tags"] as? [String: Any] { self.tags = try Elasticache.TagList(dictionary: tags) } else { self.tags = nil }
             self.numCacheClusters = dictionary["NumCacheClusters"] as? Int32
-            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
+            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String: Any] { self.securityGroupIds = try Elasticache.SecurityGroupIdsList(dictionary: securityGroupIds) } else { self.securityGroupIds = nil }
             self.snapshotName = dictionary["SnapshotName"] as? String
             self.notificationTopicArn = dictionary["NotificationTopicArn"] as? String
             self.cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String
@@ -2215,19 +2471,33 @@ extension Elasticache {
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
         /// A list of cache engine version details. Each element in the list contains detailed information about one cache engine version.
-        public let cacheEngineVersions: [CacheEngineVersion]?
+        public let cacheEngineVersions: CacheEngineVersionList?
 
-        public init(marker: String? = nil, cacheEngineVersions: [CacheEngineVersion]? = nil) {
+        public init(marker: String? = nil, cacheEngineVersions: CacheEngineVersionList? = nil) {
             self.marker = marker
             self.cacheEngineVersions = cacheEngineVersions
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let cacheEngineVersions = dictionary["CacheEngineVersions"] as? [[String: Any]] {
-                self.cacheEngineVersions = try cacheEngineVersions.map({ try CacheEngineVersion(dictionary: $0) })
+            if let cacheEngineVersions = dictionary["CacheEngineVersions"] as? [String: Any] { self.cacheEngineVersions = try Elasticache.CacheEngineVersionList(dictionary: cacheEngineVersions) } else { self.cacheEngineVersions = nil }
+        }
+    }
+
+    public struct CacheSecurityGroups: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let cacheSecurityGroup: [CacheSecurityGroup]?
+
+        public init(cacheSecurityGroup: [CacheSecurityGroup]? = nil) {
+            self.cacheSecurityGroup = cacheSecurityGroup
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let cacheSecurityGroup = dictionary["CacheSecurityGroup"] as? [[String: Any]] {
+                self.cacheSecurityGroup = try cacheSecurityGroup.map({ try CacheSecurityGroup(dictionary: $0) })
             } else { 
-                self.cacheEngineVersions = nil
+                self.cacheSecurityGroup = nil
             }
         }
     }
@@ -2282,7 +2552,7 @@ extension Elasticache {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of subnets associated with the cache subnet group.
-        public let subnets: [Subnet]?
+        public let subnets: SubnetList?
         /// The description of the cache subnet group.
         public let cacheSubnetGroupDescription: String?
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet group.
@@ -2290,7 +2560,7 @@ extension Elasticache {
         /// The name of the cache subnet group.
         public let cacheSubnetGroupName: String?
 
-        public init(subnets: [Subnet]? = nil, cacheSubnetGroupDescription: String? = nil, vpcId: String? = nil, cacheSubnetGroupName: String? = nil) {
+        public init(subnets: SubnetList? = nil, cacheSubnetGroupDescription: String? = nil, vpcId: String? = nil, cacheSubnetGroupName: String? = nil) {
             self.subnets = subnets
             self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
             self.vpcId = vpcId
@@ -2298,11 +2568,7 @@ extension Elasticache {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let subnets = dictionary["Subnets"] as? [[String: Any]] {
-                self.subnets = try subnets.map({ try Subnet(dictionary: $0) })
-            } else { 
-                self.subnets = nil
-            }
+            if let subnets = dictionary["Subnets"] as? [String: Any] { self.subnets = try Elasticache.SubnetList(dictionary: subnets) } else { self.subnets = nil }
             self.cacheSubnetGroupDescription = dictionary["CacheSubnetGroupDescription"] as? String
             self.vpcId = dictionary["VpcId"] as? String
             self.cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String
@@ -2315,9 +2581,9 @@ extension Elasticache {
         /// The cache cluster identifier. This parameter is stored as a lowercase string.
         public let cacheClusterId: String
         /// A list of cache node IDs to reboot. A node ID is a numeric identifier (0001, 0002, etc.). To reboot an entire cache cluster, specify all of the cache node IDs.
-        public let cacheNodeIdsToReboot: [String]
+        public let cacheNodeIdsToReboot: CacheNodeIdsList
 
-        public init(cacheClusterId: String, cacheNodeIdsToReboot: [String]) {
+        public init(cacheClusterId: String, cacheNodeIdsToReboot: CacheNodeIdsList) {
             self.cacheClusterId = cacheClusterId
             self.cacheNodeIdsToReboot = cacheNodeIdsToReboot
         }
@@ -2325,8 +2591,8 @@ extension Elasticache {
         public init(dictionary: [String: Any]) throws {
             guard let cacheClusterId = dictionary["CacheClusterId"] as? String else { throw InitializableError.missingRequiredParam("CacheClusterId") }
             self.cacheClusterId = cacheClusterId
-            guard let cacheNodeIdsToReboot = dictionary["CacheNodeIdsToReboot"] as? [String] else { throw InitializableError.missingRequiredParam("CacheNodeIdsToReboot") }
-            self.cacheNodeIdsToReboot = cacheNodeIdsToReboot
+            guard let cacheNodeIdsToReboot = dictionary["CacheNodeIdsToReboot"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CacheNodeIdsToReboot") }
+            self.cacheNodeIdsToReboot = try Elasticache.CacheNodeIdsList(dictionary: cacheNodeIdsToReboot)
         }
     }
 
@@ -2362,13 +2628,13 @@ extension Elasticache {
         /// The name of the cache security group.
         public let cacheSecurityGroupName: String?
         /// A list of Amazon EC2 security groups that are associated with this cache security group.
-        public let eC2SecurityGroups: [EC2SecurityGroup]?
+        public let eC2SecurityGroups: EC2SecurityGroupList?
         /// The AWS account ID of the cache security group owner.
         public let ownerId: String?
         /// The description of the cache security group.
         public let description: String?
 
-        public init(cacheSecurityGroupName: String? = nil, eC2SecurityGroups: [EC2SecurityGroup]? = nil, ownerId: String? = nil, description: String? = nil) {
+        public init(cacheSecurityGroupName: String? = nil, eC2SecurityGroups: EC2SecurityGroupList? = nil, ownerId: String? = nil, description: String? = nil) {
             self.cacheSecurityGroupName = cacheSecurityGroupName
             self.eC2SecurityGroups = eC2SecurityGroups
             self.ownerId = ownerId
@@ -2377,13 +2643,27 @@ extension Elasticache {
 
         public init(dictionary: [String: Any]) throws {
             self.cacheSecurityGroupName = dictionary["CacheSecurityGroupName"] as? String
-            if let eC2SecurityGroups = dictionary["EC2SecurityGroups"] as? [[String: Any]] {
-                self.eC2SecurityGroups = try eC2SecurityGroups.map({ try EC2SecurityGroup(dictionary: $0) })
-            } else { 
-                self.eC2SecurityGroups = nil
-            }
+            if let eC2SecurityGroups = dictionary["EC2SecurityGroups"] as? [String: Any] { self.eC2SecurityGroups = try Elasticache.EC2SecurityGroupList(dictionary: eC2SecurityGroups) } else { self.eC2SecurityGroups = nil }
             self.ownerId = dictionary["OwnerId"] as? String
             self.description = dictionary["Description"] as? String
+        }
+    }
+
+    public struct CacheParameterGroupList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let cacheParameterGroup: [CacheParameterGroup]?
+
+        public init(cacheParameterGroup: [CacheParameterGroup]? = nil) {
+            self.cacheParameterGroup = cacheParameterGroup
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let cacheParameterGroup = dictionary["CacheParameterGroup"] as? [[String: Any]] {
+                self.cacheParameterGroup = try cacheParameterGroup.map({ try CacheParameterGroup(dictionary: $0) })
+            } else { 
+                self.cacheParameterGroup = nil
+            }
         }
     }
 
@@ -2415,6 +2695,20 @@ extension Elasticache {
         public init(dictionary: [String: Any]) throws {
             guard let cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheParameterGroupName") }
             self.cacheParameterGroupName = cacheParameterGroupName
+        }
+    }
+
+    public struct SnapshotArnsList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let snapshotArn: [String]?
+
+        public init(snapshotArn: [String]? = nil) {
+            self.snapshotArn = snapshotArn
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.snapshotArn = dictionary["SnapshotArn"] as? [String]
         }
     }
 
@@ -2460,6 +2754,60 @@ extension Elasticache {
         }
     }
 
+    public struct EC2SecurityGroupList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let eC2SecurityGroup: [EC2SecurityGroup]?
+
+        public init(eC2SecurityGroup: [EC2SecurityGroup]? = nil) {
+            self.eC2SecurityGroup = eC2SecurityGroup
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let eC2SecurityGroup = dictionary["EC2SecurityGroup"] as? [[String: Any]] {
+                self.eC2SecurityGroup = try eC2SecurityGroup.map({ try EC2SecurityGroup(dictionary: $0) })
+            } else { 
+                self.eC2SecurityGroup = nil
+            }
+        }
+    }
+
+    public struct ParameterNameValueList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let parameterNameValue: [ParameterNameValue]?
+
+        public init(parameterNameValue: [ParameterNameValue]? = nil) {
+            self.parameterNameValue = parameterNameValue
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let parameterNameValue = dictionary["ParameterNameValue"] as? [[String: Any]] {
+                self.parameterNameValue = try parameterNameValue.map({ try ParameterNameValue(dictionary: $0) })
+            } else { 
+                self.parameterNameValue = nil
+            }
+        }
+    }
+
+    public struct NodeSnapshotList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let nodeSnapshot: [NodeSnapshot]?
+
+        public init(nodeSnapshot: [NodeSnapshot]? = nil) {
+            self.nodeSnapshot = nodeSnapshot
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let nodeSnapshot = dictionary["NodeSnapshot"] as? [[String: Any]] {
+                self.nodeSnapshot = try nodeSnapshot.map({ try NodeSnapshot(dictionary: $0) })
+            } else { 
+                self.nodeSnapshot = nil
+            }
+        }
+    }
+
     public struct CacheParameterGroup: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2480,6 +2828,24 @@ extension Elasticache {
             self.cacheParameterGroupFamily = dictionary["CacheParameterGroupFamily"] as? String
             self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
             self.description = dictionary["Description"] as? String
+        }
+    }
+
+    public struct SubnetList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let subnet: [Subnet]?
+
+        public init(subnet: [Subnet]? = nil) {
+            self.subnet = subnet
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let subnet = dictionary["Subnet"] as? [[String: Any]] {
+                self.subnet = try subnet.map({ try Subnet(dictionary: $0) })
+            } else { 
+                self.subnet = nil
+            }
         }
     }
 
@@ -2513,7 +2879,7 @@ extension Elasticache {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list containing information about individual nodes within the node group (shard).
-        public let nodeGroupMembers: [NodeGroupMember]?
+        public let nodeGroupMembers: NodeGroupMemberList?
         /// The keyspace for this node group (shard).
         public let slots: String?
         /// The current state of this replication group - creating, available, etc.
@@ -2523,7 +2889,7 @@ extension Elasticache {
         /// The endpoint of the primary node in this node group (shard).
         public let primaryEndpoint: Endpoint?
 
-        public init(nodeGroupMembers: [NodeGroupMember]? = nil, slots: String? = nil, status: String? = nil, nodeGroupId: String? = nil, primaryEndpoint: Endpoint? = nil) {
+        public init(nodeGroupMembers: NodeGroupMemberList? = nil, slots: String? = nil, status: String? = nil, nodeGroupId: String? = nil, primaryEndpoint: Endpoint? = nil) {
             self.nodeGroupMembers = nodeGroupMembers
             self.slots = slots
             self.status = status
@@ -2532,11 +2898,7 @@ extension Elasticache {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let nodeGroupMembers = dictionary["NodeGroupMembers"] as? [[String: Any]] {
-                self.nodeGroupMembers = try nodeGroupMembers.map({ try NodeGroupMember(dictionary: $0) })
-            } else { 
-                self.nodeGroupMembers = nil
-            }
+            if let nodeGroupMembers = dictionary["NodeGroupMembers"] as? [String: Any] { self.nodeGroupMembers = try Elasticache.NodeGroupMemberList(dictionary: nodeGroupMembers) } else { self.nodeGroupMembers = nil }
             self.slots = dictionary["Slots"] as? String
             self.status = dictionary["Status"] as? String
             self.nodeGroupId = dictionary["NodeGroupId"] as? String
@@ -2560,22 +2922,32 @@ extension Elasticache {
         }
     }
 
+    public struct CacheSecurityGroupNameList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let cacheSecurityGroupName: [String]?
+
+        public init(cacheSecurityGroupName: [String]? = nil) {
+            self.cacheSecurityGroupName = cacheSecurityGroupName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.cacheSecurityGroupName = dictionary["CacheSecurityGroupName"] as? [String]
+        }
+    }
+
     public struct TagListMessage: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of cost allocation tags as key-value pairs.
-        public let tagList: [Tag]?
+        public let tagList: TagList?
 
-        public init(tagList: [Tag]? = nil) {
+        public init(tagList: TagList? = nil) {
             self.tagList = tagList
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let tagList = dictionary["TagList"] as? [[String: Any]] {
-                self.tagList = try tagList.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tagList = nil
-            }
+            if let tagList = dictionary["TagList"] as? [String: Any] { self.tagList = try Elasticache.TagList(dictionary: tagList) } else { self.tagList = nil }
         }
     }
 
@@ -2603,6 +2975,20 @@ extension Elasticache {
         }
     }
 
+    public struct AvailabilityZonesList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let availabilityZone: [String]?
+
+        public init(availabilityZone: [String]? = nil) {
+            self.availabilityZone = availabilityZone
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.availabilityZone = dictionary["AvailabilityZone"] as? [String]
+        }
+    }
+
     public struct ModifyReplicationGroupResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2623,20 +3009,16 @@ extension Elasticache {
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
         /// A list of reserved cache nodes. Each element in the list contains detailed information about one node.
-        public let reservedCacheNodes: [ReservedCacheNode]?
+        public let reservedCacheNodes: ReservedCacheNodeList?
 
-        public init(marker: String? = nil, reservedCacheNodes: [ReservedCacheNode]? = nil) {
+        public init(marker: String? = nil, reservedCacheNodes: ReservedCacheNodeList? = nil) {
             self.marker = marker
             self.reservedCacheNodes = reservedCacheNodes
         }
 
         public init(dictionary: [String: Any]) throws {
             self.marker = dictionary["Marker"] as? String
-            if let reservedCacheNodes = dictionary["ReservedCacheNodes"] as? [[String: Any]] {
-                self.reservedCacheNodes = try reservedCacheNodes.map({ try ReservedCacheNode(dictionary: $0) })
-            } else { 
-                self.reservedCacheNodes = nil
-            }
+            if let reservedCacheNodes = dictionary["ReservedCacheNodes"] as? [String: Any] { self.reservedCacheNodes = try Elasticache.ReservedCacheNodeList(dictionary: reservedCacheNodes) } else { self.reservedCacheNodes = nil }
         }
     }
 
@@ -2685,11 +3067,11 @@ extension Elasticache {
         /// A name for the cache subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters or hyphens. Example: mysubnetgroup 
         public let cacheSubnetGroupName: String
         /// A list of VPC subnet IDs for the cache subnet group.
-        public let subnetIds: [String]
+        public let subnetIds: SubnetIdentifierList
         /// A description for the cache subnet group.
         public let cacheSubnetGroupDescription: String
 
-        public init(cacheSubnetGroupName: String, subnetIds: [String], cacheSubnetGroupDescription: String) {
+        public init(cacheSubnetGroupName: String, subnetIds: SubnetIdentifierList, cacheSubnetGroupDescription: String) {
             self.cacheSubnetGroupName = cacheSubnetGroupName
             self.subnetIds = subnetIds
             self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
@@ -2698,10 +3080,28 @@ extension Elasticache {
         public init(dictionary: [String: Any]) throws {
             guard let cacheSubnetGroupName = dictionary["CacheSubnetGroupName"] as? String else { throw InitializableError.missingRequiredParam("CacheSubnetGroupName") }
             self.cacheSubnetGroupName = cacheSubnetGroupName
-            guard let subnetIds = dictionary["SubnetIds"] as? [String] else { throw InitializableError.missingRequiredParam("SubnetIds") }
-            self.subnetIds = subnetIds
+            guard let subnetIds = dictionary["SubnetIds"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SubnetIds") }
+            self.subnetIds = try Elasticache.SubnetIdentifierList(dictionary: subnetIds)
             guard let cacheSubnetGroupDescription = dictionary["CacheSubnetGroupDescription"] as? String else { throw InitializableError.missingRequiredParam("CacheSubnetGroupDescription") }
             self.cacheSubnetGroupDescription = cacheSubnetGroupDescription
+        }
+    }
+
+    public struct NodeGroupConfigurationList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let nodeGroupConfiguration: [NodeGroupConfiguration]?
+
+        public init(nodeGroupConfiguration: [NodeGroupConfiguration]? = nil) {
+            self.nodeGroupConfiguration = nodeGroupConfiguration
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let nodeGroupConfiguration = dictionary["NodeGroupConfiguration"] as? [[String: Any]] {
+                self.nodeGroupConfiguration = try nodeGroupConfiguration.map({ try NodeGroupConfiguration(dictionary: $0) })
+            } else { 
+                self.nodeGroupConfiguration = nil
+            }
         }
     }
 
@@ -2715,9 +3115,9 @@ extension Elasticache {
         /// The new number of cache nodes for the cache cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
         public let numCacheNodes: Int32?
         /// A list of cache node IDs that are being removed (or will be removed) from the cache cluster. A node ID is a numeric identifier (0001, 0002, etc.).
-        public let cacheNodeIdsToRemove: [String]?
+        public let cacheNodeIdsToRemove: CacheNodeIdsList?
 
-        public init(cacheNodeType: String? = nil, engineVersion: String? = nil, numCacheNodes: Int32? = nil, cacheNodeIdsToRemove: [String]? = nil) {
+        public init(cacheNodeType: String? = nil, engineVersion: String? = nil, numCacheNodes: Int32? = nil, cacheNodeIdsToRemove: CacheNodeIdsList? = nil) {
             self.cacheNodeType = cacheNodeType
             self.engineVersion = engineVersion
             self.numCacheNodes = numCacheNodes
@@ -2728,7 +3128,21 @@ extension Elasticache {
             self.cacheNodeType = dictionary["CacheNodeType"] as? String
             self.engineVersion = dictionary["EngineVersion"] as? String
             self.numCacheNodes = dictionary["NumCacheNodes"] as? Int32
-            self.cacheNodeIdsToRemove = dictionary["CacheNodeIdsToRemove"] as? [String]
+            if let cacheNodeIdsToRemove = dictionary["CacheNodeIdsToRemove"] as? [String: Any] { self.cacheNodeIdsToRemove = try Elasticache.CacheNodeIdsList(dictionary: cacheNodeIdsToRemove) } else { self.cacheNodeIdsToRemove = nil }
+        }
+    }
+
+    public struct CacheNodeIdsList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let cacheNodeId: [String]?
+
+        public init(cacheNodeId: [String]? = nil) {
+            self.cacheNodeId = cacheNodeId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.cacheNodeId = dictionary["CacheNodeId"] as? [String]
         }
     }
 
@@ -2736,11 +3150,11 @@ extension Elasticache {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of cache security group names to authorize for the clusters in this replication group. This change is asynchronously applied as soon as possible. This parameter can be used only with replication group containing cache clusters running outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be Default.
-        public let cacheSecurityGroupNames: [String]?
+        public let cacheSecurityGroupNames: CacheSecurityGroupNameList?
         /// The status of the Amazon SNS notification topic for the replication group. Notifications are sent only if the status is active. Valid values: active | inactive 
         public let notificationTopicStatus: String?
         /// Specifies the VPC Security Groups associated with the cache clusters in the replication group. This parameter can be used only with replication group containing cache clusters running in an Amazon Virtual Private Cloud (Amazon VPC).
-        public let securityGroupIds: [String]?
+        public let securityGroupIds: SecurityGroupIdsList?
         /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the replication group. If false, changes to the nodes in the replication group are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. Valid values: true | false  Default: false 
         public let applyImmediately: Bool?
         /// This parameter is currently disabled.
@@ -2770,7 +3184,7 @@ extension Elasticache {
         /// The number of days for which ElastiCache retains automatic node group (shard) snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  Important If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
         public let snapshotRetentionLimit: Int32?
 
-        public init(cacheSecurityGroupNames: [String]? = nil, notificationTopicStatus: String? = nil, securityGroupIds: [String]? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, notificationTopicArn: String? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, replicationGroupId: String, preferredMaintenanceWindow: String? = nil, cacheParameterGroupName: String? = nil, replicationGroupDescription: String? = nil, primaryClusterId: String? = nil, cacheNodeType: String? = nil, automaticFailoverEnabled: Bool? = nil, snapshotRetentionLimit: Int32? = nil) {
+        public init(cacheSecurityGroupNames: CacheSecurityGroupNameList? = nil, notificationTopicStatus: String? = nil, securityGroupIds: SecurityGroupIdsList? = nil, applyImmediately: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, notificationTopicArn: String? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, engineVersion: String? = nil, replicationGroupId: String, preferredMaintenanceWindow: String? = nil, cacheParameterGroupName: String? = nil, replicationGroupDescription: String? = nil, primaryClusterId: String? = nil, cacheNodeType: String? = nil, automaticFailoverEnabled: Bool? = nil, snapshotRetentionLimit: Int32? = nil) {
             self.cacheSecurityGroupNames = cacheSecurityGroupNames
             self.notificationTopicStatus = notificationTopicStatus
             self.securityGroupIds = securityGroupIds
@@ -2791,9 +3205,9 @@ extension Elasticache {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.cacheSecurityGroupNames = dictionary["CacheSecurityGroupNames"] as? [String]
+            if let cacheSecurityGroupNames = dictionary["CacheSecurityGroupNames"] as? [String: Any] { self.cacheSecurityGroupNames = try Elasticache.CacheSecurityGroupNameList(dictionary: cacheSecurityGroupNames) } else { self.cacheSecurityGroupNames = nil }
             self.notificationTopicStatus = dictionary["NotificationTopicStatus"] as? String
-            self.securityGroupIds = dictionary["SecurityGroupIds"] as? [String]
+            if let securityGroupIds = dictionary["SecurityGroupIds"] as? [String: Any] { self.securityGroupIds = try Elasticache.SecurityGroupIdsList(dictionary: securityGroupIds) } else { self.securityGroupIds = nil }
             self.applyImmediately = dictionary["ApplyImmediately"] as? Bool
             self.autoMinorVersionUpgrade = dictionary["AutoMinorVersionUpgrade"] as? Bool
             self.notificationTopicArn = dictionary["NotificationTopicArn"] as? String
@@ -2839,7 +3253,7 @@ extension Elasticache {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of cache node types and their corresponding values for this parameter.
-        public let cacheNodeTypeSpecificValues: [CacheNodeTypeSpecificValue]?
+        public let cacheNodeTypeSpecificValues: CacheNodeTypeSpecificValueList?
         /// The valid range of values for the parameter.
         public let allowedValues: String?
         /// The valid data type for the parameter.
@@ -2857,7 +3271,7 @@ extension Elasticache {
         /// A description of the parameter.
         public let description: String?
 
-        public init(cacheNodeTypeSpecificValues: [CacheNodeTypeSpecificValue]? = nil, allowedValues: String? = nil, dataType: String? = nil, parameterName: String? = nil, source: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, changeType: String? = nil, description: String? = nil) {
+        public init(cacheNodeTypeSpecificValues: CacheNodeTypeSpecificValueList? = nil, allowedValues: String? = nil, dataType: String? = nil, parameterName: String? = nil, source: String? = nil, isModifiable: Bool? = nil, minimumEngineVersion: String? = nil, changeType: String? = nil, description: String? = nil) {
             self.cacheNodeTypeSpecificValues = cacheNodeTypeSpecificValues
             self.allowedValues = allowedValues
             self.dataType = dataType
@@ -2870,11 +3284,7 @@ extension Elasticache {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let cacheNodeTypeSpecificValues = dictionary["CacheNodeTypeSpecificValues"] as? [[String: Any]] {
-                self.cacheNodeTypeSpecificValues = try cacheNodeTypeSpecificValues.map({ try CacheNodeTypeSpecificValue(dictionary: $0) })
-            } else { 
-                self.cacheNodeTypeSpecificValues = nil
-            }
+            if let cacheNodeTypeSpecificValues = dictionary["CacheNodeTypeSpecificValues"] as? [String: Any] { self.cacheNodeTypeSpecificValues = try Elasticache.CacheNodeTypeSpecificValueList(dictionary: cacheNodeTypeSpecificValues) } else { self.cacheNodeTypeSpecificValues = nil }
             self.allowedValues = dictionary["AllowedValues"] as? String
             self.dataType = dictionary["DataType"] as? String
             self.parameterName = dictionary["ParameterName"] as? String
@@ -2920,6 +3330,24 @@ extension Elasticache {
             self.marker = dictionary["Marker"] as? String
             self.maxRecords = dictionary["MaxRecords"] as? Int32
             self.cacheParameterGroupName = dictionary["CacheParameterGroupName"] as? String
+        }
+    }
+
+    public struct ParametersList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let parameter: [Parameter]?
+
+        public init(parameter: [Parameter]? = nil) {
+            self.parameter = parameter
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let parameter = dictionary["Parameter"] as? [[String: Any]] {
+                self.parameter = try parameter.map({ try Parameter(dictionary: $0) })
+            } else { 
+                self.parameter = nil
+            }
         }
     }
 

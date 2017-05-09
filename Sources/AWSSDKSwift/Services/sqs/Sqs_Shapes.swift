@@ -33,7 +33,7 @@ extension Sqs {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the message attribute, where N is the index.   The name can contain alphanumeric characters and the underscore (_), hyphen (-), and period (.).   The name is case-sensitive and must be unique among all attribute names for the message.   The name must not start with AWS-reserved prefixes such as AWS. or Amazon. (or any casing variants).   The name must not start or end with a period (.), and it should not have periods in succession (..).   The name can be up to 256 characters long.   When using ReceiveMessage, you can send a list of attribute names to receive, or you can return all of the attributes by specifying All or .* in your request. You can also use all message attributes starting with a prefix, for example bar.*.
-        public let messageAttributeNames: [String]?
+        public let messageAttributeNames: MessageAttributeNameList?
         /// The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request.
         public let visibilityTimeout: Int32?
         /// The maximum number of messages to return. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values are 1 to 10. Default is 1.
@@ -43,11 +43,11 @@ extension Sqs {
         /// This parameter applies only to FIFO (first-in-first-out) queues. The token used for deduplication of ReceiveMessage calls. If a networking issue occurs after a ReceiveMessage action, and instead of a response you receive a generic error, you can retry the same action with an identical ReceiveRequestAttemptId to retrieve the same set of messages, even if their visibility timeout has not yet expired.   You can use ReceiveRequestAttemptId only for 5 minutes after a ReceiveMessage action.   When you set FifoQueue, a caller of the ReceiveMessage action can provide a ReceiveRequestAttemptId explicitly.   If a caller of the ReceiveMessage action doesn't provide a ReceiveRequestAttemptId, Amazon SQS generates a ReceiveRequestAttemptId.   You can retry the ReceiveMessage action with the same ReceiveRequestAttemptId if none of the messages have been modified (deleted or had their visibility changes).   During a visibility timeout, subsequent calls with the same ReceiveRequestAttemptId return the same messages and receipt handles. If a retry occurs within the deduplication interval, it resets the visibility timeout. For more information, see Visibility Timeout in the Amazon Simple Queue Service Developer Guide.  If a caller of the ReceiveMessage action is still processing messages when the visibility timeout expires and messages become visible, another worker reading from the same queue can receive the same messages and therefore process duplicates. Also, if a reader whose message processing time is longer than the visibility timeout tries to delete the processed messages, the action fails with an error. To mitigate this effect, ensure that your application observes a safe threshold before the visibility timeout expires and extend the visibility timeout as necessary.    While messages with a particular MessageGroupId are invisible, no more messages belonging to the same MessageGroupId are returned until the visibility timeout expires. You can still receive messages with another MessageGroupId as long as it is also visible.   If a caller of ReceiveMessage can't track the ReceiveRequestAttemptId, no retries work until the original visibility timeout expires. As a result, delays might occur but the messages in the queue remain in a strict order.   The length of ReceiveRequestAttemptId is 128 characters. ReceiveRequestAttemptId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~). For best practices of using ReceiveRequestAttemptId, see Using the ReceiveRequestAttemptId Request Parameter in the Amazon Simple Queue Service Developer Guide.
         public let receiveRequestAttemptId: String?
         /// A list of attributes that need to be returned along with each message. These attributes include:    All - Returns all values.    ApproximateFirstReceiveTimestamp - Returns the time the message was first received from the queue (epoch time in milliseconds).    ApproximateReceiveCount - Returns the number of times a message has been received from the queue but not deleted.    SenderId    For an IAM user, returns the IAM user ID, for example ABCDEFGHI1JKLMNOPQ23R.   For an IAM role, returns the IAM role ID, for example ABCDE1F2GH3I4JK5LMNOP:i-a123b456.      SentTimestamp - Returns the time the message was sent to the queue (epoch time in milliseconds).    MessageDeduplicationId - Returns the value provided by the sender that calls the  SendMessage  action.    MessageGroupId - Returns the value provided by the sender that calls the  SendMessage  action. Messages with the same MessageGroupId are returned in sequence.    SequenceNumber - Returns the value provided by Amazon SQS.   Any other valid special request parameters (such as the following) are ignored:    ApproximateNumberOfMessages     ApproximateNumberOfMessagesDelayed     ApproximateNumberOfMessagesNotVisible     CreatedTimestamp     ContentBasedDeduplication     DelaySeconds     FifoQueue     LastModifiedTimestamp     MaximumMessageSize     MessageRetentionPeriod     Policy     QueueArn,     ReceiveMessageWaitTimeSeconds     RedrivePolicy     VisibilityTimeout   
-        public let attributeNames: [String]?
+        public let attributeNames: AttributeNameList?
         /// The duration (in seconds) for which the call waits for a message to arrive in the queue before returning. If a message is available, the call returns sooner than WaitTimeSeconds.
         public let waitTimeSeconds: Int32?
 
-        public init(messageAttributeNames: [String]? = nil, visibilityTimeout: Int32? = nil, maxNumberOfMessages: Int32? = nil, queueUrl: String, receiveRequestAttemptId: String? = nil, attributeNames: [String]? = nil, waitTimeSeconds: Int32? = nil) {
+        public init(messageAttributeNames: MessageAttributeNameList? = nil, visibilityTimeout: Int32? = nil, maxNumberOfMessages: Int32? = nil, queueUrl: String, receiveRequestAttemptId: String? = nil, attributeNames: AttributeNameList? = nil, waitTimeSeconds: Int32? = nil) {
             self.messageAttributeNames = messageAttributeNames
             self.visibilityTimeout = visibilityTimeout
             self.maxNumberOfMessages = maxNumberOfMessages
@@ -58,13 +58,13 @@ extension Sqs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.messageAttributeNames = dictionary["MessageAttributeNames"] as? [String]
+            if let messageAttributeNames = dictionary["MessageAttributeNames"] as? [String: Any] { self.messageAttributeNames = try Sqs.MessageAttributeNameList(dictionary: messageAttributeNames) } else { self.messageAttributeNames = nil }
             self.visibilityTimeout = dictionary["VisibilityTimeout"] as? Int32
             self.maxNumberOfMessages = dictionary["MaxNumberOfMessages"] as? Int32
             guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
             self.queueUrl = queueUrl
             self.receiveRequestAttemptId = dictionary["ReceiveRequestAttemptId"] as? String
-            self.attributeNames = dictionary["AttributeNames"] as? [String]
+            if let attributeNames = dictionary["AttributeNames"] as? [String: Any] { self.attributeNames = try Sqs.AttributeNameList(dictionary: attributeNames) } else { self.attributeNames = nil }
             self.waitTimeSeconds = dictionary["WaitTimeSeconds"] as? Int32
         }
     }
@@ -116,11 +116,25 @@ extension Sqs {
         }
     }
 
+    public struct BinaryList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let binaryListValue: [Data]?
+
+        public init(binaryListValue: [Data]? = nil) {
+            self.binaryListValue = binaryListValue
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.binaryListValue = dictionary["BinaryListValue"] as? [Data]
+        }
+    }
+
     public struct MessageAttributeValue: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// Not implemented. Reserved for future use.
-        public let binaryListValues: [Data]?
+        public let binaryListValues: BinaryList?
         /// Binary type attributes can store any binary data, such as compressed data, encrypted data, or images.
         public let binaryValue: Data?
         /// Strings are Unicode with UTF-8 binary encoding. For a list of code values, see ASCII Printable Characters.
@@ -128,9 +142,9 @@ extension Sqs {
         /// Amazon SQS supports the following logical data types: String, Number, and Binary. For the Number data type, you must use StringValue. You can also append custom labels. For more information, see Message Attribute Data Types and Validation in the Amazon SQS Developer Guide.
         public let dataType: String
         /// Not implemented. Reserved for future use.
-        public let stringListValues: [String]?
+        public let stringListValues: StringList?
 
-        public init(binaryListValues: [Data]? = nil, binaryValue: Data? = nil, stringValue: String? = nil, dataType: String, stringListValues: [String]? = nil) {
+        public init(binaryListValues: BinaryList? = nil, binaryValue: Data? = nil, stringValue: String? = nil, dataType: String, stringListValues: StringList? = nil) {
             self.binaryListValues = binaryListValues
             self.binaryValue = binaryValue
             self.stringValue = stringValue
@@ -139,12 +153,12 @@ extension Sqs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.binaryListValues = dictionary["BinaryListValues"] as? [Data]
+            if let binaryListValues = dictionary["BinaryListValue"] as? [String: Any] { self.binaryListValues = try Sqs.BinaryList(dictionary: binaryListValues) } else { self.binaryListValues = nil }
             self.binaryValue = dictionary["BinaryValue"] as? Data
             self.stringValue = dictionary["StringValue"] as? String
             guard let dataType = dictionary["DataType"] as? String else { throw InitializableError.missingRequiredParam("DataType") }
             self.dataType = dataType
-            self.stringListValues = dictionary["StringListValues"] as? [String]
+            if let stringListValues = dictionary["StringListValue"] as? [String: Any] { self.stringListValues = try Sqs.StringList(dictionary: stringListValues) } else { self.stringListValues = nil }
         }
     }
 
@@ -173,6 +187,20 @@ extension Sqs {
         }
     }
 
+    public struct StringList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let stringListValue: [String]?
+
+        public init(stringListValue: [String]? = nil) {
+            self.stringListValue = stringListValue
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.stringListValue = dictionary["StringListValue"] as? [String]
+        }
+    }
+
     public struct GetQueueUrlResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -188,22 +216,36 @@ extension Sqs {
         }
     }
 
+    public struct ActionNameList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let actionName: [String]?
+
+        public init(actionName: [String]? = nil) {
+            self.actionName = actionName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.actionName = dictionary["ActionName"] as? [String]
+        }
+    }
+
     public struct ChangeMessageVisibilityBatchRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of receipt handles of the messages for which the visibility timeout must be changed.
-        public let entries: [ChangeMessageVisibilityBatchRequestEntry]
+        public let entries: ChangeMessageVisibilityBatchRequestEntryList
         /// The URL of the Amazon SQS queue whose messages' visibility is changed. Queue URLs are case-sensitive.
         public let queueUrl: String
 
-        public init(entries: [ChangeMessageVisibilityBatchRequestEntry], queueUrl: String) {
+        public init(entries: ChangeMessageVisibilityBatchRequestEntryList, queueUrl: String) {
             self.entries = entries
             self.queueUrl = queueUrl
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let entries = dictionary["Entries"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Entries") }
-            self.entries = try entries.map({ try ChangeMessageVisibilityBatchRequestEntry(dictionary: $0) })
+            guard let entries = dictionary["Entries"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Entries") }
+            self.entries = try Sqs.ChangeMessageVisibilityBatchRequestEntryList(dictionary: entries)
             guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
             self.queueUrl = queueUrl
         }
@@ -241,14 +283,14 @@ extension Sqs {
             self.receiptHandle = dictionary["ReceiptHandle"] as? String
             self.messageId = dictionary["MessageId"] as? String
             self.mD5OfMessageAttributes = dictionary["MD5OfMessageAttributes"] as? String
-            if let attributes = dictionary["Attributes"] as? [String: String] {
+            if let attributes = dictionary["Attribute"] as? [String: String] {
                 self.attributes = attributes
             } else { 
                 self.attributes = nil
             }
             self.body = dictionary["Body"] as? String
             self.mD5OfBody = dictionary["MD5OfBody"] as? String
-            if let messageAttributes = dictionary["MessageAttributes"] as? [String: Any] {
+            if let messageAttributes = dictionary["MessageAttribute"] as? [String: Any] {
                 var messageAttributesDict: [String: MessageAttributeValue] = [:]
                 for (key, value) in messageAttributes {
                     guard let messageAttributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
@@ -261,24 +303,38 @@ extension Sqs {
         }
     }
 
+    public struct MessageAttributeNameList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let messageAttributeName: [String]?
+
+        public init(messageAttributeName: [String]? = nil) {
+            self.messageAttributeName = messageAttributeName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.messageAttributeName = dictionary["MessageAttributeName"] as? [String]
+        }
+    }
+
     public struct DeleteMessageBatchResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of  DeleteMessageBatchResultEntry  items.
-        public let successful: [DeleteMessageBatchResultEntry]
+        public let successful: DeleteMessageBatchResultEntryList
         /// A list of  BatchResultErrorEntry  items.
-        public let failed: [BatchResultErrorEntry]
+        public let failed: BatchResultErrorEntryList
 
-        public init(successful: [DeleteMessageBatchResultEntry], failed: [BatchResultErrorEntry]) {
+        public init(successful: DeleteMessageBatchResultEntryList, failed: BatchResultErrorEntryList) {
             self.successful = successful
             self.failed = failed
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let successful = dictionary["Successful"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Successful") }
-            self.successful = try successful.map({ try DeleteMessageBatchResultEntry(dictionary: $0) })
-            guard let failed = dictionary["Failed"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Failed") }
-            self.failed = try failed.map({ try BatchResultErrorEntry(dictionary: $0) })
+            guard let successful = dictionary["Successful"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Successful") }
+            self.successful = try Sqs.DeleteMessageBatchResultEntryList(dictionary: successful)
+            guard let failed = dictionary["Failed"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Failed") }
+            self.failed = try Sqs.BatchResultErrorEntryList(dictionary: failed)
         }
     }
 
@@ -286,18 +342,14 @@ extension Sqs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of messages.
-        public let messages: [Message]?
+        public let messages: MessageList?
 
-        public init(messages: [Message]? = nil) {
+        public init(messages: MessageList? = nil) {
             self.messages = messages
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let messages = dictionary["Messages"] as? [[String: Any]] {
-                self.messages = try messages.map({ try Message(dictionary: $0) })
-            } else { 
-                self.messages = nil
-            }
+            if let messages = dictionary["Messages"] as? [String: Any] { self.messages = try Sqs.MessageList(dictionary: messages) } else { self.messages = nil }
         }
     }
 
@@ -334,7 +386,7 @@ extension Sqs {
             self.messageDeduplicationId = dictionary["MessageDeduplicationId"] as? String
             guard let messageBody = dictionary["MessageBody"] as? String else { throw InitializableError.missingRequiredParam("MessageBody") }
             self.messageBody = messageBody
-            if let messageAttributes = dictionary["MessageAttributes"] as? [String: Any] {
+            if let messageAttributes = dictionary["MessageAttribute"] as? [String: Any] {
                 var messageAttributesDict: [String: MessageAttributeValue] = [:]
                 for (key, value) in messageAttributes {
                     guard let messageAttributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
@@ -353,13 +405,13 @@ extension Sqs {
         /// The unique identification of the permission you're setting (for example, AliceSendMessage). Maximum 80 characters. Allowed characters include alphanumeric characters, hyphens (-), and underscores (_).
         public let label: String
         /// The AWS account number of the principal who is given permission. The principal must have an AWS account, but does not need to be signed up for Amazon SQS. For information about locating the AWS account identification, see Your AWS Identifiers in the Amazon SQS Developer Guide.
-        public let aWSAccountIds: [String]
+        public let aWSAccountIds: AWSAccountIdList
         /// The action the client wants to allow for the specified principal. The following values are valid:    *     ChangeMessageVisibility     DeleteMessage     GetQueueAttributes     GetQueueUrl     ReceiveMessage     SendMessage    For more information about these actions, see Understanding Permissions in the Amazon SQS Developer Guide. Specifying SendMessage, DeleteMessage, or ChangeMessageVisibility for ActionName.n also grants permissions for the corresponding batch versions of those actions: SendMessageBatch, DeleteMessageBatch, and ChangeMessageVisibilityBatch.
-        public let actions: [String]
+        public let actions: ActionNameList
         /// The URL of the Amazon SQS queue to which permissions are added. Queue URLs are case-sensitive.
         public let queueUrl: String
 
-        public init(label: String, aWSAccountIds: [String], actions: [String], queueUrl: String) {
+        public init(label: String, aWSAccountIds: AWSAccountIdList, actions: ActionNameList, queueUrl: String) {
             self.label = label
             self.aWSAccountIds = aWSAccountIds
             self.actions = actions
@@ -369,10 +421,10 @@ extension Sqs {
         public init(dictionary: [String: Any]) throws {
             guard let label = dictionary["Label"] as? String else { throw InitializableError.missingRequiredParam("Label") }
             self.label = label
-            guard let aWSAccountIds = dictionary["AWSAccountIds"] as? [String] else { throw InitializableError.missingRequiredParam("AWSAccountIds") }
-            self.aWSAccountIds = aWSAccountIds
-            guard let actions = dictionary["Actions"] as? [String] else { throw InitializableError.missingRequiredParam("Actions") }
-            self.actions = actions
+            guard let aWSAccountIds = dictionary["AWSAccountIds"] as? [String: Any] else { throw InitializableError.missingRequiredParam("AWSAccountIds") }
+            self.aWSAccountIds = try Sqs.AWSAccountIdList(dictionary: aWSAccountIds)
+            guard let actions = dictionary["Actions"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Actions") }
+            self.actions = try Sqs.ActionNameList(dictionary: actions)
             guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
             self.queueUrl = queueUrl
         }
@@ -394,7 +446,7 @@ extension Sqs {
         public init(dictionary: [String: Any]) throws {
             guard let queueName = dictionary["QueueName"] as? String else { throw InitializableError.missingRequiredParam("QueueName") }
             self.queueName = queueName
-            if let attributes = dictionary["Attributes"] as? [String: String] {
+            if let attributes = dictionary["Attribute"] as? [String: String] {
                 self.attributes = attributes
             } else { 
                 self.attributes = nil
@@ -406,15 +458,43 @@ extension Sqs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of source queue URLs that have the RedrivePolicy queue attribute configured with a dead letter queue.
-        public let queueUrls: [String]
+        public let queueUrls: QueueUrlList
 
-        public init(queueUrls: [String]) {
+        public init(queueUrls: QueueUrlList) {
             self.queueUrls = queueUrls
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let queueUrls = dictionary["queueUrls"] as? [String] else { throw InitializableError.missingRequiredParam("queueUrls") }
-            self.queueUrls = queueUrls
+            guard let queueUrls = dictionary["queueUrls"] as? [String: Any] else { throw InitializableError.missingRequiredParam("queueUrls") }
+            self.queueUrls = try Sqs.QueueUrlList(dictionary: queueUrls)
+        }
+    }
+
+    public struct AWSAccountIdList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let aWSAccountId: [String]?
+
+        public init(aWSAccountId: [String]? = nil) {
+            self.aWSAccountId = aWSAccountId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.aWSAccountId = dictionary["AWSAccountId"] as? [String]
+        }
+    }
+
+    public struct QueueUrlList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let queueUrl: [String]?
+
+        public init(queueUrl: [String]? = nil) {
+            self.queueUrl = queueUrl
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.queueUrl = dictionary["QueueUrl"] as? [String]
         }
     }
 
@@ -454,24 +534,78 @@ extension Sqs {
         }
     }
 
+    public struct SendMessageBatchResultEntryList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let sendMessageBatchResultEntry: [SendMessageBatchResultEntry]?
+
+        public init(sendMessageBatchResultEntry: [SendMessageBatchResultEntry]? = nil) {
+            self.sendMessageBatchResultEntry = sendMessageBatchResultEntry
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let sendMessageBatchResultEntry = dictionary["SendMessageBatchResultEntry"] as? [[String: Any]] {
+                self.sendMessageBatchResultEntry = try sendMessageBatchResultEntry.map({ try SendMessageBatchResultEntry(dictionary: $0) })
+            } else { 
+                self.sendMessageBatchResultEntry = nil
+            }
+        }
+    }
+
     public struct ChangeMessageVisibilityBatchResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of  ChangeMessageVisibilityBatchResultEntry  items.
-        public let successful: [ChangeMessageVisibilityBatchResultEntry]
+        public let successful: ChangeMessageVisibilityBatchResultEntryList
         /// A list of  BatchResultErrorEntry  items.
-        public let failed: [BatchResultErrorEntry]
+        public let failed: BatchResultErrorEntryList
 
-        public init(successful: [ChangeMessageVisibilityBatchResultEntry], failed: [BatchResultErrorEntry]) {
+        public init(successful: ChangeMessageVisibilityBatchResultEntryList, failed: BatchResultErrorEntryList) {
             self.successful = successful
             self.failed = failed
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let successful = dictionary["Successful"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Successful") }
-            self.successful = try successful.map({ try ChangeMessageVisibilityBatchResultEntry(dictionary: $0) })
-            guard let failed = dictionary["Failed"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Failed") }
-            self.failed = try failed.map({ try BatchResultErrorEntry(dictionary: $0) })
+            guard let successful = dictionary["Successful"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Successful") }
+            self.successful = try Sqs.ChangeMessageVisibilityBatchResultEntryList(dictionary: successful)
+            guard let failed = dictionary["Failed"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Failed") }
+            self.failed = try Sqs.BatchResultErrorEntryList(dictionary: failed)
+        }
+    }
+
+    public struct DeleteMessageBatchResultEntryList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let deleteMessageBatchResultEntry: [DeleteMessageBatchResultEntry]?
+
+        public init(deleteMessageBatchResultEntry: [DeleteMessageBatchResultEntry]? = nil) {
+            self.deleteMessageBatchResultEntry = deleteMessageBatchResultEntry
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let deleteMessageBatchResultEntry = dictionary["DeleteMessageBatchResultEntry"] as? [[String: Any]] {
+                self.deleteMessageBatchResultEntry = try deleteMessageBatchResultEntry.map({ try DeleteMessageBatchResultEntry(dictionary: $0) })
+            } else { 
+                self.deleteMessageBatchResultEntry = nil
+            }
+        }
+    }
+
+    public struct MessageList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let message: [Message]?
+
+        public init(message: [Message]? = nil) {
+            self.message = message
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let message = dictionary["Message"] as? [[String: Any]] {
+                self.message = try message.map({ try Message(dictionary: $0) })
+            } else { 
+                self.message = nil
+            }
         }
     }
 
@@ -539,10 +673,24 @@ extension Sqs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let attributes = dictionary["Attributes"] as? [String: String] else { throw InitializableError.missingRequiredParam("Attributes") }
+            guard let attributes = dictionary["Attribute"] as? [String: String] else { throw InitializableError.missingRequiredParam("Attribute") }
             self.attributes = attributes
             guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
             self.queueUrl = queueUrl
+        }
+    }
+
+    public struct AttributeNameList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let attributeName: [String]?
+
+        public init(attributeName: [String]? = nil) {
+            self.attributeName = attributeName
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.attributeName = dictionary["AttributeName"] as? [String]
         }
     }
 
@@ -557,7 +705,7 @@ extension Sqs {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let attributes = dictionary["Attributes"] as? [String: String] {
+            if let attributes = dictionary["Attribute"] as? [String: String] {
                 self.attributes = attributes
             } else { 
                 self.attributes = nil
@@ -584,14 +732,14 @@ extension Sqs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of queue URLs, up to 1,000 entries.
-        public let queueUrls: [String]?
+        public let queueUrls: QueueUrlList?
 
-        public init(queueUrls: [String]? = nil) {
+        public init(queueUrls: QueueUrlList? = nil) {
             self.queueUrls = queueUrls
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.queueUrls = dictionary["QueueUrls"] as? [String]
+            if let queueUrls = dictionary["QueueUrls"] as? [String: Any] { self.queueUrls = try Sqs.QueueUrlList(dictionary: queueUrls) } else { self.queueUrls = nil }
         }
     }
 
@@ -618,6 +766,24 @@ extension Sqs {
             self.receiptHandle = receiptHandle
             guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
             self.queueUrl = queueUrl
+        }
+    }
+
+    public struct ChangeMessageVisibilityBatchRequestEntryList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let changeMessageVisibilityBatchRequestEntry: [ChangeMessageVisibilityBatchRequestEntry]?
+
+        public init(changeMessageVisibilityBatchRequestEntry: [ChangeMessageVisibilityBatchRequestEntry]? = nil) {
+            self.changeMessageVisibilityBatchRequestEntry = changeMessageVisibilityBatchRequestEntry
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let changeMessageVisibilityBatchRequestEntry = dictionary["ChangeMessageVisibilityBatchRequestEntry"] as? [[String: Any]] {
+                self.changeMessageVisibilityBatchRequestEntry = try changeMessageVisibilityBatchRequestEntry.map({ try ChangeMessageVisibilityBatchRequestEntry(dictionary: $0) })
+            } else { 
+                self.changeMessageVisibilityBatchRequestEntry = nil
+            }
         }
     }
 
@@ -672,6 +838,24 @@ extension Sqs {
         }
     }
 
+    public struct ChangeMessageVisibilityBatchResultEntryList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let changeMessageVisibilityBatchResultEntry: [ChangeMessageVisibilityBatchResultEntry]?
+
+        public init(changeMessageVisibilityBatchResultEntry: [ChangeMessageVisibilityBatchResultEntry]? = nil) {
+            self.changeMessageVisibilityBatchResultEntry = changeMessageVisibilityBatchResultEntry
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let changeMessageVisibilityBatchResultEntry = dictionary["ChangeMessageVisibilityBatchResultEntry"] as? [[String: Any]] {
+                self.changeMessageVisibilityBatchResultEntry = try changeMessageVisibilityBatchResultEntry.map({ try ChangeMessageVisibilityBatchResultEntry(dictionary: $0) })
+            } else { 
+                self.changeMessageVisibilityBatchResultEntry = nil
+            }
+        }
+    }
+
     public struct DeleteMessageRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -713,18 +897,18 @@ extension Sqs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of  SendMessageBatchRequestEntry  items.
-        public let entries: [SendMessageBatchRequestEntry]
+        public let entries: SendMessageBatchRequestEntryList
         /// The URL of the Amazon SQS queue to which batched messages are sent. Queue URLs are case-sensitive.
         public let queueUrl: String
 
-        public init(entries: [SendMessageBatchRequestEntry], queueUrl: String) {
+        public init(entries: SendMessageBatchRequestEntryList, queueUrl: String) {
             self.entries = entries
             self.queueUrl = queueUrl
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let entries = dictionary["Entries"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Entries") }
-            self.entries = try entries.map({ try SendMessageBatchRequestEntry(dictionary: $0) })
+            guard let entries = dictionary["Entries"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Entries") }
+            self.entries = try Sqs.SendMessageBatchRequestEntryList(dictionary: entries)
             guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
             self.queueUrl = queueUrl
         }
@@ -750,18 +934,18 @@ extension Sqs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of receipt handles for the messages to be deleted.
-        public let entries: [DeleteMessageBatchRequestEntry]
+        public let entries: DeleteMessageBatchRequestEntryList
         /// The URL of the Amazon SQS queue from which messages are deleted. Queue URLs are case-sensitive.
         public let queueUrl: String
 
-        public init(entries: [DeleteMessageBatchRequestEntry], queueUrl: String) {
+        public init(entries: DeleteMessageBatchRequestEntryList, queueUrl: String) {
             self.entries = entries
             self.queueUrl = queueUrl
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let entries = dictionary["Entries"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Entries") }
-            self.entries = try entries.map({ try DeleteMessageBatchRequestEntry(dictionary: $0) })
+            guard let entries = dictionary["Entries"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Entries") }
+            self.entries = try Sqs.DeleteMessageBatchRequestEntryList(dictionary: entries)
             guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
             self.queueUrl = queueUrl
         }
@@ -771,19 +955,37 @@ extension Sqs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of attributes for which to retrieve information.  In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully.  The following attributes are supported:    All - Returns all values.     ApproximateNumberOfMessages - Returns the approximate number of visible messages in a queue. For more information, see Resources Required to Process Messages in the Amazon SQS Developer Guide.     ApproximateNumberOfMessagesDelayed - Returns the approximate number of messages that are waiting to be added to the queue.     ApproximateNumberOfMessagesNotVisible - Returns the approximate number of messages that have not timed-out and aren't deleted. For more information, see Resources Required to Process Messages in the Amazon SQS Developer Guide.     CreatedTimestamp - Returns the time when the queue was created in seconds (epoch time).    DelaySeconds - Returns the default delay on the queue in seconds.    LastModifiedTimestamp - Returns the time when the queue was last changed in seconds (epoch time).    MaximumMessageSize - Returns the limit of how many bytes a message can contain before Amazon SQS rejects it.    MessageRetentionPeriod - Returns the number of seconds for which Amazon SQS retains a message.    Policy - Returns the policy of the queue.    QueueArn - Returns the Amazon resource name (ARN) of the queue.    ReceiveMessageWaitTimeSeconds - Returns the number of seconds for which the ReceiveMessage action waits for a message to arrive.     RedrivePolicy - Returns the parameters for dead letter queue functionality of the source queue. For more information about the redrive policy and dead letter queues, see Using Amazon SQS Dead Letter Queues in the Amazon SQS Developer Guide.     VisibilityTimeout - Returns the visibility timeout for the queue. For more information about the visibility timeout, see Visibility Timeout in the Amazon SQS Developer Guide.    The following attributes apply only to FIFO (first-in-first-out) queues:    FifoQueue - Returns whether the queue is FIFO. For more information, see FIFO Queue Logic in the Amazon SQS Developer Guide.    ContentBasedDeduplication - Returns whether content-based deduplication is enabled for the queue. For more information, see Exactly-Once Processing in the Amazon SQS Developer Guide.   
-        public let attributeNames: [String]?
+        public let attributeNames: AttributeNameList?
         /// The URL of the Amazon SQS queue whose attribute information is retrieved. Queue URLs are case-sensitive.
         public let queueUrl: String
 
-        public init(attributeNames: [String]? = nil, queueUrl: String) {
+        public init(attributeNames: AttributeNameList? = nil, queueUrl: String) {
             self.attributeNames = attributeNames
             self.queueUrl = queueUrl
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.attributeNames = dictionary["AttributeNames"] as? [String]
+            if let attributeNames = dictionary["AttributeNames"] as? [String: Any] { self.attributeNames = try Sqs.AttributeNameList(dictionary: attributeNames) } else { self.attributeNames = nil }
             guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
             self.queueUrl = queueUrl
+        }
+    }
+
+    public struct BatchResultErrorEntryList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let batchResultErrorEntry: [BatchResultErrorEntry]?
+
+        public init(batchResultErrorEntry: [BatchResultErrorEntry]? = nil) {
+            self.batchResultErrorEntry = batchResultErrorEntry
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let batchResultErrorEntry = dictionary["BatchResultErrorEntry"] as? [[String: Any]] {
+                self.batchResultErrorEntry = try batchResultErrorEntry.map({ try BatchResultErrorEntry(dictionary: $0) })
+            } else { 
+                self.batchResultErrorEntry = nil
+            }
         }
     }
 
@@ -800,6 +1002,42 @@ extension Sqs {
         public init(dictionary: [String: Any]) throws {
             guard let queueUrl = dictionary["QueueUrl"] as? String else { throw InitializableError.missingRequiredParam("QueueUrl") }
             self.queueUrl = queueUrl
+        }
+    }
+
+    public struct SendMessageBatchRequestEntryList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let sendMessageBatchRequestEntry: [SendMessageBatchRequestEntry]?
+
+        public init(sendMessageBatchRequestEntry: [SendMessageBatchRequestEntry]? = nil) {
+            self.sendMessageBatchRequestEntry = sendMessageBatchRequestEntry
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let sendMessageBatchRequestEntry = dictionary["SendMessageBatchRequestEntry"] as? [[String: Any]] {
+                self.sendMessageBatchRequestEntry = try sendMessageBatchRequestEntry.map({ try SendMessageBatchRequestEntry(dictionary: $0) })
+            } else { 
+                self.sendMessageBatchRequestEntry = nil
+            }
+        }
+    }
+
+    public struct DeleteMessageBatchRequestEntryList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let deleteMessageBatchRequestEntry: [DeleteMessageBatchRequestEntry]?
+
+        public init(deleteMessageBatchRequestEntry: [DeleteMessageBatchRequestEntry]? = nil) {
+            self.deleteMessageBatchRequestEntry = deleteMessageBatchRequestEntry
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let deleteMessageBatchRequestEntry = dictionary["DeleteMessageBatchRequestEntry"] as? [[String: Any]] {
+                self.deleteMessageBatchRequestEntry = try deleteMessageBatchRequestEntry.map({ try DeleteMessageBatchRequestEntry(dictionary: $0) })
+            } else { 
+                self.deleteMessageBatchRequestEntry = nil
+            }
         }
     }
 
@@ -830,7 +1068,7 @@ extension Sqs {
 
         public init(dictionary: [String: Any]) throws {
             self.delaySeconds = dictionary["DelaySeconds"] as? Int32
-            if let messageAttributes = dictionary["MessageAttributes"] as? [String: Any] {
+            if let messageAttributes = dictionary["MessageAttribute"] as? [String: Any] {
                 var messageAttributesDict: [String: MessageAttributeValue] = [:]
                 for (key, value) in messageAttributes {
                     guard let messageAttributeValueDict = value as? [String: Any] else { throw InitializableError.convertingError }
@@ -869,20 +1107,20 @@ extension Sqs {
         /// The key for the payload
         public static let payload: String? = nil
         /// A list of  SendMessageBatchResultEntry  items.
-        public let successful: [SendMessageBatchResultEntry]
+        public let successful: SendMessageBatchResultEntryList
         /// A list of  BatchResultErrorEntry  items with error details about each message that can't be enqueued.
-        public let failed: [BatchResultErrorEntry]
+        public let failed: BatchResultErrorEntryList
 
-        public init(successful: [SendMessageBatchResultEntry], failed: [BatchResultErrorEntry]) {
+        public init(successful: SendMessageBatchResultEntryList, failed: BatchResultErrorEntryList) {
             self.successful = successful
             self.failed = failed
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let successful = dictionary["Successful"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Successful") }
-            self.successful = try successful.map({ try SendMessageBatchResultEntry(dictionary: $0) })
-            guard let failed = dictionary["Failed"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Failed") }
-            self.failed = try failed.map({ try BatchResultErrorEntry(dictionary: $0) })
+            guard let successful = dictionary["Successful"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Successful") }
+            self.successful = try Sqs.SendMessageBatchResultEntryList(dictionary: successful)
+            guard let failed = dictionary["Failed"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Failed") }
+            self.failed = try Sqs.BatchResultErrorEntryList(dictionary: failed)
         }
     }
 

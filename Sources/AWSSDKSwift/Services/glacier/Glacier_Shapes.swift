@@ -43,7 +43,7 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.capacityId = dictionary["capacityId"] as? String
+            self.capacityId = dictionary["X-amz-capacity-id"] as? String
         }
     }
 
@@ -65,7 +65,7 @@ extension Glacier {
 
         public init(dictionary: [String: Any]) throws {
             if let policy = dictionary["Policy"] as? [String: Any] { self.policy = try Glacier.DataRetrievalPolicy(dictionary: policy) } else { self.policy = nil }
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
         }
     }
@@ -90,11 +90,11 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let uploadId = dictionary["uploadId"] as? String else { throw InitializableError.missingRequiredParam("uploadId") }
+            guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
             self.uploadId = uploadId
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -116,9 +116,9 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -143,10 +143,10 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
             if let policy = dictionary["policy"] as? [String: Any] { self.policy = try Glacier.VaultLockPolicy(dictionary: policy) } else { self.policy = nil }
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -177,12 +177,12 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            self.archiveDescription = dictionary["archiveDescription"] as? String
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.archiveDescription = dictionary["X-amz-archive-description"] as? String
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
-            self.partSize = dictionary["partSize"] as? String
+            self.partSize = dictionary["X-amz-part-size"] as? String
         }
     }
 
@@ -254,11 +254,11 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            self.marker = dictionary["marker"] as? String
-            self.limit = dictionary["limit"] as? String
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.marker = dictionary["Marker"] as? String
+            self.limit = dictionary["Limit"] as? String
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -280,9 +280,9 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -301,7 +301,7 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
         }
     }
@@ -332,12 +332,12 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            self.range = dictionary["range"] as? String
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.range = dictionary["Range"] as? String
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
-            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
+            guard let jobId = dictionary["JobId"] as? String else { throw InitializableError.missingRequiredParam("JobId") }
             self.jobId = jobId
         }
     }
@@ -356,7 +356,7 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
         }
     }
@@ -405,11 +405,11 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            self.archiveDescription = dictionary["archiveDescription"] as? String
-            self.checksum = dictionary["checksum"] as? String
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.archiveDescription = dictionary["X-amz-archive-description"] as? String
+            self.checksum = dictionary["X-amz-sha256-tree-hash"] as? String
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
             self.body = dictionary["body"] as? Data
         }
@@ -447,13 +447,13 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let uploadId = dictionary["uploadId"] as? String else { throw InitializableError.missingRequiredParam("uploadId") }
+            guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
             self.uploadId = uploadId
-            self.range = dictionary["range"] as? String
-            self.checksum = dictionary["checksum"] as? String
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.range = dictionary["Content-Range"] as? String
+            self.checksum = dictionary["X-amz-sha256-tree-hash"] as? String
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
             self.body = dictionary["body"] as? Data
         }
@@ -480,9 +480,9 @@ extension Glacier {
 
         public init(dictionary: [String: Any]) throws {
             if let vaultNotificationConfig = dictionary["vaultNotificationConfig"] as? [String: Any] { self.vaultNotificationConfig = try Glacier.VaultNotificationConfig(dictionary: vaultNotificationConfig) } else { self.vaultNotificationConfig = nil }
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -504,9 +504,9 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -550,9 +550,9 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
             self.tagKeys = dictionary["TagKeys"] as? [String]
         }
@@ -597,14 +597,14 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
             if let tags = dictionary["Tags"] as? [String: String] {
                 self.tags = tags
             } else { 
                 self.tags = nil
             }
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -669,13 +669,13 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let uploadId = dictionary["uploadId"] as? String else { throw InitializableError.missingRequiredParam("uploadId") }
+            guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
             self.uploadId = uploadId
-            self.archiveSize = dictionary["archiveSize"] as? String
-            self.checksum = dictionary["checksum"] as? String
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.archiveSize = dictionary["X-amz-archive-size"] as? String
+            self.checksum = dictionary["X-amz-sha256-tree-hash"] as? String
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -712,14 +712,14 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            self.marker = dictionary["marker"] as? String
-            self.limit = dictionary["limit"] as? String
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.marker = dictionary["Marker"] as? String
+            self.limit = dictionary["Limit"] as? String
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
-            self.statuscode = dictionary["statuscode"] as? String
-            self.completed = dictionary["completed"] as? String
+            self.statuscode = dictionary["Statuscode"] as? String
+            self.completed = dictionary["Completed"] as? String
         }
     }
 
@@ -740,9 +740,9 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -764,9 +764,9 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -791,10 +791,10 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
             if let jobParameters = dictionary["jobParameters"] as? [String: Any] { self.jobParameters = try Glacier.JobParameters(dictionary: jobParameters) } else { self.jobParameters = nil }
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -819,9 +819,9 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.archiveId = dictionary["archiveId"] as? String
-            self.location = dictionary["location"] as? String
-            self.checksum = dictionary["checksum"] as? String
+            self.archiveId = dictionary["X-amz-archive-id"] as? String
+            self.location = dictionary["Location"] as? String
+            self.checksum = dictionary["X-amz-sha256-tree-hash"] as? String
         }
     }
 
@@ -858,7 +858,7 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.location = dictionary["location"] as? String
+            self.location = dictionary["Location"] as? String
         }
     }
 
@@ -879,8 +879,8 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.jobId = dictionary["jobId"] as? String
-            self.location = dictionary["location"] as? String
+            self.jobId = dictionary["X-amz-job-id"] as? String
+            self.location = dictionary["Location"] as? String
         }
     }
 
@@ -1088,9 +1088,9 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -1118,10 +1118,10 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["marker"] as? String
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            self.marker = dictionary["Marker"] as? String
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            self.limit = dictionary["limit"] as? String
+            self.limit = dictionary["Limit"] as? String
         }
     }
 
@@ -1157,8 +1157,8 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.uploadId = dictionary["uploadId"] as? String
-            self.location = dictionary["location"] as? String
+            self.uploadId = dictionary["X-amz-multipart-upload-id"] as? String
+            self.location = dictionary["Location"] as? String
         }
     }
 
@@ -1234,13 +1234,13 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let uploadId = dictionary["uploadId"] as? String else { throw InitializableError.missingRequiredParam("uploadId") }
+            guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
             self.uploadId = uploadId
-            self.limit = dictionary["limit"] as? String
-            self.marker = dictionary["marker"] as? String
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            self.limit = dictionary["Limit"] as? String
+            self.marker = dictionary["Marker"] as? String
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -1277,9 +1277,9 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -1301,9 +1301,9 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -1328,11 +1328,11 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let archiveId = dictionary["archiveId"] as? String else { throw InitializableError.missingRequiredParam("archiveId") }
+            guard let archiveId = dictionary["ArchiveId"] as? String else { throw InitializableError.missingRequiredParam("ArchiveId") }
             self.archiveId = archiveId
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -1357,10 +1357,10 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
             if let policy = dictionary["policy"] as? [String: Any] { self.policy = try Glacier.VaultAccessPolicy(dictionary: policy) } else { self.policy = nil }
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -1412,13 +1412,13 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.contentRange = dictionary["contentRange"] as? String
+            self.contentRange = dictionary["Content-Range"] as? String
             self.status = dictionary["status"] as? Int32
-            self.contentType = dictionary["contentType"] as? String
-            self.acceptRanges = dictionary["acceptRanges"] as? String
+            self.contentType = dictionary["Content-Type"] as? String
+            self.acceptRanges = dictionary["Accept-Ranges"] as? String
             self.body = dictionary["body"] as? Data
-            self.archiveDescription = dictionary["archiveDescription"] as? String
-            self.checksum = dictionary["checksum"] as? String
+            self.archiveDescription = dictionary["X-amz-archive-description"] as? String
+            self.checksum = dictionary["X-amz-sha256-tree-hash"] as? String
         }
     }
 
@@ -1436,7 +1436,7 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
         }
     }
@@ -1455,7 +1455,7 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.checksum = dictionary["checksum"] as? String
+            self.checksum = dictionary["X-amz-sha256-tree-hash"] as? String
         }
     }
 
@@ -1580,9 +1580,9 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -1604,9 +1604,9 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -1646,11 +1646,11 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let jobId = dictionary["jobId"] as? String else { throw InitializableError.missingRequiredParam("jobId") }
+            guard let jobId = dictionary["JobId"] as? String else { throw InitializableError.missingRequiredParam("JobId") }
             self.jobId = jobId
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -1675,11 +1675,11 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let accountId = dictionary["accountId"] as? String else { throw InitializableError.missingRequiredParam("accountId") }
+            guard let accountId = dictionary["AccountId"] as? String else { throw InitializableError.missingRequiredParam("AccountId") }
             self.accountId = accountId
-            guard let lockId = dictionary["lockId"] as? String else { throw InitializableError.missingRequiredParam("lockId") }
+            guard let lockId = dictionary["LockId"] as? String else { throw InitializableError.missingRequiredParam("LockId") }
             self.lockId = lockId
-            guard let vaultName = dictionary["vaultName"] as? String else { throw InitializableError.missingRequiredParam("vaultName") }
+            guard let vaultName = dictionary["VaultName"] as? String else { throw InitializableError.missingRequiredParam("VaultName") }
             self.vaultName = vaultName
         }
     }
@@ -1725,7 +1725,7 @@ extension Glacier {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.lockId = dictionary["lockId"] as? String
+            self.lockId = dictionary["X-amz-lock-id"] as? String
         }
     }
 

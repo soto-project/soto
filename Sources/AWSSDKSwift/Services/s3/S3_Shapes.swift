@@ -51,21 +51,17 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of tags used when evaluating an AND predicate.
-        public let tags: [Tag]?
+        public let tags: TagSet?
         /// The prefix used when evaluating an AND predicate.
         public let prefix: String?
 
-        public init(tags: [Tag]? = nil, prefix: String? = nil) {
+        public init(tags: TagSet? = nil, prefix: String? = nil) {
             self.tags = tags
             self.prefix = prefix
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tag"] as? [String: Any] { self.tags = try S3.TagSet(dictionary: tags) } else { self.tags = nil }
             self.prefix = dictionary["Prefix"] as? String
         }
     }
@@ -117,7 +113,25 @@ extension S3 {
             self.bucket = bucket
             guard let cORSConfiguration = dictionary["CORSConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("CORSConfiguration") }
             self.cORSConfiguration = try S3.CORSConfiguration(dictionary: cORSConfiguration)
-            self.contentMD5 = dictionary["ContentMD5"] as? String
+            self.contentMD5 = dictionary["Content-MD5"] as? String
+        }
+    }
+
+    public struct TagSet: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let tag: [Tag]?
+
+        public init(tag: [Tag]? = nil) {
+            self.tag = tag
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let tag = dictionary["Tag"] as? [[String: Any]] {
+                self.tag = try tag.map({ try Tag(dictionary: $0) })
+            } else { 
+                self.tag = nil
+            }
         }
     }
 
@@ -219,20 +233,16 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// All of these tags must exist in the object's tag set in order for the rule to apply.
-        public let tags: [Tag]?
+        public let tags: TagSet?
         public let prefix: String?
 
-        public init(tags: [Tag]? = nil, prefix: String? = nil) {
+        public init(tags: TagSet? = nil, prefix: String? = nil) {
             self.tags = tags
             self.prefix = prefix
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tag"] as? [String: Any] { self.tags = try S3.TagSet(dictionary: tags) } else { self.tags = nil }
             self.prefix = dictionary["Prefix"] as? String
         }
     }
@@ -361,27 +371,27 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             if let copyPartResult = dictionary["CopyPartResult"] as? [String: Any] { self.copyPartResult = try S3.CopyPartResult(dictionary: copyPartResult) } else { self.copyPartResult = nil }
-            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
-            self.copySourceVersionId = dictionary["CopySourceVersionId"] as? String
-            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
-            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
-            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
-            self.requestCharged = dictionary["RequestCharged"] as? String
+            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.copySourceVersionId = dictionary["X-amz-copy-source-version-id"] as? String
+            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
+            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
+            self.requestCharged = dictionary["X-amz-request-charged"] as? String
         }
     }
 
     public struct Tagging: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let tagSet: [Tag]
+        public let tagSet: TagSet
 
-        public init(tagSet: [Tag]) {
+        public init(tagSet: TagSet) {
             self.tagSet = tagSet
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let tagSet = dictionary["TagSet"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TagSet") }
-            self.tagSet = try tagSet.map({ try Tag(dictionary: $0) })
+            guard let tagSet = dictionary["TagSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TagSet") }
+            self.tagSet = try S3.TagSet(dictionary: tagSet)
         }
     }
 
@@ -458,15 +468,15 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             self.bucket = dictionary["Bucket"] as? String
-            self.abortDate = dictionary["AbortDate"] as? Date
-            self.abortRuleId = dictionary["AbortRuleId"] as? String
-            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
+            self.abortDate = dictionary["X-amz-abort-date"] as? Date
+            self.abortRuleId = dictionary["X-amz-abort-rule-id"] as? String
+            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
             self.key = dictionary["Key"] as? String
             self.uploadId = dictionary["UploadId"] as? String
-            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
-            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
-            self.requestCharged = dictionary["RequestCharged"] as? String
-            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
+            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
+            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
         }
     }
 
@@ -612,44 +622,44 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.tagging = dictionary["Tagging"] as? String
-            self.contentDisposition = dictionary["ContentDisposition"] as? String
-            self.copySourceIfModifiedSince = dictionary["CopySourceIfModifiedSince"] as? Date
-            self.copySourceIfNoneMatch = dictionary["CopySourceIfNoneMatch"] as? String
-            self.copySourceIfMatch = dictionary["CopySourceIfMatch"] as? String
-            self.copySourceSSECustomerKey = dictionary["CopySourceSSECustomerKey"] as? String
-            self.contentLanguage = dictionary["ContentLanguage"] as? String
-            self.grantReadACP = dictionary["GrantReadACP"] as? String
-            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
-            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
-            self.contentEncoding = dictionary["ContentEncoding"] as? String
-            self.grantWriteACP = dictionary["GrantWriteACP"] as? String
+            self.tagging = dictionary["X-amz-tagging"] as? String
+            self.contentDisposition = dictionary["Content-Disposition"] as? String
+            self.copySourceIfModifiedSince = dictionary["X-amz-copy-source-if-modified-since"] as? Date
+            self.copySourceIfNoneMatch = dictionary["X-amz-copy-source-if-none-match"] as? String
+            self.copySourceIfMatch = dictionary["X-amz-copy-source-if-match"] as? String
+            self.copySourceSSECustomerKey = dictionary["X-amz-copy-source-server-side-encryption-customer-key"] as? String
+            self.contentLanguage = dictionary["Content-Language"] as? String
+            self.grantReadACP = dictionary["X-amz-grant-read-acp"] as? String
+            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
+            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.contentEncoding = dictionary["Content-Encoding"] as? String
+            self.grantWriteACP = dictionary["X-amz-grant-write-acp"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.websiteRedirectLocation = dictionary["WebsiteRedirectLocation"] as? String
-            self.copySourceSSECustomerKeyMD5 = dictionary["CopySourceSSECustomerKeyMD5"] as? String
-            self.copySourceIfUnmodifiedSince = dictionary["CopySourceIfUnmodifiedSince"] as? Date
-            self.sSECustomerKey = dictionary["SSECustomerKey"] as? String
-            self.cacheControl = dictionary["CacheControl"] as? String
-            self.taggingDirective = dictionary["TaggingDirective"] as? String
-            self.requestPayer = dictionary["RequestPayer"] as? String
-            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
-            self.grantFullControl = dictionary["GrantFullControl"] as? String
-            self.metadataDirective = dictionary["MetadataDirective"] as? String
-            guard let copySource = dictionary["CopySource"] as? String else { throw InitializableError.missingRequiredParam("CopySource") }
+            self.websiteRedirectLocation = dictionary["X-amz-website-redirect-location"] as? String
+            self.copySourceSSECustomerKeyMD5 = dictionary["X-amz-copy-source-server-side-encryption-customer-key-MD5"] as? String
+            self.copySourceIfUnmodifiedSince = dictionary["X-amz-copy-source-if-unmodified-since"] as? Date
+            self.sSECustomerKey = dictionary["X-amz-server-side-encryption-customer-key"] as? String
+            self.cacheControl = dictionary["Cache-Control"] as? String
+            self.taggingDirective = dictionary["X-amz-tagging-directive"] as? String
+            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.grantFullControl = dictionary["X-amz-grant-full-control"] as? String
+            self.metadataDirective = dictionary["X-amz-metadata-directive"] as? String
+            guard let copySource = dictionary["X-amz-copy-source"] as? String else { throw InitializableError.missingRequiredParam("X-amz-copy-source") }
             self.copySource = copySource
-            self.aCL = dictionary["ACL"] as? String
-            if let metadata = dictionary["Metadata"] as? [String: String] {
+            self.aCL = dictionary["X-amz-acl"] as? String
+            if let metadata = dictionary["X-amz-meta-"] as? [String: String] {
                 self.metadata = metadata
             } else { 
                 self.metadata = nil
             }
             self.expires = dictionary["Expires"] as? Date
-            self.contentType = dictionary["ContentType"] as? String
-            self.storageClass = dictionary["StorageClass"] as? String
-            self.copySourceSSECustomerAlgorithm = dictionary["CopySourceSSECustomerAlgorithm"] as? String
-            self.grantRead = dictionary["GrantRead"] as? String
-            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
+            self.contentType = dictionary["Content-Type"] as? String
+            self.storageClass = dictionary["X-amz-storage-class"] as? String
+            self.copySourceSSECustomerAlgorithm = dictionary["X-amz-copy-source-server-side-encryption-customer-algorithm"] as? String
+            self.grantRead = dictionary["X-amz-grant-read"] as? String
+            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
         }
     }
 
@@ -743,12 +753,12 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.maxKeys = dictionary["MaxKeys"] as? Int32
+            self.maxKeys = dictionary["Max-keys"] as? Int32
             self.marker = dictionary["Marker"] as? String
-            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.requestPayer = dictionary["X-amz-request-payer"] as? String
             self.prefix = dictionary["Prefix"] as? String
             self.delimiter = dictionary["Delimiter"] as? String
-            self.encodingType = dictionary["EncodingType"] as? String
+            self.encodingType = dictionary["Encoding-type"] as? String
         }
     }
 
@@ -804,7 +814,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             self.cloudFunction = dictionary["CloudFunction"] as? String
             self.invocationRole = dictionary["InvocationRole"] as? String
-            self.events = dictionary["Events"] as? [String]
+            self.events = dictionary["Event"] as? [String]
             self.event = dictionary["Event"] as? String
             self.id = dictionary["Id"] as? String
         }
@@ -865,19 +875,19 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.sSECustomerKey = dictionary["SSECustomerKey"] as? String
-            self.ifUnmodifiedSince = dictionary["IfUnmodifiedSince"] as? Date
+            self.sSECustomerKey = dictionary["X-amz-server-side-encryption-customer-key"] as? String
+            self.ifUnmodifiedSince = dictionary["If-Unmodified-Since"] as? Date
             self.partNumber = dictionary["PartNumber"] as? Int32
             self.range = dictionary["Range"] as? String
-            self.requestPayer = dictionary["RequestPayer"] as? String
-            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
+            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
             self.versionId = dictionary["VersionId"] as? String
-            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
-            self.ifNoneMatch = dictionary["IfNoneMatch"] as? String
+            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
+            self.ifNoneMatch = dictionary["If-None-Match"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.ifModifiedSince = dictionary["IfModifiedSince"] as? Date
-            self.ifMatch = dictionary["IfMatch"] as? String
+            self.ifModifiedSince = dictionary["If-Modified-Since"] as? Date
+            self.ifMatch = dictionary["If-Match"] as? String
         }
     }
 
@@ -909,7 +919,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.requestCharged = dictionary["RequestCharged"] as? String
+            self.requestCharged = dictionary["X-amz-request-charged"] as? String
         }
     }
 
@@ -942,7 +952,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.contentMD5 = dictionary["ContentMD5"] as? String
+            self.contentMD5 = dictionary["Content-MD5"] as? String
             guard let tagging = dictionary["Tagging"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Tagging") }
             self.tagging = try S3.Tagging(dictionary: tagging)
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
@@ -961,7 +971,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let parts = dictionary["Parts"] as? [[String: Any]] {
+            if let parts = dictionary["Part"] as? [[String: Any]] {
                 self.parts = try parts.map({ try CompletedPart(dictionary: $0) })
             } else { 
                 self.parts = nil
@@ -1060,38 +1070,38 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.partsCount = dictionary["PartsCount"] as? Int32
-            self.contentDisposition = dictionary["ContentDisposition"] as? String
-            self.versionId = dictionary["VersionId"] as? String
-            self.replicationStatus = dictionary["ReplicationStatus"] as? String
-            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
-            self.contentLanguage = dictionary["ContentLanguage"] as? String
-            self.tagCount = dictionary["TagCount"] as? Int32
-            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
-            self.restore = dictionary["Restore"] as? String
-            self.contentEncoding = dictionary["ContentEncoding"] as? String
-            self.contentLength = dictionary["ContentLength"] as? Int64
-            self.expiration = dictionary["Expiration"] as? String
-            self.websiteRedirectLocation = dictionary["WebsiteRedirectLocation"] as? String
+            self.partsCount = dictionary["X-amz-mp-parts-count"] as? Int32
+            self.contentDisposition = dictionary["Content-Disposition"] as? String
+            self.versionId = dictionary["X-amz-version-id"] as? String
+            self.replicationStatus = dictionary["X-amz-replication-status"] as? String
+            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.contentLanguage = dictionary["Content-Language"] as? String
+            self.tagCount = dictionary["X-amz-tagging-count"] as? Int32
+            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
+            self.restore = dictionary["X-amz-restore"] as? String
+            self.contentEncoding = dictionary["Content-Encoding"] as? String
+            self.contentLength = dictionary["Content-Length"] as? Int64
+            self.expiration = dictionary["X-amz-expiration"] as? String
+            self.websiteRedirectLocation = dictionary["X-amz-website-redirect-location"] as? String
             self.eTag = dictionary["ETag"] as? String
             self.body = dictionary["Body"] as? Data
-            self.missingMeta = dictionary["MissingMeta"] as? Int32
-            self.cacheControl = dictionary["CacheControl"] as? String
-            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
-            self.acceptRanges = dictionary["AcceptRanges"] as? String
-            self.lastModified = dictionary["LastModified"] as? Date
-            if let metadata = dictionary["Metadata"] as? [String: String] {
+            self.missingMeta = dictionary["X-amz-missing-meta"] as? Int32
+            self.cacheControl = dictionary["Cache-Control"] as? String
+            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.acceptRanges = dictionary["Accept-ranges"] as? String
+            self.lastModified = dictionary["Last-Modified"] as? Date
+            if let metadata = dictionary["X-amz-meta-"] as? [String: String] {
                 self.metadata = metadata
             } else { 
                 self.metadata = nil
             }
             self.expires = dictionary["Expires"] as? Date
-            self.contentRange = dictionary["ContentRange"] as? String
-            self.contentType = dictionary["ContentType"] as? String
-            self.storageClass = dictionary["StorageClass"] as? String
-            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
-            self.requestCharged = dictionary["RequestCharged"] as? String
-            self.deleteMarker = dictionary["DeleteMarker"] as? Bool
+            self.contentRange = dictionary["Content-Range"] as? String
+            self.contentType = dictionary["Content-Type"] as? String
+            self.storageClass = dictionary["X-amz-storage-class"] as? String
+            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
+            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            self.deleteMarker = dictionary["X-amz-delete-marker"] as? Bool
         }
     }
 
@@ -1191,7 +1201,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.mFADelete = dictionary["MFADelete"] as? String
+            self.mFADelete = dictionary["MfaDelete"] as? String
             self.status = dictionary["Status"] as? String
         }
     }
@@ -1231,7 +1241,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.contentMD5 = dictionary["ContentMD5"] as? String
+            self.contentMD5 = dictionary["Content-MD5"] as? String
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
             guard let bucketLoggingStatus = dictionary["BucketLoggingStatus"] as? [String: Any] else { throw InitializableError.missingRequiredParam("BucketLoggingStatus") }
@@ -1270,7 +1280,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let role = dictionary["Role"] as? String else { throw InitializableError.missingRequiredParam("Role") }
             self.role = role
-            guard let rules = dictionary["Rules"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Rules") }
+            guard let rules = dictionary["Rule"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Rule") }
             self.rules = try rules.map({ try ReplicationRule(dictionary: $0) })
         }
     }
@@ -1450,13 +1460,13 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             self.bucket = dictionary["Bucket"] as? String
             self.location = dictionary["Location"] as? String
-            self.expiration = dictionary["Expiration"] as? String
-            self.versionId = dictionary["VersionId"] as? String
+            self.expiration = dictionary["X-amz-expiration"] as? String
+            self.versionId = dictionary["X-amz-version-id"] as? String
             self.key = dictionary["Key"] as? String
-            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
+            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
             self.eTag = dictionary["ETag"] as? String
-            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
-            self.requestCharged = dictionary["RequestCharged"] as? String
+            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
+            self.requestCharged = dictionary["X-amz-request-charged"] as? String
         }
     }
 
@@ -1470,7 +1480,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let key = dictionary["Key"] as? [String: Any] { self.key = try S3.S3KeyFilter(dictionary: key) } else { self.key = nil }
+            if let key = dictionary["S3Key"] as? [String: Any] { self.key = try S3.S3KeyFilter(dictionary: key) } else { self.key = nil }
         }
     }
 
@@ -1524,18 +1534,18 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.contentMD5 = dictionary["ContentMD5"] as? String
+            self.contentMD5 = dictionary["Content-MD5"] as? String
             if let accessControlPolicy = dictionary["AccessControlPolicy"] as? [String: Any] { self.accessControlPolicy = try S3.AccessControlPolicy(dictionary: accessControlPolicy) } else { self.accessControlPolicy = nil }
-            self.grantWriteACP = dictionary["GrantWriteACP"] as? String
-            self.requestPayer = dictionary["RequestPayer"] as? String
-            self.grantFullControl = dictionary["GrantFullControl"] as? String
+            self.grantWriteACP = dictionary["X-amz-grant-write-acp"] as? String
+            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            self.grantFullControl = dictionary["X-amz-grant-full-control"] as? String
             self.versionId = dictionary["VersionId"] as? String
-            self.grantWrite = dictionary["GrantWrite"] as? String
+            self.grantWrite = dictionary["X-amz-grant-write"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.grantReadACP = dictionary["GrantReadACP"] as? String
-            self.grantRead = dictionary["GrantRead"] as? String
-            self.aCL = dictionary["ACL"] as? String
+            self.grantReadACP = dictionary["X-amz-grant-read-acp"] as? String
+            self.grantRead = dictionary["X-amz-grant-read"] as? String
+            self.aCL = dictionary["X-amz-acl"] as? String
         }
     }
 
@@ -1556,10 +1566,10 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let topicArn = dictionary["TopicArn"] as? String else { throw InitializableError.missingRequiredParam("TopicArn") }
+            guard let topicArn = dictionary["Topic"] as? String else { throw InitializableError.missingRequiredParam("Topic") }
             self.topicArn = topicArn
             if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.NotificationConfigurationFilter(dictionary: filter) } else { self.filter = nil }
-            guard let events = dictionary["Events"] as? [String] else { throw InitializableError.missingRequiredParam("Events") }
+            guard let events = dictionary["Event"] as? [String] else { throw InitializableError.missingRequiredParam("Event") }
             self.events = events
             self.id = dictionary["Id"] as? String
         }
@@ -1705,35 +1715,35 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.partsCount = dictionary["PartsCount"] as? Int32
-            self.contentDisposition = dictionary["ContentDisposition"] as? String
-            self.versionId = dictionary["VersionId"] as? String
-            self.replicationStatus = dictionary["ReplicationStatus"] as? String
-            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
-            self.contentLanguage = dictionary["ContentLanguage"] as? String
-            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
-            self.restore = dictionary["Restore"] as? String
-            self.contentEncoding = dictionary["ContentEncoding"] as? String
-            self.contentLength = dictionary["ContentLength"] as? Int64
-            self.expiration = dictionary["Expiration"] as? String
-            self.websiteRedirectLocation = dictionary["WebsiteRedirectLocation"] as? String
+            self.partsCount = dictionary["X-amz-mp-parts-count"] as? Int32
+            self.contentDisposition = dictionary["Content-Disposition"] as? String
+            self.versionId = dictionary["X-amz-version-id"] as? String
+            self.replicationStatus = dictionary["X-amz-replication-status"] as? String
+            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.contentLanguage = dictionary["Content-Language"] as? String
+            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
+            self.restore = dictionary["X-amz-restore"] as? String
+            self.contentEncoding = dictionary["Content-Encoding"] as? String
+            self.contentLength = dictionary["Content-Length"] as? Int64
+            self.expiration = dictionary["X-amz-expiration"] as? String
+            self.websiteRedirectLocation = dictionary["X-amz-website-redirect-location"] as? String
             self.eTag = dictionary["ETag"] as? String
-            self.missingMeta = dictionary["MissingMeta"] as? Int32
-            self.cacheControl = dictionary["CacheControl"] as? String
-            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
-            self.acceptRanges = dictionary["AcceptRanges"] as? String
-            self.lastModified = dictionary["LastModified"] as? Date
-            if let metadata = dictionary["Metadata"] as? [String: String] {
+            self.missingMeta = dictionary["X-amz-missing-meta"] as? Int32
+            self.cacheControl = dictionary["Cache-Control"] as? String
+            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.acceptRanges = dictionary["Accept-ranges"] as? String
+            self.lastModified = dictionary["Last-Modified"] as? Date
+            if let metadata = dictionary["X-amz-meta-"] as? [String: String] {
                 self.metadata = metadata
             } else { 
                 self.metadata = nil
             }
             self.expires = dictionary["Expires"] as? Date
-            self.contentType = dictionary["ContentType"] as? String
-            self.storageClass = dictionary["StorageClass"] as? String
-            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
-            self.requestCharged = dictionary["RequestCharged"] as? String
-            self.deleteMarker = dictionary["DeleteMarker"] as? Bool
+            self.contentType = dictionary["Content-Type"] as? String
+            self.storageClass = dictionary["X-amz-storage-class"] as? String
+            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
+            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            self.deleteMarker = dictionary["X-amz-delete-marker"] as? Bool
         }
     }
 
@@ -1922,7 +1932,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.contentMD5 = dictionary["ContentMD5"] as? String
+            self.contentMD5 = dictionary["Content-MD5"] as? String
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
             if let lifecycleConfiguration = dictionary["LifecycleConfiguration"] as? [String: Any] { self.lifecycleConfiguration = try S3.LifecycleConfiguration(dictionary: lifecycleConfiguration) } else { self.lifecycleConfiguration = nil }
@@ -1932,12 +1942,12 @@ extension S3 {
     public struct WebsiteConfiguration: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let routingRules: [RoutingRule]?
+        public let routingRules: RoutingRules?
         public let indexDocument: IndexDocument?
         public let errorDocument: ErrorDocument?
         public let redirectAllRequestsTo: RedirectAllRequestsTo?
 
-        public init(routingRules: [RoutingRule]? = nil, indexDocument: IndexDocument? = nil, errorDocument: ErrorDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil) {
+        public init(routingRules: RoutingRules? = nil, indexDocument: IndexDocument? = nil, errorDocument: ErrorDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil) {
             self.routingRules = routingRules
             self.indexDocument = indexDocument
             self.errorDocument = errorDocument
@@ -1945,11 +1955,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let routingRules = dictionary["RoutingRules"] as? [[String: Any]] {
-                self.routingRules = try routingRules.map({ try RoutingRule(dictionary: $0) })
-            } else { 
-                self.routingRules = nil
-            }
+            if let routingRules = dictionary["RoutingRules"] as? [String: Any] { self.routingRules = try S3.RoutingRules(dictionary: routingRules) } else { self.routingRules = nil }
             if let indexDocument = dictionary["IndexDocument"] as? [String: Any] { self.indexDocument = try S3.IndexDocument(dictionary: indexDocument) } else { self.indexDocument = nil }
             if let errorDocument = dictionary["ErrorDocument"] as? [String: Any] { self.errorDocument = try S3.ErrorDocument(dictionary: errorDocument) } else { self.errorDocument = nil }
             if let redirectAllRequestsTo = dictionary["RedirectAllRequestsTo"] as? [String: Any] { self.redirectAllRequestsTo = try S3.RedirectAllRequestsTo(dictionary: redirectAllRequestsTo) } else { self.redirectAllRequestsTo = nil }
@@ -1970,17 +1976,17 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let topicConfigurations = dictionary["TopicConfigurations"] as? [[String: Any]] {
+            if let topicConfigurations = dictionary["TopicConfiguration"] as? [[String: Any]] {
                 self.topicConfigurations = try topicConfigurations.map({ try TopicConfiguration(dictionary: $0) })
             } else { 
                 self.topicConfigurations = nil
             }
-            if let queueConfigurations = dictionary["QueueConfigurations"] as? [[String: Any]] {
+            if let queueConfigurations = dictionary["QueueConfiguration"] as? [[String: Any]] {
                 self.queueConfigurations = try queueConfigurations.map({ try QueueConfiguration(dictionary: $0) })
             } else { 
                 self.queueConfigurations = nil
             }
-            if let lambdaFunctionConfigurations = dictionary["LambdaFunctionConfigurations"] as? [[String: Any]] {
+            if let lambdaFunctionConfigurations = dictionary["CloudFunctionConfiguration"] as? [[String: Any]] {
                 self.lambdaFunctionConfigurations = try lambdaFunctionConfigurations.map({ try LambdaFunctionConfiguration(dictionary: $0) })
             } else { 
                 self.lambdaFunctionConfigurations = nil
@@ -2131,13 +2137,13 @@ extension S3 {
             self.encodingType = dictionary["EncodingType"] as? String
             self.name = dictionary["Name"] as? String
             self.prefix = dictionary["Prefix"] as? String
-            if let deleteMarkers = dictionary["DeleteMarkers"] as? [[String: Any]] {
+            if let deleteMarkers = dictionary["DeleteMarker"] as? [[String: Any]] {
                 self.deleteMarkers = try deleteMarkers.map({ try DeleteMarkerEntry(dictionary: $0) })
             } else { 
                 self.deleteMarkers = nil
             }
             self.nextKeyMarker = dictionary["NextKeyMarker"] as? String
-            if let versions = dictionary["Versions"] as? [[String: Any]] {
+            if let versions = dictionary["Version"] as? [[String: Any]] {
                 self.versions = try versions.map({ try ObjectVersion(dictionary: $0) })
             } else { 
                 self.versions = nil
@@ -2184,7 +2190,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.mFADelete = dictionary["MFADelete"] as? String
+            self.mFADelete = dictionary["MfaDelete"] as? String
             self.status = dictionary["Status"] as? String
         }
     }
@@ -2230,8 +2236,8 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.mFA = dictionary["MFA"] as? String
-            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.mFA = dictionary["X-amz-mfa"] as? String
+            self.requestPayer = dictionary["X-amz-request-payer"] as? String
             guard let delete = dictionary["Delete"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Delete") }
             self.delete = try S3.Delete(dictionary: delete)
         }
@@ -2262,8 +2268,8 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.contentMD5 = dictionary["ContentMD5"] as? String
-            self.mFA = dictionary["MFA"] as? String
+            self.contentMD5 = dictionary["Content-MD5"] as? String
+            self.mFA = dictionary["X-amz-mfa"] as? String
             guard let versioningConfiguration = dictionary["VersioningConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("VersioningConfiguration") }
             self.versioningConfiguration = try S3.VersioningConfiguration(dictionary: versioningConfiguration)
         }
@@ -2277,10 +2283,10 @@ extension S3 {
         }
         public let owner: Owner?
         /// A list of grants.
-        public let grants: [Grant]?
+        public let grants: Grants?
         public let requestCharged: String?
 
-        public init(owner: Owner? = nil, grants: [Grant]? = nil, requestCharged: String? = nil) {
+        public init(owner: Owner? = nil, grants: Grants? = nil, requestCharged: String? = nil) {
             self.owner = owner
             self.grants = grants
             self.requestCharged = requestCharged
@@ -2288,12 +2294,8 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
-            if let grants = dictionary["Grants"] as? [[String: Any]] {
-                self.grants = try grants.map({ try Grant(dictionary: $0) })
-            } else { 
-                self.grants = nil
-            }
-            self.requestCharged = dictionary["RequestCharged"] as? String
+            if let grants = dictionary["AccessControlList"] as? [String: Any] { self.grants = try S3.Grants(dictionary: grants) } else { self.grants = nil }
+            self.requestCharged = dictionary["X-amz-request-charged"] as? String
         }
     }
 
@@ -2310,7 +2312,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let objects = dictionary["Objects"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Objects") }
+            guard let objects = dictionary["Object"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Object") }
             self.objects = try objects.map({ try ObjectIdentifier(dictionary: $0) })
             self.quiet = dictionary["Quiet"] as? Bool
         }
@@ -2351,12 +2353,12 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.uploadIdMarker = dictionary["UploadIdMarker"] as? String
+            self.uploadIdMarker = dictionary["Upload-id-marker"] as? String
             self.prefix = dictionary["Prefix"] as? String
-            self.maxUploads = dictionary["MaxUploads"] as? Int32
+            self.maxUploads = dictionary["Max-uploads"] as? Int32
             self.delimiter = dictionary["Delimiter"] as? String
-            self.encodingType = dictionary["EncodingType"] as? String
-            self.keyMarker = dictionary["KeyMarker"] as? String
+            self.encodingType = dictionary["Encoding-type"] as? String
+            self.keyMarker = dictionary["Key-marker"] as? String
         }
     }
 
@@ -2377,8 +2379,8 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.requestCharged = dictionary["RequestCharged"] as? String
-            if let errors = dictionary["Errors"] as? [[String: Any]] {
+            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            if let errors = dictionary["Error"] as? [[String: Any]] {
                 self.errors = try errors.map({ try Error(dictionary: $0) })
             } else { 
                 self.errors = nil
@@ -2459,7 +2461,7 @@ extension S3 {
             self.continuationToken = dictionary["ContinuationToken"] as? String
             self.isTruncated = dictionary["IsTruncated"] as? Bool
             self.nextContinuationToken = dictionary["NextContinuationToken"] as? String
-            if let analyticsConfigurationList = dictionary["AnalyticsConfigurationList"] as? [[String: Any]] {
+            if let analyticsConfigurationList = dictionary["AnalyticsConfiguration"] as? [[String: Any]] {
                 self.analyticsConfigurationList = try analyticsConfigurationList.map({ try AnalyticsConfiguration(dictionary: $0) })
             } else { 
                 self.analyticsConfigurationList = nil
@@ -2535,7 +2537,7 @@ extension S3 {
                 self.commonPrefixes = nil
             }
             self.maxUploads = dictionary["MaxUploads"] as? Int32
-            if let uploads = dictionary["Uploads"] as? [[String: Any]] {
+            if let uploads = dictionary["Upload"] as? [[String: Any]] {
                 self.uploads = try uploads.map({ try MultipartUpload(dictionary: $0) })
             } else { 
                 self.uploads = nil
@@ -2584,7 +2586,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             self.continuationToken = dictionary["ContinuationToken"] as? String
             self.isTruncated = dictionary["IsTruncated"] as? Bool
-            if let metricsConfigurationList = dictionary["MetricsConfigurationList"] as? [[String: Any]] {
+            if let metricsConfigurationList = dictionary["MetricsConfiguration"] as? [[String: Any]] {
                 self.metricsConfigurationList = try metricsConfigurationList.map({ try MetricsConfiguration(dictionary: $0) })
             } else { 
                 self.metricsConfigurationList = nil
@@ -2598,20 +2600,16 @@ extension S3 {
         public static let payload: String? = nil
         public let owner: Owner?
         /// A list of grants.
-        public let grants: [Grant]?
+        public let grants: Grants?
 
-        public init(owner: Owner? = nil, grants: [Grant]? = nil) {
+        public init(owner: Owner? = nil, grants: Grants? = nil) {
             self.owner = owner
             self.grants = grants
         }
 
         public init(dictionary: [String: Any]) throws {
             if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
-            if let grants = dictionary["Grants"] as? [[String: Any]] {
-                self.grants = try grants.map({ try Grant(dictionary: $0) })
-            } else { 
-                self.grants = nil
-            }
+            if let grants = dictionary["AccessControlList"] as? [String: Any] { self.grants = try S3.Grants(dictionary: grants) } else { self.grants = nil }
         }
     }
 
@@ -2661,14 +2659,14 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.maxKeys = dictionary["MaxKeys"] as? Int32
-            self.startAfter = dictionary["StartAfter"] as? String
-            self.continuationToken = dictionary["ContinuationToken"] as? String
-            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.maxKeys = dictionary["Max-keys"] as? Int32
+            self.startAfter = dictionary["Start-after"] as? String
+            self.continuationToken = dictionary["Continuation-token"] as? String
+            self.requestPayer = dictionary["X-amz-request-payer"] as? String
             self.prefix = dictionary["Prefix"] as? String
-            self.fetchOwner = dictionary["FetchOwner"] as? Bool
+            self.fetchOwner = dictionary["Fetch-owner"] as? Bool
             self.delimiter = dictionary["Delimiter"] as? String
-            self.encodingType = dictionary["EncodingType"] as? String
+            self.encodingType = dictionary["Encoding-type"] as? String
         }
     }
 
@@ -2729,12 +2727,12 @@ extension S3 {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
             if let createBucketConfiguration = dictionary["CreateBucketConfiguration"] as? [String: Any] { self.createBucketConfiguration = try S3.CreateBucketConfiguration(dictionary: createBucketConfiguration) } else { self.createBucketConfiguration = nil }
-            self.grantWriteACP = dictionary["GrantWriteACP"] as? String
-            self.grantFullControl = dictionary["GrantFullControl"] as? String
-            self.grantWrite = dictionary["GrantWrite"] as? String
-            self.grantRead = dictionary["GrantRead"] as? String
-            self.aCL = dictionary["ACL"] as? String
-            self.grantReadACP = dictionary["GrantReadACP"] as? String
+            self.grantWriteACP = dictionary["X-amz-grant-write-acp"] as? String
+            self.grantFullControl = dictionary["X-amz-grant-full-control"] as? String
+            self.grantWrite = dictionary["X-amz-grant-write"] as? String
+            self.grantRead = dictionary["X-amz-grant-read"] as? String
+            self.aCL = dictionary["X-amz-acl"] as? String
+            self.grantReadACP = dictionary["X-amz-grant-read-acp"] as? String
         }
     }
 
@@ -2771,7 +2769,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.versionId = dictionary["VersionId"] as? String
+            self.versionId = dictionary["X-amz-version-id"] as? String
         }
     }
 
@@ -2795,7 +2793,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.contentMD5 = dictionary["ContentMD5"] as? String
+            self.contentMD5 = dictionary["Content-MD5"] as? String
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
             guard let replicationConfiguration = dictionary["ReplicationConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ReplicationConfiguration") }
@@ -2826,12 +2824,12 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.exposeHeaders = dictionary["ExposeHeaders"] as? [String]
-            guard let allowedMethods = dictionary["AllowedMethods"] as? [String] else { throw InitializableError.missingRequiredParam("AllowedMethods") }
+            self.exposeHeaders = dictionary["ExposeHeader"] as? [String]
+            guard let allowedMethods = dictionary["AllowedMethod"] as? [String] else { throw InitializableError.missingRequiredParam("AllowedMethod") }
             self.allowedMethods = allowedMethods
             self.maxAgeSeconds = dictionary["MaxAgeSeconds"] as? Int32
-            self.allowedHeaders = dictionary["AllowedHeaders"] as? [String]
-            guard let allowedOrigins = dictionary["AllowedOrigins"] as? [String] else { throw InitializableError.missingRequiredParam("AllowedOrigins") }
+            self.allowedHeaders = dictionary["AllowedHeader"] as? [String]
+            guard let allowedOrigins = dictionary["AllowedOrigin"] as? [String] else { throw InitializableError.missingRequiredParam("AllowedOrigin") }
             self.allowedOrigins = allowedOrigins
         }
     }
@@ -2913,34 +2911,52 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.sSECustomerKey = dictionary["SSECustomerKey"] as? String
-            self.cacheControl = dictionary["CacheControl"] as? String
+            self.sSECustomerKey = dictionary["X-amz-server-side-encryption-customer-key"] as? String
+            self.cacheControl = dictionary["Cache-Control"] as? String
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.contentDisposition = dictionary["ContentDisposition"] as? String
-            self.requestPayer = dictionary["RequestPayer"] as? String
-            self.grantFullControl = dictionary["GrantFullControl"] as? String
-            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
-            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
-            self.grantReadACP = dictionary["GrantReadACP"] as? String
-            self.aCL = dictionary["ACL"] as? String
-            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
-            self.contentLanguage = dictionary["ContentLanguage"] as? String
-            if let metadata = dictionary["Metadata"] as? [String: String] {
+            self.contentDisposition = dictionary["Content-Disposition"] as? String
+            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            self.grantFullControl = dictionary["X-amz-grant-full-control"] as? String
+            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.grantReadACP = dictionary["X-amz-grant-read-acp"] as? String
+            self.aCL = dictionary["X-amz-acl"] as? String
+            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
+            self.contentLanguage = dictionary["Content-Language"] as? String
+            if let metadata = dictionary["X-amz-meta-"] as? [String: String] {
                 self.metadata = metadata
             } else { 
                 self.metadata = nil
             }
-            self.contentEncoding = dictionary["ContentEncoding"] as? String
+            self.contentEncoding = dictionary["Content-Encoding"] as? String
             self.expires = dictionary["Expires"] as? Date
-            self.grantWriteACP = dictionary["GrantWriteACP"] as? String
-            self.contentType = dictionary["ContentType"] as? String
-            self.storageClass = dictionary["StorageClass"] as? String
+            self.grantWriteACP = dictionary["X-amz-grant-write-acp"] as? String
+            self.contentType = dictionary["Content-Type"] as? String
+            self.storageClass = dictionary["X-amz-storage-class"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.websiteRedirectLocation = dictionary["WebsiteRedirectLocation"] as? String
-            self.grantRead = dictionary["GrantRead"] as? String
-            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
+            self.websiteRedirectLocation = dictionary["X-amz-website-redirect-location"] as? String
+            self.grantRead = dictionary["X-amz-grant-read"] as? String
+            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
+        }
+    }
+
+    public struct Grants: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let grant: [Grant]?
+
+        public init(grant: [Grant]? = nil) {
+            self.grant = grant
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let grant = dictionary["Grant"] as? [[String: Any]] {
+                self.grant = try grant.map({ try Grant(dictionary: $0) })
+            } else { 
+                self.grant = nil
+            }
         }
     }
 
@@ -2978,8 +2994,8 @@ extension S3 {
             self.bucket = bucket
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.mFA = dictionary["MFA"] as? String
-            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.mFA = dictionary["X-amz-mfa"] as? String
+            self.requestPayer = dictionary["X-amz-request-payer"] as? String
         }
     }
 
@@ -2996,7 +3012,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.requestCharged = dictionary["RequestCharged"] as? String
+            self.requestCharged = dictionary["X-amz-request-charged"] as? String
         }
     }
 
@@ -3053,21 +3069,21 @@ extension S3 {
             self.partNumberMarker = dictionary["PartNumberMarker"] as? Int32
             self.bucket = dictionary["Bucket"] as? String
             self.isTruncated = dictionary["IsTruncated"] as? Bool
-            self.abortDate = dictionary["AbortDate"] as? Date
+            self.abortDate = dictionary["X-amz-abort-date"] as? Date
             self.uploadId = dictionary["UploadId"] as? String
             if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
-            if let parts = dictionary["Parts"] as? [[String: Any]] {
+            if let parts = dictionary["Part"] as? [[String: Any]] {
                 self.parts = try parts.map({ try Part(dictionary: $0) })
             } else { 
                 self.parts = nil
             }
             if let initiator = dictionary["Initiator"] as? [String: Any] { self.initiator = try S3.Initiator(dictionary: initiator) } else { self.initiator = nil }
-            self.abortRuleId = dictionary["AbortRuleId"] as? String
+            self.abortRuleId = dictionary["X-amz-abort-rule-id"] as? String
             self.storageClass = dictionary["StorageClass"] as? String
             self.key = dictionary["Key"] as? String
             self.maxParts = dictionary["MaxParts"] as? Int32
             self.nextPartNumberMarker = dictionary["NextPartNumberMarker"] as? Int32
-            self.requestCharged = dictionary["RequestCharged"] as? String
+            self.requestCharged = dictionary["X-amz-request-charged"] as? String
         }
     }
 
@@ -3094,7 +3110,7 @@ extension S3 {
             self.continuationToken = dictionary["ContinuationToken"] as? String
             self.isTruncated = dictionary["IsTruncated"] as? Bool
             self.nextContinuationToken = dictionary["NextContinuationToken"] as? String
-            if let inventoryConfigurationList = dictionary["InventoryConfigurationList"] as? [[String: Any]] {
+            if let inventoryConfigurationList = dictionary["InventoryConfiguration"] as? [[String: Any]] {
                 self.inventoryConfigurationList = try inventoryConfigurationList.map({ try InventoryConfiguration(dictionary: $0) })
             } else { 
                 self.inventoryConfigurationList = nil
@@ -3124,7 +3140,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.continuationToken = dictionary["ContinuationToken"] as? String
+            self.continuationToken = dictionary["Continuation-token"] as? String
         }
     }
 
@@ -3147,7 +3163,7 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             self.topic = dictionary["Topic"] as? String
-            self.events = dictionary["Events"] as? [String]
+            self.events = dictionary["Event"] as? [String]
             self.event = dictionary["Event"] as? String
             self.id = dictionary["Id"] as? String
         }
@@ -3243,7 +3259,7 @@ extension S3 {
             self.bucket = bucket
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.requestPayer = dictionary["X-amz-request-payer"] as? String
         }
     }
 
@@ -3307,7 +3323,7 @@ extension S3 {
             self.versionId = dictionary["VersionId"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.requestPayer = dictionary["X-amz-request-payer"] as? String
         }
     }
 
@@ -3316,20 +3332,16 @@ extension S3 {
         public static let payload: String? = nil
         public let owner: Owner?
         /// A list of grants.
-        public let grants: [Grant]?
+        public let grants: Grants?
 
-        public init(owner: Owner? = nil, grants: [Grant]? = nil) {
+        public init(owner: Owner? = nil, grants: Grants? = nil) {
             self.owner = owner
             self.grants = grants
         }
 
         public init(dictionary: [String: Any]) throws {
             if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
-            if let grants = dictionary["Grants"] as? [[String: Any]] {
-                self.grants = try grants.map({ try Grant(dictionary: $0) })
-            } else { 
-                self.grants = nil
-            }
+            if let grants = dictionary["AccessControlList"] as? [String: Any] { self.grants = try S3.Grants(dictionary: grants) } else { self.grants = nil }
         }
     }
 
@@ -3398,12 +3410,12 @@ extension S3 {
     public struct GetBucketWebsiteOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let routingRules: [RoutingRule]?
+        public let routingRules: RoutingRules?
         public let indexDocument: IndexDocument?
         public let errorDocument: ErrorDocument?
         public let redirectAllRequestsTo: RedirectAllRequestsTo?
 
-        public init(routingRules: [RoutingRule]? = nil, indexDocument: IndexDocument? = nil, errorDocument: ErrorDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil) {
+        public init(routingRules: RoutingRules? = nil, indexDocument: IndexDocument? = nil, errorDocument: ErrorDocument? = nil, redirectAllRequestsTo: RedirectAllRequestsTo? = nil) {
             self.routingRules = routingRules
             self.indexDocument = indexDocument
             self.errorDocument = errorDocument
@@ -3411,11 +3423,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let routingRules = dictionary["RoutingRules"] as? [[String: Any]] {
-                self.routingRules = try routingRules.map({ try RoutingRule(dictionary: $0) })
-            } else { 
-                self.routingRules = nil
-            }
+            if let routingRules = dictionary["RoutingRules"] as? [String: Any] { self.routingRules = try S3.RoutingRules(dictionary: routingRules) } else { self.routingRules = nil }
             if let indexDocument = dictionary["IndexDocument"] as? [String: Any] { self.indexDocument = try S3.IndexDocument(dictionary: indexDocument) } else { self.indexDocument = nil }
             if let errorDocument = dictionary["ErrorDocument"] as? [String: Any] { self.errorDocument = try S3.ErrorDocument(dictionary: errorDocument) } else { self.errorDocument = nil }
             if let redirectAllRequestsTo = dictionary["RedirectAllRequestsTo"] as? [String: Any] { self.redirectAllRequestsTo = try S3.RedirectAllRequestsTo(dictionary: redirectAllRequestsTo) } else { self.redirectAllRequestsTo = nil }
@@ -3425,24 +3433,20 @@ extension S3 {
     public struct LoggingEnabled: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let targetGrants: [TargetGrant]?
+        public let targetGrants: TargetGrants?
         /// This element lets you specify a prefix for the keys that the log files will be stored under.
         public let targetPrefix: String?
         /// Specifies the bucket where you want Amazon S3 to store server access logs. You can have your logs delivered to any bucket that you own, including the same bucket that is being logged. You can also configure multiple buckets to deliver their logs to the same target bucket. In this case you should choose a different TargetPrefix for each source bucket so that the delivered log files can be distinguished by key.
         public let targetBucket: String?
 
-        public init(targetGrants: [TargetGrant]? = nil, targetPrefix: String? = nil, targetBucket: String? = nil) {
+        public init(targetGrants: TargetGrants? = nil, targetPrefix: String? = nil, targetBucket: String? = nil) {
             self.targetGrants = targetGrants
             self.targetPrefix = targetPrefix
             self.targetBucket = targetBucket
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let targetGrants = dictionary["TargetGrants"] as? [[String: Any]] {
-                self.targetGrants = try targetGrants.map({ try TargetGrant(dictionary: $0) })
-            } else { 
-                self.targetGrants = nil
-            }
+            if let targetGrants = dictionary["TargetGrants"] as? [String: Any] { self.targetGrants = try S3.TargetGrants(dictionary: targetGrants) } else { self.targetGrants = nil }
             self.targetPrefix = dictionary["TargetPrefix"] as? String
             self.targetBucket = dictionary["TargetBucket"] as? String
         }
@@ -3458,7 +3462,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let cORSRules = dictionary["CORSRules"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("CORSRules") }
+            guard let cORSRules = dictionary["CORSRule"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("CORSRule") }
             self.cORSRules = try cORSRules.map({ try CORSRule(dictionary: $0) })
         }
     }
@@ -3525,6 +3529,24 @@ extension S3 {
         }
     }
 
+    public struct TargetGrants: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let grant: [TargetGrant]?
+
+        public init(grant: [TargetGrant]? = nil) {
+            self.grant = grant
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let grant = dictionary["Grant"] as? [[String: Any]] {
+                self.grant = try grant.map({ try TargetGrant(dictionary: $0) })
+            } else { 
+                self.grant = nil
+            }
+        }
+    }
+
     public struct RestoreObjectOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -3538,7 +3560,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.requestCharged = dictionary["RequestCharged"] as? String
+            self.requestCharged = dictionary["X-amz-request-charged"] as? String
         }
     }
 
@@ -3552,7 +3574,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let rules = dictionary["Rules"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Rules") }
+            guard let rules = dictionary["Rule"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Rule") }
             self.rules = try rules.map({ try LifecycleRule(dictionary: $0) })
         }
     }
@@ -3620,17 +3642,31 @@ extension S3 {
             if let abortIncompleteMultipartUpload = dictionary["AbortIncompleteMultipartUpload"] as? [String: Any] { self.abortIncompleteMultipartUpload = try S3.AbortIncompleteMultipartUpload(dictionary: abortIncompleteMultipartUpload) } else { self.abortIncompleteMultipartUpload = nil }
             if let expiration = dictionary["Expiration"] as? [String: Any] { self.expiration = try S3.LifecycleExpiration(dictionary: expiration) } else { self.expiration = nil }
             self.prefix = dictionary["Prefix"] as? String
-            if let transitions = dictionary["Transitions"] as? [[String: Any]] {
+            if let transitions = dictionary["Transition"] as? [[String: Any]] {
                 self.transitions = try transitions.map({ try Transition(dictionary: $0) })
             } else { 
                 self.transitions = nil
             }
             if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.LifecycleRuleFilter(dictionary: filter) } else { self.filter = nil }
-            if let noncurrentVersionTransitions = dictionary["NoncurrentVersionTransitions"] as? [[String: Any]] {
+            if let noncurrentVersionTransitions = dictionary["NoncurrentVersionTransition"] as? [[String: Any]] {
                 self.noncurrentVersionTransitions = try noncurrentVersionTransitions.map({ try NoncurrentVersionTransition(dictionary: $0) })
             } else { 
                 self.noncurrentVersionTransitions = nil
             }
+        }
+    }
+
+    public struct InventoryOptionalFields: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let field: [String]?
+
+        public init(field: [String]? = nil) {
+            self.field = field
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.field = dictionary["Field"] as? [String]
         }
     }
 
@@ -3727,7 +3763,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.contentMD5 = dictionary["ContentMD5"] as? String
+            self.contentMD5 = dictionary["Content-MD5"] as? String
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
             guard let notificationConfiguration = dictionary["NotificationConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("NotificationConfiguration") }
@@ -3764,12 +3800,12 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            if let multipartUpload = dictionary["MultipartUpload"] as? [String: Any] { self.multipartUpload = try S3.CompletedMultipartUpload(dictionary: multipartUpload) } else { self.multipartUpload = nil }
+            if let multipartUpload = dictionary["CompleteMultipartUpload"] as? [String: Any] { self.multipartUpload = try S3.CompletedMultipartUpload(dictionary: multipartUpload) } else { self.multipartUpload = nil }
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
             guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
             self.uploadId = uploadId
-            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.requestPayer = dictionary["X-amz-request-payer"] as? String
         }
     }
 
@@ -3835,20 +3871,16 @@ extension S3 {
     public struct ListBucketsOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let buckets: [Bucket]?
+        public let buckets: Buckets?
         public let owner: Owner?
 
-        public init(buckets: [Bucket]? = nil, owner: Owner? = nil) {
+        public init(buckets: Buckets? = nil, owner: Owner? = nil) {
             self.buckets = buckets
             self.owner = owner
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let buckets = dictionary["Buckets"] as? [[String: Any]] {
-                self.buckets = try buckets.map({ try Bucket(dictionary: $0) })
-            } else { 
-                self.buckets = nil
-            }
+            if let buckets = dictionary["Buckets"] as? [String: Any] { self.buckets = try S3.Buckets(dictionary: buckets) } else { self.buckets = nil }
             if let owner = dictionary["Owner"] as? [String: Any] { self.owner = try S3.Owner(dictionary: owner) } else { self.owner = nil }
         }
     }
@@ -3958,7 +3990,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.continuationToken = dictionary["ContinuationToken"] as? String
+            self.continuationToken = dictionary["Continuation-token"] as? String
         }
     }
 
@@ -3983,7 +4015,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.contentMD5 = dictionary["ContentMD5"] as? String
+            self.contentMD5 = dictionary["Content-MD5"] as? String
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
             guard let policy = dictionary["Policy"] as? String else { throw InitializableError.missingRequiredParam("Policy") }
@@ -4064,25 +4096,25 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.sSECustomerKey = dictionary["SSECustomerKey"] as? String
-            self.ifUnmodifiedSince = dictionary["IfUnmodifiedSince"] as? Date
+            self.sSECustomerKey = dictionary["X-amz-server-side-encryption-customer-key"] as? String
+            self.ifUnmodifiedSince = dictionary["If-Unmodified-Since"] as? Date
             self.partNumber = dictionary["PartNumber"] as? Int32
             self.range = dictionary["Range"] as? String
-            self.responseContentEncoding = dictionary["ResponseContentEncoding"] as? String
-            self.requestPayer = dictionary["RequestPayer"] as? String
-            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
-            self.responseContentLanguage = dictionary["ResponseContentLanguage"] as? String
-            self.responseExpires = dictionary["ResponseExpires"] as? Date
+            self.responseContentEncoding = dictionary["Response-content-encoding"] as? String
+            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.responseContentLanguage = dictionary["Response-content-language"] as? String
+            self.responseExpires = dictionary["Response-expires"] as? Date
             self.versionId = dictionary["VersionId"] as? String
-            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
-            self.ifNoneMatch = dictionary["IfNoneMatch"] as? String
-            self.responseContentDisposition = dictionary["ResponseContentDisposition"] as? String
+            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
+            self.ifNoneMatch = dictionary["If-None-Match"] as? String
+            self.responseContentDisposition = dictionary["Response-content-disposition"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.responseCacheControl = dictionary["ResponseCacheControl"] as? String
-            self.responseContentType = dictionary["ResponseContentType"] as? String
-            self.ifModifiedSince = dictionary["IfModifiedSince"] as? Date
-            self.ifMatch = dictionary["IfMatch"] as? String
+            self.responseCacheControl = dictionary["Response-cache-control"] as? String
+            self.responseContentType = dictionary["Response-content-type"] as? String
+            self.ifModifiedSince = dictionary["If-Modified-Since"] as? Date
+            self.ifMatch = dictionary["If-Match"] as? String
         }
     }
 
@@ -4117,7 +4149,7 @@ extension S3 {
             self.key = key
             guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
             self.uploadId = uploadId
-            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.requestPayer = dictionary["X-amz-request-payer"] as? String
         }
     }
 
@@ -4137,7 +4169,7 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             self.body = dictionary["Body"] as? Data
-            self.requestCharged = dictionary["RequestCharged"] as? String
+            self.requestCharged = dictionary["X-amz-request-charged"] as? String
         }
     }
 
@@ -4227,26 +4259,26 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.sSECustomerKey = dictionary["SSECustomerKey"] as? String
+            self.sSECustomerKey = dictionary["X-amz-server-side-encryption-customer-key"] as? String
             guard let partNumber = dictionary["PartNumber"] as? Int32 else { throw InitializableError.missingRequiredParam("PartNumber") }
             self.partNumber = partNumber
-            self.copySourceIfModifiedSince = dictionary["CopySourceIfModifiedSince"] as? Date
-            self.requestPayer = dictionary["RequestPayer"] as? String
-            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
-            self.copySourceSSECustomerKey = dictionary["CopySourceSSECustomerKey"] as? String
-            guard let copySource = dictionary["CopySource"] as? String else { throw InitializableError.missingRequiredParam("CopySource") }
+            self.copySourceIfModifiedSince = dictionary["X-amz-copy-source-if-modified-since"] as? Date
+            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.copySourceSSECustomerKey = dictionary["X-amz-copy-source-server-side-encryption-customer-key"] as? String
+            guard let copySource = dictionary["X-amz-copy-source"] as? String else { throw InitializableError.missingRequiredParam("X-amz-copy-source") }
             self.copySource = copySource
-            self.copySourceIfNoneMatch = dictionary["CopySourceIfNoneMatch"] as? String
+            self.copySourceIfNoneMatch = dictionary["X-amz-copy-source-if-none-match"] as? String
             guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
             self.uploadId = uploadId
-            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
-            self.copySourceIfMatch = dictionary["CopySourceIfMatch"] as? String
-            self.copySourceRange = dictionary["CopySourceRange"] as? String
+            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
+            self.copySourceIfMatch = dictionary["X-amz-copy-source-if-match"] as? String
+            self.copySourceRange = dictionary["X-amz-copy-source-range"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.copySourceSSECustomerKeyMD5 = dictionary["CopySourceSSECustomerKeyMD5"] as? String
-            self.copySourceSSECustomerAlgorithm = dictionary["CopySourceSSECustomerAlgorithm"] as? String
-            self.copySourceIfUnmodifiedSince = dictionary["CopySourceIfUnmodifiedSince"] as? Date
+            self.copySourceSSECustomerKeyMD5 = dictionary["X-amz-copy-source-server-side-encryption-customer-key-MD5"] as? String
+            self.copySourceSSECustomerAlgorithm = dictionary["X-amz-copy-source-server-side-encryption-customer-algorithm"] as? String
+            self.copySourceIfUnmodifiedSince = dictionary["X-amz-copy-source-if-unmodified-since"] as? Date
         }
     }
 
@@ -4290,14 +4322,14 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.contentMD5 = dictionary["ContentMD5"] as? String
+            self.contentMD5 = dictionary["Content-MD5"] as? String
             if let accessControlPolicy = dictionary["AccessControlPolicy"] as? [String: Any] { self.accessControlPolicy = try S3.AccessControlPolicy(dictionary: accessControlPolicy) } else { self.accessControlPolicy = nil }
-            self.grantWriteACP = dictionary["GrantWriteACP"] as? String
-            self.grantFullControl = dictionary["GrantFullControl"] as? String
-            self.grantWrite = dictionary["GrantWrite"] as? String
-            self.grantRead = dictionary["GrantRead"] as? String
-            self.aCL = dictionary["ACL"] as? String
-            self.grantReadACP = dictionary["GrantReadACP"] as? String
+            self.grantWriteACP = dictionary["X-amz-grant-write-acp"] as? String
+            self.grantFullControl = dictionary["X-amz-grant-full-control"] as? String
+            self.grantWrite = dictionary["X-amz-grant-write"] as? String
+            self.grantRead = dictionary["X-amz-grant-read"] as? String
+            self.aCL = dictionary["X-amz-acl"] as? String
+            self.grantReadACP = dictionary["X-amz-grant-read-acp"] as? String
         }
     }
 
@@ -4388,7 +4420,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.continuationToken = dictionary["ContinuationToken"] as? String
+            self.continuationToken = dictionary["Continuation-token"] as? String
         }
     }
 
@@ -4402,7 +4434,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let rules = dictionary["Rules"] as? [[String: Any]] {
+            if let rules = dictionary["Rule"] as? [[String: Any]] {
                 self.rules = try rules.map({ try LifecycleRule(dictionary: $0) })
             } else { 
                 self.rules = nil
@@ -4463,9 +4495,27 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.versionId = dictionary["VersionId"] as? String
-            self.requestCharged = dictionary["RequestCharged"] as? String
-            self.deleteMarker = dictionary["DeleteMarker"] as? Bool
+            self.versionId = dictionary["X-amz-version-id"] as? String
+            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            self.deleteMarker = dictionary["X-amz-delete-marker"] as? Bool
+        }
+    }
+
+    public struct RoutingRules: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let routingRule: [RoutingRule]?
+
+        public init(routingRule: [RoutingRule]? = nil) {
+            self.routingRule = routingRule
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let routingRule = dictionary["RoutingRule"] as? [[String: Any]] {
+                self.routingRule = try routingRule.map({ try RoutingRule(dictionary: $0) })
+            } else { 
+                self.routingRule = nil
+            }
         }
     }
 
@@ -4487,9 +4537,9 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.NotificationConfigurationFilter(dictionary: filter) } else { self.filter = nil }
-            guard let queueArn = dictionary["QueueArn"] as? String else { throw InitializableError.missingRequiredParam("QueueArn") }
+            guard let queueArn = dictionary["Queue"] as? String else { throw InitializableError.missingRequiredParam("Queue") }
             self.queueArn = queueArn
-            guard let events = dictionary["Events"] as? [String] else { throw InitializableError.missingRequiredParam("Events") }
+            guard let events = dictionary["Event"] as? [String] else { throw InitializableError.missingRequiredParam("Event") }
             self.events = events
             self.id = dictionary["Id"] as? String
         }
@@ -4498,15 +4548,15 @@ extension S3 {
     public struct GetBucketTaggingOutput: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        public let tagSet: [Tag]
+        public let tagSet: TagSet
 
-        public init(tagSet: [Tag]) {
+        public init(tagSet: TagSet) {
             self.tagSet = tagSet
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let tagSet = dictionary["TagSet"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TagSet") }
-            self.tagSet = try tagSet.map({ try Tag(dictionary: $0) })
+            guard let tagSet = dictionary["TagSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TagSet") }
+            self.tagSet = try S3.TagSet(dictionary: tagSet)
         }
     }
 
@@ -4530,7 +4580,7 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// Contains the optional fields that are included in the inventory results.
-        public let optionalFields: [String]?
+        public let optionalFields: InventoryOptionalFields?
         /// Contains information about where to publish the inventory results.
         public let destination: InventoryDestination
         /// Specifies whether the inventory is enabled or disabled.
@@ -4544,7 +4594,7 @@ extension S3 {
         /// The ID used to identify the inventory configuration.
         public let id: String
 
-        public init(optionalFields: [String]? = nil, destination: InventoryDestination, isEnabled: Bool, schedule: InventorySchedule, filter: InventoryFilter? = nil, includedObjectVersions: String, id: String) {
+        public init(optionalFields: InventoryOptionalFields? = nil, destination: InventoryDestination, isEnabled: Bool, schedule: InventorySchedule, filter: InventoryFilter? = nil, includedObjectVersions: String, id: String) {
             self.optionalFields = optionalFields
             self.destination = destination
             self.isEnabled = isEnabled
@@ -4555,7 +4605,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.optionalFields = dictionary["OptionalFields"] as? [String]
+            if let optionalFields = dictionary["OptionalFields"] as? [String: Any] { self.optionalFields = try S3.InventoryOptionalFields(dictionary: optionalFields) } else { self.optionalFields = nil }
             guard let destination = dictionary["Destination"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Destination") }
             self.destination = try S3.InventoryDestination(dictionary: destination)
             guard let isEnabled = dictionary["IsEnabled"] as? Bool else { throw InitializableError.missingRequiredParam("IsEnabled") }
@@ -4613,7 +4663,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.contentMD5 = dictionary["ContentMD5"] as? String
+            self.contentMD5 = dictionary["Content-MD5"] as? String
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
             guard let tagging = dictionary["Tagging"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Tagging") }
@@ -4625,21 +4675,17 @@ extension S3 {
         /// The key for the payload
         public static let payload: String? = nil
         /// The list of tags to use when evaluating an AND predicate.
-        public let tags: [Tag]?
+        public let tags: TagSet?
         /// The prefix to use when evaluating an AND predicate.
         public let prefix: String?
 
-        public init(tags: [Tag]? = nil, prefix: String? = nil) {
+        public init(tags: TagSet? = nil, prefix: String? = nil) {
             self.tags = tags
             self.prefix = prefix
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let tags = dictionary["Tags"] as? [[String: Any]] {
-                self.tags = try tags.map({ try Tag(dictionary: $0) })
-            } else { 
-                self.tags = nil
-            }
+            if let tags = dictionary["Tag"] as? [String: Any] { self.tags = try S3.TagSet(dictionary: tags) } else { self.tags = nil }
             self.prefix = dictionary["Prefix"] as? String
         }
     }
@@ -4679,12 +4725,12 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.maxKeys = dictionary["MaxKeys"] as? Int32
+            self.maxKeys = dictionary["Max-keys"] as? Int32
             self.prefix = dictionary["Prefix"] as? String
             self.delimiter = dictionary["Delimiter"] as? String
-            self.encodingType = dictionary["EncodingType"] as? String
-            self.keyMarker = dictionary["KeyMarker"] as? String
-            self.versionIdMarker = dictionary["VersionIdMarker"] as? String
+            self.encodingType = dictionary["Encoding-type"] as? String
+            self.keyMarker = dictionary["Key-marker"] as? String
+            self.versionIdMarker = dictionary["Version-id-marker"] as? String
         }
     }
 
@@ -4698,7 +4744,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let rules = dictionary["Rules"] as? [[String: Any]] {
+            if let rules = dictionary["Rule"] as? [[String: Any]] {
                 self.rules = try rules.map({ try Rule(dictionary: $0) })
             } else { 
                 self.rules = nil
@@ -4829,9 +4875,9 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let lambdaFunctionArn = dictionary["LambdaFunctionArn"] as? String else { throw InitializableError.missingRequiredParam("LambdaFunctionArn") }
+            guard let lambdaFunctionArn = dictionary["CloudFunction"] as? String else { throw InitializableError.missingRequiredParam("CloudFunction") }
             self.lambdaFunctionArn = lambdaFunctionArn
-            guard let events = dictionary["Events"] as? [String] else { throw InitializableError.missingRequiredParam("Events") }
+            guard let events = dictionary["Event"] as? [String] else { throw InitializableError.missingRequiredParam("Event") }
             self.events = events
             if let filter = dictionary["Filter"] as? [String: Any] { self.filter = try S3.NotificationConfigurationFilter(dictionary: filter) } else { self.filter = nil }
             self.id = dictionary["Id"] as? String
@@ -4880,12 +4926,12 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
-            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
+            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
             self.eTag = dictionary["ETag"] as? String
-            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
-            self.requestCharged = dictionary["RequestCharged"] as? String
-            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
+            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
+            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
         }
     }
 
@@ -4896,17 +4942,17 @@ extension S3 {
             return ["x-amz-version-id": "VersionId"]
         }
         public let versionId: String?
-        public let tagSet: [Tag]
+        public let tagSet: TagSet
 
-        public init(versionId: String? = nil, tagSet: [Tag]) {
+        public init(versionId: String? = nil, tagSet: TagSet) {
             self.versionId = versionId
             self.tagSet = tagSet
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.versionId = dictionary["VersionId"] as? String
-            guard let tagSet = dictionary["TagSet"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("TagSet") }
-            self.tagSet = try tagSet.map({ try Tag(dictionary: $0) })
+            self.versionId = dictionary["X-amz-version-id"] as? String
+            guard let tagSet = dictionary["TagSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TagSet") }
+            self.tagSet = try S3.TagSet(dictionary: tagSet)
         }
     }
 
@@ -4920,7 +4966,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let cORSRules = dictionary["CORSRules"] as? [[String: Any]] {
+            if let cORSRules = dictionary["CORSRule"] as? [[String: Any]] {
                 self.cORSRules = try cORSRules.map({ try CORSRule(dictionary: $0) })
             } else { 
                 self.cORSRules = nil
@@ -5044,36 +5090,36 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.tagging = dictionary["Tagging"] as? String
-            self.contentDisposition = dictionary["ContentDisposition"] as? String
-            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
-            self.grantReadACP = dictionary["GrantReadACP"] as? String
-            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
-            self.contentLanguage = dictionary["ContentLanguage"] as? String
-            self.contentEncoding = dictionary["ContentEncoding"] as? String
-            self.contentLength = dictionary["ContentLength"] as? Int64
-            self.grantWriteACP = dictionary["GrantWriteACP"] as? String
+            self.tagging = dictionary["X-amz-tagging"] as? String
+            self.contentDisposition = dictionary["Content-Disposition"] as? String
+            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.grantReadACP = dictionary["X-amz-grant-read-acp"] as? String
+            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
+            self.contentLanguage = dictionary["Content-Language"] as? String
+            self.contentEncoding = dictionary["Content-Encoding"] as? String
+            self.contentLength = dictionary["Content-Length"] as? Int64
+            self.grantWriteACP = dictionary["X-amz-grant-write-acp"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            self.websiteRedirectLocation = dictionary["WebsiteRedirectLocation"] as? String
+            self.websiteRedirectLocation = dictionary["X-amz-website-redirect-location"] as? String
             self.body = dictionary["Body"] as? Data
-            self.sSECustomerKey = dictionary["SSECustomerKey"] as? String
-            self.contentMD5 = dictionary["ContentMD5"] as? String
-            self.cacheControl = dictionary["CacheControl"] as? String
-            self.requestPayer = dictionary["RequestPayer"] as? String
-            self.grantFullControl = dictionary["GrantFullControl"] as? String
-            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
-            self.aCL = dictionary["ACL"] as? String
-            if let metadata = dictionary["Metadata"] as? [String: String] {
+            self.sSECustomerKey = dictionary["X-amz-server-side-encryption-customer-key"] as? String
+            self.contentMD5 = dictionary["Content-MD5"] as? String
+            self.cacheControl = dictionary["Cache-Control"] as? String
+            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            self.grantFullControl = dictionary["X-amz-grant-full-control"] as? String
+            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.aCL = dictionary["X-amz-acl"] as? String
+            if let metadata = dictionary["X-amz-meta-"] as? [String: String] {
                 self.metadata = metadata
             } else { 
                 self.metadata = nil
             }
             self.expires = dictionary["Expires"] as? Date
-            self.contentType = dictionary["ContentType"] as? String
-            self.storageClass = dictionary["StorageClass"] as? String
-            self.grantRead = dictionary["GrantRead"] as? String
-            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
+            self.contentType = dictionary["Content-Type"] as? String
+            self.storageClass = dictionary["X-amz-storage-class"] as? String
+            self.grantRead = dictionary["X-amz-grant-read"] as? String
+            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
         }
     }
 
@@ -5161,19 +5207,19 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.sSECustomerKey = dictionary["SSECustomerKey"] as? String
-            self.contentMD5 = dictionary["ContentMD5"] as? String
+            self.sSECustomerKey = dictionary["X-amz-server-side-encryption-customer-key"] as? String
+            self.contentMD5 = dictionary["Content-MD5"] as? String
             guard let partNumber = dictionary["PartNumber"] as? Int32 else { throw InitializableError.missingRequiredParam("PartNumber") }
             self.partNumber = partNumber
-            self.contentLength = dictionary["ContentLength"] as? Int64
-            self.requestPayer = dictionary["RequestPayer"] as? String
-            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
+            self.contentLength = dictionary["Content-Length"] as? Int64
+            self.requestPayer = dictionary["X-amz-request-payer"] as? String
+            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
             guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
             self.uploadId = uploadId
             self.body = dictionary["Body"] as? Data
-            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
+            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
         }
     }
 
@@ -5213,7 +5259,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.versionId = dictionary["VersionId"] as? String
+            self.versionId = dictionary["X-amz-version-id"] as? String
         }
     }
 
@@ -5263,7 +5309,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let filterRules = dictionary["FilterRules"] as? [[String: Any]] {
+            if let filterRules = dictionary["FilterRule"] as? [[String: Any]] {
                 self.filterRules = try filterRules.map({ try FilterRule(dictionary: $0) })
             } else { 
                 self.filterRules = nil
@@ -5291,7 +5337,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.contentMD5 = dictionary["ContentMD5"] as? String
+            self.contentMD5 = dictionary["Content-MD5"] as? String
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
             guard let websiteConfiguration = dictionary["WebsiteConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("WebsiteConfiguration") }
@@ -5420,7 +5466,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let rules = dictionary["Rules"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Rules") }
+            guard let rules = dictionary["Rule"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Rule") }
             self.rules = try rules.map({ try Rule(dictionary: $0) })
         }
     }
@@ -5449,6 +5495,24 @@ extension S3 {
             self.bucket = bucket
             guard let id = dictionary["Id"] as? String else { throw InitializableError.missingRequiredParam("Id") }
             self.id = id
+        }
+    }
+
+    public struct Buckets: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let bucket: [Bucket]?
+
+        public init(bucket: [Bucket]? = nil) {
+            self.bucket = bucket
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let bucket = dictionary["Bucket"] as? [[String: Any]] {
+                self.bucket = try bucket.map({ try Bucket(dictionary: $0) })
+            } else { 
+                self.bucket = nil
+            }
         }
     }
 
@@ -5520,13 +5584,13 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
-            self.partNumberMarker = dictionary["PartNumberMarker"] as? Int32
+            self.partNumberMarker = dictionary["Part-number-marker"] as? Int32
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
             guard let uploadId = dictionary["UploadId"] as? String else { throw InitializableError.missingRequiredParam("UploadId") }
             self.uploadId = uploadId
-            self.maxParts = dictionary["MaxParts"] as? Int32
-            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.maxParts = dictionary["Max-parts"] as? Int32
+            self.requestPayer = dictionary["X-amz-request-payer"] as? String
         }
     }
 
@@ -5563,7 +5627,7 @@ extension S3 {
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
             self.versionId = dictionary["VersionId"] as? String
-            self.requestPayer = dictionary["RequestPayer"] as? String
+            self.requestPayer = dictionary["X-amz-request-payer"] as? String
         }
     }
 
@@ -5592,7 +5656,7 @@ extension S3 {
         public init(dictionary: [String: Any]) throws {
             self.iD = dictionary["ID"] as? String
             self.emailAddress = dictionary["EmailAddress"] as? String
-            guard let type = dictionary["Type"] as? String else { throw InitializableError.missingRequiredParam("Type") }
+            guard let type = dictionary["Xsi:type"] as? String else { throw InitializableError.missingRequiredParam("Xsi:type") }
             self.type = type
             self.displayName = dictionary["DisplayName"] as? String
             self.uRI = dictionary["URI"] as? String
@@ -5616,7 +5680,7 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             self.queue = dictionary["Queue"] as? String
-            self.events = dictionary["Events"] as? [String]
+            self.events = dictionary["Event"] as? [String]
             self.event = dictionary["Event"] as? String
             self.id = dictionary["Id"] as? String
         }
@@ -5678,7 +5742,7 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.contentMD5 = dictionary["ContentMD5"] as? String
+            self.contentMD5 = dictionary["Content-MD5"] as? String
             guard let bucket = dictionary["Bucket"] as? String else { throw InitializableError.missingRequiredParam("Bucket") }
             self.bucket = bucket
             guard let requestPaymentConfiguration = dictionary["RequestPaymentConfiguration"] as? [String: Any] else { throw InitializableError.missingRequiredParam("RequestPaymentConfiguration") }
@@ -5720,14 +5784,14 @@ extension S3 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.expiration = dictionary["Expiration"] as? String
-            self.versionId = dictionary["VersionId"] as? String
-            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
-            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
+            self.expiration = dictionary["X-amz-expiration"] as? String
+            self.versionId = dictionary["X-amz-version-id"] as? String
+            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
             self.eTag = dictionary["ETag"] as? String
-            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
-            self.requestCharged = dictionary["RequestCharged"] as? String
-            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
+            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
+            self.requestCharged = dictionary["X-amz-request-charged"] as? String
+            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
         }
     }
 
@@ -5767,14 +5831,14 @@ extension S3 {
 
         public init(dictionary: [String: Any]) throws {
             if let copyObjectResult = dictionary["CopyObjectResult"] as? [String: Any] { self.copyObjectResult = try S3.CopyObjectResult(dictionary: copyObjectResult) } else { self.copyObjectResult = nil }
-            self.sSECustomerKeyMD5 = dictionary["SSECustomerKeyMD5"] as? String
-            self.versionId = dictionary["VersionId"] as? String
-            self.copySourceVersionId = dictionary["CopySourceVersionId"] as? String
-            self.sSEKMSKeyId = dictionary["SSEKMSKeyId"] as? String
-            self.expiration = dictionary["Expiration"] as? String
-            self.sSECustomerAlgorithm = dictionary["SSECustomerAlgorithm"] as? String
-            self.serverSideEncryption = dictionary["ServerSideEncryption"] as? String
-            self.requestCharged = dictionary["RequestCharged"] as? String
+            self.sSECustomerKeyMD5 = dictionary["X-amz-server-side-encryption-customer-key-MD5"] as? String
+            self.versionId = dictionary["X-amz-version-id"] as? String
+            self.copySourceVersionId = dictionary["X-amz-copy-source-version-id"] as? String
+            self.sSEKMSKeyId = dictionary["X-amz-server-side-encryption-aws-kms-key-id"] as? String
+            self.expiration = dictionary["X-amz-expiration"] as? String
+            self.sSECustomerAlgorithm = dictionary["X-amz-server-side-encryption-customer-algorithm"] as? String
+            self.serverSideEncryption = dictionary["X-amz-server-side-encryption"] as? String
+            self.requestCharged = dictionary["X-amz-request-charged"] as? String
         }
     }
 

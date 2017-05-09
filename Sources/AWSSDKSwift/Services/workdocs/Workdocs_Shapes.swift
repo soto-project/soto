@@ -1167,7 +1167,7 @@ extension Workdocs {
         public init(dictionary: [String: Any]) throws {
             guard let resourceId = dictionary["ResourceId"] as? String else { throw InitializableError.missingRequiredParam("ResourceId") }
             self.resourceId = resourceId
-            self.principalType = dictionary["PrincipalType"] as? String
+            self.principalType = dictionary["Type"] as? String
             guard let principalId = dictionary["PrincipalId"] as? String else { throw InitializableError.missingRequiredParam("PrincipalId") }
             self.principalId = principalId
         }

@@ -130,7 +130,7 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
         }
     }
@@ -237,7 +237,7 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
             guard let schemaFacet = dictionary["SchemaFacet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("SchemaFacet") }
             self.schemaFacet = try Clouddirectory.SchemaFacet(dictionary: schemaFacet)
@@ -367,7 +367,7 @@ extension Clouddirectory {
             self.schemaFacet = try Clouddirectory.SchemaFacet(dictionary: schemaFacet)
             guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
             self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
         }
     }
@@ -468,7 +468,7 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             guard let publishedSchemaArn = dictionary["PublishedSchemaArn"] as? String else { throw InitializableError.missingRequiredParam("PublishedSchemaArn") }
             self.publishedSchemaArn = publishedSchemaArn
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
         }
     }
@@ -504,9 +504,9 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             guard let indexReference = dictionary["IndexReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IndexReference") }
             self.indexReference = try Clouddirectory.ObjectReference(dictionary: indexReference)
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
-            self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
+            self.consistencyLevel = dictionary["X-amz-consistency-level"] as? String
             if let rangesOnIndexedValues = dictionary["RangesOnIndexedValues"] as? [[String: Any]] {
                 self.rangesOnIndexedValues = try rangesOnIndexedValues.map({ try ObjectAttributeRange(dictionary: $0) })
             } else { 
@@ -541,7 +541,7 @@ extension Clouddirectory {
             self.targetReference = try Clouddirectory.ObjectReference(dictionary: targetReference)
             guard let indexReference = dictionary["IndexReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IndexReference") }
             self.indexReference = try Clouddirectory.ObjectReference(dictionary: indexReference)
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
         }
     }
@@ -583,7 +583,7 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
         }
     }
@@ -658,7 +658,7 @@ extension Clouddirectory {
             self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference)
             guard let childReference = dictionary["ChildReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ChildReference") }
             self.childReference = try Clouddirectory.ObjectReference(dictionary: childReference)
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
             guard let linkName = dictionary["LinkName"] as? String else { throw InitializableError.missingRequiredParam("LinkName") }
             self.linkName = linkName
@@ -685,10 +685,10 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
+            self.consistencyLevel = dictionary["X-amz-consistency-level"] as? String
             guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
             self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
         }
     }
@@ -727,12 +727,12 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
             guard let targetReference = dictionary["TargetReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("TargetReference") }
             self.targetReference = try Clouddirectory.ObjectReference(dictionary: targetReference)
             self.nextToken = dictionary["NextToken"] as? String
-            self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
+            self.consistencyLevel = dictionary["X-amz-consistency-level"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
     }
@@ -903,9 +903,9 @@ extension Clouddirectory {
 
         public init(dictionary: [String: Any]) throws {
             self.maxResults = dictionary["MaxResults"] as? Int32
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
-            self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
+            self.consistencyLevel = dictionary["X-amz-consistency-level"] as? String
             self.nextToken = dictionary["NextToken"] as? String
             guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
             self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
@@ -931,7 +931,7 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             guard let document = dictionary["Document"] as? String else { throw InitializableError.missingRequiredParam("Document") }
             self.document = document
-            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            guard let schemaArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.schemaArn = schemaArn
         }
     }
@@ -1003,7 +1003,7 @@ extension Clouddirectory {
             self.linkName = linkName
             guard let parentReference = dictionary["ParentReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ParentReference") }
             self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference)
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
         }
     }
@@ -1032,7 +1032,7 @@ extension Clouddirectory {
             self.policyReference = try Clouddirectory.ObjectReference(dictionary: policyReference)
             guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
             self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
         }
     }
@@ -1076,7 +1076,7 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let developmentSchemaArn = dictionary["DevelopmentSchemaArn"] as? String else { throw InitializableError.missingRequiredParam("DevelopmentSchemaArn") }
+            guard let developmentSchemaArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.developmentSchemaArn = developmentSchemaArn
             self.name = dictionary["Name"] as? String
             guard let version = dictionary["Version"] as? String else { throw InitializableError.missingRequiredParam("Version") }
@@ -1200,7 +1200,7 @@ extension Clouddirectory {
             guard let schemaFacets = dictionary["SchemaFacets"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("SchemaFacets") }
             self.schemaFacets = try schemaFacets.map({ try SchemaFacet(dictionary: $0) })
             if let parentReference = dictionary["ParentReference"] as? [String: Any] { self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference) } else { self.parentReference = nil }
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
             if let objectAttributeList = dictionary["ObjectAttributeList"] as? [[String: Any]] {
                 self.objectAttributeList = try objectAttributeList.map({ try AttributeKeyAndValue(dictionary: $0) })
@@ -1262,7 +1262,7 @@ extension Clouddirectory {
 
         public init(dictionary: [String: Any]) throws {
             self.maxResults = dictionary["MaxResults"] as? Int32
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
             self.nextToken = dictionary["NextToken"] as? String
             guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
@@ -1414,7 +1414,7 @@ extension Clouddirectory {
             }
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            guard let schemaArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.schemaArn = schemaArn
         }
     }
@@ -1612,9 +1612,9 @@ extension Clouddirectory {
 
         public init(dictionary: [String: Any]) throws {
             self.maxResults = dictionary["MaxResults"] as? Int32
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
-            self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
+            self.consistencyLevel = dictionary["X-amz-consistency-level"] as? String
             self.nextToken = dictionary["NextToken"] as? String
             guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
             self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
@@ -1635,7 +1635,7 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
         }
     }
@@ -1726,7 +1726,7 @@ extension Clouddirectory {
 
         public init(dictionary: [String: Any]) throws {
             self.maxResults = dictionary["MaxResults"] as? Int32
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
             self.nextToken = dictionary["NextToken"] as? String
             guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
@@ -1753,7 +1753,7 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            guard let schemaArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.schemaArn = schemaArn
         }
     }
@@ -1772,7 +1772,7 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            guard let schemaArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.schemaArn = schemaArn
         }
     }
@@ -1808,7 +1808,7 @@ extension Clouddirectory {
             }
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            guard let schemaArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.schemaArn = schemaArn
         }
     }
@@ -1853,7 +1853,7 @@ extension Clouddirectory {
             self.policyReference = try Clouddirectory.ObjectReference(dictionary: policyReference)
             guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
             self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
-            self.directoryArn = dictionary["DirectoryArn"] as? String
+            self.directoryArn = dictionary["X-amz-data-partition"] as? String
         }
     }
 
@@ -1895,7 +1895,7 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             guard let operations = dictionary["Operations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Operations") }
             self.operations = try operations.map({ try BatchWriteOperation(dictionary: $0) })
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
         }
     }
@@ -1950,10 +1950,10 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
+            self.consistencyLevel = dictionary["X-amz-consistency-level"] as? String
             guard let operations = dictionary["Operations"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Operations") }
             self.operations = try operations.map({ try BatchReadOperation(dictionary: $0) })
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
         }
     }
@@ -2140,7 +2140,7 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            guard let schemaArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.schemaArn = schemaArn
         }
     }
@@ -2164,7 +2164,7 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            guard let schemaArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.schemaArn = schemaArn
         }
     }
@@ -2242,7 +2242,7 @@ extension Clouddirectory {
             guard let isUnique = dictionary["IsUnique"] as? Bool else { throw InitializableError.missingRequiredParam("IsUnique") }
             self.isUnique = isUnique
             if let parentReference = dictionary["ParentReference"] as? [String: Any] { self.parentReference = try Clouddirectory.ObjectReference(dictionary: parentReference) } else { self.parentReference = nil }
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
             self.linkName = dictionary["LinkName"] as? String
         }
@@ -2362,9 +2362,9 @@ extension Clouddirectory {
 
         public init(dictionary: [String: Any]) throws {
             self.maxResults = dictionary["MaxResults"] as? Int32
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
-            self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
+            self.consistencyLevel = dictionary["X-amz-consistency-level"] as? String
             self.nextToken = dictionary["NextToken"] as? String
             guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
             self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
@@ -2415,7 +2415,7 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            guard let schemaArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.schemaArn = schemaArn
         }
     }
@@ -2498,7 +2498,7 @@ extension Clouddirectory {
             self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
             guard let attributeUpdates = dictionary["AttributeUpdates"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("AttributeUpdates") }
             self.attributeUpdates = try attributeUpdates.map({ try ObjectAttributeUpdate(dictionary: $0) })
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
         }
     }
@@ -2584,9 +2584,9 @@ extension Clouddirectory {
 
         public init(dictionary: [String: Any]) throws {
             self.maxResults = dictionary["MaxResults"] as? Int32
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
-            self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
+            self.consistencyLevel = dictionary["X-amz-consistency-level"] as? String
             self.nextToken = dictionary["NextToken"] as? String
             guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
             self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
@@ -2753,7 +2753,7 @@ extension Clouddirectory {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
         }
     }
@@ -2826,7 +2826,7 @@ extension Clouddirectory {
             self.nextToken = dictionary["NextToken"] as? String
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            guard let schemaArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.schemaArn = schemaArn
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -2870,7 +2870,7 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             guard let objectReference = dictionary["ObjectReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ObjectReference") }
             self.objectReference = try Clouddirectory.ObjectReference(dictionary: objectReference)
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
         }
     }
@@ -2992,7 +2992,7 @@ extension Clouddirectory {
             self.targetReference = try Clouddirectory.ObjectReference(dictionary: targetReference)
             guard let indexReference = dictionary["IndexReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("IndexReference") }
             self.indexReference = try Clouddirectory.ObjectReference(dictionary: indexReference)
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
         }
     }
@@ -3039,7 +3039,7 @@ extension Clouddirectory {
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["NextToken"] as? String
-            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            guard let schemaArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.schemaArn = schemaArn
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -3130,10 +3130,10 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             guard let policyReference = dictionary["PolicyReference"] as? [String: Any] else { throw InitializableError.missingRequiredParam("PolicyReference") }
             self.policyReference = try Clouddirectory.ObjectReference(dictionary: policyReference)
-            guard let directoryArn = dictionary["DirectoryArn"] as? String else { throw InitializableError.missingRequiredParam("DirectoryArn") }
+            guard let directoryArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.directoryArn = directoryArn
             self.nextToken = dictionary["NextToken"] as? String
-            self.consistencyLevel = dictionary["ConsistencyLevel"] as? String
+            self.consistencyLevel = dictionary["X-amz-consistency-level"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
     }
@@ -3180,7 +3180,7 @@ extension Clouddirectory {
         public init(dictionary: [String: Any]) throws {
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            guard let schemaArn = dictionary["SchemaArn"] as? String else { throw InitializableError.missingRequiredParam("SchemaArn") }
+            guard let schemaArn = dictionary["X-amz-data-partition"] as? String else { throw InitializableError.missingRequiredParam("X-amz-data-partition") }
             self.schemaArn = schemaArn
         }
     }

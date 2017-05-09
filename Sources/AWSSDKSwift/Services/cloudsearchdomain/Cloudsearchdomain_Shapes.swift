@@ -194,10 +194,10 @@ extension Cloudsearchdomain {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let suggester = dictionary["suggester"] as? String else { throw InitializableError.missingRequiredParam("suggester") }
+            guard let suggester = dictionary["Suggester"] as? String else { throw InitializableError.missingRequiredParam("Suggester") }
             self.suggester = suggester
-            self.size = dictionary["size"] as? Int64
-            guard let query = dictionary["query"] as? String else { throw InitializableError.missingRequiredParam("query") }
+            self.size = dictionary["Size"] as? Int64
+            guard let query = dictionary["Q"] as? String else { throw InitializableError.missingRequiredParam("Q") }
             self.query = query
         }
     }
@@ -317,7 +317,7 @@ extension Cloudsearchdomain {
         public init(dictionary: [String: Any]) throws {
             guard let documents = dictionary["documents"] as? Data else { throw InitializableError.missingRequiredParam("documents") }
             self.documents = documents
-            guard let contentType = dictionary["contentType"] as? String else { throw InitializableError.missingRequiredParam("contentType") }
+            guard let contentType = dictionary["Content-Type"] as? String else { throw InitializableError.missingRequiredParam("Content-Type") }
             self.contentType = contentType
         }
     }
@@ -457,21 +457,21 @@ extension Cloudsearchdomain {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.sort = dictionary["sort"] as? String
-            self.expr = dictionary["expr"] as? String
-            self.size = dictionary["size"] as? Int64
-            self.highlight = dictionary["highlight"] as? String
-            guard let query = dictionary["query"] as? String else { throw InitializableError.missingRequiredParam("query") }
+            self.sort = dictionary["Sort"] as? String
+            self.expr = dictionary["Expr"] as? String
+            self.size = dictionary["Size"] as? Int64
+            self.highlight = dictionary["Highlight"] as? String
+            guard let query = dictionary["Q"] as? String else { throw InitializableError.missingRequiredParam("Q") }
             self.query = query
-            self.start = dictionary["start"] as? Int64
-            self.stats = dictionary["stats"] as? String
-            self.queryParser = dictionary["queryParser"] as? String
-            self.facet = dictionary["facet"] as? String
-            self.filterQuery = dictionary["filterQuery"] as? String
-            self.`return` = dictionary["return"] as? String
-            self.partial = dictionary["partial"] as? Bool
-            self.cursor = dictionary["cursor"] as? String
-            self.queryOptions = dictionary["queryOptions"] as? String
+            self.start = dictionary["Start"] as? Int64
+            self.stats = dictionary["Stats"] as? String
+            self.queryParser = dictionary["Q.parser"] as? String
+            self.facet = dictionary["Facet"] as? String
+            self.filterQuery = dictionary["Fq"] as? String
+            self.`return` = dictionary["Return"] as? String
+            self.partial = dictionary["Partial"] as? Bool
+            self.cursor = dictionary["Cursor"] as? String
+            self.queryOptions = dictionary["Q.options"] as? String
         }
     }
 

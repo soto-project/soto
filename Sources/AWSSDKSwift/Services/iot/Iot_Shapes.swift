@@ -98,10 +98,10 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            guard let certificateId = dictionary["CertificateId"] as? String else { throw InitializableError.missingRequiredParam("CertificateId") }
             self.certificateId = certificateId
             self.transferMessage = dictionary["transferMessage"] as? String
-            guard let targetAwsAccount = dictionary["targetAwsAccount"] as? String else { throw InitializableError.missingRequiredParam("targetAwsAccount") }
+            guard let targetAwsAccount = dictionary["TargetAwsAccount"] as? String else { throw InitializableError.missingRequiredParam("TargetAwsAccount") }
             self.targetAwsAccount = targetAwsAccount
         }
     }
@@ -140,11 +140,11 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let caCertificateId = dictionary["caCertificateId"] as? String else { throw InitializableError.missingRequiredParam("caCertificateId") }
+            guard let caCertificateId = dictionary["CaCertificateId"] as? String else { throw InitializableError.missingRequiredParam("CaCertificateId") }
             self.caCertificateId = caCertificateId
-            self.pageSize = dictionary["pageSize"] as? Int32
-            self.marker = dictionary["marker"] as? String
-            self.ascendingOrder = dictionary["ascendingOrder"] as? Bool
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.marker = dictionary["Marker"] as? String
+            self.ascendingOrder = dictionary["IsAscendingOrder"] as? Bool
         }
     }
 
@@ -315,7 +315,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let ruleName = dictionary["ruleName"] as? String else { throw InitializableError.missingRequiredParam("ruleName") }
+            guard let ruleName = dictionary["RuleName"] as? String else { throw InitializableError.missingRequiredParam("RuleName") }
             self.ruleName = ruleName
         }
     }
@@ -385,12 +385,12 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.allowAutoRegistration = dictionary["allowAutoRegistration"] as? Bool
+            self.allowAutoRegistration = dictionary["AllowAutoRegistration"] as? Bool
             guard let verificationCertificate = dictionary["verificationCertificate"] as? String else { throw InitializableError.missingRequiredParam("verificationCertificate") }
             self.verificationCertificate = verificationCertificate
             guard let caCertificate = dictionary["caCertificate"] as? String else { throw InitializableError.missingRequiredParam("caCertificate") }
             self.caCertificate = caCertificate
-            self.setAsActive = dictionary["setAsActive"] as? Bool
+            self.setAsActive = dictionary["SetAsActive"] as? Bool
         }
     }
 
@@ -414,9 +414,9 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            guard let thingName = dictionary["ThingName"] as? String else { throw InitializableError.missingRequiredParam("ThingName") }
             self.thingName = thingName
-            guard let principal = dictionary["principal"] as? String else { throw InitializableError.missingRequiredParam("principal") }
+            guard let principal = dictionary["X-amzn-principal"] as? String else { throw InitializableError.missingRequiredParam("X-amzn-principal") }
             self.principal = principal
         }
     }
@@ -505,11 +505,11 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.attributeValue = dictionary["attributeValue"] as? String
-            self.thingTypeName = dictionary["thingTypeName"] as? String
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.attributeName = dictionary["attributeName"] as? String
+            self.attributeValue = dictionary["AttributeValue"] as? String
+            self.thingTypeName = dictionary["ThingTypeName"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            self.attributeName = dictionary["AttributeName"] as? String
         }
     }
 
@@ -598,7 +598,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let thingTypeName = dictionary["thingTypeName"] as? String else { throw InitializableError.missingRequiredParam("thingTypeName") }
+            guard let thingTypeName = dictionary["ThingTypeName"] as? String else { throw InitializableError.missingRequiredParam("ThingTypeName") }
             self.thingTypeName = thingTypeName
             if let thingTypeProperties = dictionary["thingTypeProperties"] as? [String: Any] { self.thingTypeProperties = try Iot.ThingTypeProperties(dictionary: thingTypeProperties) } else { self.thingTypeProperties = nil }
         }
@@ -618,7 +618,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            guard let certificateId = dictionary["CaCertificateId"] as? String else { throw InitializableError.missingRequiredParam("CaCertificateId") }
             self.certificateId = certificateId
         }
     }
@@ -637,7 +637,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            guard let certificateId = dictionary["CertificateId"] as? String else { throw InitializableError.missingRequiredParam("CertificateId") }
             self.certificateId = certificateId
         }
     }
@@ -661,7 +661,7 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             guard let certificateSigningRequest = dictionary["certificateSigningRequest"] as? String else { throw InitializableError.missingRequiredParam("certificateSigningRequest") }
             self.certificateSigningRequest = certificateSigningRequest
-            self.setAsActive = dictionary["setAsActive"] as? Bool
+            self.setAsActive = dictionary["SetAsActive"] as? Bool
         }
     }
 
@@ -694,7 +694,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.setAsActive = dictionary["setAsActive"] as? Bool
+            self.setAsActive = dictionary["SetAsActive"] as? Bool
         }
     }
 
@@ -741,9 +741,9 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
             self.policyName = policyName
-            guard let principal = dictionary["principal"] as? String else { throw InitializableError.missingRequiredParam("principal") }
+            guard let principal = dictionary["X-amzn-iot-principal"] as? String else { throw InitializableError.missingRequiredParam("X-amzn-iot-principal") }
             self.principal = principal
         }
     }
@@ -785,7 +785,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let ruleName = dictionary["ruleName"] as? String else { throw InitializableError.missingRequiredParam("ruleName") }
+            guard let ruleName = dictionary["RuleName"] as? String else { throw InitializableError.missingRequiredParam("RuleName") }
             self.ruleName = ruleName
         }
     }
@@ -813,9 +813,9 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
             self.policyName = policyName
-            self.setAsDefault = dictionary["setAsDefault"] as? Bool
+            self.setAsDefault = dictionary["SetAsDefault"] as? Bool
             guard let policyDocument = dictionary["policyDocument"] as? String else { throw InitializableError.missingRequiredParam("policyDocument") }
             self.policyDocument = policyDocument
         }
@@ -893,7 +893,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            guard let thingName = dictionary["ThingName"] as? String else { throw InitializableError.missingRequiredParam("ThingName") }
             self.thingName = thingName
         }
     }
@@ -915,9 +915,9 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let policyVersionId = dictionary["policyVersionId"] as? String else { throw InitializableError.missingRequiredParam("policyVersionId") }
+            guard let policyVersionId = dictionary["PolicyVersionId"] as? String else { throw InitializableError.missingRequiredParam("PolicyVersionId") }
             self.policyVersionId = policyVersionId
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
             self.policyName = policyName
         }
     }
@@ -945,10 +945,10 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            guard let certificateId = dictionary["CaCertificateId"] as? String else { throw InitializableError.missingRequiredParam("CaCertificateId") }
             self.certificateId = certificateId
-            self.newStatus = dictionary["newStatus"] as? String
-            self.newAutoRegistrationStatus = dictionary["newAutoRegistrationStatus"] as? String
+            self.newStatus = dictionary["NewStatus"] as? String
+            self.newAutoRegistrationStatus = dictionary["NewAutoRegistrationStatus"] as? String
         }
     }
 
@@ -1054,9 +1054,9 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            guard let certificateId = dictionary["CertificateId"] as? String else { throw InitializableError.missingRequiredParam("CertificateId") }
             self.certificateId = certificateId
-            guard let newStatus = dictionary["newStatus"] as? String else { throw InitializableError.missingRequiredParam("newStatus") }
+            guard let newStatus = dictionary["NewStatus"] as? String else { throw InitializableError.missingRequiredParam("NewStatus") }
             self.newStatus = newStatus
         }
     }
@@ -1106,7 +1106,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let thingTypeName = dictionary["thingTypeName"] as? String else { throw InitializableError.missingRequiredParam("thingTypeName") }
+            guard let thingTypeName = dictionary["ThingTypeName"] as? String else { throw InitializableError.missingRequiredParam("ThingTypeName") }
             self.thingTypeName = thingTypeName
         }
     }
@@ -1188,7 +1188,7 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             guard let policyDocument = dictionary["policyDocument"] as? String else { throw InitializableError.missingRequiredParam("policyDocument") }
             self.policyDocument = policyDocument
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
             self.policyName = policyName
         }
     }
@@ -1210,9 +1210,9 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let policyVersionId = dictionary["policyVersionId"] as? String else { throw InitializableError.missingRequiredParam("policyVersionId") }
+            guard let policyVersionId = dictionary["PolicyVersionId"] as? String else { throw InitializableError.missingRequiredParam("PolicyVersionId") }
             self.policyVersionId = policyVersionId
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
             self.policyName = policyName
         }
     }
@@ -1322,7 +1322,7 @@ extension Iot {
         public init(dictionary: [String: Any]) throws {
             self.thingTypeName = dictionary["thingTypeName"] as? String
             if let attributePayload = dictionary["attributePayload"] as? [String: Any] { self.attributePayload = try Iot.AttributePayload(dictionary: attributePayload) } else { self.attributePayload = nil }
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            guard let thingName = dictionary["ThingName"] as? String else { throw InitializableError.missingRequiredParam("ThingName") }
             self.thingName = thingName
         }
     }
@@ -1423,7 +1423,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let ruleName = dictionary["ruleName"] as? String else { throw InitializableError.missingRequiredParam("ruleName") }
+            guard let ruleName = dictionary["RuleName"] as? String else { throw InitializableError.missingRequiredParam("RuleName") }
             self.ruleName = ruleName
         }
     }
@@ -1451,9 +1451,9 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
-            guard let principal = dictionary["principal"] as? String else { throw InitializableError.missingRequiredParam("principal") }
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            guard let principal = dictionary["X-amzn-principal"] as? String else { throw InitializableError.missingRequiredParam("X-amzn-principal") }
             self.principal = principal
         }
     }
@@ -1475,7 +1475,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let ruleName = dictionary["ruleName"] as? String else { throw InitializableError.missingRequiredParam("ruleName") }
+            guard let ruleName = dictionary["RuleName"] as? String else { throw InitializableError.missingRequiredParam("RuleName") }
             self.ruleName = ruleName
             guard let topicRulePayload = dictionary["topicRulePayload"] as? [String: Any] else { throw InitializableError.missingRequiredParam("topicRulePayload") }
             self.topicRulePayload = try Iot.TopicRulePayload(dictionary: topicRulePayload)
@@ -1496,7 +1496,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            guard let certificateId = dictionary["CaCertificateId"] as? String else { throw InitializableError.missingRequiredParam("CaCertificateId") }
             self.certificateId = certificateId
         }
     }
@@ -1542,7 +1542,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
             self.policyName = policyName
         }
     }
@@ -1573,11 +1573,11 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["marker"] as? String
-            self.pageSize = dictionary["pageSize"] as? Int32
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            self.marker = dictionary["Marker"] as? String
+            self.pageSize = dictionary["PageSize"] as? Int32
+            guard let policyName = dictionary["X-amzn-iot-policy"] as? String else { throw InitializableError.missingRequiredParam("X-amzn-iot-policy") }
             self.policyName = policyName
-            self.ascendingOrder = dictionary["ascendingOrder"] as? Bool
+            self.ascendingOrder = dictionary["IsAscendingOrder"] as? Bool
         }
     }
 
@@ -1624,9 +1624,9 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            guard let thingName = dictionary["ThingName"] as? String else { throw InitializableError.missingRequiredParam("ThingName") }
             self.thingName = thingName
-            guard let principal = dictionary["principal"] as? String else { throw InitializableError.missingRequiredParam("principal") }
+            guard let principal = dictionary["X-amzn-principal"] as? String else { throw InitializableError.missingRequiredParam("X-amzn-principal") }
             self.principal = principal
         }
     }
@@ -1697,9 +1697,9 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["marker"] as? String
-            self.pageSize = dictionary["pageSize"] as? Int32
-            self.ascendingOrder = dictionary["ascendingOrder"] as? Bool
+            self.marker = dictionary["Marker"] as? String
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.ascendingOrder = dictionary["IsAscendingOrder"] as? Bool
         }
     }
 
@@ -1723,9 +1723,9 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["marker"] as? String
-            self.pageSize = dictionary["pageSize"] as? Int32
-            self.ascendingOrder = dictionary["ascendingOrder"] as? Bool
+            self.marker = dictionary["Marker"] as? String
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.ascendingOrder = dictionary["IsAscendingOrder"] as? Bool
         }
     }
 
@@ -1746,7 +1746,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let thingTypeName = dictionary["thingTypeName"] as? String else { throw InitializableError.missingRequiredParam("thingTypeName") }
+            guard let thingTypeName = dictionary["ThingTypeName"] as? String else { throw InitializableError.missingRequiredParam("ThingTypeName") }
             self.thingTypeName = thingTypeName
             self.undoDeprecate = dictionary["undoDeprecate"] as? Bool
         }
@@ -1907,9 +1907,9 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.thingTypeName = dictionary["thingTypeName"] as? String
-            self.nextToken = dictionary["nextToken"] as? String
-            self.maxResults = dictionary["maxResults"] as? Int32
+            self.thingTypeName = dictionary["ThingTypeName"] as? String
+            self.nextToken = dictionary["NextToken"] as? String
+            self.maxResults = dictionary["MaxResults"] as? Int32
         }
     }
 
@@ -1946,7 +1946,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let ruleName = dictionary["ruleName"] as? String else { throw InitializableError.missingRequiredParam("ruleName") }
+            guard let ruleName = dictionary["RuleName"] as? String else { throw InitializableError.missingRequiredParam("RuleName") }
             self.ruleName = ruleName
         }
     }
@@ -1968,9 +1968,9 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let policyVersionId = dictionary["policyVersionId"] as? String else { throw InitializableError.missingRequiredParam("policyVersionId") }
+            guard let policyVersionId = dictionary["PolicyVersionId"] as? String else { throw InitializableError.missingRequiredParam("PolicyVersionId") }
             self.policyVersionId = policyVersionId
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
             self.policyName = policyName
         }
     }
@@ -2173,9 +2173,9 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            guard let certificateId = dictionary["CertificateId"] as? String else { throw InitializableError.missingRequiredParam("CertificateId") }
             self.certificateId = certificateId
-            self.setAsActive = dictionary["setAsActive"] as? Bool
+            self.setAsActive = dictionary["SetAsActive"] as? Bool
         }
     }
 
@@ -2193,7 +2193,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            guard let certificateId = dictionary["CertificateId"] as? String else { throw InitializableError.missingRequiredParam("CertificateId") }
             self.certificateId = certificateId
         }
     }
@@ -2212,7 +2212,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            guard let certificateId = dictionary["CertificateId"] as? String else { throw InitializableError.missingRequiredParam("CertificateId") }
             self.certificateId = certificateId
         }
     }
@@ -2257,7 +2257,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let certificateId = dictionary["certificateId"] as? String else { throw InitializableError.missingRequiredParam("certificateId") }
+            guard let certificateId = dictionary["CertificateId"] as? String else { throw InitializableError.missingRequiredParam("CertificateId") }
             self.certificateId = certificateId
             self.rejectReason = dictionary["rejectReason"] as? String
         }
@@ -2308,7 +2308,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
             self.policyName = policyName
         }
     }
@@ -2366,7 +2366,7 @@ extension Iot {
             self.status = dictionary["status"] as? String
             guard let certificatePem = dictionary["certificatePem"] as? String else { throw InitializableError.missingRequiredParam("certificatePem") }
             self.certificatePem = certificatePem
-            self.setAsActive = dictionary["setAsActive"] as? Bool
+            self.setAsActive = dictionary["SetAsActive"] as? Bool
         }
     }
 
@@ -2424,9 +2424,9 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["marker"] as? String
-            self.pageSize = dictionary["pageSize"] as? Int32
-            self.ascendingOrder = dictionary["ascendingOrder"] as? Bool
+            self.marker = dictionary["Marker"] as? String
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.ascendingOrder = dictionary["IsAscendingOrder"] as? Bool
         }
     }
 
@@ -2548,10 +2548,10 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["marker"] as? String
-            self.pageSize = dictionary["pageSize"] as? Int32
-            self.ascendingOrder = dictionary["ascendingOrder"] as? Bool
-            guard let principal = dictionary["principal"] as? String else { throw InitializableError.missingRequiredParam("principal") }
+            self.marker = dictionary["Marker"] as? String
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.ascendingOrder = dictionary["IsAscendingOrder"] as? Bool
+            guard let principal = dictionary["X-amzn-iot-principal"] as? String else { throw InitializableError.missingRequiredParam("X-amzn-iot-principal") }
             self.principal = principal
         }
     }
@@ -2601,7 +2601,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
             self.policyName = policyName
         }
     }
@@ -2620,7 +2620,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            guard let thingName = dictionary["ThingName"] as? String else { throw InitializableError.missingRequiredParam("ThingName") }
             self.thingName = thingName
         }
     }
@@ -2687,10 +2687,10 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.ruleDisabled = dictionary["ruleDisabled"] as? Bool
-            self.maxResults = dictionary["maxResults"] as? Int32
-            self.nextToken = dictionary["nextToken"] as? String
-            self.topic = dictionary["topic"] as? String
+            self.ruleDisabled = dictionary["RuleDisabled"] as? Bool
+            self.maxResults = dictionary["MaxResults"] as? Int32
+            self.nextToken = dictionary["NextToken"] as? String
+            self.topic = dictionary["Topic"] as? String
         }
     }
 
@@ -2743,7 +2743,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let thingTypeName = dictionary["thingTypeName"] as? String else { throw InitializableError.missingRequiredParam("thingTypeName") }
+            guard let thingTypeName = dictionary["ThingTypeName"] as? String else { throw InitializableError.missingRequiredParam("ThingTypeName") }
             self.thingTypeName = thingTypeName
         }
     }
@@ -2768,9 +2768,9 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let policyName = dictionary["policyName"] as? String else { throw InitializableError.missingRequiredParam("policyName") }
+            guard let policyName = dictionary["PolicyName"] as? String else { throw InitializableError.missingRequiredParam("PolicyName") }
             self.policyName = policyName
-            guard let principal = dictionary["principal"] as? String else { throw InitializableError.missingRequiredParam("principal") }
+            guard let principal = dictionary["X-amzn-iot-principal"] as? String else { throw InitializableError.missingRequiredParam("X-amzn-iot-principal") }
             self.principal = principal
         }
     }
@@ -2802,7 +2802,7 @@ extension Iot {
 
         public init(dictionary: [String: Any]) throws {
             self.removeThingType = dictionary["removeThingType"] as? Bool
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            guard let thingName = dictionary["ThingName"] as? String else { throw InitializableError.missingRequiredParam("ThingName") }
             self.thingName = thingName
             self.thingTypeName = dictionary["thingTypeName"] as? String
             self.expectedVersion = dictionary["expectedVersion"] as? Int64
@@ -2838,9 +2838,9 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.marker = dictionary["marker"] as? String
-            self.pageSize = dictionary["pageSize"] as? Int32
-            self.ascendingOrder = dictionary["ascendingOrder"] as? Bool
+            self.marker = dictionary["Marker"] as? String
+            self.pageSize = dictionary["PageSize"] as? Int32
+            self.ascendingOrder = dictionary["IsAscendingOrder"] as? Bool
         }
     }
 
@@ -2861,7 +2861,7 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let ruleName = dictionary["ruleName"] as? String else { throw InitializableError.missingRequiredParam("ruleName") }
+            guard let ruleName = dictionary["RuleName"] as? String else { throw InitializableError.missingRequiredParam("RuleName") }
             self.ruleName = ruleName
             guard let topicRulePayload = dictionary["topicRulePayload"] as? [String: Any] else { throw InitializableError.missingRequiredParam("topicRulePayload") }
             self.topicRulePayload = try Iot.TopicRulePayload(dictionary: topicRulePayload)
@@ -3048,8 +3048,8 @@ extension Iot {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.expectedVersion = dictionary["expectedVersion"] as? Int64
-            guard let thingName = dictionary["thingName"] as? String else { throw InitializableError.missingRequiredParam("thingName") }
+            self.expectedVersion = dictionary["ExpectedVersion"] as? Int64
+            guard let thingName = dictionary["ThingName"] as? String else { throw InitializableError.missingRequiredParam("ThingName") }
             self.thingName = thingName
         }
     }
