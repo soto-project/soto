@@ -42,6 +42,7 @@ public struct Elasticmapreduce {
             amzTarget: "ElasticMapReduce",
             service: "elasticmapreduce",
             serviceProtocol: .json,
+            apiVersion: "2009-03-31",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [ElasticmapreduceError.self]

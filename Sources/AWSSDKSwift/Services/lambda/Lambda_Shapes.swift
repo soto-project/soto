@@ -189,10 +189,10 @@ extension Lambda {
         public init(dictionary: [String: Any]) throws {
             guard let functionName = dictionary["FunctionName"] as? String else { throw InitializableError.missingRequiredParam("FunctionName") }
             self.functionName = functionName
-            self.invocationType = dictionary["InvocationType"] as? String
+            self.invocationType = dictionary["X-Amz-Invocation-Type"] as? String
             self.payload = dictionary["Payload"] as? Data
-            self.clientContext = dictionary["ClientContext"] as? String
-            self.logType = dictionary["LogType"] as? String
+            self.clientContext = dictionary["X-Amz-Client-Context"] as? String
+            self.logType = dictionary["X-Amz-Log-Type"] as? String
             self.qualifier = dictionary["Qualifier"] as? String
         }
     }
@@ -725,9 +725,9 @@ extension Lambda {
 
         public init(dictionary: [String: Any]) throws {
             self.statusCode = dictionary["StatusCode"] as? Int32
-            self.logResult = dictionary["LogResult"] as? String
+            self.logResult = dictionary["X-Amz-Log-Result"] as? String
             self.payload = dictionary["Payload"] as? Data
-            self.functionError = dictionary["FunctionError"] as? String
+            self.functionError = dictionary["X-Amz-Function-Error"] as? String
         }
     }
 

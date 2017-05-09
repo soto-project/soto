@@ -100,17 +100,17 @@ extension Member {
     func guardStatement() -> String {
         switch shape.type {
         case .structure(_), .map(_):
-            return "guard let \(variableName) = dictionary[\"\(name)\"] as? [String: Any] else { throw InitializableError.missingRequiredParam(\"\(name)\") }"
+            return "guard let \(variableName) = dictionary[\"\(pathForLocation)\"] as? [String: Any] else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }"
             
         case .list(let shape):
             switch shape.type {
             case .structure(_), .map(_):
-                return "guard let \(variableName) = dictionary[\"\(name)\"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam(\"\(name)\") }"
+                return "guard let \(variableName) = dictionary[\"\(pathForLocation)\"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }"
             default:
-                return "guard let \(variableName) = dictionary[\"\(name)\"] as? [\(shape.swiftTypeName)] else { throw InitializableError.missingRequiredParam(\"\(name)\") }"
+                return "guard let \(variableName) = dictionary[\"\(pathForLocation)\"] as? [\(shape.swiftTypeName)] else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }"
             }
         default:
-            return "guard let \(variableName) = dictionary[\"\(name)\"] as? \(shape.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(name)\") }"
+            return "guard let \(variableName) = dictionary[\"\(pathForLocation)\"] as? \(shape.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(pathForLocation)\") }"
         }
     }
 }
@@ -181,12 +181,14 @@ extension AWSService {
         }
         code += "\(indt(3))service: \"\(endpointPrefix)\",\n"
         code += "\(indt(3))serviceProtocol: .\(serviceProtocol),\n"
+        code += "\(indt(3))apiVersion: \"\(version)\",\n"
         code += "\(indt(3))endpoint: endpoint,\n"
         code += "\(indt(3))middlewares: \(middlewares)"
         if !errorShapeNames.isEmpty {
             code += ",\n"
-            code += "\(indt(3))possibleErrorTypes: [\(serviceErrorName).self]\n"
+            code += "\(indt(3))possibleErrorTypes: [\(serviceErrorName).self]"
         }
+        code += "\n"
         code += indt(2)+")\n"
         code += "\(indt(1))}\n"
         code += "\n"
@@ -223,7 +225,7 @@ extension AWSService {
                     code += "\n"
                     code += indt(3)+substituting
                 } else {
-                    code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.name)\"] as? [String: Any] { \(substituting) } else { self.\(member.variableName) = nil }"
+                    code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? [String: Any] { \(substituting) } else { self.\(member.variableName) = nil }"
                 }
                 code += "\n"
             case .map(_, let valueShape):
@@ -336,10 +338,10 @@ extension AWSService {
                 
                 if let decodingCode = decodingCode {
                     if member.required {
-                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.name)\"] as? \(firstElementType) else { throw InitializableError.missingRequiredParam(\"\(member.name)\") }\n"
+                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? \(firstElementType) else { throw InitializableError.missingRequiredParam(\"\(member.pathForLocation)\") }\n"
                         code += decodingCode(3)
                     } else {
-                        code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.name)\"] as? \(firstElementType) {\n"
+                        code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? \(firstElementType) {\n"
                         code += decodingCode(4)
                         code += "\(indt(3))} else { \n"
                         code += "\(indt(4))self.\(member.variableName) = nil\n"
@@ -351,10 +353,10 @@ extension AWSService {
                 switch shape.type {
                 case .structure:
                     if member.required {
-                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.name)\"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam(\"\(member.name)\") }\n"
+                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam(\"\(member.pathForLocation)\") }\n"
                         code += "\(indt(3))self.\(member.variableName) = try \(member.variableName).map({ try \(shape.swiftTypeName)(dictionary: $0) })\n"
                     } else {
-                        code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.name)\"] as? [[String: Any]] {\n"
+                        code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? [[String: Any]] {\n"
                         code += "\(indt(4))self.\(member.variableName) = try \(member.variableName).map({ try \(shape.swiftTypeName)(dictionary: $0) })\n"
                         code += "\(indt(3))} else { \n"
                         code += "\(indt(4))self.\(member.variableName) = nil\n"
@@ -379,10 +381,10 @@ extension AWSService {
                         }
                         
                         if member.required {
-                            code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.name)\"] as? [[String: [String: Any]]] else { throw InitializableError.missingRequiredParam(\"\(member.name)\") }\n"
+                            code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? [[String: [String: Any]]] else { throw InitializableError.missingRequiredParam(\"\(member.pathForLocation)\") }\n"
                             code += decodingCode(3)
                         } else {
-                            code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.name)\"] as? [[String: [String: Any]]] {\n"
+                            code += "\(indt(3))if let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? [[String: [String: Any]]] {\n"
                                 code += decodingCode(4)
                             code += "\(indt(3))} else { \n"
                                 code += "\(indt(4))self.\(member.variableName) = nil\n"
@@ -393,10 +395,10 @@ extension AWSService {
                         
                     default:
                         if member.required {
-                            code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.name)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(member.name)\") }\n"
+                            code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(member.name)\") }\n"
                             code += "\(indt(3))self.\(member.variableName) = \(member.variableName)\n"
                         } else {
-                            code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(member.name)\"] as? \(member.swiftTypeName)\n"
+                            code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? \(member.swiftTypeName)\n"
                         }
                     }
                 case .list(let childShape):
@@ -406,18 +408,18 @@ extension AWSService {
                         
                     default:
                         if member.required {
-                            code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.name)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(member.name)\") }\n"
+                            code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(member.pathForLocation)\") }\n"
                             code += "\(indt(3))self.\(member.variableName) = \(member.variableName)\n"
                         } else {
-                            code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(member.name)\"] as? \(member.swiftTypeName)\n"
+                            code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? \(member.swiftTypeName)\n"
                         }
                     }
                 default:
                     if member.required {
-                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.name)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(member.name)\") }\n"
+                        code += "\(indt(3))guard let \(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? \(member.swiftTypeName) else { throw InitializableError.missingRequiredParam(\"\(member.pathForLocation)\") }\n"
                         code += "\(indt(3))self.\(member.variableName) = \(member.variableName)\n"
                     } else {
-                        code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(member.name)\"] as? \(member.swiftTypeName)\n"
+                        code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? \(member.swiftTypeName)\n"
                     }
                 }
                 
@@ -426,7 +428,7 @@ extension AWSService {
                     code += "\(indt(3))\(member.guardStatement())\n"
                     code += "\(indt(3))self.\(member.variableName) = \(member.variableName)\n"
                 } else {
-                    code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(member.name)\"] as? \(member.swiftTypeName)\n"
+                    code += "\(indt(3))self.\(member.variableName) = dictionary[\"\(member.pathForLocation)\"] as? \(member.swiftTypeName)\n"
                 }
             }
         }

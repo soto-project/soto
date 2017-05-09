@@ -79,6 +79,24 @@ extension Ssm {
         }
     }
 
+    public struct FailedCreateAssociationList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let failedCreateAssociationEntry: [FailedCreateAssociation]?
+
+        public init(failedCreateAssociationEntry: [FailedCreateAssociation]? = nil) {
+            self.failedCreateAssociationEntry = failedCreateAssociationEntry
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let failedCreateAssociationEntry = dictionary["FailedCreateAssociationEntry"] as? [[String: Any]] {
+                self.failedCreateAssociationEntry = try failedCreateAssociationEntry.map({ try FailedCreateAssociation(dictionary: $0) })
+            } else { 
+                self.failedCreateAssociationEntry = nil
+            }
+        }
+    }
+
     public struct DescribeEffectivePatchesForPatchBaselineResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -144,6 +162,24 @@ extension Ssm {
         public init(dictionary: [String: Any]) throws {
             self.windowId = dictionary["WindowId"] as? String
             self.windowTargetId = dictionary["WindowTargetId"] as? String
+        }
+    }
+
+    public struct InventoryItemList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let item: [InventoryItem]?
+
+        public init(item: [InventoryItem]? = nil) {
+            self.item = item
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let item = dictionary["Item"] as? [[String: Any]] {
+                self.item = try item.map({ try InventoryItem(dictionary: $0) })
+            } else { 
+                self.item = nil
+            }
         }
     }
 
@@ -296,24 +332,20 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more filters. Use a filter to return a more specific list of results.
-        public let associationFilterList: [AssociationFilter]?
+        public let associationFilterList: AssociationFilterList?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int32?
 
-        public init(associationFilterList: [AssociationFilter]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(associationFilterList: AssociationFilterList? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.associationFilterList = associationFilterList
             self.nextToken = nextToken
             self.maxResults = maxResults
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let associationFilterList = dictionary["AssociationFilterList"] as? [[String: Any]] {
-                self.associationFilterList = try associationFilterList.map({ try AssociationFilter(dictionary: $0) })
-            } else { 
-                self.associationFilterList = nil
-            }
+            if let associationFilterList = dictionary["AssociationFilterList"] as? [String: Any] { self.associationFilterList = try Ssm.AssociationFilterList(dictionary: associationFilterList) } else { self.associationFilterList = nil }
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -716,6 +748,24 @@ extension Ssm {
         }
     }
 
+    public struct DocumentFilterList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let documentFilter: [DocumentFilter]?
+
+        public init(documentFilter: [DocumentFilter]? = nil) {
+            self.documentFilter = documentFilter
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let documentFilter = dictionary["DocumentFilter"] as? [[String: Any]] {
+                self.documentFilter = try documentFilter.map({ try DocumentFilter(dictionary: $0) })
+            } else { 
+                self.documentFilter = nil
+            }
+        }
+    }
+
     public struct DeleteActivationResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -812,20 +862,16 @@ extension Ssm {
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
         /// Collection of inventory entities such as a collection of instance inventory. 
-        public let entities: [InventoryResultEntity]?
+        public let entities: InventoryResultEntityList?
 
-        public init(nextToken: String? = nil, entities: [InventoryResultEntity]? = nil) {
+        public init(nextToken: String? = nil, entities: InventoryResultEntityList? = nil) {
             self.nextToken = nextToken
             self.entities = entities
         }
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["NextToken"] as? String
-            if let entities = dictionary["Entities"] as? [[String: Any]] {
-                self.entities = try entities.map({ try InventoryResultEntity(dictionary: $0) })
-            } else { 
-                self.entities = nil
-            }
+            if let entities = dictionary["Entities"] as? [String: Any] { self.entities = try Ssm.InventoryResultEntityList(dictionary: entities) } else { self.entities = nil }
         }
     }
 
@@ -849,6 +895,20 @@ extension Ssm {
             } else { 
                 self.instancePatchStates = nil
             }
+        }
+    }
+
+    public struct InstanceInformationFilterValueSet: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let instanceInformationFilterValue: [String]?
+
+        public init(instanceInformationFilterValue: [String]? = nil) {
+            self.instanceInformationFilterValue = instanceInformationFilterValue
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.instanceInformationFilterValue = dictionary["InstanceInformationFilterValue"] as? [String]
         }
     }
 
@@ -1017,11 +1077,11 @@ extension Ssm {
         /// The name of the document that you want to share.
         public let name: String
         /// The AWS user accounts that should no longer have access to the document. The AWS user account can either be a group of account IDs or All. This action has a higher priority than AccountIdsToAdd. If you specify an account ID to add and the same ID to remove, the system removes access to the document.
-        public let accountIdsToRemove: [String]?
+        public let accountIdsToRemove: AccountIdList?
         /// The AWS user accounts that should have access to the document. The account IDs can either be a group of account IDs or All.
-        public let accountIdsToAdd: [String]?
+        public let accountIdsToAdd: AccountIdList?
 
-        public init(permissionType: String, name: String, accountIdsToRemove: [String]? = nil, accountIdsToAdd: [String]? = nil) {
+        public init(permissionType: String, name: String, accountIdsToRemove: AccountIdList? = nil, accountIdsToAdd: AccountIdList? = nil) {
             self.permissionType = permissionType
             self.name = name
             self.accountIdsToRemove = accountIdsToRemove
@@ -1033,8 +1093,8 @@ extension Ssm {
             self.permissionType = permissionType
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
-            self.accountIdsToRemove = dictionary["AccountIdsToRemove"] as? [String]
-            self.accountIdsToAdd = dictionary["AccountIdsToAdd"] as? [String]
+            if let accountIdsToRemove = dictionary["AccountIdsToRemove"] as? [String: Any] { self.accountIdsToRemove = try Ssm.AccountIdList(dictionary: accountIdsToRemove) } else { self.accountIdsToRemove = nil }
+            if let accountIdsToAdd = dictionary["AccountIdsToAdd"] as? [String: Any] { self.accountIdsToAdd = try Ssm.AccountIdList(dictionary: accountIdsToAdd) } else { self.accountIdsToAdd = nil }
         }
     }
 
@@ -1135,6 +1195,24 @@ extension Ssm {
         public init(dictionary: [String: Any]) throws {
             guard let patchRules = dictionary["PatchRules"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("PatchRules") }
             self.patchRules = try patchRules.map({ try PatchRule(dictionary: $0) })
+        }
+    }
+
+    public struct InstanceInformationStringFilterList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let instanceInformationStringFilter: [InstanceInformationStringFilter]?
+
+        public init(instanceInformationStringFilter: [InstanceInformationStringFilter]? = nil) {
+            self.instanceInformationStringFilter = instanceInformationStringFilter
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let instanceInformationStringFilter = dictionary["InstanceInformationStringFilter"] as? [[String: Any]] {
+                self.instanceInformationStringFilter = try instanceInformationStringFilter.map({ try InstanceInformationStringFilter(dictionary: $0) })
+            } else { 
+                self.instanceInformationStringFilter = nil
+            }
         }
     }
 
@@ -1402,15 +1480,15 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more associations.
-        public let entries: [CreateAssociationBatchRequestEntry]
+        public let entries: CreateAssociationBatchRequestEntries
 
-        public init(entries: [CreateAssociationBatchRequestEntry]) {
+        public init(entries: CreateAssociationBatchRequestEntries) {
             self.entries = entries
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let entries = dictionary["Entries"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Entries") }
-            self.entries = try entries.map({ try CreateAssociationBatchRequestEntry(dictionary: $0) })
+            guard let entries = dictionary["Entries"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Entries") }
+            self.entries = try Ssm.CreateAssociationBatchRequestEntries(dictionary: entries)
         }
     }
 
@@ -1742,6 +1820,24 @@ extension Ssm {
         }
     }
 
+    public struct InventoryResultEntityList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let entity: [InventoryResultEntity]?
+
+        public init(entity: [InventoryResultEntity]? = nil) {
+            self.entity = entity
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let entity = dictionary["Entity"] as? [[String: Any]] {
+                self.entity = try entity.map({ try InventoryResultEntity(dictionary: $0) })
+            } else { 
+                self.entity = nil
+            }
+        }
+    }
+
     public struct FailedCreateAssociation: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -1777,11 +1873,11 @@ extension Ssm {
         /// The name of the SSM document.
         public let name: String?
         /// The operating system platform. 
-        public let platformTypes: [String]?
+        public let platformTypes: PlatformTypeList?
         /// The document version.
         public let documentVersion: String?
 
-        public init(schemaVersion: String? = nil, documentType: String? = nil, owner: String? = nil, name: String? = nil, platformTypes: [String]? = nil, documentVersion: String? = nil) {
+        public init(schemaVersion: String? = nil, documentType: String? = nil, owner: String? = nil, name: String? = nil, platformTypes: PlatformTypeList? = nil, documentVersion: String? = nil) {
             self.schemaVersion = schemaVersion
             self.documentType = documentType
             self.owner = owner
@@ -1795,7 +1891,7 @@ extension Ssm {
             self.documentType = dictionary["DocumentType"] as? String
             self.owner = dictionary["Owner"] as? String
             self.name = dictionary["Name"] as? String
-            self.platformTypes = dictionary["PlatformTypes"] as? [String]
+            if let platformTypes = dictionary["PlatformTypes"] as? [String: Any] { self.platformTypes = try Ssm.PlatformTypeList(dictionary: platformTypes) } else { self.platformTypes = nil }
             self.documentVersion = dictionary["DocumentVersion"] as? String
         }
     }
@@ -2049,9 +2145,9 @@ extension Ssm {
         /// The filter key name to describe your instances. For example: "InstanceIds"|"AgentVersion"|"PingStatus"|"PlatformTypes"|"ActivationIds"|"IamRole"|"ResourceType"|”AssociationStatus”|”Tag Key”
         public let key: String
         /// The filter values.
-        public let values: [String]
+        public let values: InstanceInformationFilterValueSet
 
-        public init(key: String, values: [String]) {
+        public init(key: String, values: InstanceInformationFilterValueSet) {
             self.key = key
             self.values = values
         }
@@ -2059,8 +2155,8 @@ extension Ssm {
         public init(dictionary: [String: Any]) throws {
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
-            self.values = values
+            guard let values = dictionary["Values"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Values") }
+            self.values = try Ssm.InstanceInformationFilterValueSet(dictionary: values)
         }
     }
 
@@ -2167,9 +2263,9 @@ extension Ssm {
         /// The name of the filter key.
         public let key: String
         /// Inventory filter values. Example: inventory filter where instance IDs are specified as values Key=AWS:InstanceInformation.InstanceId,Values= i-a12b3c4d5e6g, i-1a2b3c4d5e6,Type=Equal 
-        public let values: [String]
+        public let values: InventoryFilterValueList
 
-        public init(type: String? = nil, key: String, values: [String]) {
+        public init(type: String? = nil, key: String, values: InventoryFilterValueList) {
             self.type = type
             self.key = key
             self.values = values
@@ -2179,8 +2275,8 @@ extension Ssm {
             self.type = dictionary["Type"] as? String
             guard let key = dictionary["Key"] as? String else { throw InitializableError.missingRequiredParam("Key") }
             self.key = key
-            guard let values = dictionary["Values"] as? [String] else { throw InitializableError.missingRequiredParam("Values") }
-            self.values = values
+            guard let values = dictionary["Values"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Values") }
+            self.values = try Ssm.InventoryFilterValueList(dictionary: values)
         }
     }
 
@@ -2247,6 +2343,24 @@ extension Ssm {
             self.baselineId = baselineId
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
+        }
+    }
+
+    public struct DocumentIdentifierList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let documentIdentifier: [DocumentIdentifier]?
+
+        public init(documentIdentifier: [DocumentIdentifier]? = nil) {
+            self.documentIdentifier = documentIdentifier
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let documentIdentifier = dictionary["DocumentIdentifier"] as? [[String: Any]] {
+                self.documentIdentifier = try documentIdentifier.map({ try DocumentIdentifier(dictionary: $0) })
+            } else { 
+                self.documentIdentifier = nil
+            }
         }
     }
 
@@ -2444,6 +2558,24 @@ extension Ssm {
         }
     }
 
+    public struct AssociationFilterList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let associationFilter: [AssociationFilter]?
+
+        public init(associationFilter: [AssociationFilter]? = nil) {
+            self.associationFilter = associationFilter
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let associationFilter = dictionary["AssociationFilter"] as? [[String: Any]] {
+                self.associationFilter = try associationFilter.map({ try AssociationFilter(dictionary: $0) })
+            } else { 
+                self.associationFilter = nil
+            }
+        }
+    }
+
     public struct Patch: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2616,6 +2748,24 @@ extension Ssm {
         }
     }
 
+    public struct ResultAttributeList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let resultAttribute: [ResultAttribute]?
+
+        public init(resultAttribute: [ResultAttribute]? = nil) {
+            self.resultAttribute = resultAttribute
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let resultAttribute = dictionary["ResultAttribute"] as? [[String: Any]] {
+                self.resultAttribute = try resultAttribute.map({ try ResultAttribute(dictionary: $0) })
+            } else { 
+                self.resultAttribute = nil
+            }
+        }
+    }
+
     public struct CreateAssociationBatchRequestEntry: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -2682,6 +2832,24 @@ extension Ssm {
         public static let payload: String? = nil
 
         public init(dictionary: [String: Any]) throws {
+        }
+    }
+
+    public struct InstanceInformationFilterList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let instanceInformationFilter: [InstanceInformationFilter]?
+
+        public init(instanceInformationFilter: [InstanceInformationFilter]? = nil) {
+            self.instanceInformationFilter = instanceInformationFilter
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let instanceInformationFilter = dictionary["InstanceInformationFilter"] as? [[String: Any]] {
+                self.instanceInformationFilter = try instanceInformationFilter.map({ try InstanceInformationFilter(dictionary: $0) })
+            } else { 
+                self.instanceInformationFilter = nil
+            }
         }
     }
 
@@ -2797,7 +2965,7 @@ extension Ssm {
         /// The status of the SSM document.
         public let status: String?
         /// A description of the parameters for a document.
-        public let parameters: [DocumentParameter]?
+        public let parameters: DocumentParameterList?
         /// The name of the SSM document.
         public let name: String?
         /// The document version.
@@ -2807,13 +2975,13 @@ extension Ssm {
         /// The latest version of the document.
         public let latestVersion: String?
         /// The list of OS platforms compatible with this SSM document. 
-        public let platformTypes: [String]?
+        public let platformTypes: PlatformTypeList?
         /// The Sha256 or Sha1 hash created by the system when the document was created.   Sha1 hashes have been deprecated. 
         public let hash: String?
         /// Sha256 or Sha1.  Sha1 hashes have been deprecated. 
         public let hashType: String?
 
-        public init(sha1: String? = nil, defaultVersion: String? = nil, createdDate: Date? = nil, owner: String? = nil, documentType: String? = nil, description: String? = nil, status: String? = nil, parameters: [DocumentParameter]? = nil, name: String? = nil, documentVersion: String? = nil, schemaVersion: String? = nil, latestVersion: String? = nil, platformTypes: [String]? = nil, hash: String? = nil, hashType: String? = nil) {
+        public init(sha1: String? = nil, defaultVersion: String? = nil, createdDate: Date? = nil, owner: String? = nil, documentType: String? = nil, description: String? = nil, status: String? = nil, parameters: DocumentParameterList? = nil, name: String? = nil, documentVersion: String? = nil, schemaVersion: String? = nil, latestVersion: String? = nil, platformTypes: PlatformTypeList? = nil, hash: String? = nil, hashType: String? = nil) {
             self.sha1 = sha1
             self.defaultVersion = defaultVersion
             self.createdDate = createdDate
@@ -2839,16 +3007,12 @@ extension Ssm {
             self.documentType = dictionary["DocumentType"] as? String
             self.description = dictionary["Description"] as? String
             self.status = dictionary["Status"] as? String
-            if let parameters = dictionary["Parameters"] as? [[String: Any]] {
-                self.parameters = try parameters.map({ try DocumentParameter(dictionary: $0) })
-            } else { 
-                self.parameters = nil
-            }
+            if let parameters = dictionary["Parameters"] as? [String: Any] { self.parameters = try Ssm.DocumentParameterList(dictionary: parameters) } else { self.parameters = nil }
             self.name = dictionary["Name"] as? String
             self.documentVersion = dictionary["DocumentVersion"] as? String
             self.schemaVersion = dictionary["SchemaVersion"] as? String
             self.latestVersion = dictionary["LatestVersion"] as? String
-            self.platformTypes = dictionary["PlatformTypes"] as? [String]
+            if let platformTypes = dictionary["PlatformTypes"] as? [String: Any] { self.platformTypes = try Ssm.PlatformTypeList(dictionary: platformTypes) } else { self.platformTypes = nil }
             self.hash = dictionary["Hash"] as? String
             self.hashType = dictionary["HashType"] as? String
         }
@@ -2881,9 +3045,9 @@ extension Ssm {
         /// The name of the filter. 
         public let key: String
         /// The filter values.
-        public let valueSet: [String]
+        public let valueSet: InstanceInformationFilterValueSet
 
-        public init(key: String, valueSet: [String]) {
+        public init(key: String, valueSet: InstanceInformationFilterValueSet) {
             self.key = key
             self.valueSet = valueSet
         }
@@ -2891,8 +3055,8 @@ extension Ssm {
         public init(dictionary: [String: Any]) throws {
             guard let key = dictionary["key"] as? String else { throw InitializableError.missingRequiredParam("key") }
             self.key = key
-            guard let valueSet = dictionary["valueSet"] as? [String] else { throw InitializableError.missingRequiredParam("valueSet") }
-            self.valueSet = valueSet
+            guard let valueSet = dictionary["valueSet"] as? [String: Any] else { throw InitializableError.missingRequiredParam("valueSet") }
+            self.valueSet = try Ssm.InstanceInformationFilterValueSet(dictionary: valueSet)
         }
     }
 
@@ -3274,6 +3438,20 @@ extension Ssm {
         }
     }
 
+    public struct PlatformTypeList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let platformType: [String]?
+
+        public init(platformType: [String]? = nil) {
+            self.platformType = platformType
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.platformType = dictionary["PlatformType"] as? [String]
+        }
+    }
+
     public struct UpdatePatchBaselineResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -3325,15 +3503,15 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more filters. Use a filter to return a more specific list of instances.
-        public let instanceInformationFilterList: [InstanceInformationFilter]?
+        public let instanceInformationFilterList: InstanceInformationFilterList?
         /// One or more filters. Use a filter to return a more specific list of instances.
-        public let filters: [InstanceInformationStringFilter]?
+        public let filters: InstanceInformationStringFilterList?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results. 
         public let maxResults: Int32?
 
-        public init(instanceInformationFilterList: [InstanceInformationFilter]? = nil, filters: [InstanceInformationStringFilter]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(instanceInformationFilterList: InstanceInformationFilterList? = nil, filters: InstanceInformationStringFilterList? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.instanceInformationFilterList = instanceInformationFilterList
             self.filters = filters
             self.nextToken = nextToken
@@ -3341,16 +3519,8 @@ extension Ssm {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let instanceInformationFilterList = dictionary["InstanceInformationFilterList"] as? [[String: Any]] {
-                self.instanceInformationFilterList = try instanceInformationFilterList.map({ try InstanceInformationFilter(dictionary: $0) })
-            } else { 
-                self.instanceInformationFilterList = nil
-            }
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try InstanceInformationStringFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
+            if let instanceInformationFilterList = dictionary["InstanceInformationFilterList"] as? [String: Any] { self.instanceInformationFilterList = try Ssm.InstanceInformationFilterList(dictionary: instanceInformationFilterList) } else { self.instanceInformationFilterList = nil }
+            if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Ssm.InstanceInformationStringFilterList(dictionary: filters) } else { self.filters = nil }
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -3360,15 +3530,15 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more filters. Use a filter to return a more specific list of results.
-        public let filters: [InventoryFilter]?
+        public let filters: InventoryFilterList?
         /// The list of inventory item types to return.
-        public let resultAttributes: [ResultAttribute]?
+        public let resultAttributes: ResultAttributeList?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int32?
 
-        public init(filters: [InventoryFilter]? = nil, resultAttributes: [ResultAttribute]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(filters: InventoryFilterList? = nil, resultAttributes: ResultAttributeList? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.filters = filters
             self.resultAttributes = resultAttributes
             self.nextToken = nextToken
@@ -3376,16 +3546,8 @@ extension Ssm {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try InventoryFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
-            if let resultAttributes = dictionary["ResultAttributes"] as? [[String: Any]] {
-                self.resultAttributes = try resultAttributes.map({ try ResultAttribute(dictionary: $0) })
-            } else { 
-                self.resultAttributes = nil
-            }
+            if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Ssm.InventoryFilterList(dictionary: filters) } else { self.filters = nil }
+            if let resultAttributes = dictionary["ResultAttributes"] as? [String: Any] { self.resultAttributes = try Ssm.ResultAttributeList(dictionary: resultAttributes) } else { self.resultAttributes = nil }
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -3508,17 +3670,35 @@ extension Ssm {
         }
     }
 
+    public struct InstanceInformationList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let instanceInformation: [InstanceInformation]?
+
+        public init(instanceInformation: [InstanceInformation]? = nil) {
+            self.instanceInformation = instanceInformation
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let instanceInformation = dictionary["InstanceInformation"] as? [[String: Any]] {
+                self.instanceInformation = try instanceInformation.map({ try InstanceInformation(dictionary: $0) })
+            } else { 
+                self.instanceInformation = nil
+            }
+        }
+    }
+
     public struct InventoryItemSchema: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
         /// The name of the inventory type. Default inventory item type names start with AWS. Custom inventory type names will start with Custom. Default inventory item types include the following: AWS:AWSComponent, AWS:Application, AWS:InstanceInformation, AWS:Network, and AWS:WindowsUpdate.
         public let typeName: String
         /// The schema attributes for inventory. This contains data type and attribute name.
-        public let attributes: [InventoryItemAttribute]
+        public let attributes: InventoryItemAttributeList
         /// The schema version for the inventory item.
         public let version: String?
 
-        public init(typeName: String, attributes: [InventoryItemAttribute], version: String? = nil) {
+        public init(typeName: String, attributes: InventoryItemAttributeList, version: String? = nil) {
             self.typeName = typeName
             self.attributes = attributes
             self.version = version
@@ -3527,8 +3707,8 @@ extension Ssm {
         public init(dictionary: [String: Any]) throws {
             guard let typeName = dictionary["TypeName"] as? String else { throw InitializableError.missingRequiredParam("TypeName") }
             self.typeName = typeName
-            guard let attributes = dictionary["Attributes"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Attributes") }
-            self.attributes = try attributes.map({ try InventoryItemAttribute(dictionary: $0) })
+            guard let attributes = dictionary["Attributes"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Attributes") }
+            self.attributes = try Ssm.InventoryItemAttributeList(dictionary: attributes)
             self.version = dictionary["Version"] as? String
         }
     }
@@ -3562,20 +3742,16 @@ extension Ssm {
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty. 
         public let nextToken: String?
         /// The instance information list.
-        public let instanceInformationList: [InstanceInformation]?
+        public let instanceInformationList: InstanceInformationList?
 
-        public init(nextToken: String? = nil, instanceInformationList: [InstanceInformation]? = nil) {
+        public init(nextToken: String? = nil, instanceInformationList: InstanceInformationList? = nil) {
             self.nextToken = nextToken
             self.instanceInformationList = instanceInformationList
         }
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["NextToken"] as? String
-            if let instanceInformationList = dictionary["InstanceInformationList"] as? [[String: Any]] {
-                self.instanceInformationList = try instanceInformationList.map({ try InstanceInformation(dictionary: $0) })
-            } else { 
-                self.instanceInformationList = nil
-            }
+            if let instanceInformationList = dictionary["InstanceInformationList"] as? [String: Any] { self.instanceInformationList = try Ssm.InstanceInformationList(dictionary: instanceInformationList) } else { self.instanceInformationList = nil }
         }
     }
 
@@ -4021,6 +4197,24 @@ extension Ssm {
         }
     }
 
+    public struct DocumentParameterList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let documentParameter: [DocumentParameter]?
+
+        public init(documentParameter: [DocumentParameter]? = nil) {
+            self.documentParameter = documentParameter
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let documentParameter = dictionary["DocumentParameter"] as? [[String: Any]] {
+                self.documentParameter = try documentParameter.map({ try DocumentParameter(dictionary: $0) })
+            } else { 
+                self.documentParameter = nil
+            }
+        }
+    }
+
     public struct DescribeInstancePatchesResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -4319,7 +4513,7 @@ extension Ssm {
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int32?
         /// One or more filters. Use a filter to return a more specific list of results.
-        public let filters: [InventoryFilter]?
+        public let filters: InventoryFilterList?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The instance ID for which you want inventory information.
@@ -4327,7 +4521,7 @@ extension Ssm {
         /// The type of inventory item for which you want information.
         public let typeName: String
 
-        public init(maxResults: Int32? = nil, filters: [InventoryFilter]? = nil, nextToken: String? = nil, instanceId: String, typeName: String) {
+        public init(maxResults: Int32? = nil, filters: InventoryFilterList? = nil, nextToken: String? = nil, instanceId: String, typeName: String) {
             self.maxResults = maxResults
             self.filters = filters
             self.nextToken = nextToken
@@ -4337,11 +4531,7 @@ extension Ssm {
 
         public init(dictionary: [String: Any]) throws {
             self.maxResults = dictionary["MaxResults"] as? Int32
-            if let filters = dictionary["Filters"] as? [[String: Any]] {
-                self.filters = try filters.map({ try InventoryFilter(dictionary: $0) })
-            } else { 
-                self.filters = nil
-            }
+            if let filters = dictionary["Filters"] as? [String: Any] { self.filters = try Ssm.InventoryFilterList(dictionary: filters) } else { self.filters = nil }
             self.nextToken = dictionary["NextToken"] as? String
             guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
             self.instanceId = instanceId
@@ -4498,26 +4688,32 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// Information about the associations that succeeded.
-        public let successful: [AssociationDescription]?
+        public let successful: AssociationDescriptionList?
         /// Information about the associations that failed.
-        public let failed: [FailedCreateAssociation]?
+        public let failed: FailedCreateAssociationList?
 
-        public init(successful: [AssociationDescription]? = nil, failed: [FailedCreateAssociation]? = nil) {
+        public init(successful: AssociationDescriptionList? = nil, failed: FailedCreateAssociationList? = nil) {
             self.successful = successful
             self.failed = failed
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let successful = dictionary["Successful"] as? [[String: Any]] {
-                self.successful = try successful.map({ try AssociationDescription(dictionary: $0) })
-            } else { 
-                self.successful = nil
-            }
-            if let failed = dictionary["Failed"] as? [[String: Any]] {
-                self.failed = try failed.map({ try FailedCreateAssociation(dictionary: $0) })
-            } else { 
-                self.failed = nil
-            }
+            if let successful = dictionary["Successful"] as? [String: Any] { self.successful = try Ssm.AssociationDescriptionList(dictionary: successful) } else { self.successful = nil }
+            if let failed = dictionary["Failed"] as? [String: Any] { self.failed = try Ssm.FailedCreateAssociationList(dictionary: failed) } else { self.failed = nil }
+        }
+    }
+
+    public struct AccountIdList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let accountId: [String]?
+
+        public init(accountId: [String]? = nil) {
+            self.accountId = accountId
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.accountId = dictionary["AccountId"] as? [String]
         }
     }
 
@@ -4668,6 +4864,24 @@ extension Ssm {
         }
     }
 
+    public struct AssociationList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let association: [Association]?
+
+        public init(association: [Association]? = nil) {
+            self.association = association
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let association = dictionary["Association"] as? [[String: Any]] {
+                self.association = try association.map({ try Association(dictionary: $0) })
+            } else { 
+                self.association = nil
+            }
+        }
+    }
+
     public struct PutInventoryResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -4680,21 +4894,17 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The names of the SSM documents.
-        public let documentIdentifiers: [DocumentIdentifier]?
+        public let documentIdentifiers: DocumentIdentifierList?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
 
-        public init(documentIdentifiers: [DocumentIdentifier]? = nil, nextToken: String? = nil) {
+        public init(documentIdentifiers: DocumentIdentifierList? = nil, nextToken: String? = nil) {
             self.documentIdentifiers = documentIdentifiers
             self.nextToken = nextToken
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let documentIdentifiers = dictionary["DocumentIdentifiers"] as? [[String: Any]] {
-                self.documentIdentifiers = try documentIdentifiers.map({ try DocumentIdentifier(dictionary: $0) })
-            } else { 
-                self.documentIdentifiers = nil
-            }
+            if let documentIdentifiers = dictionary["DocumentIdentifiers"] as? [String: Any] { self.documentIdentifiers = try Ssm.DocumentIdentifierList(dictionary: documentIdentifiers) } else { self.documentIdentifiers = nil }
             self.nextToken = dictionary["NextToken"] as? String
         }
     }
@@ -5324,6 +5534,24 @@ extension Ssm {
         }
     }
 
+    public struct AssociationDescriptionList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let associationDescription: [AssociationDescription]?
+
+        public init(associationDescription: [AssociationDescription]? = nil) {
+            self.associationDescription = associationDescription
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let associationDescription = dictionary["AssociationDescription"] as? [[String: Any]] {
+                self.associationDescription = try associationDescription.map({ try AssociationDescription(dictionary: $0) })
+            } else { 
+                self.associationDescription = nil
+            }
+        }
+    }
+
     public struct DescribeEffectiveInstanceAssociationsResult: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -5459,6 +5687,24 @@ extension Ssm {
         }
     }
 
+    public struct CreateAssociationBatchRequestEntries: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let entries: [CreateAssociationBatchRequestEntry]?
+
+        public init(entries: [CreateAssociationBatchRequestEntry]? = nil) {
+            self.entries = entries
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let entries = dictionary["Entries"] as? [[String: Any]] {
+                self.entries = try entries.map({ try CreateAssociationBatchRequestEntry(dictionary: $0) })
+            } else { 
+                self.entries = nil
+            }
+        }
+    }
+
     public struct PatchFilter: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -5538,6 +5784,24 @@ extension Ssm {
         }
     }
 
+    public struct InventoryFilterList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let inventoryFilter: [InventoryFilter]?
+
+        public init(inventoryFilter: [InventoryFilter]? = nil) {
+            self.inventoryFilter = inventoryFilter
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let inventoryFilter = dictionary["InventoryFilter"] as? [[String: Any]] {
+                self.inventoryFilter = try inventoryFilter.map({ try InventoryFilter(dictionary: $0) })
+            } else { 
+                self.inventoryFilter = nil
+            }
+        }
+    }
+
     public struct UpdateDocumentDefaultVersionRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
@@ -5565,20 +5829,16 @@ extension Ssm {
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
         /// The associations.
-        public let associations: [Association]?
+        public let associations: AssociationList?
 
-        public init(nextToken: String? = nil, associations: [Association]? = nil) {
+        public init(nextToken: String? = nil, associations: AssociationList? = nil) {
             self.nextToken = nextToken
             self.associations = associations
         }
 
         public init(dictionary: [String: Any]) throws {
             self.nextToken = dictionary["NextToken"] as? String
-            if let associations = dictionary["Associations"] as? [[String: Any]] {
-                self.associations = try associations.map({ try Association(dictionary: $0) })
-            } else { 
-                self.associations = nil
-            }
+            if let associations = dictionary["Associations"] as? [String: Any] { self.associations = try Ssm.AssociationList(dictionary: associations) } else { self.associations = nil }
         }
     }
 
@@ -5729,18 +5989,18 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The inventory items that you want to add or update on instances.
-        public let items: [InventoryItem]
+        public let items: InventoryItemList
         /// One or more instance IDs where you want to add or update inventory items.
         public let instanceId: String
 
-        public init(items: [InventoryItem], instanceId: String) {
+        public init(items: InventoryItemList, instanceId: String) {
             self.items = items
             self.instanceId = instanceId
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let items = dictionary["Items"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("Items") }
-            self.items = try items.map({ try InventoryItem(dictionary: $0) })
+            guard let items = dictionary["Items"] as? [String: Any] else { throw InitializableError.missingRequiredParam("Items") }
+            self.items = try Ssm.InventoryItemList(dictionary: items)
             guard let instanceId = dictionary["InstanceId"] as? String else { throw InitializableError.missingRequiredParam("InstanceId") }
             self.instanceId = instanceId
         }
@@ -5750,14 +6010,14 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// The account IDs that have permission to use this document. The ID can be either an AWS account or All.
-        public let accountIds: [String]?
+        public let accountIds: AccountIdList?
 
-        public init(accountIds: [String]? = nil) {
+        public init(accountIds: AccountIdList? = nil) {
             self.accountIds = accountIds
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.accountIds = dictionary["AccountIds"] as? [String]
+            if let accountIds = dictionary["AccountIds"] as? [String: Any] { self.accountIds = try Ssm.AccountIdList(dictionary: accountIds) } else { self.accountIds = nil }
         }
     }
 
@@ -5983,24 +6243,20 @@ extension Ssm {
         /// The key for the payload
         public static let payload: String? = nil
         /// One or more filters. Use a filter to return a more specific list of results.
-        public let documentFilterList: [DocumentFilter]?
+        public let documentFilterList: DocumentFilterList?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int32?
 
-        public init(documentFilterList: [DocumentFilter]? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
+        public init(documentFilterList: DocumentFilterList? = nil, nextToken: String? = nil, maxResults: Int32? = nil) {
             self.documentFilterList = documentFilterList
             self.nextToken = nextToken
             self.maxResults = maxResults
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let documentFilterList = dictionary["DocumentFilterList"] as? [[String: Any]] {
-                self.documentFilterList = try documentFilterList.map({ try DocumentFilter(dictionary: $0) })
-            } else { 
-                self.documentFilterList = nil
-            }
+            if let documentFilterList = dictionary["DocumentFilterList"] as? [String: Any] { self.documentFilterList = try Ssm.DocumentFilterList(dictionary: documentFilterList) } else { self.documentFilterList = nil }
             self.nextToken = dictionary["NextToken"] as? String
             self.maxResults = dictionary["MaxResults"] as? Int32
         }
@@ -6038,6 +6294,20 @@ extension Ssm {
             self.nextToken = dictionary["NextToken"] as? String
             self.instanceId = dictionary["InstanceId"] as? String
             self.typeName = dictionary["TypeName"] as? String
+        }
+    }
+
+    public struct InventoryFilterValueList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let filterValue: [String]?
+
+        public init(filterValue: [String]? = nil) {
+            self.filterValue = filterValue
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            self.filterValue = dictionary["FilterValue"] as? [String]
         }
     }
 
@@ -6107,6 +6377,24 @@ extension Ssm {
             self.name = dictionary["Name"] as? String
             self.defaultValue = dictionary["DefaultValue"] as? String
             self.description = dictionary["Description"] as? String
+        }
+    }
+
+    public struct InventoryItemAttributeList: AWSShape {
+        /// The key for the payload
+        public static let payload: String? = nil
+        public let attribute: [InventoryItemAttribute]?
+
+        public init(attribute: [InventoryItemAttribute]? = nil) {
+            self.attribute = attribute
+        }
+
+        public init(dictionary: [String: Any]) throws {
+            if let attribute = dictionary["Attribute"] as? [[String: Any]] {
+                self.attribute = try attribute.map({ try InventoryItemAttribute(dictionary: $0) })
+            } else { 
+                self.attribute = nil
+            }
         }
     }
 

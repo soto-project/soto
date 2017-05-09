@@ -42,6 +42,7 @@ public struct Config {
             amzTarget: "StarlingDoveService",
             service: "config",
             serviceProtocol: .json,
+            apiVersion: "2014-11-12",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [ConfigError.self]

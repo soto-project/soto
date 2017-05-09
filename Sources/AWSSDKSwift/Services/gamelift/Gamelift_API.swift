@@ -42,6 +42,7 @@ public struct Gamelift {
             amzTarget: "GameLift",
             service: "gamelift",
             serviceProtocol: .json,
+            apiVersion: "2015-10-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [GameliftError.self]

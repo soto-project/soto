@@ -41,6 +41,7 @@ public struct Cloudfront {
             region: region,
             service: "cloudfront",
             serviceProtocol: .restxml,
+            apiVersion: "2016-11-25",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [CloudfrontError.self]

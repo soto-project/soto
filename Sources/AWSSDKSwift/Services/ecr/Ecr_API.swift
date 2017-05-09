@@ -42,6 +42,7 @@ public struct Ecr {
             amzTarget: "AmazonEC2ContainerRegistry_V20150921",
             service: "ecr",
             serviceProtocol: .json,
+            apiVersion: "2015-09-21",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [EcrError.self]

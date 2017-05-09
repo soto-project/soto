@@ -40,7 +40,8 @@ public struct Cloudsearchdomain {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "cloudsearchdomain",
-            serviceProtocol: .json,
+            serviceProtocol: .restjson,
+            apiVersion: "2013-01-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [CloudsearchdomainError.self]

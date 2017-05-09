@@ -42,6 +42,7 @@ public struct Cur {
             amzTarget: "AWSOrigamiServiceGatewayService",
             service: "cur",
             serviceProtocol: .json,
+            apiVersion: "2017-01-06",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [CurError.self]

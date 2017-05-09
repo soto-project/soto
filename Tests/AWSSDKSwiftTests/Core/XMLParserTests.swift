@@ -25,10 +25,11 @@ class XML2ParserTests: XCTestCase {
     func testparse() {
         let parser = XML2Parser(data: dataSourceXML)
         let node = try! parser.parse()
+        
         XCTAssertEqual(node.elementName, "Error")
         XCTAssertEqual(node.children.first!.elementName, "Hoge")
         XCTAssertEqual(node.children.first!.children.first!.elementName, "Fuga")
-        XCTAssertEqual(node.children.first!.children.first!.values, ["aaaaa", "bbbbb"])
+        XCTAssertEqual(node.children.first!.children.flatMap({ $0.values }), ["aaaaa", "bbbbb", "foobar"])
         XCTAssertEqual(node.children.last!.elementName, "CanonicalRequest")
     }
     
@@ -37,7 +38,6 @@ class XML2ParserTests: XCTestCase {
         let node = try! parser.parse()
         let jsonString = XMLNodeSerializer(node: node).serializeToJSON()
         let jsonDict = try! JSONSerialization.jsonObject(with: jsonString.data(using: .utf8)!, options: []) as! [String: Any]
-        
         let error = jsonDict["Error"] as! [String: Any]
         XCTAssertEqual(error["Code"] as! String, "SignatureDoesNotMatch")
     }

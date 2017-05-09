@@ -90,9 +90,9 @@ extension Polly {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.contentType = dictionary["ContentType"] as? String
+            self.contentType = dictionary["Content-Type"] as? String
             self.audioStream = dictionary["AudioStream"] as? Data
-            self.requestCharacters = dictionary["RequestCharacters"] as? Int32
+            self.requestCharacters = dictionary["X-amzn-RequestCharacters"] as? Int32
         }
     }
 
@@ -115,7 +115,7 @@ extension Polly {
         public init(dictionary: [String: Any]) throws {
             guard let content = dictionary["Content"] as? String else { throw InitializableError.missingRequiredParam("Content") }
             self.content = content
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            guard let name = dictionary["LexiconName"] as? String else { throw InitializableError.missingRequiredParam("LexiconName") }
             self.name = name
         }
     }
@@ -176,7 +176,7 @@ extension Polly {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            guard let name = dictionary["LexiconName"] as? String else { throw InitializableError.missingRequiredParam("LexiconName") }
             self.name = name
         }
     }
@@ -344,7 +344,7 @@ extension Polly {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
+            guard let name = dictionary["LexiconName"] as? String else { throw InitializableError.missingRequiredParam("LexiconName") }
             self.name = name
         }
     }

@@ -42,6 +42,7 @@ public struct MturkRequester {
             amzTarget: "MTurkRequesterServiceV20170117",
             service: "mturk-requester",
             serviceProtocol: .json,
+            apiVersion: "2017-01-17",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [MturkRequesterError.self]

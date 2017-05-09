@@ -18,8 +18,12 @@ struct AWSService {
     var errorShapeNames = [String]()
     var shapeDoc: [String: [String: String]] = [:]
     
+    var version: String {
+        return apiJSON["metadata"]["apiVersion"].stringValue
+    }
+    
     var serviceProtocol: ServiceProtocol {
-        return ServiceProtocol(rawValue: apiJSON["metadata"]["protocol"].stringValue) ?? .json
+        return ServiceProtocol(rawValue: apiJSON["metadata"]["protocol"].stringValue)
     }
     
     var endpointPrefix: String {
@@ -73,9 +77,25 @@ struct AWSService {
             
         case "list":
             let shapeJSON = apiJSON["shapes"][json["member"]["shape"].stringValue]
-            let _type = try shapeType(from: shapeJSON, level: level+1)
-            let shape = Shape(name: json["member"]["shape"].stringValue, type: _type)
-            type = .list(shape)
+            if let locationName = json["member"]["locationName"].string {
+                let _type = try shapeType(from: shapeJSON, level: level+1)
+                let repeats = Shape(name: json["member"]["shape"].stringValue, type: _type)
+                let shape = Shape(name: json["member"]["shape"].stringValue, type: .list(repeats))
+                let member = Member(
+                    name: locationName,
+                    required: false,
+                    shape: shape,
+                    location: nil,
+                    locationName: locationName,
+                    xmlNamespace: nil,
+                    isStreaming: false
+                )
+                type = .structure(StructureShape(members: [member], payload: nil))
+            } else {
+                let _type = try shapeType(from: shapeJSON, level: level+1)
+                let shape = Shape(name: json["member"]["shape"].stringValue, type: _type)
+                type = .list(shape)
+            }
             
         case "structure":
             var structure: [String: ShapeType] = [:]
@@ -94,6 +114,7 @@ struct AWSService {
                     required: requireds.contains(name),
                     shape: shape,
                     location: Location(key: name, json: memberJSON),
+                    locationName: memberJSON["locationName"].string,
                     xmlNamespace: XMLNamespace(json: memberJSON),
                     isStreaming: memberJSON["streaming"].bool ?? false
                 )

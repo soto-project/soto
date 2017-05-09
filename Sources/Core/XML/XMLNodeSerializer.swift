@@ -55,10 +55,10 @@ public class XMLNodeSerializer {
     }
     
     public func serializeToJSON() -> String {
-        var jsonStr = ""
-        jsonStr+="{"
         
-        func _serialize(nodeTree: [XMLNode]) {
+        func _serialize(nodeTree: [XMLNode]) -> String {
+            var jsonStr = ""
+            
             for (index, node) in nodeTree.enumerated() {
                 jsonStr += dquote(node.elementName) + ":"
                 
@@ -73,18 +73,47 @@ public class XMLNodeSerializer {
                 }
                 
                 if node.hasChildren() {
+                    var grouped: [String: [XMLNode]] = [:]
+                    node.children.forEach {
+                        if grouped[$0.elementName] == nil { grouped[$0.elementName] = [] }
+                        grouped[$0.elementName]?.append($0)
+                    }
                     jsonStr += "{"
-                    _serialize(nodeTree: node.children)
+                    
+                    let arrayNodes = grouped.filter({ $0.value.count > 1 })
+                    let keys = arrayNodes.map({ $0.key })
+                    let newChildren = node.children.filter({ !keys.contains($0.elementName) })
+                    
+                    for (element, nodes) in arrayNodes {
+                        jsonStr += "\(dquote(element)):["
+                        if nodes.isStructedArray() {
+                            jsonStr += (nodes.map({ "{" + _serialize(nodeTree: $0.children) + "}"  }).joined(separator: ","))
+                        } else {
+                            jsonStr += nodes.flatMap({ $0.values }).map({ dquote($0) }).joined(separator: ",")
+                        }
+                        jsonStr += "]"
+                        if newChildren.count > 0 { jsonStr += "," }
+                    }
+                    
+                    jsonStr += _serialize(nodeTree: newChildren)
                     jsonStr += "}"
                     if nodeTree.count-1-index > 0 { jsonStr += "," }
                 }
             }
+            
+            return jsonStr
         }
         
-        _serialize(nodeTree: [node])
+        return "{" + _serialize(nodeTree: [node]) + "}"
         
-        jsonStr+="}"
-        
-        return jsonStr
+    }
+}
+
+extension Collection where Self.Iterator.Element == XMLNode {
+    func isStructedArray() -> Bool {
+        if let hasChildren = self.first?.hasChildren() {
+            return hasChildren
+        }
+        return false
     }
 }

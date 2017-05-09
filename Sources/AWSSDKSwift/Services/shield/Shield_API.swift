@@ -42,6 +42,7 @@ public struct Shield {
             amzTarget: "AWSShield_20160616",
             service: "shield",
             serviceProtocol: .json,
+            apiVersion: "2016-06-02",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [ShieldError.self]

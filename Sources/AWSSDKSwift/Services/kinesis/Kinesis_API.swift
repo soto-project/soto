@@ -42,6 +42,7 @@ public struct Kinesis {
             amzTarget: "Kinesis_20131202",
             service: "kinesis",
             serviceProtocol: .json,
+            apiVersion: "2013-12-02",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [KinesisError.self]

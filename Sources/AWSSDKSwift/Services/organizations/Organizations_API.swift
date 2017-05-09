@@ -42,6 +42,7 @@ public struct Organizations {
             amzTarget: "AWSOrganizationsV20161128",
             service: "organizations",
             serviceProtocol: .json,
+            apiVersion: "2016-11-28",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [OrganizationsError.self]

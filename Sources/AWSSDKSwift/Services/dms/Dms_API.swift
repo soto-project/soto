@@ -42,6 +42,7 @@ public struct Dms {
             amzTarget: "AmazonDMSv20160101",
             service: "dms",
             serviceProtocol: .json,
+            apiVersion: "2016-01-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [DmsError.self]

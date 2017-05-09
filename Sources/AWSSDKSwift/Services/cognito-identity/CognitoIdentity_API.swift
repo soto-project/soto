@@ -42,6 +42,7 @@ public struct CognitoIdentity {
             amzTarget: "AWSCognitoIdentityService",
             service: "cognito-identity",
             serviceProtocol: .json,
+            apiVersion: "2014-06-30",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [CognitoIdentityError.self]

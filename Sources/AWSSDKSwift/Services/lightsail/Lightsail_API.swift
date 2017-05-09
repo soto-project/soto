@@ -42,6 +42,7 @@ public struct Lightsail {
             amzTarget: "Lightsail_20161128",
             service: "lightsail",
             serviceProtocol: .json,
+            apiVersion: "2016-11-28",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [LightsailError.self]

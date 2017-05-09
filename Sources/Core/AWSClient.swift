@@ -31,6 +31,8 @@ public struct AWSClient {
     
     let signer: Signers.V4
     
+    let apiVersion: String
+    
     let amzTarget: String?
     
     let _endpoint: String?
@@ -48,7 +50,7 @@ public struct AWSClient {
         return self._endpoint ?? "https://\(signer.service)\(nameseparator)\(signer.region.rawValue).amazonaws.com"
     }
     
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region?, amzTarget: String? = nil, service: String, serviceProtocol: ServiceProtocol, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = [], possibleErrorTypes: [AWSErrorType.Type]? = nil) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region?, amzTarget: String? = nil, service: String, serviceProtocol: ServiceProtocol, apiVersion: String, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = [], possibleErrorTypes: [AWSErrorType.Type]? = nil) {
         let cred: CredentialProvider
         if let scred = SharedCredential.default {
             cred = scred
@@ -63,6 +65,7 @@ public struct AWSClient {
         }
         
         self.signer = Signers.V4(credentials: cred, region: region ?? .useast1, service: service)
+        self.apiVersion = apiVersion
         self._endpoint = endpoint
         self.amzTarget = amzTarget
         self.middlewares = middlewares
@@ -78,6 +81,7 @@ public struct AWSClient {
             httpMethod,
             context: InputContext(Shape: Input.self, input: input)
         )
+        
         _ = try self.request(request)
     }
     
@@ -88,18 +92,19 @@ public struct AWSClient {
     
     public func send<Output: AWSShape>(operation operationName: String, path: String, httpMethod: String) throws -> Output {
         let request = try createRequest(operation: operationName, path: path, httpMethod: httpMethod)
-        return try validate(response: try self.request(request))
+        return try validate(operation: operationName, response: try self.request(request))
     }
     
     public func send<Output: AWSShape, Input: AWSShape>(operation operationName: String, path: String, httpMethod: String, input: Input)
         throws -> Output {
+
         let request = try createRequest(
             operation: operationName,
             path: path,
             httpMethod: httpMethod,
             context: InputContext(Shape: Input.self, input: input)
         )
-        return try validate(response: try self.request(request))
+        return try validate(operation: operationName, response: try self.request(request))
     }
     
     public func request(_ request: AWSRequest) throws -> Prorsum.Response {
@@ -137,20 +142,32 @@ public struct AWSClient {
         return response
     }
     
-    private func validate<Output: AWSShape>(response: Prorsum.Response) throws -> Output {
+    private func validate<Output: AWSShape>(operation operationName: String, response: Prorsum.Response) throws -> Output {
         var responseBody: Body = .empty
         let data = response.body.asData()
         
-        if !data.isEmpty, let contentType = response.contentType?.subtype {
-            if contentType.contains("json") {
+        if !data.isEmpty {
+            switch serviceProtocol {
+            case .json, .restjson:
                 if let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                     responseBody = .json(dictionary)
                 }
-            }
-            else if contentType.contains("xml") || contentType.contains("html") {
+                
+            case .restxml:
                 let xmlNode = try XML2Parser(data: data).parse()
                 responseBody = .xml(xmlNode)
-            } else {
+                
+            case .other(let proto):
+                switch proto.lowercased() {
+                case "ec2":
+                    let xmlNode = try XML2Parser(data: data).parse()
+                    responseBody = .xml(xmlNode)
+                    
+                default:
+                    responseBody = .buffer(data)
+                }
+                
+            default:
                 responseBody = .buffer(data)
             }
         }
@@ -204,6 +221,9 @@ public struct AWSClient {
         case .xml(let node):
             let str = XMLNodeSerializer(node: node).serializeToJSON()
             outputDict = try JSONSerialization.jsonObject(with: str.data(using: .utf8)!, options: []) as? [String: Any] ?? [:]
+            if let childOutputDict = outputDict[operationName+"Response"] as? [String: Any] {
+                outputDict = childOutputDict
+            }
             
         case .buffer(let data):
             if let payload = Output.payload {
@@ -229,7 +249,6 @@ public struct AWSClient {
     }
     
     private func createRequest(operation operationName: String, path: String, httpMethod: String, context: InputContext? = nil) throws -> AWSRequest {
-        
         var headers: [String: String] = [:]
         var body: Body = .empty
         var path = path
@@ -262,15 +281,23 @@ public struct AWSClient {
             }
             
             switch serviceProtocol {
-            case .json:
+            case .json, .restjson:
                 if let payload = ctx.Shape.payload, let payloadBody = mirror.getAttribute(forKey: payload.toSwiftVariableCase()) {
                     body = Body(anyValue: payloadBody)
                     headers.removeValue(forKey: payload.toSwiftVariableCase())
                 } else {
                     body = .json(try ctx.input.serializeToDictionary())
                 }
+                
             case .query:
-                break
+                let dict = try ctx.input.serializeToDictionary()
+                let params = dict.map({ "\($0.key)=\($0.value)" }).joined(separator: "&")
+                if path.contains("?") {
+                    path += "&" + params
+                } else {
+                    path += "?" + params
+                }
+                
             case .restxml:
                 if let payload = ctx.Shape.payload, let payloadBody = mirror.getAttribute(forKey: payload.toSwiftVariableCase()) {
                     body = Body(anyValue: payloadBody)
@@ -278,12 +305,23 @@ public struct AWSClient {
                 } else {
                     body = .xml(try ctx.input.serializeToXMLNode())
                 }
+                
+            case .other(let proto):
+                switch proto.lowercased() {
+                case "ec2":
+                    var params = try ctx.input.serializeToDictionary()
+                    params["Action"] = operationName
+                    params["Version"] = apiVersion
+                    body = .text(params.map({ "\($0.key)=\($0.value)" }).joined(separator: "&"))
+                default:
+                    break
+                }
             }
         }
         
         return AWSRequest(
             region: self.signer.region,
-            url: URL(string: "\(endpoint)\(path)")!,
+            url: URL(string:  "\(endpoint)\(path)")!,
             service: signer.service,
             amzTarget: amzTarget,
             operation: operationName,

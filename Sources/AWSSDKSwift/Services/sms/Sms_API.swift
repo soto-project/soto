@@ -42,6 +42,7 @@ public struct Sms {
             amzTarget: "AWSServerMigrationService_V2016_10_24",
             service: "sms",
             serviceProtocol: .json,
+            apiVersion: "2016-10-24",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [SmsError.self]

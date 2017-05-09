@@ -42,6 +42,7 @@ public struct Codecommit {
             amzTarget: "CodeCommit_20150413",
             service: "codecommit",
             serviceProtocol: .json,
+            apiVersion: "2015-04-13",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [CodecommitError.self]

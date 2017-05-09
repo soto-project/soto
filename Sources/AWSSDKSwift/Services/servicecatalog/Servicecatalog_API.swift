@@ -42,6 +42,7 @@ public struct Servicecatalog {
             amzTarget: "AWS242ServiceCatalogService",
             service: "servicecatalog",
             serviceProtocol: .json,
+            apiVersion: "2015-12-10",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [ServicecatalogError.self]

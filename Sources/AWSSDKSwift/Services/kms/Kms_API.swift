@@ -42,6 +42,7 @@ public struct Kms {
             amzTarget: "TrentService",
             service: "kms",
             serviceProtocol: .json,
+            apiVersion: "2014-11-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [KmsError.self]

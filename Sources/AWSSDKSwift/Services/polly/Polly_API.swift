@@ -40,7 +40,8 @@ public struct Polly {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "polly",
-            serviceProtocol: .json,
+            serviceProtocol: .restjson,
+            apiVersion: "2016-06-10",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [PollyError.self]

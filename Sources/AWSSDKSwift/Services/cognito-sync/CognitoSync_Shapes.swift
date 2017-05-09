@@ -771,7 +771,7 @@ extension CognitoSync {
             } else { 
                 self.recordPatches = nil
             }
-            self.clientContext = dictionary["ClientContext"] as? String
+            self.clientContext = dictionary["X-amz-Client-Context"] as? String
             guard let identityId = dictionary["IdentityId"] as? String else { throw InitializableError.missingRequiredParam("IdentityId") }
             self.identityId = identityId
             guard let identityPoolId = dictionary["IdentityPoolId"] as? String else { throw InitializableError.missingRequiredParam("IdentityPoolId") }

@@ -42,6 +42,7 @@ public struct Dynamodb {
             amzTarget: "DynamoDB_20120810",
             service: "dynamodb",
             serviceProtocol: .json,
+            apiVersion: "2012-08-10",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [DynamodbError.self]

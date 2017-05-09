@@ -41,6 +41,7 @@ public struct Iam {
             region: region,
             service: "iam",
             serviceProtocol: .query,
+            apiVersion: "2010-05-08",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [IamError.self]

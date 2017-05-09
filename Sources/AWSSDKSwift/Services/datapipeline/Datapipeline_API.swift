@@ -42,6 +42,7 @@ public struct Datapipeline {
             amzTarget: "DataPipeline",
             service: "datapipeline",
             serviceProtocol: .json,
+            apiVersion: "2012-10-29",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [DatapipelineError.self]

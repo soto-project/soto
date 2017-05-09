@@ -121,9 +121,9 @@ extension Mobileanalytics {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let clientContext = dictionary["clientContext"] as? String else { throw InitializableError.missingRequiredParam("clientContext") }
+            guard let clientContext = dictionary["X-amz-Client-Context"] as? String else { throw InitializableError.missingRequiredParam("X-amz-Client-Context") }
             self.clientContext = clientContext
-            self.clientContextEncoding = dictionary["clientContextEncoding"] as? String
+            self.clientContextEncoding = dictionary["X-amz-Client-Context-Encoding"] as? String
             guard let events = dictionary["events"] as? [[String: Any]] else { throw InitializableError.missingRequiredParam("events") }
             self.events = try events.map({ try Event(dictionary: $0) })
         }

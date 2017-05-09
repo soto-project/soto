@@ -42,6 +42,7 @@ public struct CognitoIdp {
             amzTarget: "AWSCognitoIdentityProviderService",
             service: "cognito-idp",
             serviceProtocol: .json,
+            apiVersion: "2016-04-18",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [CognitoIdpError.self]

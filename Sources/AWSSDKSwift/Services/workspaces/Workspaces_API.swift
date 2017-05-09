@@ -42,6 +42,7 @@ public struct Workspaces {
             amzTarget: "WorkspacesService",
             service: "workspaces",
             serviceProtocol: .json,
+            apiVersion: "2015-04-08",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [WorkspacesError.self]

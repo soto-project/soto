@@ -42,6 +42,7 @@ public struct Directconnect {
             amzTarget: "OvertureService",
             service: "directconnect",
             serviceProtocol: .json,
+            apiVersion: "2012-10-25",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [DirectconnectError.self]

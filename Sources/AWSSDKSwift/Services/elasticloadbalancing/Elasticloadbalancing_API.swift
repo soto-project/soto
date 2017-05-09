@@ -41,6 +41,7 @@ public struct Elasticloadbalancing {
             region: region,
             service: "elasticloadbalancing",
             serviceProtocol: .query,
+            apiVersion: "2015-12-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [ElasticloadbalancingError.self]

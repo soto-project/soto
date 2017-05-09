@@ -42,6 +42,7 @@ public struct Meteringmarketplace {
             amzTarget: "AWSMPMeteringService",
             service: "metering.marketplace",
             serviceProtocol: .json,
+            apiVersion: "2016-01-14",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [MeteringmarketplaceError.self]

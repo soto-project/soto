@@ -40,9 +40,11 @@ public struct Ec2 {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "ec2",
-            serviceProtocol: .json,
+            serviceProtocol: .other("ec2"),
+            apiVersion: "2016-11-15",
             endpoint: endpoint,
-            middlewares: []        )
+            middlewares: []
+        )
     }
 
     ///  Describes Dedicated Host Reservations which are associated with Dedicated Hosts in your account.

@@ -40,7 +40,8 @@ public struct Runtimelex {
             secretAccessKey: secretAccessKey,
             region: region,
             service: "runtime.lex",
-            serviceProtocol: .json,
+            serviceProtocol: .restjson,
+            apiVersion: "2016-11-28",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [RuntimelexError.self]

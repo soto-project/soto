@@ -41,6 +41,7 @@ public struct Rds {
             region: region,
             service: "rds",
             serviceProtocol: .query,
+            apiVersion: "2014-10-31",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [RdsError.self]

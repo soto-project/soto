@@ -42,6 +42,7 @@ public struct Ds {
             amzTarget: "DirectoryService_20150416",
             service: "ds",
             serviceProtocol: .json,
+            apiVersion: "2015-04-16",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [DsError.self]

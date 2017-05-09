@@ -40,33 +40,23 @@ public class XML2Parser: NSObject, XMLParserDelegate {
     
     public func parser(_ parser: XMLParser, foundCharacters string: String) {
         let string = string.trimmingCharacters(in: .whitespacesAndNewlines)
-        
         if !string.isEmpty && string != "\"" {
             currentNode?.values.append(string)
         }
     }
     
     public func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
-        
+        let elementName = elementName.upperFirst()
         let node = XMLNode(elementName: elementName)
         node.attributes = attributeDict
         
         if nodeTree == nil {
             nodeTree = node
         } else {
-            // array value
-            if lastElementName == elementName {
-                if let arrayNode = currentNode?.children.filter({ $0.elementName == elementName }).first {
-                    currentNode = arrayNode
-                    return
-                }
-            }
-            
             node.parent = currentNode
             currentNode?.children.append(node)
         }
         
-        lastElementName = elementName
         currentNode = node
     }
     
@@ -75,8 +65,12 @@ public class XML2Parser: NSObject, XMLParserDelegate {
     }
     
     public func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        if let currentElementName = currentNode?.elementName, currentElementName == elementName {
+        if let currentElementName = currentNode?.elementName, currentElementName.lowercased() == elementName.lowercased() {
+            if currentNode?.children.count == 0, currentNode?.values.count == 0 {
+                currentNode?.values.append("null")
+            }
             currentNode = currentNode?.parent
         }
+        lastElementName = elementName.upperFirst()
     }
 }

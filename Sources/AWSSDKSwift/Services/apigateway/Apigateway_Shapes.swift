@@ -43,7 +43,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let apiKey = dictionary["apiKey"] as? String else { throw InitializableError.missingRequiredParam("apiKey") }
+            guard let apiKey = dictionary["Api_Key"] as? String else { throw InitializableError.missingRequiredParam("Api_Key") }
             self.apiKey = apiKey
         }
     }
@@ -77,10 +77,10 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            self.mode = dictionary["mode"] as? String
-            self.failOnWarnings = dictionary["failOnWarnings"] as? Bool
+            self.mode = dictionary["Mode"] as? String
+            self.failOnWarnings = dictionary["Failonwarnings"] as? Bool
             guard let body = dictionary["body"] as? Data else { throw InitializableError.missingRequiredParam("body") }
             self.body = body
             if let parameters = dictionary["parameters"] as? [String: String] {
@@ -105,7 +105,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            guard let domainName = dictionary["Domain_name"] as? String else { throw InitializableError.missingRequiredParam("Domain_name") }
             self.domainName = domainName
         }
     }
@@ -127,9 +127,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let documentationVersion = dictionary["documentationVersion"] as? String else { throw InitializableError.missingRequiredParam("documentationVersion") }
+            guard let documentationVersion = dictionary["Doc_version"] as? String else { throw InitializableError.missingRequiredParam("Doc_version") }
             self.documentationVersion = documentationVersion
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
         }
     }
@@ -151,9 +151,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let keyId = dictionary["keyId"] as? String else { throw InitializableError.missingRequiredParam("keyId") }
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
             self.keyId = keyId
-            guard let usagePlanId = dictionary["usagePlanId"] as? String else { throw InitializableError.missingRequiredParam("usagePlanId") }
+            guard let usagePlanId = dictionary["UsageplanId"] as? String else { throw InitializableError.missingRequiredParam("UsageplanId") }
             self.usagePlanId = usagePlanId
         }
     }
@@ -178,9 +178,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let documentationVersion = dictionary["documentationVersion"] as? String else { throw InitializableError.missingRequiredParam("documentationVersion") }
+            guard let documentationVersion = dictionary["Doc_version"] as? String else { throw InitializableError.missingRequiredParam("Doc_version") }
             self.documentationVersion = documentationVersion
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
@@ -219,7 +219,7 @@ extension Apigateway {
             self.description = dictionary["description"] as? String
             guard let contentType = dictionary["contentType"] as? String else { throw InitializableError.missingRequiredParam("contentType") }
             self.contentType = contentType
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             guard let name = dictionary["name"] as? String else { throw InitializableError.missingRequiredParam("name") }
             self.name = name
@@ -253,18 +253,18 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
             } else { 
                 self.patchOperations = nil
             }
-            guard let statusCode = dictionary["statusCode"] as? String else { throw InitializableError.missingRequiredParam("statusCode") }
+            guard let statusCode = dictionary["Status_code"] as? String else { throw InitializableError.missingRequiredParam("Status_code") }
             self.statusCode = statusCode
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
-            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            guard let httpMethod = dictionary["Http_method"] as? String else { throw InitializableError.missingRequiredParam("Http_method") }
             self.httpMethod = httpMethod
         }
     }
@@ -289,9 +289,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
+            guard let deploymentId = dictionary["Deployment_id"] as? String else { throw InitializableError.missingRequiredParam("Deployment_id") }
             self.deploymentId = deploymentId
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
@@ -321,11 +321,11 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            guard let httpMethod = dictionary["Http_method"] as? String else { throw InitializableError.missingRequiredParam("Http_method") }
             self.httpMethod = httpMethod
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
         }
     }
@@ -347,9 +347,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            guard let stageName = dictionary["Stage_name"] as? String else { throw InitializableError.missingRequiredParam("Stage_name") }
             self.stageName = stageName
         }
     }
@@ -380,11 +380,11 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.includeValues = dictionary["includeValues"] as? Bool
-            self.position = dictionary["position"] as? String
-            self.limit = dictionary["limit"] as? Int32
-            self.nameQuery = dictionary["nameQuery"] as? String
-            self.customerId = dictionary["customerId"] as? String
+            self.includeValues = dictionary["IncludeValues"] as? Bool
+            self.position = dictionary["Position"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            self.nameQuery = dictionary["Name"] as? String
+            self.customerId = dictionary["CustomerId"] as? String
         }
     }
 
@@ -401,7 +401,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["items"] as? [[String: Any]] {
+            if let items = dictionary["Item"] as? [[String: Any]] {
                 self.items = try items.map({ try BasePathMapping(dictionary: $0) })
             } else { 
                 self.items = nil
@@ -442,14 +442,14 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.keyId = dictionary["keyId"] as? String
-            self.position = dictionary["position"] as? String
-            self.limit = dictionary["limit"] as? Int32
-            guard let startDate = dictionary["startDate"] as? String else { throw InitializableError.missingRequiredParam("startDate") }
+            self.keyId = dictionary["KeyId"] as? String
+            self.position = dictionary["Position"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            guard let startDate = dictionary["StartDate"] as? String else { throw InitializableError.missingRequiredParam("StartDate") }
             self.startDate = startDate
-            guard let usagePlanId = dictionary["usagePlanId"] as? String else { throw InitializableError.missingRequiredParam("usagePlanId") }
+            guard let usagePlanId = dictionary["UsageplanId"] as? String else { throw InitializableError.missingRequiredParam("UsageplanId") }
             self.usagePlanId = usagePlanId
-            guard let endDate = dictionary["endDate"] as? String else { throw InitializableError.missingRequiredParam("endDate") }
+            guard let endDate = dictionary["EndDate"] as? String else { throw InitializableError.missingRequiredParam("EndDate") }
             self.endDate = endDate
         }
     }
@@ -467,7 +467,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["items"] as? [[String: Any]] {
+            if let items = dictionary["Item"] as? [[String: Any]] {
                 self.items = try items.map({ try SdkType(dictionary: $0) })
             } else { 
                 self.items = nil
@@ -496,11 +496,11 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            guard let httpMethod = dictionary["Http_method"] as? String else { throw InitializableError.missingRequiredParam("Http_method") }
             self.httpMethod = httpMethod
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
         }
     }
@@ -518,7 +518,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["items"] as? [[String: Any]] {
+            if let items = dictionary["Item"] as? [[String: Any]] {
                 self.items = try items.map({ try RestApi(dictionary: $0) })
             } else { 
                 self.items = nil
@@ -544,9 +544,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let documentationPartId = dictionary["documentationPartId"] as? String else { throw InitializableError.missingRequiredParam("documentationPartId") }
+            guard let documentationPartId = dictionary["Part_id"] as? String else { throw InitializableError.missingRequiredParam("Part_id") }
             self.documentationPartId = documentationPartId
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
         }
     }
@@ -574,10 +574,10 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.position = dictionary["position"] as? String
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.position = dictionary["Position"] as? String
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            self.limit = dictionary["limit"] as? Int32
+            self.limit = dictionary["Limit"] as? Int32
         }
     }
 
@@ -601,9 +601,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let basePath = dictionary["basePath"] as? String else { throw InitializableError.missingRequiredParam("basePath") }
+            guard let basePath = dictionary["Base_path"] as? String else { throw InitializableError.missingRequiredParam("Base_path") }
             self.basePath = basePath
-            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            guard let domainName = dictionary["Domain_name"] as? String else { throw InitializableError.missingRequiredParam("Domain_name") }
             self.domainName = domainName
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
@@ -627,7 +627,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let clientCertificateId = dictionary["clientCertificateId"] as? String else { throw InitializableError.missingRequiredParam("clientCertificateId") }
+            guard let clientCertificateId = dictionary["Clientcertificate_id"] as? String else { throw InitializableError.missingRequiredParam("Clientcertificate_id") }
             self.clientCertificateId = clientCertificateId
         }
     }
@@ -649,9 +649,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let modelName = dictionary["modelName"] as? String else { throw InitializableError.missingRequiredParam("modelName") }
+            guard let modelName = dictionary["Model_name"] as? String else { throw InitializableError.missingRequiredParam("Model_name") }
             self.modelName = modelName
         }
     }
@@ -713,9 +713,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let documentationVersion = dictionary["documentationVersion"] as? String else { throw InitializableError.missingRequiredParam("documentationVersion") }
+            guard let documentationVersion = dictionary["Doc_version"] as? String else { throw InitializableError.missingRequiredParam("Doc_version") }
             self.documentationVersion = documentationVersion
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
         }
     }
@@ -743,10 +743,10 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.position = dictionary["position"] as? String
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.position = dictionary["Position"] as? String
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            self.limit = dictionary["limit"] as? Int32
+            self.limit = dictionary["Limit"] as? Int32
         }
     }
 
@@ -897,11 +897,11 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            guard let httpMethod = dictionary["Http_method"] as? String else { throw InitializableError.missingRequiredParam("Http_method") }
             self.httpMethod = httpMethod
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
         }
     }
@@ -919,7 +919,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["items"] as? [[String: Any]] {
+            if let items = dictionary["Item"] as? [[String: Any]] {
                 self.items = try items.map({ try UsagePlan(dictionary: $0) })
             } else { 
                 self.items = nil
@@ -945,9 +945,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            guard let stageName = dictionary["Stage_name"] as? String else { throw InitializableError.missingRequiredParam("Stage_name") }
             self.stageName = stageName
         }
     }
@@ -969,9 +969,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
+            guard let deploymentId = dictionary["Deployment_id"] as? String else { throw InitializableError.missingRequiredParam("Deployment_id") }
             self.deploymentId = deploymentId
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
         }
     }
@@ -1008,7 +1008,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let authorizerId = dictionary["authorizerId"] as? String else { throw InitializableError.missingRequiredParam("authorizerId") }
+            guard let authorizerId = dictionary["Authorizer_id"] as? String else { throw InitializableError.missingRequiredParam("Authorizer_id") }
             self.authorizerId = authorizerId
             if let headers = dictionary["headers"] as? [String: String] {
                 self.headers = headers
@@ -1022,7 +1022,7 @@ extension Apigateway {
             } else { 
                 self.stageVariables = nil
             }
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             if let additionalContext = dictionary["additionalContext"] as? [String: String] {
                 self.additionalContext = additionalContext
@@ -1081,14 +1081,14 @@ extension Apigateway {
             } else { 
                 self.requestParameters = nil
             }
-            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            guard let httpMethod = dictionary["Http_method"] as? String else { throw InitializableError.missingRequiredParam("Http_method") }
             self.httpMethod = httpMethod
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             self.apiKeyRequired = dictionary["apiKeyRequired"] as? Bool
             guard let authorizationType = dictionary["authorizationType"] as? String else { throw InitializableError.missingRequiredParam("authorizationType") }
             self.authorizationType = authorizationType
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
             self.operationName = dictionary["operationName"] as? String
         }
@@ -1117,10 +1117,10 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.position = dictionary["position"] as? String
-            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            self.position = dictionary["Position"] as? String
+            guard let domainName = dictionary["Domain_name"] as? String else { throw InitializableError.missingRequiredParam("Domain_name") }
             self.domainName = domainName
-            self.limit = dictionary["limit"] as? Int32
+            self.limit = dictionary["Limit"] as? Int32
         }
     }
 
@@ -1193,7 +1193,7 @@ extension Apigateway {
             }
             self.pathWithQueryString = dictionary["pathWithQueryString"] as? String
             self.body = dictionary["body"] as? String
-            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            guard let httpMethod = dictionary["Http_method"] as? String else { throw InitializableError.missingRequiredParam("Http_method") }
             self.httpMethod = httpMethod
             if let stageVariables = dictionary["stageVariables"] as? [String: String] {
                 self.stageVariables = stageVariables
@@ -1201,9 +1201,9 @@ extension Apigateway {
                 self.stageVariables = nil
             }
             self.clientCertificateId = dictionary["clientCertificateId"] as? String
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
         }
     }
@@ -1233,7 +1233,7 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             guard let documentationVersion = dictionary["documentationVersion"] as? String else { throw InitializableError.missingRequiredParam("documentationVersion") }
             self.documentationVersion = documentationVersion
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             self.stageName = dictionary["stageName"] as? String
             self.description = dictionary["description"] as? String
@@ -1263,10 +1263,10 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.position = dictionary["position"] as? String
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.position = dictionary["Position"] as? String
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            self.limit = dictionary["limit"] as? Int32
+            self.limit = dictionary["Limit"] as? Int32
         }
     }
 
@@ -1287,9 +1287,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let keyId = dictionary["keyId"] as? String else { throw InitializableError.missingRequiredParam("keyId") }
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
             self.keyId = keyId
-            guard let usagePlanId = dictionary["usagePlanId"] as? String else { throw InitializableError.missingRequiredParam("usagePlanId") }
+            guard let usagePlanId = dictionary["UsageplanId"] as? String else { throw InitializableError.missingRequiredParam("UsageplanId") }
             self.usagePlanId = usagePlanId
         }
     }
@@ -1346,9 +1346,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
         }
     }
@@ -1370,8 +1370,8 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.position = dictionary["position"] as? String
-            self.limit = dictionary["limit"] as? Int32
+            self.position = dictionary["Position"] as? String
+            self.limit = dictionary["Limit"] as? Int32
         }
     }
 
@@ -1388,7 +1388,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["items"] as? [[String: Any]] {
+            if let items = dictionary["Item"] as? [[String: Any]] {
                 self.items = try items.map({ try Model(dictionary: $0) })
             } else { 
                 self.items = nil
@@ -1410,7 +1410,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["items"] as? [[String: Any]] {
+            if let items = dictionary["Item"] as? [[String: Any]] {
                 self.items = try items.map({ try Resource(dictionary: $0) })
             } else { 
                 self.items = nil
@@ -1439,8 +1439,8 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.contentType = dictionary["contentType"] as? String
-            self.contentDisposition = dictionary["contentDisposition"] as? String
+            self.contentType = dictionary["Content-Type"] as? String
+            self.contentDisposition = dictionary["Content-Disposition"] as? String
             self.body = dictionary["body"] as? Data
         }
     }
@@ -1468,10 +1468,10 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            self.flatten = dictionary["flatten"] as? Bool
-            guard let modelName = dictionary["modelName"] as? String else { throw InitializableError.missingRequiredParam("modelName") }
+            self.flatten = dictionary["Flatten"] as? Bool
+            guard let modelName = dictionary["Model_name"] as? String else { throw InitializableError.missingRequiredParam("Model_name") }
             self.modelName = modelName
         }
     }
@@ -1496,9 +1496,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let authorizerId = dictionary["authorizerId"] as? String else { throw InitializableError.missingRequiredParam("authorizerId") }
+            guard let authorizerId = dictionary["Authorizer_id"] as? String else { throw InitializableError.missingRequiredParam("Authorizer_id") }
             self.authorizerId = authorizerId
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
@@ -1543,7 +1543,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["items"] as? [[String: Any]] {
+            if let items = dictionary["Item"] as? [[String: Any]] {
                 self.items = try items.map({ try ApiKey(dictionary: $0) })
             } else { 
                 self.items = nil
@@ -1597,7 +1597,7 @@ extension Apigateway {
             self.cacheClusterSize = dictionary["cacheClusterSize"] as? String
             guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
             self.deploymentId = deploymentId
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
             self.stageName = stageName
@@ -1620,7 +1620,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let id = dictionary["id"] as? String else { throw InitializableError.missingRequiredParam("id") }
+            guard let id = dictionary["Sdktype_id"] as? String else { throw InitializableError.missingRequiredParam("Sdktype_id") }
             self.id = id
         }
     }
@@ -1647,9 +1647,9 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             guard let body = dictionary["body"] as? Data else { throw InitializableError.missingRequiredParam("body") }
             self.body = body
-            guard let format = dictionary["format"] as? String else { throw InitializableError.missingRequiredParam("format") }
+            guard let format = dictionary["Format"] as? String else { throw InitializableError.missingRequiredParam("Format") }
             self.format = format
-            self.failOnWarnings = dictionary["failOnWarnings"] as? Bool
+            self.failOnWarnings = dictionary["Failonwarnings"] as? Bool
         }
     }
 
@@ -1777,18 +1777,18 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
             } else { 
                 self.patchOperations = nil
             }
-            guard let statusCode = dictionary["statusCode"] as? String else { throw InitializableError.missingRequiredParam("statusCode") }
+            guard let statusCode = dictionary["Status_code"] as? String else { throw InitializableError.missingRequiredParam("Status_code") }
             self.statusCode = statusCode
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
-            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            guard let httpMethod = dictionary["Http_method"] as? String else { throw InitializableError.missingRequiredParam("Http_method") }
             self.httpMethod = httpMethod
         }
     }
@@ -1810,8 +1810,8 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.position = dictionary["position"] as? String
-            self.limit = dictionary["limit"] as? Int32
+            self.position = dictionary["Position"] as? String
+            self.limit = dictionary["Limit"] as? Int32
         }
     }
 
@@ -1883,7 +1883,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
@@ -1953,13 +1953,13 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            guard let stageName = dictionary["Stage_name"] as? String else { throw InitializableError.missingRequiredParam("Stage_name") }
             self.stageName = stageName
-            guard let exportType = dictionary["exportType"] as? String else { throw InitializableError.missingRequiredParam("exportType") }
+            guard let exportType = dictionary["Export_type"] as? String else { throw InitializableError.missingRequiredParam("Export_type") }
             self.exportType = exportType
-            self.accepts = dictionary["accepts"] as? String
+            self.accepts = dictionary["Accept"] as? String
             if let parameters = dictionary["parameters"] as? [String: String] {
                 self.parameters = parameters
             } else { 
@@ -2022,10 +2022,10 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.position = dictionary["position"] as? String
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.position = dictionary["Position"] as? String
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            self.limit = dictionary["limit"] as? Int32
+            self.limit = dictionary["Limit"] as? Int32
         }
     }
 
@@ -2064,11 +2064,11 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let statusCode = dictionary["statusCode"] as? String else { throw InitializableError.missingRequiredParam("statusCode") }
+            guard let statusCode = dictionary["Status_code"] as? String else { throw InitializableError.missingRequiredParam("Status_code") }
             self.statusCode = statusCode
-            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            guard let httpMethod = dictionary["Http_method"] as? String else { throw InitializableError.missingRequiredParam("Http_method") }
             self.httpMethod = httpMethod
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             if let responseTemplates = dictionary["responseTemplates"] as? [String: String] {
                 self.responseTemplates = responseTemplates
@@ -2081,7 +2081,7 @@ extension Apigateway {
                 self.responseParameters = nil
             }
             self.contentHandling = dictionary["contentHandling"] as? String
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
             self.selectionPattern = dictionary["selectionPattern"] as? String
         }
@@ -2104,9 +2104,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
         }
     }
@@ -2124,7 +2124,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["items"] as? [[String: Any]] {
+            if let items = dictionary["Item"] as? [[String: Any]] {
                 self.items = try items.map({ try Deployment(dictionary: $0) })
             } else { 
                 self.items = nil
@@ -2150,9 +2150,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            guard let stageName = dictionary["Stage_name"] as? String else { throw InitializableError.missingRequiredParam("Stage_name") }
             self.stageName = stageName
         }
     }
@@ -2194,7 +2194,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let clientCertificateId = dictionary["clientCertificateId"] as? String else { throw InitializableError.missingRequiredParam("clientCertificateId") }
+            guard let clientCertificateId = dictionary["Clientcertificate_id"] as? String else { throw InitializableError.missingRequiredParam("Clientcertificate_id") }
             self.clientCertificateId = clientCertificateId
         }
     }
@@ -2224,9 +2224,9 @@ extension Apigateway {
             } else { 
                 self.patchOperations = nil
             }
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let modelName = dictionary["modelName"] as? String else { throw InitializableError.missingRequiredParam("modelName") }
+            guard let modelName = dictionary["Model_name"] as? String else { throw InitializableError.missingRequiredParam("Model_name") }
             self.modelName = modelName
         }
     }
@@ -2267,7 +2267,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["items"] as? [[String: Any]] {
+            if let items = dictionary["Item"] as? [[String: Any]] {
                 self.items = try items.map({ try ClientCertificate(dictionary: $0) })
             } else { 
                 self.items = nil
@@ -2293,9 +2293,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let basePath = dictionary["basePath"] as? String else { throw InitializableError.missingRequiredParam("basePath") }
+            guard let basePath = dictionary["Base_path"] as? String else { throw InitializableError.missingRequiredParam("Base_path") }
             self.basePath = basePath
-            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            guard let domainName = dictionary["Domain_name"] as? String else { throw InitializableError.missingRequiredParam("Domain_name") }
             self.domainName = domainName
         }
     }
@@ -2320,9 +2320,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let keyId = dictionary["keyId"] as? String else { throw InitializableError.missingRequiredParam("keyId") }
+            guard let keyId = dictionary["KeyId"] as? String else { throw InitializableError.missingRequiredParam("KeyId") }
             self.keyId = keyId
-            guard let usagePlanId = dictionary["usagePlanId"] as? String else { throw InitializableError.missingRequiredParam("usagePlanId") }
+            guard let usagePlanId = dictionary["UsageplanId"] as? String else { throw InitializableError.missingRequiredParam("UsageplanId") }
             self.usagePlanId = usagePlanId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
@@ -2567,10 +2567,10 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            self.mode = dictionary["mode"] as? String
-            self.failOnWarnings = dictionary["failOnWarnings"] as? Bool
+            self.mode = dictionary["Mode"] as? String
+            self.failOnWarnings = dictionary["Failonwarnings"] as? Bool
             guard let body = dictionary["body"] as? Data else { throw InitializableError.missingRequiredParam("body") }
             self.body = body
         }
@@ -2620,7 +2620,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["items"] as? [[String: Any]] {
+            if let items = dictionary["Item"] as? [[String: Any]] {
                 self.items = try items.map({ try Authorizer(dictionary: $0) })
             } else { 
                 self.items = nil
@@ -2677,7 +2677,7 @@ extension Apigateway {
         public init(dictionary: [String: Any]) throws {
             guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
             self.restApiId = restApiId
-            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            guard let domainName = dictionary["Domain_name"] as? String else { throw InitializableError.missingRequiredParam("Domain_name") }
             self.domainName = domainName
             self.basePath = dictionary["basePath"] as? String
             self.stage = dictionary["stage"] as? String
@@ -2701,7 +2701,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let apiKey = dictionary["apiKey"] as? String else { throw InitializableError.missingRequiredParam("apiKey") }
+            guard let apiKey = dictionary["Api_Key"] as? String else { throw InitializableError.missingRequiredParam("Api_Key") }
             self.apiKey = apiKey
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
@@ -2725,7 +2725,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
         }
     }
@@ -2765,8 +2765,8 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.includeValue = dictionary["includeValue"] as? Bool
-            guard let apiKey = dictionary["apiKey"] as? String else { throw InitializableError.missingRequiredParam("apiKey") }
+            self.includeValue = dictionary["IncludeValue"] as? Bool
+            guard let apiKey = dictionary["Api_Key"] as? String else { throw InitializableError.missingRequiredParam("Api_Key") }
             self.apiKey = apiKey
         }
     }
@@ -2791,7 +2791,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             guard let location = dictionary["location"] as? [String: Any] else { throw InitializableError.missingRequiredParam("location") }
             self.location = try Apigateway.DocumentationPartLocation(dictionary: location)
@@ -2842,13 +2842,13 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let statusCode = dictionary["statusCode"] as? String else { throw InitializableError.missingRequiredParam("statusCode") }
+            guard let statusCode = dictionary["Status_code"] as? String else { throw InitializableError.missingRequiredParam("Status_code") }
             self.statusCode = statusCode
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
-            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            guard let httpMethod = dictionary["Http_method"] as? String else { throw InitializableError.missingRequiredParam("Http_method") }
             self.httpMethod = httpMethod
         }
     }
@@ -2873,8 +2873,8 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.contentType = dictionary["contentType"] as? String
-            self.contentDisposition = dictionary["contentDisposition"] as? String
+            self.contentType = dictionary["Content-Type"] as? String
+            self.contentDisposition = dictionary["Content-Disposition"] as? String
             self.body = dictionary["body"] as? Data
         }
     }
@@ -2899,9 +2899,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
@@ -2934,16 +2934,16 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
             } else { 
                 self.patchOperations = nil
             }
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
-            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            guard let httpMethod = dictionary["Http_method"] as? String else { throw InitializableError.missingRequiredParam("Http_method") }
             self.httpMethod = httpMethod
         }
     }
@@ -2961,7 +2961,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["items"] as? [[String: Any]] {
+            if let items = dictionary["Item"] as? [[String: Any]] {
                 self.items = try items.map({ try UsagePlanKey(dictionary: $0) })
             } else { 
                 self.items = nil
@@ -3009,11 +3009,11 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             guard let pathPart = dictionary["pathPart"] as? String else { throw InitializableError.missingRequiredParam("pathPart") }
             self.pathPart = pathPart
-            guard let parentId = dictionary["parentId"] as? String else { throw InitializableError.missingRequiredParam("parentId") }
+            guard let parentId = dictionary["Parent_id"] as? String else { throw InitializableError.missingRequiredParam("Parent_id") }
             self.parentId = parentId
         }
     }
@@ -3041,13 +3041,13 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let statusCode = dictionary["statusCode"] as? String else { throw InitializableError.missingRequiredParam("statusCode") }
+            guard let statusCode = dictionary["Status_code"] as? String else { throw InitializableError.missingRequiredParam("Status_code") }
             self.statusCode = statusCode
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
-            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            guard let httpMethod = dictionary["Http_method"] as? String else { throw InitializableError.missingRequiredParam("Http_method") }
             self.httpMethod = httpMethod
         }
     }
@@ -3084,13 +3084,13 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.position = dictionary["position"] as? String
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.position = dictionary["Position"] as? String
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            self.limit = dictionary["limit"] as? Int32
-            self.path = dictionary["path"] as? String
-            self.nameQuery = dictionary["nameQuery"] as? String
-            self.type = dictionary["type"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            self.path = dictionary["Path"] as? String
+            self.nameQuery = dictionary["Name"] as? String
+            self.type = dictionary["Type"] as? String
         }
     }
 
@@ -3111,9 +3111,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let deploymentId = dictionary["deploymentId"] as? String else { throw InitializableError.missingRequiredParam("deploymentId") }
+            guard let deploymentId = dictionary["Deployment_id"] as? String else { throw InitializableError.missingRequiredParam("Deployment_id") }
             self.deploymentId = deploymentId
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
         }
     }
@@ -3165,7 +3165,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["items"] as? [[String: Any]] {
+            if let items = dictionary["Item"] as? [[String: Any]] {
                 self.items = try items.map({ try DomainName(dictionary: $0) })
             } else { 
                 self.items = nil
@@ -3203,18 +3203,18 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let statusCode = dictionary["statusCode"] as? String else { throw InitializableError.missingRequiredParam("statusCode") }
+            guard let statusCode = dictionary["Status_code"] as? String else { throw InitializableError.missingRequiredParam("Status_code") }
             self.statusCode = statusCode
             if let responseModels = dictionary["responseModels"] as? [String: String] {
                 self.responseModels = responseModels
             } else { 
                 self.responseModels = nil
             }
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
-            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            guard let httpMethod = dictionary["Http_method"] as? String else { throw InitializableError.missingRequiredParam("Http_method") }
             self.httpMethod = httpMethod
             if let responseParameters = dictionary["responseParameters"] as? [String: Bool] {
                 self.responseParameters = responseParameters
@@ -3290,10 +3290,10 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.position = dictionary["position"] as? String
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.position = dictionary["Position"] as? String
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            self.limit = dictionary["limit"] as? Int32
+            self.limit = dictionary["Limit"] as? Int32
         }
     }
 
@@ -3449,7 +3449,7 @@ extension Apigateway {
             self.authorizerResultTtlInSeconds = dictionary["authorizerResultTtlInSeconds"] as? Int32
             self.authorizerUri = dictionary["authorizerUri"] as? String
             self.authorizerCredentials = dictionary["authorizerCredentials"] as? String
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             guard let identitySource = dictionary["identitySource"] as? String else { throw InitializableError.missingRequiredParam("identitySource") }
             self.identitySource = identitySource
@@ -3480,8 +3480,8 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.deploymentId = dictionary["deploymentId"] as? String
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            self.deploymentId = dictionary["DeploymentId"] as? String
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
         }
     }
@@ -3506,7 +3506,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.failOnWarnings = dictionary["failOnWarnings"] as? Bool
+            self.failOnWarnings = dictionary["Failonwarnings"] as? Bool
             guard let body = dictionary["body"] as? Data else { throw InitializableError.missingRequiredParam("body") }
             self.body = body
             if let parameters = dictionary["parameters"] as? [String: String] {
@@ -3534,8 +3534,8 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.position = dictionary["position"] as? String
-            self.limit = dictionary["limit"] as? Int32
+            self.position = dictionary["Position"] as? String
+            self.limit = dictionary["Limit"] as? Int32
         }
     }
 
@@ -3562,11 +3562,11 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let sdkType = dictionary["sdkType"] as? String else { throw InitializableError.missingRequiredParam("sdkType") }
+            guard let sdkType = dictionary["Sdk_type"] as? String else { throw InitializableError.missingRequiredParam("Sdk_type") }
             self.sdkType = sdkType
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            guard let stageName = dictionary["Stage_name"] as? String else { throw InitializableError.missingRequiredParam("Stage_name") }
             self.stageName = stageName
             if let parameters = dictionary["parameters"] as? [String: String] {
                 self.parameters = parameters
@@ -3650,16 +3650,16 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
             } else { 
                 self.patchOperations = nil
             }
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
-            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            guard let httpMethod = dictionary["Http_method"] as? String else { throw InitializableError.missingRequiredParam("Http_method") }
             self.httpMethod = httpMethod
         }
     }
@@ -3735,9 +3735,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.keyId = dictionary["keyId"] as? String
-            self.position = dictionary["position"] as? String
-            self.limit = dictionary["limit"] as? Int32
+            self.keyId = dictionary["KeyId"] as? String
+            self.position = dictionary["Position"] as? String
+            self.limit = dictionary["Limit"] as? Int32
         }
     }
 
@@ -3761,9 +3761,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            guard let stageName = dictionary["Stage_name"] as? String else { throw InitializableError.missingRequiredParam("Stage_name") }
             self.stageName = stageName
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
@@ -3790,8 +3790,8 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.position = dictionary["position"] as? String
-            self.limit = dictionary["limit"] as? Int32
+            self.position = dictionary["Position"] as? String
+            self.limit = dictionary["Limit"] as? Int32
         }
     }
 
@@ -3809,7 +3809,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let usagePlanId = dictionary["usagePlanId"] as? String else { throw InitializableError.missingRequiredParam("usagePlanId") }
+            guard let usagePlanId = dictionary["UsageplanId"] as? String else { throw InitializableError.missingRequiredParam("UsageplanId") }
             self.usagePlanId = usagePlanId
         }
     }
@@ -3827,7 +3827,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["items"] as? [[String: Any]] {
+            if let items = dictionary["Item"] as? [[String: Any]] {
                 self.items = try items.map({ try DocumentationPart(dictionary: $0) })
             } else { 
                 self.items = nil
@@ -3861,9 +3861,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let documentationPartId = dictionary["documentationPartId"] as? String else { throw InitializableError.missingRequiredParam("documentationPartId") }
+            guard let documentationPartId = dictionary["Part_id"] as? String else { throw InitializableError.missingRequiredParam("Part_id") }
             self.documentationPartId = documentationPartId
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
         }
     }
@@ -3940,7 +3940,7 @@ extension Apigateway {
                 self.variables = nil
             }
             self.description = dictionary["description"] as? String
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             self.stageName = dictionary["stageName"] as? String
             self.stageDescription = dictionary["stageDescription"] as? String
@@ -3964,9 +3964,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let basePath = dictionary["basePath"] as? String else { throw InitializableError.missingRequiredParam("basePath") }
+            guard let basePath = dictionary["Base_path"] as? String else { throw InitializableError.missingRequiredParam("Base_path") }
             self.basePath = basePath
-            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            guard let domainName = dictionary["Domain_name"] as? String else { throw InitializableError.missingRequiredParam("Domain_name") }
             self.domainName = domainName
         }
     }
@@ -4011,7 +4011,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let items = dictionary["items"] as? [[String: Any]] {
+            if let items = dictionary["Item"] as? [[String: Any]] {
                 self.items = try items.map({ try DocumentationVersion(dictionary: $0) })
             } else { 
                 self.items = nil
@@ -4037,7 +4037,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            guard let domainName = dictionary["Domain_name"] as? String else { throw InitializableError.missingRequiredParam("Domain_name") }
             self.domainName = domainName
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
@@ -4067,11 +4067,11 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            guard let httpMethod = dictionary["Http_method"] as? String else { throw InitializableError.missingRequiredParam("Http_method") }
             self.httpMethod = httpMethod
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
         }
     }
@@ -4100,7 +4100,7 @@ extension Apigateway {
             self.keyId = keyId
             guard let keyType = dictionary["keyType"] as? String else { throw InitializableError.missingRequiredParam("keyType") }
             self.keyType = keyType
-            guard let usagePlanId = dictionary["usagePlanId"] as? String else { throw InitializableError.missingRequiredParam("usagePlanId") }
+            guard let usagePlanId = dictionary["UsageplanId"] as? String else { throw InitializableError.missingRequiredParam("UsageplanId") }
             self.usagePlanId = usagePlanId
         }
     }
@@ -4119,7 +4119,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let domainName = dictionary["domainName"] as? String else { throw InitializableError.missingRequiredParam("domainName") }
+            guard let domainName = dictionary["Domain_name"] as? String else { throw InitializableError.missingRequiredParam("Domain_name") }
             self.domainName = domainName
         }
     }
@@ -4141,9 +4141,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let authorizerId = dictionary["authorizerId"] as? String else { throw InitializableError.missingRequiredParam("authorizerId") }
+            guard let authorizerId = dictionary["Authorizer_id"] as? String else { throw InitializableError.missingRequiredParam("Authorizer_id") }
             self.authorizerId = authorizerId
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
         }
     }
@@ -4174,10 +4174,10 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            self.position = dictionary["position"] as? String
-            self.limit = dictionary["limit"] as? Int32
-            self.nameQuery = dictionary["nameQuery"] as? String
-            guard let usagePlanId = dictionary["usagePlanId"] as? String else { throw InitializableError.missingRequiredParam("usagePlanId") }
+            self.position = dictionary["Position"] as? String
+            self.limit = dictionary["Limit"] as? Int32
+            self.nameQuery = dictionary["Name"] as? String
+            guard let usagePlanId = dictionary["UsageplanId"] as? String else { throw InitializableError.missingRequiredParam("UsageplanId") }
             self.usagePlanId = usagePlanId
         }
     }
@@ -4254,18 +4254,18 @@ extension Apigateway {
             self.cacheNamespace = dictionary["cacheNamespace"] as? String
             self.uri = dictionary["uri"] as? String
             self.cacheKeyParameters = dictionary["cacheKeyParameters"] as? [String]
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             guard let type = dictionary["type"] as? String else { throw InitializableError.missingRequiredParam("type") }
             self.type = type
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
             if let requestParameters = dictionary["requestParameters"] as? [String: String] {
                 self.requestParameters = requestParameters
             } else { 
                 self.requestParameters = nil
             }
-            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            guard let httpMethod = dictionary["Http_method"] as? String else { throw InitializableError.missingRequiredParam("Http_method") }
             self.httpMethod = httpMethod
             if let requestTemplates = dictionary["requestTemplates"] as? [String: String] {
                 self.requestTemplates = requestTemplates
@@ -4274,7 +4274,7 @@ extension Apigateway {
             }
             self.contentHandling = dictionary["contentHandling"] as? String
             self.credentials = dictionary["credentials"] as? String
-            self.integrationHttpMethod = dictionary["integrationHttpMethod"] as? String
+            self.integrationHttpMethod = dictionary["HttpMethod"] as? String
             self.passthroughBehavior = dictionary["passthroughBehavior"] as? String
         }
     }
@@ -4296,7 +4296,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let clientCertificateId = dictionary["clientCertificateId"] as? String else { throw InitializableError.missingRequiredParam("clientCertificateId") }
+            guard let clientCertificateId = dictionary["Clientcertificate_id"] as? String else { throw InitializableError.missingRequiredParam("Clientcertificate_id") }
             self.clientCertificateId = clientCertificateId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
@@ -4320,7 +4320,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
         }
     }
@@ -4373,9 +4373,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let modelName = dictionary["modelName"] as? String else { throw InitializableError.missingRequiredParam("modelName") }
+            guard let modelName = dictionary["Model_name"] as? String else { throw InitializableError.missingRequiredParam("Model_name") }
             self.modelName = modelName
         }
     }
@@ -4428,9 +4428,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let stageName = dictionary["stageName"] as? String else { throw InitializableError.missingRequiredParam("stageName") }
+            guard let stageName = dictionary["Stage_name"] as? String else { throw InitializableError.missingRequiredParam("Stage_name") }
             self.stageName = stageName
         }
     }
@@ -4475,7 +4475,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let usagePlanId = dictionary["usagePlanId"] as? String else { throw InitializableError.missingRequiredParam("usagePlanId") }
+            guard let usagePlanId = dictionary["UsageplanId"] as? String else { throw InitializableError.missingRequiredParam("UsageplanId") }
             self.usagePlanId = usagePlanId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
@@ -4591,13 +4591,13 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let statusCode = dictionary["statusCode"] as? String else { throw InitializableError.missingRequiredParam("statusCode") }
+            guard let statusCode = dictionary["Status_code"] as? String else { throw InitializableError.missingRequiredParam("Status_code") }
             self.statusCode = statusCode
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
-            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            guard let httpMethod = dictionary["Http_method"] as? String else { throw InitializableError.missingRequiredParam("Http_method") }
             self.httpMethod = httpMethod
         }
     }
@@ -4616,7 +4616,7 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let usagePlanId = dictionary["usagePlanId"] as? String else { throw InitializableError.missingRequiredParam("usagePlanId") }
+            guard let usagePlanId = dictionary["UsageplanId"] as? String else { throw InitializableError.missingRequiredParam("UsageplanId") }
             self.usagePlanId = usagePlanId
         }
     }
@@ -4641,9 +4641,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let documentationPartId = dictionary["documentationPartId"] as? String else { throw InitializableError.missingRequiredParam("documentationPartId") }
+            guard let documentationPartId = dictionary["Part_id"] as? String else { throw InitializableError.missingRequiredParam("Part_id") }
             self.documentationPartId = documentationPartId
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
             if let patchOperations = dictionary["patchOperations"] as? [[String: Any]] {
                 self.patchOperations = try patchOperations.map({ try PatchOperation(dictionary: $0) })
@@ -4713,9 +4713,9 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let authorizerId = dictionary["authorizerId"] as? String else { throw InitializableError.missingRequiredParam("authorizerId") }
+            guard let authorizerId = dictionary["Authorizer_id"] as? String else { throw InitializableError.missingRequiredParam("Authorizer_id") }
             self.authorizerId = authorizerId
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
         }
     }
@@ -4743,13 +4743,13 @@ extension Apigateway {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let restApiId = dictionary["restApiId"] as? String else { throw InitializableError.missingRequiredParam("restApiId") }
+            guard let restApiId = dictionary["Restapi_id"] as? String else { throw InitializableError.missingRequiredParam("Restapi_id") }
             self.restApiId = restApiId
-            guard let statusCode = dictionary["statusCode"] as? String else { throw InitializableError.missingRequiredParam("statusCode") }
+            guard let statusCode = dictionary["Status_code"] as? String else { throw InitializableError.missingRequiredParam("Status_code") }
             self.statusCode = statusCode
-            guard let resourceId = dictionary["resourceId"] as? String else { throw InitializableError.missingRequiredParam("resourceId") }
+            guard let resourceId = dictionary["Resource_id"] as? String else { throw InitializableError.missingRequiredParam("Resource_id") }
             self.resourceId = resourceId
-            guard let httpMethod = dictionary["httpMethod"] as? String else { throw InitializableError.missingRequiredParam("httpMethod") }
+            guard let httpMethod = dictionary["Http_method"] as? String else { throw InitializableError.missingRequiredParam("Http_method") }
             self.httpMethod = httpMethod
         }
     }

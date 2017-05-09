@@ -41,6 +41,7 @@ public struct Importexport {
             region: region,
             service: "importexport",
             serviceProtocol: .query,
+            apiVersion: "2010-06-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [ImportexportError.self]

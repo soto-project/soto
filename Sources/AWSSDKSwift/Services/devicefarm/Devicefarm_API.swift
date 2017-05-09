@@ -42,6 +42,7 @@ public struct Devicefarm {
             amzTarget: "DeviceFarm_20150623",
             service: "devicefarm",
             serviceProtocol: .json,
+            apiVersion: "2015-06-23",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [DevicefarmError.self]

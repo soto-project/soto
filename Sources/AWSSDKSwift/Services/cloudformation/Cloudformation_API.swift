@@ -41,6 +41,7 @@ public struct Cloudformation {
             region: region,
             service: "cloudformation",
             serviceProtocol: .query,
+            apiVersion: "2010-05-15",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [CloudformationError.self]

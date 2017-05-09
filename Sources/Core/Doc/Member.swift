@@ -13,14 +13,20 @@ public struct Member {
     public let required: Bool
     public let shape: Shape
     public let location: Location?
+    public let locationName: String?
     public let xmlNamespace: XMLNamespace?
     public let isStreaming: Bool
     
-    public init(name: String, required: Bool, shape: Shape, location: Location?, xmlNamespace: XMLNamespace?, isStreaming: Bool){
+    public var pathForLocation: String {
+        return locationName?.upperFirst() ?? name
+    }
+    
+    public init(name: String, required: Bool, shape: Shape, location: Location?, locationName: String?, xmlNamespace: XMLNamespace?, isStreaming: Bool){
         self.name = name
         self.required = required
         self.shape = shape
         self.location = location
+        self.locationName = locationName
         self.xmlNamespace = xmlNamespace
         self.isStreaming = isStreaming
     }
@@ -44,25 +50,6 @@ extension Collection where Iterator.Element == Member {
             case .uri(let replaceTo, let replaceToKey):
                 pathParams[replaceTo] = replaceToKey
             }
-//            switch member.shape.type {
-//            case .structure(let type):
-//                for member in type.members {
-//                    if let loc = member.location {
-//                        switch loc {
-//                        case .header(let replaceTo, let keyForHeader):
-//                            headersParams[replaceTo] = keyForHeader
-//                            
-//                        case .querystring(let replaceTo, let keyForQuery):
-//                            queryParams[replaceTo] = keyForQuery
-//                            
-//                        case .uri(let replaceTo, let replaceToKey):
-//                            pathParams[replaceTo] = replaceToKey
-//                        }
-//                    }
-//                }
-//            default:
-//                break
-//            }
         }
         return RequestParam(pathParams: pathParams, queryParams: queryParams, headerParams: headersParams)
     }

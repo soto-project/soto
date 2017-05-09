@@ -42,6 +42,7 @@ public struct Appstream2 {
             amzTarget: "PhotonAdminProxyService",
             service: "appstream2",
             serviceProtocol: .json,
+            apiVersion: "2016-12-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [Appstream2Error.self]

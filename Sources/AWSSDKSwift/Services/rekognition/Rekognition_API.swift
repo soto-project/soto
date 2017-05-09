@@ -42,6 +42,7 @@ public struct Rekognition {
             amzTarget: "RekognitionService",
             service: "rekognition",
             serviceProtocol: .json,
+            apiVersion: "2016-06-27",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [RekognitionError.self]

@@ -41,6 +41,7 @@ public struct Autoscaling {
             region: region,
             service: "autoscaling",
             serviceProtocol: .query,
+            apiVersion: "2011-01-01",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [AutoscalingError.self]

@@ -42,6 +42,7 @@ public struct Swf {
             amzTarget: "SimpleWorkflowService",
             service: "swf",
             serviceProtocol: .json,
+            apiVersion: "2012-01-25",
             endpoint: endpoint,
             middlewares: [],
             possibleErrorTypes: [SwfError.self]

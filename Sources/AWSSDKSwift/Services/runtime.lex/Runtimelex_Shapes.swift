@@ -163,18 +163,18 @@ extension Runtimelex {
         }
 
         public init(dictionary: [String: Any]) throws {
-            guard let botAlias = dictionary["botAlias"] as? String else { throw InitializableError.missingRequiredParam("botAlias") }
+            guard let botAlias = dictionary["BotAlias"] as? String else { throw InitializableError.missingRequiredParam("BotAlias") }
             self.botAlias = botAlias
             if let sessionAttributes = dictionary["sessionAttributes"] as? [String: String] {
                 self.sessionAttributes = sessionAttributes
             } else { 
                 self.sessionAttributes = nil
             }
-            guard let userId = dictionary["userId"] as? String else { throw InitializableError.missingRequiredParam("userId") }
+            guard let userId = dictionary["UserId"] as? String else { throw InitializableError.missingRequiredParam("UserId") }
             self.userId = userId
             guard let inputText = dictionary["inputText"] as? String else { throw InitializableError.missingRequiredParam("inputText") }
             self.inputText = inputText
-            guard let botName = dictionary["botName"] as? String else { throw InitializableError.missingRequiredParam("botName") }
+            guard let botName = dictionary["BotName"] as? String else { throw InitializableError.missingRequiredParam("BotName") }
             self.botName = botName
         }
     }

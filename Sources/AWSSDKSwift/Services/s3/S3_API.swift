@@ -41,6 +41,7 @@ public struct S3 {
             region: region,
             service: "s3",
             serviceProtocol: .restxml,
+            apiVersion: "2006-03-01",
             endpoint: endpoint,
             middlewares: [S3RequestMiddleware()],
             possibleErrorTypes: [S3Error.self]
