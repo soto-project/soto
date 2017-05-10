@@ -36,7 +36,7 @@ Not supported yet
 
 ## Contributing
 
-All developers should feel welcome and encouraged to contribute to Vapor, see our getting started document here to get involved.
+All developers should feel welcome and encouraged to contribute to aws-sdk-swift, see our getting started document here to get involved.
 
 To contribute a feature or idea to aws-sdk-swift, submit an issue and fill in the template. If the request is approved, you or one of the members of the community can start working on it.
 
@@ -63,7 +63,7 @@ AWS_SECRET_ACCESS_KEY=foo
 
 ### Pass the Credentials to the AWS Service struct directly
 
-All of the AWS Services's initializer accept `accessKeyId` and `secretAccessKey`
+All of the AWS Services's initializers accept `accessKeyId` and `secretAccessKey`
 
 ```swift
 let ec2 = EC2(
