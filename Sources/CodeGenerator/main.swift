@@ -39,13 +39,6 @@ for index in 0..<apis.count {
                     encoding: .utf8
                 )
             
-//            try service.generateInitializableFromDictionary()
-//                .write(
-//                    toFile: "\(basePath)/\(service.serviceName)_ShapesInitializableFromDictionary.swift",
-//                    atomically: true,
-//                    encoding: .utf8
-//                )
-            
             if !service.errorShapeNames.isEmpty {
                 errorShapeMap[service.endpointPrefix] = service.serviceErrorName
                 try service.generateErrorCode()
@@ -65,7 +58,6 @@ for index in 0..<apis.count {
             }
         }
     }
-    //break
 }
 
 group.wait()
