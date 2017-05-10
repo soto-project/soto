@@ -63,8 +63,7 @@ extension String {
     }
     
     public func tagStriped() -> String {
-        return self.replacingOccurrences(of: "\n", with: " ")
-            .replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+        return self.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
     }
 }
 

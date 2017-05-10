@@ -99,7 +99,9 @@ extension Pinpoint {
         public static let payload: String? = nil
         /// The endpoint status. Can be either ACTIVE or INACTIVE. Will be set to INACTIVE if a delivery fails. Will be set to ACTIVE if the address is updated.
         public let endpointStatus: String?
-        /// Indicates whether a user has opted out of receiving messages with one of the following values:  ALL – User receives all messages. NONE – User receives no messages.
+        /// Indicates whether a user has opted out of receiving messages with one of the following values:
+        /// ALL – User receives all messages.
+        /// NONE – User receives no messages.
         public let optOut: String?
         public let metrics: [String: Double]?
         /// The last time the endpoint was updated. Provided in ISO 8601 format.
@@ -432,7 +434,8 @@ extension Pinpoint {
         public let title: String?
         /// The URL that points to an image used in the push notification.
         public let imageUrl: String?
-        /// Indicates if the message should display on the users device.  Silent pushes can be used for Remote Configuration and Phone Home use cases. 
+        /// Indicates if the message should display on the users device.
+        /// Silent pushes can be used for Remote Configuration and Phone Home use cases. 
         public let silentPush: Bool?
         /// The JSON payload used for a silent push.
         public let jsonBody: String?
@@ -687,7 +690,9 @@ extension Pinpoint {
         public let user: EndpointUser?
         /// The ShardId of endpoint
         public let shardId: String?
-        /// Indicates whether a user has opted out of receiving messages with one of the following values:  ALL – User receives all messages. NONE – User receives no messages.
+        /// Indicates whether a user has opted out of receiving messages with one of the following values:
+        /// ALL – User receives all messages.
+        /// NONE – User receives no messages.
         public let optOut: String?
         public let metrics: [String: Double]?
         /// The last time the endpoint was created. Provided in ISO 8601 format.
@@ -796,7 +801,8 @@ extension Pinpoint {
         public let treatmentName: String?
         /// The version of the segment to which the campaign sends messages.
         public let segmentVersion: Int32?
-        /// The campaign status.  An A/B test campaign will have a status of COMPLETED only when all treatments have a status of COMPLETED.
+        /// The campaign status.
+        /// An A/B test campaign will have a status of COMPLETED only when all treatments have a status of COMPLETED.
         public let state: CampaignState?
         /// The date the campaign was created in ISO 8601 format.
         public let creationDate: String?
@@ -983,7 +989,9 @@ extension Pinpoint {
         public let user: EndpointUser?
         /// The last time the endpoint was updated. Provided in ISO 8601 format.
         public let effectiveDate: String?
-        /// Indicates whether a user has opted out of receiving messages with one of the following values:  ALL – User receives all messages. NONE – User receives no messages.
+        /// Indicates whether a user has opted out of receiving messages with one of the following values:
+        /// ALL – User receives all messages.
+        /// NONE – User receives no messages.
         public let optOut: String?
         public let metrics: [String: Double]?
         /// The endpoint location attributes.
@@ -1227,7 +1235,39 @@ extension Pinpoint {
         public let quietTime: QuietTime?
         /// Indicates whether the campaign schedule takes effect according to each user's local time.
         public let isLocalTime: Bool?
-        /// The starting UTC offset for the schedule if the value for isLocalTime is true  Valid values:  UTC UTC+01 UTC+02 UTC+03 UTC+03:30 UTC+04 UTC+04:30 UTC+05 UTC+05:30 UTC+05:45 UTC+06 UTC+06:30 UTC+07 UTC+08 UTC+09 UTC+09:30 UTC+10 UTC+10:30 UTC+11 UTC+12 UTC+13 UTC-02 UTC-03 UTC-04 UTC-05 UTC-06 UTC-07 UTC-08 UTC-09 UTC-10 UTC-11
+        /// The starting UTC offset for the schedule if the value for isLocalTime is true
+        /// Valid values: 
+        /// UTC
+        /// UTC+01
+        /// UTC+02
+        /// UTC+03
+        /// UTC+03:30
+        /// UTC+04
+        /// UTC+04:30
+        /// UTC+05
+        /// UTC+05:30
+        /// UTC+05:45
+        /// UTC+06
+        /// UTC+06:30
+        /// UTC+07
+        /// UTC+08
+        /// UTC+09
+        /// UTC+09:30
+        /// UTC+10
+        /// UTC+10:30
+        /// UTC+11
+        /// UTC+12
+        /// UTC+13
+        /// UTC-02
+        /// UTC-03
+        /// UTC-04
+        /// UTC-05
+        /// UTC-06
+        /// UTC-07
+        /// UTC-08
+        /// UTC-09
+        /// UTC-10
+        /// UTC-11
         public let timezone: String?
 
         public init(startTime: String? = nil, endTime: String? = nil, frequency: String? = nil, quietTime: QuietTime? = nil, isLocalTime: Bool? = nil, timezone: String? = nil) {
@@ -1297,7 +1337,9 @@ extension Pinpoint {
     public struct ImportJobRequest: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// A URL that points to the location within an Amazon S3 bucket that contains the endpoints to import. The location can be a folder or a single file. The URL should follow this format: s3://bucket-name/folder-name/file-name  Amazon Pinpoint will import endpoints from this location and any subfolders it contains.
+        /// A URL that points to the location within an Amazon S3 bucket that contains the endpoints to import. The location can be a folder or a single file.
+        /// The URL should follow this format: s3://bucket-name/folder-name/file-name
+        /// Amazon Pinpoint will import endpoints from this location and any subfolders it contains.
         public let s3Url: String?
         /// Sets whether the endpoints create a segment when they are imported.
         public let defineSegment: Bool?
@@ -1388,7 +1430,9 @@ extension Pinpoint {
     public struct ImportJobResource: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// A URL that points to the location within an Amazon S3 bucket that contains the endpoints to import. The location can be a folder or a single file. The URL should follow this format: s3://bucket-name/folder-name/file-name  Amazon Pinpoint will import endpoints from this location and any subfolders it contains.
+        /// A URL that points to the location within an Amazon S3 bucket that contains the endpoints to import. The location can be a folder or a single file.
+        /// The URL should follow this format: s3://bucket-name/folder-name/file-name
+        /// Amazon Pinpoint will import endpoints from this location and any subfolders it contains.
         public let s3Url: String?
         /// Sets whether the endpoints create a segment when they are imported.
         public let defineSegment: Bool?
@@ -1531,7 +1575,7 @@ extension Pinpoint {
         public let behavior: SegmentBehaviors?
         /// Custom segment attributes.
         public let attributes: [String: AttributeDimension]?
-        /// The segment location attributes. 
+        /// The segment location attributes.
         public let location: SegmentLocation?
 
         public init(demographic: SegmentDemographics? = nil, behavior: SegmentBehaviors? = nil, attributes: [String: AttributeDimension]? = nil, location: SegmentLocation? = nil) {
@@ -2116,7 +2160,8 @@ extension Pinpoint {
         public let scheduledStart: String?
         /// The actual start time of the activity in ISO 8601 format.
         public let start: String?
-        /// The state of the activity.  Valid values: PENDING, INITIALIZING, RUNNING, PAUSED, CANCELLED, COMPLETED
+        /// The state of the activity.
+        /// Valid values: PENDING, INITIALIZING, RUNNING, PAUSED, CANCELLED, COMPLETED
         public let state: String?
         /// The actual time the activity was marked CANCELLED or COMPLETED. Provided in ISO 8601 format.
         public let end: String?
@@ -2124,7 +2169,8 @@ extension Pinpoint {
         public let totalEndpointCount: Int32?
         /// The ID of the application to which the campaign applies.
         public let applicationId: String?
-        /// Indicates whether the activity succeeded.  Valid values: SUCCESS, FAIL
+        /// Indicates whether the activity succeeded.
+        /// Valid values: SUCCESS, FAIL
         public let result: String?
         /// The total number of endpoints to which the campaign successfully delivered messages.
         public let successfulEndpointCount: Int32?
@@ -2566,7 +2612,7 @@ extension Pinpoint {
     public struct EndpointDemographic: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The endpoint locale in the following format: The ISO 639-1 alpha-2 code, followed by an underscore, followed by an ISO 3166-1 alpha-2 value. 
+        /// The endpoint locale in the following format: The ISO 639-1 alpha-2 code, followed by an underscore, followed by an ISO 3166-1 alpha-2 value.
         public let locale: String?
         /// The endpoint platform, such as ios or android.
         public let platform: String?

@@ -171,7 +171,7 @@ extension AWSService {
             break
         }
         
-        code += "\(indt(1))public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {\n"
+        code += "\(indt(1))public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {\n"
         code += "\(indt(2))self.client = AWSClient(\n"
         code += "\(indt(3))accessKeyId: accessKeyId,\n"
         code += "\(indt(3))secretAccessKey: secretAccessKey,\n"
@@ -199,8 +199,9 @@ extension AWSService {
                 .joined(separator: "\n")
             
             let comment = docJSON["operations"][operation.name].stringValue.tagStriped()
-            
-            code += "\(indt(1))///  \(comment)\n"
+            comment.split(separator: "\n").forEach({
+                code += "\(indt(1))///  \($0)\n"
+            })
             code += functionCode
             code += "\n\n"
         }
@@ -478,7 +479,9 @@ extension AWSService {
                 
                 for member in type.members {
                     if let comment = shapeDoc[shape.name]?[member.name], !comment.isEmpty {
-                        code += "\(indt(2))/// \(comment)\n"
+                        comment.split(separator: "\n").forEach({
+                            code += "\(indt(2))/// \($0)\n"
+                        })
                     }
                     code += "\(indt(2))public \(member.toSwiftImmutableMemberSyntax())\n"
                 }

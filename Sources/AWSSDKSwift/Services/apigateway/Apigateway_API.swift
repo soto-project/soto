@@ -34,7 +34,7 @@ public struct Apigateway {
 
     let client: AWSClient
 
-    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil, middlewares: [AWSRequestMiddleware] = []) {
+    public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, region: Core.Region? = nil, endpoint: String? = nil) {
         self.client = AWSClient(
             accessKeyId: accessKeyId,
             secretAccessKey: secretAccessKey,
@@ -78,7 +78,6 @@ public struct Apigateway {
         return try client.send(operation: "GetApiKeys", path: "/apikeys", httpMethod: "GET", input: input)
     }
 
-    ///  
     public func getDocumentationVersion(_ input: GetDocumentationVersionRequest) throws -> DocumentationVersion {
         return try client.send(operation: "GetDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "GET", input: input)
     }
@@ -103,7 +102,6 @@ public struct Apigateway {
         _ = try client.send(operation: "DeleteIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: "DELETE", input: input)
     }
 
-    ///  
     public func updateDocumentationPart(_ input: UpdateDocumentationPartRequest) throws -> DocumentationPart {
         return try client.send(operation: "UpdateDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: "PATCH", input: input)
     }
@@ -113,7 +111,6 @@ public struct Apigateway {
         return try client.send(operation: "GetUsagePlanKey", path: "/usageplans/{usageplanId}/keys/{keyId}", httpMethod: "GET", input: input)
     }
 
-    ///  
     public func createDocumentationPart(_ input: CreateDocumentationPartRequest) throws -> DocumentationPart {
         return try client.send(operation: "CreateDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: "POST", input: input)
     }
@@ -128,12 +125,10 @@ public struct Apigateway {
         return try client.send(operation: "GetMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: "GET", input: input)
     }
 
-    ///  
     public func deleteDocumentationVersion(_ input: DeleteDocumentationVersionRequest) throws {
         _ = try client.send(operation: "DeleteDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "DELETE", input: input)
     }
 
-    ///  
     public func getDocumentationPart(_ input: GetDocumentationPartRequest) throws -> DocumentationPart {
         return try client.send(operation: "GetDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: "GET", input: input)
     }
@@ -203,7 +198,6 @@ public struct Apigateway {
         return try client.send(operation: "PutMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: "PUT", input: input)
     }
 
-    ///  
     public func getSdkTypes(_ input: GetSdkTypesRequest) throws -> SdkTypes {
         return try client.send(operation: "GetSdkTypes", path: "/sdktypes", httpMethod: "GET", input: input)
     }
@@ -218,7 +212,6 @@ public struct Apigateway {
         return try client.send(operation: "GetRestApi", path: "/restapis/{restapi_id}", httpMethod: "GET", input: input)
     }
 
-    ///  
     public func getDocumentationVersions(_ input: GetDocumentationVersionsRequest) throws -> DocumentationVersions {
         return try client.send(operation: "GetDocumentationVersions", path: "/restapis/{restapi_id}/documentation/versions", httpMethod: "GET", input: input)
     }
@@ -238,7 +231,6 @@ public struct Apigateway {
         return try client.send(operation: "GetUsagePlanKeys", path: "/usageplans/{usageplanId}/keys", httpMethod: "GET", input: input)
     }
 
-    ///  
     public func importDocumentationParts(_ input: ImportDocumentationPartsRequest) throws -> DocumentationPartIds {
         return try client.send(operation: "ImportDocumentationParts", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: "PUT", input: input)
     }
@@ -248,7 +240,6 @@ public struct Apigateway {
         _ = try client.send(operation: "FlushStageAuthorizersCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/authorizers", httpMethod: "DELETE", input: input)
     }
 
-    ///  
     public func deleteDocumentationPart(_ input: DeleteDocumentationPartRequest) throws {
         _ = try client.send(operation: "DeleteDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: "DELETE", input: input)
     }
@@ -338,7 +329,6 @@ public struct Apigateway {
         return try client.send(operation: "CreateResource", path: "/restapis/{restapi_id}/resources/{parent_id}", httpMethod: "POST", input: input)
     }
 
-    ///  
     public func createDocumentationVersion(_ input: CreateDocumentationVersionRequest) throws -> DocumentationVersion {
         return try client.send(operation: "CreateDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions", httpMethod: "POST", input: input)
     }
@@ -363,7 +353,6 @@ public struct Apigateway {
         return try client.send(operation: "UpdateClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: "PATCH", input: input)
     }
 
-    ///  
     public func getDocumentationParts(_ input: GetDocumentationPartsRequest) throws -> DocumentationParts {
         return try client.send(operation: "GetDocumentationParts", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: "GET", input: input)
     }
@@ -508,7 +497,6 @@ public struct Apigateway {
         return try client.send(operation: "UpdateAccount", path: "/account", httpMethod: "PATCH", input: input)
     }
 
-    ///  
     public func getSdkType(_ input: GetSdkTypeRequest) throws -> SdkType {
         return try client.send(operation: "GetSdkType", path: "/sdktypes/{sdktype_id}", httpMethod: "GET", input: input)
     }
@@ -548,7 +536,6 @@ public struct Apigateway {
         return try client.send(operation: "GetResources", path: "/restapis/{restapi_id}/resources", httpMethod: "GET", input: input)
     }
 
-    ///  
     public func updateDocumentationVersion(_ input: UpdateDocumentationVersionRequest) throws -> DocumentationVersion {
         return try client.send(operation: "UpdateDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: "PATCH", input: input)
     }
