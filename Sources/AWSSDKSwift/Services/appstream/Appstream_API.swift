@@ -30,7 +30,7 @@ import Core
 /**
 Amazon AppStream 2.0 API documentation for Amazon AppStream 2.0.
 */
-public struct Appstream2 {
+public struct Appstream {
 
     let client: AWSClient
 
@@ -45,7 +45,7 @@ public struct Appstream2 {
             apiVersion: "2016-12-01",
             endpoint: endpoint,
             middlewares: [],
-            possibleErrorTypes: [Appstream2Error.self]
+            possibleErrorTypes: [AppstreamError.self]
         )
     }
 

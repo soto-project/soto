@@ -1999,7 +1999,7 @@ extension Dynamodb {
     public struct AttributeDefinition: AWSShape {
         /// The key for the payload
         public static let payload: String? = nil
-        /// The data type for the attribute, where:    S - the attribute is of type String    N - the attribute is of type Number    B - the attribute is of type Binary
+        /// The data type for the attribute, where:    S - the attribute is of type String    N - the attribute is of type Number    B - the attribute is of type Binary  
         public let attributeType: ScalarAttributeType
         /// A name for the attribute.
         public let attributeName: String

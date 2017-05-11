@@ -27,7 +27,7 @@ SOFTWARE.
 import Foundation
 import Core
 
-extension Appstream2 {
+extension Appstream {
 
     public struct DescribeSessionsResult: AWSShape {
         /// The key for the payload
@@ -322,7 +322,7 @@ extension Appstream2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let fleet = dictionary["Fleet"] as? [String: Any] { self.fleet = try Appstream2.Fleet(dictionary: fleet) } else { self.fleet = nil }
+            if let fleet = dictionary["Fleet"] as? [String: Any] { self.fleet = try Appstream.Fleet(dictionary: fleet) } else { self.fleet = nil }
         }
     }
 
@@ -386,8 +386,8 @@ extension Appstream2 {
 
         public init(dictionary: [String: Any]) throws {
             guard let computeCapacity = dictionary["ComputeCapacity"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ComputeCapacity") }
-            self.computeCapacity = try Appstream2.ComputeCapacity(dictionary: computeCapacity)
-            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Appstream2.VpcConfig(dictionary: vpcConfig) } else { self.vpcConfig = nil }
+            self.computeCapacity = try Appstream.ComputeCapacity(dictionary: computeCapacity)
+            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Appstream.VpcConfig(dictionary: vpcConfig) } else { self.vpcConfig = nil }
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
             self.displayName = dictionary["DisplayName"] as? String
@@ -444,7 +444,7 @@ extension Appstream2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let stack = dictionary["Stack"] as? [String: Any] { self.stack = try Appstream2.Stack(dictionary: stack) } else { self.stack = nil }
+            if let stack = dictionary["Stack"] as? [String: Any] { self.stack = try Appstream.Stack(dictionary: stack) } else { self.stack = nil }
         }
     }
 
@@ -487,8 +487,8 @@ extension Appstream2 {
 
         public init(dictionary: [String: Any]) throws {
             self.deleteVpcConfig = dictionary["DeleteVpcConfig"] as? Bool
-            if let computeCapacity = dictionary["ComputeCapacity"] as? [String: Any] { self.computeCapacity = try Appstream2.ComputeCapacity(dictionary: computeCapacity) } else { self.computeCapacity = nil }
-            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Appstream2.VpcConfig(dictionary: vpcConfig) } else { self.vpcConfig = nil }
+            if let computeCapacity = dictionary["ComputeCapacity"] as? [String: Any] { self.computeCapacity = try Appstream.ComputeCapacity(dictionary: computeCapacity) } else { self.computeCapacity = nil }
+            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Appstream.VpcConfig(dictionary: vpcConfig) } else { self.vpcConfig = nil }
             guard let name = dictionary["Name"] as? String else { throw InitializableError.missingRequiredParam("Name") }
             self.name = name
             self.displayName = dictionary["DisplayName"] as? String
@@ -613,11 +613,11 @@ extension Appstream2 {
         public init(dictionary: [String: Any]) throws {
             guard let arn = dictionary["Arn"] as? String else { throw InitializableError.missingRequiredParam("Arn") }
             self.arn = arn
-            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Appstream2.VpcConfig(dictionary: vpcConfig) } else { self.vpcConfig = nil }
+            if let vpcConfig = dictionary["VpcConfig"] as? [String: Any] { self.vpcConfig = try Appstream.VpcConfig(dictionary: vpcConfig) } else { self.vpcConfig = nil }
             guard let rawState = dictionary["State"] as? String, let state = FleetState(rawValue: rawState) else { throw InitializableError.missingRequiredParam("State") }
             self.state = state
             guard let computeCapacityStatus = dictionary["ComputeCapacityStatus"] as? [String: Any] else { throw InitializableError.missingRequiredParam("ComputeCapacityStatus") }
-            self.computeCapacityStatus = try Appstream2.ComputeCapacityStatus(dictionary: computeCapacityStatus)
+            self.computeCapacityStatus = try Appstream.ComputeCapacityStatus(dictionary: computeCapacityStatus)
             self.displayName = dictionary["DisplayName"] as? String
             if let fleetErrors = dictionary["FleetErrors"] as? [[String: Any]] {
                 self.fleetErrors = try fleetErrors.map({ try FleetError(dictionary: $0) })
@@ -838,7 +838,7 @@ extension Appstream2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let fleet = dictionary["Fleet"] as? [String: Any] { self.fleet = try Appstream2.Fleet(dictionary: fleet) } else { self.fleet = nil }
+            if let fleet = dictionary["Fleet"] as? [String: Any] { self.fleet = try Appstream.Fleet(dictionary: fleet) } else { self.fleet = nil }
         }
     }
 
@@ -1027,7 +1027,7 @@ extension Appstream2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Appstream2.ImageStateChangeReason(dictionary: stateChangeReason) } else { self.stateChangeReason = nil }
+            if let stateChangeReason = dictionary["StateChangeReason"] as? [String: Any] { self.stateChangeReason = try Appstream.ImageStateChangeReason(dictionary: stateChangeReason) } else { self.stateChangeReason = nil }
             self.arn = dictionary["Arn"] as? String
             if let platform = dictionary["Platform"] as? String { self.platform = PlatformType(rawValue: platform) } else { self.platform = nil }
             if let state = dictionary["State"] as? String { self.state = ImageState(rawValue: state) } else { self.state = nil }
@@ -1088,7 +1088,7 @@ extension Appstream2 {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let stack = dictionary["Stack"] as? [String: Any] { self.stack = try Appstream2.Stack(dictionary: stack) } else { self.stack = nil }
+            if let stack = dictionary["Stack"] as? [String: Any] { self.stack = try Appstream.Stack(dictionary: stack) } else { self.stack = nil }
         }
     }
 

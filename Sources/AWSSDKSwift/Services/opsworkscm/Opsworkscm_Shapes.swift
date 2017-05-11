@@ -27,7 +27,7 @@ SOFTWARE.
 import Foundation
 import Core
 
-extension OpsworksCm {
+extension Opsworkscm {
 
     public struct DescribeAccountAttributesResponse: AWSShape {
         /// The key for the payload
@@ -302,7 +302,7 @@ extension OpsworksCm {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let server = dictionary["Server"] as? [String: Any] { self.server = try OpsworksCm.Server(dictionary: server) } else { self.server = nil }
+            if let server = dictionary["Server"] as? [String: Any] { self.server = try Opsworkscm.Server(dictionary: server) } else { self.server = nil }
         }
     }
 
@@ -317,7 +317,7 @@ extension OpsworksCm {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let backup = dictionary["Backup"] as? [String: Any] { self.backup = try OpsworksCm.Backup(dictionary: backup) } else { self.backup = nil }
+            if let backup = dictionary["Backup"] as? [String: Any] { self.backup = try Opsworkscm.Backup(dictionary: backup) } else { self.backup = nil }
         }
     }
 
@@ -382,7 +382,7 @@ extension OpsworksCm {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let server = dictionary["Server"] as? [String: Any] { self.server = try OpsworksCm.Server(dictionary: server) } else { self.server = nil }
+            if let server = dictionary["Server"] as? [String: Any] { self.server = try Opsworkscm.Server(dictionary: server) } else { self.server = nil }
         }
     }
 
@@ -965,7 +965,7 @@ extension OpsworksCm {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let server = dictionary["Server"] as? [String: Any] { self.server = try OpsworksCm.Server(dictionary: server) } else { self.server = nil }
+            if let server = dictionary["Server"] as? [String: Any] { self.server = try Opsworkscm.Server(dictionary: server) } else { self.server = nil }
         }
     }
 
@@ -980,7 +980,7 @@ extension OpsworksCm {
         }
 
         public init(dictionary: [String: Any]) throws {
-            if let server = dictionary["Server"] as? [String: Any] { self.server = try OpsworksCm.Server(dictionary: server) } else { self.server = nil }
+            if let server = dictionary["Server"] as? [String: Any] { self.server = try Opsworkscm.Server(dictionary: server) } else { self.server = nil }
         }
     }
 

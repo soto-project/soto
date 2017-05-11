@@ -31,11 +31,11 @@ struct AWSService {
     }
     
     var serviceName: String {
-        return endpointPrefix.toSwiftClassCase()
+        return apiJSON["serviceName"].stringValue.toSwiftClassCase()
     }
     
     var serviceErrorName: String {
-        return endpointPrefix.toSwiftClassCase()+"Error"
+        return serviceName+"Error"
     }
     
     var serviceDescription: String {

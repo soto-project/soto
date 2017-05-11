@@ -26,8 +26,8 @@ SOFTWARE.
 
 import Core
 
-/// Error enum for Dataiot
-public enum DataiotError: AWSErrorType {
+/// Error enum for IotData
+public enum IotDataError: AWSErrorType {
     case conflictException(message: String?)
     case requestEntityTooLargeException(message: String?)
     case invalidRequestException(message: String?)
@@ -40,7 +40,7 @@ public enum DataiotError: AWSErrorType {
     case resourceNotFoundException(message: String?)
 }
 
-extension DataiotError {
+extension IotDataError {
     public init?(errorCode: String, message: String?){
         var errorCode = errorCode
         if let index = errorCode.index(of: "#") {

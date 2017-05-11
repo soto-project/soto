@@ -52,7 +52,10 @@ func loadAPIJSONList() throws -> [JSON] {
     
     return try apiPaths.map {
         let data = try Data(contentsOf: URL(string: "file://\($0)")!)
-        return JSON(data: data)
+        var json = JSON(data: data)
+        let paths: [String] = $0.split(separator: "/").reversed()
+        json["serviceName"].stringValue = paths[2]
+        return json
     }
 }
 
