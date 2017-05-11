@@ -34,11 +34,6 @@ extension UInt16 : NumericType { }
 extension UInt32 : NumericType { }
 extension UInt64 : NumericType { }
 
-
-enum JSONSerializerError: Error {
-    case unserializableType(String)
-}
-
 private func serialize(value: Any) throws -> String {
     var s = ""
     switch value {
@@ -54,8 +49,8 @@ private func serialize(value: Any) throws -> String {
     case let v as Bool:
         s += "\(v)".lowercased()
         
-    case _ as Data:
-        throw JSONSerializerError.unserializableType("Data")
+    case let v as Data:
+        s += dquote(v.base64EncodedString())
         
     default:
         s += dquote("\(value)")
