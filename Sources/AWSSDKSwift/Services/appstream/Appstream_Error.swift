@@ -26,8 +26,8 @@ SOFTWARE.
 
 import Core
 
-/// Error enum for Appstream2
-public enum Appstream2Error: AWSErrorType {
+/// Error enum for Appstream
+public enum AppstreamError: AWSErrorType {
     case resourceInUseException(message: String?)
     case limitExceededException(message: String?)
     case invalidRoleException(message: String?)
@@ -37,7 +37,7 @@ public enum Appstream2Error: AWSErrorType {
     case operationNotPermittedException(message: String?)
 }
 
-extension Appstream2Error {
+extension AppstreamError {
     public init?(errorCode: String, message: String?){
         var errorCode = errorCode
         if let index = errorCode.index(of: "#") {

@@ -27,7 +27,7 @@ SOFTWARE.
 import Foundation
 import Core
 
-extension Dataiot {
+extension IotData {
 
     public struct GetThingShadowRequest: AWSShape {
         /// The key for the payload

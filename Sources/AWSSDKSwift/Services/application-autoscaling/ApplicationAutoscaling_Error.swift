@@ -26,17 +26,18 @@ SOFTWARE.
 
 import Core
 
-/// Error enum for OpsworksCm
-public enum OpsworksCmError: AWSErrorType {
+/// Error enum for ApplicationAutoscaling
+public enum ApplicationAutoscalingError: AWSErrorType {
     case validationException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case invalidStateException(message: String?)
+    case objectNotFoundException(message: String?)
+    case concurrentUpdateException(message: String?)
+    case internalServiceException(message: String?)
     case limitExceededException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
+    case invalidNextTokenException(message: String?)
+    case failedResourceAccessException(message: String?)
 }
 
-extension OpsworksCmError {
+extension ApplicationAutoscalingError {
     public init?(errorCode: String, message: String?){
         var errorCode = errorCode
         if let index = errorCode.index(of: "#") {
@@ -45,16 +46,18 @@ extension OpsworksCmError {
         switch errorCode {
         case "ValidationException":
             self = .validationException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "InvalidStateException":
-            self = .invalidStateException(message: message)
+        case "ObjectNotFoundException":
+            self = .objectNotFoundException(message: message)
+        case "ConcurrentUpdateException":
+            self = .concurrentUpdateException(message: message)
+        case "InternalServiceException":
+            self = .internalServiceException(message: message)
         case "LimitExceededException":
             self = .limitExceededException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
+        case "InvalidNextTokenException":
+            self = .invalidNextTokenException(message: message)
+        case "FailedResourceAccessException":
+            self = .failedResourceAccessException(message: message)
         default:
             return nil
         }
